@@ -1,1 +1,447 @@
-/* You can add global styles to this file, and also import other style files */
+/* Master Styles */
+h1 {
+    color: #369; 
+    font-family: Arial, Helvetica, sans-serif;   
+    font-size: 250%;
+}
+h2, h3 { 
+    color: #444;
+    font-family: Arial, Helvetica, sans-serif;   
+    font-weight: lighter;
+}
+body { 
+    margin: 2em;
+    margin-top: 0;
+    background-color: #eee;
+}
+body, input[text], button { 
+    color: #888; 
+    font-family: Cambria, Georgia; 
+}
+a {
+    cursor: pointer;
+}
+button {
+    font-family: Arial;
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #cfd8dc;
+}
+button:disabled {
+    background-color: #eee;
+    color: #aaa; 
+    cursor: auto;
+}
+
+/* Navigation link styles */
+nav a {
+    padding: 5px 10px;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+    background-color: #eee;
+    border-radius: 4px;
+}
+nav a:visited, a:link {
+    color: #607D8B;
+}
+nav a:hover {
+    color: #039be5;
+    background-color: #CFD8DC;
+}
+nav a.router-link-active {
+    color: #039be5;
+}
+
+/* items class */
+.items {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 24em;
+}
+.items li {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em 0;
+    height: 1.6em;
+    border-radius: 4px;
+}
+.items li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+}
+.items li.selected:hover {
+    background-color: #BBD8DC;
+    color: white;
+}
+.items .text {
+    position: relative;
+    top: -3px;
+}
+.items {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 24em;
+}
+.items li {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em 0;
+    height: 1.6em;
+    border-radius: 4px;
+}
+.items li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+}
+.items li.selected {
+    background-color: #CFD8DC;
+    color: white;
+}
+
+.items li.selected:hover {
+    background-color: #BBD8DC;
+}
+.items .text {
+    position: relative;
+    top: -3px;
+}
+.items .badge {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #607D8B;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    margin-right: .8em;
+    border-radius: 4px 0 0 4px;
+}
+
+/* everywhere else */
+* { 
+    font-family: Arial, Helvetica, sans-serif; 
+}
+
+/* global framework style-guide */
+.text-align-right {
+    text-align: right;
+}
+
+.width-80 {
+    min-width: 80px;
+}
+
+.width-100 {
+    min-width: 100px;
+}
+
+.padding-all-5 {
+    padding: 5px;
+}
+
+/* tasks styles */
+tasks .task-done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+tasks .task-in-process {
+    font-style: italic;
+    font-weight: bold;
+    color: blue !important;
+}
+
+body {
+    margin: 10px;
+    color: #333;
+    font-family: monospace;
+}
+
+* {
+    font-family: monospace;
+}
+
+button {
+    color: #222;
+    font-family: monospace;
+    padding: 1px 5px;
+    border: 1px solid #2f93f7;
+    background-color: #e6ecff;
+    border-radius: 0;
+}
+
+input.task{
+    width: 50%;
+    min-width: 100px;
+}
+input[type=checkbox] {
+    vertical-align: middle;
+}
+textarea.task-multiple {
+    width: 50%;
+    min-width: 100px;
+    height: 120px;
+    vertical-align: text-top;
+}
+.task-eta {
+    color: gray;
+    font-weight: bold;
+}
+.task-no-eta {
+    color: red;
+}
+.task-age-1 {
+    color: gray;
+}
+.task-age-2 {
+    color: brown;
+}
+.task-age-10 {
+    color: red;
+}
+
+.productivity-good{
+    color: green;
+}
+
+.productivity-bad{
+    color: brown;
+}
+.task-important{
+    font-weight: bold;
+}
+.task-open-with-tt {
+    color: green;
+}
+.task-tags {
+    color: gray;
+}
+.task-highlighted {
+    background-color: #ddd;
+}
+.task-urgent{
+    background-color: yellow;
+}
+.tag:hover {
+    cursor: pointer;
+}
+.task-progressed{
+    background-color: #A2FFA9;
+}
+.task-call {
+    background-color: #81d4fa;
+}
+.task-unexpected {
+    background-color: #f9b97c;
+}
+.clickable{
+    cursor: pointer;
+}
+@media (max-width: 504px){
+    .mobile-only {
+        display: initial;
+    }
+}
+@media (min-width: 505px){
+    .mobile-only {
+        display: none;
+    }
+}
+
+.task-open-task-list-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+.task-record {
+    max-width: 500px;
+    min-width: 300px;
+    flex: 1 0;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+@media (min-width: 505px){
+    .task-record {
+        flex: 0 0 31%;
+    }
+}
+
+.option-item {
+    display: block;
+}
+
+label.label-left{
+    width: 150px;
+    display: inline-block;
+}
+
+menu {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.field {
+    display: block;
+    margin: 10px 0;
+}
+
+.field-input {
+    display: block;
+    width: 100%;
+}
+
+.field-select {
+    width: calc(100% - 60px);
+    display: inline;
+}
+
+combo-item > button {
+    width: 50px;
+    display: inline;
+}
+
+@media (min-width: 505px) {
+    .field-input {
+        display: inline;
+        width: auto;
+    }
+    
+    .field-input[type=text] {
+        width: 60%;
+    }
+    
+    .field-select {
+        width: auto;
+    }
+    
+    combo-item > button {
+        width: 50px;
+    }
+}
+
+input[type="radio"] {
+    vertical-align: bottom;
+}
+
+.balance-zero {
+    color: gray;
+}
+
+.balance-positive {
+    color: green;
+}
+
+.balance-negative {
+    color: red;
+}
+
+.movement-box {
+    border: 1px solid lightgray;
+    margin: 5px;
+    padding: 5px;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+}
+
+@media (min-width: 505px) {
+    .movement-box {
+        width: 350px;
+    }
+}
+
+.movement-box:hover {
+    background-color: #e6e6e6;
+}
+
+.movement-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.movement-amount-income {
+    color: green;
+}
+
+.movement-amount-expense {
+    color: red;
+}
+
+.movement-amount-transfer {
+    color: violet;
+}
+
+.movement-account {
+    color: gray;
+}
+
+.movement-date {
+    color: cornflowerblue;
+}
+
+.movement-description {
+    font-weight: bold;
+}
+
+.movement-budget {
+    color: gray;
+}
+
+.movement-category {
+    color: gray;
+}
+
+.movement-place {
+    color: gray;
+}
+
+.movement-badge-new,
+.movement-badge-edited,
+.lasttime-badge-archived,
+.lasttime-badge-new,
+.lasttime-badge-edited {
+    border: 1px solid green;
+    padding: 0 5px;
+    background: lightgreen;
+    color: blue;
+}
+
+combo-item .combo-item-container {
+    border: 1px dashed cornflowerblue;
+    padding: 10px;
+    margin: 10px;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    align-content: center;
+    justify-items: center;
+    border: 1px dashed gray;
+    width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+}
