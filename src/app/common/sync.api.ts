@@ -147,7 +147,7 @@ export class SyncAPI {
     }
 
     isServerReachable(){
-        return this.http.get('/online').toPromise()
+        return this.http.get('/status').toPromise()
         .then((data) => {
             return true;
         }).catch((err) => {

@@ -49,4 +49,13 @@ router.get('/cleanup', (req, res) => {
     server.cleanUpData(node);
 });
 
+router.get('/initializeDataFromBackup', (req, res) => {
+    let server: LastTimeServer = new LastTimeServer();
+    let node: iNode = {
+        request: req
+        , response: res
+    };
+    server.initializeDataFromBackup(node);
+});
+
 export { router };

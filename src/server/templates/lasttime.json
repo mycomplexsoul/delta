@@ -1,0 +1,91 @@
+{
+    "name": "LastTime"
+    , "namespace": "LastTimeApp"
+    , "removeMeans": "CANCELATION"
+    , "authNeeded": false
+    , "displayOnMenu": true
+    , "prefix": "lst"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(LastTime,LastTime items)"
+        , "TABLE_NAME(LASTTIME)"
+        , "VIEW_NAME(VILASTTIME)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "lst_id"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 32
+            , "dbComment": "Id for the last time record"
+            , "entName": "LastTimeId"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD"
+            ]
+            , "displayName": "Last Time Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "lst_name"
+            , "size": 500
+            , "minLength": 1
+            , "dbComment": "Name or description for the last time thing"
+            , "entName": "Name"
+            , "displayName": "Name"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "lst_value"
+            , "size": 10
+            , "minLength": 1
+            , "dbComment": "Value of the last time user does this thing"
+            , "entName": "Value"
+            , "displayName": "Value"
+            , "isRecordName": true
+        },{
+            "templateId": "integer"
+            , "dbName": "lst_validity"
+            , "dbComment": "Days to consider this value as valid"
+            , "entName": "Validity"
+            , "displayName": "Validity"
+        },{
+            "templateId": "string"
+            , "dbName": "lst_tags"
+            , "size": 200
+            , "minLength": 1
+            , "dbComment": "Tagos for grouping and filtering"
+            , "entName": "Tags"
+            , "displayName": "Tags"
+        },{
+            "templateId": "string"
+            , "dbName": "lst_notes"
+            , "size": 1000
+            , "minLength": 1
+            , "dbComment": "Any description or notes for the last time thing"
+            , "entName": "Notes"
+            , "displayName": "Notes"
+        },{
+            "templateId": "string"
+            , "dbName": "lst_id_user"
+            , "size": 50
+            , "dbComment": "User who this last time record belongs to"
+            , "entName": "User"
+            , "displayName": "User"
+            , "isRecordName": true
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        }
+    ]
+    , "view": [
+    ]
+}

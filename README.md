@@ -1,5 +1,26 @@
 # Intranet
 
+## Dev
+To bundle for dist, use npm run launch.
+
+## Database connection
+
+Create a file named `cfg.json` in the root of the project and add the proper configuration:
+
+```javascript
+[
+    {
+        "name"     : "default",
+        "host"     : "localhost",
+        "user"     : "some_user",
+        "password" : "some_password",
+        "database" : "some_db"
+    }
+]
+```
+
+With this, you can connnect to a MySQL database.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
 
 ## Development server

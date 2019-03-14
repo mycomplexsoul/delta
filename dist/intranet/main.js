@@ -827,7 +827,7 @@ var SyncAPI = /** @class */ (function () {
         }
     };
     SyncAPI.prototype.isServerReachable = function () {
-        return this.http.get('/online').toPromise()
+        return this.http.get('/status').toPromise()
             .then(function (data) {
             return true;
         }).catch(function (err) {
@@ -6202,7 +6202,7 @@ var TasksCore = /** @class */ (function () {
                 }, {
                     f: 'tsk_date_add',
                     op: 'ge',
-                    val: '2018-10-01'
+                    val: '2019-02-15'
                 }]
         };
         var query = "?q=" + JSON.stringify(filter);

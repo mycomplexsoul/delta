@@ -127,9 +127,20 @@ export class LastTimeServer {
      * Copies initial data from backup to default db.
      * - Deletes all lasttime records from default.
      * - Inserts all lasttime records from backup into default.
+     * Note: This is to initialize website from local db.
      */
-    _initializeDataFromBackup(){
-
+    async _initializeDataFromBackup(){
+        const defaultCon: iConnection = ConnectionService.getConnection();
+        await defaultCon.runSql('delete from lasttime');
+        await defaultCon.runSql('delete from lasttimehistory');
+        
+        const backupCon: iConnection = ConnectionService.getConnection('backup');
+        const LastTimeList: LastTime[] = await backupCon.runSql('select * from vilasttime').then(data => {
+            return data.rows.map((e: any) => new LastTime(e));
+        });
+        const sqlMotor: MoSQL = new MoSQL(new LastTime());
+        const response: any[] = await Promise.all(defaultCon.runSqlArray(LastTimeList.map(e => sqlMotor.toInsertSQL(e))));
+        return response;
     }
 
     /**

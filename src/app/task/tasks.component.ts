@@ -119,7 +119,7 @@ export class TasksComponent implements OnInit {
     }
 
     ngOnInit(){
-        this.registerServiceWorker();
+        // this.registerServiceWorker(); // enable to register ServiceWorker
     }
 
     addTask(form: any){
