@@ -54,7 +54,7 @@ interface TaskTimeTracking{
     , tsh_date_start: Date
     , tsh_date_end: Date
     , tsh_time_spent: number
-    , tsh_id_user: number
+    , tsh_id_user: string
     , tsh_date_add: Date
     , tsh_date_mod: Date
 }

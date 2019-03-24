@@ -49,30 +49,27 @@ module.exports = "<menu></menu>\n<router-outlet></router-outlet>\n"
 /*!**********************************!*\
   !*** ./src/app/app.component.ts ***!
   \**********************************/
-/*! exports provided: AppComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let AppComponent = class AppComponent {
+    constructor() {
         this.title = 'intranet';
     }
-    AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-root',
-            template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
-            styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
-        })
-    ], AppComponent);
-    return AppComponent;
-}());
-
+};
+AppComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'app-root',
+        template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
+        styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
+    })
+], AppComponent);
+exports.AppComponent = AppComponent;
 
 
 /***/ }),
@@ -81,98 +78,74 @@ var AppComponent = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./src/app/app.module.ts ***!
   \*******************************/
-/*! exports provided: AppModule */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _task_tasks_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./task/tasks.component */ "./src/app/task/tasks.component.ts");
-/* harmony import */ var _common_menu_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./common/menu.component */ "./src/app/common/menu.component.ts");
-/* harmony import */ var _money_account_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
-/* harmony import */ var _money_movement_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
-/* harmony import */ var _money_balance_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
-/* harmony import */ var _money_rebuild_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./money/rebuild.component */ "./src/app/money/rebuild.component.ts");
-/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
-/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
-/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
-/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
-/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
-/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var appRoutes = [
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+const http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const app_component_1 = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+const tasks_component_1 = __webpack_require__(/*! ./task/tasks.component */ "./src/app/task/tasks.component.ts");
+const menu_component_1 = __webpack_require__(/*! ./common/menu.component */ "./src/app/common/menu.component.ts");
+const account_component_1 = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
+const movement_component_1 = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
+const balance_component_1 = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
+const rebuild_component_1 = __webpack_require__(/*! ./money/rebuild.component */ "./src/app/money/rebuild.component.ts");
+const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
+const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
+const storage_service_1 = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
+const entry_service_1 = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
+const date_common_1 = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
+const comboItem_component_1 = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
+const drinkwater_component_1 = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
+const sync_api_1 = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
+const utils_common_1 = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
+const login_component_1 = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
+const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+const appRoutes = [
     // { path: 'crisis-center', component: CrisisListComponent },
     // { path: 'hero/:id',      component: HeroDetailComponent },
     {
         path: 'tasks',
-        component: _task_tasks_component__WEBPACK_IMPORTED_MODULE_7__["TasksComponent"],
+        component: tasks_component_1.TasksComponent,
         data: { title: 'Tasks' }
     }, {
         path: 'account',
-        component: _money_account_component__WEBPACK_IMPORTED_MODULE_9__["AccountComponent"],
+        component: account_component_1.AccountComponent,
         data: { title: 'Accounts' }
     }, {
         path: 'movement',
-        component: _money_movement_component__WEBPACK_IMPORTED_MODULE_10__["MovementComponent"],
+        component: movement_component_1.MovementComponent,
         data: { title: 'Movements' }
     }, {
         path: 'balance',
-        component: _money_balance_component__WEBPACK_IMPORTED_MODULE_11__["BalanceComponent"],
+        component: balance_component_1.BalanceComponent,
         data: { title: 'Balance' }
     }, {
         path: 'rebuild',
-        component: _money_rebuild_component__WEBPACK_IMPORTED_MODULE_12__["RebuildComponent"],
+        component: rebuild_component_1.RebuildComponent,
         data: { title: 'Rebuild' }
     }, {
         path: 'login',
-        component: _common_login_component__WEBPACK_IMPORTED_MODULE_22__["LoginComponent"],
+        component: login_component_1.LoginComponent,
         data: { title: 'Login' }
     }, {
         path: 'lasttime',
-        component: _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_13__["LastTimeComponent"],
+        component: lasttime_component_1.LastTimeComponent,
         data: { title: 'Last Time' }
     }, {
         path: 'multimedia',
-        component: _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_14__["MultimediaComponent"],
+        component: multimedia_component_1.MultimediaComponent,
         data: { title: 'Multimedia' }
     }, {
         path: 'type-generator',
-        component: _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_23__["TypeGeneratorComponent"],
+        component: type_generator_component_1.TypeGeneratorComponent,
         data: { title: 'Type Generator' }
     }, {
         path: '',
@@ -181,46 +154,43 @@ var appRoutes = [
     }
     // { path: '**', component: PageNotFoundComponent }
 ];
-var AppModule = /** @class */ (function () {
-    function AppModule() {
-    }
-    AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
-            imports: [
-                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpClientModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterModule"].forRoot(appRoutes)
-            ],
-            declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                _task_tasks_component__WEBPACK_IMPORTED_MODULE_7__["TasksComponent"],
-                _money_account_component__WEBPACK_IMPORTED_MODULE_9__["AccountComponent"],
-                _money_movement_component__WEBPACK_IMPORTED_MODULE_10__["MovementComponent"],
-                _money_balance_component__WEBPACK_IMPORTED_MODULE_11__["BalanceComponent"],
-                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_18__["ComboItemComponent"],
-                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_19__["DrinkWaterComponent"],
-                _common_menu_component__WEBPACK_IMPORTED_MODULE_8__["MenuComponent"],
-                _money_rebuild_component__WEBPACK_IMPORTED_MODULE_12__["RebuildComponent"],
-                _common_login_component__WEBPACK_IMPORTED_MODULE_22__["LoginComponent"],
-                _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_13__["LastTimeComponent"],
-                _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_14__["MultimediaComponent"],
-                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_23__["TypeGeneratorComponent"]
-            ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]],
-            providers: [
-                _common_date_common__WEBPACK_IMPORTED_MODULE_17__["DateCommon"],
-                _common_storage_service__WEBPACK_IMPORTED_MODULE_15__["StorageService"],
-                _money_entry_service__WEBPACK_IMPORTED_MODULE_16__["EntryService"],
-                _common_sync_api__WEBPACK_IMPORTED_MODULE_20__["SyncAPI"],
-                _common_utils_common__WEBPACK_IMPORTED_MODULE_21__["UtilsCommon"],
-                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"]
-            ]
-        })
-    ], AppModule);
-    return AppModule;
-}());
-
+let AppModule = class AppModule {
+};
+AppModule = tslib_1.__decorate([
+    core_1.NgModule({
+        imports: [
+            platform_browser_1.BrowserModule,
+            forms_1.FormsModule,
+            http_1.HttpClientModule,
+            router_1.RouterModule.forRoot(appRoutes)
+        ],
+        declarations: [
+            app_component_1.AppComponent,
+            tasks_component_1.TasksComponent,
+            account_component_1.AccountComponent,
+            movement_component_1.MovementComponent,
+            balance_component_1.BalanceComponent,
+            comboItem_component_1.ComboItemComponent,
+            drinkwater_component_1.DrinkWaterComponent,
+            menu_component_1.MenuComponent,
+            rebuild_component_1.RebuildComponent,
+            login_component_1.LoginComponent,
+            lasttime_component_1.LastTimeComponent,
+            multimedia_component_1.MultimediaComponent,
+            type_generator_component_1.TypeGeneratorComponent
+        ],
+        bootstrap: [app_component_1.AppComponent],
+        providers: [
+            date_common_1.DateCommon,
+            storage_service_1.StorageService,
+            entry_service_1.EntryService,
+            sync_api_1.SyncAPI,
+            utils_common_1.UtilsCommon,
+            platform_browser_1.Title
+        ]
+    })
+], AppModule);
+exports.AppModule = AppModule;
 
 
 /***/ }),
@@ -229,18 +199,16 @@ var AppModule = /** @class */ (function () {
 /*!***********************************************!*\
   !*** ./src/app/common/comboItem.component.ts ***!
   \***********************************************/
-/*! exports provided: ComboItemComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ComboItemComponent", function() { return ComboItemComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-var ComboItemComponent = /** @class */ (function () {
-    function ComboItemComponent() {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let ComboItemComponent = class ComboItemComponent {
+    constructor() {
         this.viewAddForm = false;
         this.addLabel = '+';
         this.inputLabel = 'New Item';
@@ -249,42 +217,41 @@ var ComboItemComponent = /** @class */ (function () {
     /* TODO: template does not have custom name/id */
     // TODO: input needs to be focused when displayed
     // TODO: add optional validation for duplicated item value (needs a reference list)
-    ComboItemComponent.prototype.toggleView = function () {
+    toggleView() {
         this.viewAddForm = !this.viewAddForm;
         this.addLabel = this.viewAddForm ? '-' : '+';
         return false;
-    };
-    ComboItemComponent.prototype.onNewItem = function (value) {
+    }
+    onNewItem(value) {
         this.addNewItem(value);
         this.value = '';
         return this.toggleView();
-    };
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Function)
-    ], ComboItemComponent.prototype, "addNewItem", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ComboItemComponent.prototype, "name", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ComboItemComponent.prototype, "inputLabel", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ComboItemComponent.prototype, "buttonLabel", void 0);
-    ComboItemComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'combo-item',
-            template: __webpack_require__(/*! ./comboItem.template.html */ "./src/app/common/comboItem.template.html"),
-            providers: []
-        })
-    ], ComboItemComponent);
-    return ComboItemComponent;
-}());
-
+    }
+};
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", Function)
+], ComboItemComponent.prototype, "addNewItem", void 0);
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", String)
+], ComboItemComponent.prototype, "name", void 0);
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", String)
+], ComboItemComponent.prototype, "inputLabel", void 0);
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", String)
+], ComboItemComponent.prototype, "buttonLabel", void 0);
+ComboItemComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'combo-item',
+        template: __webpack_require__(/*! ./comboItem.template.html */ "./src/app/common/comboItem.template.html"),
+        providers: []
+    })
+], ComboItemComponent);
+exports.ComboItemComponent = ComboItemComponent;
 
 
 /***/ }),
@@ -304,44 +271,39 @@ module.exports = "<button (click)=\"toggleView()\" title=\"Click to add an item 
 /*!***************************************!*\
   !*** ./src/app/common/date.common.ts ***!
   \***************************************/
-/*! exports provided: DateCommon */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateCommon", function() { return DateCommon; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-var DateCommon = /** @class */ (function () {
-    function DateCommon() {
-    }
-    DateCommon.prototype.elapsedTime = function (date1, date2) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let DateCommon = class DateCommon {
+    elapsedTime(date1, date2) {
         if (date1 && date2) {
             return Math.floor(Math.abs(date1.getTime() - date2.getTime()) / 1000);
         }
         return 0;
-    };
-    DateCommon.prototype.dateOnly = function (base) {
+    }
+    dateOnly(base) {
         if (base) {
             return new Date(base.getFullYear(), base.getMonth(), base.getDate(), 0, 0, 0);
         }
-        var newDate = new Date();
+        let newDate = new Date();
         return new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), 0, 0, 0);
-    };
-    DateCommon.prototype.addDays = function (base, days) {
+    }
+    addDays(base, days) {
         return new Date((base.getTime() + (days * 86400000)));
-    };
-    DateCommon.prototype.newDateUpToSeconds = function () {
+    }
+    newDateUpToSeconds() {
         return new Date(Math.floor((new Date()).getTime() / 1000) * 1000);
-    };
-    DateCommon = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()
-    ], DateCommon);
-    return DateCommon;
-}());
-
+    }
+};
+DateCommon = tslib_1.__decorate([
+    core_1.Injectable()
+], DateCommon);
+exports.DateCommon = DateCommon;
 
 
 /***/ }),
@@ -350,25 +312,23 @@ var DateCommon = /** @class */ (function () {
 /*!************************************************!*\
   !*** ./src/app/common/drinkwater.component.ts ***!
   \************************************************/
-/*! exports provided: DrinkWaterComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DrinkWaterComponent", function() { return DrinkWaterComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-var DrinkWaterComponent = /** @class */ (function () {
-    function DrinkWaterComponent() {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let DrinkWaterComponent = class DrinkWaterComponent {
+    constructor() {
         this.count = 0;
         this.intervalRef = 0;
         this.notifyEnabled = false;
         this.startNotification();
     }
-    DrinkWaterComponent.prototype.notification = function (data) {
-        var not = window["Notification"];
+    notification(data) {
+        let not = window["Notification"];
         if (not && not.permission !== "denied") {
             not.requestPermission(function (status) {
                 var n = new not(data.title || 'Tasks', {
@@ -377,37 +337,36 @@ var DrinkWaterComponent = /** @class */ (function () {
                 });
             });
         }
-    };
-    DrinkWaterComponent.prototype.addOne = function () {
+    }
+    addOne() {
         this.count++;
-    };
-    DrinkWaterComponent.prototype.stopNotification = function () {
+    }
+    stopNotification() {
         window.clearInterval(this.intervalRef);
         this.intervalRef = 0;
         this.notifyEnabled = false;
-    };
-    DrinkWaterComponent.prototype.startNotification = function () {
-        var min = 30;
-        var notify = this.notification;
+    }
+    startNotification() {
+        const min = 30;
+        const notify = this.notification;
         this.notifyEnabled = true;
-        this.intervalRef = window.setInterval(function () {
+        this.intervalRef = window.setInterval(() => {
             notify({
                 title: 'Drink Water',
                 body: 'Hey! drink some water man'
             });
         }, min * 60 * 1000);
-    };
-    DrinkWaterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'drink-water',
-            template: __webpack_require__(/*! ./drinkwater.template.html */ "./src/app/common/drinkwater.template.html"),
-            providers: []
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], DrinkWaterComponent);
-    return DrinkWaterComponent;
-}());
-
+    }
+};
+DrinkWaterComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'drink-water',
+        template: __webpack_require__(/*! ./drinkwater.template.html */ "./src/app/common/drinkwater.template.html"),
+        providers: []
+    }),
+    tslib_1.__metadata("design:paramtypes", [])
+], DrinkWaterComponent);
+exports.DrinkWaterComponent = DrinkWaterComponent;
 
 
 /***/ }),
@@ -427,26 +386,21 @@ module.exports = "<span class=\"drink-water-widget\">\r\n    <span>Water Count: 
 /*!*******************************************!*\
   !*** ./src/app/common/login.component.ts ***!
   \*******************************************/
-/*! exports provided: LoginComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginComponent", function() { return LoginComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _login_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./login.service */ "./src/app/common/login.service.ts");
 
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 // types
 // services
-
-var LoginComponent = /** @class */ (function () {
-    function LoginComponent(loginService, titleService, syncService) {
+const login_service_1 = __webpack_require__(/*! ./login.service */ "./src/app/common/login.service.ts");
+let LoginComponent = class LoginComponent {
+    constructor(loginService, titleService, syncService) {
         this.titleService = titleService;
         this.user = 'anon';
         this.viewData = {
@@ -465,11 +419,10 @@ var LoginComponent = /** @class */ (function () {
         titleService.setTitle('Login');
         this.sync = syncService;
     }
-    LoginComponent.prototype.ngOnInit = function () {
-    };
-    LoginComponent.prototype.submit = function (loginForm) {
-        var _this = this;
-        var _a = loginForm.value, fUsername = _a.fUsername, fPassword = _a.fPassword;
+    ngOnInit() {
+    }
+    submit(loginForm) {
+        const { fUsername, fPassword } = loginForm.value;
         if (!fUsername || !fPassword) {
             this.viewData.error = true;
             this.viewData.errorMessage = 'Username and Password are required';
@@ -477,36 +430,35 @@ var LoginComponent = /** @class */ (function () {
         }
         // Send to server
         this.sync.post('/api/login', {
-            fUsername: fUsername,
-            fPassword: fPassword
-        }).then(function (response) {
+            fUsername,
+            fPassword
+        }).then((response) => {
             if (response.operationResult) {
-                _this.services.login.setIdentity(response.identity);
+                this.services.login.setIdentity(response.identity);
             }
             else {
-                _this.viewData.error = true;
-                _this.viewData.errorMessage = response.message;
+                this.viewData.error = true;
+                this.viewData.errorMessage = response.message;
             }
-        }).catch(function (err) {
-            _this.viewData.error = true;
-            _this.viewData.errorMessage = err.message;
+        }).catch((err) => {
+            this.viewData.error = true;
+            this.viewData.errorMessage = err.message;
         });
-    };
-    LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'login',
-            template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html"),
-            providers: [
-                _login_service__WEBPACK_IMPORTED_MODULE_4__["LoginService"]
-            ]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_login_service__WEBPACK_IMPORTED_MODULE_4__["LoginService"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"],
-            _common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"]])
-    ], LoginComponent);
-    return LoginComponent;
-}());
-
+    }
+};
+LoginComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'login',
+        template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html"),
+        providers: [
+            login_service_1.LoginService
+        ]
+    }),
+    tslib_1.__metadata("design:paramtypes", [login_service_1.LoginService,
+        platform_browser_1.Title,
+        sync_api_1.SyncAPI])
+], LoginComponent);
+exports.LoginComponent = LoginComponent;
 
 
 /***/ }),
@@ -515,20 +467,17 @@ var LoginComponent = /** @class */ (function () {
 /*!*****************************************!*\
   !*** ./src/app/common/login.service.ts ***!
   \*****************************************/
-/*! exports provided: LoginService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginService", function() { return LoginService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-
-var LoginService = /** @class */ (function () {
-    function LoginService(storage) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let LoginService = class LoginService {
+    constructor(storage) {
         this.storage = null;
         this.config = {
             storageKey: 'login',
@@ -544,22 +493,21 @@ var LoginService = /** @class */ (function () {
         };
         this.storage = storage;
     }
-    LoginService.prototype.setIdentity = function (identity) {
+    setIdentity(identity) {
         this.identity = identity; // { auth_token, user, email }
-    };
-    LoginService.prototype.getUsername = function () {
+    }
+    getUsername() {
         return this.identity.user;
-    };
-    LoginService.prototype.isLoggedIn = function () {
+    }
+    isLoggedIn() {
         return !!this.identity.user;
-    };
-    LoginService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_1__["StorageService"]])
-    ], LoginService);
-    return LoginService;
-}());
-
+    }
+};
+LoginService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService])
+], LoginService);
+exports.LoginService = LoginService;
 
 
 /***/ }),
@@ -579,41 +527,38 @@ module.exports = "<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\
 /*!******************************************!*\
   !*** ./src/app/common/menu.component.ts ***!
   \******************************************/
-/*! exports provided: MenuComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuComponent", function() { return MenuComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 //import { BalanceService } from './balance.service';
-var MenuComponent = /** @class */ (function () {
-    function MenuComponent() {
+let MenuComponent = class MenuComponent {
+    constructor() {
         this.user = 'anon';
         this.viewData = {
             user: 'anon'
         };
         this.services = {};
     }
-    MenuComponent.prototype.ngOnInit = function () {
-    };
-    MenuComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'menu',
-            template: __webpack_require__(/*! ./menu.template.html */ "./src/app/common/menu.template.html"),
-            providers: [
-            //BalanceService
-            ],
-            styles: [__webpack_require__(/*! ./menu.css */ "./src/app/common/menu.css")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], MenuComponent);
-    return MenuComponent;
-}());
-
+    ngOnInit() {
+    }
+};
+MenuComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'menu',
+        template: __webpack_require__(/*! ./menu.template.html */ "./src/app/common/menu.template.html"),
+        providers: [
+        //BalanceService
+        ],
+        styles: [__webpack_require__(/*! ./menu.css */ "./src/app/common/menu.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [])
+], MenuComponent);
+exports.MenuComponent = MenuComponent;
 
 
 /***/ }),
@@ -644,37 +589,32 @@ module.exports = "<div class=\"menu-container\">\r\n    <ul>\r\n        <li><a r
 /*!*******************************************!*\
   !*** ./src/app/common/storage.service.ts ***!
   \*******************************************/
-/*! exports provided: StorageService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StorageService", function() { return StorageService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-var StorageService = /** @class */ (function () {
-    function StorageService() {
-    }
-    StorageService.prototype.get = function (key) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let StorageService = class StorageService {
+    get(key) {
         return localStorage.getItem(key);
-    };
-    StorageService.prototype.set = function (key, value) {
+    }
+    set(key, value) {
         localStorage.setItem(key, value);
-    };
-    StorageService.prototype.getObject = function (key) {
+    }
+    getObject(key) {
         return JSON.parse(localStorage.getItem(key));
-    };
-    StorageService.prototype.setObject = function (key, value) {
+    }
+    setObject(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
-    };
-    StorageService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()
-    ], StorageService);
-    return StorageService;
-}());
-
+    }
+};
+StorageService = tslib_1.__decorate([
+    core_1.Injectable()
+], StorageService);
+exports.StorageService = StorageService;
 
 
 /***/ }),
@@ -683,28 +623,24 @@ var StorageService = /** @class */ (function () {
 /*!************************************!*\
   !*** ./src/app/common/sync.api.ts ***!
   \************************************/
-/*! exports provided: SyncAPI */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SyncAPI", function() { return SyncAPI; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 
-
-
-var SyncAPI = /** @class */ (function () {
-    function SyncAPI(http) {
-        var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+let SyncAPI = class SyncAPI {
+    constructor(http) {
         this.http = http;
         this.queue = [];
         //private apiRoot: string = 'http://10.230.9.78:8081';
-        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type' });
+        this.headers = new http_1.HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type' });
         this.options = { headers: this.headers };
         this.version = 'v1.3';
-        this.logPrefix = "Sync API " + this.version + " -";
+        this.logPrefix = `Sync API ${this.version} -`;
         this.currentOperation = null;
         this.lastOnlineStamp = null;
         this.http = http;
@@ -712,12 +648,12 @@ var SyncAPI = /** @class */ (function () {
         this.queue = this.fromStorage() || [];
         this.queueStatus();
         if (this.queue.length > 0) {
-            this.log("Found in storage " + this.queue.length + " requests, trying to process queue if possible");
+            this.log(`Found in storage ${this.queue.length} requests, trying to process queue if possible`);
             this.log('Current queue', this.queue);
-            this.isOnline().then(function (online) {
+            this.isOnline().then((online) => {
                 if (online) {
                     //this.processQueue();
-                    _this.syncQueue();
+                    this.syncQueue();
                 }
             });
         }
@@ -725,161 +661,158 @@ var SyncAPI = /** @class */ (function () {
     /**
      * Adds a single request to the queue and process it when server is reachable.
      */
-    SyncAPI.prototype.request = function (action, model, pk, entity, callback, recordName, matchMethod) {
-        this.log("Handling new request");
-        var queueItem = {
-            action: action,
-            model: model,
-            pk: pk,
-            entity: entity,
-            callback: callback,
-            recordName: recordName,
-            matchMethod: matchMethod,
+    request(action, model, pk, entity, callback, recordName, matchMethod) {
+        this.log(`Handling new request`);
+        const queueItem = {
+            action,
+            model,
+            pk,
+            entity,
+            callback,
+            recordName,
+            matchMethod,
             status: 'queue' // this is ignored
         };
         this.handleRequest([queueItem]);
-    };
+    }
     /**
      * creates a SyncQueue object to use later with multipleRequest method.
      */
-    SyncAPI.prototype.asSyncQueue = function (action, model, pk, entity, callback, recordName, matchMethod) {
-        var queueItem = {
-            action: action,
-            model: model,
-            pk: pk,
-            entity: entity,
-            callback: callback,
-            recordName: recordName,
-            matchMethod: matchMethod,
+    asSyncQueue(action, model, pk, entity, callback, recordName, matchMethod) {
+        const queueItem = {
+            action,
+            model,
+            pk,
+            entity,
+            callback,
+            recordName,
+            matchMethod,
             status: 'queue' // this is ignored
         };
         return queueItem;
-    };
+    }
     /**
      *
      */
-    SyncAPI.prototype.requestQueue = function (queueItem) {
+    requestQueue(queueItem) {
         this.handleRequest([queueItem]);
-    };
+    }
     /**
      * Adds multiple requests to the queue and process them when server is reachable.
      */
-    SyncAPI.prototype.multipleRequest = function (list) {
-        this.log("Handling new multiple requests");
+    multipleRequest(list) {
+        this.log(`Handling new multiple requests`);
         this.handleRequest(list);
-    };
+    }
     /**
      * Internal method that adds a request list to the queue and process it when server is reachable.
      * For API purposes use either `request` or `multipleRequest` instead of this one.
      */
-    SyncAPI.prototype.handleRequest = function (list) {
-        var _this = this;
+    handleRequest(list) {
         if (this.currentOperation) {
             this.log('Cancelling sync operation with timer id', this.currentOperation);
             clearTimeout(this.currentOperation);
         }
-        list.forEach(function (e) {
-            _this.addToQueue(e);
+        list.forEach((e) => {
+            this.addToQueue(e);
         });
-        this.isOnline().then(function (online) {
+        this.isOnline().then((online) => {
             if (online) {
-                _this.currentOperation = setTimeout(function () {
+                this.currentOperation = setTimeout(() => {
                     //this.processQueue();
-                    _this.syncQueue();
-                    _this.currentOperation = null;
+                    this.syncQueue();
+                    this.currentOperation = null;
                 }, 5000);
-                _this.log('Scheduled sync with timer id', _this.currentOperation);
+                this.log('Scheduled sync with timer id', this.currentOperation);
             }
         });
-    };
+    }
     /**
      * Adds the request to the queue.
      * This is an internal method.
      */
-    SyncAPI.prototype.addToQueue = function (item) {
-        var matchMethod = item.matchMethod, recordName = item.recordName, queueItem = tslib__WEBPACK_IMPORTED_MODULE_0__["__rest"](item, ["matchMethod", "recordName"]);
-        var foundIndex = -1;
+    addToQueue(item) {
+        const { matchMethod, recordName } = item, queueItem = tslib_1.__rest(item, ["matchMethod", "recordName"]);
+        let foundIndex = -1;
         if (matchMethod) {
-            foundIndex = this.queue.findIndex(function (val) { return matchMethod(val.model) && (val.status === 'queue' || val.status === 'error') && val.entity === queueItem.entity; });
+            foundIndex = this.queue.findIndex((val) => matchMethod(val.model) && (val.status === 'queue' || val.status === 'error') && val.entity === queueItem.entity);
         }
         if (foundIndex !== -1) { // if record has a match, replace model only
-            this.log("Recieved a request, found record with id <<" + recordName(queueItem.model) + ">> and updated it");
+            this.log(`Recieved a request, found record with id <<${recordName(queueItem.model)}>> and updated it`);
             this.queue[foundIndex].model = queueItem.model;
             return;
         }
         // if not found or no match method, add it
-        this.queue.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, queueItem, { status: 'queue' }));
-        this.log("Recieved a request to " + queueItem.entity + " and added it to the queue");
-    };
-    SyncAPI.prototype.isOnline = function () {
-        var _this = this;
+        this.queue.push(Object.assign({}, queueItem, { status: 'queue' }));
+        this.log(`Recieved a request to ${queueItem.entity} and added it to the queue`);
+    }
+    isOnline() {
         if (!this.lastOnlineStamp || (new Date()).getTime() - this.lastOnlineStamp.getTime() > 30000) {
-            var nav_1 = navigator.onLine;
-            this.log("Your navigator reports online status as: " + nav_1);
-            return this.isServerReachable().then(function (data) {
-                _this.log("Tried to contact the server, answer was", data);
-                _this.lastOnlineStamp = new Date();
-                return nav_1 && data;
+            let nav = navigator.onLine;
+            this.log(`Your navigator reports online status as: ${nav}`);
+            return this.isServerReachable().then((data) => {
+                this.log(`Tried to contact the server, answer was`, data);
+                this.lastOnlineStamp = new Date();
+                return nav && data;
             });
         }
         else {
             return Promise.resolve(true);
         }
-    };
-    SyncAPI.prototype.isServerReachable = function () {
+    }
+    isServerReachable() {
         return this.http.get('/status').toPromise()
-            .then(function (data) {
+            .then((data) => {
             return true;
-        }).catch(function (err) {
+        }).catch((err) => {
             return false;
         });
-    };
-    SyncAPI.prototype.queueStatus = function () {
-        console.log(this.logPrefix + " Status is " + this.queue.length + " elements in the queue, " + this.queue.filter(function (q) { return q.status === 'processed'; }).length + " processed, " + this.queue.filter(function (q) { return q.status === 'queue'; }).length + " not yet processed, " + this.queue.filter(function (q) { return q.status === 'error'; }).length + " with error");
-    };
-    SyncAPI.prototype.log = function (message, data) {
+    }
+    queueStatus() {
+        console.log(`${this.logPrefix} Status is ${this.queue.length} elements in the queue, ${this.queue.filter(q => q.status === 'processed').length} processed, ${this.queue.filter(q => q.status === 'queue').length} not yet processed, ${this.queue.filter(q => q.status === 'error').length} with error`);
+    }
+    log(message, data) {
         if (!data) {
-            console.log(this.logPrefix + " " + message);
+            console.log(`${this.logPrefix} ${message}`);
         }
         else {
-            console.log(this.logPrefix + " " + message, data);
+            console.log(`${this.logPrefix} ${message}`, data);
         }
-    };
-    SyncAPI.prototype.toStorage = function () {
+    }
+    toStorage() {
         if (typeof (window.localStorage) !== "undefined") {
-            localStorage.setItem("Sync", JSON.stringify(this.queue.filter(function (q) { return q.status !== 'processed'; })));
-            this.queue = this.queue.filter(function (q) { return q.status !== 'processed'; });
+            localStorage.setItem("Sync", JSON.stringify(this.queue.filter(q => q.status !== 'processed')));
+            this.queue = this.queue.filter(q => q.status !== 'processed');
         }
-    };
-    SyncAPI.prototype.fromStorage = function () {
+    }
+    fromStorage() {
         if (typeof (window.localStorage) !== "undefined") {
-            var list = JSON.parse(localStorage.getItem("Sync"));
+            let list = JSON.parse(localStorage.getItem("Sync"));
             return list;
         }
         return [];
-    };
-    SyncAPI.prototype.syncQueue = function () {
-        var _this = this;
-        var dataToSend = [];
-        dataToSend = this.queue.filter(function (q) {
+    }
+    syncQueue() {
+        let dataToSend = [];
+        dataToSend = this.queue.filter((q) => {
             return q.status !== 'processed';
         });
-        var compareObjects = function (o1, o2) {
-            var keys1 = Object.keys(o1);
-            var keys2 = Object.keys(o2);
+        const compareObjects = (o1, o2) => {
+            const keys1 = Object.keys(o1);
+            const keys2 = Object.keys(o2);
             // all keys from o1 should exist on o2 and their values must match
-            var test1 = keys1.every(function (k1) { return keys2.find(function (k2) { return k2 === k1; }) && o1[k1] === o2[k1]; });
+            const test1 = keys1.every(k1 => keys2.find((k2) => k2 === k1) && o1[k1] === o2[k1]);
             // same for o2
-            var test2 = keys2.every(function (k2) { return keys1.find(function (k1) { return k1 === k2; }) && o2[k2] === o1[k2]; });
+            const test2 = keys2.every(k2 => keys1.find((k1) => k1 === k2) && o2[k2] === o1[k2]);
             return test1 && test2;
         };
         this.http.post('/api/sync', { queue: dataToSend }, this.options).toPromise()
-            .then(function (data) {
-            var response = data;
-            _this.log('Processed sync, response was', response);
+            .then((data) => {
+            const response = data;
+            this.log('Processed sync, response was', response);
             // get status from response
-            response['result'].forEach(function (r) {
-                var found = _this.queue.find(function (q) { return compareObjects(q.pk, r.pk); });
+            response['result'].forEach((r) => {
+                let found = this.queue.find((q) => compareObjects(q.pk, r.pk));
                 if (found) {
                     found.status = r.operationOk ? 'processed' : 'error';
                     if (r.operationOk) {
@@ -887,34 +820,33 @@ var SyncAPI = /** @class */ (function () {
                     }
                 }
             });
-            _this.queueStatus();
-            _this.toStorage();
-        }).catch(function (err) {
-            _this.log('Error for request', err);
+            this.queueStatus();
+            this.toStorage();
+        }).catch((err) => {
+            this.log('Error for request', err);
             //q.status = 'error';
-            _this.queueStatus();
-            _this.toStorage();
+            this.queueStatus();
+            this.toStorage();
         });
-    };
+    }
     /**
      * Makes a single request, no tracking for sync process
      * useful when you need only to make a request for batch
      */
-    SyncAPI.prototype.post = function (url, payload) {
+    post(url, payload) {
         return this.http.post(url, payload, this.options)
-            .toPromise().then(function (data) { return data; });
-    };
-    SyncAPI.prototype.get = function (url) {
+            .toPromise().then((data) => data);
+    }
+    get(url) {
         return this.http.get(url, this.options)
-            .toPromise().then(function (data) { return data; });
-    };
-    SyncAPI = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
-    ], SyncAPI);
-    return SyncAPI;
-}());
-
+            .toPromise().then((data) => data);
+    }
+};
+SyncAPI = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [http_1.HttpClient])
+], SyncAPI);
+exports.SyncAPI = SyncAPI;
 
 
 /***/ }),
@@ -923,22 +855,17 @@ var SyncAPI = /** @class */ (function () {
 /*!****************************************!*\
   !*** ./src/app/common/utils.common.ts ***!
   \****************************************/
-/*! exports provided: UtilsCommon */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UtilsCommon", function() { return UtilsCommon; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-var UtilsCommon = /** @class */ (function () {
-    function UtilsCommon() {
-    }
-    UtilsCommon.prototype.pad = function (value, fillChar, length, dir) {
-        if (dir === void 0) { dir = -1; }
-        var result = value + '';
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let UtilsCommon = class UtilsCommon {
+    pad(value, fillChar, length, dir = -1) {
+        let result = value + '';
         while (result.length < length) {
             if (dir === -1) {
                 result = fillChar + result;
@@ -948,26 +875,22 @@ var UtilsCommon = /** @class */ (function () {
             }
         }
         return result;
-    };
-    UtilsCommon.prototype.hashId = function (prefix, length, baseDate) {
-        if (prefix === void 0) { prefix = 'X'; }
-        if (length === void 0) { length = 32; }
-        if (baseDate === void 0) { baseDate = null; }
+    }
+    hashId(prefix = 'X', length = 32, baseDate = null) {
         // take date + time + random digits
         // total digits: 1 + 10 + 6 + '-' + (length - 18) >= 32
-        var date = baseDate || new Date();
-        var random = Math.floor(Math.random() * Math.pow(10, length - 17 - prefix.length));
-        var datetimeString = "" + date.getFullYear() + this.pad(date.getMonth() + 1, '0', 2) + this.pad(date.getDate(), '0', 2);
-        datetimeString += "" + this.pad(date.getHours(), '0', 2) + this.pad(date.getMinutes(), '0', 2) + this.pad(date.getSeconds(), '0', 2);
-        var id = "" + prefix + datetimeString + "-" + random;
+        let date = baseDate || new Date();
+        let random = Math.floor(Math.random() * Math.pow(10, length - 17 - prefix.length));
+        let datetimeString = `${date.getFullYear()}${this.pad(date.getMonth() + 1, '0', 2)}${this.pad(date.getDate(), '0', 2)}`;
+        datetimeString += `${this.pad(date.getHours(), '0', 2)}${this.pad(date.getMinutes(), '0', 2)}${this.pad(date.getSeconds(), '0', 2)}`;
+        let id = `${prefix}${datetimeString}-${random}`;
         return id;
-    };
-    UtilsCommon = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])()
-    ], UtilsCommon);
-    return UtilsCommon;
-}());
-
+    }
+};
+UtilsCommon = tslib_1.__decorate([
+    core_1.Injectable()
+], UtilsCommon);
+exports.UtilsCommon = UtilsCommon;
 
 
 /***/ }),
@@ -976,23 +899,19 @@ var UtilsCommon = /** @class */ (function () {
 /*!******************************************************!*\
   !*** ./src/app/internal/type-generator.component.ts ***!
   \******************************************************/
-/*! exports provided: TypeGeneratorComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TypeGeneratorComponent", function() { return TypeGeneratorComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _type_generator_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./type-generator.service */ "./src/app/internal/type-generator.service.ts");
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 // types
 // services
-
-var TypeGeneratorComponent = /** @class */ (function () {
-    function TypeGeneratorComponent(typeGenerator) {
-        var _this = this;
+const type_generator_service_1 = __webpack_require__(/*! ./type-generator.service */ "./src/app/internal/type-generator.service.ts");
+let TypeGeneratorComponent = class TypeGeneratorComponent {
+    constructor(typeGenerator) {
         this.user = 'anon';
         this.viewData = {
             entityList: []
@@ -1004,60 +923,58 @@ var TypeGeneratorComponent = /** @class */ (function () {
             selectedEntityList: []
         };
         this.services.typeGenerator = typeGenerator;
-        this.services.typeGenerator.getAll().then(function (data) {
-            _this.viewData.entityList = data.entities;
+        this.services.typeGenerator.getAll().then(data => {
+            this.viewData.entityList = data.entities;
         });
     }
-    TypeGeneratorComponent.prototype.ngOnInit = function () {
-    };
-    TypeGeneratorComponent.prototype.isChecked = function (target) {
-        return this.model.selectedEntityList.find(function (s) { return s === target; });
-    };
-    TypeGeneratorComponent.prototype.toggleSelection = function (target) {
+    ngOnInit() {
+    }
+    isChecked(target) {
+        return this.model.selectedEntityList.find(s => s === target);
+    }
+    toggleSelection(target) {
         if (this.isChecked(target)) {
-            this.model.selectedEntityList = this.model.selectedEntityList.filter(function (s) { return s !== target; });
+            this.model.selectedEntityList = this.model.selectedEntityList.filter(s => s !== target);
         }
         else {
             this.model.selectedEntityList.push(target);
         }
-    };
-    TypeGeneratorComponent.prototype.toggleSelectAll = function (event) {
-        var _this = this;
-        var allChecked = event.target['checked'];
-        this.viewData.entityList.forEach(function (e) {
-            var toggleCase = (allChecked && !_this.isChecked(e)) || (!allChecked && _this.isChecked(e));
+    }
+    toggleSelectAll(event) {
+        const allChecked = event.target['checked'];
+        this.viewData.entityList.forEach(e => {
+            const toggleCase = (allChecked && !this.isChecked(e)) || (!allChecked && this.isChecked(e));
             if (toggleCase) {
                 document.getElementById(e).click();
                 //this.toggleSelection(e);
             }
         });
-    };
-    TypeGeneratorComponent.prototype.generate = function () {
-        this.services.typeGenerator.create({ entities: this.model.selectedEntityList }).then(function (response) {
-            var messagesContainer = document.getElementById('generator-messages');
+    }
+    generate() {
+        this.services.typeGenerator.create({ entities: this.model.selectedEntityList }).then(response => {
+            const messagesContainer = document.getElementById('generator-messages');
             messagesContainer.innerHTML = response.message;
         });
-    };
-    TypeGeneratorComponent.prototype.check = function () {
-        this.services.typeGenerator.check({ entities: this.model.selectedEntityList }).then(function (response) {
-            var messagesContainer = document.getElementById('generator-messages');
+    }
+    check() {
+        this.services.typeGenerator.check({ entities: this.model.selectedEntityList }).then(response => {
+            const messagesContainer = document.getElementById('generator-messages');
             messagesContainer.innerHTML = response.message;
         });
-    };
-    TypeGeneratorComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'type-generator',
-            template: __webpack_require__(/*! ./type-generator.template.html */ "./src/app/internal/type-generator.template.html"),
-            providers: [
-                _type_generator_service__WEBPACK_IMPORTED_MODULE_2__["TypeGeneratorService"]
-            ],
-            styles: [__webpack_require__(/*! ./type-generator.css */ "./src/app/internal/type-generator.css")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_type_generator_service__WEBPACK_IMPORTED_MODULE_2__["TypeGeneratorService"]])
-    ], TypeGeneratorComponent);
-    return TypeGeneratorComponent;
-}());
-
+    }
+};
+TypeGeneratorComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'type-generator',
+        template: __webpack_require__(/*! ./type-generator.template.html */ "./src/app/internal/type-generator.template.html"),
+        providers: [
+            type_generator_service_1.TypeGeneratorService
+        ],
+        styles: [__webpack_require__(/*! ./type-generator.css */ "./src/app/internal/type-generator.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [type_generator_service_1.TypeGeneratorService])
+], TypeGeneratorComponent);
+exports.TypeGeneratorComponent = TypeGeneratorComponent;
 
 
 /***/ }),
@@ -1077,20 +994,17 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*!****************************************************!*\
   !*** ./src/app/internal/type-generator.service.ts ***!
   \****************************************************/
-/*! exports provided: TypeGeneratorService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TypeGeneratorService", function() { return TypeGeneratorService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 
-
-
-var TypeGeneratorService = /** @class */ (function () {
-    function TypeGeneratorService(sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+let TypeGeneratorService = class TypeGeneratorService {
+    constructor(sync) {
         this.data = {};
         this.sync = null;
         this.config = {
@@ -1104,26 +1018,24 @@ var TypeGeneratorService = /** @class */ (function () {
         };
         this.sync = sync;
     }
-    TypeGeneratorService.prototype.getAll = function () {
-        var _this = this;
-        return this.sync.get("" + this.config.api.config).then(function (data) {
-            _this.data = data;
-            return _this.data;
+    getAll() {
+        return this.sync.get(`${this.config.api.config}`).then(data => {
+            this.data = data;
+            return this.data;
         });
-    };
-    TypeGeneratorService.prototype.create = function (item) {
-        return this.sync.post("" + this.config.api.create, item);
-    };
-    TypeGeneratorService.prototype.check = function (item) {
-        return this.sync.post("" + this.config.api.check, item);
-    };
-    TypeGeneratorService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_sync_api__WEBPACK_IMPORTED_MODULE_2__["SyncAPI"]])
-    ], TypeGeneratorService);
-    return TypeGeneratorService;
-}());
-
+    }
+    create(item) {
+        return this.sync.post(`${this.config.api.create}`, item);
+    }
+    check(item) {
+        return this.sync.post(`${this.config.api.check}`, item);
+    }
+};
+TypeGeneratorService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI])
+], TypeGeneratorService);
+exports.TypeGeneratorService = TypeGeneratorService;
 
 
 /***/ }),
@@ -1143,24 +1055,19 @@ module.exports = "<div>\r\n    <div *ngFor=\"let e of viewData.entityList\">\r\n
 /*!************************************************!*\
   !*** ./src/app/lasttime/lasttime.component.ts ***!
   \************************************************/
-/*! exports provided: LastTimeComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LastTimeComponent", function() { return LastTimeComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _lasttime_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lasttime.service */ "./src/app/lasttime/lasttime.service.ts");
-/* harmony import */ var _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 
-
-
-
-
-var LastTimeComponent = /** @class */ (function () {
-    function LastTimeComponent(lastTimeService, titleService) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const lasttime_service_1 = __webpack_require__(/*! ./lasttime.service */ "./src/app/lasttime/lasttime.service.ts");
+const DateUtility_1 = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+let LastTimeComponent = class LastTimeComponent {
+    constructor(lastTimeService, titleService) {
         this.titleService = titleService;
         this.user = 'anon';
         this.viewData = {
@@ -1177,57 +1084,54 @@ var LastTimeComponent = /** @class */ (function () {
         this.services.lastTime = lastTimeService;
         titleService.setTitle('Last Time');
     }
-    LastTimeComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.services.lastTime.getAllForUser(this.user).then(function (list) {
-            _this.viewData.lastTime = list;
+    ngOnInit() {
+        this.services.lastTime.getAllForUser(this.user).then((list) => {
+            this.viewData.lastTime = list;
             // calculate validity on each
-            _this.calculateValidityForAll();
+            this.calculateValidityForAll();
             // sort
             /*const sort = ((a: LastTime, b: LastTime) => {
                 return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
             });
             this.viewData.lastTime = list.sort(sort);*/
-            _this.listBackup = _this.viewData.lastTime.slice(); // backup
+            this.listBackup = [...this.viewData.lastTime]; // backup
         });
-    };
-    LastTimeComponent.prototype.handleNewItem = function (form) {
+    }
+    handleNewItem(form) {
         this.viewData.showCreateForm = !this.viewData.showCreateForm;
-    };
-    LastTimeComponent.prototype.calculateValidity = function (item) {
-        var valueIsDate = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].isDate(item.lst_value);
-        var baseValue = valueIsDate ? new Date(item.lst_value) : item.lst_date_mod;
-        item['expiryDate'] = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].addDays(baseValue, item.lst_validity);
+    }
+    calculateValidity(item) {
+        const valueIsDate = DateUtility_1.DateUtils.isDate(item.lst_value);
+        const baseValue = valueIsDate ? new Date(item.lst_value) : item.lst_date_mod;
+        item['expiryDate'] = DateUtility_1.DateUtils.addDays(baseValue, item.lst_validity);
         item['ageSentence'] = this.ageSentence(item['expiryDate']);
         item['ageClass'] = this.ageClass(item['expiryDate']);
-    };
-    LastTimeComponent.prototype.calculateValidityForAll = function () {
-        var _this = this;
-        var list = this.services.lastTime.list();
-        list.forEach(function (item) {
-            _this.calculateValidity(item);
+    }
+    calculateValidityForAll() {
+        let list = this.services.lastTime.list();
+        list.forEach(item => {
+            this.calculateValidity(item);
         });
-        var sort = (function (a, b) {
+        const sort = ((a, b) => {
             return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
         });
         this.viewData.lastTime = list.sort(sort);
         console.log('listing', this.viewData.lastTime);
-    };
-    LastTimeComponent.prototype.newItem = function (form) {
-        var _this = this;
-        var values = form.value;
-        this.services.lastTime.newItem(values.fName, values.fValue, values.fValidity, values.fTags, values.fNotes, this.user).then(function (item) {
-            _this.viewData.lastTime = _this.services.lastTime.list();
-            var listItem = _this.viewData.lastTime.find(function (elem) { return elem.lst_id === item.lst_id; });
+    }
+    newItem(form) {
+        let values = form.value;
+        this.services.lastTime.newItem(values.fName, values.fValue, values.fValidity, values.fTags, values.fNotes, this.user).then(item => {
+            this.viewData.lastTime = this.services.lastTime.list();
+            const listItem = this.viewData.lastTime.find(elem => elem.lst_id === item.lst_id);
             listItem['isNew'] = true;
-            _this.calculateValidityForAll();
+            this.calculateValidityForAll();
         });
-    };
-    LastTimeComponent.prototype.ageSentence = function (baseDate) {
-        var diff = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].age(baseDate);
-        var str = '';
+    }
+    ageSentence(baseDate) {
+        let diff = DateUtility_1.DateUtils.age(baseDate);
+        let str = '';
         if (diff > 1) {
-            str = "(" + diff + " days left)";
+            str = `(${diff} days left)`;
         }
         if (diff === 1) {
             str = '(tomorrow)';
@@ -1239,13 +1143,13 @@ var LastTimeComponent = /** @class */ (function () {
             str = '(yesterday)';
         }
         if (diff < -1) {
-            str = "(" + Math.abs(diff) + " days ago)";
+            str = `(${Math.abs(diff)} days ago)`;
         }
         return str;
-    };
-    LastTimeComponent.prototype.ageClass = function (baseDate) {
-        var diff = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].age(baseDate);
-        var str = '';
+    }
+    ageClass(baseDate) {
+        let diff = DateUtility_1.DateUtils.age(baseDate);
+        let str = '';
         if (diff >= 10) {
             str = 'lasttime-age-10-left';
         }
@@ -1268,74 +1172,70 @@ var LastTimeComponent = /** @class */ (function () {
             str = 'lasttime-age-10-ago';
         }
         return str;
-    };
-    LastTimeComponent.prototype.editValue = function (item, event) {
-        var _this = this;
-        var newValue = event.target['textContent'];
+    }
+    editValue(item, event) {
+        const newValue = event.target['textContent'];
         if (item.lst_value !== newValue) {
             item.lst_value = newValue;
-            item.lst_date_mod = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].newDateUpToSeconds();
+            item.lst_date_mod = DateUtility_1.DateUtils.newDateUpToSeconds();
             item['isEdited'] = true;
-            this.services.lastTime.updateItem(item).then(function (response) {
-                _this.calculateValidityForAll();
-                _this.updateBackupItem(item);
+            this.services.lastTime.updateItem(item).then(response => {
+                this.calculateValidityForAll();
+                this.updateBackupItem(item);
             });
         }
-    };
-    LastTimeComponent.prototype.archiveRecord = function (item) {
-        var _this = this;
+    }
+    archiveRecord(item) {
         item.lst_ctg_status = 3; // archived
-        item.lst_date_mod = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].newDateUpToSeconds();
+        item.lst_date_mod = DateUtility_1.DateUtils.newDateUpToSeconds();
         item['isEdited'] = true;
-        this.services.lastTime.updateItem(item).then(function (response) {
-            _this.calculateValidityForAll();
-            _this.updateBackupItem(item);
+        this.services.lastTime.updateItem(item).then(response => {
+            this.calculateValidityForAll();
+            this.updateBackupItem(item);
         });
-    };
-    LastTimeComponent.prototype.updateBackupItem = function (item) {
-        this.listBackup[this.listBackup.findIndex(function (i) { return i.lst_id === item.lst_id; })] = item; // to keep backup list updated
-    };
-    LastTimeComponent.prototype.filter = function (event) {
-        var query = event.target['value'];
-        var criteria = function (item) {
+    }
+    updateBackupItem(item) {
+        this.listBackup[this.listBackup.findIndex(i => i.lst_id === item.lst_id)] = item; // to keep backup list updated
+    }
+    filter(event) {
+        const query = event.target['value'];
+        const criteria = (item) => {
             return item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1;
         };
         if (query) {
-            this.viewData.lastTime = this.listBackup.filter(function (i) { return criteria(i); });
+            this.viewData.lastTime = this.listBackup.filter(i => criteria(i));
         }
         else {
             this.viewData.lastTime = this.listBackup;
         }
-    };
-    LastTimeComponent.prototype.editNotes = function (item) {
-        var _this = this;
-        var currentValue = item.lst_notes;
-        var newValue = window.prompt(item.lst_name + " - Notes", currentValue);
+    }
+    editNotes(item) {
+        const currentValue = item.lst_notes;
+        const newValue = window.prompt(`${item.lst_name} - Notes`, currentValue);
         if (currentValue !== newValue && newValue !== null) {
             item.lst_notes = newValue;
-            item.lst_date_mod = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_4__["DateUtils"].newDateUpToSeconds();
+            item.lst_date_mod = DateUtility_1.DateUtils.newDateUpToSeconds();
             item['isEdited'] = true;
-            this.services.lastTime.updateItem(item).then(function (response) {
-                _this.calculateValidityForAll();
-                _this.updateBackupItem(item);
+            this.services.lastTime.updateItem(item).then(response => {
+                this.calculateValidityForAll();
+                this.updateBackupItem(item);
             });
         }
-    };
-    LastTimeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'lasttime',
-            template: __webpack_require__(/*! ./lasttime.template.html */ "./src/app/lasttime/lasttime.template.html"),
-            providers: [
-                _lasttime_service__WEBPACK_IMPORTED_MODULE_3__["LastTimeService"]
-            ],
-            styles: [__webpack_require__(/*! ./lasttime.css */ "./src/app/lasttime/lasttime.css")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_lasttime_service__WEBPACK_IMPORTED_MODULE_3__["LastTimeService"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])
-    ], LastTimeComponent);
-    return LastTimeComponent;
-}());
-
+    }
+};
+LastTimeComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'lasttime',
+        template: __webpack_require__(/*! ./lasttime.template.html */ "./src/app/lasttime/lasttime.template.html"),
+        providers: [
+            lasttime_service_1.LastTimeService
+        ],
+        styles: [__webpack_require__(/*! ./lasttime.css */ "./src/app/lasttime/lasttime.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [lasttime_service_1.LastTimeService,
+        platform_browser_1.Title])
+], LastTimeComponent);
+exports.LastTimeComponent = LastTimeComponent;
 
 
 /***/ }),
@@ -1355,26 +1255,20 @@ module.exports = ".lasttime-list {\r\n    display: flex;\r\n    flex-wrap: wrap;
 /*!**********************************************!*\
   !*** ./src/app/lasttime/lasttime.service.ts ***!
   \**********************************************/
-/*! exports provided: LastTimeService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LastTimeService", function() { return LastTimeService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_LastTime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/LastTime */ "./src/crosscommon/entities/LastTime.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 
-
-
-
-
-
-var LastTimeService = /** @class */ (function () {
-    function LastTimeService(storage, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const LastTime_1 = __webpack_require__(/*! ../../crosscommon/entities/LastTime */ "./src/crosscommon/entities/LastTime.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+let LastTimeService = class LastTimeService {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -1390,52 +1284,45 @@ var LastTimeService = /** @class */ (function () {
         this.storage = storage;
         this.sync = sync;
     }
-    LastTimeService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    LastTimeService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var filter, query, sort;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                filter = {
-                    gc: 'AND',
-                    cont: [{
-                            f: 'lst_ctg_status',
-                            op: 'eq',
-                            val: 1
-                        }]
-                };
-                query = "?q=" + JSON.stringify(filter);
-                sort = (function (a, b) {
-                    return a.lst_date_mod.getTime() > b.lst_date_mod.getTime() ? 1 : -1;
-                });
-                return [2 /*return*/, this.sync.get("" + this.config.api.list + query).then(function (data) {
-                        _this.data = data.map(function (d) { return new _crosscommon_entities_LastTime__WEBPACK_IMPORTED_MODULE_1__["LastTime"](d); });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const filter = {
+                gc: 'AND',
+                cont: [{
+                        f: 'lst_ctg_status',
+                        op: 'eq',
+                        val: 1
+                    }]
+            };
+            const query = `?q=${JSON.stringify(filter)}`;
+            const sort = ((a, b) => {
+                return a.lst_date_mod.getTime() > b.lst_date_mod.getTime() ? 1 : -1;
+            });
+            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+                this.data = data.map((d) => new LastTime_1.LastTime(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    LastTimeService.prototype.getAllForUser = function (user) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                return [2 /*return*/, this.getAll().then(function (all) {
-                        return all.filter(function (x) { return x.lst_id_user === user; });
-                    })];
+    }
+    getAllForUser(user) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll().then((all) => {
+                return all.filter((x) => x.lst_id_user === user);
             });
         });
-    };
-    LastTimeService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
-    };
-    LastTimeService.prototype.newItem = function (name, value, validity, tags, notes, user) {
-        var _this = this;
-        var newId = _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashIdForEntity(new _crosscommon_entities_LastTime__WEBPACK_IMPORTED_MODULE_1__["LastTime"](), 'lst_id');
-        var newItem = new _crosscommon_entities_LastTime__WEBPACK_IMPORTED_MODULE_1__["LastTime"]({
+    }
+    newItem(name, value, validity, tags, notes, user) {
+        let newId = Utility_1.Utils.hashIdForEntity(new LastTime_1.LastTime(), 'lst_id');
+        let newItem = new LastTime_1.LastTime({
             lst_id: newId,
             lst_name: name,
             lst_value: value,
@@ -1447,51 +1334,49 @@ var LastTimeService = /** @class */ (function () {
             lst_date_mod: new Date(),
             lst_ctg_status: 1
         });
-        return this.sync.post(this.config.api.create, newItem).then(function (response) {
+        return this.sync.post(this.config.api.create, newItem).then(response => {
             if (response.processOk) {
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             else {
                 newItem['sync'] = false;
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             return newItem;
-        }).catch(function (err) {
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
             newItem['sync'] = false;
-            _this.data.push(newItem);
+            this.data.push(newItem);
             return newItem;
         });
-    };
-    LastTimeService.prototype.updateItem = function (item) {
-        var _this = this;
-        var updateLocal = function () {
-            var index = _this.data.findIndex(function (e) { return e.lst_id === item.lst_id; });
+    }
+    updateItem(item) {
+        const updateLocal = () => {
+            const index = this.data.findIndex(e => e.lst_id === item.lst_id);
             if (index !== -1) {
-                _this.data[index] = item;
+                this.data[index] = item;
             }
         };
-        return this.sync.post(this.config.api.update.replace(':id', item.lst_id), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].entityToRawTableFields(item)).then(function (response) {
+        return this.sync.post(this.config.api.update.replace(':id', item.lst_id), Utility_1.Utils.entityToRawTableFields(item)).then(response => {
             if (!response.operationOk) {
                 item['sync'] = false;
             }
             updateLocal();
             return item;
-        }).catch(function (err) {
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
             console.log('error on update', err);
             item['sync'] = false;
             updateLocal();
             return item;
         });
-    };
-    LastTimeService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], LastTimeService);
-    return LastTimeService;
-}());
-
+    }
+};
+LastTimeService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], LastTimeService);
+exports.LastTimeService = LastTimeService;
 
 
 /***/ }),
@@ -1511,24 +1396,21 @@ module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n
 /*!********************************************!*\
   !*** ./src/app/money/account.component.ts ***!
   \********************************************/
-/*! exports provided: AccountComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccountComponent", function() { return AccountComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _account_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./account.type */ "./src/app/money/account.type.ts");
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 //import { TasksCore } from '../app/tasks.core';
 //import { SyncAPI } from '../app/sync.api';
-
-var AccountComponent = /** @class */ (function () {
-    function AccountComponent() {
+const account_type_1 = __webpack_require__(/*! ./account.type */ "./src/app/money/account.type.ts");
+let AccountComponent = class AccountComponent {
+    constructor() {
         this.accountList = [];
-        var a = new _account_type__WEBPACK_IMPORTED_MODULE_2__["Account"]({
+        let a = new account_type_1.Account({
             acc_id: "001",
             acc_name: "CAPITAL",
             acc_ctg_type: 4,
@@ -1538,7 +1420,7 @@ var AccountComponent = /** @class */ (function () {
             acc_payment_day: 0
         });
         this.accountList.push(a);
-        a = new _account_type__WEBPACK_IMPORTED_MODULE_2__["Account"]({
+        a = new account_type_1.Account({
             acc_id: "002",
             acc_name: "Mosho Cartera",
             acc_ctg_type: 1,
@@ -1549,21 +1431,20 @@ var AccountComponent = /** @class */ (function () {
         });
         this.accountList.push(a);
     }
-    AccountComponent.prototype.ngOnInit = function () {
-    };
-    AccountComponent.prototype.showNewAccountForm = function () {
-    };
-    AccountComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'account',
-            template: __webpack_require__(/*! ./account.template.html */ "./src/app/money/account.template.html"),
-            providers: []
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], AccountComponent);
-    return AccountComponent;
-}());
-
+    ngOnInit() {
+    }
+    showNewAccountForm() {
+    }
+};
+AccountComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'account',
+        template: __webpack_require__(/*! ./account.template.html */ "./src/app/money/account.template.html"),
+        providers: []
+    }),
+    tslib_1.__metadata("design:paramtypes", [])
+], AccountComponent);
+exports.AccountComponent = AccountComponent;
 
 
 /***/ }),
@@ -1572,24 +1453,19 @@ var AccountComponent = /** @class */ (function () {
 /*!******************************************!*\
   !*** ./src/app/money/account.service.ts ***!
   \******************************************/
-/*! exports provided: AccountService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccountService", function() { return AccountService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Account__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Account */ "./src/crosscommon/entities/Account.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 
-
-
-
-
-var AccountService = /** @class */ (function () {
-    function AccountService(storage, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Account_1 = __webpack_require__(/*! ../../crosscommon/entities/Account */ "./src/crosscommon/entities/Account.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+let AccountService = class AccountService {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -1602,9 +1478,9 @@ var AccountService = /** @class */ (function () {
         this.storage = storage;
         this.sync = sync;
     }
-    AccountService.prototype.initialData = function () {
-        var list;
-        var data = [{
+    initialData() {
+        let list;
+        let data = [{
                 acc_id: '1',
                 acc_name: 'Capital'
             }, {
@@ -1689,51 +1565,52 @@ var AccountService = /** @class */ (function () {
                 acc_id: '28',
                 acc_name: 'LPHT Cred Bancomer'
             }];
-        list = data.map(function (d) { return new _crosscommon_entities_Account__WEBPACK_IMPORTED_MODULE_1__["Account"](d); });
+        list = data.map((d) => new Account_1.Account(d));
         return list;
-    };
-    AccountService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var sort, filter, query;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                sort = (function (a, b) {
-                    return a.acc_name > b.acc_name ? 1 : -1;
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            /*let fromStorage = this.storage.get(this.config.storageKey);
+            if (fromStorage){
+                this.data = JSON.parse(fromStorage);
+            } else {
+                this.data = this.initialData();
+            }*/
+            const sort = ((a, b) => {
+                return a.acc_name > b.acc_name ? 1 : -1;
+            });
+            const filter = {
+                gc: 'AND',
+                cont: [{
+                        f: 'acc_ctg_status',
+                        op: 'eq',
+                        val: '1'
+                    }, {
+                        f: 'acc_ctg_type',
+                        op: 'ne',
+                        val: '4'
+                    }]
+            };
+            const query = `?q=${JSON.stringify(filter)}`;
+            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+                this.data = data.map((d) => {
+                    let item = new Account_1.Account(d);
+                    item['bal_final'] = d['bal_final'];
+                    return item;
                 });
-                filter = {
-                    gc: 'AND',
-                    cont: [{
-                            f: 'acc_ctg_status',
-                            op: 'eq',
-                            val: '1'
-                        }, {
-                            f: 'acc_ctg_type',
-                            op: 'ne',
-                            val: '4'
-                        }]
-                };
-                query = "?q=" + JSON.stringify(filter);
-                return [2 /*return*/, this.sync.get("" + this.config.api.list + query).then(function (data) {
-                        _this.data = data.map(function (d) {
-                            var item = new _crosscommon_entities_Account__WEBPACK_IMPORTED_MODULE_1__["Account"](d);
-                            item['bal_final'] = d['bal_final'];
-                            return item;
-                        });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    AccountService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], AccountService);
-    return AccountService;
-}());
-
+    }
+};
+AccountService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], AccountService);
+exports.AccountService = AccountService;
 
 
 /***/ }),
@@ -1753,14 +1630,14 @@ module.exports = "<div>\r\n    <strong>Account List</strong>\r\n    <button (cli
 /*!***************************************!*\
   !*** ./src/app/money/account.type.ts ***!
   \***************************************/
-/*! exports provided: Account */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Account", function() { return Account; });
-var Account = /** @class */ (function () {
-    function Account(base) {
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Account {
+    constructor(base) {
         if (base !== undefined) {
             this.acc_id = base.acc_id;
             this.acc_name = base.acc_name;
@@ -1773,9 +1650,8 @@ var Account = /** @class */ (function () {
             this.acc_txt_type = base.acc_txt_type;
         }
     }
-    return Account;
-}());
-
+}
+exports.Account = Account;
 
 
 /***/ }),
@@ -1784,24 +1660,19 @@ var Account = /** @class */ (function () {
 /*!********************************************!*\
   !*** ./src/app/money/balance.component.ts ***!
   \********************************************/
-/*! exports provided: BalanceComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BalanceComponent", function() { return BalanceComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _balance_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
-/* harmony import */ var _movement_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
 
-
-
-
-
-var BalanceComponent = /** @class */ (function () {
-    function BalanceComponent(balanceService, movementService, titleService) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const balance_service_1 = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
+const movement_service_1 = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
+let BalanceComponent = class BalanceComponent {
+    constructor(balanceService, movementService, titleService) {
         this.titleService = titleService;
         this.user = 'anon';
         this.viewData = {
@@ -1826,77 +1697,72 @@ var BalanceComponent = /** @class */ (function () {
         this.services.movement = movementService;
         titleService.setTitle('Balance');
     }
-    BalanceComponent.prototype.ngOnInit = function () {
-        var _this = this;
+    ngOnInit() {
         this.model.iterable = (new Date()).getFullYear() * 100 + ((new Date()).getMonth() + 1);
         this.parseIterable();
-        this.services.balance.getAllForUser(this.user).then(function (list) {
-            _this.viewData.balance = list;
+        this.services.balance.getAllForUser(this.user).then((list) => {
+            this.viewData.balance = list;
             /*this.viewData.balance = this.viewData.balance
             .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
             .slice(0,10);*/
-            _this.viewData.monthBalance = _this.filterMonthBalance();
+            this.viewData.monthBalance = this.filterMonthBalance();
             //this.viewData.monthBalance = this.services.balance.list;
             // TODO: add list of year/months of balance for combo box
-            _this.viewData.monthList = _this.services.balance.monthList(_this.user);
+            this.viewData.monthList = this.services.balance.monthList(this.user);
         });
-    };
-    BalanceComponent.prototype.parseIterable = function () {
+    }
+    parseIterable() {
         this.model.year = Math.floor(this.model.iterable / 100);
         this.model.month = this.model.iterable % 100;
-    };
-    BalanceComponent.prototype.reloadBalance = function () {
-        var _this = this;
+    }
+    reloadBalance() {
         this.parseIterable();
         this.viewData.monthBalance = this.filterMonthBalance();
         if (this.model.selectedBalance) {
-            this.model.selectedBalance = this.viewData.balance.find(function (b) { return b.bal_id_account === _this.model.selectedBalance.bal_id_account && b.bal_year === _this.model.year && b.bal_month === _this.model.month; });
+            this.model.selectedBalance = this.viewData.balance.find(b => b.bal_id_account === this.model.selectedBalance.bal_id_account && b.bal_year === this.model.year && b.bal_month === this.model.month);
             this.renderMovements(this.model.selectedBalance, undefined);
         }
-    };
-    BalanceComponent.prototype.filterMonthBalance = function () {
-        var _this = this;
-        var filter = function (b) { return b.bal_year == _this.model.year && b.bal_month == _this.model.month; };
+    }
+    filterMonthBalance() {
+        let filter = (b) => b.bal_year == this.model.year && b.bal_month == this.model.month;
         if (this.viewData.filterNonZero) {
-            filter = function (b) { return b.bal_year == _this.model.year && b.bal_month == _this.model.month
-                && !(b.bal_initial === 0 && b.bal_charges === 0 && b.bal_withdrawals === 0 && b.bal_final === 0); };
+            filter = (b) => b.bal_year == this.model.year && b.bal_month == this.model.month
+                && !(b.bal_initial === 0 && b.bal_charges === 0 && b.bal_withdrawals === 0 && b.bal_final === 0);
         }
-        return this.services.balance.list().filter(function (b) { return filter(b); });
-    };
-    BalanceComponent.prototype.toggleFilterNonZero = function () {
+        return this.services.balance.list().filter((b) => filter(b));
+    }
+    toggleFilterNonZero() {
         this.viewData.filterNonZero = !this.viewData.filterNonZero;
         this.viewData.monthBalance = this.filterMonthBalance();
-    };
-    BalanceComponent.prototype.renderMovements = function (balance, event) {
-        var _this = this;
+    }
+    renderMovements(balance, event) {
         event && event.preventDefault && event.preventDefault();
-        this.services.movement.getAllForUser(this.user).then(function (list) {
-            var ref = balance.bal_year * 100 + balance.bal_month;
-            _this.viewData.movements = list.filter(function (m) {
-                var movRef = (new Date(m.mov_date)).getFullYear() * 100 + ((new Date(m.mov_date)).getMonth() + 1);
+        this.services.movement.getAllForUser(this.user).then((list) => {
+            let ref = balance.bal_year * 100 + balance.bal_month;
+            this.viewData.movements = list.filter(m => {
+                let movRef = (new Date(m.mov_date)).getFullYear() * 100 + ((new Date(m.mov_date)).getMonth() + 1);
                 return ref === movRef && (balance.bal_id_account === m.mov_id_account || balance.bal_id_account === m.mov_id_account_to);
             });
-            _this.model.selectedBalance = balance;
-            console.log("movements fetched for balance", balance, _this.viewData.movements);
+            this.model.selectedBalance = balance;
+            console.log(`movements fetched for balance`, balance, this.viewData.movements);
         });
-    };
-    BalanceComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'balance',
-            template: __webpack_require__(/*! ./balance.template.html */ "./src/app/money/balance.template.html"),
-            providers: [
-                _balance_service__WEBPACK_IMPORTED_MODULE_3__["BalanceService"],
-                _movement_service__WEBPACK_IMPORTED_MODULE_4__["MovementService"]
-            ],
-            styles: [__webpack_require__(/*! ./balance.css */ "./src/app/money/balance.css")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_balance_service__WEBPACK_IMPORTED_MODULE_3__["BalanceService"],
-            _movement_service__WEBPACK_IMPORTED_MODULE_4__["MovementService"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])
-    ], BalanceComponent);
-    return BalanceComponent;
-}());
-
+    }
+};
+BalanceComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'balance',
+        template: __webpack_require__(/*! ./balance.template.html */ "./src/app/money/balance.template.html"),
+        providers: [
+            balance_service_1.BalanceService,
+            movement_service_1.MovementService
+        ],
+        styles: [__webpack_require__(/*! ./balance.css */ "./src/app/money/balance.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [balance_service_1.BalanceService,
+        movement_service_1.MovementService,
+        platform_browser_1.Title])
+], BalanceComponent);
+exports.BalanceComponent = BalanceComponent;
 
 
 /***/ }),
@@ -1916,28 +1782,21 @@ module.exports = ".balance-row:nth-child(even) {\r\n    background-color: lightg
 /*!******************************************!*\
   !*** ./src/app/money/balance.service.ts ***!
   \******************************************/
-/*! exports provided: BalanceService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BalanceService", function() { return BalanceService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Balance__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Balance */ "./src/crosscommon/entities/Balance.ts");
-/* harmony import */ var _entry_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 
-
-
-
-
-
-
-var BalanceService = /** @class */ (function () {
-    function BalanceService(storage, entryService, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Balance_1 = __webpack_require__(/*! ../../crosscommon/entities/Balance */ "./src/crosscommon/entities/Balance.ts");
+const entry_service_1 = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const DateUtility_1 = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+let BalanceService = class BalanceService {
+    constructor(storage, entryService, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -1954,14 +1813,14 @@ var BalanceService = /** @class */ (function () {
         this.entryService = entryService;
         this.sync = sync;
         // get api root
-        var options = storage.getObject('Options');
+        const options = storage.getObject('Options');
         this.apiRoot = options ? options['optServerAddress'] : '';
     }
-    BalanceService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    BalanceService.prototype.initialData = function () {
-        var list = [];
+    }
+    initialData() {
+        let list = [];
         // let newData = (
         //     mov_id: string
         //     , mov_date: Date
@@ -2014,54 +1873,52 @@ var BalanceService = /** @class */ (function () {
         //     return new Entry(d);
         // });
         return list;
-    };
-    BalanceService.prototype.getAll = function () {
-        var _this = this;
+    }
+    getAll() {
         /*let fromStorage = this.storage.get(this.config.storageKey);
         if (fromStorage){
             this.data = JSON.parse(fromStorage);
         } else {
             this.data = this.initialData();
         }*/
-        var sort = (function (a, b) {
+        const sort = ((a, b) => {
             if (a.bal_txt_account === 'Capital') {
                 return 1;
             }
             return a.bal_txt_account > b.bal_txt_account ? 1 : -1;
         });
-        return this.sync.get("" + this.apiRoot + this.config.api.list).then(function (data) {
-            _this.data = data.map(function (d) { return new _crosscommon_entities_Balance__WEBPACK_IMPORTED_MODULE_1__["Balance"](d); });
-            _this.data = _this.data.sort(sort);
-            return _this.data;
+        return this.sync.get(`${this.apiRoot}${this.config.api.list}`).then(data => {
+            this.data = data.map((d) => new Balance_1.Balance(d));
+            this.data = this.data.sort(sort);
+            return this.data;
         });
-    };
-    BalanceService.prototype.getAllForUser = function (user) {
-        return this.getAll().then(function (list) {
-            return list.filter(function (x) { return x.bal_id_user === user; });
+    }
+    getAllForUser(user) {
+        return this.getAll().then((list) => {
+            return list.filter((x) => x.bal_id_user === user);
         });
-    };
-    BalanceService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         // this.storage.set(this.config.storageKey,JSON.stringify(this.data));
-    };
-    BalanceService.prototype.newItem = function (item) {
-        var newItem = new _crosscommon_entities_Balance__WEBPACK_IMPORTED_MODULE_1__["Balance"](item);
+    }
+    newItem(item) {
+        let newItem = new Balance_1.Balance(item);
         this.data.push(newItem);
         this.saveToStorage();
         return newItem;
-    };
-    BalanceService.prototype.add = function (entryList) {
-        var _this = this;
-        var balance = this.list();
+    }
+    add(entryList) {
+        let balance = this.list();
         // add up
-        entryList.forEach(function (e) {
-            var b = balance.find(function (b) { return b.bal_year === e.ent_date.getFullYear() && b.bal_month === e.ent_date.getMonth() + 1 && b.bal_id_account === e.ent_id_account && b.bal_id_user === e.ent_id_user; });
+        entryList.forEach((e) => {
+            let b = balance.find(b => b.bal_year === e.ent_date.getFullYear() && b.bal_month === e.ent_date.getMonth() + 1 && b.bal_id_account === e.ent_id_account && b.bal_id_user === e.ent_id_user);
             if (b) { // exists a balance, add entry amount
                 b.bal_charges += e.ent_ctg_type === 2 ? e.ent_amount : 0;
                 b.bal_withdrawals += e.ent_ctg_type === 1 ? e.ent_amount : 0;
                 b.bal_final += e.ent_ctg_type === 1 ? -1 * e.ent_amount : e.ent_amount;
             }
             else { // balance does not exist, create one with amount and add it to list
-                b = new _crosscommon_entities_Balance__WEBPACK_IMPORTED_MODULE_1__["Balance"]();
+                b = new Balance_1.Balance();
                 b.bal_year = e.ent_date.getFullYear();
                 b.bal_month = e.ent_date.getMonth() + 1;
                 b.bal_id_account = e.ent_id_account;
@@ -2071,34 +1928,33 @@ var BalanceService = /** @class */ (function () {
                 b.bal_final = b.bal_charges - b.bal_withdrawals;
                 b.bal_id_user = e.ent_id_user;
                 b.bal_txt_account = e.ent_txt_account;
-                _this.data.push(b);
+                this.data.push(b);
             }
-            _this.saveToStorage();
+            this.saveToStorage();
         });
-    };
-    BalanceService.prototype.getAllForMonth = function (year, month, user) {
-        return this.list().filter(function (b) { return b.bal_year === year && b.bal_month === month; });
-    };
-    BalanceService.prototype.rebuild = function (year, month, user) {
-        var _this = this;
-        this.entryService.getAllForUser(user).then(function (entryList) {
-            entryList.filter(function (e) { return (new Date(e.ent_date)).getFullYear() === year && (new Date(e.ent_date)).getMonth() + 1 === month; });
-            var balance = _this.getAllForMonth(year, month, user);
-            balance.forEach(function (b) {
+    }
+    getAllForMonth(year, month, user) {
+        return this.list().filter((b) => b.bal_year === year && b.bal_month === month);
+    }
+    rebuild(year, month, user) {
+        this.entryService.getAllForUser(user).then((entryList) => {
+            entryList.filter((e) => (new Date(e.ent_date)).getFullYear() === year && (new Date(e.ent_date)).getMonth() + 1 === month);
+            let balance = this.getAllForMonth(year, month, user);
+            balance.forEach((b) => {
                 b.bal_charges = 0;
                 b.bal_withdrawals = 0;
                 b.bal_final = b.bal_initial;
             });
             // add up
-            entryList.forEach(function (e) {
-                var b = balance.find(function (b) { return b.bal_id_account === e.ent_id_account; });
+            entryList.forEach((e) => {
+                let b = balance.find(b => b.bal_id_account === e.ent_id_account);
                 if (b) { // exists a balance, add entry amount
                     b.bal_charges += e.ent_ctg_type === 2 ? e.ent_amount : 0;
                     b.bal_withdrawals += e.ent_ctg_type === 1 ? e.ent_amount : 0;
                     b.bal_final += e.ent_ctg_type === 1 ? -1 * e.ent_amount : e.ent_amount;
                 }
                 else { // balance does not exist, create one with amount and add it to list
-                    b = new _crosscommon_entities_Balance__WEBPACK_IMPORTED_MODULE_1__["Balance"]();
+                    b = new Balance_1.Balance();
                     b.bal_year = year;
                     b.bal_month = month;
                     b.bal_id_account = e.ent_id_account;
@@ -2108,32 +1964,31 @@ var BalanceService = /** @class */ (function () {
                     b.bal_final = b.bal_charges - b.bal_withdrawals;
                     b.bal_id_user = e.ent_id_user;
                     b.bal_txt_account = e.ent_txt_account;
-                    _this.data.push(b);
+                    this.data.push(b);
                     balance.push(b);
                 }
             });
-            _this.saveToStorage();
+            this.saveToStorage();
         });
-    };
-    BalanceService.prototype.transfer = function (year, month, user) {
-        var _this = this;
-        var currentDate = new Date();
+    }
+    transfer(year, month, user) {
+        let currentDate = new Date();
         if (year * 100 + month >= currentDate.getFullYear() * 100 + currentDate.getMonth() + 1) {
             // cannot transfer current month
             return;
         }
-        var balanceCurrent = this.getAllForMonth(year, month, user);
-        var nextMonth = this.getNextMonth(year, month);
-        var balanceNext = this.getAllForMonth(nextMonth.year, nextMonth.month, user);
-        balanceCurrent.forEach(function (bc) {
-            var bn = balanceNext.find(function (b) { return b.bal_id_account === bc.bal_id_account; });
+        let balanceCurrent = this.getAllForMonth(year, month, user);
+        let nextMonth = this.getNextMonth(year, month);
+        let balanceNext = this.getAllForMonth(nextMonth.year, nextMonth.month, user);
+        balanceCurrent.forEach((bc) => {
+            let bn = balanceNext.find(b => b.bal_id_account === bc.bal_id_account);
             if (bn) {
                 bn.bal_initial = bc.bal_final;
                 bn.bal_final = bn.bal_initial + bn.bal_charges - bn.bal_withdrawals;
                 console.log('found a balance record, updated', bn);
             }
             else {
-                bn = new _crosscommon_entities_Balance__WEBPACK_IMPORTED_MODULE_1__["Balance"]();
+                bn = new Balance_1.Balance();
                 bn.bal_year = nextMonth.year;
                 bn.bal_month = nextMonth.month;
                 bn.bal_id_account = bc.bal_id_account;
@@ -2144,17 +1999,17 @@ var BalanceService = /** @class */ (function () {
                 bn.bal_id_user = user;
                 bn.bal_txt_account = bc.bal_txt_account;
                 console.log('new balance record', bn);
-                _this.data.push(bn);
+                this.data.push(bn);
             }
         });
         this.saveToStorage();
-    };
-    BalanceService.prototype.rebuildAndTransfer = function (year, month, user) {
+    }
+    rebuildAndTransfer(year, month, user) {
         this.rebuild(year, month, user);
         this.transfer(year, month, user);
-    };
-    BalanceService.prototype.rebuildAndTransferRange = function (yearInitial, monthInitial, yearFinal, monthFinal, user) {
-        var control = {
+    }
+    rebuildAndTransferRange(yearInitial, monthInitial, yearFinal, monthFinal, user) {
+        let control = {
             year: yearInitial,
             month: monthInitial,
             iterable: yearInitial * 100 + monthInitial
@@ -2164,8 +2019,8 @@ var BalanceService = /** @class */ (function () {
             this.transfer(control.year, control.month, user);
             control = this.getNextMonth(control.year, control.month);
         }
-    };
-    BalanceService.prototype.getNextMonth = function (year, month) {
+    }
+    getNextMonth(year, month) {
         if (month === 12) {
             return {
                 year: year + 1,
@@ -2175,25 +2030,25 @@ var BalanceService = /** @class */ (function () {
         }
         else {
             return {
-                year: year,
+                year,
                 month: month + 1,
                 iterable: (year * 100) + month + 1
             };
         }
-    };
-    BalanceService.prototype.parseMonthName = function (iterable) {
-        var year = Math.floor(iterable / 100);
-        var month = iterable % 100;
-        var monthName = _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_6__["DateUtils"].getMonthName(month);
-        return year + " / " + monthName;
-    };
-    BalanceService.prototype.monthList = function (user) {
-        var iterable = this.list()
-            .map(function (b) { return ({
+    }
+    parseMonthName(iterable) {
+        let year = Math.floor(iterable / 100);
+        let month = iterable % 100;
+        const monthName = DateUtility_1.DateUtils.getMonthName(month);
+        return `${year} / ${monthName}`;
+    }
+    monthList(user) {
+        let iterable = this.list()
+            .map((b) => ({
             iterable: b.bal_year * 100 + b.bal_month,
             year: b.bal_year,
             month: b.bal_month
-        }); }).reduce(function (previous, current) {
+        })).reduce((previous, current) => {
             return previous.iterable < current.iterable ? previous : current;
         }, 999900);
         if (!iterable) {
@@ -2203,22 +2058,21 @@ var BalanceService = /** @class */ (function () {
                 month: 2
             };
         }
-        var monthList = [];
-        var currentIterable = (new Date()).getFullYear() * 100 + ((new Date()).getMonth() + 1);
+        let monthList = [];
+        let currentIterable = (new Date()).getFullYear() * 100 + ((new Date()).getMonth() + 1);
         while (iterable.iterable <= currentIterable) {
             iterable.name = this.parseMonthName(iterable.iterable);
             monthList.push(iterable);
             iterable = this.getNextMonth(iterable.year, iterable.month);
         }
         return monthList.reverse();
-    };
-    BalanceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_3__["StorageService"], _entry_service__WEBPACK_IMPORTED_MODULE_2__["EntryService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_5__["SyncAPI"]])
-    ], BalanceService);
-    return BalanceService;
-}());
-
+    }
+};
+BalanceService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, entry_service_1.EntryService, sync_api_1.SyncAPI])
+], BalanceService);
+exports.BalanceService = BalanceService;
 
 
 /***/ }),
@@ -2238,26 +2092,20 @@ module.exports = "<div>\r\n    <strong>Balance</strong>\r\n\r\n    <span class=\
 /*!*******************************************!*\
   !*** ./src/app/money/category.service.ts ***!
   \*******************************************/
-/*! exports provided: CategoryService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryService", function() { return CategoryService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Category */ "./src/crosscommon/entities/Category.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 
-
-
-
-
-
-var CategoryService = /** @class */ (function () {
-    function CategoryService(storage, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Category_1 = __webpack_require__(/*! ../../crosscommon/entities/Category */ "./src/crosscommon/entities/Category.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+let CategoryService = class CategoryService {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -2272,63 +2120,61 @@ var CategoryService = /** @class */ (function () {
         this.storage = storage;
         this.sync = sync;
     }
-    CategoryService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    CategoryService.prototype.initialData = function () {
-        var _this = this;
-        var list;
-        var newData = function (mct_id, mct_name) {
-            return { mct_id: mct_id, mct_name: mct_name };
+    }
+    initialData() {
+        let list;
+        let newData = (mct_id, mct_name) => {
+            return { mct_id, mct_name };
         };
-        var data = [];
+        let data = [];
         data.push(newData('1', 'Cap'));
         data.push(newData('2', 'Cart'));
-        list = data.map(function (d) {
-            d.mct_id_user = _this.config.defaultUser;
-            return new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"](d);
+        list = data.map((d) => {
+            d.mct_id_user = this.config.defaultUser;
+            return new Category_1.Category(d);
         });
         return list;
-    };
-    CategoryService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var sort;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                sort = (function (a, b) {
-                    return a.mct_name > b.mct_name ? 1 : -1;
-                });
-                return [2 /*return*/, this.sync.get("" + this.config.api.list).then(function (data) {
-                        _this.data = data.map(function (d) { return new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"](d); });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            /*let fromStorage = this.storage.get(this.config.storageKey);
+            if (fromStorage){
+                this.data = JSON.parse(fromStorage);
+            } else {
+                this.data = this.initialData();
+            }*/
+            const sort = ((a, b) => {
+                return a.mct_name > b.mct_name ? 1 : -1;
+            });
+            return this.sync.get(`${this.config.api.list}`).then(data => {
+                this.data = data.map((d) => new Category_1.Category(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    CategoryService.prototype.getAllForUser = function (user) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                return [2 /*return*/, this.getAll().then(function (all) {
-                        return all.filter(function (x) { return x.mct_id_user === user; });
-                    })];
+    }
+    getAllForUser(user) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll().then((all) => {
+                return all.filter((x) => x.mct_id_user === user);
             });
         });
-    };
-    CategoryService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
-    };
-    CategoryService.prototype.newId = function () {
-        var m = new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"]();
-        var length = m.metadata.fields.find(function (f) { return f.dbName === 'mct_id'; }).size;
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashId(m.metadata.prefix, length);
-    };
-    CategoryService.prototype.newItem = function (category, user) {
-        var _this = this;
-        var newId = this.newId();
-        var newItem = new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"]({
+    }
+    newId() {
+        const m = new Category_1.Category();
+        const length = m.metadata.fields.find(f => f.dbName === 'mct_id').size;
+        return Utility_1.Utils.hashId(m.metadata.prefix, length);
+    }
+    newItem(category, user) {
+        let newId = this.newId();
+        let newItem = new Category_1.Category({
             mct_id: newId,
             mct_name: category,
             mct_id_user: user,
@@ -2338,29 +2184,28 @@ var CategoryService = /** @class */ (function () {
         });
         //this.data.push(newItem);
         //this.saveToStorage();
-        return this.sync.post(this.config.api.create, newItem).then(function (response) {
+        return this.sync.post(this.config.api.create, newItem).then(response => {
             if (response.processOk) {
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             else {
                 newItem['sync'] = false;
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             return newItem;
-        }).catch(function (err) {
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
             newItem['sync'] = false;
-            _this.data.push(newItem);
+            this.data.push(newItem);
             return newItem;
         });
-    };
-    CategoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], CategoryService);
-    return CategoryService;
-}());
-
+    }
+};
+CategoryService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], CategoryService);
+exports.CategoryService = CategoryService;
 
 
 /***/ }),
@@ -2369,24 +2214,19 @@ var CategoryService = /** @class */ (function () {
 /*!****************************************!*\
   !*** ./src/app/money/entry.service.ts ***!
   \****************************************/
-/*! exports provided: EntryService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EntryService", function() { return EntryService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 
-
-
-
-
-var EntryService = /** @class */ (function () {
-    function EntryService(storage, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Entry_1 = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+let EntryService = class EntryService {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -2397,14 +2237,14 @@ var EntryService = /** @class */ (function () {
         this.apiRoot = '';
         this.storage = storage;
         this.sync = sync;
-        var options = storage.getObject('Options');
+        const options = storage.getObject('Options');
         this.apiRoot = options ? options['optServerAddress'] : '';
     }
-    EntryService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    EntryService.prototype.initialData = function () {
-        var list = [];
+    }
+    initialData() {
+        let list = [];
         // let newData = (
         //     mov_id: string
         //     , mov_date: Date
@@ -2457,10 +2297,9 @@ var EntryService = /** @class */ (function () {
         //     return new Entry(d);
         // });
         return list;
-    };
-    EntryService.prototype.getAll = function () {
-        var _this = this;
-        var sort = (function (a, b) {
+    }
+    getAll() {
+        const sort = ((a, b) => {
             if (a.ent_date < b.ent_date) {
                 return -1;
             }
@@ -2471,38 +2310,37 @@ var EntryService = /** @class */ (function () {
                 return 0;
             }
         });
-        return this.sync.get(this.apiRoot + "/api/entries").then(function (data) {
-            _this.data = data.map(function (d) { return new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_1__["Entry"](d); });
-            _this.data = _this.data.sort(sort);
-            return _this.data;
+        return this.sync.get(`${this.apiRoot}/api/entries`).then(data => {
+            this.data = data.map((d) => new Entry_1.Entry(d));
+            this.data = this.data.sort(sort);
+            return this.data;
         });
-    };
-    EntryService.prototype.getAllForUser = function (user) {
-        return this.getAll().then(function (list) {
-            return list.filter(function (x) { return x.ent_id_user === user; });
+    }
+    getAllForUser(user) {
+        return this.getAll().then((list) => {
+            return list.filter((x) => x.ent_id_user === user);
         });
-    };
-    EntryService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         // this.storage.set(this.config.storageKey,JSON.stringify(this.data));
-    };
-    EntryService.prototype.newId = function () {
+    }
+    newId() {
         return this.data.length + 1 + '';
-    };
-    EntryService.prototype.newItem = function (item) {
+    }
+    newItem(item) {
         //let newId: string = this.newId();
         //item.ent_id = newId;
-        var newItem = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_1__["Entry"](item);
+        let newItem = new Entry_1.Entry(item);
         this.data.push(newItem);
         this.saveToStorage();
         return newItem;
-    };
-    EntryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], EntryService);
-    return EntryService;
-}());
-
+    }
+};
+EntryService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], EntryService);
+exports.EntryService = EntryService;
 
 
 /***/ }),
@@ -2511,42 +2349,29 @@ var EntryService = /** @class */ (function () {
 /*!*********************************************!*\
   !*** ./src/app/money/movement.component.ts ***!
   \*********************************************/
-/*! exports provided: MovementComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MovementComponent", function() { return MovementComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../crosscommon/entities/Movement */ "./src/crosscommon/entities/Movement.ts");
-/* harmony import */ var _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
-/* harmony import */ var _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
-/* harmony import */ var _account_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
-/* harmony import */ var _category_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./category.service */ "./src/app/money/category.service.ts");
-/* harmony import */ var _place_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
-/* harmony import */ var _movement_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
-/* harmony import */ var _entry_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _balance_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
-/* harmony import */ var _preset_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
 
-
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 //import { CurrencyPipe } from '@angular/common';
 // types
-
-
-
-
-
-
-
-
-
-
-var MovementComponent = /** @class */ (function () {
-    function MovementComponent(accountService, categoryService, placeService, movementService, entryService, balanceService, presetService, titleService) {
+const Movement_1 = __webpack_require__(/*! ../../crosscommon/entities/Movement */ "./src/crosscommon/entities/Movement.ts");
+const Entry_1 = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
+const Preset_1 = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
+const account_service_1 = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
+const category_service_1 = __webpack_require__(/*! ./category.service */ "./src/app/money/category.service.ts");
+const place_service_1 = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
+const movement_service_1 = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
+const entry_service_1 = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
+const balance_service_1 = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
+const preset_service_1 = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
+let MovementComponent = class MovementComponent {
+    constructor(accountService, categoryService, placeService, movementService, entryService, balanceService, presetService, titleService) {
         this.titleService = titleService;
         this.accounts = [];
         this.user = 'anon';
@@ -2626,38 +2451,36 @@ var MovementComponent = /** @class */ (function () {
         ];
         this.model.date = this.DateToStringDate(new Date());
     }
-    MovementComponent.prototype.retrieveAccountsAndBalance = function () {
-        var _this = this;
-        this.services.account.getAll().then(function (accounts) {
-            _this.accounts = accounts;
-            _this.viewData.accounts = _this.accounts;
+    retrieveAccountsAndBalance() {
+        this.services.account.getAll().then((accounts) => {
+            this.accounts = accounts;
+            this.viewData.accounts = this.accounts;
         });
-    };
-    MovementComponent.prototype.ngOnInit = function () {
-        var _this = this;
+    }
+    ngOnInit() {
         // TODO: this should be refactored the same way as categories and places
         this.retrieveAccountsAndBalance();
-        this.services.category.getAllForUser(this.user).then(function (categories) {
-            _this.viewData.categories = categories;
+        this.services.category.getAllForUser(this.user).then((categories) => {
+            this.viewData.categories = categories;
         });
-        this.services.place.getAllForUser(this.user).then(function (places) {
-            _this.viewData.places = places;
+        this.services.place.getAllForUser(this.user).then((places) => {
+            this.viewData.places = places;
         });
         this.services.entry.getAllForUser(this.user);
-        this.services.preset.getAllForUser(this.user).then(function (list) {
-            _this.viewData.presets = list;
-            var p = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_5__["Preset"]();
+        this.services.preset.getAllForUser(this.user).then((list) => {
+            this.viewData.presets = list;
+            let p = new Preset_1.Preset();
             p.pre_name = '';
-            _this.viewData.presets.unshift(p);
+            this.viewData.presets.unshift(p);
         });
         this.viewData.entries = this.services.entry.list();
         this.viewData.presets = this.services.preset.list();
         this.addNewCategoryForUser = this.addNewCategoryForUser.bind(this);
         this.addNewPlaceForUser = this.addNewPlaceForUser.bind(this);
-        this.services.movement.getAllForUser(this.user).then(function (list) {
-            _this.viewData.movements = list;
-            _this.viewData.movements = _this.viewData.movements
-                .sort(function (a, b) { return a.mov_date >= b.mov_date ? -1 : 1; })
+        this.services.movement.getAllForUser(this.user).then((list) => {
+            this.viewData.movements = list;
+            this.viewData.movements = this.viewData.movements
+                .sort((a, b) => a.mov_date >= b.mov_date ? -1 : 1)
                 .slice(0, 40);
         });
         /* analysis */
@@ -2681,8 +2504,8 @@ var MovementComponent = /** @class */ (function () {
         // });
         // console.log('entries for Mosho Cartera Income',mon.filter((e: Entry) => e.ent_id_account === account && e.ent_ctg_type == 2));
         // console.log('entries for Mosho Cartera Expense',mon.filter((e: Entry) => e.ent_id_account === account && e.ent_ctg_type == 1));
-    };
-    MovementComponent.prototype.movementFlowType = function (value) {
+    }
+    movementFlowType(value) {
         if (!value) {
             return this._movementFlowType;
         }
@@ -2706,110 +2529,109 @@ var MovementComponent = /** @class */ (function () {
             default: {
             }
         }
-    };
-    MovementComponent.prototype.newMovement = function (form) {
-        var _this = this;
+    }
+    newMovement(form) {
         console.log('as preset?', form.value.fAsPreset);
         if (form.value.fAsPreset) {
-            var p_1 = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_5__["Preset"]();
+            let p = new Preset_1.Preset();
             // TODO: hash generator for IDs
-            p_1.pre_id = this.services.preset.newId();
-            p_1.pre_name = form.value.fName;
-            p_1.pre_date = this.stringDateToDate(form.value.fDate);
-            p_1.pre_amount = form.value.fAmount;
-            p_1.pre_id_account = form.value.fAccount;
+            p.pre_id = this.services.preset.newId();
+            p.pre_name = form.value.fName;
+            p.pre_date = this.stringDateToDate(form.value.fDate);
+            p.pre_amount = form.value.fAmount;
+            p.pre_id_account = form.value.fAccount;
             if (this.isTransfer) {
-                p_1.pre_id_account_to = form.value.fAccountTo;
-                p_1.pre_ctg_type = 3;
+                p.pre_id_account_to = form.value.fAccountTo;
+                p.pre_ctg_type = 3;
             }
             else {
-                p_1.pre_ctg_type = form.value.fMovementType;
+                p.pre_ctg_type = form.value.fMovementType;
             }
             if (!this.isTransfer) {
-                p_1.pre_budget = form.value.fBudget || null;
-                p_1.pre_id_category = form.value.fCategory;
-                p_1.pre_id_place = form.value.fPlace;
+                p.pre_budget = form.value.fBudget || null;
+                p.pre_id_category = form.value.fCategory;
+                p.pre_id_place = form.value.fPlace;
             }
             else {
-                p_1.pre_budget = null;
-                p_1.pre_id_category = '0';
-                p_1.pre_id_place = '0';
+                p.pre_budget = null;
+                p.pre_id_category = '0';
+                p.pre_id_place = '0';
             }
-            p_1.pre_desc = form.value.fDescription;
-            p_1.pre_notes = form.value.fNotes;
-            p_1.pre_id_user = this.user;
-            p_1.pre_ctg_status = 1;
-            p_1.pre_txt_type = this.findIn(this.viewData.types, function (e) { return e.ctg_ctg_value == p_1.pre_ctg_type; }, 'ctg_desc');
-            p_1.pre_txt_account = this.findIn(this.viewData.accounts, function (e) { return e.acc_id == p_1.pre_id_account; }, 'acc_name');
+            p.pre_desc = form.value.fDescription;
+            p.pre_notes = form.value.fNotes;
+            p.pre_id_user = this.user;
+            p.pre_ctg_status = 1;
+            p.pre_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == p.pre_ctg_type, 'ctg_desc');
+            p.pre_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == p.pre_id_account, 'acc_name');
             //p.pre_txt_account_to = '';
-            p_1.pre_txt_category = this.findIn(this.viewData.categories, function (e) { return e.mct_id === p_1.pre_id_category; }, 'mct_name');
-            p_1.pre_txt_place = this.findIn(this.viewData.places, function (e) { return e.mpl_id === p_1.pre_id_place; }, 'mpl_name');
-            p_1.pre_txt_status = this.findIn(this.viewData.statuses, function (e) { return e.ctg_ctg_value == p_1.pre_ctg_status; }, 'ctg_desc');
-            this.services.preset.newItem(p_1);
-            this.viewData.presets.push(p_1);
-            console.log('this is the preset', p_1);
+            p.pre_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === p.pre_id_category, 'mct_name');
+            p.pre_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === p.pre_id_place, 'mpl_name');
+            p.pre_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == p.pre_ctg_status, 'ctg_desc');
+            this.services.preset.newItem(p);
+            this.viewData.presets.push(p);
+            console.log('this is the preset', p);
         }
         else {
-            var m_1 = new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_3__["Movement"]();
-            m_1.mov_date = this.stringDateToDate(form.value.fDate);
+            let m = new Movement_1.Movement();
+            m.mov_date = this.stringDateToDate(form.value.fDate);
             if (this.model.id) { // we are editing instead of creating a new movement
-                m_1.mov_id = this.model.id;
+                m.mov_id = this.model.id;
             }
             else {
-                m_1.mov_id = this.services.movement.newId(m_1.mov_date);
+                m.mov_id = this.services.movement.newId(m.mov_date);
             }
-            m_1.mov_desc = form.value.fDescription;
-            m_1.mov_amount = form.value.fAmount;
-            m_1.mov_id_account = form.value.fAccount;
+            m.mov_desc = form.value.fDescription;
+            m.mov_amount = form.value.fAmount;
+            m.mov_id_account = form.value.fAccount;
             if (this.isTransfer) {
-                m_1.mov_id_account_to = form.value.fAccountTo;
-                m_1.mov_ctg_type = 3;
+                m.mov_id_account_to = form.value.fAccountTo;
+                m.mov_ctg_type = 3;
             }
             else {
-                m_1.mov_ctg_type = form.value.fMovementType;
+                m.mov_ctg_type = form.value.fMovementType;
             }
             if (!this.isTransfer) {
-                m_1.mov_budget = form.value.fBudget || null;
-                m_1.mov_id_category = form.value.fCategory;
-                m_1.mov_id_place = form.value.fPlace;
+                m.mov_budget = form.value.fBudget || null;
+                m.mov_id_category = form.value.fCategory;
+                m.mov_id_place = form.value.fPlace;
             }
             else {
-                m_1.mov_budget = null;
-                m_1.mov_id_category = '0';
-                m_1.mov_id_place = '0';
+                m.mov_budget = null;
+                m.mov_id_category = '0';
+                m.mov_id_place = '0';
             }
-            m_1.mov_notes = form.value.fNotes;
-            m_1.mov_id_user = this.user;
-            m_1.mov_ctg_status = 1;
-            m_1.mov_txt_account = this.findIn(this.viewData.accounts, function (e) { return e.acc_id == m_1.mov_id_account; }, 'acc_name');
-            if (m_1.mov_id_account_to) {
-                m_1.mov_txt_account_to = this.findIn(this.viewData.accounts, function (e) { return e.acc_id == m_1.mov_id_account_to; }, 'acc_name');
+            m.mov_notes = form.value.fNotes;
+            m.mov_id_user = this.user;
+            m.mov_ctg_status = 1;
+            m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, 'acc_name');
+            if (m.mov_id_account_to) {
+                m.mov_txt_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account_to, 'acc_name');
             }
-            m_1.mov_txt_type = this.findIn(this.viewData.types, function (e) { return e.ctg_ctg_value == m_1.mov_ctg_type; }, 'ctg_desc');
+            m.mov_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == m.mov_ctg_type, 'ctg_desc');
             //m.mov_txt_budget = m.mov_budget;
-            m_1.mov_txt_category = this.findIn(this.viewData.categories, function (e) { return e.mct_id === m_1.mov_id_category; }, 'mct_name');
-            m_1.mov_txt_place = this.findIn(this.viewData.places, function (e) { return e.mpl_id === m_1.mov_id_place; }, 'mpl_name');
-            m_1.mov_txt_status = this.findIn(this.viewData.statuses, function (e) { return e.ctg_ctg_value == m_1.mov_ctg_status; }, 'ctg_desc');
+            m.mov_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === m.mov_id_category, 'mct_name');
+            m.mov_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === m.mov_id_place, 'mpl_name');
+            m.mov_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == m.mov_ctg_status, 'ctg_desc');
             if (this.model.id) {
                 // edition
-                var existingIndex = this.viewData.movements.findIndex(function (m) { return m.mov_id === _this.model.id; });
-                m_1.mov_date_add = new Date(this.viewData.movements[existingIndex].mov_date_add);
-                this.services.movement.edit(m_1, function () { return _this.retrieveAccountsAndBalance(); });
-                m_1['isEdited'] = true; // flag to render as edited on UI
-                this.viewData.movements[existingIndex] = m_1;
+                const existingIndex = this.viewData.movements.findIndex(m => m.mov_id === this.model.id);
+                m.mov_date_add = new Date(this.viewData.movements[existingIndex].mov_date_add);
+                this.services.movement.edit(m, () => this.retrieveAccountsAndBalance());
+                m['isEdited'] = true; // flag to render as edited on UI
+                this.viewData.movements[existingIndex] = m;
                 this.model.id = null;
             }
             else {
                 // new movement
-                this.services.movement.newItem(m_1, function () { return _this.retrieveAccountsAndBalance(); });
-                m_1['isNew'] = true; // flag to render as new on UI
-                console.log('this is the movement', m_1);
-                this.viewData.movements.unshift(m_1);
+                this.services.movement.newItem(m, () => this.retrieveAccountsAndBalance());
+                m['isNew'] = true; // flag to render as new on UI
+                console.log('this is the movement', m);
+                this.viewData.movements.unshift(m);
                 this.viewData.movements = this.viewData.movements
-                    .sort(function (a, b) { return (new Date(a.mov_date)).getTime() >= (new Date(b.mov_date)).getTime() ? -1 : 1; });
+                    .sort((a, b) => (new Date(a.mov_date)).getTime() >= (new Date(b.mov_date)).getTime() ? -1 : 1);
                 // Entries
-                var localEntries = [];
-                localEntries = this.generateEntriesForMovement(m_1);
+                let localEntries = [];
+                localEntries = this.generateEntriesForMovement(m);
                 console.log('these are all entries', this.services.entry.list);
                 // add to balance
                 this.services.balance.add(localEntries);
@@ -2818,11 +2640,11 @@ var MovementComponent = /** @class */ (function () {
             this.resetForm(form);
             return false;
         }
-    };
-    MovementComponent.prototype.generateEntriesForMovement = function (m) {
-        var localEntries = [];
+    }
+    generateEntriesForMovement(m) {
+        let localEntries = [];
         // TODO: Entry creation should be inside entry.service, just pass the movement as argument
-        var e = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_4__["Entry"]();
+        let e = new Entry_1.Entry();
         e.ent_id = m.mov_id;
         e.ent_sequential = 1;
         e.ent_desc = m.mov_desc;
@@ -2843,7 +2665,7 @@ var MovementComponent = /** @class */ (function () {
         e.ent_txt_place = m.mov_txt_place;
         e.ent_txt_status = m.mov_txt_status;
         localEntries.push(this.services.entry.newItem(e));
-        e = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_4__["Entry"]();
+        e = new Entry_1.Entry();
         e.ent_id = m.mov_id;
         e.ent_sequential = 2;
         e.ent_desc = m.mov_desc;
@@ -2857,54 +2679,52 @@ var MovementComponent = /** @class */ (function () {
         e.ent_notes = m.mov_notes;
         e.ent_id_user = m.mov_id_user;
         e.ent_ctg_status = m.mov_ctg_status;
-        e.ent_txt_account = this.findIn(this.viewData.accounts, function (i) { return i.acc_id == e.ent_id_account; }, 'acc_name');
-        e.ent_txt_type = this.findIn(this.viewData.types, function (i) { return i.ctg_ctg_value == e.ent_ctg_type; }, 'ctg_desc');
+        e.ent_txt_account = this.findIn(this.viewData.accounts, (i) => i.acc_id == e.ent_id_account, 'acc_name');
+        e.ent_txt_type = this.findIn(this.viewData.types, (i) => i.ctg_ctg_value == e.ent_ctg_type, 'ctg_desc');
         //e.ent_txt_budget = m.mov_txt_budget;
         e.ent_txt_category = m.mov_txt_category;
         e.ent_txt_place = m.mov_txt_place;
         e.ent_txt_status = m.mov_txt_status;
         localEntries.push(this.services.entry.newItem(e));
         return localEntries;
-    };
+    }
     // TODO: local methods that can be used as generic should be moved to utils.service
-    MovementComponent.prototype.findIn = function (arr, findCriteria, returnField) {
-        var f = arr.find(function (e) { return findCriteria(e); });
+    findIn(arr, findCriteria, returnField) {
+        const f = arr.find((e) => findCriteria(e));
         if (f) {
             return f[returnField];
         }
         else {
             return undefined;
         }
-    };
-    MovementComponent.prototype.stringDateToDate = function (date) {
+    }
+    stringDateToDate(date) {
         if (/\d{4}-\d{2}-\d{2}/.test(date)) { // looks like a date
-            var s = date.split('-');
+            const s = date.split('-');
             return new Date(parseInt(s[0]), parseInt(s[1]) - 1, parseInt(s[2]));
         }
         return undefined;
-    };
-    MovementComponent.prototype.DateToStringDate = function (date) {
-        var mm = date.getMonth() + 1;
-        var dd = date.getDate();
+    }
+    DateToStringDate(date) {
+        const mm = date.getMonth() + 1;
+        const dd = date.getDate();
         return [date.getFullYear(),
             (mm > 9 ? '' : '0') + mm,
             (dd > 9 ? '' : '0') + dd
         ].join('-');
-    };
-    MovementComponent.prototype.addNewCategoryForUser = function (category) {
-        var _this = this;
-        this.services.category.newItem(category, this.user).then(function (item) {
-            _this.viewData.categories = _this.services.category.list();
-            _this.model.category = item.mct_id;
+    }
+    addNewCategoryForUser(category) {
+        this.services.category.newItem(category, this.user).then((item) => {
+            this.viewData.categories = this.services.category.list();
+            this.model.category = item.mct_id;
         });
-    };
-    MovementComponent.prototype.addNewPlaceForUser = function (place) {
-        var _this = this;
-        this.services.place.newItem(place, this.user).then(function (item) {
-            _this.viewData.places = _this.services.place.list();
-            _this.model.place = item.mpl_id;
+    }
+    addNewPlaceForUser(place) {
+        this.services.place.newItem(place, this.user).then((item) => {
+            this.viewData.places = this.services.place.list();
+            this.model.place = item.mpl_id;
         });
-    };
+    }
     /*selectPreset(presetId: string, form: any){
         this.services.preset.getAll().then((list: Preset[]) => {
             let preset: Preset = list.find((p: Preset) => p.pre_id === presetId);
@@ -2949,68 +2769,67 @@ var MovementComponent = /** @class */ (function () {
             });
         });
     }*/
-    MovementComponent.prototype.cancelMovement = function () {
+    cancelMovement() {
         // TODO: upon cancellation, change status, modify other movement references to filter active movements, rebuild and transfer
-    };
-    MovementComponent.prototype.import = function (dataArray) {
-        var _this = this;
+    }
+    import(dataArray) {
         // imports raw data
         var data = dataArray;
         //let movements: Array<Movement> = [];
-        var m;
-        var transferFlag = false;
-        var yearInitial = 9999;
-        var monthInitial = 0;
-        var yearFinal = (new Date()).getFullYear();
-        var monthFinal = (new Date()).getMonth() + 1;
-        var movements = [];
-        var categories = [];
+        let m;
+        let transferFlag = false;
+        let yearInitial = 9999;
+        let monthInitial = 0;
+        let yearFinal = (new Date()).getFullYear();
+        let monthFinal = (new Date()).getMonth() + 1;
+        let movements = [];
+        let categories = [];
         //let place: string;
         // categories and places
-        data.forEach(function (d, index, arr) {
-            var values = d.split('|');
-            if (!_this.findIn(_this.services.category.list(), function (e) { return e.mct_name === values[5]; }, 'mct_id')) {
-                _this.services.category.newItem(values[5], _this.user);
+        data.forEach((d, index, arr) => {
+            let values = d.split('|');
+            if (!this.findIn(this.services.category.list(), (e) => e.mct_name === values[5], 'mct_id')) {
+                this.services.category.newItem(values[5], this.user);
             }
-            if (!_this.findIn(_this.services.place.list(), function (e) { return e.mpl_name === values[6]; }, 'mpl_id')) {
-                _this.services.place.newItem(values[6], _this.user);
+            if (!this.findIn(this.services.place.list(), (e) => e.mpl_name === values[6], 'mpl_id')) {
+                this.services.place.newItem(values[6], this.user);
             }
         });
         this.viewData.categories = this.services.category.list();
         this.viewData.places = this.services.place.list();
-        data.forEach(function (d, index, arr) {
+        data.forEach((d, index, arr) => {
             try {
-                var values_1 = d.split('|');
-                if (transferFlag && values_1[5] === 'Traspaso') {
+                let values = d.split('|');
+                if (transferFlag && values[5] === 'Traspaso') {
                     transferFlag = false;
                     return;
                 }
-                m = new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_3__["Movement"]();
+                m = new Movement_1.Movement();
                 //m.mov_id = this.services.movement.newId();
-                m.mov_desc = values_1[7];
-                m.mov_amount = parseFloat(values_1[3]);
-                if (_this.findIn(_this.viewData.accounts, function (e) { return e.acc_name == values_1[1]; }, 'acc_id')) {
-                    m.mov_id_account = _this.findIn(_this.viewData.accounts, function (e) { return e.acc_name == values_1[1]; }, 'acc_id');
+                m.mov_desc = values[7];
+                m.mov_amount = parseFloat(values[3]);
+                if (this.findIn(this.viewData.accounts, (e) => e.acc_name == values[1], 'acc_id')) {
+                    m.mov_id_account = this.findIn(this.viewData.accounts, (e) => e.acc_name == values[1], 'acc_id');
                 }
                 else {
-                    console.log('account not found', values_1[1], d);
+                    console.log('account not found', values[1], d);
                 }
-                m.mov_date = _this.stringDateToDate(values_1[0]);
+                m.mov_date = this.stringDateToDate(values[0]);
                 if (yearInitial * 100 + monthInitial > m.mov_date.getFullYear() * 100 + (m.mov_date.getMonth() + 1)) {
                     yearInitial = m.mov_date.getFullYear();
                     monthInitial = m.mov_date.getMonth() + 1;
                 }
-                if (values_1[5] === 'Traspaso' && arr[index + 1] && arr[index + 1].split('|')[5] === "Traspaso" && arr[index + 1].split('|')[7] === values_1[7] && arr[index + 1].split('|')[3] === values_1[3]) {
+                if (values[5] === 'Traspaso' && arr[index + 1] && arr[index + 1].split('|')[5] === "Traspaso" && arr[index + 1].split('|')[7] === values[7] && arr[index + 1].split('|')[3] === values[3]) {
                     transferFlag = true;
                     m.mov_ctg_type = 3;
                     // peek next item
                     // if (arr[index+1] && arr[index+1].split('|')[5] === "Traspaso" && arr[index+1].split('|')[7] === values[7]){
-                    m.mov_id_account_to = _this.findIn(_this.viewData.accounts, function (e) { return e.acc_name == arr[index + 1].split('|')[1]; }, 'acc_id');
+                    m.mov_id_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_name == arr[index + 1].split('|')[1], 'acc_id');
                     // }
                     // Transfers always have to be expense first, income later, fix when provided the other way around
-                    if (values_1[2] === 'CARGO') {
+                    if (values[2] === 'CARGO') {
                         // swap accounts
-                        var temp = m.mov_id_account;
+                        let temp = m.mov_id_account;
                         m.mov_id_account = m.mov_id_account_to;
                         m.mov_id_account_to = temp;
                     }
@@ -3018,25 +2837,25 @@ var MovementComponent = /** @class */ (function () {
                     m.mov_id_place = '0';
                 }
                 else {
-                    m.mov_ctg_type = values_1[2] === 'ABONO' ? 1 : 2;
+                    m.mov_ctg_type = values[2] === 'ABONO' ? 1 : 2;
                     m.mov_budget = '' + ((m.mov_date.getFullYear() * 100) + (m.mov_date.getMonth() + 1));
-                    m.mov_id_category = _this.findIn(_this.viewData.categories, function (e) { return e.mct_name === values_1[5]; }, 'mct_id');
-                    m.mov_id_place = _this.findIn(_this.viewData.places, function (e) { return e.mpl_name === values_1[6]; }, 'mpl_id');
+                    m.mov_id_category = this.findIn(this.viewData.categories, (e) => e.mct_name === values[5], 'mct_id');
+                    m.mov_id_place = this.findIn(this.viewData.places, (e) => e.mpl_name === values[6], 'mpl_id');
                 }
                 m.mov_notes = '';
-                m.mov_id_user = _this.user;
+                m.mov_id_user = this.user;
                 m.mov_ctg_status = 1;
                 m.mov_date_add = new Date();
                 m.mov_date_mod = new Date();
-                m.mov_txt_account = _this.findIn(_this.viewData.accounts, function (e) { return e.acc_id == m.mov_id_account; }, 'acc_name');
+                m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, 'acc_name');
                 if (m.mov_id_account_to) {
-                    m.mov_txt_account_to = _this.findIn(_this.viewData.accounts, function (e) { return e.acc_id == m.mov_id_account_to; }, 'acc_name');
+                    m.mov_txt_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account_to, 'acc_name');
                 }
-                m.mov_txt_type = _this.findIn(_this.viewData.types, function (e) { return e.ctg_ctg_value == m.mov_ctg_type; }, 'ctg_desc');
+                m.mov_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == m.mov_ctg_type, 'ctg_desc');
                 //m.mov_txt_budget = m.mov_budget;
-                m.mov_txt_category = _this.findIn(_this.viewData.categories, function (e) { return e.mct_id === m.mov_id_category; }, 'mct_name');
-                m.mov_txt_place = _this.findIn(_this.viewData.places, function (e) { return e.mpl_id === m.mov_id_place; }, 'mpl_name');
-                m.mov_txt_status = _this.findIn(_this.viewData.statuses, function (e) { return e.ctg_ctg_value == m.mov_ctg_status; }, 'ctg_desc');
+                m.mov_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === m.mov_id_category, 'mct_name');
+                m.mov_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === m.mov_id_place, 'mpl_name');
+                m.mov_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == m.mov_ctg_status, 'ctg_desc');
                 movements.push(m);
                 // this.services.movement.newItem(m);
                 // this.generateEntriesForMovement(m);
@@ -3045,25 +2864,24 @@ var MovementComponent = /** @class */ (function () {
                 console.log('err', e);
             }
         });
-        this.services.movement.newBatch(movements).forEach(function (m) {
-            _this.generateEntriesForMovement(m);
+        this.services.movement.newBatch(movements).forEach((m) => {
+            this.generateEntriesForMovement(m);
         });
         // now apply to balance
         this.services.balance.rebuildAndTransferRange(yearInitial, monthInitial, yearFinal, monthFinal, this.user);
-    };
-    MovementComponent.prototype.setModelDetails = function (id, form, prefix) {
-        var _this = this;
-        var model;
+    }
+    setModelDetails(id, form, prefix) {
+        let model;
         if (!this.viewData.showCreateForm) {
             this.viewData.showCreateForm = !this.viewData.showCreateForm;
         }
         if (prefix === 'pre') {
             model = this.viewData.presets
-                .find(function (m) { return m.pre_id === id; });
+                .find((m) => m.pre_id === id);
         }
         else {
             model = this.viewData.movements
-                .find(function (m) { return m.mov_id === id; });
+                .find((m) => m.mov_id === id);
             this.model.id = model[prefix + '_id']; // to tell the newMovementForm that this is an edition
         }
         if (model[prefix + '_ctg_type'] === 3) {
@@ -3072,7 +2890,7 @@ var MovementComponent = /** @class */ (function () {
         else {
             this.movementFlowType('custom');
         }
-        var fields = [
+        let fields = [
             {
                 'control': 'fDescription',
                 'value': '_desc'
@@ -3105,17 +2923,17 @@ var MovementComponent = /** @class */ (function () {
                 'value': '_notes'
             }
         ];
-        setTimeout(function () {
-            fields.forEach(function (f) {
+        setTimeout(() => {
+            fields.forEach((f) => {
                 if (form.controls[f.control]) {
-                    var value = model[prefix + f.value];
-                    var valueToSet = null;
+                    const value = model[prefix + f.value];
+                    let valueToSet = null;
                     if (f.value === '_date') {
                         if (value !== null) {
-                            valueToSet = _this.DateToStringDate(new Date(value));
+                            valueToSet = this.DateToStringDate(new Date(value));
                         }
                         else {
-                            valueToSet = _this.DateToStringDate(new Date());
+                            valueToSet = this.DateToStringDate(new Date());
                         }
                     }
                     else {
@@ -3125,14 +2943,14 @@ var MovementComponent = /** @class */ (function () {
                 }
             });
         }, 0);
-    };
-    MovementComponent.prototype.handleNewMovement = function (form) {
+    }
+    handleNewMovement(form) {
         if (this.viewData.showCreateForm) { // if it's visible, reset and then hide
             this.resetForm(form);
         }
         this.viewData.showCreateForm = !this.viewData.showCreateForm;
-    };
-    MovementComponent.prototype.resetForm = function (form) {
+    }
+    resetForm(form) {
         this.model.id = null;
         this.model.selectedPreset = null;
         this.movementFlowType('custom');
@@ -3143,33 +2961,32 @@ var MovementComponent = /** @class */ (function () {
             form.controls['fMovementType'].setValue(1);
         }
         form.controls['fDate'].setValue(this.DateToStringDate(new Date()));
-    };
-    MovementComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'movement',
-            template: __webpack_require__(/*! ./movement.template.html */ "./src/app/money/movement.template.html"),
-            providers: [
-                _account_service__WEBPACK_IMPORTED_MODULE_6__["AccountService"],
-                _category_service__WEBPACK_IMPORTED_MODULE_7__["CategoryService"],
-                _place_service__WEBPACK_IMPORTED_MODULE_8__["PlaceService"],
-                _movement_service__WEBPACK_IMPORTED_MODULE_9__["MovementService"],
-                _entry_service__WEBPACK_IMPORTED_MODULE_10__["EntryService"],
-                _balance_service__WEBPACK_IMPORTED_MODULE_11__["BalanceService"],
-                _preset_service__WEBPACK_IMPORTED_MODULE_12__["PresetService"]
-            ]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_account_service__WEBPACK_IMPORTED_MODULE_6__["AccountService"],
-            _category_service__WEBPACK_IMPORTED_MODULE_7__["CategoryService"],
-            _place_service__WEBPACK_IMPORTED_MODULE_8__["PlaceService"],
-            _movement_service__WEBPACK_IMPORTED_MODULE_9__["MovementService"],
-            _entry_service__WEBPACK_IMPORTED_MODULE_10__["EntryService"],
-            _balance_service__WEBPACK_IMPORTED_MODULE_11__["BalanceService"],
-            _preset_service__WEBPACK_IMPORTED_MODULE_12__["PresetService"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])
-    ], MovementComponent);
-    return MovementComponent;
-}());
-
+    }
+};
+MovementComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'movement',
+        template: __webpack_require__(/*! ./movement.template.html */ "./src/app/money/movement.template.html"),
+        providers: [
+            account_service_1.AccountService,
+            category_service_1.CategoryService,
+            place_service_1.PlaceService,
+            movement_service_1.MovementService,
+            entry_service_1.EntryService,
+            balance_service_1.BalanceService,
+            preset_service_1.PresetService
+        ]
+    }),
+    tslib_1.__metadata("design:paramtypes", [account_service_1.AccountService,
+        category_service_1.CategoryService,
+        place_service_1.PlaceService,
+        movement_service_1.MovementService,
+        entry_service_1.EntryService,
+        balance_service_1.BalanceService,
+        preset_service_1.PresetService,
+        platform_browser_1.Title])
+], MovementComponent);
+exports.MovementComponent = MovementComponent;
 
 
 /***/ }),
@@ -3178,28 +2995,22 @@ var MovementComponent = /** @class */ (function () {
 /*!*******************************************!*\
   !*** ./src/app/money/movement.service.ts ***!
   \*******************************************/
-/*! exports provided: MovementService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MovementService", function() { return MovementService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Movement */ "./src/crosscommon/entities/Movement.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 
-
-
-
-
-
-var MovementService = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Movement_1 = __webpack_require__(/*! ../../crosscommon/entities/Movement */ "./src/crosscommon/entities/Movement.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+let MovementService = class MovementService {
     // ALWAYS_ON_LINE = means no local storage layer, always fetch from server and always push to server, just save to storage when an error ocurrs
     // LOCAL_FIRST = means use local storage layer, fetch from server to local storage then push to server
-    function MovementService(storage, sync) {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -3218,47 +3029,46 @@ var MovementService = /** @class */ (function () {
         this.storage = storage;
         this.sync = sync;
         // get api root
-        var options = storage.getObject('Options');
+        const options = storage.getObject('Options');
         this.apiRoot = options ? options['optServerAddress'] : '';
     }
-    MovementService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    MovementService.prototype.initialData = function () {
-        var _this = this;
-        var list;
-        var newData = function (mov_id, mov_date, mov_amount, mov_account, mov_account_to, mov_ctg_type, mov_budget, mov_id_category, mov_id_place, mov_desc, mov_notes, mov_id_user, mov_ctg_status, mov_txt_type, mov_txt_account, mov_txt_account_to, mov_txt_budget, mov_txt_category, mov_txt_place, mov_txt_status) {
+    }
+    initialData() {
+        let list;
+        let newData = (mov_id, mov_date, mov_amount, mov_account, mov_account_to, mov_ctg_type, mov_budget, mov_id_category, mov_id_place, mov_desc, mov_notes, mov_id_user, mov_ctg_status, mov_txt_type, mov_txt_account, mov_txt_account_to, mov_txt_budget, mov_txt_category, mov_txt_place, mov_txt_status) => {
             return {
-                mov_id: mov_id,
-                mov_date: mov_date,
-                mov_amount: mov_amount,
-                mov_account: mov_account,
-                mov_account_to: mov_account_to,
-                mov_ctg_type: mov_ctg_type,
-                mov_budget: mov_budget,
-                mov_id_category: mov_id_category,
-                mov_id_place: mov_id_place,
-                mov_desc: mov_desc,
-                mov_notes: mov_notes,
-                mov_id_user: mov_id_user,
-                mov_ctg_status: mov_ctg_status,
-                mov_txt_type: mov_txt_type,
-                mov_txt_account: mov_txt_account,
-                mov_txt_account_to: mov_txt_account_to,
-                mov_txt_budget: mov_txt_budget,
-                mov_txt_category: mov_txt_category,
-                mov_txt_place: mov_txt_place,
-                mov_txt_status: mov_txt_status
+                mov_id,
+                mov_date,
+                mov_amount,
+                mov_account,
+                mov_account_to,
+                mov_ctg_type,
+                mov_budget,
+                mov_id_category,
+                mov_id_place,
+                mov_desc,
+                mov_notes,
+                mov_id_user,
+                mov_ctg_status,
+                mov_txt_type,
+                mov_txt_account,
+                mov_txt_account_to,
+                mov_txt_budget,
+                mov_txt_category,
+                mov_txt_place,
+                mov_txt_status
             };
         };
-        var data = [];
+        let data = [];
         //data.push(newData('1','Walmart'));
-        list = data.map(function (d) {
-            d.mov_id_user = _this.config.defaultUser;
-            return new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_1__["Movement"](d);
+        list = data.map((d) => {
+            d.mov_id_user = this.config.defaultUser;
+            return new Movement_1.Movement(d);
         });
         return list;
-    };
+    }
     /**
      * Guidance for this method objective:
      * - Read sync data from storage
@@ -3274,8 +3084,7 @@ var MovementService = /** @class */ (function () {
      * - If server is available
      *   - Push sync data to server, server decides changes to keep, returns sync results (straightforward in this case)
      */
-    MovementService.prototype.getAll = function () {
-        var _this = this;
+    getAll() {
         /*let fromStorage = this.storage.get(this.config.storageKey);
         if (fromStorage){
             this.data = JSON.parse(fromStorage);
@@ -3283,13 +3092,13 @@ var MovementService = /** @class */ (function () {
             this.data = this.initialData();
         }*/
         // sort data
-        return this.sync.get("" + this.apiRoot + this.config.api.list).then(function (data) {
-            _this.data = data.map(function (d) { return new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_1__["Movement"](d); });
-            _this.data = _this.data.sort(_this.sort);
-            return _this.data;
+        return this.sync.get(`${this.apiRoot}${this.config.api.list}`).then(data => {
+            this.data = data.map((d) => new Movement_1.Movement(d));
+            this.data = this.data.sort(this.sort);
+            return this.data;
         });
-    };
-    MovementService.prototype.sort = function (a, b) {
+    }
+    sort(a, b) {
         if ((new Date(a.mov_date)).getTime() < (new Date(b.mov_date)).getTime()) {
             return -1;
         }
@@ -3299,89 +3108,85 @@ var MovementService = /** @class */ (function () {
         else {
             return 0;
         }
-    };
-    MovementService.prototype.getAllForUser = function (user) {
-        return this.getAll().then(function (list) {
-            return list.filter(function (x) { return x.mov_id_user === user; });
+    }
+    getAllForUser(user) {
+        return this.getAll().then((list) => {
+            return list.filter((x) => x.mov_id_user === user);
         });
-    };
-    MovementService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         //this.storage.set(this.config.storageKey,JSON.stringify(this.data));
-    };
-    MovementService.prototype.newId = function (date) {
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashId('mov', 32, date);
-    };
-    MovementService.prototype.newItem = function (movement, callback) {
-        var _this = this;
-        var newId = this.newId(new Date(movement.mov_date));
+    }
+    newId(date) {
+        return Utility_1.Utils.hashId('mov', 32, date);
+    }
+    newItem(movement, callback) {
+        const newId = this.newId(new Date(movement.mov_date));
         //const newId: string = Utils.hashId('mov', 32, new Date(movement.mov_date));
         movement.mov_id = newId;
         movement.mov_ctg_currency = 1;
         movement.mov_date_add = new Date();
         movement.mov_date_mod = new Date();
-        var newItem = new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_1__["Movement"](movement);
+        const newItem = new Movement_1.Movement(movement);
         //this.data.push(newItem);
         //this.saveToStorage();
-        this.sync.post(this.config.api.create, newItem).then(function (response) {
+        this.sync.post(this.config.api.create, newItem).then(response => {
             if (response.operationOk) {
                 callback();
             }
             else {
                 newItem['sync'] = false;
             }
-            _this.data.push(newItem);
-        }).catch(function (err) {
+            this.data.push(newItem);
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
             newItem['sync'] = false;
-            _this.data.push(newItem);
+            this.data.push(newItem);
         });
         return newItem;
-    };
-    MovementService.prototype.newBatch = function (movements) {
-        var _this = this;
-        movements.forEach(function (m) {
-            m.mov_id = _this.newId(m.mov_date);
-            _this.data.push(new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_1__["Movement"](m));
+    }
+    newBatch(movements) {
+        movements.forEach((m) => {
+            m.mov_id = this.newId(m.mov_date);
+            this.data.push(new Movement_1.Movement(m));
         });
         this.sendBatchToServer(movements);
         this.saveToStorage();
         return movements;
-    };
-    MovementService.prototype.sendBatchToServer = function (list) {
-        this.sync.post("" + this.apiRoot + this.config.api.batch, list).then(function (response) {
+    }
+    sendBatchToServer(list) {
+        this.sync.post(`${this.apiRoot}${this.config.api.batch}`, list).then((response) => {
             // response: { operationOk: true, details: {  } }
             console.log('response movements batch', response);
         });
-    };
-    MovementService.prototype.edit = function (movement, callback) {
-        var _this = this;
+    }
+    edit(movement, callback) {
         movement.mov_ctg_currency = 1;
         movement.mov_date_mod = new Date();
-        var item = new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_1__["Movement"](movement);
-        this.sync.post(this.config.api.update.replace(':id', movement.mov_id), item).then(function (response) {
-            var index = _this.data.findIndex(function (d) { return d.mov_id === item.mov_id; });
+        const item = new Movement_1.Movement(movement);
+        this.sync.post(this.config.api.update.replace(':id', movement.mov_id), item).then(response => {
+            const index = this.data.findIndex(d => d.mov_id === item.mov_id);
             if (response.operationOk) {
                 callback();
             }
             else {
                 item['sync'] = false;
             }
-            _this.data[index] = item;
-        }).catch(function (err) {
+            this.data[index] = item;
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            var index = _this.data.findIndex(function (d) { return d.mov_id === item.mov_id; });
+            const index = this.data.findIndex(d => d.mov_id === item.mov_id);
             item['sync'] = false;
-            _this.data[index] = item;
+            this.data[index] = item;
         });
         return item;
-    };
-    MovementService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], MovementService);
-    return MovementService;
-}());
-
+    }
+};
+MovementService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], MovementService);
+exports.MovementService = MovementService;
 
 
 /***/ }),
@@ -3401,26 +3206,20 @@ module.exports = "<strong>Movements</strong>\r\n<br/>\r\n\r\n<form #newMovementF
 /*!****************************************!*\
   !*** ./src/app/money/place.service.ts ***!
   \****************************************/
-/*! exports provided: PlaceService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlaceService", function() { return PlaceService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 
-
-
-
-
-
-var PlaceService = /** @class */ (function () {
-    function PlaceService(storage, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Place_1 = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+let PlaceService = class PlaceService {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -3435,66 +3234,58 @@ var PlaceService = /** @class */ (function () {
         this.storage = storage;
         this.sync = sync;
     }
-    PlaceService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    PlaceService.prototype.initialData = function () {
-        var _this = this;
-        var list;
-        var newData = function (mpl_id, mpl_name) {
-            return { mpl_id: mpl_id, mpl_name: mpl_name };
+    }
+    initialData() {
+        let list;
+        let newData = (mpl_id, mpl_name) => {
+            return { mpl_id, mpl_name };
         };
-        var data = [];
+        let data = [];
         data.push(newData('1', 'Walmart'));
         data.push(newData('2', 'Vips'));
         data.push(newData('3', 'Sams Club'));
         data.push(newData('4', 'Cinepolis'));
         data.push(newData('5', 'The Home Depot'));
-        list = data.map(function (d) {
-            d.mpl_id_user = _this.config.defaultUser;
-            return new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_1__["Place"](d);
+        list = data.map((d) => {
+            d.mpl_id_user = this.config.defaultUser;
+            return new Place_1.Place(d);
         });
         return list;
-    };
-    PlaceService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var sort;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                sort = (function (a, b) {
-                    return a.mpl_name > b.mpl_name ? 1 : -1;
-                });
-                return [2 /*return*/, this.sync.get("" + this.config.api.list).then(function (data) {
-                        _this.data = data.map(function (d) { return new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_1__["Place"](d); });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const sort = ((a, b) => {
+                return a.mpl_name > b.mpl_name ? 1 : -1;
+            });
+            return this.sync.get(`${this.config.api.list}`).then(data => {
+                this.data = data.map((d) => new Place_1.Place(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    PlaceService.prototype.getAllForUser = function (user) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                return [2 /*return*/, this.getAll().then(function (all) {
-                        return all.filter(function (x) { return x.mpl_id_user === user; });
-                    })];
+    }
+    getAllForUser(user) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll().then((all) => {
+                return all.filter((x) => x.mpl_id_user === user);
             });
         });
-    };
-    PlaceService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
-    };
-    PlaceService.prototype.newId = function () {
-        var m = new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_1__["Place"]();
-        var length = m.metadata.fields.find(function (f) { return f.dbName === 'mpl_id'; }).size;
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashId(m.metadata.prefix, length);
-    };
-    PlaceService.prototype.newItem = function (place, user) {
-        var _this = this;
-        var newId = this.newId();
-        var newItem = new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_1__["Place"]({
+    }
+    newId() {
+        const m = new Place_1.Place();
+        const length = m.metadata.fields.find(f => f.dbName === 'mpl_id').size;
+        return Utility_1.Utils.hashId(m.metadata.prefix, length);
+    }
+    newItem(place, user) {
+        let newId = this.newId();
+        let newItem = new Place_1.Place({
             mpl_id: newId,
             mpl_name: place,
             mpl_id_user: user,
@@ -3504,29 +3295,28 @@ var PlaceService = /** @class */ (function () {
         });
         //this.data.push(newItem);
         //this.saveToStorage();
-        return this.sync.post(this.config.api.create, newItem).then(function (response) {
+        return this.sync.post(this.config.api.create, newItem).then(response => {
             if (response.processOk) {
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             else {
                 newItem['sync'] = false;
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             return newItem;
-        }).catch(function (err) {
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
             newItem['sync'] = false;
-            _this.data.push(newItem);
+            this.data.push(newItem);
             return newItem;
         });
-    };
-    PlaceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], PlaceService);
-    return PlaceService;
-}());
-
+    }
+};
+PlaceService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], PlaceService);
+exports.PlaceService = PlaceService;
 
 
 /***/ }),
@@ -3535,26 +3325,20 @@ var PlaceService = /** @class */ (function () {
 /*!*****************************************!*\
   !*** ./src/app/money/preset.service.ts ***!
   \*****************************************/
-/*! exports provided: PresetService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PresetService", function() { return PresetService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 
-
-
-
-
-
-var PresetService = /** @class */ (function () {
-    function PresetService(storage, sync) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Preset_1 = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
+const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "./src/app/common/storage.service.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+let PresetService = class PresetService {
+    constructor(storage, sync) {
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -3571,57 +3355,55 @@ var PresetService = /** @class */ (function () {
         this.storage = storage;
         this.sync = sync;
         // get api root
-        var options = storage.getObject('Options');
+        const options = storage.getObject('Options');
         this.apiRoot = options ? options['optServerAddress'] : '';
     }
-    PresetService.prototype.list = function () {
+    list() {
         return this.data;
-    };
-    PresetService.prototype.initialData = function () {
-        var _this = this;
-        var list;
-        var newData = function (pre_id, pre_name, pre_date, pre_amount, pre_account, pre_account_to, pre_ctg_type, pre_budget, pre_ctg_category, pre_ctg_place, pre_desc, pre_notes, pre_id_user, pre_ctg_status, pre_txt_type, pre_txt_account, pre_txt_account_to, pre_txt_budget, pre_txt_category, pre_txt_place, pre_txt_status) {
+    }
+    initialData() {
+        let list;
+        let newData = (pre_id, pre_name, pre_date, pre_amount, pre_account, pre_account_to, pre_ctg_type, pre_budget, pre_ctg_category, pre_ctg_place, pre_desc, pre_notes, pre_id_user, pre_ctg_status, pre_txt_type, pre_txt_account, pre_txt_account_to, pre_txt_budget, pre_txt_category, pre_txt_place, pre_txt_status) => {
             return {
-                pre_id: pre_id,
-                pre_name: pre_name,
-                pre_date: pre_date,
-                pre_amount: pre_amount,
-                pre_account: pre_account,
-                pre_account_to: pre_account_to,
-                pre_ctg_type: pre_ctg_type,
-                pre_budget: pre_budget,
-                pre_ctg_category: pre_ctg_category,
-                pre_ctg_place: pre_ctg_place,
-                pre_desc: pre_desc,
-                pre_notes: pre_notes,
-                pre_id_user: pre_id_user,
-                pre_ctg_status: pre_ctg_status,
-                pre_txt_type: pre_txt_type,
-                pre_txt_account: pre_txt_account,
-                pre_txt_account_to: pre_txt_account_to,
-                pre_txt_budget: pre_txt_budget,
-                pre_txt_category: pre_txt_category,
-                pre_txt_place: pre_txt_place,
-                pre_txt_status: pre_txt_status
+                pre_id,
+                pre_name,
+                pre_date,
+                pre_amount,
+                pre_account,
+                pre_account_to,
+                pre_ctg_type,
+                pre_budget,
+                pre_ctg_category,
+                pre_ctg_place,
+                pre_desc,
+                pre_notes,
+                pre_id_user,
+                pre_ctg_status,
+                pre_txt_type,
+                pre_txt_account,
+                pre_txt_account_to,
+                pre_txt_budget,
+                pre_txt_category,
+                pre_txt_place,
+                pre_txt_status
             };
         };
-        var data = [];
+        let data = [];
         //data.push(newData('1','Walmart'));
-        list = data.map(function (d) {
-            d.pre_id_user = _this.config.defaultUser;
-            return new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](d);
+        list = data.map((d) => {
+            d.pre_id_user = this.config.defaultUser;
+            return new Preset_1.Preset(d);
         });
         return list;
-    };
-    PresetService.prototype.getAll = function () {
-        var _this = this;
-        return this.sync.get("" + this.apiRoot + this.config.api.list).then(function (data) {
-            _this.data = data.map(function (d) { return new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](d); });
-            _this.data = _this.data.sort(_this.sort);
-            return _this.data;
+    }
+    getAll() {
+        return this.sync.get(`${this.apiRoot}${this.config.api.list}`).then(data => {
+            this.data = data.map((d) => new Preset_1.Preset(d));
+            this.data = this.data.sort(this.sort);
+            return this.data;
         });
-    };
-    PresetService.prototype.sort = function (a, b) {
+    }
+    sort(a, b) {
         if (a.pre_name > b.pre_name) {
             return -1;
         }
@@ -3631,50 +3413,48 @@ var PresetService = /** @class */ (function () {
         else {
             return 0;
         }
-    };
-    PresetService.prototype.getAllForUser = function (user) {
-        return this.getAll().then(function (list) {
-            return list.filter(function (x) { return x.pre_id_user === user; });
+    }
+    getAllForUser(user) {
+        return this.getAll().then((list) => {
+            return list.filter((x) => x.pre_id_user === user);
         });
-    };
-    PresetService.prototype.saveToStorage = function () {
+    }
+    saveToStorage() {
         //this.storage.set(this.config.storageKey,JSON.stringify(this.data));
-    };
-    PresetService.prototype.newId = function () {
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashId('pre', 32);
-    };
-    PresetService.prototype.newItem = function (preset) {
-        var _this = this;
-        var newId = this.newId();
+    }
+    newId() {
+        return Utility_1.Utils.hashId('pre', 32);
+    }
+    newItem(preset) {
+        const newId = this.newId();
         preset.pre_id = newId;
         preset.pre_ctg_currency = 1;
         preset.pre_date_add = new Date();
         preset.pre_date_mod = new Date();
-        var newItem = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](preset);
+        const newItem = new Preset_1.Preset(preset);
         //this.data.push(newItem);
         //this.saveToStorage();
-        this.sync.post(this.config.api.create, newItem).then(function (response) {
+        this.sync.post(this.config.api.create, newItem).then(response => {
             if (response.processOk) {
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
             else {
                 newItem['sync'] = false;
-                _this.data.push(newItem);
+                this.data.push(newItem);
             }
-        }).catch(function (err) {
+        }).catch(err => {
             // Append it to the listing but flag it as non-synced yet
             newItem['sync'] = false;
-            _this.data.push(newItem);
+            this.data.push(newItem);
         });
         return newItem;
-    };
-    PresetService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], PresetService);
-    return PresetService;
-}());
-
+    }
+};
+PresetService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+], PresetService);
+exports.PresetService = PresetService;
 
 
 /***/ }),
@@ -3683,25 +3463,20 @@ var PresetService = /** @class */ (function () {
 /*!********************************************!*\
   !*** ./src/app/money/rebuild.component.ts ***!
   \********************************************/
-/*! exports provided: RebuildComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RebuildComponent", function() { return RebuildComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _entry_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _balance_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 // services
-
-
-
-var RebuildComponent = /** @class */ (function () {
-    function RebuildComponent(entryService, balanceService, syncService) {
+const entry_service_1 = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
+const balance_service_1 = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+let RebuildComponent = class RebuildComponent {
+    constructor(entryService, balanceService, syncService) {
         this.services = {
             entry: null,
             balance: null
@@ -3720,28 +3495,26 @@ var RebuildComponent = /** @class */ (function () {
         this.services.balance = balanceService;
         this.sync = syncService;
     }
-    RebuildComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.months().then(function (response) {
-            _this.viewData.monthList = response;
+    ngOnInit() {
+        this.months().then((response) => {
+            this.viewData.monthList = response;
         });
-    };
-    RebuildComponent.prototype.parseMonthName = function (iterable) {
-        var year = Math.floor(iterable / 100);
-        var month = iterable % 100;
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        return year + " / " + months[month - 1];
-    };
-    RebuildComponent.prototype.months = function () {
-        var _this = this;
-        var currentDate = new Date();
-        var max = currentDate.getFullYear() * 100 + (currentDate.getMonth() + 1);
+    }
+    parseMonthName(iterable) {
+        let year = Math.floor(iterable / 100);
+        let month = iterable % 100;
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return `${year} / ${months[month - 1]}`;
+    }
+    months() {
+        let currentDate = new Date();
+        let max = currentDate.getFullYear() * 100 + (currentDate.getMonth() + 1);
         this.model.month = max;
-        return this.services.balance.getAll().then(function (response) {
-            var min = response.map(function (b) { return b.bal_year * 100 + b.bal_month; })
-                .reduce(function (previous, current) { return previous <= current ? previous : current; }, 999999);
-            var month;
-            var list = [];
+        return this.services.balance.getAll().then((response) => {
+            let min = response.map((b) => b.bal_year * 100 + b.bal_month)
+                .reduce((previous, current) => previous <= current ? previous : current, 999999);
+            let month;
+            let list = [];
             if (min === 999999) {
                 min = 201602;
             }
@@ -3749,19 +3522,19 @@ var RebuildComponent = /** @class */ (function () {
                 console.log('calculated', min);
                 list.push({
                     iterable: min,
-                    name: _this.parseMonthName(min)
+                    name: this.parseMonthName(min)
                 });
-                min = _this.services.balance.getNextMonth(Math.floor(min / 100), min % 100).iterable;
+                min = this.services.balance.getNextMonth(Math.floor(min / 100), min % 100).iterable;
             }
             return list.reverse();
         });
-    };
-    RebuildComponent.prototype.parseModel = function () {
+    }
+    parseModel() {
         this.model.month = parseInt(this.model.month + '');
         this.model.parsedYear = Math.floor(this.model.month / 100);
         this.model.parsedMonth = this.model.month % 100;
-    };
-    RebuildComponent.prototype.rebuild = function () {
+    }
+    rebuild() {
         this.parseModel();
         // this.services.balance.rebuild(this.model.parsedYear, this.model.parsedMonth, this.user);
         this.sync.post('/api/balance/rebuild', {
@@ -3769,8 +3542,8 @@ var RebuildComponent = /** @class */ (function () {
             month: this.model.parsedMonth,
             user: 'anon'
         });
-    };
-    RebuildComponent.prototype.transfer = function () {
+    }
+    transfer() {
         this.parseModel();
         // this.services.balance.transfer(this.model.parsedYear, this.model.parsedMonth, this.user);
         this.sync.post('/api/balance/transfer', {
@@ -3778,8 +3551,8 @@ var RebuildComponent = /** @class */ (function () {
             month: this.model.parsedMonth,
             user: 'anon'
         });
-    };
-    RebuildComponent.prototype.rebuildAndTransfer = function () {
+    }
+    rebuildAndTransfer() {
         this.parseModel();
         // this.services.balance.rebuildAndTransfer(this.model.parsedYear, this.model.parsedMonth, this.user);
         this.sync.post('/api/balance/rebuild-and-transfer', {
@@ -3787,8 +3560,8 @@ var RebuildComponent = /** @class */ (function () {
             month: this.model.parsedMonth,
             user: 'anon'
         });
-    };
-    RebuildComponent.prototype.rebuildAndTransferUntilCurrentMonth = function () {
+    }
+    rebuildAndTransferUntilCurrentMonth() {
         this.parseModel();
         // let currentDate: Date = new Date();
         // this.services.balance.rebuildAndTransferRange(this.model.parsedYear, this.model.parsedMonth, currentDate.getFullYear(), currentDate.getMonth() + 1, this.user);
@@ -3797,23 +3570,22 @@ var RebuildComponent = /** @class */ (function () {
             month: this.model.parsedMonth,
             user: 'anon'
         });
-    };
-    RebuildComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'rebuild',
-            template: __webpack_require__(/*! ./rebuild.template.html */ "./src/app/money/rebuild.template.html"),
-            providers: [
-                _entry_service__WEBPACK_IMPORTED_MODULE_2__["EntryService"],
-                _balance_service__WEBPACK_IMPORTED_MODULE_3__["BalanceService"]
-            ]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_entry_service__WEBPACK_IMPORTED_MODULE_2__["EntryService"],
-            _balance_service__WEBPACK_IMPORTED_MODULE_3__["BalanceService"],
-            _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
-    ], RebuildComponent);
-    return RebuildComponent;
-}());
-
+    }
+};
+RebuildComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'rebuild',
+        template: __webpack_require__(/*! ./rebuild.template.html */ "./src/app/money/rebuild.template.html"),
+        providers: [
+            entry_service_1.EntryService,
+            balance_service_1.BalanceService
+        ]
+    }),
+    tslib_1.__metadata("design:paramtypes", [entry_service_1.EntryService,
+        balance_service_1.BalanceService,
+        sync_api_1.SyncAPI])
+], RebuildComponent);
+exports.RebuildComponent = RebuildComponent;
 
 
 /***/ }),
@@ -3833,32 +3605,23 @@ module.exports = "<div>\r\n    <span class=\"field\">\r\n        <label for=\"fY
 /*!****************************************************!*\
   !*** ./src/app/multimedia/multimedia.component.ts ***!
   \****************************************************/
-/*! exports provided: MultimediaComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultimediaComponent", function() { return MultimediaComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _multimedia_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./multimedia.service */ "./src/app/multimedia/multimedia.service.ts");
-/* harmony import */ var _multimediadet_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./multimediadet.service */ "./src/app/multimedia/multimediadet.service.ts");
-/* harmony import */ var _multimediaview_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./multimediaview.service */ "./src/app/multimedia/multimediaview.service.ts");
-/* harmony import */ var _common_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 // services
-
-
-
-
-
-
-var MultimediaComponent = /** @class */ (function () {
-    function MultimediaComponent(multimediaService, multimediaDetService, multimediaViewService, loginService, syncService) {
-        var _this = this;
+const multimedia_service_1 = __webpack_require__(/*! ./multimedia.service */ "./src/app/multimedia/multimedia.service.ts");
+const multimediadet_service_1 = __webpack_require__(/*! ./multimediadet.service */ "./src/app/multimedia/multimediadet.service.ts");
+const multimediaview_service_1 = __webpack_require__(/*! ./multimediaview.service */ "./src/app/multimedia/multimediaview.service.ts");
+const login_service_1 = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const DateUtility_1 = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+let MultimediaComponent = class MultimediaComponent {
+    constructor(multimediaService, multimediaDetService, multimediaViewService, loginService, syncService) {
         this.viewData = {
             multimediaList: [],
             multimediaDetList: [],
@@ -3902,16 +3665,16 @@ var MultimediaComponent = /** @class */ (function () {
         this.services.multimediaViewService = multimediaViewService;
         this.services.loginService = loginService;
         this.services.syncService = syncService;
-        this.services.multimediaService.getAllForUser(this.services.loginService.getUsername() || 'anon').then(function (data) {
-            _this.viewData.multimediaList = data;
+        this.services.multimediaService.getAllForUser(this.services.loginService.getUsername() || 'anon').then(data => {
+            this.viewData.multimediaList = data;
         });
-        this.services.multimediaDetService.getAllForUser(this.services.loginService.getUsername() || 'anon').then(function (data) {
-            _this.viewData.multimediaDetList = data;
+        this.services.multimediaDetService.getAllForUser(this.services.loginService.getUsername() || 'anon').then((data) => {
+            this.viewData.multimediaDetList = data;
         });
-        this.services.multimediaViewService.getAllForUser(this.services.loginService.getUsername() || 'anon').then(function (data) {
-            _this.viewData.multimediaViewList = data;
+        this.services.multimediaViewService.getAllForUser(this.services.loginService.getUsername() || 'anon').then((data) => {
+            this.viewData.multimediaViewList = data;
         });
-        var mediaTypes = JSON.stringify({
+        const mediaTypes = JSON.stringify({
             gc: 'AND',
             cont: [{
                     f: 'ctg_id',
@@ -3919,10 +3682,10 @@ var MultimediaComponent = /** @class */ (function () {
                     val: 'MULTIMEDIA_MEDIA_TYP' // TODO: fix database length for field ctg_name
                 }]
         });
-        this.services.syncService.get("/api/sync?entity=Catalog&q=" + mediaTypes).then(function (data) {
-            _this.viewData.mediaTypeList = data.list;
+        this.services.syncService.get(`/api/sync?entity=Catalog&q=${mediaTypes}`).then(data => {
+            this.viewData.mediaTypeList = data.list;
         });
-        var platformQuery = JSON.stringify({
+        const platformQuery = JSON.stringify({
             gc: 'AND',
             cont: [{
                     f: 'ctg_id',
@@ -3930,30 +3693,30 @@ var MultimediaComponent = /** @class */ (function () {
                     val: 'MULTIMEDIA_PLATFORM' // TODO: fix database length for field ctg_name
                 }]
         });
-        this.services.syncService.get("/api/sync?entity=Catalog&q=" + platformQuery).then(function (data) {
-            _this.viewData.platformList = data.list;
+        this.services.syncService.get(`/api/sync?entity=Catalog&q=${platformQuery}`).then(data => {
+            this.viewData.platformList = data.list;
         });
     }
-    MultimediaComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         if (!this.services.loginService.isLoggedIn()) {
             console.log('User is not logged in');
         }
-    };
-    MultimediaComponent.prototype.handleNewItem = function () {
+    }
+    handleNewItem() {
         this.viewData.showCreateForm = !this.viewData.showCreateForm;
-    };
-    MultimediaComponent.prototype.newItem = function (form) {
-        var values = form.value;
-        var item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || 'anon');
+    }
+    newItem(form) {
+        let values = form.value;
+        const item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || 'anon');
         this.viewData.multimediaList.push(item);
-    };
-    MultimediaComponent.prototype.showNewEpForm = function (id, epId, title) {
+    }
+    showNewEpForm(id, epId, title) {
         this.viewData.showCreateEpForm = true;
         this.epModel.id = id;
         this.epModel.epId = epId;
         this.epModel.fTitle = title;
         // see if we have data for this ep in order to populate form
-        var detFound = this.services.multimediaDetService.list().find(function (item) { return item.mmd_id === id && item.mmd_id_ep === epId; });
+        const detFound = this.services.multimediaDetService.list().find(item => item.mmd_id === id && item.mmd_id_ep === epId);
         if (detFound) {
             this.epModel.fEpTitle = detFound.mmd_ep_title;
             this.epModel.fAltEpTitle = detFound.mmd_ep_alt_title;
@@ -3961,7 +3724,7 @@ var MultimediaComponent = /** @class */ (function () {
             this.epModel.fUrl = detFound.mmd_url;
         }
         this.epModel.isViewed = false;
-        var viewFound = this.services.multimediaViewService.list().find(function (item) { return item.mmv_id === id && item.mmv_id_ep === epId; });
+        const viewFound = this.services.multimediaViewService.list().find(item => item.mmv_id === id && item.mmv_id_ep === epId);
         if (viewFound) {
             this.epModel.isViewed = true;
             this.epModel.fSummary = viewFound.mmv_ep_summary;
@@ -3970,35 +3733,34 @@ var MultimediaComponent = /** @class */ (function () {
             this.epModel.fPlatform = viewFound.mmv_ctg_platform;
             this.epModel.fNotes = viewFound.mmv_notes;
         }
-    };
-    MultimediaComponent.prototype.hideNewEpForm = function () {
+    }
+    hideNewEpForm() {
         this.viewData.showCreateEpForm = false;
-    };
-    MultimediaComponent.prototype.newEpItem = function (form) {
-        var _this = this;
-        var values = form.value;
-        var queue = [];
-        var item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || 'anon');
+    }
+    newEpItem(form) {
+        let values = form.value;
+        const queue = [];
+        const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || 'anon');
         this.viewData.multimediaDetList.push(item);
         queue.push(this.services.multimediaDetService.asSyncQueue(item));
         if (values.fIsViewed) {
-            var item2 = this.services.multimediaViewService.newItem(this.epModel.id, this.epModel.epId, values.fSummary, values.fDateViewed, values.fRating, values.fPlatform, values.fNotes, this.services.loginService.getUsername() || 'anon');
+            const item2 = this.services.multimediaViewService.newItem(this.epModel.id, this.epModel.epId, values.fSummary, values.fDateViewed, values.fRating, values.fPlatform, values.fNotes, this.services.loginService.getUsername() || 'anon');
             this.viewData.multimediaViewList.push(item2);
             queue.push(this.services.multimediaViewService.asSyncQueue(item2));
-            var media = this.viewData.multimediaList.find(function (item) { return item.mma_id === _this.epModel.id; });
+            const media = this.viewData.multimediaList.find(item => item.mma_id === this.epModel.id);
             media.mma_current_ep = this.calculateNextEp(media.mma_current_ep);
             media.mma_date_mod = new Date();
             queue.push(this.services.multimediaService.asUpdateSyncQueue(media));
         }
         this.services.syncService.multipleRequest(queue);
-    };
-    MultimediaComponent.prototype.calculateNextEp = function (currentEp) {
-        if (_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__["DateUtils"].isDate(currentEp)) {
-            var asDate = new Date(currentEp);
-            return _crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__["DateUtils"].formatDate(_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__["DateUtils"].addDays(asDate, 7));
+    }
+    calculateNextEp(currentEp) {
+        if (DateUtility_1.DateUtils.isDate(currentEp)) {
+            const asDate = new Date(currentEp);
+            return DateUtility_1.DateUtils.formatDate(DateUtility_1.DateUtils.addDays(asDate, 7));
         }
-        var asInteger = Number.parseInt(currentEp);
-        var asFloat = Number.parseFloat(currentEp);
+        const asInteger = Number.parseInt(currentEp);
+        const asFloat = Number.parseFloat(currentEp);
         if (asInteger - asFloat < 0.1) {
             // as integer
             return String(asInteger + 1);
@@ -4007,34 +3769,32 @@ var MultimediaComponent = /** @class */ (function () {
             // as float
             return String(Math.ceil(asFloat));
         }
-    };
-    MultimediaComponent.prototype.showDetListing = function (id) {
-        var _this = this;
-        this.services.multimediaDetService.getAllForUser('anon').then(function (data) {
-            _this.viewData.multimediaDetList = data.filter(function (item) { return item.mmd_id === id; });
+    }
+    showDetListing(id) {
+        this.services.multimediaDetService.getAllForUser('anon').then(data => {
+            this.viewData.multimediaDetList = data.filter(item => item.mmd_id === id);
         });
-    };
-    MultimediaComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'multimedia',
-            template: __webpack_require__(/*! ./multimedia.template.html */ "./src/app/multimedia/multimedia.template.html"),
-            providers: [
-                _multimedia_service__WEBPACK_IMPORTED_MODULE_2__["MultimediaService"],
-                _multimediadet_service__WEBPACK_IMPORTED_MODULE_3__["MultimediaDetService"],
-                _multimediaview_service__WEBPACK_IMPORTED_MODULE_4__["MultimediaViewService"],
-                _common_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"],
-                _common_sync_api__WEBPACK_IMPORTED_MODULE_6__["SyncAPI"]
-            ]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_multimedia_service__WEBPACK_IMPORTED_MODULE_2__["MultimediaService"],
-            _multimediadet_service__WEBPACK_IMPORTED_MODULE_3__["MultimediaDetService"],
-            _multimediaview_service__WEBPACK_IMPORTED_MODULE_4__["MultimediaViewService"],
-            _common_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"],
-            _common_sync_api__WEBPACK_IMPORTED_MODULE_6__["SyncAPI"]])
-    ], MultimediaComponent);
-    return MultimediaComponent;
-}());
-
+    }
+};
+MultimediaComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'multimedia',
+        template: __webpack_require__(/*! ./multimedia.template.html */ "./src/app/multimedia/multimedia.template.html"),
+        providers: [
+            multimedia_service_1.MultimediaService,
+            multimediadet_service_1.MultimediaDetService,
+            multimediaview_service_1.MultimediaViewService,
+            login_service_1.LoginService,
+            sync_api_1.SyncAPI
+        ]
+    }),
+    tslib_1.__metadata("design:paramtypes", [multimedia_service_1.MultimediaService,
+        multimediadet_service_1.MultimediaDetService,
+        multimediaview_service_1.MultimediaViewService,
+        login_service_1.LoginService,
+        sync_api_1.SyncAPI])
+], MultimediaComponent);
+exports.MultimediaComponent = MultimediaComponent;
 
 
 /***/ }),
@@ -4043,26 +3803,20 @@ var MultimediaComponent = /** @class */ (function () {
 /*!**************************************************!*\
   !*** ./src/app/multimedia/multimedia.service.ts ***!
   \**************************************************/
-/*! exports provided: MultimediaService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultimediaService", function() { return MultimediaService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_Multimedia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Multimedia */ "./src/crosscommon/entities/Multimedia.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
-/* harmony import */ var _common_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
 
-
-
-
-
-
-var MultimediaService = /** @class */ (function () {
-    function MultimediaService(sync, loginService) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Multimedia_1 = __webpack_require__(/*! ../../crosscommon/entities/Multimedia */ "./src/crosscommon/entities/Multimedia.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const login_service_1 = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
+let MultimediaService = class MultimediaService {
+    constructor(sync, loginService) {
         this.data = [];
         this.sync = null;
         this.loginService = null;
@@ -4076,62 +3830,56 @@ var MultimediaService = /** @class */ (function () {
         this.sync = sync;
         this.loginService = loginService;
     }
-    MultimediaService.prototype.ngOnInit = function () {
+    ngOnInit() {
         if (!this.loginService.isLoggedIn()) {
             console.log('User is not logged in');
         }
-    };
-    MultimediaService.prototype.list = function () {
+    }
+    list() {
         return this.data;
-    };
-    MultimediaService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var filter, query, sort;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                filter = {
-                    gc: 'AND',
-                    cont: [{
-                            f: 'mma_ctg_status',
-                            op: 'eq',
-                            val: 1
-                        }, {
-                            f: 'mma_id_user',
-                            op: 'eq',
-                            val: this.loginService.getUsername() || 'anon'
-                        }]
-                };
-                query = "?q=" + JSON.stringify(filter);
-                sort = (function (a, b) {
-                    return a.mma_date_mod.getTime() > b.mma_date_mod.getTime() ? 1 : -1;
-                });
-                return [2 /*return*/, this.sync.get("" + this.config.api.list + query).then(function (data) {
-                        _this.data = data.map(function (d) { return new _crosscommon_entities_Multimedia__WEBPACK_IMPORTED_MODULE_1__["Multimedia"](d); });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const filter = {
+                gc: 'AND',
+                cont: [{
+                        f: 'mma_ctg_status',
+                        op: 'eq',
+                        val: 1
+                    }, {
+                        f: 'mma_id_user',
+                        op: 'eq',
+                        val: this.loginService.getUsername() || 'anon'
+                    }]
+            };
+            const query = `?q=${JSON.stringify(filter)}`;
+            const sort = ((a, b) => {
+                return a.mma_date_mod.getTime() > b.mma_date_mod.getTime() ? 1 : -1;
+            });
+            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+                this.data = data.map((d) => new Multimedia_1.Multimedia(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    MultimediaService.prototype.getAllForUser = function (user) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                return [2 /*return*/, this.getAll().then(function (all) {
-                        return all.filter(function (x) { return x.mma_id_user === user; });
-                    })];
+    }
+    getAllForUser(user) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll().then((all) => {
+                return all.filter((x) => x.mma_id_user === user);
             });
         });
-    };
-    MultimediaService.prototype.newId = function () {
-        var m = new _crosscommon_entities_Multimedia__WEBPACK_IMPORTED_MODULE_1__["Multimedia"]();
-        var length = m.metadata.fields.find(function (f) { return f.dbName === 'mma_id'; }).size;
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].hashId(m.metadata.prefix, length);
-    };
-    MultimediaService.prototype.newItem = function (title, media_type, season, year, current_ep, total_ep, url, user) {
-        var newId = this.newId();
-        var newItem = new _crosscommon_entities_Multimedia__WEBPACK_IMPORTED_MODULE_1__["Multimedia"]({
+    }
+    newId() {
+        const m = new Multimedia_1.Multimedia();
+        const length = m.metadata.fields.find(f => f.dbName === 'mma_id').size;
+        return Utility_1.Utils.hashId(m.metadata.prefix, length);
+    }
+    newItem(title, media_type, season, year, current_ep, total_ep, url, user) {
+        let newId = this.newId();
+        let newItem = new Multimedia_1.Multimedia({
             mma_id: newId,
             mma_title: title,
             mma_ctg_media_type: media_type,
@@ -4145,31 +3893,29 @@ var MultimediaService = /** @class */ (function () {
             mma_date_mod: new Date(),
             mma_ctg_status: 1
         });
-        this.sync.request('create', _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].entityToRawTableFields(newItem), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].getPKFromEntity(newItem), 'Multimedia', function () {
+        this.sync.request('create', Utility_1.Utils.entityToRawTableFields(newItem), Utility_1.Utils.getPKFromEntity(newItem), 'Multimedia', () => {
             newItem['not_sync'] = false; // means it's synced
-        }, newItem.recordName, function (item) { return item.mma_id === newItem.mma_id; });
+        }, newItem.recordName, (item) => item.mma_id === newItem.mma_id);
         return newItem;
-    };
-    MultimediaService.prototype.asUpdateSyncQueue = function (item) {
-        var _this = this;
-        var updateLocal = function () {
-            var index = _this.data.findIndex(function (e) { return e.mma_id === item.mma_id; });
+    }
+    asUpdateSyncQueue(item) {
+        const updateLocal = () => {
+            const index = this.data.findIndex(e => e.mma_id === item.mma_id);
             if (index !== -1) {
-                _this.data[index] = item;
+                this.data[index] = item;
             }
         };
-        return this.sync.asSyncQueue('update', _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].entityToRawTableFields(item), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].getPKFromEntity(item), 'Multimedia', function () {
+        return this.sync.asSyncQueue('update', Utility_1.Utils.entityToRawTableFields(item), Utility_1.Utils.getPKFromEntity(item), 'Multimedia', () => {
             item['not_sync'] = false; // means it's synced
             updateLocal();
-        }, item.recordName, function (item) { return item.mma_id === item.mma_id; });
-    };
-    MultimediaService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"], _common_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
-    ], MultimediaService);
-    return MultimediaService;
-}());
-
+        }, item.recordName, (item) => item.mma_id === item.mma_id);
+    }
+};
+MultimediaService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI, login_service_1.LoginService])
+], MultimediaService);
+exports.MultimediaService = MultimediaService;
 
 
 /***/ }),
@@ -4189,26 +3935,20 @@ module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n
 /*!*****************************************************!*\
   !*** ./src/app/multimedia/multimediadet.service.ts ***!
   \*****************************************************/
-/*! exports provided: MultimediaDetService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultimediaDetService", function() { return MultimediaDetService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_MultimediaDet__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/MultimediaDet */ "./src/crosscommon/entities/MultimediaDet.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
-/* harmony import */ var _common_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
 
-
-
-
-
-
-var MultimediaDetService = /** @class */ (function () {
-    function MultimediaDetService(sync, loginService) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const MultimediaDet_1 = __webpack_require__(/*! ../../crosscommon/entities/MultimediaDet */ "./src/crosscommon/entities/MultimediaDet.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const login_service_1 = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
+let MultimediaDetService = class MultimediaDetService {
+    constructor(sync, loginService) {
         this.data = [];
         this.sync = null;
         this.loginService = null;
@@ -4220,56 +3960,50 @@ var MultimediaDetService = /** @class */ (function () {
         this.sync = sync;
         this.loginService = loginService;
     }
-    MultimediaDetService.prototype.ngOnInit = function () {
+    ngOnInit() {
         if (!this.loginService.isLoggedIn()) {
             console.log('User is not logged in');
         }
-    };
-    MultimediaDetService.prototype.list = function () {
+    }
+    list() {
         return this.data;
-    };
-    MultimediaDetService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var filter, query, sort;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                filter = {
-                    gc: 'AND',
-                    cont: [{
-                            f: 'mmd_ctg_status',
-                            op: 'eq',
-                            val: 1
-                        }, {
-                            f: 'mmd_id_user',
-                            op: 'eq',
-                            val: this.loginService.getUsername() || 'anon'
-                        }]
-                };
-                query = "?q=" + JSON.stringify(filter);
-                sort = (function (a, b) {
-                    return a.mmd_date_mod.getTime() > b.mmd_date_mod.getTime() ? 1 : -1;
-                });
-                return [2 /*return*/, this.sync.get("" + this.config.api.list + query).then(function (data) {
-                        _this.data = data.map(function (d) { return new _crosscommon_entities_MultimediaDet__WEBPACK_IMPORTED_MODULE_1__["MultimediaDet"](d); });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const filter = {
+                gc: 'AND',
+                cont: [{
+                        f: 'mmd_ctg_status',
+                        op: 'eq',
+                        val: 1
+                    }, {
+                        f: 'mmd_id_user',
+                        op: 'eq',
+                        val: this.loginService.getUsername() || 'anon'
+                    }]
+            };
+            const query = `?q=${JSON.stringify(filter)}`;
+            const sort = ((a, b) => {
+                return a.mmd_date_mod.getTime() > b.mmd_date_mod.getTime() ? 1 : -1;
+            });
+            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+                this.data = data.map((d) => new MultimediaDet_1.MultimediaDet(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    MultimediaDetService.prototype.getAllForUser = function (user) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                return [2 /*return*/, this.getAll().then(function (all) {
-                        return all.filter(function (x) { return x.mmd_id_user === user; });
-                    })];
+    }
+    getAllForUser(user) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll().then((all) => {
+                return all.filter((x) => x.mmd_id_user === user);
             });
         });
-    };
-    MultimediaDetService.prototype.newItem = function (id, epId, title, altTitle, year, url, user) {
-        var newItem = new _crosscommon_entities_MultimediaDet__WEBPACK_IMPORTED_MODULE_1__["MultimediaDet"]({
+    }
+    newItem(id, epId, title, altTitle, year, url, user) {
+        let newItem = new MultimediaDet_1.MultimediaDet({
             mmd_id: id,
             mmd_id_ep: epId,
             mmd_ep_title: title,
@@ -4282,19 +4016,18 @@ var MultimediaDetService = /** @class */ (function () {
             mmd_ctg_status: 1
         });
         return newItem;
-    };
-    MultimediaDetService.prototype.asSyncQueue = function (item) {
-        return this.sync.asSyncQueue('create', _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].entityToRawTableFields(item), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].getPKFromEntity(item), 'MultimediaDet', function () {
+    }
+    asSyncQueue(item) {
+        return this.sync.asSyncQueue('create', Utility_1.Utils.entityToRawTableFields(item), Utility_1.Utils.getPKFromEntity(item), 'MultimediaDet', () => {
             item['not_sync'] = false; // means it's synced
-        }, item.recordName, function (item) { return item.mmd_id === item.mmd_id && item.mmd_id_ep === item.mmd_id_ep; });
-    };
-    MultimediaDetService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"], _common_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
-    ], MultimediaDetService);
-    return MultimediaDetService;
-}());
-
+        }, item.recordName, (item) => item.mmd_id === item.mmd_id && item.mmd_id_ep === item.mmd_id_ep);
+    }
+};
+MultimediaDetService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI, login_service_1.LoginService])
+], MultimediaDetService);
+exports.MultimediaDetService = MultimediaDetService;
 
 
 /***/ }),
@@ -4303,26 +4036,20 @@ var MultimediaDetService = /** @class */ (function () {
 /*!******************************************************!*\
   !*** ./src/app/multimedia/multimediaview.service.ts ***!
   \******************************************************/
-/*! exports provided: MultimediaViewService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultimediaViewService", function() { return MultimediaViewService; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _crosscommon_entities_MultimediaView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/MultimediaView */ "./src/crosscommon/entities/MultimediaView.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
-/* harmony import */ var _common_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
 
-
-
-
-
-
-var MultimediaViewService = /** @class */ (function () {
-    function MultimediaViewService(sync, loginService) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const MultimediaView_1 = __webpack_require__(/*! ../../crosscommon/entities/MultimediaView */ "./src/crosscommon/entities/MultimediaView.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const login_service_1 = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
+let MultimediaViewService = class MultimediaViewService {
+    constructor(sync, loginService) {
         this.data = [];
         this.sync = null;
         this.loginService = null;
@@ -4334,56 +4061,50 @@ var MultimediaViewService = /** @class */ (function () {
         this.sync = sync;
         this.loginService = loginService;
     }
-    MultimediaViewService.prototype.ngOnInit = function () {
+    ngOnInit() {
         if (!this.loginService.isLoggedIn()) {
             console.log('User is not logged in');
         }
-    };
-    MultimediaViewService.prototype.list = function () {
+    }
+    list() {
         return this.data;
-    };
-    MultimediaViewService.prototype.getAll = function () {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            var filter, query, sort;
-            var _this = this;
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                filter = {
-                    gc: 'AND',
-                    cont: [{
-                            f: 'mmv_ctg_status',
-                            op: 'eq',
-                            val: 1
-                        }, {
-                            f: 'mmv_id_user',
-                            op: 'eq',
-                            val: this.loginService.getUsername() || 'anon'
-                        }]
-                };
-                query = "?q=" + JSON.stringify(filter);
-                sort = (function (a, b) {
-                    return a.mmv_date_mod.getTime() > b.mmv_date_mod.getTime() ? 1 : -1;
-                });
-                return [2 /*return*/, this.sync.get("" + this.config.api.list + query).then(function (data) {
-                        _this.data = data.map(function (d) { return new _crosscommon_entities_MultimediaView__WEBPACK_IMPORTED_MODULE_1__["MultimediaView"](d); });
-                        _this.data = _this.data.sort(sort);
-                        return _this.data;
-                    }).catch(function (err) {
-                        return [];
-                    })];
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const filter = {
+                gc: 'AND',
+                cont: [{
+                        f: 'mmv_ctg_status',
+                        op: 'eq',
+                        val: 1
+                    }, {
+                        f: 'mmv_id_user',
+                        op: 'eq',
+                        val: this.loginService.getUsername() || 'anon'
+                    }]
+            };
+            const query = `?q=${JSON.stringify(filter)}`;
+            const sort = ((a, b) => {
+                return a.mmv_date_mod.getTime() > b.mmv_date_mod.getTime() ? 1 : -1;
+            });
+            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+                this.data = data.map((d) => new MultimediaView_1.MultimediaView(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            }).catch(err => {
+                return [];
             });
         });
-    };
-    MultimediaViewService.prototype.getAllForUser = function (user) {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                return [2 /*return*/, this.getAll().then(function (all) {
-                        return all.filter(function (x) { return x.mmv_id_user === user; });
-                    })];
+    }
+    getAllForUser(user) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll().then((all) => {
+                return all.filter((x) => x.mmv_id_user === user);
             });
         });
-    };
-    MultimediaViewService.prototype.newItem = function (id, epId, summary, dateViewed, rating, platform, notes, user) {
-        var newItem = new _crosscommon_entities_MultimediaView__WEBPACK_IMPORTED_MODULE_1__["MultimediaView"]({
+    }
+    newItem(id, epId, summary, dateViewed, rating, platform, notes, user) {
+        let newItem = new MultimediaView_1.MultimediaView({
             mmv_id: id,
             mmv_id_ep: epId,
             mmv_ep_summary: summary,
@@ -4397,19 +4118,18 @@ var MultimediaViewService = /** @class */ (function () {
             mmv_ctg_status: 1
         });
         return newItem;
-    };
-    MultimediaViewService.prototype.asSyncQueue = function (item) {
-        return this.sync.asSyncQueue('create', _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].entityToRawTableFields(item), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].getPKFromEntity(item), 'MultimediaView', function () {
+    }
+    asSyncQueue(item) {
+        return this.sync.asSyncQueue('create', Utility_1.Utils.entityToRawTableFields(item), Utility_1.Utils.getPKFromEntity(item), 'MultimediaView', () => {
             item['not_sync'] = false; // means it's synced
-        }, item.recordName, function (item) { return item.mmv_id === item.mmv_id && item.mmv_id_ep === item.mmv_id_ep; });
-    };
-    MultimediaViewService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"], _common_login_service__WEBPACK_IMPORTED_MODULE_5__["LoginService"]])
-    ], MultimediaViewService);
-    return MultimediaViewService;
-}());
-
+        }, item.recordName, (item) => item.mmv_id === item.mmv_id && item.mmv_id_ep === item.mmv_id_ep);
+    }
+};
+MultimediaViewService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI, login_service_1.LoginService])
+], MultimediaViewService);
+exports.MultimediaViewService = MultimediaViewService;
 
 
 /***/ }),
@@ -4418,61 +4138,57 @@ var MultimediaViewService = /** @class */ (function () {
 /*!************************************************!*\
   !*** ./src/app/task/task.indicator.service.ts ***!
   \************************************************/
-/*! exports provided: TaskIndicator */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskIndicator", function() { return TaskIndicator; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _task_type__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task.type */ "./src/app/task/task.type.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 
-
-
-
-var TaskIndicator = /** @class */ (function () {
-    function TaskIndicator(dateUtils) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const task_type_1 = __webpack_require__(/*! ./task.type */ "./src/app/task/task.type.ts");
+const date_common_1 = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let TaskIndicator = class TaskIndicator {
+    constructor(dateUtils) {
         this.tasks = [];
         this.dateUtils = dateUtils;
     }
-    TaskIndicator.prototype.closedETA = function (initialDate, finalDate) {
-        var total = 0;
-        this.tasks.filter(function (t) { return t.tsk_ctg_status == _task_type__WEBPACK_IMPORTED_MODULE_1__["TaskStatus"].CLOSED && new Date(t.tsk_date_done) >= initialDate && new Date(t.tsk_date_done) <= finalDate; }).forEach(function (t) {
+    closedETA(initialDate, finalDate) {
+        let total = 0;
+        this.tasks.filter((t) => t.tsk_ctg_status == task_type_1.TaskStatus.CLOSED && new Date(t.tsk_date_done) >= initialDate && new Date(t.tsk_date_done) <= finalDate).forEach((t) => {
             total += parseInt(t.tsk_estimated_duration);
         });
         return total;
-    };
+    }
     ;
-    TaskIndicator.prototype.addedETA = function (initialDate, finalDate) {
-        var total = 0;
-        this.tasks.filter(function (t) { return new Date(t.tsk_date_add) >= initialDate && new Date(t.tsk_date_add) <= finalDate; }).forEach(function (t) {
+    addedETA(initialDate, finalDate) {
+        let total = 0;
+        this.tasks.filter((t) => new Date(t.tsk_date_add) >= initialDate && new Date(t.tsk_date_add) <= finalDate).forEach((t) => {
             total += parseInt(t.tsk_estimated_duration);
         });
         return total;
-    };
+    }
     ;
-    TaskIndicator.prototype.closedTaskCount = function (initialDate, finalDate) {
-        var total = 0;
-        total = this.tasks.filter(function (t) { return t.tsk_ctg_status == _task_type__WEBPACK_IMPORTED_MODULE_1__["TaskStatus"].CLOSED && new Date(t.tsk_date_done) >= initialDate && new Date(t.tsk_date_done) <= finalDate; }).length;
+    closedTaskCount(initialDate, finalDate) {
+        let total = 0;
+        total = this.tasks.filter((t) => t.tsk_ctg_status == task_type_1.TaskStatus.CLOSED && new Date(t.tsk_date_done) >= initialDate && new Date(t.tsk_date_done) <= finalDate).length;
         return total;
-    };
+    }
     ;
-    TaskIndicator.prototype.addedTaskCount = function (initialDate, finalDate) {
-        var total = 0;
-        total = this.tasks.filter(function (t) { return new Date(t.tsk_date_add) >= initialDate && new Date(t.tsk_date_add) <= finalDate; }).length;
+    addedTaskCount(initialDate, finalDate) {
+        let total = 0;
+        total = this.tasks.filter((t) => new Date(t.tsk_date_add) >= initialDate && new Date(t.tsk_date_add) <= finalDate).length;
         return total;
-    };
+    }
     ;
-    TaskIndicator.prototype.calculateTotalTimeSpent = function (initialDate, finalDate) {
-        var state = {};
+    calculateTotalTimeSpent(initialDate, finalDate) {
+        let state = {};
         state.allClosedTimeTrackingToday = [];
         state.allOpenTimeTrackingToday = [];
-        this.tasks.filter(function (t) {
-            t.tsk_time_history.filter(function (h) {
+        this.tasks.filter((t) => {
+            t.tsk_time_history.filter((h) => {
                 if (initialDate <= new Date(h.tsh_date_start) && new Date(h.tsh_date_start) <= finalDate) { // that is between the range
-                    if (t.tsk_ctg_status === _task_type__WEBPACK_IMPORTED_MODULE_1__["TaskStatus"].CLOSED) { // closed tasks
+                    if (t.tsk_ctg_status === task_type_1.TaskStatus.CLOSED) { // closed tasks
                         state.allClosedTimeTrackingToday.push(h);
                     }
                     else { // open tasks
@@ -4481,52 +4197,52 @@ var TaskIndicator = /** @class */ (function () {
                 }
             });
         });
-        var spent = 0;
-        state.allClosedTimeTrackingToday.forEach(function (h) {
+        let spent = 0;
+        state.allClosedTimeTrackingToday.forEach((h) => {
             spent += h.tsh_time_spent;
         });
         state.totalTimeSpentTodayOnClosedTasks = spent;
         state.totalTimeSpentToday = 0;
         state.totalTimeSpentToday += spent;
         spent = 0;
-        state.allOpenTimeTrackingToday.forEach(function (h) {
+        state.allOpenTimeTrackingToday.forEach((h) => {
             spent += h.tsh_time_spent;
         });
         state.totalTimeSpentTodayOnOpenTasks = spent;
         state.totalTimeSpentToday += spent;
         return state;
-    };
-    TaskIndicator.prototype.calculateProductivityRatio = function (initialDate, finalDate) {
-        var totalTimeETAClosed = this.closedETA(initialDate, finalDate);
-        var totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
+    }
+    calculateProductivityRatio(initialDate, finalDate) {
+        let totalTimeETAClosed = this.closedETA(initialDate, finalDate);
+        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
         if (totalTimeSpent === 0) {
             return 0;
         }
         return Math.round((totalTimeETAClosed * 60 * 100) / totalTimeSpent) / 100;
-    };
-    TaskIndicator.prototype.calculateTimeManagementRatio = function (initialDate, finalDate) {
-        var realTimeElapsed = this.dateUtils.elapsedTime(this.firstTTEntryFromDay(initialDate), this.lastTTEntryFromDay(initialDate));
-        var totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
+    }
+    calculateTimeManagementRatio(initialDate, finalDate) {
+        let realTimeElapsed = this.dateUtils.elapsedTime(this.firstTTEntryFromDay(initialDate), this.lastTTEntryFromDay(initialDate));
+        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
         if (realTimeElapsed === 0) {
             return 0;
         }
         return Math.round(totalTimeSpent * 100 / realTimeElapsed) / 100;
-    };
-    TaskIndicator.prototype.calculateKarma = function (initialDate, finalDate) {
-        var totalTimeETAClosed = this.closedETA(initialDate, finalDate);
-        var totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
+    }
+    calculateKarma(initialDate, finalDate) {
+        let totalTimeETAClosed = this.closedETA(initialDate, finalDate);
+        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
         return Math.round((totalTimeETAClosed * 60 * 100) / totalTimeSpent) / 100;
-    };
-    TaskIndicator.prototype.firstTTEntryFromDay = function (date) {
-        var day0 = this.dateUtils.dateOnly(date);
-        var nextDay0 = this.dateUtils.addDays(day0, 1);
-        var firstDate = nextDay0;
-        var tasksOfTheDay = this.tasks.filter(function (t) {
+    }
+    firstTTEntryFromDay(date) {
+        let day0 = this.dateUtils.dateOnly(date);
+        let nextDay0 = this.dateUtils.addDays(day0, 1);
+        let firstDate = nextDay0;
+        let tasksOfTheDay = this.tasks.filter((t) => {
             return new Date(t.tsk_date_done) >= day0 && new Date(t.tsk_date_done) < nextDay0;
         });
-        tasksOfTheDay.forEach(function (t) {
+        tasksOfTheDay.forEach((t) => {
             if (t.tsk_time_history.length) {
-                t.tsk_time_history.forEach(function (h) {
+                t.tsk_time_history.forEach((h) => {
                     if (new Date(h.tsh_date_start) < firstDate && day0 < new Date(h.tsh_date_start)) {
                         firstDate = new Date(h.tsh_date_start);
                     }
@@ -4537,17 +4253,17 @@ var TaskIndicator = /** @class */ (function () {
             return null;
         }
         return firstDate;
-    };
-    TaskIndicator.prototype.lastTTEntryFromDay = function (date) {
-        var day0 = this.dateUtils.dateOnly(date);
-        var nextDay0 = this.dateUtils.addDays(day0, 1);
-        var lastDate = day0;
-        var tasksOfTheDay = this.tasks.filter(function (t) {
+    }
+    lastTTEntryFromDay(date) {
+        let day0 = this.dateUtils.dateOnly(date);
+        let nextDay0 = this.dateUtils.addDays(day0, 1);
+        let lastDate = day0;
+        let tasksOfTheDay = this.tasks.filter((t) => {
             return new Date(t.tsk_date_done) >= day0 && new Date(t.tsk_date_done) < nextDay0;
         });
-        tasksOfTheDay.forEach(function (t) {
+        tasksOfTheDay.forEach((t) => {
             if (t.tsk_time_history.length) {
-                t.tsk_time_history.forEach(function (h) {
+                t.tsk_time_history.forEach((h) => {
                     if (new Date(h.tsh_date_end) > lastDate && new Date(h.tsh_date_end) < nextDay0) {
                         lastDate = new Date(h.tsh_date_end);
                     }
@@ -4558,24 +4274,23 @@ var TaskIndicator = /** @class */ (function () {
             return null;
         }
         return lastDate;
-    };
+    }
     /**
      * Returns de total number of tasks until finalDate date (including that day).
      * @param initialDate ignore this param.
      * @param finalDate Date until total task count should be calculated, including this day.
      */
-    TaskIndicator.prototype.totalTaskCountUntil = function (initialDate, finalDate) {
-        var total;
-        total = this.tasks.filter(function (t) { return new Date(t.tsk_date_add) <= finalDate && (new Date(t.tsk_date_done) >= finalDate || (t.tsk_ctg_status !== _task_type__WEBPACK_IMPORTED_MODULE_1__["TaskStatus"].CLOSED && t.tsk_ctg_status !== _task_type__WEBPACK_IMPORTED_MODULE_1__["TaskStatus"].CANCELLED)); });
+    totalTaskCountUntil(initialDate, finalDate) {
+        let total;
+        total = this.tasks.filter((t) => new Date(t.tsk_date_add) <= finalDate && (new Date(t.tsk_date_done) >= finalDate || (t.tsk_ctg_status !== task_type_1.TaskStatus.CLOSED && t.tsk_ctg_status !== task_type_1.TaskStatus.CANCELLED)));
         return total.length;
-    };
-    TaskIndicator = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_date_common__WEBPACK_IMPORTED_MODULE_2__["DateCommon"]])
-    ], TaskIndicator);
-    return TaskIndicator;
-}());
-
+    }
+};
+TaskIndicator = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [date_common_1.DateCommon])
+], TaskIndicator);
+exports.TaskIndicator = TaskIndicator;
 
 
 /***/ }),
@@ -4584,26 +4299,24 @@ var TaskIndicator = /** @class */ (function () {
 /*!***********************************!*\
   !*** ./src/app/task/task.type.ts ***!
   \***********************************/
-/*! exports provided: Task, TaskStatus */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Task", function() { return Task; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskStatus", function() { return TaskStatus; });
-var Task = /** @class */ (function () {
-    function Task() {
-    }
-    return Task;
-}());
 
+Object.defineProperty(exports, "__esModule", { value: true });
+class Task {
+    constructor() {
+    }
+}
+exports.Task = Task;
 var TaskStatus;
 (function (TaskStatus) {
     TaskStatus[TaskStatus["BACKLOG"] = 1] = "BACKLOG";
     TaskStatus[TaskStatus["OPEN"] = 2] = "OPEN";
     TaskStatus[TaskStatus["CLOSED"] = 3] = "CLOSED";
     TaskStatus[TaskStatus["CANCELLED"] = 4] = "CANCELLED";
-})(TaskStatus || (TaskStatus = {}));
+})(TaskStatus = exports.TaskStatus || (exports.TaskStatus = {}));
 
 
 /***/ }),
@@ -4612,29 +4325,21 @@ var TaskStatus;
 /*!*****************************************!*\
   !*** ./src/app/task/tasks.component.ts ***!
   \*****************************************/
-/*! exports provided: TasksComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TasksComponent", function() { return TasksComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _tasks_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tasks.core */ "./src/app/task/tasks.core.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _task_indicator_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./task.indicator.service */ "./src/app/task/task.indicator.service.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
 
-
-
-
-
-
-
-var TasksComponent = /** @class */ (function () {
-    function TasksComponent(tasksCore, sync, taskIndicator, dateUtils, titleService) {
-        var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const tasks_core_1 = __webpack_require__(/*! ./tasks.core */ "./src/app/task/tasks.core.ts");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const task_indicator_service_1 = __webpack_require__(/*! ./task.indicator.service */ "./src/app/task/task.indicator.service.ts");
+const date_common_1 = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
+let TasksComponent = class TasksComponent {
+    constructor(tasksCore, sync, taskIndicator, dateUtils, titleService) {
         this.sync = sync;
         this.taskIndicator = taskIndicator;
         this.dateUtils = dateUtils;
@@ -4698,32 +4403,31 @@ var TasksComponent = /** @class */ (function () {
         }
         this.nextTasks = [];
         this.updateState();
-        this.notification({
-            body: 'Hello there!! you have ' + this.state.openTasksCount + ' tasks open'
+        this.services.tasksCore.getAllForUser('anon').then(taskList => {
+            this.tasks = taskList;
+            this.load = true;
+            this.updateState();
+            /* this.notification({ // this is the notification fired on load
+                body: 'Hello there!! you have ' + this.state.openTasksCount + ' tasks open'
+            });*/
         });
-        this.services.tasksCore.getAllForUser('anon').then(function (taskList) {
-            _this.tasks = taskList;
-            _this.load = true;
-            _this.updateState();
-        });
-        this.services.tasksCore.computeComparisonData().then(function (data) { return _this.comparisonData = data; });
+        // this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
         // events
-        this.subscribe('updateTimeTracking', function (timeTrackingItem) {
-            var foundItem = null;
+        this.subscribe('updateTimeTracking', (timeTrackingItem) => {
+            let foundItem = null;
             // Looks into open tasks
-            foundItem = _this.state.openTasks.find(function (item) { return item.tsk_id === timeTrackingItem.tsh_id; });
+            foundItem = this.state.openTasks.find((item) => item.tsk_id === timeTrackingItem.tsh_id);
             if (foundItem) {
-                var historyIndex = foundItem['tsk_time_history'].findIndex(function (item) { return item.tsh_id === timeTrackingItem.tsh_id && item.tsh_num_secuential === timeTrackingItem.tsh_num_secuential; });
+                const historyIndex = foundItem['tsk_time_history'].findIndex((item) => item.tsh_id === timeTrackingItem.tsh_id && item.tsh_num_secuential === timeTrackingItem.tsh_num_secuential);
                 foundItem['tsk_time_history'][historyIndex] = timeTrackingItem;
             }
             // Looks into closed tasks
         });
     }
-    TasksComponent.prototype.ngOnInit = function () {
-        this.registerServiceWorker();
-    };
-    TasksComponent.prototype.addTask = function (form) {
-        var _this = this;
+    ngOnInit() {
+        // this.registerServiceWorker(); // enable to register ServiceWorker
+    }
+    addTask(form) {
         if (!this.showBatchAdd) {
             if (form.value.tsk_name) {
                 this.services.tasksCore.addTask({
@@ -4737,38 +4441,37 @@ var TasksComponent = /** @class */ (function () {
         }
         else {
             // Batch add
-            var t = void 0;
+            let t;
             if (form.value.tsk_multiple_name) {
                 this.services.tasksCore.batchAddTasks(form.value.tsk_multiple_name.split('\n'), this.options);
                 this.tasks = this.services.tasksCore.tasks();
                 form.controls.tsk_multiple_name.reset();
                 this.showBatchAdd = false;
-                setTimeout(function () { return _this.updateState(); }, 100);
+                setTimeout(() => this.updateState(), 100);
             }
         }
         this.viewETABeforeAdd = false;
         this.scheduleNotificationsForStartingTasks();
-    };
-    TasksComponent.prototype.updateState = function () {
-        var _this = this;
-        var today = this.services.dateUtils.newDateUpToSeconds();
-        var today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var yesterday0 = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
-        var tomorrow0 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-        var sortByClosedDate = function (a, b) {
-            var res = new Date(a.tsk_date_done) > new Date(b.tsk_date_done);
+    }
+    updateState() {
+        let today = this.services.dateUtils.newDateUpToSeconds();
+        let today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        let yesterday0 = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+        let tomorrow0 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+        let sortByClosedDate = (a, b) => {
+            let res = new Date(a.tsk_date_done) > new Date(b.tsk_date_done);
             return res ? -1 : 1;
         };
-        var sortByDateUntilView = function (a, b) {
-            var res = new Date(a.tsk_date_view_until) > new Date(b.tsk_date_view_until);
+        let sortByDateUntilView = (a, b) => {
+            let res = new Date(a.tsk_date_view_until) > new Date(b.tsk_date_view_until);
             return res ? 1 : -1;
         };
         this.tasks = this.services.tasksCore.tasks();
-        this.state.backlogTasks = this.createGroupedTasks(this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.BACKLOG; }).sort(this.sortByGroup));
-        this.state.openTasks = this.createGroupedTasks(this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.OPEN && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) < today : true) && ((_this.options.optShowQualifiedTasksOnly ? t.tsk_qualifiers !== '' : true) || t.tsk_ctg_in_process == 2); }).sort(this.sortByGroup));
-        this.state.closedTasks = this.createGroupedClosedTasks(this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.CLOSED; }).sort(sortByClosedDate));
-        this.state.closedTodayTasks = this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.CLOSED && new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) <= tomorrow0; }).sort(sortByClosedDate);
-        this.state.postponedTasks = this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.OPEN && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) > today : false); }).sort(sortByDateUntilView);
+        this.state.backlogTasks = this.createGroupedTasks(this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.BACKLOG).sort(this.sortByGroup));
+        this.state.openTasks = this.createGroupedTasks(this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.OPEN && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) < today : true) && ((this.options.optShowQualifiedTasksOnly ? t.tsk_qualifiers !== '' : true) || t.tsk_ctg_in_process == 2)).sort(this.sortByGroup));
+        this.state.closedTasks = this.createGroupedClosedTasks(this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.CLOSED).sort(sortByClosedDate));
+        this.state.closedTodayTasks = this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.CLOSED && new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) <= tomorrow0).sort(sortByClosedDate);
+        this.state.postponedTasks = this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.OPEN && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) > today : false)).sort(sortByDateUntilView);
         // Estimated Total
         this.state.totalTimeEstimated = 0;
         this.state.totalTimeEstimatedOld = 0;
@@ -4778,33 +4481,33 @@ var TasksComponent = /** @class */ (function () {
         this.state.totalTimeEstimatedAddedTodayOpen = 0;
         this.state.totalTimeEstimatedOpen = 0;
         this.state.totalTimeEstimatedClosedToday = 0;
-        this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.OPEN; }).forEach(function (t) {
-            _this.state.totalTimeEstimatedOpen += parseInt(t.tsk_estimated_duration);
+        this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.OPEN).forEach((t) => {
+            this.state.totalTimeEstimatedOpen += parseInt(t.tsk_estimated_duration);
         });
-        this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.CLOSED && new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) <= today; }).forEach(function (t) {
-            _this.state.totalTimeEstimatedClosedToday += parseInt(t.tsk_estimated_duration);
+        this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.CLOSED && new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) <= today).forEach((t) => {
+            this.state.totalTimeEstimatedClosedToday += parseInt(t.tsk_estimated_duration);
         });
-        this.tasks.filter(function (t) { return new Date(t.tsk_date_add) >= today0 && new Date(t.tsk_date_add) <= today; }).forEach(function (t) {
-            _this.state.totalTimeEstimatedAddedToday += parseInt(t.tsk_estimated_duration);
-            if (t.tsk_ctg_status == _this.taskStatus.OPEN) {
-                _this.state.totalTimeEstimatedAddedTodayOpen += parseInt(t.tsk_estimated_duration);
+        this.tasks.filter((t) => new Date(t.tsk_date_add) >= today0 && new Date(t.tsk_date_add) <= today).forEach((t) => {
+            this.state.totalTimeEstimatedAddedToday += parseInt(t.tsk_estimated_duration);
+            if (t.tsk_ctg_status == this.taskStatus.OPEN) {
+                this.state.totalTimeEstimatedAddedTodayOpen += parseInt(t.tsk_estimated_duration);
             }
-            if (t.tsk_ctg_status == _this.taskStatus.CLOSED) {
-                _this.state.totalTimeEstimatedAddedTodayClosed += parseInt(t.tsk_estimated_duration);
+            if (t.tsk_ctg_status == this.taskStatus.CLOSED) {
+                this.state.totalTimeEstimatedAddedTodayClosed += parseInt(t.tsk_estimated_duration);
             }
         });
         this.state.totalTimeEstimated = this.state.totalTimeEstimatedOpen + this.state.totalTimeEstimatedClosedToday;
-        this.tasks.filter(function (t) { return (new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) < today && new Date(t.tsk_date_add) < today0) || (new Date(t.tsk_date_add) < today0 && t.tsk_ctg_status == _this.taskStatus.OPEN); }).forEach(function (t) {
-            _this.state.totalTimeEstimatedOld += parseInt(t.tsk_estimated_duration);
+        this.tasks.filter((t) => (new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) < today && new Date(t.tsk_date_add) < today0) || (new Date(t.tsk_date_add) < today0 && t.tsk_ctg_status == this.taskStatus.OPEN)).forEach((t) => {
+            this.state.totalTimeEstimatedOld += parseInt(t.tsk_estimated_duration);
         });
-        this.state.totalTaskCountOld = this.tasks.filter(function (t) { return (new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) < today && new Date(t.tsk_date_add) < today0) || (new Date(t.tsk_date_add) < today0 && t.tsk_ctg_status == _this.taskStatus.OPEN); }).length;
+        this.state.totalTaskCountOld = this.tasks.filter((t) => (new Date(t.tsk_date_done) >= today0 && new Date(t.tsk_date_done) < today && new Date(t.tsk_date_add) < today0) || (new Date(t.tsk_date_add) < today0 && t.tsk_ctg_status == this.taskStatus.OPEN)).length;
         // Info
         // Total time spent today
         this.calculateTotalTimeSpentToday();
-        this.state.openTasksCount = this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.OPEN; }).length;
-        this.state.backlogTasksCount = this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.BACKLOG; }).length;
+        this.state.openTasksCount = this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.OPEN).length;
+        this.state.backlogTasksCount = this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.BACKLOG).length;
         // Postponed tasks count
-        this.state.postponedTasksCount = this.tasks.filter(function (t) { return t.tsk_ctg_status == _this.taskStatus.OPEN && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) > today : false); }).length;
+        this.state.postponedTasksCount = this.tasks.filter((t) => t.tsk_ctg_status == this.taskStatus.OPEN && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) > today : false)).length;
         this.state.productivityRatio = {};
         if (this.state.totalTimeSpentToday !== 0) {
             this.state.productivityRatio.value = Math.round((this.state.totalTimeEstimatedClosedToday * 60 * 100) / this.state.totalTimeSpentToday) / 100;
@@ -4829,9 +4532,9 @@ var TasksComponent = /** @class */ (function () {
         }
         this.state.karmaCount = 0;
         this.state.karmaScore = 0;
-        this.state.closedTodayTasks.forEach(function (t) {
-            var onTime = t.tsk_total_time_spent < (t.tsk_estimated_duration * 60);
-            _this.state.karmaCount += onTime ? 1 : 0;
+        this.state.closedTodayTasks.forEach((t) => {
+            let onTime = t.tsk_total_time_spent < (t.tsk_estimated_duration * 60);
+            this.state.karmaCount += onTime ? 1 : 0;
         });
         if (this.state.closedTodayTasks.length) {
             this.state.karmaScore = Math.round(this.state.karmaCount * 100 / this.state.closedTodayTasks.length) / 100;
@@ -4850,7 +4553,7 @@ var TasksComponent = /** @class */ (function () {
         this.qualifierTotals();
         if (this.load) {
             this.load = false;
-            setTimeout(function () { return _this.showTimersOnLoad(); }, 100);
+            setTimeout(() => this.showTimersOnLoad(), 100);
             this.scheduleNotificationsForStartingTasks();
         }
         // next tasks to do today
@@ -4860,79 +4563,79 @@ var TasksComponent = /** @class */ (function () {
                 'tasks': []
             });
             if (typeof (window.localStorage) !== "undefined") {
-                var nextTasksIds = JSON.parse(localStorage.getItem('NextTasks'));
+                let nextTasksIds = JSON.parse(localStorage.getItem('NextTasks'));
                 if (nextTasksIds) {
-                    nextTasksIds.forEach(function (id) {
-                        var nt = _this.tasks.find(function (e) { return e.tsk_id === id && e.tsk_ctg_status === _this.taskStatus.OPEN; });
+                    nextTasksIds.forEach((id) => {
+                        let nt = this.tasks.find((e) => e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN);
                         if (nt) {
-                            _this.nextTasks[0].tasks.push(nt);
+                            this.nextTasks[0].tasks.push(nt);
                         }
                     });
-                    localStorage.setItem("NextTasks", JSON.stringify(this.nextTasks[0].tasks.map(function (e) { return e.tsk_id; })));
+                    localStorage.setItem("NextTasks", JSON.stringify(this.nextTasks[0].tasks.map((e) => e.tsk_id)));
                 }
             }
         }
         this.nextTasks[0].estimatedDuration = 0;
-        this.nextTasks[0].tasks.forEach(function (t) {
-            if (t.tsk_ctg_status === _this.taskStatus.OPEN) {
-                _this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration;
+        this.nextTasks[0].tasks.forEach((t) => {
+            if (t.tsk_ctg_status === this.taskStatus.OPEN) {
+                this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration;
             }
             else {
-                var index = _this.nextTasks[0].tasks.findIndex(function (e) { return e.tsk_id === t.tsk_id; });
-                _this.nextTasks[0].tasks.splice(index, 1);
-                localStorage.setItem("NextTasks", JSON.stringify(_this.nextTasks[0].tasks.map(function (e) { return e.tsk_id; })));
+                let index = this.nextTasks[0].tasks.findIndex((e) => e.tsk_id === t.tsk_id);
+                this.nextTasks[0].tasks.splice(index, 1);
+                localStorage.setItem("NextTasks", JSON.stringify(this.nextTasks[0].tasks.map((e) => e.tsk_id)));
             }
         });
         // sort next tasks by order field
-        var sortByOrder = function (a, b) {
-            var res = a.tsk_order > b.tsk_order;
+        let sortByOrder = (a, b) => {
+            let res = a.tsk_order > b.tsk_order;
             return res ? 1 : -1;
         };
         this.nextTasks[0].tasks = this.nextTasks[0].tasks.sort(sortByOrder);
         if (this.focusedTask.task) {
             if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
-                console.log('trying to set focus for task', this.focusedTask);
+                // console.log('trying to set focus for task',this.focusedTask);
                 //let f: HTMLElement = document.getElementById(this.focusedTask.tsk_id).querySelector('span.task-text[contenteditable=true]');
                 //f['tabIndex'] = -1;
-                setTimeout(function () {
-                    _this.focusedTask.element.focus();
-                    console.log('focus should be set now');
+                setTimeout(() => {
+                    // this.focusedTask.element.focus();
+                    document.querySelector(`#${this.focusedTask.task.tsk_id} span.editable.task-text`)['focus']();
+                    // console.log('focus should be set now');
                     //     f.focus();
-                }, 3000);
+                }, 600);
             }
             else {
             }
         }
         // Update comparison results
-        setTimeout(function () {
-            _this.services.tasksCore.computeComparisonData().then(function (data) { return _this.comparisonData = data; });
-        }, 6000);
-    };
-    TasksComponent.prototype.showTimersOnLoad = function () {
-        var _this = this;
-        this.tasks.filter(function (t) {
-            return t.tsk_ctg_status == _this.taskStatus.OPEN && t.tsk_ctg_in_process === 2 && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) < new Date() : true);
-        }).forEach(function (t) {
-            if (!_this.timers[t.tsk_id]) {
-                _this.showTimer(t, _this.getTaskDOMElement(t.tsk_id));
+        /*setTimeout(() => {
+            this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
+        }, 6000);*/
+    }
+    showTimersOnLoad() {
+        this.tasks.filter(t => {
+            return t.tsk_ctg_status == this.taskStatus.OPEN && t.tsk_ctg_in_process === 2 && (t.tsk_date_view_until ? new Date(t.tsk_date_view_until) < new Date() : true);
+        }).forEach(t => {
+            if (!this.timers[t.tsk_id]) {
+                this.showTimer(t, this.getTaskDOMElement(t.tsk_id));
             }
         });
-    };
-    TasksComponent.prototype.setSelected = function (item) {
+    }
+    setSelected(item) {
         this.state.selected = item;
-    };
-    TasksComponent.prototype.sortByGroup = function (a, b) {
+    }
+    sortByGroup(a, b) {
         if (a.tsk_id_record !== b.tsk_id_record) {
             return (a.tsk_id_record > b.tsk_id_record) ? 1 : -1;
         }
         else {
             return (a.tsk_order > b.tsk_order) ? 1 : -1;
         }
-    };
-    TasksComponent.prototype.createGroupedTasks = function (tasks) {
-        var res = [];
-        var lastHeader;
-        tasks.forEach(function (t) {
+    }
+    createGroupedTasks(tasks) {
+        let res = [];
+        let lastHeader;
+        tasks.forEach((t) => {
             if (t.tsk_id_record !== lastHeader) {
                 lastHeader = t.tsk_id_record;
                 res.push({
@@ -4945,29 +4648,29 @@ var TasksComponent = /** @class */ (function () {
             res[res.length - 1].estimatedDuration += t.tsk_estimated_duration;
         });
         // order groups by total ETA
-        res = res.sort(function (a, b) {
+        res = res.sort((a, b) => {
             return a.estimatedDuration > b.estimatedDuration ? -1 : 1;
         });
         return res;
-    };
-    TasksComponent.prototype.toggleTimeTracking = function (t, event) {
-        var parent = event.target["parentNode"];
+    }
+    toggleTimeTracking(t, event) {
+        let parent = event.target["parentNode"];
         this.taskToggleTimeTracking(t, parent);
-    };
-    TasksComponent.prototype.taskEdit = function (t, event) {
-        var parent = event.target["parentNode"];
+    }
+    taskEdit(t, event) {
+        let parent = event.target["parentNode"];
         if (event.altKey && event.keyCode == 38) { // detect move up
             this.taskMoveUp(parent);
         }
         if (event.altKey && event.keyCode == 40) { // detect move down
             this.taskMoveDown(parent);
         }
-        if (!event.altKey && event.keyCode == 38) { // detect jump up
-            this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+        /* if (!event.altKey && event.keyCode==38){ // detect jump up
+            this.taskJumpUp(parent,"span.task-text[contenteditable=true]");
         }
-        if (!event.altKey && event.keyCode == 40) { // detect jump down
-            this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
-        }
+        if (!event.altKey && event.keyCode==40){ // detect jump down
+            this.taskJumpDown(parent,"span.task-text[contenteditable=true]");
+        } */
         if (!event.shiftKey && event.keyCode == 113) { // detect "F2" = start/stop time tracking
             this.taskToggleTimeTracking(t, parent);
         }
@@ -4981,7 +4684,7 @@ var TasksComponent = /** @class */ (function () {
             this.taskToBacklog(t);
         }
         if (event.altKey && (event.keyCode == 106 || event.keyCode == 49)) { // detect '*' || '1'
-            document.querySelector("input[type=checkbox]#" + t.tsk_id)['click']();
+            document.querySelector(`input[type=checkbox]#${t.tsk_id}`)['click']();
         }
         if (event.altKey && (event.keyCode == 73 || event.keyCode == 50)) { // detect 'i' || '2'
             this.markTaskAs(t, 'important');
@@ -5011,41 +4714,59 @@ var TasksComponent = /** @class */ (function () {
             this.asNextToDo(t, false);
         }
         if (event.altKey && event.keyCode == 84) { // detect 't'
-            var tt = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(new Date()));
+            let tt = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(new Date()));
             if (!tt) { // no task today, try yesterday
                 tt = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(new Date(), -1)));
             }
-            if (tt && t.tsk_time_history.length) {
+            const calcRandomFinish = (estimated) => ((estimated - 2) * 60) + Math.floor(Math.random() * 2 * 10 * 6);
+            if (tt && t.tsk_time_history.length) { // task with history
                 t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start = tt;
-                if (t.tsk_ctg_in_process == 1) {
-                    var randomFinish = ((t.tsk_estimated_duration - 2) * 60) + Math.floor(Math.random() * 2 * 10 * 6);
+                if (t.tsk_ctg_in_process == 1) { // task 'in progress'
+                    const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
                     t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
                     t.tsk_time_history[t.tsk_time_history.length - 1].tsh_time_spent = randomFinish;
-                    var total_1 = 0;
-                    t.tsk_time_history.forEach(function (tth) {
-                        total_1 += tth.tsh_time_spent;
+                    let total = 0;
+                    t.tsk_time_history.forEach((tth) => {
+                        total += tth.tsh_time_spent;
                     });
                     this.services.tasksCore.updateTask(t, {
-                        tsk_total_time_spent: total_1
+                        tsk_total_time_spent: total
                     });
-                    t.tsk_total_time_spent = total_1;
-                    console.log('task with changes after time tracking setup', t);
+                    t.tsk_total_time_spent = total;
                 }
                 //this.updateTaskTimeTracking(t.tsk_id,t.tsk_time_history.length,data);
                 this.services.tasksCore.tasksToStorage(); // TODO: move this sentence to tasksCore
                 // TODO: update time tracking history on server
                 this.updateState();
             }
+            else { // task with no history, implies also is not 'in progress'
+                const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
+                t.tsk_time_history.push({
+                    'tsh_id': t.tsk_id,
+                    'tsh_num_secuential': 1,
+                    'tsh_name': t.tsk_name,
+                    'tsh_date_start': tt,
+                    'tsh_date_end': new Date(tt.getTime() + randomFinish * 1000),
+                    'tsh_time_spent': randomFinish,
+                    'tsh_id_user': 'anon',
+                    'tsh_date_add': this.services.dateUtils.newDateUpToSeconds(),
+                    'tsh_date_mod': this.services.dateUtils.newDateUpToSeconds()
+                });
+                this.services.tasksCore.updateTask(t, {
+                    tsk_total_time_spent: randomFinish
+                });
+                t.tsk_total_time_spent = randomFinish;
+            }
         }
         if (event.shiftKey && event.keyCode == 113) { // detect "Shift + F2" = find time tracking task, stop it, close the task and start the focused one
             // find tasks in progress
-            var inprogress = this.tasks.filter(function (task) { return task.tsk_ctg_in_process === 2; });
+            let inprogress = this.tasks.filter((task) => task.tsk_ctg_in_process === 2);
             console.log('inprogress now', inprogress);
             // stop them
-            inprogress.forEach(function (task) {
+            inprogress.forEach((task) => {
                 // let parent: HTMLElement = document.getElementById(task.tsk_id);
                 // this.taskToggleTimeTracking(task, parent);
-                document.querySelector("#" + task.tsk_id + " input[type=checkbox]")['click']();
+                document.querySelector(`#${task.tsk_id} input[type=checkbox]`)['click']();
             });
             // start current task time tracking
             this.taskToggleTimeTracking(t, parent);
@@ -5053,14 +4774,31 @@ var TasksComponent = /** @class */ (function () {
         // event.preventDefault();
         // event.returnValue = false;
         // return false;
-    };
-    TasksComponent.prototype.taskCheckboxHandler = function (t, event) {
-        var _this = this;
+    }
+    taskKeyDown(event) {
+        const parent = event.target["parentNode"];
+        if (!event.altKey && event.keyCode == 38) { // detect jump up
+            this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+        }
+        if (!event.altKey && event.keyCode == 40) { // detect jump down
+            this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+        }
+    }
+    etaKeyDown(event) {
+        const parent = event.target["parentNode"];
+        if (!event.altKey && event.keyCode == 38) { // detect jump up
+            this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+        }
+        if (!event.altKey && event.keyCode == 40) { // detect jump down
+            this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+        }
+    }
+    taskCheckboxHandler(t, event) {
         if (this.timers[t.tsk_id]) { // task is in running state
             // stop time tracking
             this.taskToggleTimeTracking(t, this.getTaskDOMElement(t.tsk_id));
         }
-        var dateDone = this.services.dateUtils.newDateUpToSeconds();
+        let dateDone = this.services.dateUtils.newDateUpToSeconds();
         if (event['shiftKey'] && t.tsk_time_history.length) { // modifier, use the last time tracking end date record
             dateDone = new Date(t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end);
         }
@@ -5068,37 +4806,37 @@ var TasksComponent = /** @class */ (function () {
             tsk_ctg_status: event['target']['checked'] ? this.taskStatus.CLOSED : this.taskStatus.OPEN,
             tsk_date_done: dateDone
         });
-        setTimeout(function () {
-            _this.updateState();
+        setTimeout(() => {
+            this.updateState();
         }, this.delayOnUpdateState);
-    };
-    TasksComponent.prototype.updateTask = function (tsk_id, newData) {
-        var model = this.tasks.find(function (e) { return e.tsk_id === tsk_id; });
+    }
+    updateTask(tsk_id, newData) {
+        let model = this.tasks.find((e) => e.tsk_id === tsk_id);
         this.services.tasksCore.updateTask(model, newData);
-    };
-    TasksComponent.prototype.taskMoveUp = function (current) {
+    }
+    taskMoveUp(current) {
         // previous <- current | next
         // current | previous | next
         if (current.previousElementSibling && current.previousElementSibling.id) {
             this.interchangeTaskOrder(current.id, current.previousElementSibling.id);
             current.parentNode.insertBefore(current.previousSibling, current.nextSibling);
         }
-    };
-    TasksComponent.prototype.taskMoveDown = function (current) {
+    }
+    taskMoveDown(current) {
         // previous | current -> next
         // previous | next | current
         if (current.nextElementSibling && current.nextElementSibling.id) {
             this.interchangeTaskOrder(current.id, current.nextElementSibling.id);
             current.parentNode.insertBefore(current.nextSibling, current);
         }
-    };
-    TasksComponent.prototype.interchangeTaskOrder = function (tsk_id1, tsk_id2) {
-        var t1 = this.tasks.find(function (e) { return e.tsk_id === tsk_id1; }).tsk_order;
-        var t2 = this.tasks.find(function (e) { return e.tsk_id === tsk_id2; }).tsk_order;
+    }
+    interchangeTaskOrder(tsk_id1, tsk_id2) {
+        let t1 = this.tasks.find((e) => e.tsk_id === tsk_id1).tsk_order;
+        let t2 = this.tasks.find((e) => e.tsk_id === tsk_id2).tsk_order;
         this.updateTask(tsk_id1, { tsk_order: t2 });
         this.updateTask(tsk_id2, { tsk_order: t1 });
-    };
-    TasksComponent.prototype.taskJumpUp = function (current, selector) {
+    }
+    taskJumpUp(current, selector) {
         if (current.previousElementSibling.querySelector(selector)) {
             current.previousElementSibling.querySelector(selector).focus();
         }
@@ -5115,11 +4853,11 @@ var TasksComponent = /** @class */ (function () {
                 }
             }
         }
-    };
-    TasksComponent.prototype.focusElement = function (selector) {
+    }
+    focusElement(selector) {
         document.querySelector(selector)["focus"]();
-    };
-    TasksComponent.prototype.taskJumpDown = function (current, selector) {
+    }
+    taskJumpDown(current, selector) {
         if (current.nextElementSibling && current.nextElementSibling.querySelector(selector)) {
             current.nextElementSibling.querySelector(selector).focus();
         }
@@ -5128,8 +4866,8 @@ var TasksComponent = /** @class */ (function () {
                 current.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(selector).focus();
             }
         }
-    };
-    TasksComponent.prototype.taskToggleTimeTracking = function (task, dom) {
+    }
+    taskToggleTimeTracking(task, dom) {
         if (task.tsk_ctg_in_process === 1) {
             // not in progress
             task.tsk_ctg_in_process = 2;
@@ -5151,14 +4889,13 @@ var TasksComponent = /** @class */ (function () {
             this.services.tasksCore.stopTimeTracking(task);
             this.calculateTotalTimeSpentToday();
         }
-    };
-    TasksComponent.prototype.showTimer = function (task, dom) {
-        var _this = this;
-        var timer = 0;
-        var start = this.services.dateUtils.newDateUpToSeconds();
+    }
+    showTimer(task, dom) {
+        let timer = 0;
+        let start = this.services.dateUtils.newDateUpToSeconds();
         // if task was running previously, get current running time
         if (task.tsk_time_history.length > 0) {
-            var h = task.tsk_time_history[task.tsk_time_history.length - 1];
+            let h = task.tsk_time_history[task.tsk_time_history.length - 1];
             if (h.tsh_time_spent === 0) {
                 h.tsh_date_start = new Date(h.tsh_date_start);
                 start = h.tsh_date_start;
@@ -5166,26 +4903,26 @@ var TasksComponent = /** @class */ (function () {
             }
         }
         // dom.querySelector("span[contenteditable=true]").classList.add("task-in-process");
-        var formatTimerString = function (timer) {
-            if (_this.timerModeRemaining) {
-                return "R-" + _this.formatTime((parseInt(task.tsk_estimated_duration) * 60) - parseInt(task.tsk_total_time_spent) - timer);
+        let formatTimerString = (timer) => {
+            if (this.timerModeRemaining) {
+                return "R-" + this.formatTime((parseInt(task.tsk_estimated_duration) * 60) - parseInt(task.tsk_total_time_spent) - timer);
             }
             else {
-                return _this.formatTime(timer);
+                return this.formatTime(timer);
             }
         };
-        var calcTimer = function (start) {
-            return _this.elapsedTime(start, _this.services.dateUtils.newDateUpToSeconds());
+        let calcTimer = (start) => {
+            return this.elapsedTime(start, this.services.dateUtils.newDateUpToSeconds());
         };
-        var watch = setInterval(function () {
-            var h = task.tsk_time_history[task.tsk_time_history.length - 1];
+        let watch = setInterval(() => {
+            let h = task.tsk_time_history[task.tsk_time_history.length - 1];
             timer = calcTimer(new Date(h.tsh_date_start));
-            _this.timers[task.tsk_id].timerString = formatTimerString(timer);
-            if (task.tsk_estimated_duration * 60 - 60 < task.tsk_total_time_spent + timer && !_this.timers[task.tsk_id].burnoutNotified) {
-                _this.timers[task.tsk_id].burnoutNotified = true;
-                if (_this.tasks.find(function (t) { return t.tsk_id === task.tsk_id; }).tsk_ctg_status === _this.taskStatus.OPEN) {
-                    _this.notification({
-                        body: "Task \"" + task.tsk_name + "\" is about to exceed estimation!"
+            this.timers[task.tsk_id].timerString = formatTimerString(timer);
+            if (task.tsk_estimated_duration * 60 - 60 < task.tsk_total_time_spent + timer && !this.timers[task.tsk_id].burnoutNotified) {
+                this.timers[task.tsk_id].burnoutNotified = true;
+                if (this.tasks.find(t => t.tsk_id === task.tsk_id).tsk_ctg_status === this.taskStatus.OPEN) {
+                    this.notification({
+                        body: `Task "${task.tsk_name}" is about to exceed estimation!`
                     });
                 }
             }
@@ -5194,26 +4931,25 @@ var TasksComponent = /** @class */ (function () {
         this.timers[task.tsk_id].timerString = formatTimerString(timer);
         this.timers[task.tsk_id].watch = watch;
         this.timers[task.tsk_id].burnoutNotified = false;
-    };
-    TasksComponent.prototype.hideTimer = function (task, dom) {
+    }
+    hideTimer(task, dom) {
         if (this.timers[task.tsk_id]) {
             clearInterval(this.timers[task.tsk_id].watch);
             this.timers[task.tsk_id] = undefined;
         }
         // dom.querySelector("span[contenteditable=true]").classList.remove("task-in-process");
-    };
+    }
     // TODO: replace with service's method
-    TasksComponent.prototype.elapsedTime = function (date1, date2) {
+    elapsedTime(date1, date2) {
         return this.services.tasksCore.elapsedTime(date1, date2);
         //return Math.abs(date1.getTime() - date2.getTime()) / 1000;
-    };
-    TasksComponent.prototype.formatTime = function (elapsed, format) {
-        if (format === void 0) { format = undefined; }
+    }
+    formatTime(elapsed, format = undefined) {
         // time in seconds
-        var hr = Math.floor(elapsed / (60 * 60));
-        var min = Math.floor((elapsed - (hr * 60 * 60)) / 60);
-        var sec = Math.round(elapsed - (hr * 60 * 60) - (min * 60));
-        var str = "";
+        let hr = Math.floor(elapsed / (60 * 60));
+        let min = Math.floor((elapsed - (hr * 60 * 60)) / 60);
+        let sec = Math.round(elapsed - (hr * 60 * 60) - (min * 60));
+        let str = "";
         if (format === "hr:min:sec" || format === undefined) {
             if (hr === 0) { // only min:sec
                 str += ((min > 9) ? min : "0" + min);
@@ -5227,22 +4963,22 @@ var TasksComponent = /** @class */ (function () {
         }
         if (format === "#h#m") {
             if (hr === 0) {
-                str = min + "m";
+                str = `${min}m`;
             }
             else {
                 if (min === 0) {
-                    str = hr + "h";
+                    str = `${hr}h`;
                 }
                 else {
-                    str = hr + "h" + min + "m";
+                    str = `${hr}h${min}m`;
                 }
             }
         }
         return str;
-    };
-    TasksComponent.prototype.deleteTimeTracking = function (t, h) {
-        var spent = 0;
-        t.tsk_time_history.forEach(function (tt) {
+    }
+    deleteTimeTracking(t, h) {
+        let spent = 0;
+        t.tsk_time_history.forEach((tt) => {
             if (tt.tsh_num_secuential < h.tsh_num_secuential) {
                 spent += tt.tsh_time_spent;
             }
@@ -5254,73 +4990,72 @@ var TasksComponent = /** @class */ (function () {
         t.tsk_time_history.splice(h.tsh_num_secuential - 1, 1);
         t.tsk_total_time_spent = spent;
         this.calculateTotalTimeSpentToday();
-    };
-    TasksComponent.prototype.editTimeTracking = function (h, which, event) {
-        var newValue = event.target['textContent'];
-        var field = (which === 1) ? 'tsh_date_start' : 'tsh_date_end';
-        var oldValue = h[field];
-        var task = this.tasks.find(function (t) { return t.tsk_id === h.tsh_id; });
+    }
+    editTimeTracking(h, which, event) {
+        let newValue = event.target['textContent'];
+        let field = (which === 1) ? 'tsh_date_start' : 'tsh_date_end';
+        let oldValue = h[field];
+        let task = this.tasks.find((t) => t.tsk_id === h.tsh_id);
         if (newValue.length !== 19 || (new Date(newValue)).getTime() === (new Date(oldValue)).getTime()) {
             return false;
         }
         if (which !== 1 && task.tsk_ctg_in_process === 2) {
             return false;
         }
-        var data = {};
+        let data = {};
         data[field] = new Date(newValue);
         this.updateTaskTimeTracking(h.tsh_id, h.tsh_num_secuential, data);
         if (this.timers[h.tsh_id]) {
-            var dom = this.getTaskDOMElement(task.tsk_id);
+            let dom = this.getTaskDOMElement(task.tsk_id);
             this.hideTimer(task, dom);
             this.showTimer(task, dom);
         }
         this.calculateTotalTimeSpentToday();
-    };
-    TasksComponent.prototype.updateTaskTimeTracking = function (tsh_id, tsh_num_secuential, newData) {
-        var model = this.tasks.find(function (e) { return e.tsk_id === tsh_id; });
+    }
+    updateTaskTimeTracking(tsh_id, tsh_num_secuential, newData) {
+        let model = this.tasks.find((e) => e.tsk_id === tsh_id);
         if (model) {
-            model = model.tsk_time_history.find(function (h) { return h.tsh_num_secuential === tsh_num_secuential; });
+            model = model.tsk_time_history.find((h) => h.tsh_num_secuential === tsh_num_secuential);
         }
         this.services.tasksCore.updateTaskTimeTracking(model, newData);
-    };
-    TasksComponent.prototype.getTaskDOMElement = function (tsk_id) {
-        var dom = document.querySelector("div[id=\"" + tsk_id + "\"] span").parentElement;
+    }
+    getTaskDOMElement(tsk_id) {
+        let dom = document.querySelector(`div[id="${tsk_id}"] span`).parentElement;
         return dom;
-    };
-    TasksComponent.prototype.inputKeyUpHandler = function (event) {
-        var _this = this;
+    }
+    inputKeyUpHandler(event) {
         if (event.keyCode === 40 && !this.showBatchAdd) { // Down arrow
             this.focusElement("span[contenteditable=true]");
         }
         if (event.keyCode == 113) { // detect "F2" = toggle Batch Add
             this.showBatchAdd = !this.showBatchAdd;
             this.viewETABeforeAdd = false;
-            setTimeout(function () {
-                if (_this.showBatchAdd) {
-                    _this.focusElement("textarea[name=tsk_multiple_name]");
+            setTimeout(() => {
+                if (this.showBatchAdd) {
+                    this.focusElement("textarea[name=tsk_multiple_name]");
                 }
                 else {
-                    _this.focusElement("input[name=tsk_name]");
+                    this.focusElement("input[name=tsk_name]");
                 }
             }, 100);
         }
         // interpret ETAs and sum them up by record
-        var t;
-        var totalETA = 0;
-        var totalPerRecord = [];
-        var value = event.target['value'];
+        let t;
+        let totalETA = 0;
+        let totalPerRecord = [];
+        let value = event.target['value'];
         // console.log('event',event);
         // console.log(value.split('\n'));
         if (value) {
-            var totalTasksWritten_1 = 0;
-            value.split('\n').forEach(function (text) {
+            let totalTasksWritten = 0;
+            value.split('\n').forEach((text) => {
                 if (!text.startsWith('//') && text !== '') {
-                    t = _this.services.tasksCore.parseTask({
-                        'tsk_date_add': _this.services.dateUtils.newDateUpToSeconds(),
+                    t = this.services.tasksCore.parseTask({
+                        'tsk_date_add': this.services.dateUtils.newDateUpToSeconds(),
                         'tsk_name': text
-                    }, _this.options);
-                    if (totalPerRecord.find(function (r) { return r.record === t.tsk_id_record; })) {
-                        totalPerRecord.find(function (r) { return r.record === t.tsk_id_record; }).totalETA += t.tsk_estimated_duration || 0;
+                    }, this.options);
+                    if (totalPerRecord.find((r) => r.record === t.tsk_id_record)) {
+                        totalPerRecord.find((r) => r.record === t.tsk_id_record).totalETA += t.tsk_estimated_duration || 0;
                     }
                     else {
                         totalPerRecord.push({
@@ -5329,53 +5064,53 @@ var TasksComponent = /** @class */ (function () {
                         });
                     }
                     totalETA += t.tsk_estimated_duration || 0;
-                    totalTasksWritten_1++;
+                    totalTasksWritten++;
                     // console.log("totals",totalPerRecord);
                 }
             });
             this.viewETABeforeAdd = true;
             this.state.beforeAddETA = totalPerRecord;
             this.state.beforeAddTotalETA = totalETA;
-            this.state.beforeAddTotalTasksWritten = totalTasksWritten_1;
+            this.state.beforeAddTotalTasksWritten = totalTasksWritten;
             // console.log('ETA',totalETA);
         }
         else {
             this.viewETABeforeAdd = false;
         }
-    };
-    TasksComponent.prototype.toggleViewBacklog = function () {
+    }
+    toggleViewBacklog() {
         this.viewBacklog = !this.viewBacklog;
-    };
-    TasksComponent.prototype.toggleViewAll = function () {
+    }
+    toggleViewAll() {
         this.viewAll = !this.viewAll;
-    };
-    TasksComponent.prototype.toggleViewReportsWeek = function () {
+    }
+    toggleViewReportsWeek() {
         this.viewReportsWeek = !this.viewReportsWeek;
-    };
-    TasksComponent.prototype.toggleViewReportsDayDistribution = function () {
+    }
+    toggleViewReportsDayDistribution() {
         this.viewReportsDayDistribution = !this.viewReportsDayDistribution;
-    };
-    TasksComponent.prototype.toggleViewPostponed = function () {
+    }
+    toggleViewPostponed() {
         this.viewPostponed = !this.viewPostponed;
-    };
-    TasksComponent.prototype.toggleViewOptions = function () {
+    }
+    toggleViewOptions() {
         this.viewOptions = !this.viewOptions;
-    };
-    TasksComponent.prototype.ageFontSizeNormalization = function (t) {
+    }
+    ageFontSizeNormalization(t) {
         // range from 8px to 80px
-        var age = this.taskAgeRaw(t) / 2;
+        let age = this.taskAgeRaw(t) / 2;
         return age >= 72 ? 80 : age + 8;
-    };
-    TasksComponent.prototype.taskAgeRaw = function (t) {
+    }
+    taskAgeRaw(t) {
         return this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
-    };
-    TasksComponent.prototype.taskAge = function (t) {
-        var diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
-        return "" + (diff > 1 ? '(' + diff + ' days ago)' : (diff === 1 ? '(yesterday)' : ''));
-    };
-    TasksComponent.prototype.taskAgeClass = function (t) {
-        var diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
-        var classes = ['task-age-0', 'task-age-1', 'task-age-2', 'task-age-10'];
+    }
+    taskAge(t) {
+        let diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
+        return `${(diff > 1 ? '(' + diff + ' days ago)' : (diff === 1 ? '(yesterday)' : ''))}`;
+    }
+    taskAgeClass(t) {
+        let diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
+        let classes = ['task-age-0', 'task-age-1', 'task-age-2', 'task-age-10'];
         if (diff <= 2) {
             return classes[diff];
         }
@@ -5386,55 +5121,54 @@ var TasksComponent = /** @class */ (function () {
             return classes[3];
         }
         return '';
-    };
-    TasksComponent.prototype.deleteTasks = function () {
+    }
+    deleteTasks() {
         this.services.tasksCore.deleteTasks();
         this.updateState();
-    };
-    TasksComponent.prototype.calculateTotalTimeSpentToday = function () {
-        var _this = this;
-        var today = new Date();
-        var today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var tomorrow0 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    }
+    calculateTotalTimeSpentToday() {
+        let today = new Date();
+        let today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        let tomorrow0 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
         this.state.allClosedTimeTrackingToday = [];
         this.state.allOpenTimeTrackingToday = [];
-        this.tasks.filter(function (t) {
-            t.tsk_time_history.filter(function (h) {
+        this.tasks.filter((t) => {
+            t.tsk_time_history.filter((h) => {
                 if (today0 <= new Date(h.tsh_date_start) && new Date(h.tsh_date_start) <= tomorrow0) {
-                    if (t.tsk_ctg_status === _this.taskStatus.CLOSED) {
-                        _this.state.allClosedTimeTrackingToday.push(h);
+                    if (t.tsk_ctg_status === this.taskStatus.CLOSED) {
+                        this.state.allClosedTimeTrackingToday.push(h);
                     }
                     else {
-                        _this.state.allOpenTimeTrackingToday.push(h);
+                        this.state.allOpenTimeTrackingToday.push(h);
                     }
                 }
             });
         });
-        var spent = 0;
-        this.state.allClosedTimeTrackingToday.forEach(function (h) {
+        let spent = 0;
+        this.state.allClosedTimeTrackingToday.forEach((h) => {
             spent += h.tsh_time_spent;
         });
         this.state.totalTimeSpentTodayOnClosedTasks = spent;
         this.state.totalTimeSpentToday = 0;
         this.state.totalTimeSpentToday += spent;
         spent = 0;
-        this.state.allOpenTimeTrackingToday.forEach(function (h) {
+        this.state.allOpenTimeTrackingToday.forEach((h) => {
             spent += h.tsh_time_spent;
         });
         this.state.totalTimeSpentTodayOnOpenTasks = spent;
         this.state.totalTimeSpentToday += spent;
-    };
-    TasksComponent.prototype.setOpen = function (t) {
+    }
+    setOpen(t) {
         this.updateTask(t.tsk_id, {
             tsk_ctg_status: this.taskStatus.OPEN
         });
         this.updateState();
-    };
-    TasksComponent.prototype.taskEstimatedDurationEdit = function (t, event) {
-        var newDuration = this.services.tasksCore.parseTime(event.target['textContent']);
+    }
+    taskEstimatedDurationEdit(t, event) {
+        let newDuration = this.services.tasksCore.parseTime(event.target['textContent']);
         if (newDuration !== t.tsk_estimated_duration) {
             // if schedule date end is set, update it as well
-            var newEnd = t.tsk_schedule_date_end;
+            let newEnd = t.tsk_schedule_date_end;
             if (t.tsk_schedule_date_end) {
                 newEnd = new Date((new Date(t.tsk_schedule_date_start)).getTime() + newDuration * 60 * 1000);
             }
@@ -5443,16 +5177,15 @@ var TasksComponent = /** @class */ (function () {
                 tsk_schedule_date_end: newEnd
             });
         }
-    };
-    TasksComponent.prototype.commandOnTask = function (t, event) {
-        var _this = this;
+    }
+    commandOnTask(t, event) {
         if (t.tsk_name !== event.target['textContent']) {
             this.updateTask(t.tsk_id, {
                 tsk_name: event.target['textContent']
             });
         }
-        var command = event.target['textContent'];
-        var originalTask = '';
+        let command = event.target['textContent'];
+        let originalTask = '';
         if (command.indexOf('--') !== -1) { // postpone
             command = command.substring(command.indexOf('--') + 2);
             originalTask = t.tsk_name.replace(' --' + command, '');
@@ -5462,8 +5195,8 @@ var TasksComponent = /** @class */ (function () {
                 // --pos now +2h30m
                 // --pos tomorrow 09:00
                 // --pos 2016-12-31 23:59
-                var data = command.substring(4);
-                var s = this.services.tasksCore.parseDatetime(data);
+                let data = command.substring(4);
+                let s = this.services.tasksCore.parseDatetime(data);
                 console.log('date parsed:', s);
                 this.updateTask(t.tsk_id, {
                     tsk_name: originalTask,
@@ -5486,9 +5219,9 @@ var TasksComponent = /** @class */ (function () {
             }
         }
         if (command.indexOf('%[') !== -1) { // set schedule
-            var endPosition = command.indexOf(']', command.indexOf('%[')) === -1 ? command.length : command.indexOf(']', command.indexOf('%['));
+            let endPosition = command.indexOf(']', command.indexOf('%[')) === -1 ? command.length : command.indexOf(']', command.indexOf('%['));
             command = command.substring(command.indexOf('%[') + 2, endPosition);
-            var s = this.services.tasksCore.parseDatetime(command);
+            let s = this.services.tasksCore.parseDatetime(command);
             originalTask = t.tsk_name.replace('%[' + command + '] ', '');
             originalTask = t.tsk_name.replace(' %[' + command + ']', '');
             originalTask = t.tsk_name.replace('%[' + command + ']', '');
@@ -5501,7 +5234,7 @@ var TasksComponent = /** @class */ (function () {
             this.updateState();
         }
         if (command.indexOf('#[') !== -1) { // set schedule
-            var endPosition = command.indexOf(']', command.indexOf('#[')) === -1 ? command.length : command.indexOf(']', command.indexOf('#['));
+            let endPosition = command.indexOf(']', command.indexOf('#[')) === -1 ? command.length : command.indexOf(']', command.indexOf('#['));
             command = command.substring(command.indexOf('#[') + 2, endPosition);
             originalTask = t.tsk_name.replace('#[' + command + '] ', '');
             originalTask = t.tsk_name.replace(' #[' + command + ']', '');
@@ -5513,28 +5246,28 @@ var TasksComponent = /** @class */ (function () {
             this.updateState();
         }
         if (command.indexOf('http://') !== -1) { // set url
-            this.services.tasksCore.doThisWithAToken(t, function (t, expression) {
+            this.services.tasksCore.doThisWithAToken(t, (t, expression) => {
                 //t.tsk_url = 'http://' + expression;
-                _this.updateTask(t.tsk_id, {
+                this.updateTask(t.tsk_id, {
                     tsk_name: t.tsk_name,
                     tsk_url: 'http://' + expression,
                 });
-                _this.updateState();
+                this.updateState();
             }, 'http://');
         }
         if (command.indexOf('https://') !== -1) { // set url
-            this.services.tasksCore.doThisWithAToken(t, function (t, expression) {
+            this.services.tasksCore.doThisWithAToken(t, (t, expression) => {
                 //t.tsk_url = 'https://' + expression;
-                _this.updateTask(t.tsk_id, {
+                this.updateTask(t.tsk_id, {
                     tsk_name: t.tsk_name,
                     tsk_url: 'https://' + expression,
                 });
-                _this.updateState();
+                this.updateState();
             }, 'https://');
         }
-    };
-    TasksComponent.prototype.notification = function (data) {
-        var not = window["Notification"];
+    }
+    notification(data) {
+        let not = window["Notification"];
         if (not && not.permission !== "denied") {
             not.requestPermission(function (status) {
                 var n = new not(data.title || 'Tasks', {
@@ -5543,8 +5276,8 @@ var TasksComponent = /** @class */ (function () {
                 });
             });
         }
-    };
-    TasksComponent.prototype.setUnpostpone = function (t) {
+    }
+    setUnpostpone(t) {
         this.updateTask(t.tsk_id, {
             tsk_date_view_until: this.services.dateUtils.newDateUpToSeconds()
         });
@@ -5552,21 +5285,20 @@ var TasksComponent = /** @class */ (function () {
             this.viewPostponed = false;
         }
         this.updateState();
-    };
-    TasksComponent.prototype.scheduleNotificationsForStartingTasks = function () {
-        var _this = this;
-        var now = this.services.dateUtils.newDateUpToSeconds();
-        var tomorrow0 = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    }
+    scheduleNotificationsForStartingTasks() {
+        let now = this.services.dateUtils.newDateUpToSeconds();
+        let tomorrow0 = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
         if (!this.state.startingTasksSchedule) {
             this.state.startingTasksSchedule = [];
         }
-        this.tasks.filter(function (t) {
-            return t.tsk_ctg_status !== _this.taskStatus.CLOSED && (t.tsk_schedule_date_start ? now < new Date(t.tsk_schedule_date_start) && new Date(t.tsk_schedule_date_start) < tomorrow0 : false);
-        }).forEach(function (t) {
-            var diff = _this.services.tasksCore.elapsedTime(now, new Date(t.tsk_schedule_date_start));
+        this.tasks.filter((t) => {
+            return t.tsk_ctg_status !== this.taskStatus.CLOSED && (t.tsk_schedule_date_start ? now < new Date(t.tsk_schedule_date_start) && new Date(t.tsk_schedule_date_start) < tomorrow0 : false);
+        }).forEach((t) => {
+            let diff = this.services.tasksCore.elapsedTime(now, new Date(t.tsk_schedule_date_start));
             diff = diff - (5 * 60); // date minus 5 minutes
             // validate if there is no current schedule set
-            var found = _this.state.startingTasksSchedule.find(function (s) { return s.task.tsk_id == t.tsk_id && s.timeoutHandler != -1; });
+            let found = this.state.startingTasksSchedule.find((s) => s.task.tsk_id == t.tsk_id && s.timeoutHandler != -1);
             if (found) {
                 if (new Date(found.task.tsk_schedule_date_start) != new Date(t.tsk_schedule_date_start)) {
                     clearTimeout(found.timeoutHandler);
@@ -5576,39 +5308,39 @@ var TasksComponent = /** @class */ (function () {
                     return false; // date is the same, do nothing
                 }
             }
-            var timeout = setTimeout(function () {
-                _this.notification({
-                    body: "Task \"" + t.tsk_name + "\" is about to start!"
+            let timeout = setTimeout(() => {
+                this.notification({
+                    body: `Task "${t.tsk_name}" is about to start!`
                 });
             }, diff * 1000);
-            console.log('schedule in ' + _this.formatTime(diff), t);
-            _this.state.startingTasksSchedule.push({
+            console.log('schedule in ' + this.formatTime(diff), t);
+            this.state.startingTasksSchedule.push({
                 task: t,
                 timeoutHandler: timeout
             });
         });
-    };
-    TasksComponent.prototype.taskCancel = function (t) {
+    }
+    taskCancel(t) {
         this.updateTask(t.tsk_id, {
             tsk_ctg_status: this.taskStatus.CANCELLED
         });
         this.updateState();
         console.log('cancelled task', t);
-    };
-    TasksComponent.prototype.weekStats = function () {
-        var mondayDate = this.lastMonday(new Date(2016, 11, 15));
-        var dayTasks = [];
-        var currentDay = mondayDate;
-        var tomorrow = this.addDays(currentDay, 1);
-        var today = this.services.tasksCore.dateOnly(this.services.dateUtils.newDateUpToSeconds());
-        var dailyCount = [];
-        var estimatedTotalPerDay = 0;
-        var spentTotalPerDay = 0;
+    }
+    weekStats() {
+        let mondayDate = this.lastMonday(new Date(2016, 11, 15));
+        let dayTasks = [];
+        let currentDay = mondayDate;
+        let tomorrow = this.addDays(currentDay, 1);
+        let today = this.services.tasksCore.dateOnly(this.services.dateUtils.newDateUpToSeconds());
+        let dailyCount = [];
+        let estimatedTotalPerDay = 0;
+        let spentTotalPerDay = 0;
         while (currentDay <= today) {
-            dayTasks = this.tasks.filter(function (t) { return new Date(t.tsk_date_done) > currentDay && new Date(t.tsk_date_done) < tomorrow; });
+            dayTasks = this.tasks.filter(t => new Date(t.tsk_date_done) > currentDay && new Date(t.tsk_date_done) < tomorrow);
             estimatedTotalPerDay = 0;
             spentTotalPerDay = 0;
-            dayTasks.forEach(function (t) {
+            dayTasks.forEach((t) => {
                 estimatedTotalPerDay += t.tsk_estimated_duration;
                 spentTotalPerDay += t.tsk_total_time_spent;
             });
@@ -5626,36 +5358,36 @@ var TasksComponent = /** @class */ (function () {
             tomorrow = this.addDays(currentDay, 1);
         }
         this.reports.week = dailyCount;
-    };
-    TasksComponent.prototype.lastMonday = function (from) {
-        var base = this.services.tasksCore.dateOnly(from);
+    }
+    lastMonday(from) {
+        let base = this.services.tasksCore.dateOnly(from);
         while (base.getDay() !== 1) {
             base = this.addDays(base, -1);
         }
         return base;
-    };
-    TasksComponent.prototype.addDays = function (base, days) {
+    }
+    addDays(base, days) {
         return new Date((base.getTime() + (days * 86400000)));
-    };
-    TasksComponent.prototype.taskQualifiersEdit = function (task, event) {
-        var newQualifiers = event.target['textContent'];
+    }
+    taskQualifiersEdit(task, event) {
+        let newQualifiers = event.target['textContent'];
         if (task.tsk_qualifiers !== newQualifiers) {
             this.updateTask(task.tsk_id, {
                 tsk_qualifiers: newQualifiers
             });
             // this.updateState();
         }
-    };
-    TasksComponent.prototype.firstTTEntryFromDay = function (date) {
-        var day0 = this.services.tasksCore.dateOnly(date);
-        var nextDay0 = this.addDays(day0, 1);
-        var firstDate = nextDay0;
-        var tasksOfTheDay = this.tasks.filter(function (t) {
+    }
+    firstTTEntryFromDay(date) {
+        let day0 = this.services.tasksCore.dateOnly(date);
+        let nextDay0 = this.addDays(day0, 1);
+        let firstDate = nextDay0;
+        let tasksOfTheDay = this.tasks.filter((t) => {
             return new Date(t.tsk_date_done) >= day0 && new Date(t.tsk_date_done) < nextDay0;
         });
-        tasksOfTheDay.forEach(function (t) {
+        tasksOfTheDay.forEach((t) => {
             if (t.tsk_time_history.length) {
-                t.tsk_time_history.forEach(function (h) {
+                t.tsk_time_history.forEach((h) => {
                     if (new Date(h.tsh_date_start) < firstDate && day0 < new Date(h.tsh_date_start)) {
                         firstDate = new Date(h.tsh_date_start);
                     }
@@ -5666,17 +5398,17 @@ var TasksComponent = /** @class */ (function () {
             return null;
         }
         return firstDate;
-    };
-    TasksComponent.prototype.lastTTEntryFromDay = function (date) {
-        var day0 = this.services.tasksCore.dateOnly(date);
-        var nextDay0 = this.addDays(day0, 1);
-        var lastDate = day0;
-        var tasksOfTheDay = this.tasks.filter(function (t) {
+    }
+    lastTTEntryFromDay(date) {
+        let day0 = this.services.tasksCore.dateOnly(date);
+        let nextDay0 = this.addDays(day0, 1);
+        let lastDate = day0;
+        let tasksOfTheDay = this.tasks.filter((t) => {
             return new Date(t.tsk_date_done) >= day0 && new Date(t.tsk_date_done) < nextDay0;
         });
-        tasksOfTheDay.forEach(function (t) {
+        tasksOfTheDay.forEach((t) => {
             if (t.tsk_time_history.length) {
-                t.tsk_time_history.forEach(function (h) {
+                t.tsk_time_history.forEach((h) => {
                     if (new Date(h.tsh_date_end) > lastDate && new Date(h.tsh_date_end) < nextDay0) {
                         lastDate = new Date(h.tsh_date_end);
                     }
@@ -5687,18 +5419,18 @@ var TasksComponent = /** @class */ (function () {
             return null;
         }
         return lastDate;
-    };
-    TasksComponent.prototype.taskToBacklog = function (t) {
+    }
+    taskToBacklog(t) {
         this.updateTask(t.tsk_id, {
             tsk_ctg_status: this.taskStatus.BACKLOG
         });
         this.updateState();
-    };
-    TasksComponent.prototype.dayDistribution = function () {
-        var table = [];
-        var records = [];
-        var closedTodayTasks = this.state.closedTodayTasks;
-        closedTodayTasks.forEach(function (t) {
+    }
+    dayDistribution() {
+        let table = [];
+        let records = [];
+        let closedTodayTasks = this.state.closedTodayTasks;
+        closedTodayTasks.forEach((t) => {
             if (table.indexOf(t.tsk_id_record) === -1) {
                 table.push(t.tsk_id_record);
                 records.push({
@@ -5710,11 +5442,11 @@ var TasksComponent = /** @class */ (function () {
                 });
             }
         });
-        var rec = null;
-        var totalEta = 0;
-        var totalReal = 0;
-        closedTodayTasks.forEach(function (t) {
-            rec = records.find(function (r) { return r.record === t.tsk_id_record; });
+        let rec = null;
+        let totalEta = 0;
+        let totalReal = 0;
+        closedTodayTasks.forEach((t) => {
+            rec = records.find((r) => r.record === t.tsk_id_record);
             if (rec) {
                 rec.eta += t.tsk_estimated_duration;
                 rec.real += t.tsk_total_time_spent;
@@ -5723,70 +5455,66 @@ var TasksComponent = /** @class */ (function () {
             }
         });
         // order by total real
-        records = records.sort(function (a, b) {
+        records = records.sort((a, b) => {
             return (a.real < b.real) ? 1 : -1;
         });
         // percentage
-        records.forEach(function (r) {
+        records.forEach((r) => {
             r.percentageEta = Math.round(r.eta * 100 / totalEta) / 100;
             r.percentageReal = Math.round(r.real * 100 / totalReal) / 100;
         });
         this.reports.dayDistribution = records;
-    };
-    TasksComponent.prototype.editDateDone = function (t, event) {
-        var newValue = event.target['textContent'];
-        var oldValue = t.tsk_date_done;
+    }
+    editDateDone(t, event) {
+        let newValue = event.target['textContent'];
+        let oldValue = t.tsk_date_done;
         if (newValue.length !== 19 || (new Date(newValue)).getTime() === (new Date(oldValue)).getTime()) {
             return false;
         }
         this.updateTask(t.tsk_id, {
             tsk_date_done: new Date(newValue)
         });
-    };
-    TasksComponent.prototype.backup = function () {
-        var tasks = JSON.stringify(this.tasks);
+    }
+    backup() {
+        let tasks = JSON.stringify(this.tasks);
         this.optionsInput = tasks;
-    };
-    TasksComponent.prototype.backupDoneOnly = function () {
-        var _this = this;
-        var tasks = this.tasks.filter(function (t) {
-            return t.tsk_ctg_status === _this.taskStatus.CLOSED;
+    }
+    backupDoneOnly() {
+        let tasks = this.tasks.filter((t) => {
+            return t.tsk_ctg_status === this.taskStatus.CLOSED;
         });
-        var tasksStr = JSON.stringify(tasks);
+        let tasksStr = JSON.stringify(tasks);
         this.optionsInput = tasksStr;
-        this.optionsMessage("Backup correctly " + tasks.length + " tasks.");
-    };
-    TasksComponent.prototype.optionsMessage = function (message) {
+        this.optionsMessage(`Backup correctly ${tasks.length} tasks.`);
+    }
+    optionsMessage(message) {
         document.querySelector('#optionsMessages').innerHTML = message;
-    };
-    TasksComponent.prototype.import = function () {
-        var _this = this;
-        var data = this.optionsInput;
-        var tasks = JSON.parse(data);
+    }
+    import() {
+        let data = this.optionsInput;
+        let tasks = JSON.parse(data);
         if (Array.isArray(tasks) && tasks.length > 0) {
             this.services.tasksCore.import(tasks);
             this.tasks = this.services.tasksCore.tasks();
-            this.optionsMessage("Imported correctly " + tasks.length + " tasks.");
-            setTimeout(function () { return _this.updateState(); }, 100);
+            this.optionsMessage(`Imported correctly ${tasks.length} tasks.`);
+            setTimeout(() => this.updateState(), 100);
         }
-    };
-    TasksComponent.prototype.purgeDoneTasks = function () {
-        var _this = this;
-        var tasks = this.tasks.filter(function (t) {
-            return t.tsk_ctg_status === _this.taskStatus.CLOSED;
+    }
+    purgeDoneTasks() {
+        let tasks = this.tasks.filter((t) => {
+            return t.tsk_ctg_status === this.taskStatus.CLOSED;
         });
         this.services.tasksCore.purgeDoneTasks();
-        this.optionsMessage("Deleted correctly " + tasks.length + " tasks.");
-    };
+        this.optionsMessage(`Deleted correctly ${tasks.length} tasks.`);
+    }
     // formatTags(tags: string){
     //     if (tags){
     //         return "#" + tags.replace(/\s/g," #");
     //     }
     //     return "";
     // }
-    TasksComponent.prototype.showTagStats = function (tag) {
-        var _this = this;
-        var tasks = this.tasks.filter(function (t) { return t.tsk_tags.indexOf(tag) !== -1; });
+    showTagStats(tag) {
+        let tasks = this.tasks.filter(t => t.tsk_tags.indexOf(tag) !== -1);
         this.tagInfo.display = true;
         this.tagInfo.tasks = tasks;
         // this.tagInfo.tasksOpen = tasks.filter(t => t.tsk_ctg_status === this.taskStatus.OPEN || t.tsk_ctg_status === this.taskStatus.BACKLOG);
@@ -5795,19 +5523,19 @@ var TasksComponent = /** @class */ (function () {
         this.tagInfo.tasksOpenTotalSpent = 0;
         this.tagInfo.tasksClosedTotalEstimated = 0;
         this.tagInfo.tasksClosedTotalSpent = 0;
-        tasks.forEach(function (t) {
-            if (t.tsk_ctg_status === _this.taskStatus.OPEN || t.tsk_ctg_status === _this.taskStatus.BACKLOG) {
-                _this.tagInfo.tasksOpenTotalEstimated += t.tsk_estimated_duration;
-                _this.tagInfo.tasksOpenTotalSpent += t.tsk_total_time_spent;
+        tasks.forEach(t => {
+            if (t.tsk_ctg_status === this.taskStatus.OPEN || t.tsk_ctg_status === this.taskStatus.BACKLOG) {
+                this.tagInfo.tasksOpenTotalEstimated += t.tsk_estimated_duration;
+                this.tagInfo.tasksOpenTotalSpent += t.tsk_total_time_spent;
             }
-            if (t.tsk_ctg_status === _this.taskStatus.CLOSED || t.tsk_ctg_status === _this.taskStatus.CANCELLED) {
-                _this.tagInfo.tasksClosedTotalEstimated += t.tsk_estimated_duration;
-                _this.tagInfo.tasksClosedTotalSpent += t.tsk_total_time_spent;
+            if (t.tsk_ctg_status === this.taskStatus.CLOSED || t.tsk_ctg_status === this.taskStatus.CANCELLED) {
+                this.tagInfo.tasksClosedTotalEstimated += t.tsk_estimated_duration;
+                this.tagInfo.tasksClosedTotalSpent += t.tsk_total_time_spent;
             }
         });
-    };
-    TasksComponent.prototype.statusText = function (status) {
-        var r = '';
+    }
+    statusText(status) {
+        let r = '';
         switch (status) {
             case this.taskStatus.BACKLOG:
                 r = 'BACKLOG';
@@ -5823,12 +5551,12 @@ var TasksComponent = /** @class */ (function () {
                 break;
         }
         return r;
-    };
-    TasksComponent.prototype.markTaskAs = function (t, qualifier) {
-        var task = this.tasks.find(function (e) {
+    }
+    markTaskAs(t, qualifier) {
+        let task = this.tasks.find((e) => {
             return e.tsk_id === t.tsk_id;
         });
-        var qualifiers = task.tsk_qualifiers;
+        let qualifiers = task.tsk_qualifiers;
         if (qualifiers.indexOf(qualifier) === -1) { // not present, add it
             qualifiers = qualifiers ? qualifiers + ',' + qualifier : qualifier;
         }
@@ -5838,20 +5566,20 @@ var TasksComponent = /** @class */ (function () {
         this.updateTask(t.tsk_id, {
             tsk_qualifiers: qualifiers
         });
-    };
-    TasksComponent.prototype.isOnline = function () {
+    }
+    isOnline() {
         return navigator.onLine;
-    };
-    TasksComponent.prototype.taskTagsEdit = function (task, event) {
-        var newData = event.target['textContent'];
+    }
+    taskTagsEdit(task, event) {
+        let newData = event.target['textContent'];
         if (task.tsk_tags !== newData) {
             this.updateTask(task.tsk_id, {
                 tsk_tags: newData
             });
             this.updateState();
         }
-    };
-    TasksComponent.prototype.registerServiceWorker = function () {
+    }
+    registerServiceWorker() {
         if ('serviceWorker' in navigator) {
             navigator['serviceWorker']
                 .register('../service-worker.js')
@@ -5869,69 +5597,68 @@ var TasksComponent = /** @class */ (function () {
                 console.log("Service Worker Failed to Register", err);
             });
         }
-    };
-    TasksComponent.prototype.sendAllToServer = function () {
+    }
+    sendAllToServer() {
         this.services.tasksCore.batchAdd();
-    };
-    TasksComponent.prototype.getTasksFromServer = function () {
+    }
+    getTasksFromServer() {
         this.services.tasksCore.getTasksFromServer();
         this.updateState();
-    };
-    TasksComponent.prototype.qualifierTotals = function () {
-        var _this = this;
-        var qualifierCollection = ['important', 'urgent', 'highlighted', 'progressed'];
-        var tasks = this.tasks.filter(function (t) { return t.tsk_ctg_status === _this.taskStatus.OPEN; });
-        var filtered = [];
-        var records = [];
-        var rec = {
+    }
+    qualifierTotals() {
+        let qualifierCollection = ['important', 'urgent', 'highlighted', 'progressed'];
+        let tasks = this.tasks.filter((t) => t.tsk_ctg_status === this.taskStatus.OPEN);
+        let filtered = [];
+        let records = [];
+        let rec = {
             qualifier: null,
             taskCount: 0,
             totalETA: 0
         };
-        qualifierCollection.forEach(function (q) {
-            filtered = tasks.filter(function (t) { return t.tsk_qualifiers && t.tsk_qualifiers.indexOf(q) !== -1; });
+        qualifierCollection.forEach((q) => {
+            filtered = tasks.filter((t) => t.tsk_qualifiers && t.tsk_qualifiers.indexOf(q) !== -1);
             rec = {
                 qualifier: q,
                 taskCount: filtered.length,
                 totalETA: 0
             };
-            filtered.forEach(function (t) {
+            filtered.forEach((t) => {
                 rec.totalETA += t.tsk_estimated_duration;
             });
             records.push(rec);
         });
         // order by total ETA
-        records = records.sort(function (a, b) {
+        records = records.sort((a, b) => {
             return (a.totalETA < b.totalETA) ? 1 : -1;
         });
         // total overall
         records.push({
             qualifier: 'TOTAL',
-            taskCount: records.reduce(function (p, n) {
+            taskCount: records.reduce((p, n) => {
                 return (p.taskCount || p) + n.taskCount;
             }),
-            totalETA: records.reduce(function (p, n) {
+            totalETA: records.reduce((p, n) => {
                 return (p.totalETA || p) + n.totalETA;
             })
         });
         this.reports.qualifierTotals = records;
-    };
-    TasksComponent.prototype.toggleView = function (view) {
+    }
+    toggleView(view) {
         this[view] = !this[view];
-    };
-    TasksComponent.prototype.timeTrackingQuickEdit = function (task, event, target) {
-        var newValue = event.target['textContent'].trim();
+    }
+    timeTrackingQuickEdit(task, event, target) {
+        let newValue = event.target['textContent'].trim();
         if (newValue.length === 8 && /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/.test(newValue)) {
-            var parts = newValue.split(':');
-            var data = {};
-            data["tsh_date_" + target] = new Date(this.services.tasksCore.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (parseInt(parts[0]) * 60 * 60 * 1000) + (parseInt(parts[1]) * 60 * 1000) + (parseInt(parts[2]) * 1000));
+            let parts = newValue.split(':');
+            let data = {};
+            data[`tsh_date_${target}`] = new Date(this.services.tasksCore.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (parseInt(parts[0]) * 60 * 60 * 1000) + (parseInt(parts[1]) * 60 * 1000) + (parseInt(parts[2]) * 1000));
             // only update if value changed
-            var previousValue = new Date(task.tsk_time_history[task.tsk_time_history.length - 1]["tsh_date_" + target]);
-            if (data["tsh_date_" + target].getTime() !== previousValue.getTime()) {
-                task.tsk_time_history[task.tsk_time_history.length - 1]["tsh_date_" + target] = data["tsh_date_" + target];
+            let previousValue = new Date(task.tsk_time_history[task.tsk_time_history.length - 1][`tsh_date_${target}`]);
+            if (data[`tsh_date_${target}`].getTime() !== previousValue.getTime()) {
+                task.tsk_time_history[task.tsk_time_history.length - 1][`tsh_date_${target}`] = data[`tsh_date_${target}`];
                 this.updateTaskTimeTracking(task.tsk_id, task.tsk_time_history.length, data);
                 if (this.timers[task.tsk_id]) {
-                    var dom = this.getTaskDOMElement(task.tsk_id);
+                    let dom = this.getTaskDOMElement(task.tsk_id);
                     this.hideTimer(task, dom);
                     this.showTimer(task, dom);
                 }
@@ -5939,49 +5666,47 @@ var TasksComponent = /** @class */ (function () {
                 this.triggerEvent('updateTimeTracking', task.tsk_time_history[task.tsk_time_history.length - 1]);
             }
         }
-        var parent = event.target["parentNode"]["parentNode"]["parentNode"];
+        let parent = event.target["parentNode"]["parentNode"]["parentNode"];
         if (!event.altKey && event.keyCode == 38) { // detect jump up
-            this.taskJumpUp(parent, "span.tt-" + target + "[contenteditable=true]");
+            this.taskJumpUp(parent, `span.tt-${target}[contenteditable=true]`);
         }
         if (!event.altKey && event.keyCode == 40) { // detect jump down
-            this.taskJumpDown(parent, "span.tt-" + target + "[contenteditable=true]");
+            this.taskJumpDown(parent, `span.tt-${target}[contenteditable=true]`);
         }
-    };
-    TasksComponent.prototype.toggleOption = function (optionName) {
+    }
+    toggleOption(optionName) {
         this.options[optionName] = !this.options[optionName];
         if (typeof (window.localStorage) !== "undefined") {
             localStorage.setItem("Options", JSON.stringify(this.options));
         }
-    };
-    TasksComponent.prototype.saveOption = function (optionName, value) {
+    }
+    saveOption(optionName, value) {
         this.options[optionName] = value;
         //this.sync.setApiRoot(value);
         if (typeof (window.localStorage) !== "undefined") {
             localStorage.setItem("Options", JSON.stringify(this.options));
         }
-    };
-    TasksComponent.prototype.toggleTimeMode = function () {
+    }
+    toggleTimeMode() {
         this.timerModeRemaining = !this.timerModeRemaining;
-    };
-    TasksComponent.prototype.tasksNotInSync = function () {
-        var _this = this;
-        if (this.services.sync.queue.filter(function (q) { return q.status !== 'processed'; }).length === 0) {
-            this.tasks.filter(function (t) { return t.not_sync === true; }).forEach(function (t) { return t.not_sync = undefined; });
+    }
+    tasksNotInSync() {
+        if (this.services.sync.queue.filter((q) => q.status !== 'processed').length === 0) {
+            this.tasks.filter((t) => t.not_sync === true).forEach((t) => t.not_sync = undefined);
         }
         else {
-            this.services.sync.queue.filter(function (q) { return q.status !== 'processed'; }).forEach(function (q) {
-                var task = _this.tasks.find(function (t) { return t.tsk_id === q.model.tsk_id; });
+            this.services.sync.queue.filter((q) => q.status !== 'processed').forEach((q) => {
+                let task = this.tasks.find((t) => t.tsk_id === q.model.tsk_id);
                 task.not_sync = true;
             });
         }
-    };
-    TasksComponent.prototype.createGroupedClosedTasks = function (tasks) {
-        var _this = this;
-        var res = [];
-        var lastHeader = this.services.dateUtils.newDateUpToSeconds();
-        tasks.forEach(function (t) {
-            if (_this.services.tasksCore.dateOnly(new Date(t.tsk_date_done)).getTime() !== lastHeader.getTime()) {
-                lastHeader = _this.services.tasksCore.dateOnly(new Date(t.tsk_date_done));
+    }
+    createGroupedClosedTasks(tasks) {
+        let res = [];
+        let lastHeader = this.services.dateUtils.newDateUpToSeconds();
+        tasks.forEach((t) => {
+            if (this.services.tasksCore.dateOnly(new Date(t.tsk_date_done)).getTime() !== lastHeader.getTime()) {
+                lastHeader = this.services.tasksCore.dateOnly(new Date(t.tsk_date_done));
                 res.push({
                     'header': lastHeader,
                     'totalTimeSpent': 0,
@@ -5992,29 +5717,28 @@ var TasksComponent = /** @class */ (function () {
             res[res.length - 1].totalTimeSpent += t.tsk_total_time_spent;
         });
         // order groups by date desc
-        res = res.sort(function (a, b) {
+        res = res.sort((a, b) => {
             return a.header > b.header ? -1 : 1;
         });
         console.log('closed tasks', res);
         return res;
-    };
-    TasksComponent.prototype.dayHasActivity = function (day) {
-        var nextDay = this.services.dateUtils.addDays(day, 1);
+    }
+    dayHasActivity(day) {
+        let nextDay = this.services.dateUtils.addDays(day, 1);
         if (day.getTime() === this.services.dateUtils.dateOnly(new Date()).getTime()) {
             return true;
         }
         else {
-            return this.tasks.filter(function (t) { return new Date(t.tsk_date_done).getTime() >= day.getTime() && new Date(t.tsk_date_done).getTime() <= nextDay.getTime(); }).length > 0;
+            return this.tasks.filter((t) => new Date(t.tsk_date_done).getTime() >= day.getTime() && new Date(t.tsk_date_done).getTime() <= nextDay.getTime()).length > 0;
         }
-    };
-    TasksComponent.prototype.calculateIndicators = function () {
-        var _this = this;
-        var today = this.services.dateUtils.newDateUpToSeconds();
-        var today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        var days = [];
-        var dayLabels = [];
-        var nextDay;
-        for (var i = 0; i < 7; i++) {
+    }
+    calculateIndicators() {
+        let today = this.services.dateUtils.newDateUpToSeconds();
+        let today0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        let days = [];
+        let dayLabels = [];
+        let nextDay;
+        for (let i = 0; i < 7; i++) {
             nextDay = this.services.dateUtils.addDays(today0, -1 * i);
             if (this.dayHasActivity(nextDay)) {
                 days.push(nextDay);
@@ -6023,49 +5747,49 @@ var TasksComponent = /** @class */ (function () {
         }
         days.reverse();
         dayLabels.reverse();
-        var values = [];
-        var yesterdayValue = 0, todayValue = 0;
+        let values = [];
+        let yesterdayValue = 0, todayValue = 0;
         this.state.indicators = [];
         this.state.indicatorLabels = dayLabels;
         this.services.taskIndicator.tasks = this.tasks;
-        var addIndicator = function (name, values, formatMethod, completedCriteria) {
-            var formattedValues = [];
+        let addIndicator = (name, values, formatMethod, completedCriteria) => {
+            let formattedValues = [];
             if (formatMethod) {
-                formattedValues = values.map(function (v) { return formatMethod(v); });
+                formattedValues = values.map((v) => formatMethod(v));
             }
             else {
-                formattedValues = values.map(function (v) { return v + ''; });
+                formattedValues = values.map((v) => v + '');
             }
-            var completed = {
+            let completed = {
                 isCompleted: values[values.length - 2] <= values[values.length - 1],
                 percentageCompleted: values[values.length - 2] !== 0 ? Math.round(values[values.length - 1] / values[values.length - 2] * 100) / 100 : 0
             };
             if (completedCriteria) {
                 completed = completedCriteria(values[values.length - 2], values[values.length - 1]);
             }
-            _this.state.indicators.push({
-                name: name,
+            this.state.indicators.push({
+                name,
                 values: formattedValues,
                 isCompleted: completed.isCompleted,
                 percentageCompleted: completed.percentageCompleted
             });
         };
-        var calculateForAllDays = function (days, method) {
-            var calculatedValues = [];
-            var context = _this.services.taskIndicator;
-            days.forEach(function (d, index, array) {
-                calculatedValues.push(method.call(context, d, _this.services.dateUtils.addDays(d, 1)));
+        let calculateForAllDays = (days, method) => {
+            let calculatedValues = [];
+            let context = this.services.taskIndicator;
+            days.forEach((d, index, array) => {
+                calculatedValues.push(method.call(context, d, this.services.dateUtils.addDays(d, 1)));
             });
             return calculatedValues;
         };
         // added ETA
-        addIndicator('Added ETA', calculateForAllDays(days, this.services.taskIndicator.addedETA), function (v) { return _this.formatTime(v * 60); }, function (prev, curr) { return ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }); });
+        addIndicator('Added ETA', calculateForAllDays(days, this.services.taskIndicator.addedETA), (v) => this.formatTime(v * 60), (prev, curr) => ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }));
         // added count
-        addIndicator('Added Count', calculateForAllDays(days, this.services.taskIndicator.addedTaskCount), null, function (prev, curr) { return ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }); });
+        addIndicator('Added Count', calculateForAllDays(days, this.services.taskIndicator.addedTaskCount), null, (prev, curr) => ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }));
         // closed ETA
-        addIndicator('Closed ETA', calculateForAllDays(days, this.services.taskIndicator.closedETA), function (v) { return _this.formatTime(v * 60); });
+        addIndicator('Closed ETA', calculateForAllDays(days, this.services.taskIndicator.closedETA), (v) => this.formatTime(v * 60));
         // spent
-        addIndicator('Closed Spent', calculateForAllDays(days, function (d1, d2) { return _this.services.taskIndicator.calculateTotalTimeSpent(d1, d2).totalTimeSpentTodayOnClosedTasks; }), function (v) { return _this.formatTime(v); });
+        addIndicator('Closed Spent', calculateForAllDays(days, (d1, d2) => this.services.taskIndicator.calculateTotalTimeSpent(d1, d2).totalTimeSpentTodayOnClosedTasks), (v) => this.formatTime(v));
         // closed count
         addIndicator('Closed Count', calculateForAllDays(days, this.services.taskIndicator.closedTaskCount));
         // productivity ratio
@@ -6073,12 +5797,12 @@ var TasksComponent = /** @class */ (function () {
         // time management ratio
         addIndicator('Time Management Ratio', calculateForAllDays(days, this.services.taskIndicator.calculateTimeManagementRatio));
         // total task count overall
-        addIndicator('Overall Task Count EOD', calculateForAllDays(days, this.services.taskIndicator.totalTaskCountUntil), null, function (prev, curr) { return ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }); });
+        addIndicator('Overall Task Count EOD', calculateForAllDays(days, this.services.taskIndicator.totalTaskCountUntil), null, (prev, curr) => ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }));
         // karma
-    };
-    TasksComponent.prototype.asNextToDo = function (t, add) {
-        var p = this.nextTasks[0].tasks;
-        var index = p.findIndex(function (e) { return e.tsk_id === t.tsk_id; });
+    }
+    asNextToDo(t, add) {
+        let p = this.nextTasks[0].tasks;
+        let index = p.findIndex((e) => e.tsk_id === t.tsk_id);
         if (add) {
             if (index === -1) {
                 p.push(t);
@@ -6091,56 +5815,54 @@ var TasksComponent = /** @class */ (function () {
                 this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration;
             }
         }
-        localStorage.setItem("NextTasks", JSON.stringify(p.map(function (e) { return e.tsk_id; })));
-    };
-    TasksComponent.prototype.setTaskNotes = function (task, event) {
-        var newNotes = event.target['textContent'];
+        localStorage.setItem("NextTasks", JSON.stringify(p.map((e) => e.tsk_id)));
+    }
+    setTaskNotes(task, event) {
+        let newNotes = event.target['textContent'];
         if (task.tsk_notes !== newNotes) {
             this.updateTask(task.tsk_id, {
                 tsk_notes: newNotes
             });
         }
-    };
-    TasksComponent.prototype.setFocus = function (task, event) {
-        console.log('task on focus by user', task, event.target);
+    }
+    setFocus(task, event) {
+        // console.log('task on focus by user',task,event.target);
         this.focusedTask = {
-            task: task,
+            task,
             element: event.target['parentNode']
         };
-    };
-    TasksComponent.prototype.sendFEToBE = function (taskDiff) {
-        var _this = this;
-        var upd = {};
-        taskDiff.forEach(function (td) {
+    }
+    sendFEToBE(taskDiff) {
+        let upd = {};
+        taskDiff.forEach((td) => {
             upd[td.name] = td.client;
         });
         this.updateTask(taskDiff[0].id, upd);
-        this.services.tasksCore.computeComparisonData().then(function (data) { return _this.comparisonData = data; });
-    };
-    TasksComponent.prototype.subscribe = function (event, callback) {
-        this.events.push({ event: event, callback: callback });
-    };
-    TasksComponent.prototype.triggerEvent = function (event, params) {
-        var handlers = this.events.filter(function (e) { return e.event === event; }).map(function (e) { return e.callback; });
-        handlers.forEach(function (handler) {
+        //this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
+    }
+    subscribe(event, callback) {
+        this.events.push({ event, callback });
+    }
+    triggerEvent(event, params) {
+        const handlers = this.events.filter((e) => e.event === event).map(e => e.callback);
+        handlers.forEach((handler) => {
             handler(params);
         });
-    };
-    TasksComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'tasks',
-            template: __webpack_require__(/*! ./tasks.template.html */ "./src/app/task/tasks.template.html"),
-            providers: [_tasks_core__WEBPACK_IMPORTED_MODULE_3__["TasksCore"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"], _task_indicator_service__WEBPACK_IMPORTED_MODULE_5__["TaskIndicator"]]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_tasks_core__WEBPACK_IMPORTED_MODULE_3__["TasksCore"],
-            _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"],
-            _task_indicator_service__WEBPACK_IMPORTED_MODULE_5__["TaskIndicator"],
-            _common_date_common__WEBPACK_IMPORTED_MODULE_6__["DateCommon"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])
-    ], TasksComponent);
-    return TasksComponent;
-}());
-
+    }
+};
+TasksComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: 'tasks',
+        template: __webpack_require__(/*! ./tasks.template.html */ "./src/app/task/tasks.template.html"),
+        providers: [tasks_core_1.TasksCore, sync_api_1.SyncAPI, task_indicator_service_1.TaskIndicator]
+    }),
+    tslib_1.__metadata("design:paramtypes", [tasks_core_1.TasksCore,
+        sync_api_1.SyncAPI,
+        task_indicator_service_1.TaskIndicator,
+        date_common_1.DateCommon,
+        platform_browser_1.Title])
+], TasksComponent);
+exports.TasksComponent = TasksComponent;
 
 
 /***/ }),
@@ -6149,28 +5871,21 @@ var TasksComponent = /** @class */ (function () {
 /*!************************************!*\
   !*** ./src/app/task/tasks.core.ts ***!
   \************************************/
-/*! exports provided: TasksCore */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TasksCore", function() { return TasksCore; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _crosscommon_entities_Task__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../crosscommon/entities/Task */ "./src/crosscommon/entities/Task.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
-/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 
-
-
-
-
-
-
-var TasksCore = /** @class */ (function () {
-    function TasksCore(http, sync, dateUtils) {
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+const Task_1 = __webpack_require__(/*! ../../crosscommon/entities/Task */ "./src/crosscommon/entities/Task.ts");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const date_common_1 = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+let TasksCore = class TasksCore {
+    constructor(http, sync, dateUtils) {
         this.http = http;
         this.sync = sync;
         this.dateUtils = dateUtils;
@@ -6183,17 +5898,16 @@ var TasksCore = /** @class */ (function () {
         this.serverData = {};
         this.comparisonData = {};
         this.apiRoot = 'http://10.230.9.78:8081';
-        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Content-Type': 'application/json' });
-        var tasks = this.tasksFromStorage();
+        this.headers = new http_1.HttpHeaders({ 'Content-Type': 'application/json' });
+        let tasks = this.tasksFromStorage();
         this.data.taskList = tasks;
         this.services.dateUtils = dateUtils;
         //this.getTasks();
         this.http = http;
         this.sync = sync;
     }
-    TasksCore.prototype.getAll = function () {
-        var _this = this;
-        var filter = {
+    getAll() {
+        const filter = {
             gc: 'OR',
             cont: [{
                     f: 'tsk_ctg_status',
@@ -6202,63 +5916,62 @@ var TasksCore = /** @class */ (function () {
                 }, {
                     f: 'tsk_date_add',
                     op: 'ge',
-                    val: '2019-02-15'
+                    val: '2019-03-10'
                 }]
         };
-        var query = "?q=" + JSON.stringify(filter);
-        return this.sync.get("/api/tasks" + query).then(function (data) {
-            _this.data.taskList = data.tasks.map(function (d) {
-                var item = new _crosscommon_entities_Task__WEBPACK_IMPORTED_MODULE_3__["Task"](d);
-                item['tsk_time_history'] = data.timetracking.filter(function (tt) {
+        const query = `?q=${JSON.stringify(filter)}`;
+        return this.sync.get(`/api/tasks${query}`).then(data => {
+            this.data.taskList = data.tasks.map((d) => {
+                let item = new Task_1.Task(d);
+                item['tsk_time_history'] = data.timetracking.filter((tt) => {
                     return tt.tsh_id === item.tsk_id;
                 }) || [];
                 if (item['tsk_time_history'].length) {
-                    item['tsk_time_history'].sort(function (a, b) {
+                    item['tsk_time_history'].sort((a, b) => {
                         return a.tsh_num_secuential < b.tsh_num_secuential ? 1 : -1;
                     });
                 }
                 return item;
             });
-            return _this.data.taskList;
+            return this.data.taskList;
         });
-    };
-    TasksCore.prototype.getAllForUser = function (user) {
-        return this.getAll().then(function (list) {
-            return list.filter(function (x) { return x.tsk_id_user_asigned === user; });
+    }
+    getAllForUser(user) {
+        return this.getAll().then((list) => {
+            return list.filter((x) => x.tsk_id_user_asigned === user);
         });
-    };
+    }
     /** BEGIN API methods */
     /**
      * Creation and addition of a new task to the collection.
      * @param {object} task A basic task model, for simplicity to be extended and added to the task collection.
      * @return {object} The task added to the collection (as a complete task model).
      */
-    TasksCore.prototype.addTask = function (task, options) {
-        var T = this.data.taskList;
-        var parsedTask = this.parseTask(task, options);
+    addTask(task, options) {
+        let T = this.data.taskList;
+        let parsedTask = this.parseTask(task, options);
         T.push(this.newTaskTemplate(parsedTask));
         // console.log(T[T.length-1]);
         this.postTask(T[T.length - 1]);
         //this.tasksToStorage();
         return T[T.length - 1];
-    };
-    TasksCore.prototype.batchAddTasks = function (tasks, options) {
-        var _this = this;
-        var T = this.data.taskList;
-        var parsedTask;
-        var list = [];
-        var task;
-        tasks.forEach(function (text) {
+    }
+    batchAddTasks(tasks, options) {
+        let T = this.data.taskList;
+        let parsedTask;
+        let list = [];
+        let task;
+        tasks.forEach((text) => {
             if (!text.startsWith('//') && text !== '') {
                 //t = this.addTask({
                 //    'tsk_date_add': this.services.dateUtils.newDateUpToSeconds(),
                 //    'tsk_name': text
                 //}, options);
-                parsedTask = _this.parseTask({
-                    'tsk_date_add': _this.services.dateUtils.newDateUpToSeconds(),
+                parsedTask = this.parseTask({
+                    'tsk_date_add': this.services.dateUtils.newDateUpToSeconds(),
                     'tsk_name': text
                 }, options);
-                task = _this.newTaskTemplate(parsedTask);
+                task = this.newTaskTemplate(parsedTask);
                 T.push(task);
                 list.push(task);
                 task['not_sync'] = true;
@@ -6269,48 +5982,47 @@ var TasksCore = /** @class */ (function () {
         });
         this.tasksToStorage();
         this.postBatch(list);
-    };
-    TasksCore.prototype.postBatch = function (list) {
-        this.sync.post('/api/tasks/batch', list).then(function (response) {
-            list.forEach(function (item) {
+    }
+    postBatch(list) {
+        this.sync.post('/api/tasks/batch', list).then((response) => {
+            list.forEach((item) => {
                 item['not_sync'] = false;
             });
         });
-    };
-    TasksCore.prototype.parseTask = function (task, options) {
-        var _this = this;
+    }
+    parseTask(task, options) {
         // detect group list for the task (at start of text)
         if (task.tsk_name.startsWith('[')) {
             task.tsk_id_record = task.tsk_name.substr(task.tsk_name.indexOf('[') + 1, task.tsk_name.indexOf(']') - 1);
-            task.tsk_name = task.tsk_name.replace("[" + task.tsk_id_record + "] ", '').replace("[" + task.tsk_id_record + "]", '');
+            task.tsk_name = task.tsk_name.replace(`[${task.tsk_id_record}] `, '').replace(`[${task.tsk_id_record}]`, '');
         }
         // Parse special tokens
         // [DATE]
-        var tokens = [{
+        let tokens = [{
                 'tokenStr': '[DATE]',
-                'replaceMethod': function () { return _this.dateWithFormat(_this.services.dateUtils.dateOnly()).substring(0, 10); }
+                'replaceMethod': () => this.dateWithFormat(this.services.dateUtils.dateOnly()).substring(0, 10)
             }, {
                 'tokenStr': '[DATETIME]',
-                'replaceMethod': function () { return _this.dateWithFormat(_this.services.dateUtils.dateOnly()); }
+                'replaceMethod': () => this.dateWithFormat(this.services.dateUtils.dateOnly())
             }];
-        tokens.forEach(function (token) {
-            task.tsk_name = _this.replaceAll(task.tsk_name, token.tokenStr, token.replaceMethod());
+        tokens.forEach((token) => {
+            task.tsk_name = this.replaceAll(task.tsk_name, token.tokenStr, token.replaceMethod());
         });
         // detect Start Date and End Date
         if (task.tsk_name.indexOf('%[') !== -1) {
-            var endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('%[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('%['));
-            var expression = task.tsk_name.substring(task.tsk_name.indexOf('%[') + 2, endPosition);
-            var parts = '';
-            var parsed = false;
+            let endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('%[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('%['));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf('%[') + 2, endPosition);
+            let parts = '';
+            let parsed = false;
             task.tsk_name = task.tsk_name.replace('%[' + expression + '] ', '');
             task.tsk_name = task.tsk_name.replace(' %[' + expression + ']', '');
             task.tsk_name = task.tsk_name.replace('%[' + expression + ']', '');
-            var patternTime = /\d{2}/i;
-            var patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
-            var patternDateTimeEnd = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} - \d{2}:\d{2}/i;
-            var patternDateTimeDuration = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} \+ /i;
-            var patternTimeEnd = /\d{2}:\d{2} - \d{2}:\d{2}/i;
-            var patternTimeDuration = /\d{2}:\d{2} \+ /i;
+            let patternTime = /\d{2}/i;
+            let patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
+            let patternDateTimeEnd = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} - \d{2}:\d{2}/i;
+            let patternDateTimeDuration = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} \+ /i;
+            let patternTimeEnd = /\d{2}:\d{2} - \d{2}:\d{2}/i;
+            let patternTimeDuration = /\d{2}:\d{2} \+ /i;
             // start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
             if (patternDateTimeDuration.test(expression)) {
                 parts = expression.split(' + ');
@@ -6322,7 +6034,7 @@ var TasksCore = /** @class */ (function () {
             // start time and duration -> HH:mm + ##h##m
             if (patternTimeDuration.test(expression) && !parsed) {
                 parts = expression.split(' + ');
-                var min = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
+                let min = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
                 task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
                 task.tsk_estimated_duration = this.parseTime(parts[1]);
                 task.tsk_schedule_date_end = new Date(task.tsk_schedule_date_start.getTime() + task.tsk_estimated_duration * 60 * 1000);
@@ -6331,7 +6043,7 @@ var TasksCore = /** @class */ (function () {
             // start date and time and end time -> yyyy-MM-dd HH:mm - HH:mm
             if (patternDateTimeEnd.test(expression) && !parsed) {
                 parts = expression.split(' - ');
-                var dateOnly = parts[0].split(' ')[0];
+                let dateOnly = parts[0].split(' ')[0];
                 task.tsk_schedule_date_start = new Date(parts[0]);
                 task.tsk_schedule_date_end = new Date(dateOnly + ' ' + parts[1]);
                 task.tsk_estimated_duration = this.elapsedTime(task.tsk_schedule_date_start, task.tsk_schedule_date_end) / 60;
@@ -6340,8 +6052,8 @@ var TasksCore = /** @class */ (function () {
             // start time and end time -> HH:mm - HH:mm
             if (patternTimeEnd.test(expression) && !parsed) {
                 parts = expression.split(' - ');
-                var min1 = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
-                var min2 = parseInt(parts[1].split(':')[0]) * 60 + parseInt(parts[1].split(':')[1]);
+                let min1 = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
+                let min2 = parseInt(parts[1].split(':')[0]) * 60 + parseInt(parts[1].split(':')[1]);
                 task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min1 * 60 * 1000));
                 task.tsk_schedule_date_end = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min2 * 60 * 1000));
                 task.tsk_estimated_duration = this.elapsedTime(task.tsk_schedule_date_start, task.tsk_schedule_date_end) / 60;
@@ -6349,21 +6061,21 @@ var TasksCore = /** @class */ (function () {
             }
             // start date and time -> yyyy-MM-dd HH:mm
             if (patternDateTime.test(expression) && !parsed) {
-                var dateParts = expression.substring(0, 10).split('-');
+                let dateParts = expression.substring(0, 10).split('-');
                 task.tsk_schedule_date_start = new Date(expression);
                 parsed = true;
             }
             // time only -> HH:mm
             if (patternTime.test(expression) && !parsed) {
-                var min = parseInt(expression.split(':')[0]) * 60 + parseInt(expression.split(':')[1]);
+                let min = parseInt(expression.split(':')[0]) * 60 + parseInt(expression.split(':')[1]);
                 task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
                 parsed = true;
             }
         }
         // detect estimated duration
         if (task.tsk_name.indexOf('%') !== -1 && task.tsk_name.indexOf('%%') === -1) {
-            var endPosition = task.tsk_name.indexOf(' ', task.tsk_name.indexOf('%')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(' ', task.tsk_name.indexOf('%'));
-            var duration = task.tsk_name.substring(task.tsk_name.indexOf('%') + 1, endPosition);
+            let endPosition = task.tsk_name.indexOf(' ', task.tsk_name.indexOf('%')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(' ', task.tsk_name.indexOf('%'));
+            let duration = task.tsk_name.substring(task.tsk_name.indexOf('%') + 1, endPosition);
             task.tsk_name = task.tsk_name.replace('%' + duration + ' ', '');
             task.tsk_name = task.tsk_name.replace(' %' + duration, '');
             task.tsk_name = task.tsk_name.replace('%' + duration, '');
@@ -6371,11 +6083,11 @@ var TasksCore = /** @class */ (function () {
             task.tsk_estimated_duration = parseInt(duration);
         }
         // detect [OPEN] token, creates task as an OPEN task
-        var tokenBacklog = '[BACKLOG]';
+        const tokenBacklog = '[BACKLOG]';
         if (task.tsk_name.indexOf(tokenBacklog) !== -1) {
-            task.tsk_name = task.tsk_name.replace(tokenBacklog + " ", '');
-            task.tsk_name = task.tsk_name.replace(" " + tokenBacklog, '');
-            task.tsk_name = task.tsk_name.replace("" + tokenBacklog, '');
+            task.tsk_name = task.tsk_name.replace(`${tokenBacklog} `, '');
+            task.tsk_name = task.tsk_name.replace(` ${tokenBacklog}`, '');
+            task.tsk_name = task.tsk_name.replace(`${tokenBacklog}`, '');
             task.tsk_ctg_status = 1; // BACKLOG
         }
         else {
@@ -6388,8 +6100,8 @@ var TasksCore = /** @class */ (function () {
         }
         // detects $[] qualifiers
         if (task.tsk_name.indexOf('$[') !== -1) {
-            var endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('$[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('$['));
-            var expression = task.tsk_name.substring(task.tsk_name.indexOf('$[') + 2, endPosition);
+            let endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('$[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('$['));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf('$[') + 2, endPosition);
             task.tsk_name = task.tsk_name.replace('$[' + expression + '] ', '');
             task.tsk_name = task.tsk_name.replace(' $[' + expression + ']', '');
             task.tsk_name = task.tsk_name.replace('$[' + expression + ']', '');
@@ -6397,44 +6109,44 @@ var TasksCore = /** @class */ (function () {
         }
         // detects #[] hashtags (multiple)
         if (task.tsk_name.indexOf('#[') !== -1) {
-            var endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('#[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('#['));
-            var expression = task.tsk_name.substring(task.tsk_name.indexOf('#[') + 2, endPosition);
+            let endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('#[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('#['));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf('#[') + 2, endPosition);
             task.tsk_name = this.replaceTokenInText(task.tsk_name, '#[' + expression + ']');
             task.tsk_tags = expression;
         }
         // detects # hashtags (individual)
         while (task.tsk_name.indexOf('#') !== -1) {
-            var endPosition = task.tsk_name.indexOf(' ', task.tsk_name.indexOf('#')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(' ', task.tsk_name.indexOf('#'));
-            var expression = task.tsk_name.substring(task.tsk_name.indexOf('#') + 1, endPosition);
+            let endPosition = task.tsk_name.indexOf(' ', task.tsk_name.indexOf('#')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(' ', task.tsk_name.indexOf('#'));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf('#') + 1, endPosition);
             task.tsk_name = this.replaceTokenInText(task.tsk_name, '#' + expression);
             task.tsk_tags = task.tsk_tags ? task.tsk_tags + ' ' + expression : expression;
         }
         // detects URLs
-        this.doThisWithAToken(task, function (t, expression) {
+        this.doThisWithAToken(task, (t, expression) => {
             t.tsk_url = 'http://' + expression;
             console.log('task with url', t);
         }, 'http://');
-        this.doThisWithAToken(task, function (t, expression) {
+        this.doThisWithAToken(task, (t, expression) => {
             t.tsk_url = 'https://' + expression;
             console.log('task with url', t);
         }, 'https://');
         // detects repetition options
-        this.doThisWithAToken(task, function (t, expression) {
-            var repetitionBasis = ''; // daily|weekly|monthly
-            var completionCriteria = 'onCompletion';
-            var terminationCriteria = 'iterations';
-            var terminationValue = '10';
-            var frequency = 0;
-            var frequencyRule = '';
-            var patternDate = /\d{4}-\d{2}-\d{2}/i;
-            var repetitionTypeValues = ['', 'daily', 'weekly', 'monthly', 'workdays', 'weekends', 'each', 'weekdays', 'onDay'];
-            var completionValues = ['', 'strict', 'onCompletion'];
-            var repetitionEndValues = ['', 'forever', 'date', 'iterations'];
-            var frequencyRuleValues = ['', 'd', 'w', 'm'];
-            var weekdaysValues = ['', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+        this.doThisWithAToken(task, (t, expression) => {
+            let repetitionBasis = ''; // daily|weekly|monthly
+            let completionCriteria = 'onCompletion';
+            let terminationCriteria = 'iterations';
+            let terminationValue = '10';
+            let frequency = 0;
+            let frequencyRule = '';
+            const patternDate = /\d{4}-\d{2}-\d{2}/i;
+            const repetitionTypeValues = ['', 'daily', 'weekly', 'monthly', 'workdays', 'weekends', 'each', 'weekdays', 'onDay'];
+            const completionValues = ['', 'strict', 'onCompletion'];
+            const repetitionEndValues = ['', 'forever', 'date', 'iterations'];
+            const frequencyRuleValues = ['', 'd', 'w', 'm'];
+            const weekdaysValues = ['', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
             if (expression) {
                 if (expression.indexOf('|') !== -1) {
-                    var basis = expression.split('|');
+                    let basis = expression.split('|');
                     if (basis[0].indexOf('-') !== -1) {
                         repetitionBasis = basis[0].split('-')[0].trim();
                         completionCriteria = basis[0].split('-')[1].trim();
@@ -6500,14 +6212,14 @@ var TasksCore = /** @class */ (function () {
             console.log('task with repetition', t);
         }, '*[', ']');
         return task;
-    };
+    }
     /**
      * Extends a basic task model so it has all of the properties of a complete task model.
      * @param {object} a Basic task model to be extended, it has some properties used in the complete task model.
      * @return {object} A complete task model extended with the data of the basic task model.
      */
-    TasksCore.prototype.newTaskTemplate = function (task) {
-        var id = this.generateId();
+    newTaskTemplate(task) {
+        let id = this.generateId();
         return {
             'tsk_id': id,
             'tsk_id_container': 'tasks',
@@ -6550,28 +6262,27 @@ var TasksCore = /** @class */ (function () {
             'tsk_date_mod': this.services.dateUtils.newDateUpToSeconds(),
             'tsk_ctg_status': task.tsk_ctg_status
         };
-    };
-    TasksCore.prototype.nextOrder = function () {
+    }
+    nextOrder() {
         if (this.data.taskList.length) {
             // find max existent order
-            var order_1 = 0;
-            this.data.taskList.forEach(function (t) {
-                if (order_1 < parseInt(t.tsk_order)) {
-                    order_1 = parseInt(t.tsk_order);
+            let order = 0;
+            this.data.taskList.forEach((t) => {
+                if (order < parseInt(t.tsk_order)) {
+                    order = parseInt(t.tsk_order);
                 }
             });
-            return order_1 + 1;
+            return order + 1;
         }
         return 1;
-    };
-    TasksCore.prototype.tasks = function () {
+    }
+    tasks() {
         return this.data.taskList;
-    };
-    TasksCore.prototype.tasksGroups = function () {
-    };
-    TasksCore.prototype.pad = function (value, fillChar, length, dir) {
-        if (dir === void 0) { dir = -1; }
-        var result = value + '';
+    }
+    tasksGroups() {
+    }
+    pad(value, fillChar, length, dir = -1) {
+        let result = value + '';
         while (result.length < length) {
             if (dir === -1) {
                 result = fillChar + result;
@@ -6581,21 +6292,21 @@ var TasksCore = /** @class */ (function () {
             }
         }
         return result;
-    };
-    TasksCore.prototype.generateId = function () {
+    }
+    generateId() {
         // take date + time + random 10 digits
         // total digits 10 + 6 + 10 = 26
-        var date = this.services.dateUtils.newDateUpToSeconds();
-        var random = Math.floor(Math.random() * 1e14);
-        var datetimeString = "" + date.getFullYear() + this.pad(date.getMonth() + 1, '0', 2) + this.pad(date.getDate(), '0', 2);
-        datetimeString += "" + this.pad(date.getHours(), '0', 2) + this.pad(date.getMinutes(), '0', 2) + this.pad(date.getSeconds(), '0', 2);
-        var id = "T" + datetimeString + "-" + random;
+        let date = this.services.dateUtils.newDateUpToSeconds();
+        let random = Math.floor(Math.random() * 1e14);
+        let datetimeString = `${date.getFullYear()}${this.pad(date.getMonth() + 1, '0', 2)}${this.pad(date.getDate(), '0', 2)}`;
+        datetimeString += `${this.pad(date.getHours(), '0', 2)}${this.pad(date.getMinutes(), '0', 2)}${this.pad(date.getSeconds(), '0', 2)}`;
+        let id = `T${datetimeString}-${random}`;
         return id;
-    };
+    }
     /** BEGIN Storage */
-    TasksCore.prototype.tasksFromStorage = function () {
+    tasksFromStorage() {
         if (typeof (window.localStorage) !== "undefined") {
-            var tasks = JSON.parse(localStorage.getItem("Tasks"));
+            let tasks = JSON.parse(localStorage.getItem("Tasks"));
             //console.log('from storage recent',tasks.length);
             // tasks = tasks.concat(JSON.parse(localStorage.getItem("Tasks.old")));
             //console.log('from storage all',tasks.length);
@@ -6619,8 +6330,8 @@ var TasksCore = /** @class */ (function () {
             }
         }
         return [];
-    };
-    TasksCore.prototype.tasksToStorage = function () {
+    }
+    tasksToStorage() {
         // do this once
         // change timestamps in dates to not have milliseconds
         // let tasks = this.data.taskList;
@@ -6664,25 +6375,25 @@ var TasksCore = /** @class */ (function () {
             // localStorage.setItem("Tasks", JSON.stringify(recent));
             //localStorage.setItem("Tasks.old", JSON.stringify(old));
         }
-    };
+    }
     /** END Storage */
-    TasksCore.prototype.stringDateToDate = function (date) {
+    stringDateToDate(date) {
         if (/\d{4}-\d{2}-\d{2}/.test(date)) { // looks like a date
             return new Date(date);
         }
         return undefined;
-    };
-    TasksCore.prototype.updateTask = function (task, newData) {
-        Object.keys(newData).forEach(function (k) {
+    }
+    updateTask(task, newData) {
+        Object.keys(newData).forEach(k => {
             task[k] = newData[k];
         });
         task.tsk_date_mod = this.services.dateUtils.newDateUpToSeconds();
-        var index = this.tasks().findIndex(function (e) { return e.tsk_id === task.tsk_id; });
+        const index = this.tasks().findIndex((e) => e.tsk_id === task.tsk_id);
         this.data.taskList[index] = task;
         this.updateTaskBE(task);
         this.tasksToStorage();
-    };
-    TasksCore.prototype.addTimeTracking = function (task) {
+    }
+    addTimeTracking(task) {
         task.tsk_time_history.push({
             'tsh_id': task.tsk_id,
             'tsh_num_secuential': (task.tsk_time_history.length + 1),
@@ -6695,36 +6406,36 @@ var TasksCore = /** @class */ (function () {
             'tsh_date_mod': this.services.dateUtils.newDateUpToSeconds()
         });
         this.tasksToStorage();
-    };
-    TasksCore.prototype.stopTimeTracking = function (task) {
-        var h = task.tsk_time_history[task.tsk_time_history.length - 1];
+    }
+    stopTimeTracking(task) {
+        let h = task.tsk_time_history[task.tsk_time_history.length - 1];
         h.tsh_name = task.tsk_name;
         h.tsh_date_end = this.services.dateUtils.newDateUpToSeconds();
         h.tsh_time_spent = this.elapsedTime(h.tsh_date_start, h.tsh_date_end);
         h.tsh_date_mod = this.services.dateUtils.newDateUpToSeconds();
         this.recalculateTotalTimeSpent(task);
         this.tasksToStorage();
-    };
-    TasksCore.prototype.recalculateTotalTimeSpent = function (task) {
+    }
+    recalculateTotalTimeSpent(task) {
         // sum in task
-        var sum = 0;
-        task.tsk_time_history.forEach(function (t) {
+        let sum = 0;
+        task.tsk_time_history.forEach((t) => {
             sum += t.tsh_time_spent;
         });
         task.tsk_total_time_spent = sum;
         return task;
-    };
-    TasksCore.prototype.elapsedTime = function (date1, date2) {
+    }
+    elapsedTime(date1, date2) {
         if (date1 && date2) {
             return Math.floor(Math.abs(date1.getTime() - date2.getTime()) / 1000);
         }
         return 0;
-    };
-    TasksCore.prototype.elapsedDays = function (date1, date2) {
+    }
+    elapsedDays(date1, date2) {
         return Math.floor(this.elapsedTime(this.dateOnly(date1), this.dateOnly(date2)) / (60 * 60 * 24));
-    };
-    TasksCore.prototype.updateTaskTimeTracking = function (taskTimeTracking, newData) {
-        Object.keys(newData).forEach(function (k) {
+    }
+    updateTaskTimeTracking(taskTimeTracking, newData) {
+        Object.keys(newData).forEach(k => {
             taskTimeTracking[k] = newData[k];
         });
         if (taskTimeTracking.tsh_date_end !== null) {
@@ -6734,34 +6445,34 @@ var TasksCore = /** @class */ (function () {
             taskTimeTracking.tsh_time_spent = 0;
         }
         taskTimeTracking.tsh_date_mod = this.services.dateUtils.newDateUpToSeconds();
-        var task = this.recalculateTotalTimeSpent(this.data.taskList.find(function (t) { return t.tsk_id === taskTimeTracking.tsh_id; }));
-        var index = this.data.taskList.findIndex(function (t) { return t.tsk_id === taskTimeTracking.tsh_id; });
+        const task = this.recalculateTotalTimeSpent(this.data.taskList.find((t) => t.tsk_id === taskTimeTracking.tsh_id));
+        const index = this.data.taskList.findIndex((t) => t.tsk_id === taskTimeTracking.tsh_id);
         this.data.taskList[index] = task;
-        var historyIndex = task.tsk_time_history.findIndex(function (h) { return h.tsh_id === taskTimeTracking.tsh_id && h.tsh_num_secuential === taskTimeTracking.tsh_num_secuential; });
+        const historyIndex = task.tsk_time_history.findIndex((h) => h.tsh_id === taskTimeTracking.tsh_id && h.tsh_num_secuential === taskTimeTracking.tsh_num_secuential);
         task.tsk_time_history[historyIndex] = taskTimeTracking;
         this.tasksToStorage();
         this.updateTaskBE(task);
-    };
-    TasksCore.prototype.deleteTasks = function () {
+    }
+    deleteTasks() {
         this.data.taskList = [];
         this.tasksToStorage();
-    };
-    TasksCore.prototype.dateOnly = function (base) {
+    }
+    dateOnly(base) {
         return new Date(base.getFullYear(), base.getMonth(), base.getDate(), 0, 0, 0);
-    };
-    TasksCore.prototype.dateWithFormat = function (date) {
+    }
+    dateWithFormat(date) {
         var str = date.getFullYear() + "-" + (date.getMonth() + 1 > 9 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1)) + "-" + (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
         str += " " + (date.getHours() > 9 ? date.getHours() : "0" + date.getHours()) + ":" + (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()) + ":" + (date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds());
         return str;
-    };
-    TasksCore.prototype.replaceAll = function (str, find, replace) {
+    }
+    replaceAll(str, find, replace) {
         return str.replace(new RegExp(this.escapeRegExp(find), "g"), replace);
-    };
-    TasksCore.prototype.escapeRegExp = function (str) {
+    }
+    escapeRegExp(str) {
         return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-    };
-    TasksCore.prototype.parseTime = function (duration) {
-        var hours = 0, min = 0;
+    }
+    parseTime(duration) {
+        let hours = 0, min = 0;
         if (duration.indexOf('h') !== -1) {
             hours = parseInt(duration.substring(0, duration.indexOf('h')));
             duration = duration.replace(hours + 'h', '');
@@ -6784,22 +6495,22 @@ var TasksCore = /** @class */ (function () {
             return hours * 60 + min;
         }
         return parseInt(duration);
-    };
-    TasksCore.prototype.parseDatetime = function (expression) {
-        var parts = [];
-        var parsed = false;
-        var s = {
+    }
+    parseDatetime(expression) {
+        let parts = [];
+        let parsed = false;
+        let s = {
             date_start: null,
             date_end: null,
             duration: 0,
             pattern: ''
         };
-        var patternTime = /\d{2}/i;
-        var patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
-        var patternDateTimeEnd = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} - \d{2}:\d{2}/i;
-        var patternDateTimeDuration = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} \+ /i;
-        var patternTimeEnd = /\d{2}:\d{2} - \d{2}:\d{2}/i;
-        var patternTimeDuration = /\d{2}:\d{2} \+ /i;
+        let patternTime = /\d{2}/i;
+        let patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
+        let patternDateTimeEnd = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} - \d{2}:\d{2}/i;
+        let patternDateTimeDuration = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} \+ /i;
+        let patternTimeEnd = /\d{2}:\d{2} - \d{2}:\d{2}/i;
+        let patternTimeDuration = /\d{2}:\d{2} \+ /i;
         // start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
         if (patternDateTimeDuration.test(expression)) {
             parts = expression.split(' + ');
@@ -6812,7 +6523,7 @@ var TasksCore = /** @class */ (function () {
         // start time and duration -> HH:mm + ##h##m
         if (patternTimeDuration.test(expression) && !parsed) {
             parts = expression.split(' + ');
-            var min = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
+            let min = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
             s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
             s.duration = this.parseTime(parts[1]);
             s.date_end = new Date(s.date_start.getTime() + s.duration * 60 * 1000);
@@ -6822,7 +6533,7 @@ var TasksCore = /** @class */ (function () {
         // start date and time and end time -> yyyy-MM-dd HH:mm - HH:mm
         if (patternDateTimeEnd.test(expression) && !parsed) {
             parts = expression.split(' - ');
-            var dateOnly = parts[0].split(' ')[0];
+            let dateOnly = parts[0].split(' ')[0];
             s.date_start = new Date(parts[0]);
             s.date_end = new Date(dateOnly + ' ' + parts[1]);
             s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
@@ -6832,8 +6543,8 @@ var TasksCore = /** @class */ (function () {
         // start time and end time -> HH:mm - HH:mm
         if (patternTimeEnd.test(expression) && !parsed) {
             parts = expression.split(' - ');
-            var min1 = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
-            var min2 = parseInt(parts[1].split(':')[0]) * 60 + parseInt(parts[1].split(':')[1]);
+            let min1 = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
+            let min2 = parseInt(parts[1].split(':')[0]) * 60 + parseInt(parts[1].split(':')[1]);
             s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min1 * 60 * 1000));
             s.date_end = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min2 * 60 * 1000));
             s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
@@ -6842,27 +6553,26 @@ var TasksCore = /** @class */ (function () {
         }
         // start date and time -> yyyy-MM-dd HH:mm
         if (patternDateTime.test(expression) && !parsed) {
-            var dateParts = expression.substring(0, 10).split('-');
+            let dateParts = expression.substring(0, 10).split('-');
             s.date_start = new Date(expression);
             parsed = true;
             s.pattern = 'yyyy-MM-dd HH:mm';
         }
         // time only -> HH:mm
         if (patternTime.test(expression) && !parsed) {
-            var min = parseInt(expression.split(':')[0]) * 60 + parseInt(expression.split(':')[1]);
+            let min = parseInt(expression.split(':')[0]) * 60 + parseInt(expression.split(':')[1]);
             s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
             parsed = true;
             s.pattern = 'HH:mm';
         }
         return s;
-    };
-    TasksCore.prototype.import = function (tasks) {
-        var _this = this;
-        tasks.forEach(function (t) {
-            _this.data.taskList.push(t);
+    }
+    import(tasks) {
+        tasks.forEach((t) => {
+            this.data.taskList.push(t);
         });
         this.tasksToStorage();
-    };
+    }
     // getTasks(){
     //     this.http.get(`${this.apiRoot}/task/list`).subscribe(
     //         (data) => {
@@ -6874,32 +6584,30 @@ var TasksCore = /** @class */ (function () {
     //         }
     //     )
     // }
-    TasksCore.prototype.getTasks = function () {
-        var _this = this;
+    getTasks() {
         //return this.http.get(`${this.apiRoot}/api/tasks`).toPromise() // => data.json()
         return this.getAllForUser('anon')
-            .then(function (data) {
-            _this.serverData.tasks = data;
-            console.log('from BE', _this.serverData.tasks);
+            .then((data) => {
+            this.serverData.tasks = data;
+            console.log('from BE', this.serverData.tasks);
             return data;
-        }).catch(function (err) {
+        }).catch((err) => {
             console.log(err);
         });
-    };
-    TasksCore.prototype.getTasksFromServer = function () {
-        var _this = this;
+    }
+    getTasksFromServer() {
         return this.getAllForUser('anon')
-            .then(function (data) {
-            var task;
-            var server = data;
-            server.forEach(function (t) {
+            .then((data) => {
+            let task;
+            let server = data;
+            server.forEach((t) => {
                 t.tsk_time_history = t.tsk_time_history || [];
-                task = _this.data.taskList.find(function (d) { return d.tsk_id == t.tsk_id; });
+                task = this.data.taskList.find((d) => d.tsk_id == t.tsk_id);
                 if (!task) { // if task was not found on client but it's coming from server, add it
                     // add one time tracking if task is done
                     if (t.tsk_ctg_status == 3) {
-                        var dateDone = new Date(t.tsk_date_done);
-                        var dateStart = new Date(t.tsk_date_done);
+                        let dateDone = new Date(t.tsk_date_done);
+                        let dateStart = new Date(t.tsk_date_done);
                         dateStart = new Date(dateStart.getTime() - ((t.tsk_estimated_duration - 1) * 60 * 1000));
                         t.tsk_time_history.push({
                             tsh_id: t.tsk_id,
@@ -6907,20 +6615,20 @@ var TasksCore = /** @class */ (function () {
                             tsh_name: t.tsk_name,
                             tsh_date_start: dateStart,
                             tsh_date_end: dateDone,
-                            tsh_time_spent: _this.elapsedTime(dateStart, dateDone),
+                            tsh_time_spent: this.elapsedTime(dateStart, dateDone),
                             tsh_id_user: t.tsk_id_user_asigned,
                             tsh_date_add: dateStart,
                             tsh_date_mod: dateDone
                         });
                     }
-                    _this.data.taskList.push(t);
+                    this.data.taskList.push(t);
                 }
                 else { // task is in server and client, let's see if it has changes
                     if ((new Date(t.tsk_date_mod)).getTime() != (new Date(task.tsk_date_mod)).getTime()) {
                         // add one time tracking if task is done
                         if (t.tsk_ctg_status == 3) {
-                            var dateDone = new Date(t.tsk_date_done);
-                            var dateStart = new Date(t.tsk_date_done);
+                            let dateDone = new Date(t.tsk_date_done);
+                            let dateStart = new Date(t.tsk_date_done);
                             dateStart = new Date(dateStart.getTime() - ((t.tsk_estimated_duration - 1) * 60 * 1000));
                             t.tsk_time_history.push({
                                 tsh_id: t.tsk_id,
@@ -6928,22 +6636,22 @@ var TasksCore = /** @class */ (function () {
                                 tsh_name: t.tsk_name,
                                 tsh_date_start: dateStart,
                                 tsh_date_end: dateDone,
-                                tsh_time_spent: _this.elapsedTime(dateStart, dateDone),
+                                tsh_time_spent: this.elapsedTime(dateStart, dateDone),
                                 tsh_id_user: t.tsk_id_user_asigned,
                                 tsh_date_add: dateStart,
                                 tsh_date_mod: dateDone
                             });
-                            _this.data.taskList[_this.data.taskList.findIndex(function (d) { return d.tsk_id == t.tsk_id; })] = t;
+                            this.data.taskList[this.data.taskList.findIndex((d) => d.tsk_id == t.tsk_id)] = t;
                             //task = t;
                         }
                     }
                 }
             });
-            _this.tasksToStorage();
-        }).catch(function (err) {
+            this.tasksToStorage();
+        }).catch((err) => {
             console.log(err);
         });
-    };
+    }
     // postTask(t: any){
     //     this.http.post(`${this.apiRoot}/task/create`,this.parseToPost(t)).subscribe(
     //         response => {
@@ -6951,17 +6659,17 @@ var TasksCore = /** @class */ (function () {
     //         }
     //     );
     // }
-    TasksCore.prototype.postTask = function (t) {
+    postTask(t) {
         t.not_sync = true;
-        this.sync.request('create', _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_6__["Utils"].entityToRawTableFields(t), {
+        this.sync.request('create', Utility_1.Utils.entityToRawTableFields(t), {
             tsk_id: t.tsk_id
-        }, 'Task', function () {
+        }, 'Task', () => {
             t.not_sync = false;
-        }, function (e) { return e.tsk_id + ' / ' + e.tsk_name; }, function (val) { return val.tsk_id === t.tsk_id; });
-    };
-    TasksCore.prototype.postMultipleTasks = function (list) {
-        var syncList = [];
-        list.forEach(function (t) {
+        }, (e) => e.tsk_id + ' / ' + e.tsk_name, (val) => val.tsk_id === t.tsk_id);
+    }
+    postMultipleTasks(list) {
+        let syncList = [];
+        list.forEach((t) => {
             t.not_sync = true;
             syncList.push({
                 action: 'create',
@@ -6970,109 +6678,106 @@ var TasksCore = /** @class */ (function () {
                     tsk_id: t.tsk_id
                 },
                 entity: 'Task',
-                callback: function (model, response) {
+                callback: (model, response) => {
                     model.not_sync = false;
                 },
-                recordName: function (task) { return task.tsk_id; },
-                matchMethod: function (val) { return val.tsk_id === t.tsk_id; } // use pk's instead
+                recordName: (task) => task.tsk_id,
+                matchMethod: (val) => val.tsk_id === t.tsk_id // use pk's instead
             });
         });
         this.sync.multipleRequest(syncList);
-    };
-    TasksCore.prototype.prepareTaskToPostBE = function (t) {
-        var history = t['tsk_time_history'];
-        var simpleTask = _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_6__["Utils"].entityToRawTableFields(t);
+    }
+    prepareTaskToPostBE(t) {
+        const history = t['tsk_time_history'];
+        const simpleTask = Utility_1.Utils.entityToRawTableFields(t);
         simpleTask['tsk_time_history'] = history;
         return simpleTask;
-    };
-    TasksCore.prototype.updateTaskBE = function (t) {
+    }
+    updateTaskBE(t) {
         t.not_sync = true;
         this.sync.request('update', this.prepareTaskToPostBE(t), {
             tsk_id: t.tsk_id
-        }, 'Task', function () {
+        }, 'Task', () => {
             t.not_sync = false;
-        }, function (e) { return e.tsk_id + ' / ' + e.tsk_name; }, function (val) { return val.tsk_id === t.tsk_id; });
-    };
-    TasksCore.prototype.parseToPost = function (obj) {
-        var resp = '';
-        Object.keys(obj).forEach(function (k) {
+        }, (e) => e.tsk_id + ' / ' + e.tsk_name, (val) => val.tsk_id === t.tsk_id);
+    }
+    parseToPost(obj) {
+        let resp = '';
+        Object.keys(obj).forEach(k => {
             if (obj[k] === 0 || (obj[k] !== '' && obj[k])) {
-                resp = (resp !== '' ? resp + '&' : '') + (k + "=" + obj[k]);
+                resp = (resp !== '' ? resp + '&' : '') + `${k}=${obj[k]}`;
             }
         });
         return resp;
-    };
-    TasksCore.prototype.purgeDoneTasks = function () {
-        var filtered = this.data.taskList.filter(function (t) {
+    }
+    purgeDoneTasks() {
+        let filtered = this.data.taskList.filter((t) => {
             return t.tsk_ctg_status !== 3; // CLOSED
         });
         this.data.taskList = filtered;
         this.tasksToStorage();
-    };
-    TasksCore.prototype.replaceTokenInText = function (tsk_name, expression) {
-        var r = tsk_name;
+    }
+    replaceTokenInText(tsk_name, expression) {
+        let r = tsk_name;
         r = r.replace(expression + ' ', '');
         r = r.replace(' ' + expression, '');
         r = r.replace(expression, '');
         return r;
-    };
-    TasksCore.prototype.doThisWithAToken = function (task, method, token, tokenEnd) {
-        if (tokenEnd === void 0) { tokenEnd = ' '; }
+    }
+    doThisWithAToken(task, method, token, tokenEnd = ' ') {
         while (task.tsk_name.indexOf(token) !== -1) {
-            var endPosition = task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token)) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token));
-            var expression = task.tsk_name.substring(task.tsk_name.indexOf(token) + token.length, endPosition);
+            let endPosition = task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token)) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf(token) + token.length, endPosition);
             task.tsk_name = this.replaceTokenInText(task.tsk_name, token + expression + (tokenEnd === ' ' ? '' : tokenEnd));
             method(task, expression);
         }
-    };
+    }
     /**
      * @deprecated Old way to push tasks to BE, no need anymore
      */
-    TasksCore.prototype.batchAdd = function () {
-        var _this = this;
-        var date1 = new Date(2018, 8, 1);
-        var date2 = new Date(2018, 9, 1);
-        var dateFrom = function (d) { return new Date(d); };
-        var dateGreaterThan = function (d1, d2) { return dateFrom(d1).getTime() > dateFrom(d2).getTime(); };
-        var dateGreaterOrEqualThan = function (d1, d2) { return dateFrom(d1).getTime() >= dateFrom(d2).getTime(); };
-        var dateLowerThan = function (d1, d2) { return dateFrom(d1).getTime() < dateFrom(d2).getTime(); };
-        var dateLowerOrEqualThan = function (d1, d2) { return dateFrom(d1).getTime() <= dateFrom(d2).getTime(); };
-        var t = this.data.taskList.filter(function (task) { return dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2); });
+    batchAdd() {
+        const date1 = new Date(2018, 8, 1);
+        const date2 = new Date(2018, 9, 1);
+        const dateFrom = (d) => new Date(d);
+        const dateGreaterThan = (d1, d2) => dateFrom(d1).getTime() > dateFrom(d2).getTime();
+        const dateGreaterOrEqualThan = (d1, d2) => dateFrom(d1).getTime() >= dateFrom(d2).getTime();
+        const dateLowerThan = (d1, d2) => dateFrom(d1).getTime() < dateFrom(d2).getTime();
+        const dateLowerOrEqualThan = (d1, d2) => dateFrom(d1).getTime() <= dateFrom(d2).getTime();
+        let t = this.data.taskList.filter((task) => dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2));
         console.log('tasks to push', t);
-        this.http.post(this.apiRoot + "/task/batch", t, { headers: this.headers })
-            .toPromise().then(function (response) {
+        this.http.post(`${this.apiRoot}/task/batch`, t, { headers: this.headers })
+            .toPromise().then(response => {
             console.log('post response', response);
             // cleanup
-            var filtered = _this.data.taskList.filter(function (task) {
+            let filtered = this.data.taskList.filter((task) => {
                 return (dateGreaterOrEqualThan(task.tsk_date_add, date2)) || task.tsk_ctg_status <= 2; // BACKLOG, OPEN
             });
-            var cleanedup = _this.data.taskList.filter(function (task) {
+            let cleanedup = this.data.taskList.filter((task) => {
                 return (dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2)) && task.tsk_ctg_status > 2; // CLOSED, CANCELLED
             });
-            var preservedPush = _this.data.taskList.filter(function (task) {
+            let preservedPush = this.data.taskList.filter((task) => {
                 return (dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2)) && task.tsk_ctg_status <= 2; // BACKLOG, OPEN
             });
             console.log('tasks remaining after cleanup', filtered);
             console.log('cleanedup tasks', cleanedup);
             console.log('preserved from push', preservedPush);
-            _this.data.taskList = filtered;
-            _this.tasksToStorage();
-        }).catch(function (err) {
+            this.data.taskList = filtered;
+            this.tasksToStorage();
+        }).catch((err) => {
             console.log('err', err);
         });
-    };
-    TasksCore.prototype.computeComparisonData = function () {
-        var _this = this;
-        return this.getAllForUser('anon').then(function (serverData) {
-            var clientData = _this.data.taskList;
-            var singleTask;
-            var comparisonResults = [];
-            var result;
+    }
+    computeComparisonData() {
+        return this.getAllForUser('anon').then((serverData) => {
+            let clientData = this.data.taskList;
+            let singleTask;
+            let comparisonResults = [];
+            let result;
             // compare tasks, client first
-            clientData.forEach(function (t) {
-                singleTask = serverData.find(function (s) { return s.tsk_id === t.tsk_id; });
+            clientData.forEach((t) => {
+                singleTask = serverData.find((s) => s.tsk_id === t.tsk_id);
                 if (singleTask) {
-                    result = _this.compareTask(t, singleTask);
+                    result = this.compareTask(t, singleTask);
                     if (result.length > 0) {
                         comparisonResults.push(result);
                     }
@@ -7083,23 +6788,22 @@ var TasksCore = /** @class */ (function () {
                     console.log('this task is not in the server', t);
                 }
             });
-            _this.comparisonData = {
+            this.comparisonData = {
                 results: comparisonResults,
                 clientTaskCount: clientData.length,
                 serverTaskCount: serverData.length
             };
-            return _this.comparisonData;
+            return this.comparisonData;
         });
-    };
-    TasksCore.prototype.compareTask = function (t, s) {
-        var _this = this;
+    }
+    compareTask(t, s) {
         //let fields = ['tsk_id_container','tsk_id_record','tsk_name','tsk_notes', 'tsk_parent', 'tsk_order', 'tsk_date_done', 'tsk_total_time_spent', 'tsk_ctg_in_process', 'tsk_qualifiers', 'tsk_tags', 'tsk_estimated_duration', 'tsk_schedule_date_start', 'tsk_schedule_date_end', 'tsk_date_view_until', 'tsk_id_user_added', 'tsk_id_user_asigned', 'tsk_date_add', 'tsk_date_mod', 'tsk_ctg_status'];
         //let fields = ['tsk_id_container','tsk_id_record','tsk_name','tsk_notes','tsk_parent','tsk_order','tsk_date_done','tsk_total_time_spent','tsk_ctg_in_process','tsk_qualifiers','tsk_tags','tsk_estimated_duration','tsk_schedule_date_start','tsk_schedule_date_end','tsk_date_view_until','tsk_id_user_added','tsk_id_user_asigned','tsk_template','tsk_template_state','tsk_date_due','tsk_id_related','tsk_url','tsk_ctg_repeats','tsk_id_main','tsk_ctg_rep_type','tsk_ctg_rep_after_completion','tsk_ctg_rep_end','tsk_rep_date_end','tsk_rep_end_iteration','tsk_rep_iteration','tsk_rep_frequency','tsk_ctg_rep_frequency_rule','tsk_rep_weekdays','tsk_date_add','tsk_date_mod','tsk_ctg_status'];
-        var fields = ['tsk_id_container', 'tsk_id_record', 'tsk_name', 'tsk_notes', 'tsk_parent', 'tsk_order', 'tsk_date_done', 'tsk_total_time_spent', 'tsk_ctg_in_process', 'tsk_tags', 'tsk_estimated_duration', 'tsk_schedule_date_start', 'tsk_schedule_date_end', 'tsk_date_view_until', 'tsk_id_user_added', 'tsk_id_user_asigned', 'tsk_template', 'tsk_template_state', 'tsk_date_due', 'tsk_id_related', 'tsk_url', 'tsk_id_main', 'tsk_rep_date_end', 'tsk_rep_weekdays', 'tsk_date_add', 'tsk_ctg_status'];
+        let fields = ['tsk_id_container', 'tsk_id_record', 'tsk_name', 'tsk_notes', 'tsk_parent', 'tsk_order', 'tsk_date_done', 'tsk_total_time_spent', 'tsk_ctg_in_process', 'tsk_tags', 'tsk_estimated_duration', 'tsk_schedule_date_start', 'tsk_schedule_date_end', 'tsk_date_view_until', 'tsk_id_user_added', 'tsk_id_user_asigned', 'tsk_template', 'tsk_template_state', 'tsk_date_due', 'tsk_id_related', 'tsk_url', 'tsk_id_main', 'tsk_rep_date_end', 'tsk_rep_weekdays', 'tsk_date_add', 'tsk_ctg_status'];
         //let fields = ['tsk_date_done'];
-        var comparison = [];
-        var field = {};
-        fields.forEach(function (f) {
+        let comparison = [];
+        let field = {};
+        fields.forEach((f) => {
             field = {};
             field.id = t.tsk_id;
             field.displayName = t.tsk_id + ' - ' + t.tsk_name;
@@ -7115,13 +6819,13 @@ var TasksCore = /** @class */ (function () {
             }
             if (field.name === 'tsk_total_time_spent' && !field.isEqual) {
                 // let's find out which one is the real one
-                var taskClient = _this.data.taskList.find(function (t) { return t.tsk_id === field.id; });
-                _this.recalculateTotalTimeSpent(taskClient);
+                let taskClient = this.data.taskList.find((t) => t.tsk_id === field.id);
+                this.recalculateTotalTimeSpent(taskClient);
                 field.isEqual = taskClient[f] == s[f];
             }
             if (field.name === 'tsk_date_mod' && !field.isEqual) {
                 // we preserve server date if it defers from browser
-                var taskClient = _this.data.taskList.find(function (t) { return t.tsk_id === field.id; });
+                let taskClient = this.data.taskList.find((t) => t.tsk_id === field.id);
                 taskClient[f] = new Date(s[f]);
                 field.isEqual = taskClient[f].getTime() == new Date(s[f]).getTime();
             }
@@ -7130,18 +6834,17 @@ var TasksCore = /** @class */ (function () {
             }
         });
         return comparison;
-    };
-    TasksCore.prototype.setApiRoot = function (root) {
+    }
+    setApiRoot(root) {
         this.apiRoot = root;
         console.log('api root has changed to:', root);
-    };
-    TasksCore = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"], _common_date_common__WEBPACK_IMPORTED_MODULE_5__["DateCommon"]])
-    ], TasksCore);
-    return TasksCore;
-}());
-
+    }
+};
+TasksCore = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [http_1.HttpClient, sync_api_1.SyncAPI, date_common_1.DateCommon])
+], TasksCore);
+exports.TasksCore = TasksCore;
 
 
 /***/ }),
@@ -7153,7 +6856,7 @@ var TasksCore = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #tasksForm=\"ngForm\">\r\n    <input type=\"text\" name=\"tsk_name\"\r\n        placeholder=\"Write a task...\"\r\n        class=\"task\"\r\n        autocomplete=\"off\"\r\n        autofocus=\"true\"\r\n        *ngIf=\"!showBatchAdd\"\r\n        (keyup)=\"inputKeyUpHandler($event)\"\r\n        [(ngModel)]=\"tsk_name\" />\r\n    <textarea name=\"tsk_multiple_name\"\r\n        placeholder=\"Write a task per line...\"\r\n        class=\"task-multiple\"\r\n        (keyup)=\"inputKeyUpHandler($event)\"\r\n        [(ngModel)]=\"tsk_multiple_name\"\r\n        *ngIf=\"showBatchAdd\"></textarea>\r\n    <button type=\"submit\" (click)=\"addTask(tasksForm)\" id=\"btnAddTask\">Add task</button>\r\n    <button (click)=\"showButtonSection = !showButtonSection\">{{showButtonSection ? 'hide': 'show'}} actions</button>\r\n    <span id=\"buttonSection\" *ngIf=\"showButtonSection\">\r\n        <button (click)=\"toggleViewBacklog()\">{{viewBacklog ? 'hide': 'show'}} backlog</button>\r\n        <button (click)=\"toggleViewAll()\">{{viewAll ? 'hide': 'show'}} all</button>\r\n        <button (click)=\"toggleViewPostponed()\" *ngIf=\"state.postponedTasksCount\">{{viewPostponed ? 'hide': 'show'}} postponed</button>\r\n        <button (click)=\"toggleViewReportsWeek()\">{{viewReportsWeek ? 'hide': 'show'}} reports week</button>\r\n        <button (click)=\"toggleViewReportsDayDistribution()\">{{viewReportsDayDistribution ? 'hide': 'show'}} reports day distribution</button>\r\n        <button (click)=\"toggleView('viewQualifierTotals')\">{{viewQualifierTotals ? 'hide': 'show'}} reports qualifier totals</button>\r\n        <button (click)=\"toggleViewOptions()\">{{viewOptions ? 'hide': 'show'}} options</button>\r\n    </span>\r\n    <div *ngIf=\"viewETABeforeAdd\">\r\n        <strong>[{{state.beforeAddTotalTasksWritten}} Tasks to Add]</strong>\r\n        <strong>[TOTAL ETA: {{formatTime(state.beforeAddTotalETA * 60)}}]</strong>\r\n        <span *ngFor=\"let r of state.beforeAddETA\">\r\n            [{{r.record}}: {{formatTime(r.totalETA * 60)}}]\r\n        </span>\r\n    </div>\r\n</form>\r\n<div *ngIf=\"viewOptions\">\r\n    <button (click)=\"deleteTasks()\">delete all tasks</button>\r\n    <input type=\"text\"\r\n        name=\"optionsInput\"\r\n        [(ngModel)]=\"optionsInput\" />\r\n    <button (click)=\"backup()\">backup</button>\r\n    <button (click)=\"backupDoneOnly()\">backup done only</button>\r\n    <button (click)=\"import()\">import</button>\r\n    <button (click)=\"purgeDoneTasks()\">purge done tasks</button>\r\n    <button (click)=\"sendAllToServer()\">all tasks to server</button>\r\n    <button (click)=\"getTasksFromServer()\">get tasks from server</button>\r\n    <br/>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckViewElapsedDays\" id=\"optCheckViewElapsedDays\"\r\n            ng-checked=\"options.optViewElapsedDays\"\r\n            [(ngModel)]=\"options.optViewElapsedDays\"\r\n            (click)=\"toggleOption('optViewElapsedDays')\" />\r\n        <label for=\"optCheckViewElapsedDays\">Display days elapsed since task was added</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckShowFinishedToday\" id=\"optCheckShowFinishedToday\"\r\n            ng-checked=\"options.optShowFinishedToday\"\r\n            [(ngModel)]=\"options.optShowFinishedToday\"\r\n            (click)=\"toggleOption('optShowFinishedToday')\" />\r\n        <label for=\"optCheckShowFinishedToday\">Show Finished Today</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckShowQualifiedTasksOnly\" id=\"optCheckShowQualifiedTasksOnly\"\r\n            ng-checked=\"options.optShowQualifiedTasksOnly\"\r\n            [(ngModel)]=\"options.optShowQualifiedTasksOnly\"\r\n            (click)=\"toggleOption('optShowQualifiedTasksOnly');updateState();\" />\r\n        <label for=\"optCheckShowQualifiedTasksOnly\">Show only tasks that have Qualifiers</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckNewTaskStatusIsBacklog\" id=\"optCheckNewTaskStatusIsBacklog\"\r\n            ng-checked=\"options.optNewTaskStatusIsBacklog\"\r\n            [(ngModel)]=\"options.optNewTaskStatusIsBacklog\"\r\n            (click)=\"toggleOption('optNewTaskStatusIsBacklog');\" />\r\n        <label for=\"optCheckNewTaskStatusIsBacklog\">When a new task is added, add it to BACKLOG instead (of adding it to OPEN)</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckShowIndicatorsTable\" id=\"optCheckShowIndicatorsTable\"\r\n            ng-checked=\"options.optShowIndicatorsTable\"\r\n            [(ngModel)]=\"options.optShowIndicatorsTable\"\r\n            (click)=\"toggleOption('optShowIndicatorsTable');\" />\r\n        <label for=\"optCheckShowIndicatorsTable\">Show Indicators Table</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <label for=\"optInputServerAddress\">Server Address</label>\r\n        <input type=\"text\" id=\"optInputServerAddress\" name=\"optInputServerAddress\"\r\n            [(ngModel)]=\"options.optServerAddress\"\r\n            (blur)=\"saveOption('optServerAddress',$event.target['value'])\" />\r\n    </span>\r\n    <div id=\"optionsMessages\"></div>\r\n    <hr/>\r\n</div>\r\n<div id=\"backlogTaskList\" *ngIf=\"viewBacklog\">\r\n    <strong>Backlog</strong>\r\n    <div *ngFor=\"let item of state.backlogTasks\">\r\n        <div>\r\n            <strong>{{item.header}}</strong>\r\n            ({{formatTime(item.estimatedDuration * 60)}})\r\n        </div>\r\n        <div *ngFor=\"let t of item.tasks\" data-id=\"{{t.tsk_id}}\">\r\n            - <span *ngIf=\"t.tsk_total_time_spent !== 0\">[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]</span>\r\n            <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n                [ngClass]=\"{'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1)}\"\r\n                class=\"editable\">{{t.tsk_name}}</span>\r\n            <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n                [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n                class=\"task-eta\"\r\n                >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n            <span *ngIf=\"t.tsk_schedule_date_start\">(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</span>\r\n            <span [ngClass]=\"taskAgeClass(t)\">{{taskAge(t)}}</span>\r\n            <button (click)=\"setOpen(t)\">Move to open</button>\r\n        </div>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"postponedTaskList\" *ngIf=\"viewPostponed\">\r\n    <strong>Postponed Tasks</strong>\r\n    <div *ngFor=\"let t of state.postponedTasks\">\r\n        - <span *ngIf=\"t.tsk_total_time_spent !== 0\">[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]</span>\r\n        <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n            [ngClass]=\"{'task-done': (t.tsk_ctg_status === this.taskStatus.CLOSED), 'task-in-process': (t.tsk_ctg_in_process === 2), 'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1)}\"\r\n            (blur)=\"commandOnTask(t,$event)\"\r\n            class=\"editable\">{{t.tsk_name}}</span>\r\n        <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n            [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n            class=\"task-eta\"\r\n            >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\">(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</span>\r\n        <span [ngClass]=\"taskAgeClass(t)\">{{taskAge(t)}}</span>\r\n        <span>(postponed until {{t.tsk_date_view_until | date: 'yyyy-MM-dd HH:mm:ss'}})</span>\r\n        <button (click)=\"setSelected(t)\">details</button>\r\n        <button (click)=\"setUnpostpone(t)\">see it now</button>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"openTaskList\">\r\n    <div *ngIf=\"!state.openTasks.length\"><strong>No tasks open! Congratulations! Consider reviewing the backlog or add new tasks to do.</strong><hr/></div>\r\n    <div class=\"task-open-task-list-container\">\r\n        <div *ngFor=\"let item of state.openTasks\" class=\"task-record\">\r\n            <div>\r\n                <strong>{{item.header}}</strong>\r\n                / {{item.tasks.length}} tasks ({{formatTime(item.estimatedDuration * 60)}})\r\n            </div>\r\n            <div *ngFor=\"let t of item.tasks\" data-id=\"{{t.tsk_id}}\" [ngStyle]=\"{'font-size-2': ageFontSizeNormalization(t) + 'px'}\">\r\n                <input type=\"checkbox\" id=\"{{t.tsk_id}}\"\r\n                    (click)=\"taskCheckboxHandler(t,$event)\" />\r\n                <span class=\"mobile-only\">\r\n                    <span class=\"play-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n                        (click)=\"toggleTimeTracking(t,$event)\">&#9654;</span>\r\n                    <span class=\"stop-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n                        (click)=\"toggleTimeTracking(t,$event)\">&#9724;</span>\r\n                </span>\r\n                <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n                    [ngClass]=\"{'task-open-with-tt': (t.tsk_ctg_status === this.taskStatus.OPEN && t.tsk_time_history.length > 0)}\"\r\n                    >[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]\r\n                    <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n                        [<span class=\"tt-start\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span> - <span class=\"tt-end\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'end')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_end | date: 'HH:mm:ss'}}</span>]\r\n                    </span>\r\n                </span>\r\n                <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n                    [<span contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span>]\r\n                </span>\r\n                <span (click)=\"toggleTimeMode()\" class=\"clickable\" title=\"click to toggle timer mode\">\r\n                    {{(timers[t.tsk_id]) ? '[' + timers[t.tsk_id].timerString + ']' : ''}}\r\n                </span>\r\n                <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n                    [ngClass]=\"{'task-done': (t.tsk_ctg_status === this.taskStatus.CLOSED), 'task-in-process': (t.tsk_ctg_in_process === 2), 'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-highlighted': (t.tsk_qualifiers.indexOf('highlighted') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1), 'task-unexpected': (t.tsk_qualifiers.indexOf('unexpected') !== -1), 'task-call': (t.tsk_qualifiers.indexOf('call') !== -1)}\"\r\n                    (blur)=\"commandOnTask(t,$event)\"\r\n                    (focus)=\"setFocus(t,$event)\"\r\n                    tabindex=\"0\"\r\n                    class=\"editable task-text\">{{t.tsk_name}}</span>\r\n                <span class=\"task-link\" *ngIf=\"t.tsk_url\"><a href=\"{{t.tsk_url}}\" title=\"{{t.tsk_url}}\" target=\"_blank\">link</a></span>\r\n                <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n                    [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n                    class=\"task-eta\"\r\n                    >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n                <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n                    <span *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n                        (click)=\"showTagStats(tag)\"\r\n                        class=\"tag\">\r\n                        #{{tag}}\r\n                    </span>\r\n                </span>\r\n                <span *ngIf=\"t.tsk_schedule_date_start\"><strong>(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</strong></span>\r\n                <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{taskAge(t)}}</span>\r\n                <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div id=\"Info\">\r\n        Total Tasks: {{tasks.length}} | Backlog: {{state.backlogTasksCount}} | Closed Today: {{state.closedTodayTasks.length}} | Open: {{state.openTasksCount}}\r\n        <span *ngIf=\"state.postponedTasksCount\"> | Postponed: {{state.postponedTasksCount}}</span>\r\n        <br/>Time Estimated Today: {{formatTime(state.totalTimeEstimated * 60)}}\r\n        <span *ngIf=\"state.totalTimeEstimatedClosedToday\"> | Closed Today ETA: {{formatTime(state.totalTimeEstimatedClosedToday * 60)}} | Open ETA: {{formatTime(state.totalTimeEstimatedOpen * 60)}}</span>\r\n        <br/>Open ETA until yesterday: {{formatTime(state.totalTimeEstimatedOld * 60)}} | Task count until yesterday: {{state.totalTaskCountOld}}\r\n        <br/>Today New Tasks, Total ETA: {{formatTime(state.totalTimeEstimatedAddedToday * 60)}}\r\n         | Closed ETA: {{formatTime(state.totalTimeEstimatedAddedTodayClosed * 60)}}\r\n         | Open ETA: {{formatTime(state.totalTimeEstimatedAddedTodayOpen * 60)}}\r\n        <br/>Time Spent Today: {{formatTime(state.totalTimeSpentToday)}}\r\n        <span *ngIf=\"state.totalTimeSpentTodayOnOpenTasks\"> | Closed: {{formatTime(state.totalTimeSpentTodayOnClosedTasks)}} | Open {{formatTime(state.totalTimeSpentTodayOnOpenTasks)}}</span>\r\n        <span *ngIf=\"state.dayStartedAtDate\"><br/>Real Time Elapsed: {{formatTime(state.realTimeElapsed)}} (day started at {{state.dayStartedAtDate | date: format}})</span>\r\n        <br/>Time Management Ratio: <span>{{state.timeManagementRatio}}</span>\r\n        <br/>Productivity Ratio: <span [ngClass]=\"state.productivityRatio.className\">{{state.productivityRatio.value}} / {{state.productivityRatio.message}}</span>\r\n        <br/>Karma Score: <span>{{state.karmaScore}} ({{state.karmaCount}} / {{state.closedTodayTasks.length}})</span>\r\n        <br/>Tasks not in sync: {{services.sync.queue.length}}\r\n        <br/><strong>{{isOnline() ? '' : 'You are OFFLINE'}}</strong>\r\n        <div *ngIf=\"options.optShowIndicatorsTable\">\r\n            <strong>Indicators</strong>\r\n            <table class=\"indicators-table\">\r\n                <tr>\r\n                    <td>Indicator</td>\r\n                    <td *ngFor=\"let c of state.indicatorLabels\">{{c}}</td>\r\n                    <td>Completed?</td>\r\n                </tr>\r\n                <tr *ngFor=\"let indicator of state.indicators\">\r\n                    <td>{{indicator.name}}</td>\r\n                    <td *ngFor=\"let v of indicator.values\">{{v}}</td>\r\n                    <td>{{indicator.isCompleted ? 'SI' : 'NO'}} / {{indicator.percentageCompleted}}</td>\r\n                </tr>\r\n            </table>\r\n        </div>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"nextToDoTodayList\" *ngIf=\"nextTasks[0].tasks.length\">\r\n        <div class=\"task-open-task-list-container\">\r\n                <div *ngFor=\"let item of nextTasks\" class=\"task-record\">\r\n                    <div>\r\n                        <strong>Next To Do Today</strong>\r\n                        / {{item.tasks.length}} tasks ({{formatTime(item.estimatedDuration * 60)}})\r\n                    </div>\r\n                    <div *ngFor=\"let t of item.tasks\" data-id=\"{{t.tsk_id}}\">\r\n                        <input type=\"checkbox\" id=\"{{t.tsk_id}}\"\r\n                            (click)=\"taskCheckboxHandler(t,$event)\" />\r\n                        <span class=\"mobile-only\">\r\n                            <span class=\"play-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n                                (click)=\"toggleTimeTracking(t,$event)\">&#9654;</span>\r\n                            <span class=\"stop-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n                                (click)=\"toggleTimeTracking(t,$event)\">&#9724;</span>\r\n                        </span>\r\n                        <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n                            [ngClass]=\"{'task-open-with-tt': (t.tsk_ctg_status === this.taskStatus.OPEN && t.tsk_time_history.length > 0)}\"\r\n                            >[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]\r\n                            <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n                                [<span class=\"tt-start\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span> - <span class=\"tt-end\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'end')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_end | date: 'HH:mm:ss'}}</span>]\r\n                            </span>\r\n                        </span>\r\n                        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n                            [<span contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span>]\r\n                        </span>\r\n                        <span (click)=\"toggleTimeMode()\" class=\"clickable\" title=\"click to toggle timer mode\">\r\n                            {{(timers[t.tsk_id]) ? '[' + timers[t.tsk_id].timerString + ']' : ''}}\r\n                        </span>\r\n                        <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n                            [ngClass]=\"{'task-done': (t.tsk_ctg_status === this.taskStatus.CLOSED), 'task-in-process': (t.tsk_ctg_in_process === 2), 'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-highlighted': (t.tsk_qualifiers.indexOf('highlighted') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1), 'task-unexpected': (t.tsk_qualifiers.indexOf('unexpected') !== -1), 'task-call': (t.tsk_qualifiers.indexOf('call') !== -1)}\"\r\n                            (blur)=\"commandOnTask(t,$event)\"\r\n                            class=\"editable task-text\">{{t.tsk_name}}</span>\r\n                        <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n                            [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n                            class=\"task-eta\"\r\n                            >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n                        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n                            <span *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n                                (click)=\"showTagStats(tag)\"\r\n                                class=\"tag\">\r\n                                #{{tag}}\r\n                            </span>\r\n                        </span>\r\n                        <span *ngIf=\"t.tsk_schedule_date_start\"><strong>(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</strong></span>\r\n                        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{taskAge(t)}}</span>\r\n                        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n</div>\r\n<div id=\"tagInfo\" *ngIf=\"tagInfo.display === true\">\r\n    <button (click)=\"tagInfo.display=false\">hide</button>\r\n    <strong>Tag Information</strong>\r\n    <br/>Closed Tasks | Estimated: {{formatTime(tagInfo.tasksClosedTotalEstimated * 60)}} | Spent: {{formatTime(tagInfo.tasksClosedTotalSpent)}}\r\n    <br/>Open Tasks | Estimated: {{formatTime(tagInfo.tasksOpenTotalEstimated * 60)}} | Spent: {{formatTime(tagInfo.tasksOpenTotalSpent)}}\r\n    <div *ngIf=\"tagInfo.tasks.length > 0\">\r\n        <table>\r\n            <tr>\r\n                <td>Name</td>\r\n                <td>Estimated</td>\r\n                <td>Spent</td>\r\n                <td>Status</td>\r\n                <td>Actions</td>\r\n            </tr>\r\n            <tr *ngFor=\"let e of tagInfo.tasks\">\r\n                <td>{{e.tsk_name}}</td>\r\n                <td>{{formatTime(e.tsk_estimated_duration * 60)}}</td>\r\n                <td>{{formatTime(e.tsk_total_time_spent)}}</td>\r\n                <td>{{statusText(e.tsk_ctg_status)}}</td>\r\n                <td><button (click)=\"setSelected(e)\">details</button></td>\r\n            </tr>\r\n        </table>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"taskDetails\" *ngIf=\"state.selected\">\r\n    <button (click)=\"state.selected=null\">hide</button>\r\n    <br/>\r\n    <strong>Task Details</strong>\r\n    <div>Id: {{state.selected.tsk_id}}</div>\r\n    <div>Container: {{state.selected.tsk_id_container}}</div>\r\n    <div>Record: {{state.selected.tsk_id_record}}</div>\r\n    <div>Name: {{state.selected.tsk_name}}</div>\r\n    <div>Notes: <span contenteditable=\"true\" (blur)=\"setTaskNotes(state.selected,$event)\">{{state.selected.tsk_notes ? state.selected.tsk_notes : '-'}}</span></div>\r\n    <div>Parent: {{state.selected.tsk_parent}}</div>\r\n    <div>Order: {{state.selected.tsk_order}}</div>\r\n    <div>Date Done: <span contenteditable=\"true\" (keyup)=\"editDateDone(state.selected,$event)\">{{state.selected.tsk_date_done | date: format}}</span></div>\r\n    <div>Total Time Spent: {{formatTime(state.selected.tsk_total_time_spent)}}</div>\r\n    <div>\r\n        <fieldset *ngIf=\"state.selected.tsk_time_history.length\">\r\n            <legend>Time History</legend>\r\n            <table>\r\n                <tr>\r\n                    <td>Sequential</td>\r\n                    <td>Name</td>\r\n                    <td>Date Start</td>\r\n                    <td>Date End</td>\r\n                    <td>Time Spent</td>\r\n                    <td>User</td>\r\n                    <td>Date Add</td>\r\n                    <td>Date Mod</td>\r\n                    <td>Actions</td>\r\n                </tr>\r\n                <tr *ngFor=\"let h of state.selected.tsk_time_history\">\r\n                    <td>{{h.tsh_num_secuential}}</td>\r\n                    <td>{{h.tsh_name}}</td>\r\n                    <td><span contenteditable=\"true\" (keyup)=\"editTimeTracking(h,1,$event)\">{{h.tsh_date_start | date: format}}</span></td>\r\n                    <td><span contenteditable=\"true\" (keyup)=\"editTimeTracking(h,2,$event)\">{{h.tsh_date_end | date: format}}</span></td>\r\n                    <td>{{formatTime(h.tsh_time_spent)}}</td>\r\n                    <td>{{h.tsh_id_user}}</td>\r\n                    <td>{{h.tsh_date_add | date: format}}</td>\r\n                    <td>{{h.tsh_date_mod | date: format}}</td>\r\n                    <td><button *ngIf=\"h.tsh_date_end\" (click)=\"deleteTimeTracking(state.selected,h)\">delete</button></td>\r\n                </tr>\r\n            </table>\r\n        </fieldset>\r\n    </div>\r\n    <div>In Progress: {{state.selected.tsk_ctg_in_process}}</div>\r\n    <div>Qualifiers: <span contenteditable=\"true\" (blur)=\"taskQualifiersEdit(state.selected,$event)\">{{state.selected.tsk_qualifiers}}</span></div>\r\n    <div>Tags: <span contenteditable=\"true\" (blur)=\"taskTagsEdit(state.selected,$event)\">{{state.selected.tsk_tags}}</span></div>\r\n    <div>Estimated Duration: {{state.selected.tsk_estimated_duration}}</div>\r\n    <div>Schedule Date Start: {{state.selected.tsk_schedule_date_start | date: format}}</div>\r\n    <div>Schedule Date End: {{state.selected.tsk_schedule_date_end | date: format}}</div>\r\n    <div>Date View Until: {{state.selected.tsk_date_view_until}}</div>\r\n    <div>User Added: {{state.selected.tsk_id_user_added}}</div>\r\n    <div>User Asigned: {{state.selected.tsk_id_user_asigned}}</div>\r\n    <div>Date Add: {{state.selected.tsk_date_add | date: format}}</div>\r\n    <div>Date Last Mod: {{state.selected.tsk_date_mod | date: format}}</div>\r\n    <div>Status: {{state.selected.tsk_ctg_status}}</div>\r\n    <hr/>\r\n</div>\r\n<div *ngIf=\"options.optShowFinishedToday\">\r\n    <strong>Finished Today / {{state.closedTodayTasks.length}} tasks</strong>\r\n    <div *ngFor=\"let item of state.closedTodayTasks\">\r\n        <input type=\"checkbox\" id=\"{{item.tsk_id}}\" checked\r\n            (click)=\"taskCheckboxHandler(item,$event)\" />\r\n        <span *ngIf=\"item.tsk_total_time_spent !== 0\"\r\n            [ngClass]=\"{'task-open-with-tt': (item.tsk_ctg_status === this.taskStatus.OPEN && item.tsk_time_history.length > 0)}\"\r\n            >[{{item.tsk_time_history.length}}/{{formatTime(item.tsk_total_time_spent)}}]\r\n            <span *ngIf=\"item.tsk_ctg_in_process !== 2\">\r\n                [<span class=\"tt-start\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(item,$event,'start')\">{{item.tsk_time_history[item.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span> - <span class=\"tt-end\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(item,$event,'end')\">{{item.tsk_time_history[item.tsk_time_history.length-1].tsh_date_end | date: 'HH:mm:ss'}}</span>]\r\n            </span>\r\n        </span>\r\n        <span>(Done at: <span contenteditable=\"true\" (keyup)=\"editDateDone(item,$event)\">{{item.tsk_date_done | date: format}}</span>)</span>\r\n        <span [ngClass]=\"{'task-done': (item.tsk_ctg_status === this.taskStatus.CLOSED)}\"\r\n            >{{item.tsk_name}}</span>\r\n        <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n            <span *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n                (click)=\"showTagStats(tag)\"\r\n                class=\"tag\">\r\n                #{{tag}}\r\n            </span>\r\n        </span>\r\n        <span *ngIf=\"item.not_sync\">(Not in sync)</span>\r\n        <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"closedTaskList\" *ngIf=\"viewAll\">\r\n    <strong>Closed Tasks</strong>\r\n    <div *ngFor=\"let group of state.closedTasks\">\r\n        <div>\r\n            <strong>{{group.header | date: \"yyyy-MM-dd\"}}</strong>\r\n            <span>(Spent {{formatTime(group.totalTimeSpent)}})</span>\r\n        </div>\r\n        <div *ngFor=\"let item of group.tasks\">\r\n            - <span>[{{item.tsk_time_history.length}}/{{formatTime(item.tsk_total_time_spent)}}]</span>\r\n            <span>[{{item.tsk_id_record}}]</span>\r\n            <span>{{item.tsk_name}}</span>\r\n            <span>(done at {{item.tsk_date_done | date: 'yyyy-MM-dd HH:mm:ss'}})</span>\r\n            <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n                <span *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n                    (click)=\"showTagStats(tag)\"\r\n                    class=\"tag\">\r\n                    #{{tag}}\r\n                </span>\r\n            </span>\r\n            <button (click)=\"setSelected(item)\">details</button>\r\n        </div>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div *ngIf=\"viewReportsWeek\">\r\n    <div *ngFor=\"let s of reports.week\">\r\n        date: {{s.date | date: 'yyyy-MM-dd'}}\r\n        tasks done: {{s.tasksDone}}\r\n        estimated: {{formatTime(s.estimated * 60)}}\r\n        spent: {{formatTime(s.timeSpent)}}\r\n        Productivity: {{s.productivity}}\r\n        Real Time Elapsed: {{formatTime(s.realTimeElapsed)}}\r\n    </div>\r\n</div>\r\n<div *ngIf=\"viewReportsDayDistribution\">\r\n    <strong>Reports Day Distribution</strong>\r\n    <table>\r\n        <tr>\r\n            <td>Record</td>\r\n            <td>Total ETA</td>\r\n            <td>Total Real</td>\r\n            <td>Percentage ETA</td>\r\n            <td>Percentage Real</td>\r\n        </tr>\r\n        <tr *ngFor=\"let r of reports.dayDistribution\">\r\n            <td>{{r.record}}</td>\r\n            <td>{{formatTime(r.eta * 60)}}</td>\r\n            <td>{{formatTime(r.real)}}</td>\r\n            <td>{{r.percentageEta}}</td>\r\n            <td>{{r.percentageReal}}</td>\r\n        </tr>\r\n    </table>\r\n    <hr/>\r\n</div>\r\n<div *ngIf=\"viewQualifierTotals\">\r\n    <strong>Qualifier Totals</strong>\r\n    <table>\r\n        <tr>\r\n            <td>Qualifier</td>\r\n            <td>Task Count</td>\r\n            <td>Total ETA</td>\r\n        </tr>\r\n        <tr *ngFor=\"let q of reports.qualifierTotals\">\r\n            <td>{{q.qualifier}}</td>\r\n            <td>{{q.taskCount}}</td>\r\n            <td>{{formatTime(q.totalETA * 60)}}</td>\r\n        </tr>\r\n    </table>\r\n    <hr/>\r\n</div>\r\n\r\n<div *ngIf=\"comparisonData\">\r\n    Client Task Count: {{comparisonData.clientTaskCount}}\r\n    <br/>Server Task Count: {{comparisonData.serverTaskCount}}\r\n    <br/>Comparison Task Count: {{comparisonData.results.length}}\r\n    <table>\r\n        <tr *ngFor=\"let c of comparisonData.results\">\r\n            <td *ngFor=\"let f of c\">\r\n                displayName: {{f.displayName}} |\r\n                name: {{f.name}} | \r\n                comparison: {{f.isEqual}} |\r\n                data FE: {{f.client}} |\r\n                data BE: {{f.server}}\r\n                <button (click)=\"sendFEToBE(c)\">Send FE data to BE</button>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</div>"
+module.exports = "<form #tasksForm=\"ngForm\">\r\n    <input type=\"text\" name=\"tsk_name\"\r\n        placeholder=\"Write a task...\"\r\n        class=\"task\"\r\n        autocomplete=\"off\"\r\n        autofocus=\"true\"\r\n        *ngIf=\"!showBatchAdd\"\r\n        (keyup)=\"inputKeyUpHandler($event)\"\r\n        [(ngModel)]=\"tsk_name\" />\r\n    <textarea name=\"tsk_multiple_name\"\r\n        placeholder=\"Write a task per line...\"\r\n        class=\"task-multiple\"\r\n        (keyup)=\"inputKeyUpHandler($event)\"\r\n        [(ngModel)]=\"tsk_multiple_name\"\r\n        *ngIf=\"showBatchAdd\"></textarea>\r\n    <button type=\"submit\" (click)=\"addTask(tasksForm)\" id=\"btnAddTask\">Add task</button>\r\n    <button (click)=\"showButtonSection = !showButtonSection\">{{showButtonSection ? 'hide': 'show'}} actions</button>\r\n    <span id=\"buttonSection\" *ngIf=\"showButtonSection\">\r\n        <button (click)=\"toggleViewBacklog()\">{{viewBacklog ? 'hide': 'show'}} backlog</button>\r\n        <button (click)=\"toggleViewAll()\">{{viewAll ? 'hide': 'show'}} all</button>\r\n        <button (click)=\"toggleViewPostponed()\" *ngIf=\"state.postponedTasksCount\">{{viewPostponed ? 'hide': 'show'}} postponed</button>\r\n        <button (click)=\"toggleViewReportsWeek()\">{{viewReportsWeek ? 'hide': 'show'}} reports week</button>\r\n        <button (click)=\"toggleViewReportsDayDistribution()\">{{viewReportsDayDistribution ? 'hide': 'show'}} reports day distribution</button>\r\n        <button (click)=\"toggleView('viewQualifierTotals')\">{{viewQualifierTotals ? 'hide': 'show'}} reports qualifier totals</button>\r\n        <button (click)=\"toggleViewOptions()\">{{viewOptions ? 'hide': 'show'}} options</button>\r\n    </span>\r\n    <div *ngIf=\"viewETABeforeAdd\">\r\n        <strong>[{{state.beforeAddTotalTasksWritten}} Tasks to Add]</strong>\r\n        <strong>[TOTAL ETA: {{formatTime(state.beforeAddTotalETA * 60)}}]</strong>\r\n        <span *ngFor=\"let r of state.beforeAddETA\">\r\n            [{{r.record}}: {{formatTime(r.totalETA * 60)}}]\r\n        </span>\r\n    </div>\r\n</form>\r\n<div *ngIf=\"viewOptions\">\r\n    <button (click)=\"deleteTasks()\">delete all tasks</button>\r\n    <input type=\"text\"\r\n        name=\"optionsInput\"\r\n        [(ngModel)]=\"optionsInput\" />\r\n    <button (click)=\"backup()\">backup</button>\r\n    <button (click)=\"backupDoneOnly()\">backup done only</button>\r\n    <button (click)=\"import()\">import</button>\r\n    <button (click)=\"purgeDoneTasks()\">purge done tasks</button>\r\n    <button (click)=\"sendAllToServer()\">all tasks to server</button>\r\n    <button (click)=\"getTasksFromServer()\">get tasks from server</button>\r\n    <br/>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckViewElapsedDays\" id=\"optCheckViewElapsedDays\"\r\n            ng-checked=\"options.optViewElapsedDays\"\r\n            [(ngModel)]=\"options.optViewElapsedDays\"\r\n            (click)=\"toggleOption('optViewElapsedDays')\" />\r\n        <label for=\"optCheckViewElapsedDays\">Display days elapsed since task was added</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckShowFinishedToday\" id=\"optCheckShowFinishedToday\"\r\n            ng-checked=\"options.optShowFinishedToday\"\r\n            [(ngModel)]=\"options.optShowFinishedToday\"\r\n            (click)=\"toggleOption('optShowFinishedToday')\" />\r\n        <label for=\"optCheckShowFinishedToday\">Show Finished Today</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckShowQualifiedTasksOnly\" id=\"optCheckShowQualifiedTasksOnly\"\r\n            ng-checked=\"options.optShowQualifiedTasksOnly\"\r\n            [(ngModel)]=\"options.optShowQualifiedTasksOnly\"\r\n            (click)=\"toggleOption('optShowQualifiedTasksOnly');updateState();\" />\r\n        <label for=\"optCheckShowQualifiedTasksOnly\">Show only tasks that have Qualifiers</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckNewTaskStatusIsBacklog\" id=\"optCheckNewTaskStatusIsBacklog\"\r\n            ng-checked=\"options.optNewTaskStatusIsBacklog\"\r\n            [(ngModel)]=\"options.optNewTaskStatusIsBacklog\"\r\n            (click)=\"toggleOption('optNewTaskStatusIsBacklog');\" />\r\n        <label for=\"optCheckNewTaskStatusIsBacklog\">When a new task is added, add it to BACKLOG instead (of adding it to OPEN)</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <input type=\"checkbox\" name=\"optCheckShowIndicatorsTable\" id=\"optCheckShowIndicatorsTable\"\r\n            ng-checked=\"options.optShowIndicatorsTable\"\r\n            [(ngModel)]=\"options.optShowIndicatorsTable\"\r\n            (click)=\"toggleOption('optShowIndicatorsTable');\" />\r\n        <label for=\"optCheckShowIndicatorsTable\">Show Indicators Table</label>\r\n    </span>\r\n    <span class=\"option-item\">\r\n        <label for=\"optInputServerAddress\">Server Address</label>\r\n        <input type=\"text\" id=\"optInputServerAddress\" name=\"optInputServerAddress\"\r\n            [(ngModel)]=\"options.optServerAddress\"\r\n            (blur)=\"saveOption('optServerAddress',$event.target['value'])\" />\r\n    </span>\r\n    <div id=\"optionsMessages\"></div>\r\n    <hr/>\r\n</div>\r\n<div id=\"backlogTaskList\" *ngIf=\"viewBacklog\">\r\n    <strong>Backlog</strong>\r\n    <div *ngFor=\"let item of state.backlogTasks\">\r\n        <div>\r\n            <strong>{{item.header}}</strong>\r\n            ({{formatTime(item.estimatedDuration * 60)}})\r\n        </div>\r\n        <div *ngFor=\"let t of item.tasks\" data-id=\"{{t.tsk_id}}\">\r\n            - <span *ngIf=\"t.tsk_total_time_spent !== 0\">[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]</span>\r\n            <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n                [ngClass]=\"{'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1)}\"\r\n                class=\"editable\">{{t.tsk_name}}</span>\r\n            <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n                [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n                class=\"task-eta\"\r\n                >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n            <span *ngIf=\"t.tsk_schedule_date_start\">(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</span>\r\n            <span [ngClass]=\"taskAgeClass(t)\">{{taskAge(t)}}</span>\r\n            <button (click)=\"setOpen(t)\">Move to open</button>\r\n        </div>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"postponedTaskList\" *ngIf=\"viewPostponed\">\r\n    <strong>Postponed Tasks</strong>\r\n    <div *ngFor=\"let t of state.postponedTasks\">\r\n        - <span *ngIf=\"t.tsk_total_time_spent !== 0\">[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]</span>\r\n        <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n            [ngClass]=\"{'task-done': (t.tsk_ctg_status === this.taskStatus.CLOSED), 'task-in-process': (t.tsk_ctg_in_process === 2), 'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1)}\"\r\n            (blur)=\"commandOnTask(t,$event)\"\r\n            class=\"editable\">{{t.tsk_name}}</span>\r\n        <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n            [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n            class=\"task-eta\"\r\n            >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\">(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</span>\r\n        <span [ngClass]=\"taskAgeClass(t)\">{{taskAge(t)}}</span>\r\n        <span>(postponed until {{t.tsk_date_view_until | date: 'yyyy-MM-dd HH:mm:ss'}})</span>\r\n        <button (click)=\"setSelected(t)\">details</button>\r\n        <button (click)=\"setUnpostpone(t)\">see it now</button>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"openTaskList\">\r\n    <div *ngIf=\"!state.openTasks.length\"><strong>No tasks open! Congratulations! Consider reviewing the backlog or add new tasks to do.</strong><hr/></div>\r\n    <div class=\"task-open-task-list-container\">\r\n        <div *ngFor=\"let item of state.openTasks\" class=\"task-record\">\r\n            <div>\r\n                <strong>{{item.header}}</strong>\r\n                / {{item.tasks.length}} tasks ({{formatTime(item.estimatedDuration * 60)}})\r\n            </div>\r\n            <div *ngFor=\"let t of item.tasks\" data-id=\"{{t.tsk_id}}\" [ngStyle]=\"{'font-size-2': ageFontSizeNormalization(t) + 'px'}\">\r\n                <input type=\"checkbox\" id=\"{{t.tsk_id}}\"\r\n                    (click)=\"taskCheckboxHandler(t,$event)\" />\r\n                <span class=\"mobile-only\">\r\n                    <span class=\"play-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n                        (click)=\"toggleTimeTracking(t,$event)\">&#9654;</span>\r\n                    <span class=\"stop-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n                        (click)=\"toggleTimeTracking(t,$event)\">&#9724;</span>\r\n                </span>\r\n                <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n                    [ngClass]=\"{'task-open-with-tt': (t.tsk_ctg_status === this.taskStatus.OPEN && t.tsk_time_history.length > 0)}\"\r\n                    >[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]\r\n                    <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n                        [<span class=\"tt-start\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span> - <span class=\"tt-end\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'end')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_end | date: 'HH:mm:ss'}}</span>]\r\n                    </span>\r\n                </span>\r\n                <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n                    [<span contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span>]\r\n                </span>\r\n                <span (click)=\"toggleTimeMode()\" class=\"clickable\" title=\"click to toggle timer mode\">\r\n                    {{(timers[t.tsk_id]) ? '[' + timers[t.tsk_id].timerString + ']' : ''}}\r\n                </span>\r\n                <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n                    [ngClass]=\"{'task-done': (t.tsk_ctg_status === this.taskStatus.CLOSED), 'task-in-process': (t.tsk_ctg_in_process === 2), 'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-highlighted': (t.tsk_qualifiers.indexOf('highlighted') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1), 'task-unexpected': (t.tsk_qualifiers.indexOf('unexpected') !== -1), 'task-call': (t.tsk_qualifiers.indexOf('call') !== -1)}\"\r\n                    (blur)=\"commandOnTask(t,$event)\"\r\n                    (focus)=\"setFocus(t,$event)\"\r\n                    (keydown)=\"taskKeyDown($event)\"\r\n                    tabindex=\"0\"\r\n                    class=\"editable task-text\">{{t.tsk_name}}</span>\r\n                <span class=\"task-link\" *ngIf=\"t.tsk_url\"><a href=\"{{t.tsk_url}}\" title=\"{{t.tsk_url}}\" target=\"_blank\">link</a></span>\r\n                <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n                    (keydown)=\"etaKeyDown($event)\"\r\n                    [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n                    class=\"task-eta\"\r\n                    >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n                <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n                    <span *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n                        (click)=\"showTagStats(tag)\"\r\n                        class=\"tag\">\r\n                        #{{tag}}\r\n                    </span>\r\n                </span>\r\n                <span *ngIf=\"t.tsk_schedule_date_start\"><strong>(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</strong></span>\r\n                <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{taskAge(t)}}</span>\r\n                <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div id=\"Info\">\r\n        Total Tasks: {{tasks.length}} | Backlog: {{state.backlogTasksCount}} | Closed Today: {{state.closedTodayTasks.length}} | Open: {{state.openTasksCount}}\r\n        <span *ngIf=\"state.postponedTasksCount\"> | Postponed: {{state.postponedTasksCount}}</span>\r\n        <br/>Time Estimated Today: {{formatTime(state.totalTimeEstimated * 60)}}\r\n        <span *ngIf=\"state.totalTimeEstimatedClosedToday\"> | Closed Today ETA: {{formatTime(state.totalTimeEstimatedClosedToday * 60)}} | Open ETA: {{formatTime(state.totalTimeEstimatedOpen * 60)}}</span>\r\n        <br/>Open ETA until yesterday: {{formatTime(state.totalTimeEstimatedOld * 60)}} | Task count until yesterday: {{state.totalTaskCountOld}}\r\n        <br/>Today New Tasks, Total ETA: {{formatTime(state.totalTimeEstimatedAddedToday * 60)}}\r\n         | Closed ETA: {{formatTime(state.totalTimeEstimatedAddedTodayClosed * 60)}}\r\n         | Open ETA: {{formatTime(state.totalTimeEstimatedAddedTodayOpen * 60)}}\r\n        <br/>Time Spent Today: {{formatTime(state.totalTimeSpentToday)}}\r\n        <span *ngIf=\"state.totalTimeSpentTodayOnOpenTasks\"> | Closed: {{formatTime(state.totalTimeSpentTodayOnClosedTasks)}} | Open {{formatTime(state.totalTimeSpentTodayOnOpenTasks)}}</span>\r\n        <span *ngIf=\"state.dayStartedAtDate\"><br/>Real Time Elapsed: {{formatTime(state.realTimeElapsed)}} (day started at {{state.dayStartedAtDate | date: format}})</span>\r\n        <br/>Time Management Ratio: <span>{{state.timeManagementRatio}}</span>\r\n        <br/>Productivity Ratio: <span [ngClass]=\"state.productivityRatio.className\">{{state.productivityRatio.value}} / {{state.productivityRatio.message}}</span>\r\n        <br/>Karma Score: <span>{{state.karmaScore}} ({{state.karmaCount}} / {{state.closedTodayTasks.length}})</span>\r\n        <br/>Tasks not in sync: {{services.sync.queue.length}}\r\n        <br/><strong>{{isOnline() ? '' : 'You are OFFLINE'}}</strong>\r\n        <div *ngIf=\"options.optShowIndicatorsTable\">\r\n            <strong>Indicators</strong>\r\n            <table class=\"indicators-table\">\r\n                <tr>\r\n                    <td>Indicator</td>\r\n                    <td *ngFor=\"let c of state.indicatorLabels\">{{c}}</td>\r\n                    <td>Completed?</td>\r\n                </tr>\r\n                <tr *ngFor=\"let indicator of state.indicators\">\r\n                    <td>{{indicator.name}}</td>\r\n                    <td *ngFor=\"let v of indicator.values\">{{v}}</td>\r\n                    <td>{{indicator.isCompleted ? 'SI' : 'NO'}} / {{indicator.percentageCompleted}}</td>\r\n                </tr>\r\n            </table>\r\n        </div>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"nextToDoTodayList\" *ngIf=\"nextTasks[0].tasks.length\">\r\n        <div class=\"task-open-task-list-container\">\r\n                <div *ngFor=\"let item of nextTasks\" class=\"task-record\">\r\n                    <div>\r\n                        <strong>Next To Do Today</strong>\r\n                        / {{item.tasks.length}} tasks ({{formatTime(item.estimatedDuration * 60)}})\r\n                    </div>\r\n                    <div *ngFor=\"let t of item.tasks\" data-id=\"{{t.tsk_id}}\">\r\n                        <input type=\"checkbox\" id=\"{{t.tsk_id}}\"\r\n                            (click)=\"taskCheckboxHandler(t,$event)\" />\r\n                        <span class=\"mobile-only\">\r\n                            <span class=\"play-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n                                (click)=\"toggleTimeTracking(t,$event)\">&#9654;</span>\r\n                            <span class=\"stop-button clickable\" *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n                                (click)=\"toggleTimeTracking(t,$event)\">&#9724;</span>\r\n                        </span>\r\n                        <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n                            [ngClass]=\"{'task-open-with-tt': (t.tsk_ctg_status === this.taskStatus.OPEN && t.tsk_time_history.length > 0)}\"\r\n                            >[{{t.tsk_time_history.length}}/{{formatTime(t.tsk_total_time_spent)}}]\r\n                            <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n                                [<span class=\"tt-start\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span> - <span class=\"tt-end\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'end')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_end | date: 'HH:mm:ss'}}</span>]\r\n                            </span>\r\n                        </span>\r\n                        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n                            [<span contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(t,$event,'start')\">{{t.tsk_time_history[t.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span>]\r\n                        </span>\r\n                        <span (click)=\"toggleTimeMode()\" class=\"clickable\" title=\"click to toggle timer mode\">\r\n                            {{(timers[t.tsk_id]) ? '[' + timers[t.tsk_id].timerString + ']' : ''}}\r\n                        </span>\r\n                        <span contenteditable=\"true\" (keyup)=\"taskEdit(t,$event)\"\r\n                            [ngClass]=\"{'task-done': (t.tsk_ctg_status === this.taskStatus.CLOSED), 'task-in-process': (t.tsk_ctg_in_process === 2), 'task-important': (t.tsk_qualifiers.indexOf('important') !== -1), 'task-urgent': (t.tsk_qualifiers.indexOf('urgent') !== -1), 'task-highlighted': (t.tsk_qualifiers.indexOf('highlighted') !== -1), 'task-progressed': (t.tsk_qualifiers.indexOf('progressed') !== -1), 'task-unexpected': (t.tsk_qualifiers.indexOf('unexpected') !== -1), 'task-call': (t.tsk_qualifiers.indexOf('call') !== -1)}\"\r\n                            (blur)=\"commandOnTask(t,$event)\"\r\n                            class=\"editable task-text\">{{t.tsk_name}}</span>\r\n                        <span contenteditable=\"true\" (blur)=\"taskEstimatedDurationEdit(t,$event)\"\r\n                            [ngClass]=\"{'task-no-eta': (t.tsk_estimated_duration === 0)}\"\r\n                            class=\"task-eta\"\r\n                            >{{formatTime(t.tsk_estimated_duration * 60,\"#h#m\")}}</span>\r\n                        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n                            <span *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n                                (click)=\"showTagStats(tag)\"\r\n                                class=\"tag\">\r\n                                #{{tag}}\r\n                            </span>\r\n                        </span>\r\n                        <span *ngIf=\"t.tsk_schedule_date_start\"><strong>(start at {{t.tsk_schedule_date_start | date: 'yyyy-MM-dd HH:mm'}})</strong></span>\r\n                        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{taskAge(t)}}</span>\r\n                        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n</div>\r\n<div id=\"tagInfo\" *ngIf=\"tagInfo.display === true\">\r\n    <button (click)=\"tagInfo.display=false\">hide</button>\r\n    <strong>Tag Information</strong>\r\n    <br/>Closed Tasks | Estimated: {{formatTime(tagInfo.tasksClosedTotalEstimated * 60)}} | Spent: {{formatTime(tagInfo.tasksClosedTotalSpent)}}\r\n    <br/>Open Tasks | Estimated: {{formatTime(tagInfo.tasksOpenTotalEstimated * 60)}} | Spent: {{formatTime(tagInfo.tasksOpenTotalSpent)}}\r\n    <div *ngIf=\"tagInfo.tasks.length > 0\">\r\n        <table>\r\n            <tr>\r\n                <td>Name</td>\r\n                <td>Estimated</td>\r\n                <td>Spent</td>\r\n                <td>Status</td>\r\n                <td>Actions</td>\r\n            </tr>\r\n            <tr *ngFor=\"let e of tagInfo.tasks\">\r\n                <td>{{e.tsk_name}}</td>\r\n                <td>{{formatTime(e.tsk_estimated_duration * 60)}}</td>\r\n                <td>{{formatTime(e.tsk_total_time_spent)}}</td>\r\n                <td>{{statusText(e.tsk_ctg_status)}}</td>\r\n                <td><button (click)=\"setSelected(e)\">details</button></td>\r\n            </tr>\r\n        </table>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"taskDetails\" *ngIf=\"state.selected\">\r\n    <button (click)=\"state.selected=null\">hide</button>\r\n    <br/>\r\n    <strong>Task Details</strong>\r\n    <div>Id: {{state.selected.tsk_id}}</div>\r\n    <div>Container: {{state.selected.tsk_id_container}}</div>\r\n    <div>Record: {{state.selected.tsk_id_record}}</div>\r\n    <div>Name: {{state.selected.tsk_name}}</div>\r\n    <div>Notes: <span contenteditable=\"true\" (blur)=\"setTaskNotes(state.selected,$event)\">{{state.selected.tsk_notes ? state.selected.tsk_notes : '-'}}</span></div>\r\n    <div>Parent: {{state.selected.tsk_parent}}</div>\r\n    <div>Order: {{state.selected.tsk_order}}</div>\r\n    <div>Date Done: <span contenteditable=\"true\" (keyup)=\"editDateDone(state.selected,$event)\">{{state.selected.tsk_date_done | date: format}}</span></div>\r\n    <div>Total Time Spent: {{formatTime(state.selected.tsk_total_time_spent)}}</div>\r\n    <div>\r\n        <fieldset *ngIf=\"state.selected.tsk_time_history.length\">\r\n            <legend>Time History</legend>\r\n            <table>\r\n                <tr>\r\n                    <td>Sequential</td>\r\n                    <td>Name</td>\r\n                    <td>Date Start</td>\r\n                    <td>Date End</td>\r\n                    <td>Time Spent</td>\r\n                    <td>User</td>\r\n                    <td>Date Add</td>\r\n                    <td>Date Mod</td>\r\n                    <td>Actions</td>\r\n                </tr>\r\n                <tr *ngFor=\"let h of state.selected.tsk_time_history\">\r\n                    <td>{{h.tsh_num_secuential}}</td>\r\n                    <td>{{h.tsh_name}}</td>\r\n                    <td><span contenteditable=\"true\" (keyup)=\"editTimeTracking(h,1,$event)\">{{h.tsh_date_start | date: format}}</span></td>\r\n                    <td><span contenteditable=\"true\" (keyup)=\"editTimeTracking(h,2,$event)\">{{h.tsh_date_end | date: format}}</span></td>\r\n                    <td>{{formatTime(h.tsh_time_spent)}}</td>\r\n                    <td>{{h.tsh_id_user}}</td>\r\n                    <td>{{h.tsh_date_add | date: format}}</td>\r\n                    <td>{{h.tsh_date_mod | date: format}}</td>\r\n                    <td><button *ngIf=\"h.tsh_date_end\" (click)=\"deleteTimeTracking(state.selected,h)\">delete</button></td>\r\n                </tr>\r\n            </table>\r\n        </fieldset>\r\n    </div>\r\n    <div>In Progress: {{state.selected.tsk_ctg_in_process}}</div>\r\n    <div>Qualifiers: <span contenteditable=\"true\" (blur)=\"taskQualifiersEdit(state.selected,$event)\">{{state.selected.tsk_qualifiers}}</span></div>\r\n    <div>Tags: <span contenteditable=\"true\" (blur)=\"taskTagsEdit(state.selected,$event)\">{{state.selected.tsk_tags}}</span></div>\r\n    <div>Estimated Duration: {{state.selected.tsk_estimated_duration}}</div>\r\n    <div>Schedule Date Start: {{state.selected.tsk_schedule_date_start | date: format}}</div>\r\n    <div>Schedule Date End: {{state.selected.tsk_schedule_date_end | date: format}}</div>\r\n    <div>Date View Until: {{state.selected.tsk_date_view_until}}</div>\r\n    <div>User Added: {{state.selected.tsk_id_user_added}}</div>\r\n    <div>User Asigned: {{state.selected.tsk_id_user_asigned}}</div>\r\n    <div>Date Add: {{state.selected.tsk_date_add | date: format}}</div>\r\n    <div>Date Last Mod: {{state.selected.tsk_date_mod | date: format}}</div>\r\n    <div>Status: {{state.selected.tsk_ctg_status}}</div>\r\n    <hr/>\r\n</div>\r\n<div *ngIf=\"options.optShowFinishedToday\">\r\n    <strong>Finished Today / {{state.closedTodayTasks.length}} tasks</strong>\r\n    <div *ngFor=\"let item of state.closedTodayTasks\">\r\n        <input type=\"checkbox\" id=\"{{item.tsk_id}}\" checked\r\n            (click)=\"taskCheckboxHandler(item,$event)\" />\r\n        <span *ngIf=\"item.tsk_total_time_spent !== 0\"\r\n            [ngClass]=\"{'task-open-with-tt': (item.tsk_ctg_status === this.taskStatus.OPEN && item.tsk_time_history.length > 0)}\"\r\n            >[{{item.tsk_time_history.length}}/{{formatTime(item.tsk_total_time_spent)}}]\r\n            <span *ngIf=\"item.tsk_ctg_in_process !== 2\">\r\n                [<span class=\"tt-start\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(item,$event,'start')\">{{item.tsk_time_history[item.tsk_time_history.length-1].tsh_date_start | date: 'HH:mm:ss'}}</span> - <span class=\"tt-end\" contenteditable=\"true\" (keyup)=\"timeTrackingQuickEdit(item,$event,'end')\">{{item.tsk_time_history[item.tsk_time_history.length-1].tsh_date_end | date: 'HH:mm:ss'}}</span>]\r\n            </span>\r\n        </span>\r\n        <span>(Done at: <span contenteditable=\"true\" (keyup)=\"editDateDone(item,$event)\">{{item.tsk_date_done | date: format}}</span>)</span>\r\n        <span [ngClass]=\"{'task-done': (item.tsk_ctg_status === this.taskStatus.CLOSED)}\"\r\n            >{{item.tsk_name}}</span>\r\n        <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n            <span *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n                (click)=\"showTagStats(tag)\"\r\n                class=\"tag\">\r\n                #{{tag}}\r\n            </span>\r\n        </span>\r\n        <span *ngIf=\"item.not_sync\">(Not in sync)</span>\r\n        <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div id=\"closedTaskList\" *ngIf=\"viewAll\">\r\n    <strong>Closed Tasks</strong>\r\n    <div *ngFor=\"let group of state.closedTasks\">\r\n        <div>\r\n            <strong>{{group.header | date: \"yyyy-MM-dd\"}}</strong>\r\n            <span>(Spent {{formatTime(group.totalTimeSpent)}})</span>\r\n        </div>\r\n        <div *ngFor=\"let item of group.tasks\">\r\n            - <span>[{{item.tsk_time_history.length}}/{{formatTime(item.tsk_total_time_spent)}}]</span>\r\n            <span>[{{item.tsk_id_record}}]</span>\r\n            <span>{{item.tsk_name}}</span>\r\n            <span>(done at {{item.tsk_date_done | date: 'yyyy-MM-dd HH:mm:ss'}})</span>\r\n            <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n                <span *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n                    (click)=\"showTagStats(tag)\"\r\n                    class=\"tag\">\r\n                    #{{tag}}\r\n                </span>\r\n            </span>\r\n            <button (click)=\"setSelected(item)\">details</button>\r\n        </div>\r\n    </div>\r\n    <hr/>\r\n</div>\r\n<div *ngIf=\"viewReportsWeek\">\r\n    <div *ngFor=\"let s of reports.week\">\r\n        date: {{s.date | date: 'yyyy-MM-dd'}}\r\n        tasks done: {{s.tasksDone}}\r\n        estimated: {{formatTime(s.estimated * 60)}}\r\n        spent: {{formatTime(s.timeSpent)}}\r\n        Productivity: {{s.productivity}}\r\n        Real Time Elapsed: {{formatTime(s.realTimeElapsed)}}\r\n    </div>\r\n</div>\r\n<div *ngIf=\"viewReportsDayDistribution\">\r\n    <strong>Reports Day Distribution</strong>\r\n    <table>\r\n        <tr>\r\n            <td>Record</td>\r\n            <td>Total ETA</td>\r\n            <td>Total Real</td>\r\n            <td>Percentage ETA</td>\r\n            <td>Percentage Real</td>\r\n        </tr>\r\n        <tr *ngFor=\"let r of reports.dayDistribution\">\r\n            <td>{{r.record}}</td>\r\n            <td>{{formatTime(r.eta * 60)}}</td>\r\n            <td>{{formatTime(r.real)}}</td>\r\n            <td>{{r.percentageEta}}</td>\r\n            <td>{{r.percentageReal}}</td>\r\n        </tr>\r\n    </table>\r\n    <hr/>\r\n</div>\r\n<div *ngIf=\"viewQualifierTotals\">\r\n    <strong>Qualifier Totals</strong>\r\n    <table>\r\n        <tr>\r\n            <td>Qualifier</td>\r\n            <td>Task Count</td>\r\n            <td>Total ETA</td>\r\n        </tr>\r\n        <tr *ngFor=\"let q of reports.qualifierTotals\">\r\n            <td>{{q.qualifier}}</td>\r\n            <td>{{q.taskCount}}</td>\r\n            <td>{{formatTime(q.totalETA * 60)}}</td>\r\n        </tr>\r\n    </table>\r\n    <hr/>\r\n</div>\r\n\r\n<div *ngIf=\"comparisonData\">\r\n    Client Task Count: {{comparisonData.clientTaskCount}}\r\n    <br/>Server Task Count: {{comparisonData.serverTaskCount}}\r\n    <br/>Comparison Task Count: {{comparisonData.results.length}}\r\n    <table>\r\n        <tr *ngFor=\"let c of comparisonData.results\">\r\n            <td *ngFor=\"let f of c\">\r\n                displayName: {{f.displayName}} |\r\n                name: {{f.name}} | \r\n                comparison: {{f.isEqual}} |\r\n                data FE: {{f.client}} |\r\n                data BE: {{f.server}}\r\n                <button (click)=\"sendFEToBE(c)\">Send FE data to BE</button>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</div>"
 
 /***/ }),
 
@@ -7161,48 +6864,44 @@ module.exports = "<form #tasksForm=\"ngForm\">\r\n    <input type=\"text\" name=
 /*!****************************************!*\
   !*** ./src/crosscommon/DateUtility.ts ***!
   \****************************************/
-/*! exports provided: DateUtils */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateUtils", function() { return DateUtils; });
-var DateUtility = /** @class */ (function () {
-    function DateUtility() {
-    }
-    DateUtility.prototype.elapsedTime = function (date1, date2) {
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class DateUtility {
+    elapsedTime(date1, date2) {
         if (date1 && date2) {
             return Math.floor((date1.getTime() - date2.getTime()) / 1000);
         }
         return 0;
-    };
-    DateUtility.prototype.elapsedDays = function (date1, date2) {
+    }
+    elapsedDays(date1, date2) {
         return Math.floor(this.elapsedTime(this.dateOnly(date1), this.dateOnly(date2)) / (60 * 60 * 24));
-    };
-    DateUtility.prototype.age = function (baseDate) {
+    }
+    age(baseDate) {
         return this.elapsedDays(new Date(baseDate), new Date());
-    };
-    DateUtility.prototype.dateOnly = function (base) {
+    }
+    dateOnly(base) {
         if (base) {
             return new Date(base.getFullYear(), base.getMonth(), base.getDate(), 0, 0, 0);
         }
-        var newDate = new Date();
+        let newDate = new Date();
         return new Date(newDate.getFullYear(), newDate.getMonth(), newDate.getDate(), 0, 0, 0);
-    };
-    DateUtility.prototype.addDays = function (base, days) {
+    }
+    addDays(base, days) {
         return new Date((base.getTime() + (days * 86400000)));
-    };
-    DateUtility.prototype.newDateUpToSeconds = function () {
+    }
+    newDateUpToSeconds() {
         return new Date(Math.floor((new Date()).getTime() / 1000) * 1000);
-    };
+    }
     /**
      * Fills string left or right to complete a given length with some char.
      * direction = 1 fills at right, direction = -1 fills at left
      */
-    DateUtility.prototype.fillString = function (data, length, direction, fillChar) {
-        if (direction === void 0) { direction = 1; }
-        if (fillChar === void 0) { fillChar = ' '; }
-        var str = data + "";
+    fillString(data, length, direction = 1, fillChar = ' ') {
+        let str = data + "";
         while (str.length < length) {
             if (direction === 1) {
                 str += fillChar;
@@ -7212,77 +6911,75 @@ var DateUtility = /** @class */ (function () {
             }
         }
         return str;
-    };
+    }
     /**
      * Returns formated date as specified in format or default if not provided.
      */
-    DateUtility.prototype.formatDate = function (date, format) {
-        if (format === void 0) { format = 'yyyy-MM-dd'; }
+    formatDate(date, format = 'yyyy-MM-dd') {
         if (date === null) {
             return null;
         }
         if (!(date instanceof Date)) {
             date = new Date(date);
         }
-        var day = date.getDate();
-        var month = date.getMonth();
-        var year = date.getFullYear();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var sec = date.getSeconds();
-        var zero = '0';
-        var str = format.replace('yyyy', String(year))
+        const day = date.getDate();
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        const sec = date.getSeconds();
+        const zero = '0';
+        const str = format.replace('yyyy', String(year))
             .replace('MM', this.fillString(month + 1, 2, -1, zero))
             .replace('dd', this.fillString(day, 2, -1, zero))
             .replace('HH', this.fillString(hour, 2, -1, zero))
             .replace('mm', this.fillString(min, 2, -1, zero))
             .replace('ss', this.fillString(sec, 2, -1, zero));
         return str;
-    };
-    DateUtility.prototype.lastDayInMonth = function (year, month) {
-        var date = new Date(year, month + 1, 1);
+    }
+    lastDayInMonth(year, month) {
+        let date = new Date(year, month + 1, 1);
         date.setDate(date.getDate() - 1);
         return date.getDate();
-    };
-    DateUtility.prototype.addMonths = function (date, months) {
-        var newDate = new Date(date);
+    }
+    addMonths(date, months) {
+        let newDate = new Date(date);
         newDate.setMonth(newDate.getMonth() + months);
         return newDate;
-    };
-    DateUtility.prototype.isDate = function (date) {
-        var format = /\d{4}-\d{2}-\d{2}/;
+    }
+    isDate(date) {
+        const format = /\d{4}-\d{2}-\d{2}/;
         return date.length === 10 && format.test(date);
-    };
-    DateUtility.prototype.getMonthName = function (month) {
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    }
+    getMonthName(month) {
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         return months[month - 1];
-    };
-    DateUtility.prototype.getIterableNextMonth = function (year, month) {
+    }
+    getIterableNextMonth(year, month) {
         if (month === 12) {
             return this.getIterableCurrentMonth(year + 1, 1);
         }
         else {
             return this.getIterableCurrentMonth(year, month + 1);
         }
-    };
-    DateUtility.prototype.getIterablePreviousMonth = function (year, month) {
+    }
+    getIterablePreviousMonth(year, month) {
         if (month === 1) {
             return this.getIterableCurrentMonth(year - 1, 12);
         }
         else {
             return this.getIterableCurrentMonth(year, month - 1);
         }
-    };
-    DateUtility.prototype.getIterableCurrentMonth = function (year, month) {
+    }
+    getIterableCurrentMonth(year, month) {
         return {
-            year: year,
-            month: month,
+            year,
+            month,
             iterable: year * 100 + month
         };
-    };
-    return DateUtility;
-}());
-var DateUtils = new DateUtility();
+    }
+}
+exports.DateUtils = new DateUtility();
 
 
 /***/ }),
@@ -7291,18 +6988,15 @@ var DateUtils = new DateUtility();
 /*!************************************!*\
   !*** ./src/crosscommon/Utility.ts ***!
   \************************************/
-/*! exports provided: Utils */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Utils", function() { return Utils; });
-var Utility = /** @class */ (function () {
-    function Utility() {
-    }
-    Utility.prototype.pad = function (value, fillChar, length, dir) {
-        if (dir === void 0) { dir = -1; }
-        var result = value + '';
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Utility {
+    pad(value, fillChar, length, dir = -1) {
+        let result = value + '';
         while (result.length < length) {
             if (dir === -1) {
                 result = fillChar + result;
@@ -7312,56 +7006,52 @@ var Utility = /** @class */ (function () {
             }
         }
         return result;
-    };
-    Utility.prototype.hashId = function (prefix, length, baseDate) {
-        if (prefix === void 0) { prefix = 'X'; }
-        if (length === void 0) { length = 32; }
-        if (baseDate === void 0) { baseDate = null; }
+    }
+    hashId(prefix = 'X', length = 32, baseDate = null) {
         // take date + time + random digits
         // total digits: 1 + 10 + 6 + '-' + (length - 18) >= 32
-        var date = baseDate || new Date();
-        var random = Math.floor(Math.random() * Math.pow(10, length - 17 - prefix.length));
-        var datetimeString = "" + date.getFullYear() + this.pad(date.getMonth() + 1, '0', 2) + this.pad(date.getDate(), '0', 2);
-        datetimeString += "" + this.pad(date.getHours(), '0', 2) + this.pad(date.getMinutes(), '0', 2) + this.pad(date.getSeconds(), '0', 2);
-        var id = "" + prefix + datetimeString + "-" + random;
+        let date = baseDate || new Date();
+        let random = Math.floor(Math.random() * Math.pow(10, length - 17 - prefix.length));
+        let datetimeString = `${date.getFullYear()}${this.pad(date.getMonth() + 1, '0', 2)}${this.pad(date.getDate(), '0', 2)}`;
+        datetimeString += `${this.pad(date.getHours(), '0', 2)}${this.pad(date.getMinutes(), '0', 2)}${this.pad(date.getSeconds(), '0', 2)}`;
+        let id = `${prefix}${datetimeString}-${random}`;
         return id;
-    };
-    Utility.prototype.hashIdForEntity = function (entity, fieldName) {
-        var length = entity.metadata.fields.find(function (f) { return f.dbName === fieldName; }).size;
+    }
+    hashIdForEntity(entity, fieldName) {
+        const length = entity.metadata.fields.find(f => f.dbName === fieldName).size;
         return this.hashId(entity.metadata.prefix, length);
-    };
-    Utility.prototype.escapeRegExp = function (str) {
+    }
+    escapeRegExp(str) {
         return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-    };
-    Utility.prototype.replaceAll = function (str, find, replace) {
+    }
+    replaceAll(str, find, replace) {
         return (str + '').replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
-    };
-    Utility.prototype.parseSimpleQuoteForSQL = function (str) {
+    }
+    parseSimpleQuoteForSQL(str) {
         return this.replaceAll(str, "'", "''");
-    };
-    Utility.prototype.entityToRawTableFields = function (entity) {
-        var obj = {};
+    }
+    entityToRawTableFields(entity) {
+        let obj = {};
         if (!entity.metadata) {
             return entity;
         }
-        entity.metadata.fields.filter(function (f) { return f.isTableField; }).forEach(function (f) {
+        entity.metadata.fields.filter(f => f.isTableField).forEach(f => {
             obj[f.dbName] = entity[f.dbName];
         });
         return obj;
-    };
-    Utility.prototype.getPKFromEntity = function (entity) {
-        var pk = {};
+    }
+    getPKFromEntity(entity) {
+        let pk = {};
         if (!entity.metadata) {
             return null;
         }
-        entity.metadata.fields.filter(function (f) { return f.isPK; }).forEach(function (f) {
+        entity.metadata.fields.filter(f => f.isPK).forEach(f => {
             pk[f.dbName] = entity[f.dbName];
         });
         return pk;
-    };
-    return Utility;
-}());
-var Utils = new Utility();
+    }
+}
+exports.Utils = new Utility();
 
 
 /***/ }),
@@ -7370,15 +7060,14 @@ var Utils = new Utility();
 /*!*********************************************!*\
   !*** ./src/crosscommon/entities/Account.ts ***!
   \*********************************************/
-/*! exports provided: Account */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Account", function() { return Account; });
-var Account = /** @class */ (function () {
-    function Account(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Account {
+    constructor(base) {
         this.metadata = {
             name: 'Account',
             namespace: 'Money',
@@ -7805,9 +7494,9 @@ var Account = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -7826,9 +7515,8 @@ var Account = /** @class */ (function () {
             this.acc_txt_status = base.acc_txt_status;
         }
     }
-    return Account;
-}());
-
+}
+exports.Account = Account;
 
 
 /***/ }),
@@ -7837,15 +7525,14 @@ var Account = /** @class */ (function () {
 /*!*********************************************!*\
   !*** ./src/crosscommon/entities/Balance.ts ***!
   \*********************************************/
-/*! exports provided: Balance */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Balance", function() { return Balance; });
-var Balance = /** @class */ (function () {
-    function Balance(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Balance {
+    constructor(base) {
         this.metadata = {
             name: 'Balance',
             namespace: 'Money',
@@ -8342,9 +8029,9 @@ var Balance = /** @class */ (function () {
                 }
             ]
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -8365,9 +8052,8 @@ var Balance = /** @class */ (function () {
             this.bal_txt_status = base.bal_txt_status;
         }
     }
-    return Balance;
-}());
-
+}
+exports.Balance = Balance;
 
 
 /***/ }),
@@ -8376,15 +8062,14 @@ var Balance = /** @class */ (function () {
 /*!**********************************************!*\
   !*** ./src/crosscommon/entities/Category.ts ***!
   \**********************************************/
-/*! exports provided: Category */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Category", function() { return Category; });
-var Category = /** @class */ (function () {
-    function Category(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Category {
+    constructor(base) {
         this.metadata = {
             name: 'Category',
             namespace: 'Money',
@@ -8631,9 +8316,9 @@ var Category = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -8646,9 +8331,8 @@ var Category = /** @class */ (function () {
             this.mct_txt_status = base.mct_txt_status;
         }
     }
-    return Category;
-}());
-
+}
+exports.Category = Category;
 
 
 /***/ }),
@@ -8657,15 +8341,14 @@ var Category = /** @class */ (function () {
 /*!*******************************************!*\
   !*** ./src/crosscommon/entities/Entry.ts ***!
   \*******************************************/
-/*! exports provided: Entry */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Entry", function() { return Entry; });
-var Entry = /** @class */ (function () {
-    function Entry(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Entry {
+    constructor(base) {
         this.metadata = {
             name: 'Entry',
             namespace: 'Money',
@@ -9378,9 +9061,9 @@ var Entry = /** @class */ (function () {
                 }
             ]
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -9408,9 +9091,8 @@ var Entry = /** @class */ (function () {
             this.ent_txt_status = base.ent_txt_status;
         }
     }
-    return Entry;
-}());
-
+}
+exports.Entry = Entry;
 
 
 /***/ }),
@@ -9419,15 +9101,14 @@ var Entry = /** @class */ (function () {
 /*!**********************************************!*\
   !*** ./src/crosscommon/entities/LastTime.ts ***!
   \**********************************************/
-/*! exports provided: LastTime */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LastTime", function() { return LastTime; });
-var LastTime = /** @class */ (function () {
-    function LastTime(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class LastTime {
+    constructor(base) {
         this.metadata = {
             name: 'LastTime',
             namespace: 'LastTimeApp',
@@ -9794,9 +9475,9 @@ var LastTime = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -9813,9 +9494,8 @@ var LastTime = /** @class */ (function () {
             this.lst_txt_status = base.lst_txt_status;
         }
     }
-    return LastTime;
-}());
-
+}
+exports.LastTime = LastTime;
 
 
 /***/ }),
@@ -9824,15 +9504,14 @@ var LastTime = /** @class */ (function () {
 /*!**********************************************!*\
   !*** ./src/crosscommon/entities/Movement.ts ***!
   \**********************************************/
-/*! exports provided: Movement */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Movement", function() { return Movement; });
-var Movement = /** @class */ (function () {
-    function Movement(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Movement {
+    constructor(base) {
         this.metadata = {
             name: 'Movement',
             namespace: 'Money',
@@ -10577,9 +10256,9 @@ var Movement = /** @class */ (function () {
                 }
             ]
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -10608,9 +10287,8 @@ var Movement = /** @class */ (function () {
             this.mov_txt_status = base.mov_txt_status;
         }
     }
-    return Movement;
-}());
-
+}
+exports.Movement = Movement;
 
 
 /***/ }),
@@ -10619,15 +10297,14 @@ var Movement = /** @class */ (function () {
 /*!************************************************!*\
   !*** ./src/crosscommon/entities/Multimedia.ts ***!
   \************************************************/
-/*! exports provided: Multimedia */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Multimedia", function() { return Multimedia; });
-var Multimedia = /** @class */ (function () {
-    function Multimedia(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Multimedia {
+    constructor(base) {
         this.metadata = {
             name: 'Multimedia',
             namespace: 'common',
@@ -11088,9 +10765,9 @@ var Multimedia = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -11110,9 +10787,8 @@ var Multimedia = /** @class */ (function () {
             this.mma_txt_status = base.mma_txt_status;
         }
     }
-    return Multimedia;
-}());
-
+}
+exports.Multimedia = Multimedia;
 
 
 /***/ }),
@@ -11121,15 +10797,14 @@ var Multimedia = /** @class */ (function () {
 /*!***************************************************!*\
   !*** ./src/crosscommon/entities/MultimediaDet.ts ***!
   \***************************************************/
-/*! exports provided: MultimediaDet */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultimediaDet", function() { return MultimediaDet; });
-var MultimediaDet = /** @class */ (function () {
-    function MultimediaDet(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class MultimediaDet {
+    constructor(base) {
         this.metadata = {
             name: 'MultimediaDet',
             namespace: 'common',
@@ -11500,9 +11175,9 @@ var MultimediaDet = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -11519,9 +11194,8 @@ var MultimediaDet = /** @class */ (function () {
             this.mmd_txt_status = base.mmd_txt_status;
         }
     }
-    return MultimediaDet;
-}());
-
+}
+exports.MultimediaDet = MultimediaDet;
 
 
 /***/ }),
@@ -11530,15 +11204,14 @@ var MultimediaDet = /** @class */ (function () {
 /*!****************************************************!*\
   !*** ./src/crosscommon/entities/MultimediaView.ts ***!
   \****************************************************/
-/*! exports provided: MultimediaView */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MultimediaView", function() { return MultimediaView; });
-var MultimediaView = /** @class */ (function () {
-    function MultimediaView(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class MultimediaView {
+    constructor(base) {
         this.metadata = {
             name: 'MultimediaView',
             namespace: 'common',
@@ -12039,9 +11712,9 @@ var MultimediaView = /** @class */ (function () {
                 }
             ]
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -12062,9 +11735,8 @@ var MultimediaView = /** @class */ (function () {
             this.mmv_txt_status = base.mmv_txt_status;
         }
     }
-    return MultimediaView;
-}());
-
+}
+exports.MultimediaView = MultimediaView;
 
 
 /***/ }),
@@ -12073,15 +11745,14 @@ var MultimediaView = /** @class */ (function () {
 /*!*******************************************!*\
   !*** ./src/crosscommon/entities/Place.ts ***!
   \*******************************************/
-/*! exports provided: Place */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Place", function() { return Place; });
-var Place = /** @class */ (function () {
-    function Place(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Place {
+    constructor(base) {
         this.metadata = {
             name: 'Place',
             namespace: 'Money',
@@ -12328,9 +11999,9 @@ var Place = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -12343,9 +12014,8 @@ var Place = /** @class */ (function () {
             this.mpl_txt_status = base.mpl_txt_status;
         }
     }
-    return Place;
-}());
-
+}
+exports.Place = Place;
 
 
 /***/ }),
@@ -12354,15 +12024,14 @@ var Place = /** @class */ (function () {
 /*!********************************************!*\
   !*** ./src/crosscommon/entities/Preset.ts ***!
   \********************************************/
-/*! exports provided: Preset */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Preset", function() { return Preset; });
-var Preset = /** @class */ (function () {
-    function Preset(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Preset {
+    constructor(base) {
         this.metadata = {
             name: 'Preset',
             namespace: 'Money',
@@ -13139,9 +12808,9 @@ var Preset = /** @class */ (function () {
                 }
             ]
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -13171,9 +12840,8 @@ var Preset = /** @class */ (function () {
             this.pre_txt_status = base.pre_txt_status;
         }
     }
-    return Preset;
-}());
-
+}
+exports.Preset = Preset;
 
 
 /***/ }),
@@ -13182,15 +12850,14 @@ var Preset = /** @class */ (function () {
 /*!******************************************!*\
   !*** ./src/crosscommon/entities/Task.ts ***!
   \******************************************/
-/*! exports provided: Task */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Task", function() { return Task; });
-var Task = /** @class */ (function () {
-    function Task(base) {
-        var _this = this;
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Task {
+    constructor(base) {
         this.metadata = {
             name: 'Task',
             namespace: 'common',
@@ -14548,9 +14215,9 @@ var Task = /** @class */ (function () {
             ],
             view: []
         };
-        this.recordName = function () {
-            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
-                return f.dbName + " = " + _this[f.dbName];
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
             }).join(', ');
         };
         if (base !== undefined) {
@@ -14600,9 +14267,8 @@ var Task = /** @class */ (function () {
             this.tsk_txt_status = base.tsk_txt_status;
         }
     }
-    return Task;
-}());
-
+}
+exports.Task = Task;
 
 
 /***/ }),
@@ -14611,16 +14277,16 @@ var Task = /** @class */ (function () {
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
   \*****************************************/
-/*! exports provided: environment */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-var environment = {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.environment = {
     production: false
 };
 /*
@@ -14639,24 +14305,21 @@ var environment = {
 /*!*********************!*\
   !*** ./src/main.ts ***!
   \*********************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
-/* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
 
-
-
-
-if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
+Object.defineProperty(exports, "__esModule", { value: true });
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_dynamic_1 = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm2015/platform-browser-dynamic.js");
+const app_module_1 = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
+const environment_1 = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+if (environment_1.environment.production) {
+    core_1.enableProdMode();
 }
-Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
-    .catch(function (err) { return console.error(err); });
+platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule)
+    .catch(err => console.error(err));
 
 
 /***/ }),

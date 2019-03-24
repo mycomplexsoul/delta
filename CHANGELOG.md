@@ -36,6 +36,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.8.7 (2019-02-06)
+
+* [AppTasks][new] Alt + t on a not in progress task adds time tracking record.
+
+## v1.8.6 (2019-02-05)
+
+* [AppTasks][new] Leaving pressed up/down arrow navigates through tasks (even on estimates).
+
 ## v1.8.5 (2019-02-04)
 
 * [AppCommon][new] Added backend unit test runner.

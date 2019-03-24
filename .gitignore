@@ -44,4 +44,10 @@ Thumbs.db
 
 # Maps
 *.js.map
+
+# Transpiled source code
+src/**/*.js
+server.js
+
+# Special files
 cfg.json

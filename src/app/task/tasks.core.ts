@@ -40,7 +40,7 @@ export class TasksCore {
             }, {
                 f: 'tsk_date_add'
                 , op: 'ge'
-                , val: '2019-02-15'
+                , val: '2019-03-10'
             }]
         };
         const query = `?q=${JSON.stringify(filter)}`;

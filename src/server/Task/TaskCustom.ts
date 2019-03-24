@@ -16,7 +16,7 @@ export class TaskCustom {
             model: new Task(),
             name: 'tasks'
         }, {
-            sql: `select * from vitasktimetracking where tsh_id in (select tsk_id from task where tsk_ctg_status < 3 or tsk_date_add >= '2019-02-15')`,
+            sql: `select * from vitasktimetracking where tsh_id in (select tsk_id from task where tsk_ctg_status < 3 or tsk_date_add >= '2019-03-10')`,
             model: new TaskTimeTracking(),
             name: 'timetracking'
         }];

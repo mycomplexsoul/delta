@@ -95,15 +95,15 @@ export class TasksComponent implements OnInit {
         }
         this.nextTasks = [];
         this.updateState();
-        this.notification({
-            body: 'Hello there!! you have ' + this.state.openTasksCount + ' tasks open'
-        });
         this.services.tasksCore.getAllForUser('anon').then(taskList => {
             this.tasks = taskList;
             this.load = true;
             this.updateState();
+            /* this.notification({ // this is the notification fired on load
+                body: 'Hello there!! you have ' + this.state.openTasksCount + ' tasks open'
+            });*/ 
         });
-        this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
+        // this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
 
         // events
         this.subscribe('updateTimeTracking', (timeTrackingItem: any) => {
@@ -296,23 +296,24 @@ export class TasksComponent implements OnInit {
 
         if (this.focusedTask.task){
             if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN){
-                console.log('trying to set focus for task',this.focusedTask);
+                // console.log('trying to set focus for task',this.focusedTask);
                 //let f: HTMLElement = document.getElementById(this.focusedTask.tsk_id).querySelector('span.task-text[contenteditable=true]');
                 //f['tabIndex'] = -1;
                 setTimeout(() => {
-                    this.focusedTask.element.focus();
-                    console.log('focus should be set now');
+                    // this.focusedTask.element.focus();
+                    document.querySelector(`#${this.focusedTask.task.tsk_id} span.editable.task-text`)['focus']();
+                    // console.log('focus should be set now');
                 //     f.focus();
-                }, 3000);
+                }, 600);
             } else {
 
             }
         }
 
         // Update comparison results
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
-        }, 6000);
+        }, 6000);*/
     }
 
     showTimersOnLoad(){
@@ -375,12 +376,12 @@ export class TasksComponent implements OnInit {
         if (event.altKey && event.keyCode==40){ // detect move down
             this.taskMoveDown(parent);
         }
-        if (!event.altKey && event.keyCode==38){ // detect jump up
+        /* if (!event.altKey && event.keyCode==38){ // detect jump up
             this.taskJumpUp(parent,"span.task-text[contenteditable=true]");
         }
         if (!event.altKey && event.keyCode==40){ // detect jump down
             this.taskJumpDown(parent,"span.task-text[contenteditable=true]");
-        }
+        } */
         if (!event.shiftKey && event.keyCode==113){ // detect "F2" = start/stop time tracking
             this.taskToggleTimeTracking(t,parent);
         }
@@ -428,10 +429,11 @@ export class TasksComponent implements OnInit {
             if (!tt){ // no task today, try yesterday
                 tt = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(new Date(),-1)));
             }
-            if (tt && t.tsk_time_history.length) {
+            const calcRandomFinish = (estimated) => ((estimated - 2) * 60) + Math.floor(Math.random() * 2 * 10 * 6);
+            if (tt && t.tsk_time_history.length) { // task with history
                 t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start = tt;
-                if (t.tsk_ctg_in_process == 1){
-                    let randomFinish = ((t.tsk_estimated_duration - 2) * 60) + Math.floor(Math.random() * 2 * 10 * 6);
+                if (t.tsk_ctg_in_process == 1){ // task 'in progress'
+                    const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
                     t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
                     t.tsk_time_history[t.tsk_time_history.length - 1].tsh_time_spent = randomFinish;
                     let total: number = 0;
@@ -442,12 +444,28 @@ export class TasksComponent implements OnInit {
                         tsk_total_time_spent: total
                     });
                     t.tsk_total_time_spent = total;
-                    console.log('task with changes after time tracking setup',t);
                 }
                 //this.updateTaskTimeTracking(t.tsk_id,t.tsk_time_history.length,data);
                 this.services.tasksCore.tasksToStorage(); // TODO: move this sentence to tasksCore
                 // TODO: update time tracking history on server
                 this.updateState();
+            } else { // task with no history, implies also is not 'in progress'
+                const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
+                t.tsk_time_history.push({
+                    'tsh_id': t.tsk_id
+                    , 'tsh_num_secuential': 1
+                    , 'tsh_name': t.tsk_name
+                    , 'tsh_date_start': tt
+                    , 'tsh_date_end': new Date(tt.getTime() + randomFinish * 1000)
+                    , 'tsh_time_spent': randomFinish
+                    , 'tsh_id_user': 'anon'
+                    , 'tsh_date_add': this.services.dateUtils.newDateUpToSeconds()
+                    , 'tsh_date_mod': this.services.dateUtils.newDateUpToSeconds()
+                });
+                this.services.tasksCore.updateTask(t,{
+                    tsk_total_time_spent: randomFinish
+                });
+                t.tsk_total_time_spent = randomFinish;
             }
         }
         if (event.shiftKey && event.keyCode==113){ // detect "Shift + F2" = find time tracking task, stop it, close the task and start the focused one
@@ -466,6 +484,28 @@ export class TasksComponent implements OnInit {
         // event.preventDefault();
         // event.returnValue = false;
         // return false;
+    }
+
+    taskKeyDown(event: KeyboardEvent){
+        const parent = event.target["parentNode"];
+
+        if (!event.altKey && event.keyCode==38){ // detect jump up
+            this.taskJumpUp(parent,"span.task-text[contenteditable=true]");
+        }
+        if (!event.altKey && event.keyCode==40){ // detect jump down
+            this.taskJumpDown(parent,"span.task-text[contenteditable=true]");
+        }
+    }
+
+    etaKeyDown(event: KeyboardEvent){
+        const parent = event.target["parentNode"];
+
+        if (!event.altKey && event.keyCode==38){ // detect jump up
+            this.taskJumpUp(parent,"span.task-text[contenteditable=true]");
+        }
+        if (!event.altKey && event.keyCode==40){ // detect jump down
+            this.taskJumpDown(parent,"span.task-text[contenteditable=true]");
+        }
     }
 
     taskCheckboxHandler(t: any, event: Event){
@@ -1611,7 +1651,7 @@ export class TasksComponent implements OnInit {
     }
 
     setFocus(task: Task, event: KeyboardEvent){
-        console.log('task on focus by user',task,event.target);
+        // console.log('task on focus by user',task,event.target);
         this.focusedTask = {
             task
             , element: event.target['parentNode']
@@ -1624,7 +1664,7 @@ export class TasksComponent implements OnInit {
             upd[td.name] = td.client;
         });
         this.updateTask(taskDiff[0].id, upd);
-        this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
+        //this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
     }
 
     subscribe(event: string, callback: Function) {
