@@ -5,7 +5,3 @@
 .balance-row:hover {
     background-color: lightblue;
 }
-
-.movements-listing-row:nth-child(even) {
-    background-color: lightgrey;
-}

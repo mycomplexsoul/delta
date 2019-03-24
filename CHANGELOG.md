@@ -64,7 +64,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     * [AppLastTime][new] When value is focused, select all value text
 
 ## [Unreleased / Work In Progress]
-* [AppMoney][new] Select movement layout for listing (as in balance movement listing)
 * [AppTasks][new] Indicator for last finished task timestamp
 * [AppCommon][new][Login] Show logged user name on top of pages
 * [AppCommon][new] Add Prettier
@@ -72,6 +71,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppLastTime][new] Show item history
 
 <hr/>
+
+## v1.8.14 (2019-02-15)
+
+* [AppMoney][mod] Consume movement listing component in balance page
+
+## v1.8.13 (2019-02-14)
+
+* [AppMoney][new] Select movement layout for listing in movements page
+
+## v1.8.12 (2019-02-13)
+
+* [AppMoney][new] Add `selectedBalance` to movement listing component, in order to add support for existing account balance initial and final rows on compact view.
+
+## v1.8.11 (2019-02-12)
+
+* [AppMoney][new] Add `movementList` and `selectedView` to movement listing component to choose a default view.
+
+## v1.8.10 (2019-02-11)
+
+* [AppMoney][new] Create `<movement-listing>` component in order to abstract movement listing logic out of balance component.
 
 ## v1.8.9 (2019-02-08)
 

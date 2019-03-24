@@ -13,6 +13,7 @@ import { AccountComponent }  from './money/account.component';
 import { MovementComponent }  from './money/movement.component';
 import { BalanceComponent }  from './money/balance.component';
 import { RebuildComponent }  from './money/rebuild.component';
+import { MovementListingComponent } from './money/movementListing.component';
 
 import { LastTimeComponent }  from './lasttime/lasttime.component';
 
@@ -88,6 +89,7 @@ const appRoutes: Routes = [
     AccountComponent,
     MovementComponent,
     BalanceComponent,
+    MovementListingComponent,
     ComboItemComponent,
     DrinkWaterComponent,
     MenuComponent,
