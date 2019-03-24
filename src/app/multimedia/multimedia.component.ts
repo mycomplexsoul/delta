@@ -210,6 +210,7 @@ export class MultimediaComponent implements OnInit {
 
         const queue: SyncQueue[] = [];
 
+        // Create Det item
         const item: MultimediaDet = this.services.multimediaDetService.newItem(
             this.epModel.id,
             this.epModel.epId,
@@ -224,6 +225,7 @@ export class MultimediaComponent implements OnInit {
         queue.push(this.services.multimediaDetService.asSyncQueue(item));
         
         if (values.fIsViewed) {
+            // Create View item
             const item2: MultimediaView = this.services.multimediaViewService.newItem(
                 this.epModel.id,
                 this.epModel.epId,
@@ -237,7 +239,8 @@ export class MultimediaComponent implements OnInit {
             
             this.viewData.multimediaViewList.push(item2);
             queue.push(this.services.multimediaViewService.asSyncQueue(item2));
-
+            
+            // Updates Media item
             const media = this.viewData.multimediaList.find(item => item.mma_id === this.epModel.id);
             media.mma_current_ep = this.calculateNextEp(media.mma_current_ep);
             media.mma_date_mod = new Date();

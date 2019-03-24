@@ -7,34 +7,79 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Notes / To Do / Roadmap]
 * Money
     * Balance
-        * Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
-        * Display Average Balance on Balance page (using account daycheck information)
-    * Movement features
-        * Movements with pending status
-        * Scheduled movements
-        * Movement form validation server side
-        * Movement form validation client side
-        * Combo-item value validation against a provided list
+        * [AppMoney][new] Spent report for monthly/range basis
+        * [AppMoney][new] Figure out how to do budget vs movements
+        * [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
+        * [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
+    * Movement
+        * [AppMoney][new] Movements with pending status
+        * [AppMoney][new] Scheduled movements
+        * [AppMoney][new] Movement form validation server side
+        * [AppMoney][new] Movement form validation client side
+    * Account
+        * [AppMoney][new] Add account listing/new/update endpoints
+        * [AppMoney][new] Add account UI listing
+        * [AppMoney][new] Add account form to edit or add new accounts
+        * [AppMoney][new] Consume endpoints to finish adding or editing accounts
+    * Places
+        * [AppMoney][new] Add places listing/new/update endpoints
+        * [AppMoney][new] Add places UI listing
+        * [AppMoney][new] Add places form to edit or add new places
+        * [AppMoney][new] Consume endpoints to finish adding or editing places
+    * Categories
+        * [AppMoney][new] Add categories listing/new/update endpoints
+        * [AppMoney][new] Add categories UI listing
+        * [AppMoney][new] Add categories form to edit or add new categories
+        * [AppMoney][new] Consume endpoints to finish adding or editing categories
+    * Presets
+        * [AppMoney][new] Add presets listing/new/update endpoints
+        * [AppMoney][new] Add presets UI listing
+        * [AppMoney][new] Add presets form to edit or add new presets
+        * [AppMoney][new] Consume endpoints to finish adding or editing presets
 * Tasks
-    * Indicator for last finished task timestamp
-    * Keyboard shortcuts for navigating from record list to next/previous record list and focus into first task in the list
-    * Once focused on estimated time, pressing arrow up/down should navigate to previous/next task in the list, focusing on the task description
-    * Option to show/hide Indicators
-    * Clean up Indicators legacy section
-    * Unset schedule, unset link
+    * [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
+    * [AppTasks][new] Idle time counter (time since last time tracked record today)
+    * [AppTasks][new] Keyboard shortcuts for navigating from record list to next/previous record list and focus into first task in the list
+    * [AppTasks][new] Option to show/hide Indicators
+    * [AppTasks][new] Clean up Indicators legacy section
+    * [AppTasks][new] Unset schedule
+    * [AppTasks][new] Unset link
 * Login
-    * Login basic CSS.
-    * Login server user validation.
-    * Login logged user identity service.
+    * [AppCommon][new][Login] Login logged user identity service
+    * [AppCommon][new][Login] Redirect to login logic in all pages
+    * [AppCommon][new][Login] Login basic CSS
+    * [AppCommon][new][Login] Store cyphred passwords
 * Common
-    * Refactor database view generation for using joins on catalog instead of subqueries.
-    * Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param.
-    * [AppCommon] Display version in main page footer.
+    * [AppCommon][new] Display app version in main page footer
+    * [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
+    * [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
+    * [AppCommon][new] Add unit tests to utilities classes
+    * [AppCommon][fix] Fix coverage report
+    * [AppCommon][new] Add front end coverage report
+    * [AppCommon][mod][Install] Create InnoDB tables
+* Multimedia
+    * [AppMultimedia][new] When showing Media history, show a button 'Show all' to remove the Media filter
+    * [AppMultimedia][new] Migrate legacy information
+* LastTime
+    * [AppLastTime][new] When value is focused, select all value text
 
 ## [Unreleased / Work In Progress]
-* [AppMultimedia][new] Be able to edit ep id in form in order to create or edit posterior episodes.
+* [AppMoney][new] Select movement layout for listing (as in balance movement listing)
+* [AppTasks][new] Indicator for last finished task timestamp
+* [AppCommon][new][Login] Show logged user name on top of pages
+* [AppCommon][new] Add Prettier
+* [AppMultimedia][new] With existing Detail episode info, add View info (and update Detail info if needed)
+* [AppLastTime][new] Show item history
 
 <hr/>
+
+## v1.8.9 (2019-02-08)
+
+* [AppMoney][new] Display Average Balance on Balance page (using account daycheck information)
+
+## v1.8.8 (2019-02-07)
+
+* [AppMoney][new] On balance movement listing, show Month name instead of month number
 
 ## v1.8.7 (2019-02-06)
 

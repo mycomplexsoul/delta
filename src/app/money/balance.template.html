@@ -35,7 +35,40 @@
     </table>
 
     <div *ngIf="model.selectedBalance">
-        Listing {{viewData.movements.length}} movements for account <strong>{{model.selectedBalance.bal_txt_account}}</strong> for period {{model.selectedBalance.bal_year}} - {{model.selectedBalance.bal_month}}
+        Listing {{viewData.movements.length}} movements for account <strong>{{model.selectedBalance.bal_txt_account}}</strong> for period {{model.selectedBalance.bal_year}} - {{model.selectedMonthName}}
+
+        <div>
+            <div>
+                Average Balance: {{viewData.averageBalanceInfo.averageBalance | currency:'USD':'symbol-narrow':'1.2-2'}}
+                <span *ngIf="viewData.averageBalanceInfo.averageBalance >= viewData.averageBalanceInfo.averageMinBalance">
+                    &gt;= {{viewData.averageBalanceInfo.averageMinBalance | currency:'USD':'symbol-narrow':'1.2-2'}}
+                </span>
+                <span *ngIf="viewData.averageBalanceInfo.averageBalance < viewData.averageBalanceInfo.averageMinBalance">
+                    &lt; {{viewData.averageBalanceInfo.averageMinBalance | currency:'USD':'symbol-narrow':'1.2-2'}}
+                </span>
+            </div>
+            <div>Date Range: 
+                {{viewData.averageBalanceInfo.startingDate | date: 'yyyy-MM-dd'}}
+                 - 
+                {{viewData.averageBalanceInfo.finalDate | date: 'yyyy-MM-dd'}}
+            </div>
+            <button (click)="toggleDailyBalance()">
+                {{viewData.showDailyBalance ? 'Hide' : 'Show'}} daily balance
+            </button>
+            <div *ngIf="viewData.showDailyBalance">
+                <table>
+                    <tr>
+                        <th class="padding-all-5 width-80">Date</th>
+                        <th class="padding-all-5 width-100">Balance</th>
+                    </tr>
+                    <tr class="movements-listing-row" *ngFor="let m of viewData.averageBalanceInfo.dailyBalance">
+                        <td class="padding-all-5">{{m.date | date: 'yyyy-MM-dd'}}</td>
+                        <td class="padding-all-5 text-align-right">{{m.balance | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
+                    </tr>
+                </table>    
+            </div>
+        </div>
+
         <div>
             Use View
             <select [(ngModel)]="model.movementListingView">

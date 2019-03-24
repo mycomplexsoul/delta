@@ -1,6 +1,6 @@
 {
   "name": "delta",
-  "version": "1.8.7",
+  "version": "1.8.9",
   "scripts": {
     "ng": "ng",
     "start:ng": "ng serve",
@@ -10,7 +10,8 @@
     "coverage:node": "node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --exit",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test:node": "node ./node_modules/mocha/bin/mocha ./src/**/*.test.ts"
+    "test:node": "node ./node_modules/mocha/bin/mocha ./src/**/*.test.ts",
+    "bstart": "npm run build && npm start"
   },
   "private": true,
   "engines": {

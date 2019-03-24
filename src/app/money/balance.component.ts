@@ -9,6 +9,8 @@ import { Movement } from '../../crosscommon/entities/Movement';
 import { StorageService }  from '../common/storage.service';
 import { BalanceService } from './balance.service';
 import { MovementService } from './movement.service';
+import { SyncAPI } from '../common/sync.api';
+import { DateUtils } from 'src/crosscommon/DateUtility';
 
 @Component({
     selector: 'balance',
@@ -27,19 +29,25 @@ export class BalanceComponent implements OnInit {
         , monthBalance: Array<Balance>
         , monthList: Array<any>
         , filterNonZero: boolean
+        , averageBalanceInfo: any
+        , showDailyBalance: boolean
     } = {
         balance: []
         , movements: []
         , monthBalance: []
         , monthList: []
         , filterNonZero: true
+        , averageBalanceInfo: {}
+        , showDailyBalance: false
     };
     public services: {
         balance: BalanceService
         , movement: MovementService
+        , sync: SyncAPI
     } = {
         balance: null
         , movement: null
+        , sync: null
     };
     public model: {
         iterable: number
@@ -47,21 +55,25 @@ export class BalanceComponent implements OnInit {
         , month: number
         , selectedBalance: Balance
         , movementListingView: string
+        , selectedMonthName: string
     } = {
         iterable: 0
         , year: 2017
         , month: 12
         , selectedBalance: null
         , movementListingView: 'compact'
+        , selectedMonthName: null
     };
 
     constructor(
         balanceService: BalanceService
         , movementService: MovementService
+        , syncService: SyncAPI
         , private titleService: Title
     ){
         this.services.balance = balanceService;
         this.services.movement = movementService;
+        this.services.sync = syncService;
 
         titleService.setTitle('Balance');
     }
@@ -115,6 +127,16 @@ export class BalanceComponent implements OnInit {
 
     renderMovements(balance: Balance, event: Event){
         event && event.preventDefault && event.preventDefault();
+        const url = `/api/movements/average-balance?account=${balance.bal_id_account}&checkday=true&year=${balance.bal_year}&month=${balance.bal_month}`;
+        this.services.sync.get(url).then(response => {
+            this.viewData.averageBalanceInfo = response;
+            this.viewData.averageBalanceInfo.startingDate = new Date(this.viewData.averageBalanceInfo.startingDate);
+            this.viewData.averageBalanceInfo.finalDate = new Date(this.viewData.averageBalanceInfo.finalDate);
+            this.viewData.averageBalanceInfo.dailyBalance = this.viewData.averageBalanceInfo.dailyBalance.map((balance, index) => ({
+                date: DateUtils.addDays(this.viewData.averageBalanceInfo.startingDate, index),
+                balance
+            }));
+        });
         this.services.movement.getAllForUser(this.user).then((list: Array<Movement>) => {
             let ref = balance.bal_year * 100 + balance.bal_month;
             this.viewData.movements = list.filter(m => {
@@ -122,7 +144,12 @@ export class BalanceComponent implements OnInit {
                 return ref === movRef && (balance.bal_id_account === m.mov_id_account || balance.bal_id_account === m.mov_id_account_to);
             });
             this.model.selectedBalance = balance;
+            this.model.selectedMonthName = DateUtils.getMonthName(balance.bal_month);
             console.log(`movements fetched for balance`, balance, this.viewData.movements);
         });
+    }
+
+    toggleDailyBalance(){
+        this.viewData.showDailyBalance = !this.viewData.showDailyBalance;
     }
 }
