@@ -119,6 +119,12 @@ class DateUtility {
             iterable: year * 100 + month
         };
     }
+
+    // returns the timestamp part (hours, minutes, seconds) as the number of seconds after 00:00:00
+    getTimeOnlyInSeconds(date: Date):number{
+        const base: Date = this.dateOnly(date);
+        return (date.getTime() - base.getTime()) / 1000;
+    }
 }
 
 export let DateUtils = new DateUtility();

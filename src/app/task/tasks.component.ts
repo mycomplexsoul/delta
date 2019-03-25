@@ -6,6 +6,7 @@ import { Task } from './task.type';
 import { TaskIndicator } from './task.indicator.service';
 import { DateCommon } from '../common/date.common';
 import { TaskTimeTracking } from '../../crosscommon/entities/TaskTimeTracking';
+import { DateUtils } from 'src/crosscommon/DateUtility';
 
 @Component({
     selector: 'tasks',
@@ -1606,16 +1607,19 @@ export class TasksComponent implements OnInit {
 
         // spent
         addIndicator('Closed Spent',calculateForAllDays(days,(d1: Date, d2: Date): number => this.services.taskIndicator.calculateTotalTimeSpent(d1,d2).totalTimeSpentTodayOnClosedTasks),(v: number) => this.formatTime(v));
-
+        
         // closed count
         addIndicator('Closed Count',calculateForAllDays(days,this.services.taskIndicator.closedTaskCount));
-
+        
         // productivity ratio
         addIndicator('Productivity Ratio',calculateForAllDays(days,this.services.taskIndicator.calculateProductivityRatio));
-
+        
         // time management ratio
         addIndicator('Time Management Ratio',calculateForAllDays(days,this.services.taskIndicator.calculateTimeManagementRatio));
         
+        // last time tracking entry end time stamp for the day
+        addIndicator('Last TT stamp',calculateForAllDays(days,(d1: Date, d2: Date): number => { const t = this.services.taskIndicator.lastTTEntryFromDay(d1); return t ? DateUtils.getTimeOnlyInSeconds(t) : 0; }),(v: number) => this.formatTime(v));
+
         // total task count overall
         addIndicator('Overall Task Count EOD',calculateForAllDays(days,this.services.taskIndicator.totalTaskCountUntil),null,(prev: number,curr: number) => ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100/prev) / 100 : 0 }));
 

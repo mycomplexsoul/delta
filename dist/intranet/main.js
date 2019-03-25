@@ -4437,6 +4437,7 @@ const tasks_core_1 = __webpack_require__(/*! ./tasks.core */ "./src/app/task/tas
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const task_indicator_service_1 = __webpack_require__(/*! ./task.indicator.service */ "./src/app/task/task.indicator.service.ts");
 const date_common_1 = __webpack_require__(/*! ../common/date.common */ "./src/app/common/date.common.ts");
+const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 let TasksComponent = class TasksComponent {
     constructor(tasksCore, sync, taskIndicator, dateUtils, titleService) {
         this.sync = sync;
@@ -5895,6 +5896,8 @@ let TasksComponent = class TasksComponent {
         addIndicator('Productivity Ratio', calculateForAllDays(days, this.services.taskIndicator.calculateProductivityRatio));
         // time management ratio
         addIndicator('Time Management Ratio', calculateForAllDays(days, this.services.taskIndicator.calculateTimeManagementRatio));
+        // last time tracking entry end time stamp for the day
+        addIndicator('Last TT stamp', calculateForAllDays(days, (d1, d2) => { const t = this.services.taskIndicator.lastTTEntryFromDay(d1); return t ? DateUtility_1.DateUtils.getTimeOnlyInSeconds(t) : 0; }), (v) => this.formatTime(v));
         // total task count overall
         addIndicator('Overall Task Count EOD', calculateForAllDays(days, this.services.taskIndicator.totalTaskCountUntil), null, (prev, curr) => ({ isCompleted: prev >= curr, percentageCompleted: prev !== 0 ? Math.round(curr * 100 / prev) / 100 : 0 }));
         // karma
@@ -7076,6 +7079,11 @@ class DateUtility {
             month,
             iterable: year * 100 + month
         };
+    }
+    // returns the timestamp part (hours, minutes, seconds) as the number of seconds after 00:00:00
+    getTimeOnlyInSeconds(date) {
+        const base = this.dateOnly(date);
+        return (date.getTime() - base.getTime()) / 1000;
     }
 }
 exports.DateUtils = new DateUtility();

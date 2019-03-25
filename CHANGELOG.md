@@ -64,13 +64,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     * [AppLastTime][new] When value is focused, select all value text
 
 ## [Unreleased / Work In Progress]
-* [AppTasks][new] Indicator for last finished task timestamp
 * [AppCommon][new][Login] Show logged user name on top of pages
 * [AppCommon][new] Add Prettier
 * [AppMultimedia][new] With existing Detail episode info, add View info (and update Detail info if needed)
 * [AppLastTime][new] Show item history
 
 <hr/>
+
+## v1.8.15 (2019-02-18)
+
+* [AppTasks][new] Indicator for last finished task timestamp
 
 ## v1.8.14 (2019-02-15)
 
