@@ -3750,8 +3750,8 @@ let MultimediaComponent = class MultimediaComponent {
             id: null,
             fMediaType: 1,
             fSeason: 1,
-            fYear: (new Date()).getFullYear(),
-            fCurrentEp: '1'
+            fYear: new Date().getFullYear(),
+            fCurrentEp: "1"
         };
         this.epModel = {
             id: null,
@@ -3773,41 +3773,55 @@ let MultimediaComponent = class MultimediaComponent {
         this.services.multimediaViewService = multimediaViewService;
         this.services.loginService = loginService;
         this.services.syncService = syncService;
-        this.services.multimediaService.getAllForUser(this.services.loginService.getUsername() || 'anon').then(data => {
+        this.services.multimediaService
+            .getAllForUser(this.services.loginService.getUsername() || "anon")
+            .then(data => {
             this.viewData.multimediaList = data;
         });
-        this.services.multimediaDetService.getAllForUser(this.services.loginService.getUsername() || 'anon').then((data) => {
+        this.services.multimediaDetService
+            .getAllForUser(this.services.loginService.getUsername() || "anon")
+            .then((data) => {
             this.viewData.multimediaDetList = data;
         });
-        this.services.multimediaViewService.getAllForUser(this.services.loginService.getUsername() || 'anon').then((data) => {
+        this.services.multimediaViewService
+            .getAllForUser(this.services.loginService.getUsername() || "anon")
+            .then((data) => {
             this.viewData.multimediaViewList = data;
         });
         const mediaTypes = JSON.stringify({
-            gc: 'AND',
-            cont: [{
-                    f: 'ctg_id',
-                    op: 'eq',
-                    val: 'MULTIMEDIA_MEDIA_TYP' // TODO: fix database length for field ctg_name
-                }]
+            gc: "AND",
+            cont: [
+                {
+                    f: "ctg_id",
+                    op: "eq",
+                    val: "MULTIMEDIA_MEDIA_TYP" // TODO: fix database length for field ctg_name
+                }
+            ]
         });
-        this.services.syncService.get(`/api/sync?entity=Catalog&q=${mediaTypes}`).then(data => {
+        this.services.syncService
+            .get(`/api/sync?entity=Catalog&q=${mediaTypes}`)
+            .then(data => {
             this.viewData.mediaTypeList = data.list;
         });
         const platformQuery = JSON.stringify({
-            gc: 'AND',
-            cont: [{
-                    f: 'ctg_id',
-                    op: 'eq',
-                    val: 'MULTIMEDIA_PLATFORM' // TODO: fix database length for field ctg_name
-                }]
+            gc: "AND",
+            cont: [
+                {
+                    f: "ctg_id",
+                    op: "eq",
+                    val: "MULTIMEDIA_PLATFORM" // TODO: fix database length for field ctg_name
+                }
+            ]
         });
-        this.services.syncService.get(`/api/sync?entity=Catalog&q=${platformQuery}`).then(data => {
+        this.services.syncService
+            .get(`/api/sync?entity=Catalog&q=${platformQuery}`)
+            .then(data => {
             this.viewData.platformList = data.list;
         });
     }
     ngOnInit() {
         if (!this.services.loginService.isLoggedIn()) {
-            console.log('User is not logged in');
+            console.log("User is not logged in");
         }
     }
     handleNewItem() {
@@ -3815,7 +3829,7 @@ let MultimediaComponent = class MultimediaComponent {
     }
     newItem(form) {
         let values = form.value;
-        const item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || 'anon');
+        const item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || "anon");
         this.viewData.multimediaList.push(item);
     }
     showNewEpForm(id, epId, title) {
@@ -3824,7 +3838,9 @@ let MultimediaComponent = class MultimediaComponent {
         this.epModel.epId = epId;
         this.epModel.fTitle = title;
         // see if we have data for this ep in order to populate form
-        const detFound = this.services.multimediaDetService.list().find(item => item.mmd_id === id && item.mmd_id_ep === epId);
+        const detFound = this.services.multimediaDetService
+            .list()
+            .find(item => item.mmd_id === id && item.mmd_id_ep === epId);
         if (detFound) {
             this.epModel.fEpTitle = detFound.mmd_ep_title;
             this.epModel.fAltEpTitle = detFound.mmd_ep_alt_title;
@@ -3832,7 +3848,9 @@ let MultimediaComponent = class MultimediaComponent {
             this.epModel.fUrl = detFound.mmd_url;
         }
         this.epModel.isViewed = false;
-        const viewFound = this.services.multimediaViewService.list().find(item => item.mmv_id === id && item.mmv_id_ep === epId);
+        const viewFound = this.services.multimediaViewService
+            .list()
+            .find(item => item.mmv_id === id && item.mmv_id_ep === epId);
         if (viewFound) {
             this.epModel.isViewed = true;
             this.epModel.fSummary = viewFound.mmv_ep_summary;
@@ -3848,13 +3866,27 @@ let MultimediaComponent = class MultimediaComponent {
     newEpItem(form) {
         let values = form.value;
         const queue = [];
-        // Create Det item
-        const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || 'anon');
-        this.viewData.multimediaDetList.push(item);
-        queue.push(this.services.multimediaDetService.asSyncQueue(item));
+        // Peek if this Det item is already created
+        const detList = this.services.multimediaDetService.list();
+        const existingDetItem = detList.find(e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId);
+        if (existingDetItem) {
+            // Update
+            // Create Det Item / push to update as sync queue
+            const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || "anon");
+            // Update viewData
+            this.viewData.multimediaDetList[this.viewData.multimediaDetList.findIndex(e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId)] = item;
+            // Add it to sync queue for update
+            queue.push(this.services.multimediaDetService.asUpdateSyncQueue(item));
+        }
+        else {
+            // Create Det item
+            const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || "anon");
+            this.viewData.multimediaDetList.push(item);
+            queue.push(this.services.multimediaDetService.asSyncQueue(item));
+        }
         if (values.fIsViewed) {
             // Create View item
-            const item2 = this.services.multimediaViewService.newItem(this.epModel.id, this.epModel.epId, values.fSummary, values.fDateViewed, values.fRating, values.fPlatform, values.fNotes, this.services.loginService.getUsername() || 'anon');
+            const item2 = this.services.multimediaViewService.newItem(this.epModel.id, this.epModel.epId, values.fSummary, values.fDateViewed, values.fRating, values.fPlatform, values.fNotes, this.services.loginService.getUsername() || "anon");
             this.viewData.multimediaViewList.push(item2);
             queue.push(this.services.multimediaViewService.asSyncQueue(item2));
             // Updates Media item
@@ -3882,14 +3914,14 @@ let MultimediaComponent = class MultimediaComponent {
         }
     }
     showDetListing(id) {
-        this.services.multimediaDetService.getAllForUser('anon').then(data => {
+        this.services.multimediaDetService.getAllForUser("anon").then(data => {
             this.viewData.multimediaDetList = data.filter(item => item.mmd_id === id);
         });
     }
 };
 MultimediaComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'multimedia',
+        selector: "multimedia",
         template: __webpack_require__(/*! ./multimedia.template.html */ "./src/app/multimedia/multimedia.template.html"),
         providers: [
             multimedia_service_1.MultimediaService,
@@ -4065,7 +4097,7 @@ let MultimediaDetService = class MultimediaDetService {
         this.loginService = null;
         this.config = {
             api: {
-                list: '/api/multimediadet'
+                list: "/api/multimediadet"
             }
         };
         this.sync = sync;
@@ -4073,7 +4105,7 @@ let MultimediaDetService = class MultimediaDetService {
     }
     ngOnInit() {
         if (!this.loginService.isLoggedIn()) {
-            console.log('User is not logged in');
+            console.log("User is not logged in");
         }
     }
     list() {
@@ -4082,26 +4114,32 @@ let MultimediaDetService = class MultimediaDetService {
     getAll() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const filter = {
-                gc: 'AND',
-                cont: [{
-                        f: 'mmd_ctg_status',
-                        op: 'eq',
+                gc: "AND",
+                cont: [
+                    {
+                        f: "mmd_ctg_status",
+                        op: "eq",
                         val: 1
-                    }, {
-                        f: 'mmd_id_user',
-                        op: 'eq',
-                        val: this.loginService.getUsername() || 'anon'
-                    }]
+                    },
+                    {
+                        f: "mmd_id_user",
+                        op: "eq",
+                        val: this.loginService.getUsername() || "anon"
+                    }
+                ]
             };
             const query = `?q=${JSON.stringify(filter)}`;
-            const sort = ((a, b) => {
+            const sort = (a, b) => {
                 return a.mmd_date_mod.getTime() > b.mmd_date_mod.getTime() ? 1 : -1;
-            });
-            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+            };
+            return this.sync
+                .get(`${this.config.api.list}${query}`)
+                .then(data => {
                 this.data = data.map((d) => new MultimediaDet_1.MultimediaDet(d));
                 this.data = this.data.sort(sort);
                 return this.data;
-            }).catch(err => {
+            })
+                .catch(err => {
                 return [];
             });
         });
@@ -4129,9 +4167,21 @@ let MultimediaDetService = class MultimediaDetService {
         return newItem;
     }
     asSyncQueue(item) {
-        return this.sync.asSyncQueue('create', Utility_1.Utils.entityToRawTableFields(item), Utility_1.Utils.getPKFromEntity(item), 'MultimediaDet', () => {
-            item['not_sync'] = false; // means it's synced
-        }, item.recordName, (item) => item.mmd_id === item.mmd_id && item.mmd_id_ep === item.mmd_id_ep);
+        return this.sync.asSyncQueue("create", Utility_1.Utils.entityToRawTableFields(item), Utility_1.Utils.getPKFromEntity(item), "MultimediaDet", () => {
+            item["not_sync"] = false; // means it's synced
+        }, item.recordName, item => item.mmd_id === item.mmd_id && item.mmd_id_ep === item.mmd_id_ep);
+    }
+    asUpdateSyncQueue(item) {
+        const updateLocal = () => {
+            const index = this.data.findIndex(e => e.mmd_id === item.mmd_id && e.mmd_id_ep === item.mmd_id_ep);
+            if (index !== -1) {
+                this.data[index] = item;
+            }
+        };
+        return this.sync.asSyncQueue("update", Utility_1.Utils.entityToRawTableFields(item), Utility_1.Utils.getPKFromEntity(item), "MultimediaDet", () => {
+            item["not_sync"] = false; // means it's synced
+            updateLocal();
+        }, item.recordName, e => e.mmd_id === item.mmd_id && e.mmd_id_ep === item.mmd_id_ep);
     }
 };
 MultimediaDetService = tslib_1.__decorate([

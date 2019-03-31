@@ -3,34 +3,35 @@ import { iNode } from "../iNode";
 import { MultimediaDet } from "../../crosscommon/entities/MultimediaDet";
 
 export class MultimediaDetCustom {
-    list = (node: iNode) => {
-        let api: ApiModule = new ApiModule(new MultimediaDet());
+  list = (node: iNode) => {
+    let api: ApiModule = new ApiModule(new MultimediaDet());
 
-        api.list({ q: node.request.query['q'] }).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+    api.list({ q: node.request.query["q"] }).then(response => {
+      node.response.end(JSON.stringify(response));
+    });
+  };
 
-    createRequestHandler = (node: iNode) => {
-        this.create(node.request.body).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  createRequestHandler = (node: iNode) => {
+    this.create(node.request.body).then(response => {
+      node.response.end(JSON.stringify(response));
+    });
+  };
 
-    create = (body: any): Promise<any> => {
-        const api: ApiModule = new ApiModule(new MultimediaDet());
+  create = (body: any): Promise<any> => {
+    const api: ApiModule = new ApiModule(new MultimediaDet());
 
-        return api.create({ body }, {});
-    };
+    return api.create({ body }, {});
+  };
 
-    update = (node: iNode) => {
-        let api: ApiModule = new ApiModule(new MultimediaDet());
+  updateRequestHandler = (node: iNode) => {
+    this.update(node.request.body, node.request.params).then(response => {
+      node.response.end(JSON.stringify(response));
+    });
+  };
 
-        const hooks: any = {
-        };
+  update = (body: any, pk: any): Promise<any> => {
+    const api: ApiModule = new ApiModule(new MultimediaDet());
 
-        api.update({ body: node.request.body, pk: node.request.params }, hooks).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+    return api.update({ body, pk }, {});
+  };
 }
