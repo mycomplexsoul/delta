@@ -1,38 +1,34 @@
-import { Component, OnInit, Renderer } from '@angular/core';
-
-// types
-//import { Balance } from './balance.type';
+import { Component, OnInit } from '@angular/core';
 
 // services
-import { StorageService }  from '../common/storage.service';
-//import { BalanceService } from './balance.service';
+import { LoginService } from './login.service';
 
 @Component({
     selector: 'menu',
     templateUrl: './menu.template.html',
     styleUrls: ['./menu.css'],
     providers: [
-        //BalanceService
+        LoginService
     ]
 })
 export class MenuComponent implements OnInit {
-    private user: string = 'anon';
     public viewData: {
-        user: string
+        username: string
     } = {
-        user: 'anon'
+        username: 'anon-default'
     };
-    public services = {
-        
+    public services: {
+        loginService: LoginService
+    } = {
+        loginService: null
     };
 
-    constructor(
-        
-    ){
-        
+    constructor(loginService: LoginService) {
+        this.services.loginService = loginService;
     }
 
     ngOnInit(){
-        
+        const isLoggedin = this.services.loginService.isLoggedIn();
+        this.viewData.username = isLoggedin ? this.services.loginService.getUsername() : 'no-user';
     }
 }

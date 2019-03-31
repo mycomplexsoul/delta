@@ -1,88 +1,93 @@
 {
-  "name": "delta",
-  "version": "1.8.15",
-  "scripts": {
-    "ng": "ng",
-    "start:ng": "ng serve",
-    "build": "ng build && node ./node_modules/typescript/lib/tsc ./server.ts --lib es6",
-    "start": "node server.js",
-    "test": "ng test",
-    "coverage:node": "node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --exit",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "test:node": "node ./node_modules/mocha/bin/mocha ./src/**/*.test.ts",
-    "bstart": "npm run build && npm start"
-  },
-  "private": true,
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "nyc": {
-    "all": true,
-    "include": [
-      "src/server/*.ts",
-      "src/server/**/*.ts"
-    ],
-    "exclude": [
-      "src/server/**/*.test.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "cobertura",
-      "lcov",
-      "html"
-    ],
-    "sourceMap": true,
-    "instrument": true
-  },
-  "author": "mycomplexsoul",
-  "dependencies": {
-    "@angular/animations": "~7.2.0",
-    "@angular/common": "~7.2.0",
-    "@angular/compiler": "~7.2.0",
-    "@angular/core": "~7.2.0",
-    "@angular/forms": "~7.2.0",
-    "@angular/platform-browser": "~7.2.0",
-    "@angular/platform-browser-dynamic": "~7.2.0",
-    "@angular/router": "~7.2.0",
-    "@types/node": "~8.9.4",
-    "core-js": "^2.5.4",
-    "express": "^4.16.4",
-    "mysql": "^2.16.0",
-    "nodemailer": "^5.1.1",
-    "rxjs": "~6.3.3",
-    "tslib": "^1.9.0",
-    "typescript": "~3.2.2",
-    "zone.js": "~0.8.26"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "~0.13.0",
-    "@angular/cli": "~7.3.0",
-    "@angular/compiler-cli": "^7.2.8",
-    "@angular/language-service": "~7.2.0",
-    "@types/jasmine": "~2.8.8",
-    "@types/jasminewd2": "~2.0.3",
-    "chai": "^4.2.0",
-    "codelyzer": "~4.5.0",
-    "istanbul": "^0.4.5",
-    "jasmine-core": "~2.99.1",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~3.1.1",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "~2.0.1",
-    "karma-jasmine": "~1.1.2",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "mocha": "^6.0.2",
-    "nyc": "^13.3.0",
-    "protractor": "~5.4.0",
-    "source-map-support": "^0.5.11",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.11.0"
-  }
+    "name": "delta",
+    "version": "1.8.18",
+    "scripts": {
+        "ng": "ng",
+        "start:ng": "ng serve",
+        "build": "ng build && node ./node_modules/typescript/lib/tsc ./server.ts --lib es6",
+        "start": "node server.js",
+        "test": "ng test",
+        "coverage:node": "node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --exit",
+        "lint": "ng lint",
+        "prettier": "node ./node_modules/prettier/bin-prettier.js --write ./src/**/*.ts",
+        "e2e": "ng e2e",
+        "test:node": "node ./node_modules/mocha/bin/mocha ./src/**/*.test.ts",
+        "bstart": "npm run build && npm start"
+    },
+    "private": true,
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "nyc": {
+        "all": true,
+        "include": [
+            "src/server/*.ts",
+            "src/server/**/*.ts"
+        ],
+        "exclude": [
+            "src/server/**/*.test.ts"
+        ],
+        "extension": [
+            ".ts"
+        ],
+        "require": [
+            "ts-node/register"
+        ],
+        "reporter": [
+            "text-summary",
+            "cobertura",
+            "lcov",
+            "html"
+        ],
+        "sourceMap": true,
+        "instrument": true
+    },
+    "author": "mycomplexsoul",
+    "dependencies": {
+        "@angular/animations": "~7.2.0",
+        "@angular/common": "~7.2.0",
+        "@angular/compiler": "~7.2.0",
+        "@angular/core": "~7.2.0",
+        "@angular/forms": "~7.2.0",
+        "@angular/platform-browser": "~7.2.0",
+        "@angular/platform-browser-dynamic": "~7.2.0",
+        "@angular/router": "~7.2.0",
+        "@types/node": "~8.9.4",
+        "core-js": "^2.5.4",
+        "express": "^4.16.4",
+        "mysql": "^2.16.0",
+        "nodemailer": "^5.1.1",
+        "rxjs": "~6.3.3",
+        "tslib": "^1.9.0",
+        "typescript": "~3.2.2",
+        "zone.js": "~0.8.26"
+    },
+    "devDependencies": {
+        "@angular-devkit/build-angular": "~0.13.0",
+        "@angular/cli": "~7.3.0",
+        "@angular/compiler-cli": "^7.2.8",
+        "@angular/language-service": "~7.2.0",
+        "@types/jasmine": "~2.8.8",
+        "@types/jasminewd2": "~2.0.3",
+        "chai": "^4.2.0",
+        "codelyzer": "~4.5.0",
+        "istanbul": "^0.4.5",
+        "jasmine-core": "~2.99.1",
+        "jasmine-spec-reporter": "~4.2.1",
+        "karma": "~3.1.1",
+        "karma-chrome-launcher": "~2.2.0",
+        "karma-coverage-istanbul-reporter": "~2.0.1",
+        "karma-jasmine": "~1.1.2",
+        "karma-jasmine-html-reporter": "^0.2.2",
+        "mocha": "^6.0.2",
+        "nyc": "^13.3.0",
+        "prettier": "^1.16.4",
+        "protractor": "~5.4.0",
+        "source-map-support": "^0.5.11",
+        "ts-node": "~7.0.0",
+        "tslint": "~5.11.0"
+    },
+    "prettier": {
+        "tabWidth": 2
+    }
 }

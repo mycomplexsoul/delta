@@ -13,6 +13,9 @@ import * as MultimediaRoute from './Multimedia/MultimediaRoute';
 import * as MultimediaDetRoute from './MultimediaDet/MultimediaDetRoute';
 import * as SyncRoute from './Sync/SyncRoute';
 
+// Other pages
+import * as LoginRoute from './Login/LoginRoute';
+
 // Internal
 import * as TypeGenerator from './TypeGenerator/TypeGeneratorRoute';
 
@@ -32,6 +35,9 @@ router.use('/multimedia', MultimediaRoute.router);
 router.use('/multimediadet', MultimediaDetRoute.router);
 
 router.use('/sync', SyncRoute.router);
+
+// Routing for other pages
+router.use('/login', LoginRoute.router);
 
 // Routing for internals
 router.use('/type-generator', TypeGenerator.router);

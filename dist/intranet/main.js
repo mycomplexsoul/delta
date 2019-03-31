@@ -397,17 +397,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
-const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 // types
 // services
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const login_service_1 = __webpack_require__(/*! ./login.service */ "./src/app/common/login.service.ts");
 let LoginComponent = class LoginComponent {
     constructor(loginService, titleService, syncService) {
         this.titleService = titleService;
-        this.user = 'anon';
+        this.user = "anon";
         this.viewData = {
             error: true,
-            errorMessage: ''
+            errorMessage: ""
         };
         this.services = {
             login: null
@@ -417,44 +417,51 @@ let LoginComponent = class LoginComponent {
             year: 2017,
             month: 12
         };
+        this.loginSuccess = new core_1.EventEmitter();
         this.services.login = loginService;
-        titleService.setTitle('Login');
+        titleService.setTitle("Login");
         this.sync = syncService;
     }
-    ngOnInit() {
-    }
+    ngOnInit() { }
     submit(loginForm) {
         const { fUsername, fPassword } = loginForm.value;
         if (!fUsername || !fPassword) {
             this.viewData.error = true;
-            this.viewData.errorMessage = 'Username and Password are required';
+            this.viewData.errorMessage = "Username and Password are required";
             return false;
         }
         // Send to server
-        this.sync.post('/api/login', {
+        this.sync
+            .post("/api/login", {
             fUsername,
             fPassword
-        }).then((response) => {
+        })
+            .then(response => {
             if (response.operationResult) {
                 this.services.login.setIdentity(response.identity);
+                this.loginSuccess.emit(response.identity);
+                // window.location.href = '/tasks'; // navigate to initial app
             }
             else {
                 this.viewData.error = true;
                 this.viewData.errorMessage = response.message;
             }
-        }).catch((err) => {
+        })
+            .catch(err => {
             this.viewData.error = true;
             this.viewData.errorMessage = err.message;
         });
     }
 };
+tslib_1.__decorate([
+    core_1.Output(),
+    tslib_1.__metadata("design:type", core_1.EventEmitter)
+], LoginComponent.prototype, "loginSuccess", void 0);
 LoginComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'login',
+        selector: "login",
         template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html"),
-        providers: [
-            login_service_1.LoginService
-        ]
+        providers: [login_service_1.LoginService]
     }),
     tslib_1.__metadata("design:paramtypes", [login_service_1.LoginService,
         platform_browser_1.Title,
@@ -537,16 +544,21 @@ module.exports = "<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-//import { BalanceService } from './balance.service';
+// services
+const login_service_1 = __webpack_require__(/*! ./login.service */ "./src/app/common/login.service.ts");
 let MenuComponent = class MenuComponent {
-    constructor() {
-        this.user = 'anon';
+    constructor(loginService) {
         this.viewData = {
-            user: 'anon'
+            username: 'anon-default'
         };
-        this.services = {};
+        this.services = {
+            loginService: null
+        };
+        this.services.loginService = loginService;
     }
     ngOnInit() {
+        const isLoggedin = this.services.loginService.isLoggedIn();
+        this.viewData.username = isLoggedin ? this.services.loginService.getUsername() : 'no-user';
     }
 };
 MenuComponent = tslib_1.__decorate([
@@ -554,11 +566,11 @@ MenuComponent = tslib_1.__decorate([
         selector: 'menu',
         template: __webpack_require__(/*! ./menu.template.html */ "./src/app/common/menu.template.html"),
         providers: [
-        //BalanceService
+            login_service_1.LoginService
         ],
         styles: [__webpack_require__(/*! ./menu.css */ "./src/app/common/menu.css")]
     }),
-    tslib_1.__metadata("design:paramtypes", [])
+    tslib_1.__metadata("design:paramtypes", [login_service_1.LoginService])
 ], MenuComponent);
 exports.MenuComponent = MenuComponent;
 
@@ -583,7 +595,7 @@ module.exports = ".menu-container ul {\r\n    list-style: none;\r\n    margin: 0
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\">\r\n    <ul>\r\n        <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> | </li>\r\n        <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> | </li>\r\n        <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> | </li>\r\n        <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> | </li>\r\n        <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> | </li>\r\n        <li><a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> | </li>\r\n        <li><drink-water></drink-water></li>\r\n    </ul>\r\n</div>"
+module.exports = "<div class=\"menu-container\">\r\n    <ul>\r\n        <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> | </li>\r\n        <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> | </li>\r\n        <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> | </li>\r\n        <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> | </li>\r\n        <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> | </li>\r\n        <li><a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> | </li>\r\n        <li><drink-water></drink-water></li>\r\n    </ul>\r\n    <span>\r\n        {{viewData.username}}\r\n    </span>\r\n</div>"
 
 /***/ }),
 
