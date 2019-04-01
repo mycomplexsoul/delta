@@ -72,8 +72,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppLastTime][new] Show item history
-
 - [AppMoney][new] Add account listing/new/update endpoints
 - [AppTasks][new] Alt + Shift + 1 should close task using time tracking end date as the done date
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
@@ -82,6 +80,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
+
+## v1.8.21 (2019-02-26)
+
+- [AppLastTime][new] Show LastTime item history
+
+## v1.8.20 (2019-02-25)
+
+- [AppLastTime][new] Add Last time history listing endpoint `/api/lasttimehistory`
 
 ## v1.8.19 (2019-02-22)
 
