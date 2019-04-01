@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
+    - [AppMoney][new] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
   - Movement
     - [AppMoney][new] Movements with pending status
     - [AppMoney][new] Scheduled movements
@@ -80,6 +81,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
+
+## v1.8.22 (2019-02-27)
+
+- [AppMoney][new] Add click event handler `onItemClick` property to `movementsListing` component
 
 ## v1.8.21 (2019-02-26)
 
