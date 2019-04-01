@@ -1078,36 +1078,44 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+// services
 const lasttime_service_1 = __webpack_require__(/*! ./lasttime.service */ "./src/app/lasttime/lasttime.service.ts");
 const DateUtility_1 = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+const lasttimehistory_service_1 = __webpack_require__(/*! ./lasttimehistory.service */ "./src/app/lasttime/lasttimehistory.service.ts");
 let LastTimeComponent = class LastTimeComponent {
-    constructor(lastTimeService, titleService) {
+    constructor(lastTimeService, lastTimeHistoryService, titleService) {
         this.titleService = titleService;
-        this.user = 'anon';
+        this.user = "anon";
         this.viewData = {
             lastTime: [],
-            showCreateForm: false
+            showCreateForm: false,
+            historyList: [],
+            historyMetadata: null
         };
         this.services = {
-            lastTime: null
+            lastTime: null,
+            lastTimeHistory: null
         };
         this.model = {
             id: null
         };
         this.listBackup = [];
         this.services.lastTime = lastTimeService;
-        titleService.setTitle('Last Time');
+        this.services.lastTimeHistory = lastTimeHistoryService;
+        titleService.setTitle("Last Time");
     }
     ngOnInit() {
-        this.services.lastTime.getAllForUser(this.user).then((list) => {
+        this.services.lastTime
+            .getAllForUser(this.user)
+            .then((list) => {
             this.viewData.lastTime = list;
             // calculate validity on each
             this.calculateValidityForAll();
             // sort
             /*const sort = ((a: LastTime, b: LastTime) => {
-                return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
-            });
-            this.viewData.lastTime = list.sort(sort);*/
+                    return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
+                });
+                this.viewData.lastTime = list.sort(sort);*/
             this.listBackup = [...this.viewData.lastTime]; // backup
         });
     }
@@ -1116,45 +1124,49 @@ let LastTimeComponent = class LastTimeComponent {
     }
     calculateValidity(item) {
         const valueIsDate = DateUtility_1.DateUtils.isDate(item.lst_value);
-        const baseValue = valueIsDate ? new Date(item.lst_value) : item.lst_date_mod;
-        item['expiryDate'] = DateUtility_1.DateUtils.addDays(baseValue, item.lst_validity);
-        item['ageSentence'] = this.ageSentence(item['expiryDate']);
-        item['ageClass'] = this.ageClass(item['expiryDate']);
+        const baseValue = valueIsDate
+            ? new Date(item.lst_value)
+            : item.lst_date_mod;
+        item["expiryDate"] = DateUtility_1.DateUtils.addDays(baseValue, item.lst_validity);
+        item["ageSentence"] = this.ageSentence(item["expiryDate"]);
+        item["ageClass"] = this.ageClass(item["expiryDate"]);
     }
     calculateValidityForAll() {
         let list = this.services.lastTime.list();
         list.forEach(item => {
             this.calculateValidity(item);
         });
-        const sort = ((a, b) => {
-            return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
-        });
+        const sort = (a, b) => {
+            return a["expiryDate"].getTime() >= b["expiryDate"].getTime() ? 1 : -1;
+        };
         this.viewData.lastTime = list.sort(sort);
-        console.log('listing', this.viewData.lastTime);
+        console.log("listing", this.viewData.lastTime);
     }
     newItem(form) {
         let values = form.value;
-        this.services.lastTime.newItem(values.fName, values.fValue, values.fValidity, values.fTags, values.fNotes, this.user).then(item => {
+        this.services.lastTime
+            .newItem(values.fName, values.fValue, values.fValidity, values.fTags, values.fNotes, this.user)
+            .then(item => {
             this.viewData.lastTime = this.services.lastTime.list();
             const listItem = this.viewData.lastTime.find(elem => elem.lst_id === item.lst_id);
-            listItem['isNew'] = true;
+            listItem["isNew"] = true;
             this.calculateValidityForAll();
         });
     }
     ageSentence(baseDate) {
         let diff = DateUtility_1.DateUtils.age(baseDate);
-        let str = '';
+        let str = "";
         if (diff > 1) {
             str = `(${diff} days left)`;
         }
         if (diff === 1) {
-            str = '(tomorrow)';
+            str = "(tomorrow)";
         }
         if (diff === 0) {
-            str = '(today)';
+            str = "(today)";
         }
         if (diff === -1) {
-            str = '(yesterday)';
+            str = "(yesterday)";
         }
         if (diff < -1) {
             str = `(${Math.abs(diff)} days ago)`;
@@ -1163,36 +1175,36 @@ let LastTimeComponent = class LastTimeComponent {
     }
     ageClass(baseDate) {
         let diff = DateUtility_1.DateUtils.age(baseDate);
-        let str = '';
+        let str = "";
         if (diff >= 10) {
-            str = 'lasttime-age-10-left';
+            str = "lasttime-age-10-left";
         }
         if (diff > 1 && diff < 10) {
-            str = 'lasttime-age-2-left';
+            str = "lasttime-age-2-left";
         }
         if (diff === 1) {
-            str = 'lasttime-age-1-left';
+            str = "lasttime-age-1-left";
         }
         if (diff === 0) {
-            str = 'lasttime-age-0';
+            str = "lasttime-age-0";
         }
         if (diff === -1) {
-            str = 'lasttime-age-1-ago';
+            str = "lasttime-age-1-ago";
         }
         if (diff < -1 && diff > -10) {
-            str = 'lasttime-age-2-ago';
+            str = "lasttime-age-2-ago";
         }
         if (diff < -10) {
-            str = 'lasttime-age-10-ago';
+            str = "lasttime-age-10-ago";
         }
         return str;
     }
     editValue(item, event) {
-        const newValue = event.target['textContent'];
+        const newValue = event.target["textContent"];
         if (item.lst_value !== newValue) {
             item.lst_value = newValue;
             item.lst_date_mod = DateUtility_1.DateUtils.newDateUpToSeconds();
-            item['isEdited'] = true;
+            item["isEdited"] = true;
             this.services.lastTime.updateItem(item).then(response => {
                 this.calculateValidityForAll();
                 this.updateBackupItem(item);
@@ -1202,7 +1214,7 @@ let LastTimeComponent = class LastTimeComponent {
     archiveRecord(item) {
         item.lst_ctg_status = 3; // archived
         item.lst_date_mod = DateUtility_1.DateUtils.newDateUpToSeconds();
-        item['isEdited'] = true;
+        item["isEdited"] = true;
         this.services.lastTime.updateItem(item).then(response => {
             this.calculateValidityForAll();
             this.updateBackupItem(item);
@@ -1212,9 +1224,10 @@ let LastTimeComponent = class LastTimeComponent {
         this.listBackup[this.listBackup.findIndex(i => i.lst_id === item.lst_id)] = item; // to keep backup list updated
     }
     filter(event) {
-        const query = event.target['value'];
+        const query = event.target["value"];
         const criteria = (item) => {
-            return item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 || item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+            return (item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1);
         };
         if (query) {
             this.viewData.lastTime = this.listBackup.filter(i => criteria(i));
@@ -1229,24 +1242,38 @@ let LastTimeComponent = class LastTimeComponent {
         if (currentValue !== newValue && newValue !== null) {
             item.lst_notes = newValue;
             item.lst_date_mod = DateUtility_1.DateUtils.newDateUpToSeconds();
-            item['isEdited'] = true;
+            item["isEdited"] = true;
             this.services.lastTime.updateItem(item).then(response => {
                 this.calculateValidityForAll();
                 this.updateBackupItem(item);
             });
         }
     }
+    viewHistory(item) {
+        this.viewData.historyMetadata = item;
+        this.services.lastTimeHistory
+            .getAllForUser("anon", item.lst_id)
+            .then(data => {
+            this.viewData.historyList = data.sort((a, b) => new Date(a.lth_date_mod).getTime() <
+                new Date(b.lth_date_mod).getTime()
+                ? 1
+                : -1);
+        });
+    }
+    hideHistory() {
+        this.viewData.historyMetadata = null;
+        this.viewData.historyList = [];
+    }
 };
 LastTimeComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'lasttime',
+        selector: "lasttime",
         template: __webpack_require__(/*! ./lasttime.template.html */ "./src/app/lasttime/lasttime.template.html"),
-        providers: [
-            lasttime_service_1.LastTimeService
-        ],
+        providers: [lasttime_service_1.LastTimeService, lasttimehistory_service_1.LastTimeHistoryService],
         styles: [__webpack_require__(/*! ./lasttime.css */ "./src/app/lasttime/lasttime.css")]
     }),
     tslib_1.__metadata("design:paramtypes", [lasttime_service_1.LastTimeService,
+        lasttimehistory_service_1.LastTimeHistoryService,
         platform_browser_1.Title])
 ], LastTimeComponent);
 exports.LastTimeComponent = LastTimeComponent;
@@ -1402,7 +1429,82 @@ exports.LastTimeService = LastTimeService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n    <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n        {{(viewData.showCreateForm ? 'Hide Form' : 'New Item')}}\r\n    </button>\r\n\r\n    <div *ngIf=\"viewData.showCreateForm\">\r\n        <div>\r\n            <span class=\"field\" *ngIf=\"model.id\">\r\n                <label for=\"id\" class=\"label-left\">Id</label>\r\n                <span type=\"text\" name=\"id\" id=\"id\" class=\"lasttime-input-id\">{{model.id}}</span>\r\n            </span>\r\n            <span class=\"field\">\r\n                <label for=\"fName\" class=\"label-left\">Name</label>\r\n                <input type=\"text\" name=\"fName\" id=\"fName\" class=\"field-input lasttime-input-name\" ngModel>\r\n            </span>\r\n            <span class=\"field\">\r\n                <label for=\"fValue\" class=\"label-left\">Value</label>\r\n                <input type=\"text\" name=\"fValue\" id=\"fValue\" class=\"field-input lasttime-input-value\" ngModel>\r\n            </span>\r\n            <span class=\"field\">\r\n                <label for=\"fValidity\" class=\"label-left\">Validity</label>\r\n                <input type=\"number\" name=\"fValidity\" id=\"fValidity\" class=\"field-input lasttime-input-validity\" step=\"1\" ngModel>\r\n            </span>\r\n            <span class=\"field\">\r\n                <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n                <input type=\"text\" name=\"fTags\" id=\"fTags\" class=\"field-input lasttime-input-tags\" ngModel>\r\n            </span>\r\n            <span class=\"field\">\r\n                <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n                <input type=\"text\" name=\"fNotes\" id=\"fNotes\" class=\"field-input lasttime-input-notes\" ngModel>\r\n            </span>\r\n            \r\n            <button type=\"submit\">Save</button>\r\n        </div>\r\n    </div>\r\n</form>\r\n\r\n<div>\r\n    {{viewData.lastTime.length}} items.\r\n    <br/>\r\n    <label>Search</label>\r\n    <input (keyup)=\"filter($event)\" placeholder=\"Filter\" />\r\n</div>\r\n\r\n<div class=\"lasttime-list\">\r\n    <div *ngFor=\"let item of viewData.lastTime\" class=\"lasttime-item-container\">\r\n        <span class=\"lasttime-name\">{{item.lst_name}}:</span>\r\n        <span contenteditable=\"true\" (blur)=\"editValue(item,$event)\" class=\"lasttime-value\">{{item.lst_value}}</span>\r\n        <br/>\r\n        <span [ngClass]=\"item.ageClass\" class=\"lasttime-age\" [title]=\"item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'\">\r\n            {{item.ageSentence}}\r\n        </span>\r\n        <span (click)=\"item.showOptions = !item.showOptions\">\r\n            {{item.showOptions ? '-' : '+'}}\r\n        </span>\r\n        <br/>\r\n        <span class=\"lasttime-tags\">\r\n            #[{{item.lst_tags}}]\r\n        </span>\r\n        <span class=\"lasttime-notes\">\r\n            {{item.lst_notes}}\r\n        </span>\r\n        <span class=\"lasttime-badge-archived\" *ngIf=\"item.lst_ctg_status === 3\">archived</span>\r\n        <span class=\"lasttime-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n        <span class=\"lasttime-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n        <br/>\r\n        <span *ngIf=\"item.showOptions\">\r\n            <button (click)=\"archiveRecord(item)\">archive</button>\r\n            <button (click)=\"editNotes(item)\">edit notes</button>\r\n        </span>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"lasttime-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input lasttime-input-name\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValue\" class=\"label-left\">Value</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fValue\"\r\n          id=\"fValue\"\r\n          class=\"field-input lasttime-input-value\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValidity\" class=\"label-left\">Validity</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fValidity\"\r\n          id=\"fValidity\"\r\n          class=\"field-input lasttime-input-validity\"\r\n          step=\"1\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTags\"\r\n          id=\"fTags\"\r\n          class=\"field-input lasttime-input-tags\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fNotes\"\r\n          id=\"fNotes\"\r\n          class=\"field-input lasttime-input-notes\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<div *ngIf=\"viewData.historyList.length\">\r\n  Showing history for: {{ viewData.historyMetadata.lst_name }}\r\n  <br />\r\n  <button (click)=\"hideHistory()\">\r\n    Hide History\r\n  </button>\r\n  <table>\r\n    <tr>\r\n      <td>#</td>\r\n      <td>Value</td>\r\n      <td>Notes</td>\r\n      <td>Date Mod</td>\r\n    </tr>\r\n    <tr *ngFor=\"let item of viewData.historyList\">\r\n      <td>{{ item.lth_num_sequential }}</td>\r\n      <td>{{ item.lth_value }}</td>\r\n      <td>{{ item.lth_notes }}</td>\r\n      <td>{{ item.lth_date_mod | date: \"yyyy-MM-dd HH:mm\" }}</td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n\r\n<div>\r\n  {{ viewData.lastTime.length }} items.\r\n  <br />\r\n  <label>Search</label>\r\n  <input (keyup)=\"filter($event)\" placeholder=\"Filter\" />\r\n</div>\r\n\r\n<div class=\"lasttime-list\">\r\n  <div *ngFor=\"let item of viewData.lastTime\" class=\"lasttime-item-container\">\r\n    <span class=\"lasttime-name\">{{ item.lst_name }}:</span>\r\n    <span\r\n      contenteditable=\"true\"\r\n      (blur)=\"editValue(item, $event)\"\r\n      class=\"lasttime-value\"\r\n      >{{ item.lst_value }}</span\r\n    >\r\n    <br />\r\n    <span\r\n      [ngClass]=\"item.ageClass\"\r\n      class=\"lasttime-age\"\r\n      [title]=\"item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'\"\r\n    >\r\n      {{ item.ageSentence }}\r\n    </span>\r\n    <span (click)=\"item.showOptions = !item.showOptions\">\r\n      {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>\r\n    <br />\r\n    <span class=\"lasttime-tags\"> #[{{ item.lst_tags }}] </span>\r\n    <span class=\"lasttime-notes\">\r\n      {{ item.lst_notes }}\r\n    </span>\r\n    <span class=\"lasttime-badge-archived\" *ngIf=\"item.lst_ctg_status === 3\"\r\n      >archived</span\r\n    >\r\n    <span class=\"lasttime-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n    <span class=\"lasttime-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n    <br />\r\n    <span *ngIf=\"item.showOptions\">\r\n      <button (click)=\"archiveRecord(item)\">archive</button>\r\n      <button (click)=\"editNotes(item)\">edit notes</button>\r\n      <button (click)=\"viewHistory(item)\">view history</button>\r\n    </span>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/lasttime/lasttimehistory.service.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/lasttime/lasttimehistory.service.ts ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const LastTimeHistory_1 = __webpack_require__(/*! ../../crosscommon/entities/LastTimeHistory */ "./src/crosscommon/entities/LastTimeHistory.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+let LastTimeHistoryService = class LastTimeHistoryService {
+    constructor(sync) {
+        this.data = [];
+        this.sync = null;
+        this.config = {
+            storageKey: "lasttimehistory",
+            defaultUser: "anon",
+            api: {
+                list: "/api/lasttimehistory"
+            }
+        };
+        this.sync = sync;
+    }
+    list() {
+        return this.data;
+    }
+    getAll(id = null) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const filter = {
+                gc: "AND",
+                cont: [
+                    {
+                        f: "lth_id",
+                        op: "eq",
+                        val: id
+                    }
+                ]
+            };
+            const query = `?q=${JSON.stringify(filter)}`;
+            const sort = (a, b) => {
+                return a.lth_date_mod.getTime() > b.lth_date_mod.getTime() ? 1 : -1;
+            };
+            return this.sync
+                .get(`${this.config.api.list}${query}`)
+                .then(data => {
+                this.data = data.map((d) => new LastTimeHistory_1.LastTimeHistory(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            })
+                .catch(err => {
+                return [];
+            });
+        });
+    }
+    getAllForUser(user, id = null) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            return this.getAll(id).then((all) => {
+                return all.filter((x) => x.lth_id_user === user);
+            });
+        });
+    }
+};
+LastTimeHistoryService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI])
+], LastTimeHistoryService);
+exports.LastTimeHistoryService = LastTimeHistoryService;
+
 
 /***/ }),
 
@@ -3872,7 +3974,7 @@ let MultimediaComponent = class MultimediaComponent {
         if (existingDetItem) {
             // Update
             // Create Det Item / push to update as sync queue
-            const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || "anon");
+            const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || "anon", DateUtility_1.DateUtils.newDateUpToSeconds());
             // Update viewData
             this.viewData.multimediaDetList[this.viewData.multimediaDetList.findIndex(e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId)] = item;
             // Add it to sync queue for update
@@ -3880,7 +3982,7 @@ let MultimediaComponent = class MultimediaComponent {
         }
         else {
             // Create Det item
-            const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || "anon");
+            const item = this.services.multimediaDetService.newItem(this.epModel.id, this.epModel.epId, values.fEpTitle, values.fAltEpTitle, values.fYear, values.fUrl, this.services.loginService.getUsername() || "anon", DateUtility_1.DateUtils.newDateUpToSeconds(), DateUtility_1.DateUtils.newDateUpToSeconds());
             this.viewData.multimediaDetList.push(item);
             queue.push(this.services.multimediaDetService.asSyncQueue(item));
         }
@@ -4151,7 +4253,7 @@ let MultimediaDetService = class MultimediaDetService {
             });
         });
     }
-    newItem(id, epId, title, altTitle, year, url, user) {
+    newItem(id, epId, title, altTitle, year, url, user, dateMod, dateAdd = undefined) {
         let newItem = new MultimediaDet_1.MultimediaDet({
             mmd_id: id,
             mmd_id_ep: epId,
@@ -4160,8 +4262,8 @@ let MultimediaDetService = class MultimediaDetService {
             mmd_year: year,
             mmd_url: url,
             mmd_id_user: user,
-            mmd_date_add: new Date(),
-            mmd_date_mod: new Date(),
+            mmd_date_add: dateAdd,
+            mmd_date_mod: dateMod,
             mmd_ctg_status: 1
         });
         return newItem;
@@ -9665,6 +9767,442 @@ class LastTime {
     }
 }
 exports.LastTime = LastTime;
+
+
+/***/ }),
+
+/***/ "./src/crosscommon/entities/LastTimeHistory.ts":
+/*!*****************************************************!*\
+  !*** ./src/crosscommon/entities/LastTimeHistory.ts ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class LastTimeHistory {
+    constructor(base) {
+        this.metadata = {
+            name: 'LastTimeHistory',
+            namespace: 'LastTimeHistoryApp',
+            removeMeans: 'DELETION',
+            authNeeded: false,
+            displayOnMenu: true,
+            prefix: 'lth',
+            permissionsTemplate: 'permissions_all',
+            tableName: 'lasttimehistory',
+            viewName: 'vilasttimehistory',
+            permissions: [
+                'access',
+                'add',
+                'edit',
+                'remove',
+                'report',
+                'export',
+                'import'
+            ],
+            specialFeatures: [
+                'HEADERS(LastTimeHistory,LastTimeHistory items)',
+                'TABLE_NAME(LASTTIMEHISTORY)',
+                'VIEW_NAME(VILASTTIMEHISTORY)'
+            ],
+            fields: [
+                {
+                    templateId: 'string',
+                    dbName: 'lth_id',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 32,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the last time record',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'LastTimeHistoryId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'DUPLICITY_ADD'
+                    ],
+                    displayName: 'Last Time Id',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 0,
+                    orderOnNew: 0,
+                    orderOnDetails: 0,
+                    orderOnEdit: 0,
+                    orderOnImport: 0,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'integer',
+                    dbName: 'lth_num_sequential',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: true,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Secuential of changes done to this record',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Secuential',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'DUPLICITY_ADD(lth_id)'
+                    ],
+                    displayName: 'Secuential',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 1,
+                    orderOnNew: 1,
+                    orderOnDetails: 1,
+                    orderOnEdit: 1,
+                    orderOnImport: 1,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lth_name',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Name or description for the last time thing',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Name',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Name',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 2,
+                    orderOnNew: 2,
+                    orderOnDetails: 2,
+                    orderOnEdit: 2,
+                    orderOnImport: 2,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lth_value',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 10,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Value of the last time user does this thing',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Value',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Value',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 3,
+                    orderOnNew: 3,
+                    orderOnDetails: 3,
+                    orderOnEdit: 3,
+                    orderOnImport: 3,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'integer',
+                    dbName: 'lth_validity',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Days to consider this value as valid',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Validity',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Validity',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 4,
+                    orderOnNew: 4,
+                    orderOnDetails: 4,
+                    orderOnEdit: 4,
+                    orderOnImport: 4,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lth_tags',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 200,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Tagos for grouping and filtering',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Tags',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Tags',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 5,
+                    orderOnNew: 5,
+                    orderOnDetails: 5,
+                    orderOnEdit: 5,
+                    orderOnImport: 5,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lth_notes',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 1000,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Any description or notes for the last time thing',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Notes',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Notes',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 6,
+                    orderOnNew: 6,
+                    orderOnDetails: 6,
+                    orderOnEdit: 6,
+                    orderOnImport: 6,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lth_id_user',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 50,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'User who this last time record belongs to',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'User',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'User',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 7,
+                    orderOnNew: 7,
+                    orderOnDetails: 7,
+                    orderOnEdit: 7,
+                    orderOnImport: 7,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'creationDate',
+                    dbName: 'lth_date_add',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Creation date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'CreationDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW'
+                    ],
+                    displayName: 'Creation Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 8,
+                    orderOnNew: 8,
+                    orderOnDetails: 8,
+                    orderOnEdit: 8,
+                    orderOnImport: 8,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'modificationDate',
+                    dbName: 'lth_date_mod',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Last modification date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ModDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW',
+                        'SAVE_DATE_AT_EDIT'
+                    ],
+                    displayName: 'Last Modification Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 9,
+                    orderOnNew: 9,
+                    orderOnDetails: 9,
+                    orderOnEdit: 9,
+                    orderOnImport: 9,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'status',
+                    dbName: 'lth_ctg_status',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: '',
+                    entName: 'Status',
+                    formControl: 'Combobox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 10,
+                    orderOnNew: 10,
+                    orderOnDetails: 10,
+                    orderOnEdit: 10,
+                    orderOnImport: 10,
+                    globalOrder: undefined,
+                    value: null
+                }, {
+                    templateId: 'catalog',
+                    dbName: 'lth_txt_status',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: 'lth_ctg_status',
+                    entName: 'TextStatus',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 11,
+                    orderOnNew: 11,
+                    orderOnDetails: 11,
+                    orderOnEdit: 11,
+                    orderOnImport: 11,
+                    globalOrder: 0,
+                    value: null
+                }
+            ],
+            view: []
+        };
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
+            }).join(', ');
+        };
+        if (base !== undefined) {
+            this.lth_id = base.lth_id;
+            this.lth_num_sequential = base.lth_num_sequential;
+            this.lth_name = base.lth_name;
+            this.lth_value = base.lth_value;
+            this.lth_validity = base.lth_validity;
+            this.lth_tags = base.lth_tags;
+            this.lth_notes = base.lth_notes;
+            this.lth_id_user = base.lth_id_user;
+            this.lth_date_add = (base.lth_date_add !== null) ? new Date(base.lth_date_add) : null;
+            this.lth_date_mod = (base.lth_date_mod !== null) ? new Date(base.lth_date_mod) : null;
+            this.lth_ctg_status = base.lth_ctg_status;
+            this.lth_txt_status = base.lth_txt_status;
+        }
+    }
+}
+exports.LastTimeHistory = LastTimeHistory;
 
 
 /***/ }),
