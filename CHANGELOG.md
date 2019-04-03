@@ -47,6 +47,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][new] Unset schedule
   - [AppTasks][new] Unset link
   - [AppTasks][mod] Refactor updateState method to change only the needed elements via sub/pub events
+  - [AppTasks][mod] Allow to specify a schedule starting date without duration or finish date, it will use current duration in order to set the finish date and save it
+  - [AppTasks][new] Option or button to show/hide remaining done tasks in Finished Today section, by default only the latest 3 tasks are shown
 - Login
   - [AppCommon][new][Login] Login logged user identity service
   - [AppCommon][new][Login] Redirect to login logic in all pages
@@ -73,7 +75,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppMoney][new] Add account listing/new/update endpoints
 - [AppTasks][new] Alt + Shift + 1 should close task using time tracking end date as the done date
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
 - [AppCommon][new] Display app version in main page footer
@@ -81,6 +82,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
+
+## v1.8.24 (2019-03-01)
+
+- [AppMoney][new] Add account listing/new/update endpoints under `/api/accounts`
+
+## v1.8.23 (2019-02-28)
+
+- [AppCommon][new] Create an `ApiServer` component to have common Server methods for create/update generic scenarios
 
 ## v1.8.22 (2019-02-27)
 
