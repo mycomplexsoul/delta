@@ -75,13 +75,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppTasks][new] Alt + Shift + 1 should close task using time tracking end date as the done date
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
 - [AppCommon][new] Display app version in main page footer
 - [AppMultimedia][new] When showing Media history, show a button 'Show all' to remove the Media filter
 - [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
+
+## v1.8.25 (2019-03-04)
+
+- [AppTasks][new] Alt + Shift + 1 or Alt + Shift + \ should close task using time tracking end date as the done date
 
 ## v1.8.24 (2019-03-01)
 
