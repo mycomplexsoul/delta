@@ -77,10 +77,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
-- [AppMultimedia][new] When showing Media history, show a button 'Show all' to remove the Media filter
 - [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
+
+## v1.8.28 (2019-03-07)
+
+- [AppMultimedia][new] When showing Media history, show a button 'Remove filter' to remove the Media filter
 
 ## v1.8.27 (2019-03-06)
 

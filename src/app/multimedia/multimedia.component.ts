@@ -35,6 +35,7 @@ export class MultimediaComponent implements OnInit {
     platformList: Catalog[];
     showCreateForm: boolean;
     showCreateEpForm: boolean;
+    showDetList: boolean;
   } = {
     multimediaList: [],
     multimediaDetList: [],
@@ -42,7 +43,8 @@ export class MultimediaComponent implements OnInit {
     mediaTypeList: [],
     platformList: [],
     showCreateForm: false,
-    showCreateEpForm: false
+    showCreateEpForm: false,
+    showDetList: false
   };
   public services: {
     multimediaService: MultimediaService;
@@ -322,7 +324,10 @@ export class MultimediaComponent implements OnInit {
 
   showDetListing(id: string) {
     this.services.multimediaDetService.getAllForUser("anon").then(data => {
-      this.viewData.multimediaDetList = data.filter(item => item.mmd_id === id);
+      this.viewData.showDetList = !!id;
+      this.viewData.multimediaDetList = id
+        ? data.filter(item => item.mmd_id === id)
+        : data;
     });
   }
 }
