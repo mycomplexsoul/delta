@@ -26,6 +26,17 @@ app.get("/status", (req, res) => {
   );
 });
 
+app.get("/metadata", (req, res) => {
+  const appVersion: string = process.env.npm_package_version;
+
+  res.end(
+    JSON.stringify({
+      appVersion,
+      serverDate: new Date()
+    })
+  );
+});
+
 app.use("/api", Routes.router);
 
 app.use(function(req, res) {

@@ -69,6 +69,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][mod][Install] Create InnoDB tables
 - Multimedia
   - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
+  - [AppMultimedia][new] Create migration script
   - [AppMultimedia][new] Migrate legacy information
 - LastTime
   - [AppLastTime][new] Show an option to search on archived items
@@ -76,15 +77,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
-- [AppCommon][new] Display app version in main page footer
 - [AppMultimedia][new] When showing Media history, show a button 'Show all' to remove the Media filter
 - [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
 
+## v1.8.27 (2019-03-06)
+
+- [AppCommon][new] Display app version in main page header by consuming `/metadata` endpoint
+
+## v1.8.26 (2019-03-05)
+
+- [AppCommon][new] Create an endpoint `/metadata` to get appVersion
+
 ## v1.8.25 (2019-03-04)
 
-- [AppTasks][new] Alt + Shift + 1 or Alt + Shift + \ should close task using time tracking end date as the done date
+- [AppTasks][new] Alt + Shift + 1 or Alt + Shift + \* should close task using time tracking end date as the done date
 
 ## v1.8.24 (2019-03-01)
 

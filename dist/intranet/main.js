@@ -59,12 +59,12 @@ const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 let AppComponent = class AppComponent {
     constructor() {
-        this.title = 'intranet';
+        this.title = "intranet";
     }
 };
 AppComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'app-root',
+        selector: "app-root",
         template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
         styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
     })
@@ -549,25 +549,33 @@ const login_service_1 = __webpack_require__(/*! ./login.service */ "./src/app/co
 let MenuComponent = class MenuComponent {
     constructor(loginService) {
         this.viewData = {
-            username: 'anon-default'
+            username: "anon-default"
         };
         this.services = {
             loginService: null
         };
+        this.metadata = null;
         this.services.loginService = loginService;
     }
     ngOnInit() {
         const isLoggedin = this.services.loginService.isLoggedIn();
-        this.viewData.username = isLoggedin ? this.services.loginService.getUsername() : 'no-user';
+        this.viewData.username = isLoggedin
+            ? this.services.loginService.getUsername()
+            : "no-user";
+        fetch("/metadata")
+            .then(response => {
+            return response.json();
+        })
+            .then(metadata => {
+            this.metadata = metadata;
+        });
     }
 };
 MenuComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'menu',
+        selector: "menu",
         template: __webpack_require__(/*! ./menu.template.html */ "./src/app/common/menu.template.html"),
-        providers: [
-            login_service_1.LoginService
-        ],
+        providers: [login_service_1.LoginService],
         styles: [__webpack_require__(/*! ./menu.css */ "./src/app/common/menu.css")]
     }),
     tslib_1.__metadata("design:paramtypes", [login_service_1.LoginService])
@@ -584,7 +592,7 @@ exports.MenuComponent = MenuComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".menu-container ul {\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n.menu-container ul li {\r\n    display: inline;\r\n}\r\n\r\n.menu-container ul li a {\r\n    text-decoration: none;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL21lbnUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksZ0JBQWdCO0lBQ2hCLFNBQVM7SUFDVCxVQUFVO0FBQ2Q7O0FBRUE7SUFDSSxlQUFlO0FBQ25COztBQUVBO0lBQ0kscUJBQXFCO0FBQ3pCIiwiZmlsZSI6InNyYy9hcHAvY29tbW9uL21lbnUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm1lbnUtY29udGFpbmVyIHVsIHtcclxuICAgIGxpc3Qtc3R5bGU6IG5vbmU7XHJcbiAgICBtYXJnaW46IDA7XHJcbiAgICBwYWRkaW5nOiAwO1xyXG59XHJcblxyXG4ubWVudS1jb250YWluZXIgdWwgbGkge1xyXG4gICAgZGlzcGxheTogaW5saW5lO1xyXG59XHJcblxyXG4ubWVudS1jb250YWluZXIgdWwgbGkgYSB7XHJcbiAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7XHJcbn0iXX0= */"
+module.exports = ".menu-container ul {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.menu-container ul li {\r\n  display: inline;\r\n}\r\n\r\n.menu-container ul li a {\r\n  text-decoration: none;\r\n}\r\n\r\n.menu-container {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.menu-user-section {\r\n  flex-shrink: 0;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL21lbnUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFNBQVM7RUFDVCxVQUFVO0FBQ1o7O0FBRUE7RUFDRSxlQUFlO0FBQ2pCOztBQUVBO0VBQ0UscUJBQXFCO0FBQ3ZCOztBQUVBO0VBQ0UsYUFBYTtFQUNiLDhCQUE4QjtBQUNoQzs7QUFFQTtFQUNFLGNBQWM7QUFDaEIiLCJmaWxlIjoic3JjL2FwcC9jb21tb24vbWVudS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubWVudS1jb250YWluZXIgdWwge1xyXG4gIGxpc3Qtc3R5bGU6IG5vbmU7XHJcbiAgbWFyZ2luOiAwO1xyXG4gIHBhZGRpbmc6IDA7XHJcbn1cclxuXHJcbi5tZW51LWNvbnRhaW5lciB1bCBsaSB7XHJcbiAgZGlzcGxheTogaW5saW5lO1xyXG59XHJcblxyXG4ubWVudS1jb250YWluZXIgdWwgbGkgYSB7XHJcbiAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xyXG59XHJcblxyXG4ubWVudS1jb250YWluZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xyXG59XHJcblxyXG4ubWVudS11c2VyLXNlY3Rpb24ge1xyXG4gIGZsZXgtc2hyaW5rOiAwO1xyXG59XHJcbiJdfQ== */"
 
 /***/ }),
 
@@ -595,7 +603,7 @@ module.exports = ".menu-container ul {\r\n    list-style: none;\r\n    margin: 0
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\">\r\n    <ul>\r\n        <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> | </li>\r\n        <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> | </li>\r\n        <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> | </li>\r\n        <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> | </li>\r\n        <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> | </li>\r\n        <li><a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> | </li>\r\n        <li><drink-water></drink-water></li>\r\n    </ul>\r\n    <span>\r\n        {{viewData.username}}\r\n    </span>\r\n</div>"
+module.exports = "<div class=\"menu-container\">\r\n  <ul>\r\n    <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> |&nbsp;</li>\r\n    <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> |&nbsp;</li>\r\n    <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> |&nbsp;</li>\r\n    <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> |&nbsp;</li>\r\n    <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> |&nbsp;</li>\r\n    <li>\r\n      <a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> |&nbsp;\r\n    </li>\r\n    <li><drink-water></drink-water></li>\r\n  </ul>\r\n  <span class=\"menu-user-section\">\r\n    {{ viewData.username }}\r\n    | v{{ metadata.appVersion }}\r\n  </span>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -5019,7 +5027,6 @@ let TasksComponent = class TasksComponent {
         }
         if (event.altKey && (event.keyCode == 106 || event.keyCode == 49)) {
             // detect '*' || '1'
-            //document.querySelector(`input[type=checkbox]#${t.tsk_id}`)["click"]();
             this.markTaskAsDone(t, true, event["shiftKey"]);
         }
         if (event.altKey && (event.keyCode == 73 || event.keyCode == 50)) {
