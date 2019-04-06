@@ -77,9 +77,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
-- [AppLastTime][new] When value is focused, select all value text
 
 <hr/>
+
+## v1.8.29 (2019-03-08)
+
+- [AppLastTime][new] When value is focused, select all text by default
 
 ## v1.8.28 (2019-03-07)
 

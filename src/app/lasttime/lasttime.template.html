@@ -103,6 +103,7 @@
     <span
       contenteditable="true"
       (blur)="editValue(item, $event)"
+      (focus)="selectValue($event)"
       class="lasttime-value"
       >{{ item.lst_value }}</span
     >

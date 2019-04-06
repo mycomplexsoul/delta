@@ -252,4 +252,8 @@ export class LastTimeComponent implements OnInit {
     this.viewData.historyMetadata = null;
     this.viewData.historyList = [];
   }
+
+  selectValue(event: Node) {
+    window.getSelection().selectAllChildren(event["target"]);
+  }
 }
