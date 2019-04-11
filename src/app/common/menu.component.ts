@@ -20,7 +20,9 @@ export class MenuComponent implements OnInit {
   } = {
     loginService: null
   };
-  private metadata = null;
+  private metadata = {
+    appVersion: ""
+  };
 
   constructor(loginService: LoginService) {
     this.services.loginService = loginService;

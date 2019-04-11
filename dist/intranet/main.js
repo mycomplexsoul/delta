@@ -554,7 +554,9 @@ let MenuComponent = class MenuComponent {
         this.services = {
             loginService: null
         };
-        this.metadata = null;
+        this.metadata = {
+            appVersion: ""
+        };
         this.services.loginService = loginService;
     }
     ngOnInit() {
@@ -603,7 +605,7 @@ module.exports = ".menu-container ul {\r\n  list-style: none;\r\n  margin: 0;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\">\r\n  <ul>\r\n    <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> |&nbsp;</li>\r\n    <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> |&nbsp;</li>\r\n    <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> |&nbsp;</li>\r\n    <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> |&nbsp;</li>\r\n    <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> |&nbsp;</li>\r\n    <li>\r\n      <a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> |&nbsp;\r\n    </li>\r\n    <li><drink-water></drink-water></li>\r\n  </ul>\r\n  <span class=\"menu-user-section\">\r\n    {{ viewData.username }}\r\n    | v{{ metadata.appVersion }}\r\n  </span>\r\n</div>\r\n"
+module.exports = "<div class=\"menu-container\">\r\n  <ul>\r\n    <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> |&nbsp;</li>\r\n    <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> |&nbsp;</li>\r\n    <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> |&nbsp;</li>\r\n    <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> |&nbsp;</li>\r\n    <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> |&nbsp;</li>\r\n    <li>\r\n      <a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> |&nbsp;\r\n    </li>\r\n    <li><a routerLink=\"account\" href=\"/account\">Accounts</a> |&nbsp;</li>\r\n    <li><drink-water></drink-water></li>\r\n  </ul>\r\n  <span class=\"menu-user-section\">\r\n    {{ viewData.username }}\r\n    | v{{ metadata.appVersion }}\r\n  </span>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1531,45 +1533,32 @@ exports.LastTimeHistoryService = LastTimeHistoryService;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-//import { TasksCore } from '../app/tasks.core';
-//import { SyncAPI } from '../app/sync.api';
-const account_type_1 = __webpack_require__(/*! ./account.type */ "./src/app/money/account.type.ts");
+const account_service_1 = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
 let AccountComponent = class AccountComponent {
-    constructor() {
+    constructor(accountService) {
         this.accountList = [];
-        let a = new account_type_1.Account({
-            acc_id: "001",
-            acc_name: "CAPITAL",
-            acc_ctg_type: 4,
-            acc_comment: "Capital Account",
-            acc_check_day: 1,
-            acc_average_min_balance: 0,
-            acc_payment_day: 0
-        });
-        this.accountList.push(a);
-        a = new account_type_1.Account({
-            acc_id: "002",
-            acc_name: "Mosho Cartera",
-            acc_ctg_type: 1,
-            acc_comment: "Efectivo",
-            acc_check_day: 1,
-            acc_average_min_balance: 0,
-            acc_payment_day: 0
-        });
-        this.accountList.push(a);
+        this.viewData = {
+            accountList: []
+        };
+        this.services = {
+            accountService: null
+        };
+        this.services.accountService = accountService;
     }
     ngOnInit() {
+        this.services.accountService.getAll().then(list => {
+            this.viewData.accountList = list;
+        });
     }
-    showNewAccountForm() {
-    }
+    showNewAccountForm() { }
 };
 AccountComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'account',
+        selector: "account",
         template: __webpack_require__(/*! ./account.template.html */ "./src/app/money/account.template.html"),
-        providers: []
+        providers: [account_service_1.AccountService]
     }),
-    tslib_1.__metadata("design:paramtypes", [])
+    tslib_1.__metadata("design:paramtypes", [account_service_1.AccountService])
 ], AccountComponent);
 exports.AccountComponent = AccountComponent;
 
@@ -1597,137 +1586,53 @@ let AccountService = class AccountService {
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'accounts',
+            storageKey: "accounts",
             api: {
-                list: '/api/movements/accounts'
+                list: "/api/movements/accounts"
             }
         };
         this.storage = storage;
         this.sync = sync;
     }
-    initialData() {
-        let list;
-        let data = [{
-                acc_id: '1',
-                acc_name: 'Capital'
-            }, {
-                acc_id: '2',
-                acc_name: 'Mosho Cartera'
-            }, {
-                acc_id: '3',
-                acc_name: 'Mosho Libreton'
-            }, {
-                acc_id: '4',
-                acc_name: 'Mosho Nomina'
-            }, {
-                acc_id: '5',
-                acc_name: 'Mosho Credito'
-            }, {
-                acc_id: '6',
-                acc_name: 'Mosho Puntos'
-            }, {
-                acc_id: '7',
-                acc_name: 'Mosho Santander'
-            }, {
-                acc_id: '8',
-                acc_name: 'Hipoteca'
-            }, {
-                acc_id: '9',
-                acc_name: 'Mosho Inversion'
-            }, {
-                acc_id: '10',
-                acc_name: 'Prestamos Mosho a Otros'
-            }, {
-                acc_id: '11',
-                acc_name: 'Prestamos Mosho a Lau'
-            }, {
-                acc_id: '12',
-                acc_name: 'Prestamos Mosho a Oliva'
-            }, {
-                acc_id: '13',
-                acc_name: 'Prestamos Mosho a Memo'
-            }, {
-                acc_id: '14',
-                acc_name: 'Revolvente Moshos'
-            }, {
-                acc_id: '15',
-                acc_name: 'LPHT Nom Bancomer'
-            }, {
-                acc_id: '16',
-                acc_name: 'LPHT Deb Bancomer'
-            }, {
-                acc_id: '17',
-                acc_name: 'LPHT Deb Banamex'
-            }, {
-                acc_id: '18',
-                acc_name: 'LPHT Cred Banamex'
-            }, {
-                acc_id: '19',
-                acc_name: 'LPHT Cartera'
-            }, {
-                acc_id: '20',
-                acc_name: 'Prestamos Lau a MamaAgüis'
-            }, {
-                acc_id: '21',
-                acc_name: 'Prestamos Lau a Hermano'
-            }, {
-                acc_id: '22',
-                acc_name: 'Fondo de Reserva CV'
-            }, {
-                acc_id: '23',
-                acc_name: 'Adeudo a FR'
-            }, {
-                acc_id: '24',
-                acc_name: 'Prestamos FR a Mosho'
-            }, {
-                acc_id: '25',
-                acc_name: 'Capital CV'
-            }, {
-                acc_id: '26',
-                acc_name: 'Prestamos Mosho a Anibal'
-            }, {
-                acc_id: '27',
-                acc_name: 'Mosho Scotia Credito'
-            }, {
-                acc_id: '28',
-                acc_name: 'LPHT Cred Bancomer'
-            }];
-        list = data.map((d) => new Account_1.Account(d));
-        return list;
-    }
     getAll() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             /*let fromStorage = this.storage.get(this.config.storageKey);
-            if (fromStorage){
-                this.data = JSON.parse(fromStorage);
-            } else {
-                this.data = this.initialData();
-            }*/
-            const sort = ((a, b) => {
+                if (fromStorage){
+                    this.data = JSON.parse(fromStorage);
+                } else {
+                    this.data = this.initialData();
+                }*/
+            const sort = (a, b) => {
                 return a.acc_name > b.acc_name ? 1 : -1;
-            });
+            };
             const filter = {
-                gc: 'AND',
-                cont: [{
-                        f: 'acc_ctg_status',
-                        op: 'eq',
-                        val: '1'
-                    }, {
-                        f: 'acc_ctg_type',
-                        op: 'ne',
-                        val: '4'
-                    }]
+                gc: "AND",
+                cont: [
+                    {
+                        f: "acc_ctg_status",
+                        op: "eq",
+                        val: "1"
+                    },
+                    {
+                        f: "acc_ctg_type",
+                        op: "ne",
+                        val: "4"
+                    }
+                ]
             };
             const query = `?q=${JSON.stringify(filter)}`;
-            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+            return this.sync
+                .get(`${this.config.api.list}${query}`)
+                .then(data => {
                 this.data = data.map((d) => {
                     let item = new Account_1.Account(d);
-                    item['bal_final'] = d['bal_final'];
+                    item["bal_final"] = d["bal_final"];
                     return item;
                 });
                 this.data = this.data.sort(sort);
                 return this.data;
-            }).catch(err => {
+            })
+                .catch(err => {
                 return [];
             });
         });
@@ -1749,37 +1654,7 @@ exports.AccountService = AccountService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n    <strong>Account List</strong>\r\n    <button (click)=\"showNewAccountForm()\">New Account</button>\r\n    <div id=\"newAccountFormSection\">\r\n        <form name=\"accountForm\">\r\n            <label for=\"accountName\">Account Name</label>\r\n            <input type=\"text\" name=\"accountName\" />\r\n        </form>\r\n    </div>\r\n    <div *ngFor=\"let item of accountList\">\r\n        <span contenteditable=\"true\">{{item.acc_name}}</span>\r\n        <br/>\r\n        <span>Type: {{item.acc_ctg_type}}</span>\r\n        <span> | Comment: {{item.acc_comment}}</span>\r\n        <span> | Check day: {{item.acc_check_day}}</span>\r\n        <span> | Average min balance: {{item.acc_average_min_balance}}</span>\r\n        <span> | Payment day: {{item.acc_payment_day}}</span>\r\n    </div>\r\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/money/account.type.ts":
-/*!***************************************!*\
-  !*** ./src/app/money/account.type.ts ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-class Account {
-    constructor(base) {
-        if (base !== undefined) {
-            this.acc_id = base.acc_id;
-            this.acc_name = base.acc_name;
-            this.acc_ctg_type = base.acc_ctg_type;
-            this.acc_comment = base.acc_comment;
-            this.acc_check_day = base.acc_check_day;
-            this.acc_average_min_balance = base.acc_average_min_balance;
-            this.acc_payment_day = base.acc_payment_day;
-            this.acc_id_user = base.acc_id_user;
-            this.acc_txt_type = base.acc_txt_type;
-        }
-    }
-}
-exports.Account = Account;
-
+module.exports = "<div>\r\n  <strong>Account List</strong>\r\n  <button (click)=\"showNewAccountForm()\">New Account</button>\r\n  <div id=\"newAccountFormSection\">\r\n    <form name=\"accountForm\">\r\n      <label for=\"accountName\">Account Name</label>\r\n      <input type=\"text\" name=\"accountName\" />\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"card-list\">\r\n    <div *ngFor=\"let item of viewData.accountList\" class=\"card-item-container\">\r\n      <span class=\"account-name\">{{ item.acc_name }}</span>\r\n      <br />\r\n      <span class=\"account-type\">{{ item.acc_txt_type }}</span>\r\n      <br />\r\n      <span> Check day: {{ item.acc_check_day }} </span>\r\n      <span *ngIf=\"item.acc_comment\"> | Comment: {{ item.acc_comment }}</span>\r\n      <!--<span (click)=\"item.showOptions = !item.showOptions\">\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>-->\r\n      <br />\r\n      <span *ngIf=\"item.acc_average_min_balance != 0\">\r\n        Average min balance:\r\n        {{\r\n          item.acc_average_min_balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n      </span>\r\n      <br />\r\n      <span>Payment day: {{ item.acc_payment_day }}</span>\r\n      <br />\r\n      <span>Status: {{ item.acc_txt_status }}</span>\r\n\r\n      <span class=\"account-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"account-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <br />\r\n      <!--\r\n          <span *ngIf=\"item.showOptions\">\r\n            <button (click)=\"archiveRecord(item)\">archive</button>\r\n            <button (click)=\"editNotes(item)\">edit notes</button>\r\n            <button (click)=\"viewHistory(item)\">view history</button>\r\n        </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 

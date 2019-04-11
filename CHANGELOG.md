@@ -20,11 +20,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Movement form validation server side
     - [AppMoney][new] Movement form validation client side
   - Account
-    - [AppMoney][new] Add account UI listing
     - [AppMoney][new] Add account form to edit or add new accounts
     - [AppMoney][new] Consume endpoints to finish adding or editing accounts
   - Places
-    - [AppMoney][new] Add places listing/new/update endpoints
     - [AppMoney][new] Add places UI listing
     - [AppMoney][new] Add places form to edit or add new places
     - [AppMoney][new] Consume endpoints to finish adding or editing places
@@ -48,14 +46,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][new] Unset link
   - [AppTasks][mod] Refactor updateState method to change only the needed elements via sub/pub events
   - [AppTasks][mod] Allow to specify a schedule starting date without duration or finish date, it will use current duration in order to set the finish date and save it
-  - [AppTasks][new] Option or button to show/hide remaining done tasks in Finished Today section, by default only the latest 3 tasks are shown
+  - [AppTasks][new] Add a red flag to those tasks that can't be progressed
 - Login
   - [AppCommon][new][Login] Login logged user identity service
-  - [AppCommon][new][Login] Redirect to login logic in all pages
   - [AppCommon][new][Login] Login basic CSS
   - [AppCommon][new][Login] Store cyphred passwords
 - Common
-  - [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
   - [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
   - [AppCommon][new] Add unit tests to utilities classes
   - [AppCommon][fix] Fix coverage report
@@ -68,17 +64,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new] Add front end coverage report
   - [AppCommon][mod][Install] Create InnoDB tables
 - Multimedia
-  - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
   - [AppMultimedia][new] Create migration script
   - [AppMultimedia][new] Migrate legacy information
 - LastTime
-  - [AppLastTime][new] Show an option to search on archived items
 
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
 
+- [AppMoney][new] Add spend summary along with details
+- [AppMoney][new] Add places listing/new/update endpoints
+- [AppTasks][new] Option or button to show/hide remaining done tasks in Finished Today section, by default only the latest 3 tasks are shown
+- [AppCommon][new][Login] Redirect to login logic in all pages
+- [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
+- [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
+- [AppLastTime][new] Show an option to search on or show archived items
+
 <hr/>
+
+## v1.8.31 (2019-03-12)
+
+- [AppMoney][new] Add account UI listing with cards
+
+## v1.8.30 (2019-03-09)
+
+- [AppCommon][new] Created `card-list` and `card-item-container` CSS class names for generic styling cards
+- [AppCommon][new] Added `/account` Accounts menu item
 
 ## v1.8.29 (2019-03-08)
 
