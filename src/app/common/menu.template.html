@@ -1,18 +1,16 @@
-<div class="menu-container">
+<div class="menu-container" *ngIf="currentUser">
   <ul>
     <li><a routerLink="tasks" href="/tasks">Tasks</a> |&nbsp;</li>
     <li><a routerLink="movement" href="/movement">Movements</a> |&nbsp;</li>
     <li><a routerLink="balance" href="/balance">Balance</a> |&nbsp;</li>
     <li><a routerLink="rebuild" href="/rebuild">Balance Rebuild</a> |&nbsp;</li>
     <li><a routerLink="lasttime" href="/lasttime">Last Time</a> |&nbsp;</li>
-    <li>
-      <a routerLink="multimedia" href="/multimedia">Multimedia</a> |&nbsp;
-    </li>
-    <li><a routerLink="account" href="/account">Accounts</a> |&nbsp;</li>
+    <li><a routerLink="multimedia" href="/multimedia">Multimedia</a> |</li>
+    <li>&nbsp;<a routerLink="account" href="/account">Accounts</a> |&nbsp;</li>
     <li><drink-water></drink-water></li>
   </ul>
   <span class="menu-user-section">
     {{ viewData.username }}
-    | v{{ metadata.appVersion }}
+    | <a (click)="logout()">logout</a> | v{{ metadata.appVersion }}
   </span>
 </div>

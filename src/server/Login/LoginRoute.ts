@@ -4,7 +4,7 @@ import { LoginServer } from "./LoginServer";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/authenticate", async (req, res) => {
   let server: LoginServer = new LoginServer();
   let node: iNode = {
     request: req,

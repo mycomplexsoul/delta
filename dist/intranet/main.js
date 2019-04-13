@@ -89,7 +89,7 @@ const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ 
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
 const http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const app_routing_1 = __webpack_require__(/*! ./app.routing */ "./src/app/app.routing.ts");
 const app_component_1 = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 const tasks_component_1 = __webpack_require__(/*! ./task/tasks.component */ "./src/app/task/tasks.component.ts");
 const menu_component_1 = __webpack_require__(/*! ./common/menu.component */ "./src/app/common/menu.component.ts");
@@ -109,52 +109,11 @@ const sync_api_1 = __webpack_require__(/*! ./common/sync.api */ "./src/app/commo
 const utils_common_1 = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
 const login_component_1 = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
 const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
-const appRoutes = [
-    // { path: 'crisis-center', component: CrisisListComponent },
-    // { path: 'hero/:id',      component: HeroDetailComponent },
-    {
-        path: 'tasks',
-        component: tasks_component_1.TasksComponent,
-        data: { title: 'Tasks' }
-    }, {
-        path: 'account',
-        component: account_component_1.AccountComponent,
-        data: { title: 'Accounts' }
-    }, {
-        path: 'movement',
-        component: movement_component_1.MovementComponent,
-        data: { title: 'Movements' }
-    }, {
-        path: 'balance',
-        component: balance_component_1.BalanceComponent,
-        data: { title: 'Balance' }
-    }, {
-        path: 'rebuild',
-        component: rebuild_component_1.RebuildComponent,
-        data: { title: 'Rebuild' }
-    }, {
-        path: 'login',
-        component: login_component_1.LoginComponent,
-        data: { title: 'Login' }
-    }, {
-        path: 'lasttime',
-        component: lasttime_component_1.LastTimeComponent,
-        data: { title: 'Last Time' }
-    }, {
-        path: 'multimedia',
-        component: multimedia_component_1.MultimediaComponent,
-        data: { title: 'Multimedia' }
-    }, {
-        path: 'type-generator',
-        component: type_generator_component_1.TypeGeneratorComponent,
-        data: { title: 'Type Generator' }
-    }, {
-        path: '',
-        redirectTo: '/tasks',
-        pathMatch: 'full'
-    }
-    // { path: '**', component: PageNotFoundComponent }
-];
+const alert_component_1 = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
+const jwt_interceptor_1 = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
+const error_interceptor_1 = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
+const home_component_1 = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
+const register_component_1 = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
 let AppModule = class AppModule {
 };
 AppModule = tslib_1.__decorate([
@@ -162,8 +121,9 @@ AppModule = tslib_1.__decorate([
         imports: [
             platform_browser_1.BrowserModule,
             forms_1.FormsModule,
+            forms_1.ReactiveFormsModule,
             http_1.HttpClientModule,
-            router_1.RouterModule.forRoot(appRoutes)
+            app_routing_1.routing
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -179,7 +139,10 @@ AppModule = tslib_1.__decorate([
             login_component_1.LoginComponent,
             lasttime_component_1.LastTimeComponent,
             multimedia_component_1.MultimediaComponent,
-            type_generator_component_1.TypeGeneratorComponent
+            type_generator_component_1.TypeGeneratorComponent,
+            alert_component_1.AlertComponent,
+            home_component_1.HomeComponent,
+            register_component_1.RegisterComponent
         ],
         bootstrap: [app_component_1.AppComponent],
         providers: [
@@ -188,11 +151,299 @@ AppModule = tslib_1.__decorate([
             entry_service_1.EntryService,
             sync_api_1.SyncAPI,
             utils_common_1.UtilsCommon,
-            platform_browser_1.Title
+            platform_browser_1.Title,
+            { provide: http_1.HTTP_INTERCEPTORS, useClass: jwt_interceptor_1.JwtInterceptor, multi: true },
+            { provide: http_1.HTTP_INTERCEPTORS, useClass: error_interceptor_1.ErrorInterceptor, multi: true }
         ]
     })
 ], AppModule);
 exports.AppModule = AppModule;
+
+
+/***/ }),
+
+/***/ "./src/app/app.routing.ts":
+/*!********************************!*\
+  !*** ./src/app/app.routing.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const home_component_1 = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
+const login_component_1 = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
+const register_component_1 = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+const auth_guard_1 = __webpack_require__(/*! ./common/auth.guard */ "./src/app/common/auth.guard.ts");
+const tasks_component_1 = __webpack_require__(/*! ./task/tasks.component */ "./src/app/task/tasks.component.ts");
+const account_component_1 = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
+const movement_component_1 = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
+const balance_component_1 = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
+const rebuild_component_1 = __webpack_require__(/*! ./money/rebuild.component */ "./src/app/money/rebuild.component.ts");
+const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
+const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
+const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+const appRoutes = [
+    // { path: 'crisis-center', component: CrisisListComponent },
+    // { path: 'hero/:id',      component: HeroDetailComponent },
+    {
+        path: "tasks",
+        component: tasks_component_1.TasksComponent,
+        data: { title: "Tasks" },
+        canActivate: [auth_guard_1.AuthGuard]
+    },
+    {
+        path: "account",
+        component: account_component_1.AccountComponent,
+        data: { title: "Accounts" }
+    },
+    {
+        path: "movement",
+        component: movement_component_1.MovementComponent,
+        data: { title: "Movements" }
+    },
+    {
+        path: "balance",
+        component: balance_component_1.BalanceComponent,
+        data: { title: "Balance" }
+    },
+    {
+        path: "rebuild",
+        component: rebuild_component_1.RebuildComponent,
+        data: { title: "Rebuild" }
+    },
+    {
+        path: "login",
+        component: login_component_1.LoginComponent,
+        data: { title: "Login" }
+    },
+    {
+        path: "lasttime",
+        component: lasttime_component_1.LastTimeComponent,
+        data: { title: "Last Time" },
+        canActivate: [auth_guard_1.AuthGuard]
+    },
+    {
+        path: "multimedia",
+        component: multimedia_component_1.MultimediaComponent,
+        data: { title: "Multimedia" },
+        canActivate: [auth_guard_1.AuthGuard]
+    },
+    {
+        path: "type-generator",
+        component: type_generator_component_1.TypeGeneratorComponent,
+        data: { title: "Type Generator" }
+    },
+    {
+        path: "",
+        component: home_component_1.HomeComponent,
+        canActivate: [auth_guard_1.AuthGuard]
+    },
+    { path: "register", component: register_component_1.RegisterComponent },
+    { path: "**", redirectTo: "" }
+    // { path: '**', component: PageNotFoundComponent }
+];
+exports.routing = router_1.RouterModule.forRoot(appRoutes);
+
+
+/***/ }),
+
+/***/ "./src/app/common/alert.component.ts":
+/*!*******************************************!*\
+  !*** ./src/app/common/alert.component.ts ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const alert_service_1 = __webpack_require__(/*! ./alert.service */ "./src/app/common/alert.service.ts");
+let AlertComponent = class AlertComponent {
+    constructor(alertService) {
+        this.alertService = alertService;
+    }
+    ngOnInit() {
+        this.subscription = this.alertService.getMessage().subscribe(message => {
+            this.message = message;
+        });
+    }
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+};
+AlertComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "alert",
+        template: __webpack_require__(/*! ./alert.template.html */ "./src/app/common/alert.template.html")
+    }),
+    tslib_1.__metadata("design:paramtypes", [alert_service_1.AlertService])
+], AlertComponent);
+exports.AlertComponent = AlertComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/common/alert.service.ts":
+/*!*****************************************!*\
+  !*** ./src/app/common/alert.service.ts ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const rxjs_1 = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+let AlertService = class AlertService {
+    constructor(router) {
+        this.router = router;
+        this.subject = new rxjs_1.Subject();
+        this.keepAfterNavigationChange = false;
+        // clear alert message on route change
+        router.events.subscribe(event => {
+            if (event instanceof router_1.NavigationStart) {
+                if (this.keepAfterNavigationChange) {
+                    // only keep for a single location change
+                    this.keepAfterNavigationChange = false;
+                }
+                else {
+                    // clear alert
+                    this.subject.next();
+                }
+            }
+        });
+    }
+    success(message, keepAfterNavigationChange = false) {
+        this.keepAfterNavigationChange = keepAfterNavigationChange;
+        this.subject.next({ type: "success", text: message });
+    }
+    error(message, keepAfterNavigationChange = false) {
+        this.keepAfterNavigationChange = keepAfterNavigationChange;
+        this.subject.next({ type: "error", text: message });
+    }
+    getMessage() {
+        return this.subject.asObservable();
+    }
+};
+AlertService = tslib_1.__decorate([
+    core_1.Injectable({ providedIn: "root" }),
+    tslib_1.__metadata("design:paramtypes", [router_1.Router])
+], AlertService);
+exports.AlertService = AlertService;
+
+
+/***/ }),
+
+/***/ "./src/app/common/alert.template.html":
+/*!********************************************!*\
+  !*** ./src/app/common/alert.template.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div\r\n  *ngIf=\"message\"\r\n  [ngClass]=\"{\r\n    alert: message,\r\n    'alert-success': message.type === 'success',\r\n    'alert-danger': message.type === 'error'\r\n  }\"\r\n>\r\n  {{ message.text }}\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/common/auth.guard.ts":
+/*!**************************************!*\
+  !*** ./src/app/common/auth.guard.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
+let AuthGuard = class AuthGuard {
+    constructor(router, authenticationService) {
+        this.router = router;
+        this.authenticationService = authenticationService;
+    }
+    canActivate(route, state) {
+        const currentUser = this.authenticationService.currentUserValue;
+        if (currentUser) {
+            // authorised so return true
+            return true;
+        }
+        // not logged in so redirect to login page with the return url
+        this.router.navigate(["/login"], { queryParams: { returnUrl: state.url } });
+        return false;
+    }
+};
+AuthGuard = tslib_1.__decorate([
+    core_1.Injectable({ providedIn: "root" }),
+    tslib_1.__metadata("design:paramtypes", [router_1.Router,
+        authentication_service_1.AuthenticationService])
+], AuthGuard);
+exports.AuthGuard = AuthGuard;
+
+
+/***/ }),
+
+/***/ "./src/app/common/authentication.service.ts":
+/*!**************************************************!*\
+  !*** ./src/app/common/authentication.service.ts ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+const rxjs_1 = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+const operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+const config = {
+    apiUrl: "/api"
+};
+let AuthenticationService = class AuthenticationService {
+    constructor(http) {
+        this.http = http;
+        this.currentUserSubject = new rxjs_1.BehaviorSubject(JSON.parse(localStorage.getItem("currentUser")));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
+    get currentUserValue() {
+        return this.currentUserSubject.value;
+    }
+    login(username, password) {
+        return this.http
+            .post(`${config.apiUrl}/login/authenticate`, { username, password })
+            .pipe(operators_1.map(user => {
+            // login successful if there's a jwt token in the response
+            if (user && user.identity.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem("currentUser", JSON.stringify(user.identity));
+                this.currentUserSubject.next(user);
+            }
+            return user;
+        }));
+    }
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem("currentUser");
+        this.currentUserSubject.next(null);
+    }
+};
+AuthenticationService = tslib_1.__decorate([
+    core_1.Injectable({ providedIn: "root" }),
+    tslib_1.__metadata("design:paramtypes", [http_1.HttpClient])
+], AuthenticationService);
+exports.AuthenticationService = AuthenticationService;
 
 
 /***/ }),
@@ -384,6 +635,154 @@ module.exports = "<span class=\"drink-water-widget\">\r\n    <span>Water Count: 
 
 /***/ }),
 
+/***/ "./src/app/common/error.interceptor.ts":
+/*!*********************************************!*\
+  !*** ./src/app/common/error.interceptor.ts ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const rxjs_1 = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+const operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
+let ErrorInterceptor = class ErrorInterceptor {
+    constructor(authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+    intercept(request, next) {
+        return next.handle(request).pipe(operators_1.catchError(err => {
+            if (err.status === 401) {
+                // auto logout if 401 response returned from api
+                this.authenticationService.logout();
+                location.reload(true);
+            }
+            const error = err.error.message || err.statusText;
+            return rxjs_1.throwError(error);
+        }));
+    }
+};
+ErrorInterceptor = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
+], ErrorInterceptor);
+exports.ErrorInterceptor = ErrorInterceptor;
+
+
+/***/ }),
+
+/***/ "./src/app/common/home.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/common/home.component.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+const user_login_service_1 = __webpack_require__(/*! ./user-login.service */ "./src/app/common/user-login.service.ts");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
+let HomeComponent = class HomeComponent {
+    constructor(authenticationService, userService) {
+        this.authenticationService = authenticationService;
+        this.userService = userService;
+        this.users = [];
+        this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
+            this.currentUser = user;
+        });
+    }
+    ngOnInit() {
+        this.loadAllUsers();
+    }
+    ngOnDestroy() {
+        // unsubscribe to ensure no memory leaks
+        this.currentUserSubscription.unsubscribe();
+    }
+    deleteUser(id) {
+        this.userService
+            .delete(id)
+            .pipe(operators_1.first())
+            .subscribe(() => {
+            this.loadAllUsers();
+        });
+    }
+    loadAllUsers() {
+        this.userService
+            .getAll()
+            .pipe(operators_1.first())
+            .subscribe(users => {
+            this.users = users;
+        });
+    }
+};
+HomeComponent = tslib_1.__decorate([
+    core_1.Component({ template: __webpack_require__(/*! ./home.template.html */ "./src/app/common/home.template.html") }),
+    tslib_1.__metadata("design:paramtypes", [authentication_service_1.AuthenticationService,
+        user_login_service_1.UserService])
+], HomeComponent);
+exports.HomeComponent = HomeComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/common/home.template.html":
+/*!*******************************************!*\
+  !*** ./src/app/common/home.template.html ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h1>Hi {{ currentUser.firstName }}!</h1>\r\n<p>You're logged in with Angular 7!!</p>\r\n<h3>All registered users:</h3>\r\n<ul>\r\n  <li *ngFor=\"let user of users\">\r\n    {{ user.username }} ({{ user.firstName }} {{ user.lastName }}) -\r\n    <a (click)=\"deleteUser(user.id)\" class=\"text-danger\">Delete</a>\r\n  </li>\r\n</ul>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/common/jwt.interceptor.ts":
+/*!*******************************************!*\
+  !*** ./src/app/common/jwt.interceptor.ts ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
+let JwtInterceptor = class JwtInterceptor {
+    constructor(authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+    intercept(request, next) {
+        // add authorization header with jwt token if available
+        let currentUser = this.authenticationService.currentUserValue;
+        if (currentUser && currentUser.token) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${currentUser.token}`
+                }
+            });
+        }
+        return next.handle(request);
+    }
+};
+JwtInterceptor = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [authentication_service_1.AuthenticationService])
+], JwtInterceptor);
+exports.JwtInterceptor = JwtInterceptor;
+
+
+/***/ }),
+
 /***/ "./src/app/common/login.component.ts":
 /*!*******************************************!*\
   !*** ./src/app/common/login.component.ts ***!
@@ -396,78 +795,148 @@ module.exports = "<span class=\"drink-water-widget\">\r\n    <span>Water Count: 
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
-// types
-// services
-const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
-const login_service_1 = __webpack_require__(/*! ./login.service */ "./src/app/common/login.service.ts");
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+const operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+const alert_service_1 = __webpack_require__(/*! ./alert.service */ "./src/app/common/alert.service.ts");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
 let LoginComponent = class LoginComponent {
-    constructor(loginService, titleService, syncService) {
-        this.titleService = titleService;
-        this.user = "anon";
-        this.viewData = {
-            error: true,
-            errorMessage: ""
-        };
-        this.services = {
-            login: null
-        };
-        this.model = {
-            iterable: 0,
-            year: 2017,
-            month: 12
-        };
-        this.loginSuccess = new core_1.EventEmitter();
+    constructor(formBuilder, route, router, authenticationService, alertService) {
+        this.formBuilder = formBuilder;
+        this.route = route;
+        this.router = router;
+        this.authenticationService = authenticationService;
+        this.alertService = alertService;
+        this.loading = false;
+        this.submitted = false;
+        // redirect to home if already logged in
+        if (this.authenticationService.currentUserValue) {
+            this.router.navigate(["/"]);
+        }
+    }
+    ngOnInit() {
+        this.loginForm = this.formBuilder.group({
+            username: ["", forms_1.Validators.required],
+            password: ["", forms_1.Validators.required]
+        });
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    }
+    // convenience getter for easy access to form fields
+    get f() {
+        return this.loginForm.controls;
+    }
+    onSubmit() {
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.loginForm.invalid) {
+            return;
+        }
+        this.loading = true;
+        this.authenticationService
+            .login(this.f.username.value, this.f.password.value)
+            .pipe(operators_1.first())
+            .subscribe(data => {
+            this.router.navigate([this.returnUrl]);
+        }, error => {
+            this.alertService.error(error);
+            this.loading = false;
+        });
+    }
+};
+LoginComponent = tslib_1.__decorate([
+    core_1.Component({ template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html") }),
+    tslib_1.__metadata("design:paramtypes", [forms_1.FormBuilder,
+        router_1.ActivatedRoute,
+        router_1.Router,
+        authentication_service_1.AuthenticationService,
+        alert_service_1.AlertService])
+], LoginComponent);
+exports.LoginComponent = LoginComponent;
+/* import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
+// types
+
+// services
+import { SyncAPI } from "../common/sync.api";
+import { LoginService } from "./login.service";
+
+@Component({
+    selector: "login",
+    templateUrl: "./login.template.html",
+    providers: [LoginService]
+})
+export class LoginComponent implements OnInit {
+    private user: string = "anon";
+    public viewData: {
+        error: boolean;
+        errorMessage: string;
+    } = {
+        error: true,
+        errorMessage: ""
+    };
+    public services: {
+        login: LoginService;
+    } = {
+        login: null
+    };
+    public sync: SyncAPI;
+    public model: {
+        iterable: number;
+        year: number;
+        month: number;
+    } = {
+        iterable: 0,
+        year: 2017,
+        month: 12
+    };
+    @Output() loginSuccess: EventEmitter<any> = new EventEmitter();
+
+    constructor(
+        loginService: LoginService,
+        private titleService: Title,
+        syncService: SyncAPI
+    ) {
         this.services.login = loginService;
         titleService.setTitle("Login");
         this.sync = syncService;
     }
-    ngOnInit() { }
-    submit(loginForm) {
+
+    ngOnInit() {}
+
+    submit(loginForm: NgForm) {
         const { fUsername, fPassword } = loginForm.value;
+
         if (!fUsername || !fPassword) {
             this.viewData.error = true;
             this.viewData.errorMessage = "Username and Password are required";
             return false;
         }
+
         // Send to server
         this.sync
             .post("/api/login", {
-            fUsername,
-            fPassword
-        })
+                fUsername,
+                fPassword
+            })
             .then(response => {
-            if (response.operationResult) {
-                this.services.login.setIdentity(response.identity);
-                this.loginSuccess.emit(response.identity);
-                // window.location.href = '/tasks'; // navigate to initial app
-            }
-            else {
-                this.viewData.error = true;
-                this.viewData.errorMessage = response.message;
-            }
-        })
+                if (response.operationResult) {
+                    this.services.login.setIdentity(response.identity);
+                    this.loginSuccess.emit(response.identity);
+                    // window.location.href = '/tasks'; // navigate to initial app
+                } else {
+                    this.viewData.error = true;
+                    this.viewData.errorMessage = response.message;
+                }
+            })
             .catch(err => {
-            this.viewData.error = true;
-            this.viewData.errorMessage = err.message;
-        });
+                this.viewData.error = true;
+                this.viewData.errorMessage = err.message;
+            });
     }
-};
-tslib_1.__decorate([
-    core_1.Output(),
-    tslib_1.__metadata("design:type", core_1.EventEmitter)
-], LoginComponent.prototype, "loginSuccess", void 0);
-LoginComponent = tslib_1.__decorate([
-    core_1.Component({
-        selector: "login",
-        template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html"),
-        providers: [login_service_1.LoginService]
-    }),
-    tslib_1.__metadata("design:paramtypes", [login_service_1.LoginService,
-        platform_browser_1.Title,
-        sync_api_1.SyncAPI])
-], LoginComponent);
-exports.LoginComponent = LoginComponent;
+}
+*/
 
 
 /***/ }),
@@ -528,7 +997,7 @@ exports.LoginService = LoginService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\r\n    <div class=\"login\">\r\n        <input type=\"text\" id=\"fUsername\" name=\"fUsername\" ngModel />\r\n        <input type=\"password\" id=\"fPassword\" name=\"fPassword\" ngModel />\r\n        <input type=\"submit\" value=\"Login\" />\r\n        <div id=\"messages\" *ngIf=\"viewData.error\">{{ viewData.errorMessage }}</div>\r\n    </div>\r\n</form>"
+module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/register\" class=\"btn btn-link\">Register</a>\r\n  </div>\r\n</form>\r\n\r\n<!--\r\n<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\r\n    <div class=\"login\">\r\n        <input type=\"text\" id=\"fUsername\" name=\"fUsername\" ngModel />\r\n        <input type=\"password\" id=\"fPassword\" name=\"fPassword\" ngModel />\r\n        <input type=\"submit\" value=\"Login\" />\r\n        <div id=\"messages\" *ngIf=\"viewData.error\">{{ viewData.errorMessage }}</div>\r\n    </div>\r\n</form>\r\n-->\r\n"
 
 /***/ }),
 
@@ -546,8 +1015,13 @@ const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 // services
 const login_service_1 = __webpack_require__(/*! ./login.service */ "./src/app/common/login.service.ts");
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
 let MenuComponent = class MenuComponent {
-    constructor(loginService) {
+    constructor(router, authenticationService, loginService) {
+        this.router = router;
+        this.authenticationService = authenticationService;
+        this.loginService = loginService;
         this.viewData = {
             username: "anon-default"
         };
@@ -557,12 +1031,20 @@ let MenuComponent = class MenuComponent {
         this.metadata = {
             appVersion: ""
         };
+        this.authenticationService.currentUser.subscribe(x => (this.currentUser = x));
         this.services.loginService = loginService;
     }
+    logout() {
+        this.authenticationService.logout();
+        this.router.navigate(["/login"]);
+    }
+    /*constructor(loginService: LoginService) {
+      this.services.loginService = loginService;
+    }*/
     ngOnInit() {
-        const isLoggedin = this.services.loginService.isLoggedIn();
+        const isLoggedin = !!this.authenticationService.currentUserValue;
         this.viewData.username = isLoggedin
-            ? this.services.loginService.getUsername()
+            ? this.authenticationService.currentUserValue.username
             : "no-user";
         fetch("/metadata")
             .then(response => {
@@ -580,7 +1062,9 @@ MenuComponent = tslib_1.__decorate([
         providers: [login_service_1.LoginService],
         styles: [__webpack_require__(/*! ./menu.css */ "./src/app/common/menu.css")]
     }),
-    tslib_1.__metadata("design:paramtypes", [login_service_1.LoginService])
+    tslib_1.__metadata("design:paramtypes", [router_1.Router,
+        authentication_service_1.AuthenticationService,
+        login_service_1.LoginService])
 ], MenuComponent);
 exports.MenuComponent = MenuComponent;
 
@@ -605,7 +1089,94 @@ module.exports = ".menu-container ul {\r\n  list-style: none;\r\n  margin: 0;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\">\r\n  <ul>\r\n    <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> |&nbsp;</li>\r\n    <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> |&nbsp;</li>\r\n    <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> |&nbsp;</li>\r\n    <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> |&nbsp;</li>\r\n    <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> |&nbsp;</li>\r\n    <li>\r\n      <a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> |&nbsp;\r\n    </li>\r\n    <li><a routerLink=\"account\" href=\"/account\">Accounts</a> |&nbsp;</li>\r\n    <li><drink-water></drink-water></li>\r\n  </ul>\r\n  <span class=\"menu-user-section\">\r\n    {{ viewData.username }}\r\n    | v{{ metadata.appVersion }}\r\n  </span>\r\n</div>\r\n"
+module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <ul>\r\n    <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> |&nbsp;</li>\r\n    <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> |&nbsp;</li>\r\n    <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> |&nbsp;</li>\r\n    <li><a routerLink=\"rebuild\" href=\"/rebuild\">Balance Rebuild</a> |&nbsp;</li>\r\n    <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> |&nbsp;</li>\r\n    <li><a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> |</li>\r\n    <li>&nbsp;<a routerLink=\"account\" href=\"/account\">Accounts</a> |&nbsp;</li>\r\n    <li><drink-water></drink-water></li>\r\n  </ul>\r\n  <span class=\"menu-user-section\">\r\n    {{ viewData.username }}\r\n    | <a (click)=\"logout()\">logout</a> | v{{ metadata.appVersion }}\r\n  </span>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/common/register.component.ts":
+/*!**********************************************!*\
+  !*** ./src/app/common/register.component.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+const forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+const operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+const alert_service_1 = __webpack_require__(/*! ./alert.service */ "./src/app/common/alert.service.ts");
+const user_login_service_1 = __webpack_require__(/*! ./user-login.service */ "./src/app/common/user-login.service.ts");
+const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
+let RegisterComponent = class RegisterComponent {
+    constructor(formBuilder, router, authenticationService, userService, alertService) {
+        this.formBuilder = formBuilder;
+        this.router = router;
+        this.authenticationService = authenticationService;
+        this.userService = userService;
+        this.alertService = alertService;
+        this.loading = false;
+        this.submitted = false;
+        // redirect to home if already logged in
+        if (this.authenticationService.currentUserValue) {
+            this.router.navigate(["/"]);
+        }
+    }
+    ngOnInit() {
+        this.registerForm = this.formBuilder.group({
+            firstName: ["", forms_1.Validators.required],
+            lastName: ["", forms_1.Validators.required],
+            username: ["", forms_1.Validators.required],
+            password: ["", [forms_1.Validators.required, forms_1.Validators.minLength(6)]]
+        });
+    }
+    // convenience getter for easy access to form fields
+    get f() {
+        return this.registerForm.controls;
+    }
+    onSubmit() {
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.registerForm.invalid) {
+            return;
+        }
+        this.loading = true;
+        this.userService
+            .register(this.registerForm.value)
+            .pipe(operators_1.first())
+            .subscribe(data => {
+            this.alertService.success("Registration successful", true);
+            this.router.navigate(["/login"]);
+        }, error => {
+            this.alertService.error(error);
+            this.loading = false;
+        });
+    }
+};
+RegisterComponent = tslib_1.__decorate([
+    core_1.Component({ template: __webpack_require__(/*! ./register.template.html */ "./src/app/common/register.template.html") }),
+    tslib_1.__metadata("design:paramtypes", [forms_1.FormBuilder,
+        router_1.Router,
+        authentication_service_1.AuthenticationService,
+        user_login_service_1.UserService,
+        alert_service_1.AlertService])
+], RegisterComponent);
+exports.RegisterComponent = RegisterComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/common/register.template.html":
+/*!***********************************************!*\
+  !*** ./src/app/common/register.template.html ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Register</h2>\r\n<form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\">\r\n  <div class=\"form-group\">\r\n    <label for=\"firstName\">First Name</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"firstName\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"lastName\">Last Name</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"lastName\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n      <div *ngIf=\"f.password.errors.minlength\">\r\n        Password must be at least 6 characters\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Register</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/login\" class=\"btn btn-link\">Cancel</a>\r\n  </div>\r\n</form>\r\n"
 
 /***/ }),
 
@@ -871,6 +1442,51 @@ SyncAPI = tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [http_1.HttpClient])
 ], SyncAPI);
 exports.SyncAPI = SyncAPI;
+
+
+/***/ }),
+
+/***/ "./src/app/common/user-login.service.ts":
+/*!**********************************************!*\
+  !*** ./src/app/common/user-login.service.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
+const config = {
+    apiUrl: "/api"
+};
+let UserService = class UserService {
+    constructor(http) {
+        this.http = http;
+    }
+    getAll() {
+        return this.http.get(`${config.apiUrl}/users`);
+    }
+    getById(id) {
+        return this.http.get(`${config.apiUrl}/users/${id}`);
+    }
+    register(user) {
+        return this.http.post(`${config.apiUrl}/users/register`, user);
+    }
+    update(user) {
+        return this.http.put(`${config.apiUrl}/users/${user.id}`, user);
+    }
+    delete(id) {
+        return this.http.delete(`${config.apiUrl}/users/${id}`);
+    }
+};
+UserService = tslib_1.__decorate([
+    core_1.Injectable({ providedIn: "root" }),
+    tslib_1.__metadata("design:paramtypes", [http_1.HttpClient])
+], UserService);
+exports.UserService = UserService;
 
 
 /***/ }),

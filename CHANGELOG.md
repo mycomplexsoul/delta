@@ -9,34 +9,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Money
   - Balance
+    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Spent report for monthly/range basis
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
     - [AppMoney][new] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
   - Movement
+    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Movements with pending status
     - [AppMoney][new] Scheduled movements
     - [AppMoney][new] Movement form validation server side
     - [AppMoney][new] Movement form validation client side
   - Account
+    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add account form to edit or add new accounts
     - [AppMoney][new] Consume endpoints to finish adding or editing accounts
   - Places
+    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add places UI listing
     - [AppMoney][new] Add places form to edit or add new places
     - [AppMoney][new] Consume endpoints to finish adding or editing places
   - Categories
+    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add categories listing/new/update endpoints
     - [AppMoney][new] Add categories UI listing
     - [AppMoney][new] Add categories form to edit or add new categories
     - [AppMoney][new] Consume endpoints to finish adding or editing categories
   - Presets
+    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add presets listing/new/update endpoints
     - [AppMoney][new] Add presets UI listing
     - [AppMoney][new] Add presets form to edit or add new presets
     - [AppMoney][new] Consume endpoints to finish adding or editing presets
 - Tasks
+  - [AppTasks][new] Migrate user data to proper username and consume user authentication service
   - [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
   - [AppTasks][new] Idle time counter (time since last time tracked record today)
   - [AppTasks][new] Keyboard shortcuts for navigating from record list to next/previous record list and focus into first task in the list
@@ -64,13 +71,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new] Add front end coverage report
   - [AppCommon][mod][Install] Create InnoDB tables
 - Multimedia
+  - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
   - [AppMultimedia][new] Create migration script
   - [AppMultimedia][new] Migrate legacy information
 - LastTime
+  - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 
 ## [Unreleased / Work In Progress]
-
-- [AppCommon][new][Login] Add login flow http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
 
 - [AppMoney][new] Add spend summary along with details
 - [AppMoney][new] Add places listing/new/update endpoints
@@ -78,9 +85,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][Login] Redirect to login logic in all pages
 - [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
 - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
+
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.32 (2019-03-13)
+
+- [AppCommon][new][Login] Add login flow following http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
 
 ## v1.8.31 (2019-03-12)
 

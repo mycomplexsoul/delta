@@ -6,7 +6,7 @@ import { User } from "../../crosscommon/entities/User";
 
 export class LoginServer {
   login = async (node: iNode) => {
-    const { fUsername, fPassword } = node.request.body;
+    const { username, password } = node.request.body;
 
     const sqlMotor: MoSQL = new MoSQL(new User());
     const sql = sqlMotor.toSelectSQL(
@@ -17,7 +17,7 @@ export class LoginServer {
             {
               f: "usr_id",
               op: "eq",
-              val: fUsername
+              val: username
             }
           ]
         })
@@ -47,8 +47,8 @@ export class LoginServer {
         operationResult: true,
         message: "Authentication ok.",
         identity: {
-          auth_token: "T123456",
-          user: fUsername,
+          token: "T123456",
+          username: username,
           email: userDB.usr_email
         }
       })
