@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
     - [AppMoney][new] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
   - Movement
+    - [AppMoney][new] When the tag `reimburse-50` is added to a movement, create a new movement based on it which will add a legend "Half for:" at the beginning and ", original amount \${MOV_AMOUNT}" at the end of the description, also movement amount will be half of the original and the account will be set to loans account
+    - [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Movements with pending status
     - [AppMoney][new] Scheduled movements
@@ -55,9 +57,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][mod] Allow to specify a schedule starting date without duration or finish date, it will use current duration in order to set the finish date and save it
   - [AppTasks][new] Add a red flag to those tasks that can't be progressed
 - Login
+  - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
   - [AppCommon][new][Login] Login logged user identity service
   - [AppCommon][new][Login] Login basic CSS
   - [AppCommon][new][Login] Store cyphred passwords
+  - [AppCommon][new][Menu] Apply styles and layout to menu items
 - Common
   - [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
   - [AppCommon][new] Add unit tests to utilities classes
@@ -81,7 +85,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppMoney][new] Add spend summary along with details
 - [AppMoney][new] Add places listing/new/update endpoints
-- [AppTasks][new] Option or button to show/hide remaining done tasks in Finished Today section, by default only the latest 3 tasks are shown
 - [AppCommon][new][Login] Redirect to login logic in all pages
 - [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
 - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
@@ -89,6 +92,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.33 (2019-03-14)
+
+- [AppTasks][new] Option or button to show/hide remaining done tasks in Finished Today section, by default only the latest 3 tasks are shown
 
 ## v1.8.32 (2019-03-13)
 

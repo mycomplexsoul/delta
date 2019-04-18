@@ -40,6 +40,7 @@ export class TasksComponent implements OnInit {
   public viewOptions: boolean = false;
   public viewQualifierTotals: boolean = false;
   public viewETABeforeAdd: boolean = false;
+  public viewAllFinishedToday: boolean = false;
   public taskStatus = {
     BACKLOG: 1,
     OPEN: 2,
