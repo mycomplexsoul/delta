@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     https://github.com/istanbuljs/nyc
   - [AppCommon][new] Add front end coverage report
   - [AppCommon][mod][Install] Create InnoDB tables
+  - [AppCommon][new] Alert component that renders a notification inside window
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
   - [AppMultimedia][new] Create migration script
@@ -85,13 +86,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppMoney][new] Add spend summary along with details
 - [AppMoney][new] Add places listing/new/update endpoints
-- [AppCommon][new][Login] Redirect to login logic in all pages
 - [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
 - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
 
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.34 (2019-03-15)
+
+- [AppCommon][new][Login] Redirect to login logic in all pages
+- [AppCommon][new][Login] Basic styling for login form page
 
 ## v1.8.33 (2019-03-14)
 

@@ -191,50 +191,46 @@ const appRoutes = [
     {
         path: "tasks",
         component: tasks_component_1.TasksComponent,
-        data: { title: "Tasks" },
         canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "account",
         component: account_component_1.AccountComponent,
-        data: { title: "Accounts" }
+        canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "movement",
         component: movement_component_1.MovementComponent,
-        data: { title: "Movements" }
+        canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "balance",
         component: balance_component_1.BalanceComponent,
-        data: { title: "Balance" }
+        canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "rebuild",
         component: rebuild_component_1.RebuildComponent,
-        data: { title: "Rebuild" }
+        canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "login",
-        component: login_component_1.LoginComponent,
-        data: { title: "Login" }
+        component: login_component_1.LoginComponent
     },
     {
         path: "lasttime",
         component: lasttime_component_1.LastTimeComponent,
-        data: { title: "Last Time" },
         canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "multimedia",
         component: multimedia_component_1.MultimediaComponent,
-        data: { title: "Multimedia" },
         canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "type-generator",
         component: type_generator_component_1.TypeGeneratorComponent,
-        data: { title: "Type Generator" }
+        canActivate: [auth_guard_1.AuthGuard]
     },
     {
         path: "",
@@ -845,7 +841,7 @@ let LoginComponent = class LoginComponent {
     }
 };
 LoginComponent = tslib_1.__decorate([
-    core_1.Component({ template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html") }),
+    core_1.Component({ template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html"), styles: [__webpack_require__(/*! ./login.css */ "./src/app/common/login.css")] }),
     tslib_1.__metadata("design:paramtypes", [forms_1.FormBuilder,
         router_1.ActivatedRoute,
         router_1.Router,
@@ -941,6 +937,17 @@ export class LoginComponent implements OnInit {
 
 /***/ }),
 
+/***/ "./src/app/common/login.css":
+/*!**********************************!*\
+  !*** ./src/app/common/login.css ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".login-form {\r\n  display: flex;\r\n  justify-items: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n  border: 1px dotted black;\r\n  padding: 20px;\r\n  margin: 0 auto;\r\n  width: 300px;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL2xvZ2luLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGFBQWE7RUFDYixxQkFBcUI7RUFDckIsbUJBQW1CO0VBQ25CLHNCQUFzQjtFQUN0Qix3QkFBd0I7RUFDeEIsYUFBYTtFQUNiLGNBQWM7RUFDZCxZQUFZO0FBQ2QiLCJmaWxlIjoic3JjL2FwcC9jb21tb24vbG9naW4uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmxvZ2luLWZvcm0ge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAganVzdGlmeS1pdGVtczogY2VudGVyO1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBib3JkZXI6IDFweCBkb3R0ZWQgYmxhY2s7XHJcbiAgcGFkZGluZzogMjBweDtcclxuICBtYXJnaW46IDAgYXV0bztcclxuICB3aWR0aDogMzAwcHg7XHJcbn1cclxuIl19 */"
+
+/***/ }),
+
 /***/ "./src/app/common/login.service.ts":
 /*!*****************************************!*\
   !*** ./src/app/common/login.service.ts ***!
@@ -997,7 +1004,7 @@ exports.LoginService = LoginService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/register\" class=\"btn btn-link\">Register</a>\r\n  </div>\r\n</form>\r\n\r\n<!--\r\n<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\r\n    <div class=\"login\">\r\n        <input type=\"text\" id=\"fUsername\" name=\"fUsername\" ngModel />\r\n        <input type=\"password\" id=\"fPassword\" name=\"fPassword\" ngModel />\r\n        <input type=\"submit\" value=\"Login\" />\r\n        <div id=\"messages\" *ngIf=\"viewData.error\">{{ viewData.errorMessage }}</div>\r\n    </div>\r\n</form>\r\n-->\r\n"
+module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\" class=\"login-form\">\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/register\" class=\"btn btn-link\">Register</a>\r\n  </div>\r\n</form>\r\n\r\n<!--\r\n<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\r\n    <div class=\"login\">\r\n        <input type=\"text\" id=\"fUsername\" name=\"fUsername\" ngModel />\r\n        <input type=\"password\" id=\"fPassword\" name=\"fPassword\" ngModel />\r\n        <input type=\"submit\" value=\"Login\" />\r\n        <div id=\"messages\" *ngIf=\"viewData.error\">{{ viewData.errorMessage }}</div>\r\n    </div>\r\n</form>\r\n-->\r\n"
 
 /***/ }),
 

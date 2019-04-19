@@ -24,50 +24,46 @@ const appRoutes: Routes = [
   {
     path: "tasks",
     component: TasksComponent,
-    data: { title: "Tasks" },
     canActivate: [AuthGuard]
   },
   {
     path: "account",
     component: AccountComponent,
-    data: { title: "Accounts" }
+    canActivate: [AuthGuard]
   },
   {
     path: "movement",
     component: MovementComponent,
-    data: { title: "Movements" }
+    canActivate: [AuthGuard]
   },
   {
     path: "balance",
     component: BalanceComponent,
-    data: { title: "Balance" }
+    canActivate: [AuthGuard]
   },
   {
     path: "rebuild",
     component: RebuildComponent,
-    data: { title: "Rebuild" }
+    canActivate: [AuthGuard]
   },
   {
     path: "login",
-    component: LoginComponent,
-    data: { title: "Login" }
+    component: LoginComponent
   },
   {
     path: "lasttime",
     component: LastTimeComponent,
-    data: { title: "Last Time" },
     canActivate: [AuthGuard]
   },
   {
     path: "multimedia",
     component: MultimediaComponent,
-    data: { title: "Multimedia" },
     canActivate: [AuthGuard]
   },
   {
     path: "type-generator",
     component: TypeGeneratorComponent,
-    data: { title: "Type Generator" }
+    canActivate: [AuthGuard]
   },
   {
     path: "",
