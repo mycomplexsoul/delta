@@ -89,6 +89,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
   - [AppMultimedia][new] Create migration script
   - [AppMultimedia][new] Migrate legacy information
+  - [AppMultimedia][new] Reset form after successful registration
 - LastTime
   - [AppLastTime][fix] Sorting and filtering UX
   - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
@@ -96,11 +97,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppMoney][new] Add spend summary along with details
-- [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
 
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.38 (2019-03-21)
+
+- [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
 
 ## v1.8.37 (2019-03-20)
 

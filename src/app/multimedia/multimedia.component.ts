@@ -86,6 +86,7 @@ export class MultimediaComponent implements OnInit {
     fRating: number;
     fPlatform: number;
     fNotes: string;
+    fNextEpId: string;
   } = {
     id: null,
     epId: null,
@@ -99,7 +100,8 @@ export class MultimediaComponent implements OnInit {
     fSummary: null,
     fRating: 0,
     fPlatform: 0,
-    fNotes: null
+    fNotes: null,
+    fNextEpId: null
   };
 
   constructor(
@@ -219,6 +221,9 @@ export class MultimediaComponent implements OnInit {
       this.epModel.fPlatform = viewFound.mmv_ctg_platform;
       this.epModel.fNotes = viewFound.mmv_notes;
     }
+
+    // set our guess on the next ep id so the user can verify or change it
+    this.epModel.fNextEpId = this.calculateNextEp(epId);
   }
 
   hideNewEpForm() {
@@ -296,7 +301,7 @@ export class MultimediaComponent implements OnInit {
       const media = this.viewData.multimediaList.find(
         item => item.mma_id === this.epModel.id
       );
-      media.mma_current_ep = this.calculateNextEp(media.mma_current_ep);
+      media.mma_current_ep = values.fNextEpId;
       media.mma_date_mod = new Date();
       queue.push(this.services.multimediaService.asUpdateSyncQueue(media));
     }
