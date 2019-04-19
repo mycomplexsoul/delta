@@ -1,21 +1,15 @@
-import { ApiModule } from "../ApiModule";
-import { iNode } from "../iNode";
 import { Place } from "../../crosscommon/entities/Place";
+import { ApiServer } from "../ApiServer";
 
 export class PlaceServer {
-    list = (node: iNode) => {
-        let api: ApiModule = new ApiModule(new Place());
+  private api: ApiServer = new ApiServer(new Place());
 
-        api.list({ q: node.request.query['q'] }).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  listRequestHandler = this.api.listRequestHandler;
+  list = this.api.list;
 
-    create = (node: iNode) => {
-        const api: ApiModule = new ApiModule(new Place());
+  createRequestHandler = this.api.createRequestHandler;
+  create = this.api.create;
 
-        api.create({ body: node.request.body }, {}).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  updateRequestHandler = this.api.updateRequestHandler;
+  update = this.api.update;
 }

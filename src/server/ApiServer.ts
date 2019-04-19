@@ -9,6 +9,18 @@ export class ApiServer {
     this.model = model;
   }
 
+  listRequestHandler = (node: iNode) => {
+    this.list({ q: node.request.query["q"] }).then(response => {
+      node.response.end(JSON.stringify(response));
+    });
+  };
+
+  list = (query: any): Promise<any> => {
+    const api: ApiModule = new ApiModule(this.model);
+
+    return api.list(query);
+  };
+
   createRequestHandler = (node: iNode) => {
     this.create(node.request.body).then(response => {
       node.response.end(JSON.stringify(response));

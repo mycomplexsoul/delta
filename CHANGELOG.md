@@ -32,12 +32,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Add places UI listing
     - [AppMoney][new] Add places form to edit or add new places
     - [AppMoney][new] Consume endpoints to finish adding or editing places
+    - [AppMoney][new] Add a functionality to count all uses of a place inside registered movements
+    - [AppMoney][new] Add a functionality to replace all uses of a place with another selected place
   - Categories
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add categories listing/new/update endpoints
     - [AppMoney][new] Add categories UI listing
     - [AppMoney][new] Add categories form to edit or add new categories
     - [AppMoney][new] Consume endpoints to finish adding or editing categories
+    - [AppMoney][new] Add a functionality to count all uses of a category inside registered movements
+    - [AppMoney][new] Add a functionality to replace all uses of a category with another selected category
   - Presets
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add presets listing/new/update endpoints
@@ -85,13 +89,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppMoney][new] Add spend summary along with details
-- [AppMoney][new] Add places listing/new/update endpoints
 - [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
 - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
 
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.36 (2019-03-19)
+
+- [AppMoney][new] Add places listing/new/update endpoints
+
+## v1.8.35 (2019-03-16)
+
+- [AppMoney][new] Add listing generic request handler in `ApiServer`
 
 ## v1.8.34 (2019-03-15)
 
