@@ -79,22 +79,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new] Add front end coverage report
   - [AppCommon][mod][Install] Create InnoDB tables
   - [AppCommon][new] Alert component that renders a notification inside window
+  - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
+  - [AppCommon][new][CFG] Basic CFG configuration page
+  - [AppCommon][new][CFG] Save/retrieve and cypher config values in `cfg.json`
+  - [AppCommon][new][CFG] Once CFG is created/modified, validate database structure against entity definitions, if different, point out differences or say everything is ok
+  - [AppCommon][new][Install] When entering `/health-check` route, look for `cfg.json`, if present, validate database structure against entity definitions, if different, point out differences or say everything is ok
+  - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
   - [AppMultimedia][new] Create migration script
   - [AppMultimedia][new] Migrate legacy information
 - LastTime
+  - [AppLastTime][fix] Sorting and filtering UX
   - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 
 ## [Unreleased / Work In Progress]
 
 - [AppMoney][new] Add spend summary along with details
-- [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries
 - [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
 
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.37 (2019-03-20)
+
+- [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries, creating a new `MoInstallSQL.createViewSQLNoSubQuery` method
 
 ## v1.8.36 (2019-03-19)
 
