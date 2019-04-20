@@ -2301,7 +2301,7 @@ const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./
 let BalanceComponent = class BalanceComponent {
     constructor(balanceService, movementService, syncService, titleService) {
         this.titleService = titleService;
-        this.user = 'anon';
+        this.user = "anon";
         this.viewData = {
             balance: [],
             movements: [],
@@ -2321,26 +2321,38 @@ let BalanceComponent = class BalanceComponent {
             year: 2017,
             month: 12,
             selectedBalance: null,
-            movementListingView: 'compact',
+            movementListingView: "compact",
             selectedMonthName: null
+        };
+        this.state = {
+            movementList: []
         };
         this.services.balance = balanceService;
         this.services.movement = movementService;
         this.services.sync = syncService;
-        titleService.setTitle('Balance');
+        titleService.setTitle("Balance");
     }
     ngOnInit() {
-        this.model.iterable = (new Date()).getFullYear() * 100 + ((new Date()).getMonth() + 1);
+        this.model.iterable =
+            new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
         this.parseIterable();
-        this.services.balance.getAllForUser(this.user).then((list) => {
+        this.services.balance
+            .getAllForUser(this.user)
+            .then((list) => {
             this.viewData.balance = list;
             /*this.viewData.balance = this.viewData.balance
-            .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
-            .slice(0,10);*/
+                .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
+                .slice(0,10);*/
             this.viewData.monthBalance = this.filterMonthBalance();
             //this.viewData.monthBalance = this.services.balance.list;
             // TODO: add list of year/months of balance for combo box
             this.viewData.monthList = this.services.balance.monthList(this.user);
+        });
+        this.services.movement
+            .getAllForUser(this.user)
+            .then((list) => {
+            this.state.movementList = list;
+            this.monthlyTotals();
         });
     }
     parseIterable() {
@@ -2351,15 +2363,22 @@ let BalanceComponent = class BalanceComponent {
         this.parseIterable();
         this.viewData.monthBalance = this.filterMonthBalance();
         if (this.model.selectedBalance) {
-            this.model.selectedBalance = this.viewData.balance.find(b => b.bal_id_account === this.model.selectedBalance.bal_id_account && b.bal_year === this.model.year && b.bal_month === this.model.month);
+            this.model.selectedBalance = this.viewData.balance.find(b => b.bal_id_account === this.model.selectedBalance.bal_id_account &&
+                b.bal_year === this.model.year &&
+                b.bal_month === this.model.month);
             this.renderMovements(this.model.selectedBalance, undefined);
         }
+        this.monthlyTotals();
     }
     filterMonthBalance() {
         let filter = (b) => b.bal_year == this.model.year && b.bal_month == this.model.month;
         if (this.viewData.filterNonZero) {
-            filter = (b) => b.bal_year == this.model.year && b.bal_month == this.model.month
-                && !(b.bal_initial === 0 && b.bal_charges === 0 && b.bal_withdrawals === 0 && b.bal_final === 0);
+            filter = (b) => b.bal_year == this.model.year &&
+                b.bal_month == this.model.month &&
+                !(b.bal_initial === 0 &&
+                    b.bal_charges === 0 &&
+                    b.bal_withdrawals === 0 &&
+                    b.bal_final === 0);
         }
         return this.services.balance.list().filter((b) => filter(b));
     }
@@ -2379,11 +2398,16 @@ let BalanceComponent = class BalanceComponent {
                 balance
             }));
         });
-        this.services.movement.getAllForUser(this.user).then((list) => {
+        this.services.movement
+            .getAllForUser(this.user)
+            .then((list) => {
             let ref = balance.bal_year * 100 + balance.bal_month;
             this.viewData.movements = list.filter(m => {
-                let movRef = (new Date(m.mov_date)).getFullYear() * 100 + ((new Date(m.mov_date)).getMonth() + 1);
-                return ref === movRef && (balance.bal_id_account === m.mov_id_account || balance.bal_id_account === m.mov_id_account_to);
+                let movRef = new Date(m.mov_date).getFullYear() * 100 +
+                    (new Date(m.mov_date).getMonth() + 1);
+                return (ref === movRef &&
+                    (balance.bal_id_account === m.mov_id_account ||
+                        balance.bal_id_account === m.mov_id_account_to));
             });
             this.model.selectedBalance = balance;
             this.model.selectedMonthName = DateUtility_1.DateUtils.getMonthName(balance.bal_month);
@@ -2393,15 +2417,66 @@ let BalanceComponent = class BalanceComponent {
     toggleDailyBalance() {
         this.viewData.showDailyBalance = !this.viewData.showDailyBalance;
     }
+    monthlyTotals() {
+        this.parseIterable();
+        const movementList = this.state.movementList.filter(item => item.mov_date.getFullYear() === this.model.year &&
+            item.mov_date.getMonth() + 1 === this.model.month);
+        const data = {
+            income: [
+                {
+                    title: "Salary",
+                    movements: movementList.filter(item => item.mov_ctg_type === 2 &&
+                        item.mov_budget &&
+                        item.mov_budget.includes("salary"))
+                },
+                {
+                    title: "Mortgage",
+                    movements: movementList.filter(item => item.mov_ctg_type === 2 &&
+                        item.mov_budget &&
+                        item.mov_budget.includes("mortgage"))
+                },
+                {
+                    title: "Other",
+                    movements: movementList.filter(item => item.mov_ctg_type === 2 &&
+                        ((item.mov_budget &&
+                            !item.mov_budget.includes("salary") &&
+                            !item.mov_budget.includes("mortgage")) ||
+                            !item.mov_budget))
+                }
+            ],
+            expenses: movementList
+                .filter(item => item.mov_ctg_type === 1)
+                .reduce((previous, item) => {
+                const categoryGroup = previous.find(x => x.title === item.mov_txt_category);
+                if (categoryGroup) {
+                    categoryGroup.movements.push(item);
+                    categoryGroup.total += item.mov_amount;
+                }
+                else {
+                    previous.push({
+                        title: item.mov_txt_category,
+                        movements: [item],
+                        total: item.mov_amount
+                    });
+                }
+                return previous;
+            }, [])
+        };
+        // include totals
+        data.income.forEach(item => {
+            item["total"] = item.movements.reduce((p, x) => p + x.mov_amount, 0);
+        });
+        data.expenses.forEach(item => {
+            item["total"] = item.movements.reduce((p, x) => p + x.mov_amount, 0);
+        });
+        console.log("monthlyTotals", data);
+    }
 };
 BalanceComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'balance',
+        selector: "balance",
         template: __webpack_require__(/*! ./balance.template.html */ "./src/app/money/balance.template.html"),
-        providers: [
-            balance_service_1.BalanceService,
-            movement_service_1.MovementService
-        ],
+        providers: [balance_service_1.BalanceService, movement_service_1.MovementService],
         styles: [__webpack_require__(/*! ./balance.css */ "./src/app/money/balance.css")]
     }),
     tslib_1.__metadata("design:paramtypes", [balance_service_1.BalanceService,
@@ -4512,7 +4587,7 @@ let MultimediaComponent = class MultimediaComponent {
             queue.push(this.services.multimediaViewService.asSyncQueue(item2));
             // Updates Media item
             const media = this.viewData.multimediaList.find(item => item.mma_id === this.epModel.id);
-            media.mma_current_ep = this.calculateNextEp(media.mma_current_ep);
+            media.mma_current_ep = values.fNextEpId;
             media.mma_date_mod = new Date();
             queue.push(this.services.multimediaService.asUpdateSyncQueue(media));
         }

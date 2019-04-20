@@ -96,11 +96,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppMoney][new] Add spend summary along with details
-
 - [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.39 (2019-03-22)
+
+- [AppMoney][new] Add expenses summary along with details to balance
 
 ## v1.8.38 (2019-03-21)
 
