@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
+
 // types
 import { Balance } from "../../crosscommon/entities/Balance";
 import { Movement } from "../../crosscommon/entities/Movement";
@@ -28,6 +28,13 @@ export class BalanceComponent implements OnInit {
     filterNonZero: boolean;
     averageBalanceInfo: any;
     showDailyBalance: boolean;
+    monthlyChart: {
+      chartData: any[];
+      chartLabels: string[];
+      chartOptions: any;
+      chartLegend: boolean;
+      chartType: string;
+    };
   } = {
     balance: [],
     movements: [],
@@ -35,7 +42,20 @@ export class BalanceComponent implements OnInit {
     monthList: [],
     filterNonZero: true,
     averageBalanceInfo: {},
-    showDailyBalance: false
+    showDailyBalance: false,
+    monthlyChart: {
+      chartData: [
+        {
+          data: []
+        }
+      ],
+      chartLabels: [],
+      chartOptions: {
+        responsive: true
+      },
+      chartLegend: true,
+      chartType: "pie"
+    }
   };
   public services: {
     balance: BalanceService;
@@ -272,5 +292,13 @@ export class BalanceComponent implements OnInit {
       item["total"] = item.movements.reduce((p, x) => p + x.mov_amount, 0);
     });
     console.log("monthlyTotals", data);
+
+    const chart = this.viewData.monthlyChart;
+    chart.chartData = [
+      { data: data.expenses.map(item => item.total), label: "Expenses" }
+    ];
+    chart.chartLabels = data.expenses.map(
+      item => `${item.title} (${item.movements.length})`
+    );
   }
 }

@@ -14,9 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
-    - [AppMoney][new] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
+    - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
   - Movement
-    - [AppMoney][new] When the tag `reimburse-50` is added to a movement, create a new movement based on it which will add a legend "Half for:" at the beginning and ", original amount \${MOV_AMOUNT}" at the end of the description, also movement amount will be half of the original and the account will be set to loans account
     - [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Movements with pending status
@@ -61,7 +60,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][mod] Allow to specify a schedule starting date without duration or finish date, it will use current duration in order to set the finish date and save it
   - [AppTasks][new] Add a red flag to those tasks that can't be progressed
 - Login
-  - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
   - [AppCommon][new][Login] Login logged user identity service
   - [AppCommon][new][Login] Login basic CSS
   - [AppCommon][new][Login] Store cyphred passwords
@@ -79,7 +77,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new] Add front end coverage report
   - [AppCommon][mod][Install] Create InnoDB tables
   - [AppCommon][new] Alert component that renders a notification inside window
-  - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
   - [AppCommon][new][CFG] Basic CFG configuration page
   - [AppCommon][new][CFG] Save/retrieve and cypher config values in `cfg.json`
   - [AppCommon][new][CFG] Once CFG is created/modified, validate database structure against entity definitions, if different, point out differences or say everything is ok
@@ -87,18 +84,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
-  - [AppMultimedia][new] Create migration script
   - [AppMultimedia][new] Migrate legacy information
   - [AppMultimedia][new] Reset form after successful registration
 - LastTime
-  - [AppLastTime][fix] Sorting and filtering UX
   - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 
 ## [Unreleased / Work In Progress]
 
 - [AppLastTime][new] Show an option to search on or show archived items
+- [AppMoney][fix] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
+- [AppMoney][new] When the tag `reimburse-50` is added to a movement, create a new movement based on it which will add a legend "Half for:" at the beginning and ", original amount \${MOV_AMOUNT}" at the end of the description, also movement amount will be half of the original and the account will be set to loans account
+- [AppTasks][new] When a new task is created, set `tsk_date_due` to equal `tsk_date_add` if status is OPEN, if not set is as null, also when moving to backlog and `tsk_date_add` is current day, set `tsk_date_due` as null, otherwise do not modify it
+
+- [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
+- [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
+- [AppMultimedia][new] Create migration script
+- [AppLastTime][fix] Sorting and filtering UX
 
 <hr/>
+
+## v1.8.41 (2019-03-26)
+
+- [AppMoney][new] Add expenses chart for current selected month in Balance page
+
+## v1.8.40 (2019-03-23)
+
+- [AppCommon][new] Add `Chart.js` to project
+- [AppCommon][new] Add `--types node` to node typescript compilation in order to workaround `@types/chart.js` compilation issues
 
 ## v1.8.39 (2019-03-22)
 

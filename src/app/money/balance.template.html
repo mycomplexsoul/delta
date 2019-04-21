@@ -1,78 +1,149 @@
 <div>
-    <strong>Balance</strong>
+  <strong>Balance</strong>
 
-    <span class="field">
-        <label for="fMonth" class="label-left">Year-Month</label>
-        <select [(ngModel)]="model.iterable" name="fMonth" id="fMonth" (change)="reloadBalance()">
-            <option *ngFor="let opt of viewData.monthList" value="{{opt.iterable}}">{{opt.name}}</option>
-        </select>
+  <span class="field">
+    <label for="fMonth" class="label-left">Year-Month</label>
+    <select
+      [(ngModel)]="model.iterable"
+      name="fMonth"
+      id="fMonth"
+      (change)="reloadBalance()"
+    >
+      <option
+        *ngFor="let opt of viewData.monthList"
+        value="{{ opt.iterable }}"
+        >{{ opt.name }}</option
+      >
+    </select>
 
-        <br/>
-        <input name="fFilterNonZero" id="fFilterNonZero" type="checkbox" (click)="toggleFilterNonZero()" [(ngModel)]="viewData.filterNonZero" />
-        <label for="fFilterNonZero">Filter Non Zero Balance</label>
-    </span>
+    <br />
+    <input
+      name="fFilterNonZero"
+      id="fFilterNonZero"
+      type="checkbox"
+      (click)="toggleFilterNonZero()"
+      [(ngModel)]="viewData.filterNonZero"
+    />
+    <label for="fFilterNonZero">Filter Non Zero Balance</label>
+  </span>
 
-    <table>
-        <tr>
-            <th>Account</th>
-            <th>Initial</th>
-            <th>Charges</th>
-            <th>Withdrawals</th>
-            <th>Final</th>
-            <th>Actions</th>
-        </tr>
-        <tr *ngFor="let b of viewData.monthBalance" class="balance-row">
-            <td>{{b.bal_txt_account}}</td>
-            <td class="text-align-right padding-all-5">{{b.bal_initial | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
-            <td class="text-align-right padding-all-5">{{b.bal_charges | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
-            <td class="text-align-right padding-all-5">{{b.bal_withdrawals | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
-            <td class="text-align-right padding-all-5"
-                [ngClass]="{'balance-zero': b.bal_final == 0, 'balance-positive': b.bal_final > 0, 'balance-negative': b.bal_final < 0}">
-                {{b.bal_final | currency:'USD':'symbol-narrow':'1.2-2'}}
+  <table>
+    <tr>
+      <th>Account</th>
+      <th>Initial</th>
+      <th>Charges</th>
+      <th>Withdrawals</th>
+      <th>Final</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let b of viewData.monthBalance" class="balance-row">
+      <td>{{ b.bal_txt_account }}</td>
+      <td class="text-align-right padding-all-5">
+        {{ b.bal_initial | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </td>
+      <td class="text-align-right padding-all-5">
+        {{ b.bal_charges | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </td>
+      <td class="text-align-right padding-all-5">
+        {{ b.bal_withdrawals | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </td>
+      <td
+        class="text-align-right padding-all-5"
+        [ngClass]="{
+          'balance-zero': b.bal_final == 0,
+          'balance-positive': b.bal_final > 0,
+          'balance-negative': b.bal_final < 0
+        }"
+      >
+        {{ b.bal_final | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </td>
+      <td>
+        <a href="#" (click)="renderMovements(b, $event)">View Movements</a>
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="model.selectedBalance">
+    Listing {{ viewData.movements.length }} movements for account
+    <strong>{{ model.selectedBalance.bal_txt_account }}</strong> for period
+    {{ model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}
+
+    <div>
+      <div>
+        Average Balance:
+        {{
+          viewData.averageBalanceInfo.averageBalance
+            | currency: "USD":"symbol-narrow":"1.2-2"
+        }}
+        <span
+          *ngIf="
+            viewData.averageBalanceInfo.averageBalance >=
+            viewData.averageBalanceInfo.averageMinBalance
+          "
+        >
+          &gt;=
+          {{
+            viewData.averageBalanceInfo.averageMinBalance
+              | currency: "USD":"symbol-narrow":"1.2-2"
+          }}
+        </span>
+        <span
+          *ngIf="
+            viewData.averageBalanceInfo.averageBalance <
+            viewData.averageBalanceInfo.averageMinBalance
+          "
+        >
+          &lt;
+          {{
+            viewData.averageBalanceInfo.averageMinBalance
+              | currency: "USD":"symbol-narrow":"1.2-2"
+          }}
+        </span>
+      </div>
+      <div>
+        Date Range:
+        {{ viewData.averageBalanceInfo.startingDate | date: "yyyy-MM-dd" }}
+        -
+        {{ viewData.averageBalanceInfo.finalDate | date: "yyyy-MM-dd" }}
+      </div>
+      <button (click)="toggleDailyBalance()">
+        {{ viewData.showDailyBalance ? "Hide" : "Show" }} daily balance
+      </button>
+      <div *ngIf="viewData.showDailyBalance">
+        <table>
+          <tr>
+            <th class="padding-all-5 width-80">Date</th>
+            <th class="padding-all-5 width-100">Balance</th>
+          </tr>
+          <tr
+            class="movements-listing-row"
+            *ngFor="let m of viewData.averageBalanceInfo.dailyBalance"
+          >
+            <td class="padding-all-5">{{ m.date | date: "yyyy-MM-dd" }}</td>
+            <td class="padding-all-5 text-align-right">
+              {{ m.balance | currency: "USD":"symbol-narrow":"1.2-2" }}
             </td>
-            <td><a href="#" (click)="renderMovements(b, $event)">View Movements</a></td>
-        </tr>
-    </table>
-
-    <div *ngIf="model.selectedBalance">
-        Listing {{viewData.movements.length}} movements for account <strong>{{model.selectedBalance.bal_txt_account}}</strong> for period {{model.selectedBalance.bal_year}} - {{model.selectedMonthName}}
-
-        <div>
-            <div>
-                Average Balance: {{viewData.averageBalanceInfo.averageBalance | currency:'USD':'symbol-narrow':'1.2-2'}}
-                <span *ngIf="viewData.averageBalanceInfo.averageBalance >= viewData.averageBalanceInfo.averageMinBalance">
-                    &gt;= {{viewData.averageBalanceInfo.averageMinBalance | currency:'USD':'symbol-narrow':'1.2-2'}}
-                </span>
-                <span *ngIf="viewData.averageBalanceInfo.averageBalance < viewData.averageBalanceInfo.averageMinBalance">
-                    &lt; {{viewData.averageBalanceInfo.averageMinBalance | currency:'USD':'symbol-narrow':'1.2-2'}}
-                </span>
-            </div>
-            <div>Date Range: 
-                {{viewData.averageBalanceInfo.startingDate | date: 'yyyy-MM-dd'}}
-                 - 
-                {{viewData.averageBalanceInfo.finalDate | date: 'yyyy-MM-dd'}}
-            </div>
-            <button (click)="toggleDailyBalance()">
-                {{viewData.showDailyBalance ? 'Hide' : 'Show'}} daily balance
-            </button>
-            <div *ngIf="viewData.showDailyBalance">
-                <table>
-                    <tr>
-                        <th class="padding-all-5 width-80">Date</th>
-                        <th class="padding-all-5 width-100">Balance</th>
-                    </tr>
-                    <tr class="movements-listing-row" *ngFor="let m of viewData.averageBalanceInfo.dailyBalance">
-                        <td class="padding-all-5">{{m.date | date: 'yyyy-MM-dd'}}</td>
-                        <td class="padding-all-5 text-align-right">{{m.balance | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
-                    </tr>
-                </table>    
-            </div>
-        </div>
+          </tr>
+        </table>
+      </div>
     </div>
+  </div>
 
-    <movement-listing
-        [movementList]="viewData.movements"
-        [selectedBalance]="model.selectedBalance"
-        selectedView="compact"
-        *ngIf="viewData.movements.length"
-    ></movement-listing>
+  <movement-listing
+    [movementList]="viewData.movements"
+    [selectedBalance]="model.selectedBalance"
+    selectedView="compact"
+    *ngIf="viewData.movements.length"
+  ></movement-listing>
+
+  <canvas
+    id="monthlyChart"
+    baseChart
+    [datasets]="viewData.monthlyChart.chartData"
+    [labels]="viewData.monthlyChart.chartLabels"
+    [options]="viewData.monthlyChart.chartOptions"
+    [legend]="viewData.monthlyChart.chartLegend"
+    [chartType]="viewData.monthlyChart.chartType"
+  >
+  </canvas>
+</div>

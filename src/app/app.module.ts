@@ -7,6 +7,8 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { routing } from "./app.routing";
 
+import { ChartsModule } from "ng2-charts";
+
 import { AppComponent } from "./app.component";
 import { TasksComponent } from "./task/tasks.component";
 import { MenuComponent } from "./common/menu.component";
@@ -43,7 +45,8 @@ import { RegisterComponent } from "./common/register.component";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    routing
+    routing,
+    ChartsModule
   ],
   declarations: [
     AppComponent,
