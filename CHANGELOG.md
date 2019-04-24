@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Notes / To Do / Roadmap]
 
 - Money
+  - Graphs
+    - [AppMoney][new] Daily balance over an account or over all accounts totals
   - Balance
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Spent report for monthly/range basis
@@ -16,12 +18,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
     - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
   - Movement
-    - [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Movements with pending status
     - [AppMoney][new] Scheduled movements
     - [AppMoney][new] Movement form validation server side
     - [AppMoney][new] Movement form validation client side
+    - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
   - Account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add account form to edit or add new accounts
@@ -93,15 +95,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppLastTime][new] Show an option to search on or show archived items
 - [AppMoney][fix] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
-- [AppMoney][new] When the tag `reimburse-50` is added to a movement, create a new movement based on it which will add a legend "Half for:" at the beginning and ", original amount \${MOV_AMOUNT}" at the end of the description, also movement amount will be half of the original and the account will be set to loans account
 - [AppTasks][new] When a new task is created, set `tsk_date_due` to equal `tsk_date_add` if status is OPEN, if not set is as null, also when moving to backlog and `tsk_date_add` is current day, set `tsk_date_due` as null, otherwise do not modify it
 
 - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
 - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
 - [AppMultimedia][new] Create migration script
 - [AppLastTime][fix] Sorting and filtering UX
+- [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
 
 <hr/>
+
+## v1.8.42 (2019-03-27)
+
+- [AppMoney][new] When the tag `reimburse-50` is added to a movement, create a new movement based on it which will add a legend "Half for:" at the beginning and ", original amount \${MOV_AMOUNT}" at the end of the description, also movement amount will be half of the original and the account will be set to loans account
 
 ## v1.8.41 (2019-03-26)
 

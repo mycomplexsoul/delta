@@ -3399,11 +3399,12 @@ const movement_service_1 = __webpack_require__(/*! ./movement.service */ "./src/
 const entry_service_1 = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
 const balance_service_1 = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
 const preset_service_1 = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
+const common_1 = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 let MovementComponent = class MovementComponent {
     constructor(accountService, categoryService, placeService, movementService, entryService, balanceService, presetService, titleService) {
         this.titleService = titleService;
         this.accounts = [];
-        this.user = 'anon';
+        this.user = "anon";
         this.viewData = {
             accounts: [],
             types: [],
@@ -3417,8 +3418,9 @@ let MovementComponent = class MovementComponent {
             showCreateForm: false
         };
         this.model = {
+            /* UI default form data */
             type: 1,
-            date: '',
+            date: "",
             category: 0,
             place: 0,
             asPreset: false,
@@ -3426,7 +3428,7 @@ let MovementComponent = class MovementComponent {
             id: null
         };
         this.viewAddCategoryForm = false;
-        this._movementFlowType = 'custom';
+        this._movementFlowType = "custom";
         this.isTransfer = false;
         this.isCustom = true;
         this.isPreset = false;
@@ -3446,37 +3448,45 @@ let MovementComponent = class MovementComponent {
         this.services.entry = entryService;
         this.services.balance = balanceService;
         this.services.preset = presetService;
-        titleService.setTitle('Movements');
+        titleService.setTitle("Movements");
         // TODO: this data should come from localStorage, if not present then fetch from BE
-        this.viewData.types = [{
+        this.viewData.types = [
+            {
                 ctg_ctg_value: 1,
-                ctg_desc: 'Expense'
-            }, {
+                ctg_desc: "Expense"
+            },
+            {
                 ctg_ctg_value: 2,
-                ctg_desc: 'Income'
-            }, {
+                ctg_desc: "Income"
+            },
+            {
                 ctg_ctg_value: 3,
-                ctg_desc: 'Transfer'
-            }];
+                ctg_desc: "Transfer"
+            }
+        ];
         // TODO: this data should come from localStorage, if not present then fetch from BE
-        this.viewData.statuses = [{
+        this.viewData.statuses = [
+            {
                 ctg_ctg_value: 1,
-                ctg_desc: 'Active'
-            }, {
+                ctg_desc: "Active"
+            },
+            {
                 ctg_ctg_value: 2,
-                ctg_desc: 'Cancelled'
-            }, {
+                ctg_desc: "Cancelled"
+            },
+            {
                 ctg_ctg_value: 3,
-                ctg_desc: 'Pending'
-            }];
+                ctg_desc: "Pending"
+            }
+        ];
         // TODO: this data should have an entity
         this.viewData.budgets = [
-            'Food',
-            'Services',
-            'Renewal',
-            'Groceries',
-            'Mom',
-            'Health'
+            "Food",
+            "Services",
+            "Renewal",
+            "Groceries",
+            "Mom",
+            "Health"
         ];
         this.model.date = this.DateToStringDate(new Date());
     }
@@ -3489,7 +3499,9 @@ let MovementComponent = class MovementComponent {
     ngOnInit() {
         // TODO: this should be refactored the same way as categories and places
         this.retrieveAccountsAndBalance();
-        this.services.category.getAllForUser(this.user).then((categories) => {
+        this.services.category
+            .getAllForUser(this.user)
+            .then((categories) => {
             this.viewData.categories = categories;
         });
         this.services.place.getAllForUser(this.user).then((places) => {
@@ -3499,14 +3511,16 @@ let MovementComponent = class MovementComponent {
         this.services.preset.getAllForUser(this.user).then((list) => {
             this.viewData.presets = list;
             let p = new Preset_1.Preset();
-            p.pre_name = '';
+            p.pre_name = "";
             this.viewData.presets.unshift(p);
         });
         this.viewData.entries = this.services.entry.list();
         this.viewData.presets = this.services.preset.list();
         this.addNewCategoryForUser = this.addNewCategoryForUser.bind(this);
         this.addNewPlaceForUser = this.addNewPlaceForUser.bind(this);
-        this.services.movement.getAllForUser(this.user).then((list) => {
+        this.services.movement
+            .getAllForUser(this.user)
+            .then((list) => {
             this.viewData.movements = list;
             this.viewData.movements = this.viewData.movements
                 .sort((a, b) => a.mov_date >= b.mov_date ? -1 : 1)
@@ -3543,15 +3557,15 @@ let MovementComponent = class MovementComponent {
         this.isCustom = false;
         this.isPreset = false;
         switch (value) {
-            case 'custom': {
+            case "custom": {
                 this.isCustom = true;
                 break;
             }
-            case 'transfer': {
+            case "transfer": {
                 this.isTransfer = true;
                 break;
             }
-            case 'preset': {
+            case "preset": {
                 this.isPreset = true;
                 break;
             }
@@ -3560,7 +3574,7 @@ let MovementComponent = class MovementComponent {
         }
     }
     newMovement(form) {
-        console.log('as preset?', form.value.fAsPreset);
+        console.log("as preset?", form.value.fAsPreset);
         if (form.value.fAsPreset) {
             let p = new Preset_1.Preset();
             // TODO: hash generator for IDs
@@ -3583,27 +3597,28 @@ let MovementComponent = class MovementComponent {
             }
             else {
                 p.pre_budget = null;
-                p.pre_id_category = '0';
-                p.pre_id_place = '0';
+                p.pre_id_category = "0";
+                p.pre_id_place = "0";
             }
             p.pre_desc = form.value.fDescription;
             p.pre_notes = form.value.fNotes;
             p.pre_id_user = this.user;
             p.pre_ctg_status = 1;
-            p.pre_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == p.pre_ctg_type, 'ctg_desc');
-            p.pre_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == p.pre_id_account, 'acc_name');
+            p.pre_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == p.pre_ctg_type, "ctg_desc");
+            p.pre_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == p.pre_id_account, "acc_name");
             //p.pre_txt_account_to = '';
-            p.pre_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === p.pre_id_category, 'mct_name');
-            p.pre_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === p.pre_id_place, 'mpl_name');
-            p.pre_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == p.pre_ctg_status, 'ctg_desc');
+            p.pre_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === p.pre_id_category, "mct_name");
+            p.pre_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === p.pre_id_place, "mpl_name");
+            p.pre_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == p.pre_ctg_status, "ctg_desc");
             this.services.preset.newItem(p);
             this.viewData.presets.push(p);
-            console.log('this is the preset', p);
+            console.log("this is the preset", p);
         }
         else {
             let m = new Movement_1.Movement();
             m.mov_date = this.stringDateToDate(form.value.fDate);
-            if (this.model.id) { // we are editing instead of creating a new movement
+            if (this.model.id) {
+                // we are editing instead of creating a new movement
                 m.mov_id = this.model.id;
             }
             else {
@@ -3626,49 +3641,96 @@ let MovementComponent = class MovementComponent {
             }
             else {
                 m.mov_budget = null;
-                m.mov_id_category = '0';
-                m.mov_id_place = '0';
+                m.mov_id_category = "0";
+                m.mov_id_place = "0";
             }
             m.mov_notes = form.value.fNotes;
             m.mov_id_user = this.user;
             m.mov_ctg_status = 1;
-            m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, 'acc_name');
+            m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, "acc_name");
             if (m.mov_id_account_to) {
-                m.mov_txt_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account_to, 'acc_name');
+                m.mov_txt_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account_to, "acc_name");
             }
-            m.mov_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == m.mov_ctg_type, 'ctg_desc');
+            m.mov_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == m.mov_ctg_type, "ctg_desc");
             //m.mov_txt_budget = m.mov_budget;
-            m.mov_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === m.mov_id_category, 'mct_name');
-            m.mov_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === m.mov_id_place, 'mpl_name');
-            m.mov_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == m.mov_ctg_status, 'ctg_desc');
+            m.mov_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === m.mov_id_category, "mct_name");
+            m.mov_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === m.mov_id_place, "mpl_name");
+            m.mov_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == m.mov_ctg_status, "ctg_desc");
             if (this.model.id) {
                 // edition
                 const existingIndex = this.viewData.movements.findIndex(m => m.mov_id === this.model.id);
                 m.mov_date_add = new Date(this.viewData.movements[existingIndex].mov_date_add);
                 this.services.movement.edit(m, () => this.retrieveAccountsAndBalance());
-                m['isEdited'] = true; // flag to render as edited on UI
+                m["isEdited"] = true; // flag to render as edited on UI
                 this.viewData.movements[existingIndex] = m;
                 this.model.id = null;
             }
             else {
                 // new movement
                 this.services.movement.newItem(m, () => this.retrieveAccountsAndBalance());
-                m['isNew'] = true; // flag to render as new on UI
-                console.log('this is the movement', m);
+                m["isNew"] = true; // flag to render as new on UI
+                console.log("this is the movement", m);
                 this.viewData.movements.unshift(m);
-                this.viewData.movements = this.viewData.movements
-                    .sort((a, b) => (new Date(a.mov_date)).getTime() >= (new Date(b.mov_date)).getTime() ? -1 : 1);
+                this.viewData.movements = this.viewData.movements.sort((a, b) => new Date(a.mov_date).getTime() >= new Date(b.mov_date).getTime()
+                    ? -1
+                    : 1);
                 // Entries
                 let localEntries = [];
                 localEntries = this.generateEntriesForMovement(m);
-                console.log('these are all entries', this.services.entry.list);
+                console.log("these are all entries", this.services.entry.list);
                 // add to balance
                 this.services.balance.add(localEntries);
-                console.log('these are all balance', this.services.balance.list);
+                console.log("these are all balance", this.services.balance.list);
+                // if the movement has `reimburse-50` budget flag
+                // add a new movement based on this one with specific changes
+                this.createReimburseMovement(m);
             }
             this.resetForm(form);
             return false;
         }
+    }
+    createReimburseMovement(base) {
+        const ACCOUNT_FOR_REIMBURSE = "11";
+        let newAmount = base.mov_amount;
+        let descPrefix = "";
+        let reimburseType = "";
+        const REIMBURSE_50 = "reimburse-50";
+        const REIMBURSE_100 = "reimburse-100";
+        if (base.mov_budget.includes(REIMBURSE_50)) {
+            reimburseType = REIMBURSE_50;
+            newAmount = base.mov_amount * 0.5;
+            descPrefix = "Half for: ";
+        }
+        if (base.mov_budget.includes(REIMBURSE_100)) {
+            reimburseType = REIMBURSE_100;
+            newAmount = base.mov_amount;
+            descPrefix = "Reimburse for: ";
+        }
+        // if no reimburse was detected, do nothing
+        if (!reimburseType) {
+            return false;
+        }
+        const reimburse = new Movement_1.Movement(base);
+        reimburse.mov_desc = `${descPrefix}${base.mov_desc}, original amount: ${common_1.formatCurrency(base.mov_amount, "US", "$")}`;
+        reimburse.mov_amount = newAmount;
+        reimburse.mov_ctg_type = 2;
+        reimburse.mov_id_account = ACCOUNT_FOR_REIMBURSE;
+        reimburse.mov_budget = base.mov_budget.replace(REIMBURSE_50, "");
+        // new movement
+        this.services.movement.newItem(reimburse, () => this.retrieveAccountsAndBalance());
+        reimburse["isNew"] = true; // flag to render as new on UI
+        console.log("this is the reimburse movement", reimburse);
+        this.viewData.movements.unshift(reimburse);
+        this.viewData.movements = this.viewData.movements.sort((a, b) => new Date(a.mov_date).getTime() >= new Date(b.mov_date).getTime()
+            ? -1
+            : 1);
+        // Entries
+        let localEntries = [];
+        localEntries = this.generateEntriesForMovement(reimburse);
+        console.log("these are all entries", this.services.entry.list);
+        // add to balance
+        this.services.balance.add(localEntries);
+        console.log("these are all balance", this.services.balance.list);
     }
     generateEntriesForMovement(m) {
         let localEntries = [];
@@ -3708,8 +3770,8 @@ let MovementComponent = class MovementComponent {
         e.ent_notes = m.mov_notes;
         e.ent_id_user = m.mov_id_user;
         e.ent_ctg_status = m.mov_ctg_status;
-        e.ent_txt_account = this.findIn(this.viewData.accounts, (i) => i.acc_id == e.ent_id_account, 'acc_name');
-        e.ent_txt_type = this.findIn(this.viewData.types, (i) => i.ctg_ctg_value == e.ent_ctg_type, 'ctg_desc');
+        e.ent_txt_account = this.findIn(this.viewData.accounts, (i) => i.acc_id == e.ent_id_account, "acc_name");
+        e.ent_txt_type = this.findIn(this.viewData.types, (i) => i.ctg_ctg_value == e.ent_ctg_type, "ctg_desc");
         //e.ent_txt_budget = m.mov_txt_budget;
         e.ent_txt_category = m.mov_txt_category;
         e.ent_txt_place = m.mov_txt_place;
@@ -3728,8 +3790,9 @@ let MovementComponent = class MovementComponent {
         }
     }
     stringDateToDate(date) {
-        if (/\d{4}-\d{2}-\d{2}/.test(date)) { // looks like a date
-            const s = date.split('-');
+        if (/\d{4}-\d{2}-\d{2}/.test(date)) {
+            // looks like a date
+            const s = date.split("-");
             return new Date(parseInt(s[0]), parseInt(s[1]) - 1, parseInt(s[2]));
         }
         return undefined;
@@ -3737,13 +3800,16 @@ let MovementComponent = class MovementComponent {
     DateToStringDate(date) {
         const mm = date.getMonth() + 1;
         const dd = date.getDate();
-        return [date.getFullYear(),
-            (mm > 9 ? '' : '0') + mm,
-            (dd > 9 ? '' : '0') + dd
-        ].join('-');
+        return [
+            date.getFullYear(),
+            (mm > 9 ? "" : "0") + mm,
+            (dd > 9 ? "" : "0") + dd
+        ].join("-");
     }
     addNewCategoryForUser(category) {
-        this.services.category.newItem(category, this.user).then((item) => {
+        this.services.category
+            .newItem(category, this.user)
+            .then((item) => {
             this.viewData.categories = this.services.category.list();
             this.model.category = item.mct_id;
         });
@@ -3755,49 +3821,49 @@ let MovementComponent = class MovementComponent {
         });
     }
     /*selectPreset(presetId: string, form: any){
-        this.services.preset.getAll().then((list: Preset[]) => {
-            let preset: Preset = list.find((p: Preset) => p.pre_id === presetId);
-            let fields: Array<any> = [
-                {
-                    'control': 'fDescription'
-                    , 'value': 'pre_desc'
-                },{
-                    'control': 'fAmount'
-                    , 'value': 'pre_amount'
-                },{
-                    'control': 'fAccount'
-                    , 'value': 'pre_id_account'
-                },{
-                    'control': 'fAccountTo'
-                    , 'value': 'pre_id_account_to'
-                },{
-                    'control': 'fMovementType'
-                    , 'value': 'pre_ctg_type'
-                },{
-                    'control': 'fDate'
-                    , 'value': 'pre_date'
-                },{
-                    'control': 'fBudget'
-                    , 'value': 'pre_budget'
-                },{
-                    'control': 'fCategory'
-                    , 'value': 'pre_id_category'
-                },{
-                    'control': 'fPlace'
-                    , 'value': 'pre_id_place'
-                },{
-                    'control': 'fNotes'
-                    , 'value': 'pre_notes'
-                }
-            ];
-    
-            fields.forEach((f: any) => {
-                if (form.controls[f.control] && preset[f.value]){
-                    form.controls[f.control].setValue(preset[f.value]);
-                }
-            });
-        });
-    }*/
+          this.services.preset.getAll().then((list: Preset[]) => {
+              let preset: Preset = list.find((p: Preset) => p.pre_id === presetId);
+              let fields: Array<any> = [
+                  {
+                      'control': 'fDescription'
+                      , 'value': 'pre_desc'
+                  },{
+                      'control': 'fAmount'
+                      , 'value': 'pre_amount'
+                  },{
+                      'control': 'fAccount'
+                      , 'value': 'pre_id_account'
+                  },{
+                      'control': 'fAccountTo'
+                      , 'value': 'pre_id_account_to'
+                  },{
+                      'control': 'fMovementType'
+                      , 'value': 'pre_ctg_type'
+                  },{
+                      'control': 'fDate'
+                      , 'value': 'pre_date'
+                  },{
+                      'control': 'fBudget'
+                      , 'value': 'pre_budget'
+                  },{
+                      'control': 'fCategory'
+                      , 'value': 'pre_id_category'
+                  },{
+                      'control': 'fPlace'
+                      , 'value': 'pre_id_place'
+                  },{
+                      'control': 'fNotes'
+                      , 'value': 'pre_notes'
+                  }
+              ];
+      
+              fields.forEach((f: any) => {
+                  if (form.controls[f.control] && preset[f.value]){
+                      form.controls[f.control].setValue(preset[f.value]);
+                  }
+              });
+          });
+      }*/
     cancelMovement() {
         // TODO: upon cancellation, change status, modify other movement references to filter active movements, rebuild and transfer
     }
@@ -3809,18 +3875,18 @@ let MovementComponent = class MovementComponent {
         let transferFlag = false;
         let yearInitial = 9999;
         let monthInitial = 0;
-        let yearFinal = (new Date()).getFullYear();
-        let monthFinal = (new Date()).getMonth() + 1;
+        let yearFinal = new Date().getFullYear();
+        let monthFinal = new Date().getMonth() + 1;
         let movements = [];
         let categories = [];
         //let place: string;
         // categories and places
         data.forEach((d, index, arr) => {
-            let values = d.split('|');
-            if (!this.findIn(this.services.category.list(), (e) => e.mct_name === values[5], 'mct_id')) {
+            let values = d.split("|");
+            if (!this.findIn(this.services.category.list(), (e) => e.mct_name === values[5], "mct_id")) {
                 this.services.category.newItem(values[5], this.user);
             }
-            if (!this.findIn(this.services.place.list(), (e) => e.mpl_name === values[6], 'mpl_id')) {
+            if (!this.findIn(this.services.place.list(), (e) => e.mpl_name === values[6], "mpl_id")) {
                 this.services.place.newItem(values[6], this.user);
             }
         });
@@ -3828,8 +3894,8 @@ let MovementComponent = class MovementComponent {
         this.viewData.places = this.services.place.list();
         data.forEach((d, index, arr) => {
             try {
-                let values = d.split('|');
-                if (transferFlag && values[5] === 'Traspaso') {
+                let values = d.split("|");
+                if (transferFlag && values[5] === "Traspaso") {
                     transferFlag = false;
                     return;
                 }
@@ -3837,60 +3903,66 @@ let MovementComponent = class MovementComponent {
                 //m.mov_id = this.services.movement.newId();
                 m.mov_desc = values[7];
                 m.mov_amount = parseFloat(values[3]);
-                if (this.findIn(this.viewData.accounts, (e) => e.acc_name == values[1], 'acc_id')) {
-                    m.mov_id_account = this.findIn(this.viewData.accounts, (e) => e.acc_name == values[1], 'acc_id');
+                if (this.findIn(this.viewData.accounts, (e) => e.acc_name == values[1], "acc_id")) {
+                    m.mov_id_account = this.findIn(this.viewData.accounts, (e) => e.acc_name == values[1], "acc_id");
                 }
                 else {
-                    console.log('account not found', values[1], d);
+                    console.log("account not found", values[1], d);
                 }
                 m.mov_date = this.stringDateToDate(values[0]);
-                if (yearInitial * 100 + monthInitial > m.mov_date.getFullYear() * 100 + (m.mov_date.getMonth() + 1)) {
+                if (yearInitial * 100 + monthInitial >
+                    m.mov_date.getFullYear() * 100 + (m.mov_date.getMonth() + 1)) {
                     yearInitial = m.mov_date.getFullYear();
                     monthInitial = m.mov_date.getMonth() + 1;
                 }
-                if (values[5] === 'Traspaso' && arr[index + 1] && arr[index + 1].split('|')[5] === "Traspaso" && arr[index + 1].split('|')[7] === values[7] && arr[index + 1].split('|')[3] === values[3]) {
+                if (values[5] === "Traspaso" &&
+                    arr[index + 1] &&
+                    arr[index + 1].split("|")[5] === "Traspaso" &&
+                    arr[index + 1].split("|")[7] === values[7] &&
+                    arr[index + 1].split("|")[3] === values[3]) {
                     transferFlag = true;
                     m.mov_ctg_type = 3;
                     // peek next item
                     // if (arr[index+1] && arr[index+1].split('|')[5] === "Traspaso" && arr[index+1].split('|')[7] === values[7]){
-                    m.mov_id_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_name == arr[index + 1].split('|')[1], 'acc_id');
+                    m.mov_id_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_name == arr[index + 1].split("|")[1], "acc_id");
                     // }
                     // Transfers always have to be expense first, income later, fix when provided the other way around
-                    if (values[2] === 'CARGO') {
+                    if (values[2] === "CARGO") {
                         // swap accounts
                         let temp = m.mov_id_account;
                         m.mov_id_account = m.mov_id_account_to;
                         m.mov_id_account_to = temp;
                     }
-                    m.mov_id_category = '0';
-                    m.mov_id_place = '0';
+                    m.mov_id_category = "0";
+                    m.mov_id_place = "0";
                 }
                 else {
-                    m.mov_ctg_type = values[2] === 'ABONO' ? 1 : 2;
-                    m.mov_budget = '' + ((m.mov_date.getFullYear() * 100) + (m.mov_date.getMonth() + 1));
-                    m.mov_id_category = this.findIn(this.viewData.categories, (e) => e.mct_name === values[5], 'mct_id');
-                    m.mov_id_place = this.findIn(this.viewData.places, (e) => e.mpl_name === values[6], 'mpl_id');
+                    m.mov_ctg_type = values[2] === "ABONO" ? 1 : 2;
+                    m.mov_budget =
+                        "" + (m.mov_date.getFullYear() * 100 + (m.mov_date.getMonth() + 1));
+                    m.mov_id_category = this.findIn(this.viewData.categories, (e) => e.mct_name === values[5], "mct_id");
+                    m.mov_id_place = this.findIn(this.viewData.places, (e) => e.mpl_name === values[6], "mpl_id");
                 }
-                m.mov_notes = '';
+                m.mov_notes = "";
                 m.mov_id_user = this.user;
                 m.mov_ctg_status = 1;
                 m.mov_date_add = new Date();
                 m.mov_date_mod = new Date();
-                m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, 'acc_name');
+                m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, "acc_name");
                 if (m.mov_id_account_to) {
-                    m.mov_txt_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account_to, 'acc_name');
+                    m.mov_txt_account_to = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account_to, "acc_name");
                 }
-                m.mov_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == m.mov_ctg_type, 'ctg_desc');
+                m.mov_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == m.mov_ctg_type, "ctg_desc");
                 //m.mov_txt_budget = m.mov_budget;
-                m.mov_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === m.mov_id_category, 'mct_name');
-                m.mov_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === m.mov_id_place, 'mpl_name');
-                m.mov_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == m.mov_ctg_status, 'ctg_desc');
+                m.mov_txt_category = this.findIn(this.viewData.categories, (e) => e.mct_id === m.mov_id_category, "mct_name");
+                m.mov_txt_place = this.findIn(this.viewData.places, (e) => e.mpl_id === m.mov_id_place, "mpl_name");
+                m.mov_txt_status = this.findIn(this.viewData.statuses, (e) => e.ctg_ctg_value == m.mov_ctg_status, "ctg_desc");
                 movements.push(m);
                 // this.services.movement.newItem(m);
                 // this.generateEntriesForMovement(m);
             }
             catch (e) {
-                console.log('err', e);
+                console.log("err", e);
             }
         });
         this.services.movement.newBatch(movements).forEach((m) => {
@@ -3904,52 +3976,59 @@ let MovementComponent = class MovementComponent {
         if (!this.viewData.showCreateForm) {
             this.viewData.showCreateForm = !this.viewData.showCreateForm;
         }
-        if (prefix === 'pre') {
-            model = this.viewData.presets
-                .find((m) => m.pre_id === id);
+        if (prefix === "pre") {
+            model = this.viewData.presets.find((m) => m.pre_id === id);
         }
         else {
-            model = this.viewData.movements
-                .find((m) => m.mov_id === id);
-            this.model.id = model[prefix + '_id']; // to tell the newMovementForm that this is an edition
+            model = this.viewData.movements.find((m) => m.mov_id === id);
+            this.model.id = model[prefix + "_id"]; // to tell the newMovementForm that this is an edition
         }
-        if (model[prefix + '_ctg_type'] === 3) {
-            this.movementFlowType('transfer');
+        if (model[prefix + "_ctg_type"] === 3) {
+            this.movementFlowType("transfer");
         }
         else {
-            this.movementFlowType('custom');
+            this.movementFlowType("custom");
         }
         let fields = [
             {
-                'control': 'fDescription',
-                'value': '_desc'
-            }, {
-                'control': 'fAmount',
-                'value': '_amount'
-            }, {
-                'control': 'fAccount',
-                'value': '_id_account'
-            }, {
-                'control': 'fAccountTo',
-                'value': '_id_account_to'
-            }, {
-                'control': 'fMovementType',
-                'value': '_ctg_type'
-            }, {
-                'control': 'fDate',
-                'value': '_date'
-            }, {
-                'control': 'fBudget',
-                'value': '_budget'
-            }, {
-                'control': 'fCategory',
-                'value': '_id_category'
-            }, {
-                'control': 'fPlace',
-                'value': '_id_place'
-            }, {
-                'control': 'fNotes',
-                'value': '_notes'
+                control: "fDescription",
+                value: "_desc"
+            },
+            {
+                control: "fAmount",
+                value: "_amount"
+            },
+            {
+                control: "fAccount",
+                value: "_id_account"
+            },
+            {
+                control: "fAccountTo",
+                value: "_id_account_to"
+            },
+            {
+                control: "fMovementType",
+                value: "_ctg_type"
+            },
+            {
+                control: "fDate",
+                value: "_date"
+            },
+            {
+                control: "fBudget",
+                value: "_budget"
+            },
+            {
+                control: "fCategory",
+                value: "_id_category"
+            },
+            {
+                control: "fPlace",
+                value: "_id_place"
+            },
+            {
+                control: "fNotes",
+                value: "_notes"
             }
         ];
         setTimeout(() => {
@@ -3957,7 +4036,7 @@ let MovementComponent = class MovementComponent {
                 if (form.controls[f.control]) {
                     const value = model[prefix + f.value];
                     let valueToSet = null;
-                    if (f.value === '_date') {
+                    if (f.value === "_date") {
                         if (value !== null) {
                             valueToSet = this.DateToStringDate(new Date(value));
                         }
@@ -3974,7 +4053,8 @@ let MovementComponent = class MovementComponent {
         }, 0);
     }
     handleNewMovement(form) {
-        if (this.viewData.showCreateForm) { // if it's visible, reset and then hide
+        if (this.viewData.showCreateForm) {
+            // if it's visible, reset and then hide
             this.resetForm(form);
         }
         this.viewData.showCreateForm = !this.viewData.showCreateForm;
@@ -3982,19 +4062,19 @@ let MovementComponent = class MovementComponent {
     resetForm(form) {
         this.model.id = null;
         this.model.selectedPreset = null;
-        this.movementFlowType('custom');
+        this.movementFlowType("custom");
         form.reset();
-        form.controls['fMovementFlowType'].setValue('custom');
+        form.controls["fMovementFlowType"].setValue("custom");
         this.model.type = 1;
-        if (form.controls['fMovementType']) {
-            form.controls['fMovementType'].setValue(1);
+        if (form.controls["fMovementType"]) {
+            form.controls["fMovementType"].setValue(1);
         }
-        form.controls['fDate'].setValue(this.DateToStringDate(new Date()));
+        form.controls["fDate"].setValue(this.DateToStringDate(new Date()));
     }
 };
 MovementComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'movement',
+        selector: "movement",
         template: __webpack_require__(/*! ./movement.template.html */ "./src/app/money/movement.template.html"),
         providers: [
             account_service_1.AccountService,
