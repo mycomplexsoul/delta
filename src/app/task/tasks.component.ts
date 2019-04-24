@@ -1182,10 +1182,17 @@ export class TasksComponent implements OnInit {
     this.state.totalTimeSpentToday += spent;
   }
 
-  setOpen(t: any) {
-    this.updateTask(t.tsk_id, {
+  setOpen(t: Task) {
+    const isDateDueNotSet: boolean = !t.tsk_date_due;
+    const changes: any = {
       tsk_ctg_status: this.taskStatus.OPEN
-    });
+    };
+    if (isDateDueNotSet) {
+      // if date due is not set, we set it as today's time tracking can take it into account
+      // if it as already set, then we leave it as it is, because it was tracked on that date
+      changes.tsk_date_due = this.dateUtils.dateOnly(new Date());
+    }
+    this.updateTask(t.tsk_id, changes);
     this.updateState();
   }
 
@@ -1539,10 +1546,19 @@ export class TasksComponent implements OnInit {
     return lastDate;
   }
 
-  taskToBacklog(t: any) {
-    this.updateTask(t.tsk_id, {
+  taskToBacklog(t: Task) {
+    const isDateDueToday: boolean =
+      this.dateUtils.dateOnly(new Date(t.tsk_date_due)).getTime() ===
+      this.dateUtils.dateOnly(new Date()).getTime();
+    const changes: any = {
       tsk_ctg_status: this.taskStatus.BACKLOG
-    });
+    };
+    if (isDateDueToday) {
+      // if date due is today, when moving to backlog set it as null
+      // to make it not count on today's timetracking and have the task there
+      changes.tsk_date_due = null;
+    }
+    this.updateTask(t.tsk_id, changes);
     this.updateState();
   }
 

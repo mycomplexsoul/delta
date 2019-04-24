@@ -6517,9 +6517,16 @@ let TasksComponent = class TasksComponent {
         this.state.totalTimeSpentToday += spent;
     }
     setOpen(t) {
-        this.updateTask(t.tsk_id, {
+        const isDateDueNotSet = !t.tsk_date_due;
+        const changes = {
             tsk_ctg_status: this.taskStatus.OPEN
-        });
+        };
+        if (isDateDueNotSet) {
+            // if date due is not set, we set it as today's time tracking can take it into account
+            // if it as already set, then we leave it as it is, because it was tracked on that date
+            changes.tsk_date_due = this.dateUtils.dateOnly(new Date());
+        }
+        this.updateTask(t.tsk_id, changes);
         this.updateState();
     }
     taskEstimatedDurationEdit(t, event) {
@@ -6805,9 +6812,17 @@ let TasksComponent = class TasksComponent {
         return lastDate;
     }
     taskToBacklog(t) {
-        this.updateTask(t.tsk_id, {
+        const isDateDueToday = this.dateUtils.dateOnly(new Date(t.tsk_date_due)).getTime() ===
+            this.dateUtils.dateOnly(new Date()).getTime();
+        const changes = {
             tsk_ctg_status: this.taskStatus.BACKLOG
-        });
+        };
+        if (isDateDueToday) {
+            // if date due is today, when moving to backlog set it as null
+            // to make it not count on today's timetracking and have the task there
+            changes.tsk_date_due = null;
+        }
+        this.updateTask(t.tsk_id, changes);
         this.updateState();
     }
     dayDistribution() {
@@ -7327,13 +7342,13 @@ let TasksCore = class TasksCore {
         this.pendingRequests = [];
         this.data = {
             taskList: [],
-            user: 'anon'
+            user: "anon"
         };
         this.services = {};
         this.serverData = {};
         this.comparisonData = {};
-        this.apiRoot = 'http://10.230.9.78:8081';
-        this.headers = new http_1.HttpHeaders({ 'Content-Type': 'application/json' });
+        this.apiRoot = "http://10.230.9.78:8081";
+        this.headers = new http_1.HttpHeaders({ "Content-Type": "application/json" });
         let tasks = this.tasksFromStorage();
         this.data.taskList = tasks;
         this.services.dateUtils = dateUtils;
@@ -7343,26 +7358,30 @@ let TasksCore = class TasksCore {
     }
     getAll() {
         const filter = {
-            gc: 'OR',
-            cont: [{
-                    f: 'tsk_ctg_status',
-                    op: 'lt',
+            gc: "OR",
+            cont: [
+                {
+                    f: "tsk_ctg_status",
+                    op: "lt",
                     val: 3
-                }, {
-                    f: 'tsk_date_add',
-                    op: 'ge',
-                    val: '2019-03-10'
-                }]
+                },
+                {
+                    f: "tsk_date_add",
+                    op: "ge",
+                    val: "2019-03-10"
+                }
+            ]
         };
         const query = `?q=${JSON.stringify(filter)}`;
         return this.sync.get(`/api/tasks${query}`).then(data => {
             this.data.taskList = data.tasks.map((d) => {
                 let item = new Task_1.Task(d);
-                item['tsk_time_history'] = data.timetracking.filter((tt) => {
-                    return tt.tsh_id === item.tsk_id;
-                }) || [];
-                if (item['tsk_time_history'].length) {
-                    item['tsk_time_history'].sort((a, b) => {
+                item["tsk_time_history"] =
+                    data.timetracking.filter((tt) => {
+                        return tt.tsh_id === item.tsk_id;
+                    }) || [];
+                if (item["tsk_time_history"].length) {
+                    item["tsk_time_history"].sort((a, b) => {
                         return a.tsh_num_secuential < b.tsh_num_secuential ? 1 : -1;
                     });
                 }
@@ -7397,19 +7416,19 @@ let TasksCore = class TasksCore {
         let list = [];
         let task;
         tasks.forEach((text) => {
-            if (!text.startsWith('//') && text !== '') {
+            if (!text.startsWith("//") && text !== "") {
                 //t = this.addTask({
                 //    'tsk_date_add': this.services.dateUtils.newDateUpToSeconds(),
                 //    'tsk_name': text
                 //}, options);
                 parsedTask = this.parseTask({
-                    'tsk_date_add': this.services.dateUtils.newDateUpToSeconds(),
-                    'tsk_name': text
+                    tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
+                    tsk_name: text
                 }, options);
                 task = this.newTaskTemplate(parsedTask);
                 T.push(task);
                 list.push(task);
-                task['not_sync'] = true;
+                task["not_sync"] = true;
                 //this.postTask(T[T.length-1]);
                 //return T[T.length-1];
                 //console.log("added task:",t);
@@ -7419,39 +7438,46 @@ let TasksCore = class TasksCore {
         this.postBatch(list);
     }
     postBatch(list) {
-        this.sync.post('/api/tasks/batch', list).then((response) => {
+        this.sync.post("/api/tasks/batch", list).then((response) => {
             list.forEach((item) => {
-                item['not_sync'] = false;
+                item["not_sync"] = false;
             });
         });
     }
     parseTask(task, options) {
         // detect group list for the task (at start of text)
-        if (task.tsk_name.startsWith('[')) {
-            task.tsk_id_record = task.tsk_name.substr(task.tsk_name.indexOf('[') + 1, task.tsk_name.indexOf(']') - 1);
-            task.tsk_name = task.tsk_name.replace(`[${task.tsk_id_record}] `, '').replace(`[${task.tsk_id_record}]`, '');
+        if (task.tsk_name.startsWith("[")) {
+            task.tsk_id_record = task.tsk_name.substr(task.tsk_name.indexOf("[") + 1, task.tsk_name.indexOf("]") - 1);
+            task.tsk_name = task.tsk_name
+                .replace(`[${task.tsk_id_record}] `, "")
+                .replace(`[${task.tsk_id_record}]`, "");
         }
         // Parse special tokens
         // [DATE]
-        let tokens = [{
-                'tokenStr': '[DATE]',
-                'replaceMethod': () => this.dateWithFormat(this.services.dateUtils.dateOnly()).substring(0, 10)
-            }, {
-                'tokenStr': '[DATETIME]',
-                'replaceMethod': () => this.dateWithFormat(this.services.dateUtils.dateOnly())
-            }];
-        tokens.forEach((token) => {
+        let tokens = [
+            {
+                tokenStr: "[DATE]",
+                replaceMethod: () => this.dateWithFormat(this.services.dateUtils.dateOnly()).substring(0, 10)
+            },
+            {
+                tokenStr: "[DATETIME]",
+                replaceMethod: () => this.dateWithFormat(this.services.dateUtils.dateOnly())
+            }
+        ];
+        tokens.forEach(token => {
             task.tsk_name = this.replaceAll(task.tsk_name, token.tokenStr, token.replaceMethod());
         });
         // detect Start Date and End Date
-        if (task.tsk_name.indexOf('%[') !== -1) {
-            let endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('%[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('%['));
-            let expression = task.tsk_name.substring(task.tsk_name.indexOf('%[') + 2, endPosition);
-            let parts = '';
+        if (task.tsk_name.indexOf("%[") !== -1) {
+            let endPosition = task.tsk_name.indexOf("]", task.tsk_name.indexOf("%[")) === -1
+                ? task.tsk_name.length
+                : task.tsk_name.indexOf("]", task.tsk_name.indexOf("%["));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf("%[") + 2, endPosition);
+            let parts = "";
             let parsed = false;
-            task.tsk_name = task.tsk_name.replace('%[' + expression + '] ', '');
-            task.tsk_name = task.tsk_name.replace(' %[' + expression + ']', '');
-            task.tsk_name = task.tsk_name.replace('%[' + expression + ']', '');
+            task.tsk_name = task.tsk_name.replace("%[" + expression + "] ", "");
+            task.tsk_name = task.tsk_name.replace(" %[" + expression + "]", "");
+            task.tsk_name = task.tsk_name.replace("%[" + expression + "]", "");
             let patternTime = /\d{2}/i;
             let patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
             let patternDateTimeEnd = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} - \d{2}:\d{2}/i;
@@ -7460,69 +7486,84 @@ let TasksCore = class TasksCore {
             let patternTimeDuration = /\d{2}:\d{2} \+ /i;
             // start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
             if (patternDateTimeDuration.test(expression)) {
-                parts = expression.split(' + ');
+                parts = expression.split(" + ");
                 task.tsk_schedule_date_start = new Date(parts[0]);
                 task.tsk_estimated_duration = this.parseTime(parts[1]);
-                task.tsk_schedule_date_end = new Date(task.tsk_schedule_date_start.getTime() + task.tsk_estimated_duration * 60 * 1000);
+                task.tsk_schedule_date_end = new Date(task.tsk_schedule_date_start.getTime() +
+                    task.tsk_estimated_duration * 60 * 1000);
                 parsed = true;
             }
             // start time and duration -> HH:mm + ##h##m
             if (patternTimeDuration.test(expression) && !parsed) {
-                parts = expression.split(' + ');
-                let min = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
-                task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
+                parts = expression.split(" + ");
+                let min = parseInt(parts[0].split(":")[0]) * 60 +
+                    parseInt(parts[0].split(":")[1]);
+                task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                    min * 60 * 1000);
                 task.tsk_estimated_duration = this.parseTime(parts[1]);
-                task.tsk_schedule_date_end = new Date(task.tsk_schedule_date_start.getTime() + task.tsk_estimated_duration * 60 * 1000);
+                task.tsk_schedule_date_end = new Date(task.tsk_schedule_date_start.getTime() +
+                    task.tsk_estimated_duration * 60 * 1000);
                 parsed = true;
             }
             // start date and time and end time -> yyyy-MM-dd HH:mm - HH:mm
             if (patternDateTimeEnd.test(expression) && !parsed) {
-                parts = expression.split(' - ');
-                let dateOnly = parts[0].split(' ')[0];
+                parts = expression.split(" - ");
+                let dateOnly = parts[0].split(" ")[0];
                 task.tsk_schedule_date_start = new Date(parts[0]);
-                task.tsk_schedule_date_end = new Date(dateOnly + ' ' + parts[1]);
-                task.tsk_estimated_duration = this.elapsedTime(task.tsk_schedule_date_start, task.tsk_schedule_date_end) / 60;
+                task.tsk_schedule_date_end = new Date(dateOnly + " " + parts[1]);
+                task.tsk_estimated_duration =
+                    this.elapsedTime(task.tsk_schedule_date_start, task.tsk_schedule_date_end) / 60;
                 parsed = true;
             }
             // start time and end time -> HH:mm - HH:mm
             if (patternTimeEnd.test(expression) && !parsed) {
-                parts = expression.split(' - ');
-                let min1 = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
-                let min2 = parseInt(parts[1].split(':')[0]) * 60 + parseInt(parts[1].split(':')[1]);
-                task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min1 * 60 * 1000));
-                task.tsk_schedule_date_end = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min2 * 60 * 1000));
-                task.tsk_estimated_duration = this.elapsedTime(task.tsk_schedule_date_start, task.tsk_schedule_date_end) / 60;
+                parts = expression.split(" - ");
+                let min1 = parseInt(parts[0].split(":")[0]) * 60 +
+                    parseInt(parts[0].split(":")[1]);
+                let min2 = parseInt(parts[1].split(":")[0]) * 60 +
+                    parseInt(parts[1].split(":")[1]);
+                task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                    min1 * 60 * 1000);
+                task.tsk_schedule_date_end = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                    min2 * 60 * 1000);
+                task.tsk_estimated_duration =
+                    this.elapsedTime(task.tsk_schedule_date_start, task.tsk_schedule_date_end) / 60;
                 parsed = true;
             }
             // start date and time -> yyyy-MM-dd HH:mm
             if (patternDateTime.test(expression) && !parsed) {
-                let dateParts = expression.substring(0, 10).split('-');
+                let dateParts = expression.substring(0, 10).split("-");
                 task.tsk_schedule_date_start = new Date(expression);
                 parsed = true;
             }
             // time only -> HH:mm
             if (patternTime.test(expression) && !parsed) {
-                let min = parseInt(expression.split(':')[0]) * 60 + parseInt(expression.split(':')[1]);
-                task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
+                let min = parseInt(expression.split(":")[0]) * 60 +
+                    parseInt(expression.split(":")[1]);
+                task.tsk_schedule_date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                    min * 60 * 1000);
                 parsed = true;
             }
         }
         // detect estimated duration
-        if (task.tsk_name.indexOf('%') !== -1 && task.tsk_name.indexOf('%%') === -1) {
-            let endPosition = task.tsk_name.indexOf(' ', task.tsk_name.indexOf('%')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(' ', task.tsk_name.indexOf('%'));
-            let duration = task.tsk_name.substring(task.tsk_name.indexOf('%') + 1, endPosition);
-            task.tsk_name = task.tsk_name.replace('%' + duration + ' ', '');
-            task.tsk_name = task.tsk_name.replace(' %' + duration, '');
-            task.tsk_name = task.tsk_name.replace('%' + duration, '');
+        if (task.tsk_name.indexOf("%") !== -1 &&
+            task.tsk_name.indexOf("%%") === -1) {
+            let endPosition = task.tsk_name.indexOf(" ", task.tsk_name.indexOf("%")) === -1
+                ? task.tsk_name.length
+                : task.tsk_name.indexOf(" ", task.tsk_name.indexOf("%"));
+            let duration = task.tsk_name.substring(task.tsk_name.indexOf("%") + 1, endPosition);
+            task.tsk_name = task.tsk_name.replace("%" + duration + " ", "");
+            task.tsk_name = task.tsk_name.replace(" %" + duration, "");
+            task.tsk_name = task.tsk_name.replace("%" + duration, "");
             duration = this.parseTime(duration);
             task.tsk_estimated_duration = parseInt(duration);
         }
         // detect [OPEN] token, creates task as an OPEN task
-        const tokenBacklog = '[BACKLOG]';
+        const tokenBacklog = "[BACKLOG]";
         if (task.tsk_name.indexOf(tokenBacklog) !== -1) {
-            task.tsk_name = task.tsk_name.replace(`${tokenBacklog} `, '');
-            task.tsk_name = task.tsk_name.replace(` ${tokenBacklog}`, '');
-            task.tsk_name = task.tsk_name.replace(`${tokenBacklog}`, '');
+            task.tsk_name = task.tsk_name.replace(`${tokenBacklog} `, "");
+            task.tsk_name = task.tsk_name.replace(` ${tokenBacklog}`, "");
+            task.tsk_name = task.tsk_name.replace(`${tokenBacklog}`, "");
             task.tsk_ctg_status = 1; // BACKLOG
         }
         else {
@@ -7531,121 +7572,162 @@ let TasksCore = class TasksCore {
             }
             else {
                 task.tsk_ctg_status = 2; // OPEN
+                task.tsk_date_due = this.dateUtils.dateOnly(new Date());
             }
         }
         // detects $[] qualifiers
-        if (task.tsk_name.indexOf('$[') !== -1) {
-            let endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('$[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('$['));
-            let expression = task.tsk_name.substring(task.tsk_name.indexOf('$[') + 2, endPosition);
-            task.tsk_name = task.tsk_name.replace('$[' + expression + '] ', '');
-            task.tsk_name = task.tsk_name.replace(' $[' + expression + ']', '');
-            task.tsk_name = task.tsk_name.replace('$[' + expression + ']', '');
+        if (task.tsk_name.indexOf("$[") !== -1) {
+            let endPosition = task.tsk_name.indexOf("]", task.tsk_name.indexOf("$[")) === -1
+                ? task.tsk_name.length
+                : task.tsk_name.indexOf("]", task.tsk_name.indexOf("$["));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf("$[") + 2, endPosition);
+            task.tsk_name = task.tsk_name.replace("$[" + expression + "] ", "");
+            task.tsk_name = task.tsk_name.replace(" $[" + expression + "]", "");
+            task.tsk_name = task.tsk_name.replace("$[" + expression + "]", "");
             task.tsk_qualifiers = expression;
         }
         // detects #[] hashtags (multiple)
-        if (task.tsk_name.indexOf('#[') !== -1) {
-            let endPosition = task.tsk_name.indexOf(']', task.tsk_name.indexOf('#[')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(']', task.tsk_name.indexOf('#['));
-            let expression = task.tsk_name.substring(task.tsk_name.indexOf('#[') + 2, endPosition);
-            task.tsk_name = this.replaceTokenInText(task.tsk_name, '#[' + expression + ']');
+        if (task.tsk_name.indexOf("#[") !== -1) {
+            let endPosition = task.tsk_name.indexOf("]", task.tsk_name.indexOf("#[")) === -1
+                ? task.tsk_name.length
+                : task.tsk_name.indexOf("]", task.tsk_name.indexOf("#["));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf("#[") + 2, endPosition);
+            task.tsk_name = this.replaceTokenInText(task.tsk_name, "#[" + expression + "]");
             task.tsk_tags = expression;
         }
         // detects # hashtags (individual)
-        while (task.tsk_name.indexOf('#') !== -1) {
-            let endPosition = task.tsk_name.indexOf(' ', task.tsk_name.indexOf('#')) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(' ', task.tsk_name.indexOf('#'));
-            let expression = task.tsk_name.substring(task.tsk_name.indexOf('#') + 1, endPosition);
-            task.tsk_name = this.replaceTokenInText(task.tsk_name, '#' + expression);
-            task.tsk_tags = task.tsk_tags ? task.tsk_tags + ' ' + expression : expression;
+        while (task.tsk_name.indexOf("#") !== -1) {
+            let endPosition = task.tsk_name.indexOf(" ", task.tsk_name.indexOf("#")) === -1
+                ? task.tsk_name.length
+                : task.tsk_name.indexOf(" ", task.tsk_name.indexOf("#"));
+            let expression = task.tsk_name.substring(task.tsk_name.indexOf("#") + 1, endPosition);
+            task.tsk_name = this.replaceTokenInText(task.tsk_name, "#" + expression);
+            task.tsk_tags = task.tsk_tags
+                ? task.tsk_tags + " " + expression
+                : expression;
         }
         // detects URLs
         this.doThisWithAToken(task, (t, expression) => {
-            t.tsk_url = 'http://' + expression;
-            console.log('task with url', t);
-        }, 'http://');
+            t.tsk_url = "http://" + expression;
+            console.log("task with url", t);
+        }, "http://");
         this.doThisWithAToken(task, (t, expression) => {
-            t.tsk_url = 'https://' + expression;
-            console.log('task with url', t);
-        }, 'https://');
+            t.tsk_url = "https://" + expression;
+            console.log("task with url", t);
+        }, "https://");
         // detects repetition options
         this.doThisWithAToken(task, (t, expression) => {
-            let repetitionBasis = ''; // daily|weekly|monthly
-            let completionCriteria = 'onCompletion';
-            let terminationCriteria = 'iterations';
-            let terminationValue = '10';
+            let repetitionBasis = ""; // daily|weekly|monthly
+            let completionCriteria = "onCompletion";
+            let terminationCriteria = "iterations";
+            let terminationValue = "10";
             let frequency = 0;
-            let frequencyRule = '';
+            let frequencyRule = "";
             const patternDate = /\d{4}-\d{2}-\d{2}/i;
-            const repetitionTypeValues = ['', 'daily', 'weekly', 'monthly', 'workdays', 'weekends', 'each', 'weekdays', 'onDay'];
-            const completionValues = ['', 'strict', 'onCompletion'];
-            const repetitionEndValues = ['', 'forever', 'date', 'iterations'];
-            const frequencyRuleValues = ['', 'd', 'w', 'm'];
-            const weekdaysValues = ['', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+            const repetitionTypeValues = [
+                "",
+                "daily",
+                "weekly",
+                "monthly",
+                "workdays",
+                "weekends",
+                "each",
+                "weekdays",
+                "onDay"
+            ];
+            const completionValues = ["", "strict", "onCompletion"];
+            const repetitionEndValues = [
+                "",
+                "forever",
+                "date",
+                "iterations"
+            ];
+            const frequencyRuleValues = ["", "d", "w", "m"];
+            const weekdaysValues = [
+                "",
+                "Mo",
+                "Tu",
+                "We",
+                "Th",
+                "Fr",
+                "Sa",
+                "Su"
+            ];
             if (expression) {
-                if (expression.indexOf('|') !== -1) {
-                    let basis = expression.split('|');
-                    if (basis[0].indexOf('-') !== -1) {
-                        repetitionBasis = basis[0].split('-')[0].trim();
-                        completionCriteria = basis[0].split('-')[1].trim();
+                if (expression.indexOf("|") !== -1) {
+                    let basis = expression.split("|");
+                    if (basis[0].indexOf("-") !== -1) {
+                        repetitionBasis = basis[0].split("-")[0].trim();
+                        completionCriteria = basis[0].split("-")[1].trim();
                     }
                     else {
-                        completionCriteria = '';
+                        completionCriteria = "";
                         repetitionBasis = basis[0].trim();
                     }
-                    terminationCriteria = basis[1].split(':')[0].trim();
-                    terminationValue = basis[1].split(':')[1].trim();
+                    terminationCriteria = basis[1].split(":")[0].trim();
+                    terminationValue = basis[1].split(":")[1].trim();
                 }
                 else {
-                    if (expression.indexOf('-') !== -1) {
-                        repetitionBasis = expression.split('-')[0].trim();
-                        completionCriteria = expression.split('-')[1].trim();
+                    if (expression.indexOf("-") !== -1) {
+                        repetitionBasis = expression.split("-")[0].trim();
+                        completionCriteria = expression.split("-")[1].trim();
                     }
                     else {
-                        completionCriteria = '';
+                        completionCriteria = "";
                         repetitionBasis = expression.trim();
                     }
-                    terminationCriteria = '';
-                    terminationValue = '';
+                    terminationCriteria = "";
+                    terminationValue = "";
                 }
-                if (repetitionBasis.indexOf(':') !== -1) {
-                    if (/[A-Z]+/.test(repetitionBasis.split(':')[1].trim())) {
+                if (repetitionBasis.indexOf(":") !== -1) {
+                    if (/[A-Z]+/.test(repetitionBasis.split(":")[1].trim())) {
                         // weekdays only
-                        frequencyRule = repetitionBasis.split(':')[1].trim();
+                        frequencyRule = repetitionBasis.split(":")[1].trim();
                     }
-                    if (/\d+[a-zA-Z]+/.test(repetitionBasis.split(':')[1].trim())) {
+                    if (/\d+[a-zA-Z]+/.test(repetitionBasis.split(":")[1].trim())) {
                         // number and literal
-                        frequency = parseInt(repetitionBasis.split(':')[1].trim()); // parse ignoring literal chars
-                        if (repetitionBasis.split(':')[0].trim() === 'each') {
-                            frequencyRule = repetitionBasis.split(':')[1].trim().substr(-1); // last char is literal
+                        frequency = parseInt(repetitionBasis.split(":")[1].trim()); // parse ignoring literal chars
+                        if (repetitionBasis.split(":")[0].trim() === "each") {
+                            frequencyRule = repetitionBasis
+                                .split(":")[1]
+                                .trim()
+                                .substr(-1); // last char is literal
                         }
-                        if (repetitionBasis.split(':')[0].trim() === 'onDay') {
-                            frequencyRule = repetitionBasis.split(':')[1].trim().substr(-2); // last chars is weekday
+                        if (repetitionBasis.split(":")[0].trim() === "onDay") {
+                            frequencyRule = repetitionBasis
+                                .split(":")[1]
+                                .trim()
+                                .substr(-2); // last chars is weekday
                         }
                     }
-                    repetitionBasis = repetitionBasis.split(':')[0].trim();
+                    repetitionBasis = repetitionBasis.split(":")[0].trim();
                 }
                 t.tsk_ctg_rep_type = repetitionTypeValues.indexOf(repetitionBasis);
                 t.tsk_ctg_repeats = t.tsk_ctg_rep_type > 0 ? 2 : 1;
                 t.tsk_ctg_rep_after_completion = completionValues.indexOf(completionCriteria);
                 t.tsk_ctg_rep_end = repetitionEndValues.indexOf(terminationCriteria);
                 if (terminationValue && patternDate.test(terminationValue)) {
-                    t.tsk_rep_date_end = new Date(parseInt(terminationValue.split('-')[0]), parseInt(terminationValue.split('-')[1]) - 1, parseInt(terminationValue.split('-')[2]));
+                    t.tsk_rep_date_end = new Date(parseInt(terminationValue.split("-")[0]), parseInt(terminationValue.split("-")[1]) - 1, parseInt(terminationValue.split("-")[2]));
                 }
-                if (terminationValue && /\d+/.test(terminationValue) && !patternDate.test(terminationValue)) {
+                if (terminationValue &&
+                    /\d+/.test(terminationValue) &&
+                    !patternDate.test(terminationValue)) {
                     t.tsk_rep_end_iteration = parseInt(terminationValue);
                 }
                 t.tsk_rep_iteration = 1;
                 t.tsk_rep_frequency = frequency;
-                if (repetitionBasis === 'each') {
+                if (repetitionBasis === "each") {
                     t.tsk_ctg_rep_frequency_rule = frequencyRuleValues.indexOf(frequencyRule);
                 }
-                if (repetitionBasis === 'onDay') {
+                if (repetitionBasis === "onDay") {
                     t.tsk_ctg_rep_frequency_rule = weekdaysValues.indexOf(frequencyRule);
                 }
-                if (repetitionBasis === 'weekdays') {
+                if (repetitionBasis === "weekdays") {
                     t.tsk_rep_weekdays = frequencyRule;
                 }
             }
-            console.log('task with repetition', t);
-        }, '*[', ']');
+            console.log("task with repetition", t);
+        }, "*[", "]");
         return task;
     }
     /**
@@ -7656,46 +7738,46 @@ let TasksCore = class TasksCore {
     newTaskTemplate(task) {
         let id = this.generateId();
         return {
-            'tsk_id': id,
-            'tsk_id_container': 'tasks',
-            'tsk_id_record': task.tsk_id_record || 'general',
-            'tsk_name': task.tsk_name,
-            'tsk_notes': task.tsk_notes || '',
-            'tsk_parent': task.tsk_parent || '0',
-            'tsk_order': this.nextOrder(),
-            'tsk_date_done': task.tsk_date_done || null,
-            'tsk_total_time_spent': 0,
-            'tsk_time_history': task.tsk_time_history || [],
-            'tsk_ctg_in_process': task.tsk_ctg_in_process || 1,
-            'tsk_qualifiers': task.tsk_qualifiers || '',
-            'tsk_tags': task.tsk_tags || '',
-            'tsk_estimated_duration': task.tsk_estimated_duration || 0,
-            'tsk_schedule_date_start': task.tsk_schedule_date_start || null,
-            'tsk_schedule_date_end': task.tsk_schedule_date_end || null,
-            'tsk_schedule_history': [],
-            'tsk_date_view_until': task.tsk_date_view_until || null,
-            'tsk_notifications': [],
-            'tsk_id_user_added': task.tsk_id_user_added || this.data.user,
-            'tsk_id_user_asigned': task.tsk_id_user_asigned || this.data.user,
-            'tsk_template': task.tsk_template || '',
-            'tsk_template_state': task.tsk_template_state || '',
-            'tsk_date_due': task.tsk_date_due || null,
-            'tsk_id_related': task.tsk_id_related || '0',
-            'tsk_url': task.tsk_url || '',
-            'tsk_ctg_repeats': task.tsk_ctg_repeats || 0,
-            'tsk_id_main': task.tsk_id_main || id,
-            'tsk_ctg_rep_type': task.tsk_ctg_rep_type || 0,
-            'tsk_ctg_rep_after_completion': task.tsk_ctg_rep_after_completion || 0,
-            'tsk_ctg_rep_end': task.tsk_ctg_rep_end || 0,
-            'tsk_rep_date_end': task.tsk_rep_date_end || null,
-            'tsk_rep_end_iteration': task.tsk_rep_end_iteration || 0,
-            'tsk_rep_iteration': task.tsk_rep_iteration || 0,
-            'tsk_rep_frequency': task.tsk_rep_frequency || 0,
-            'tsk_ctg_rep_frequency_rule': task.tsk_ctg_rep_frequency_rule || 0,
-            'tsk_rep_weekdays': task.tsk_rep_weekdays || '',
-            'tsk_date_add': task.tsk_date_add || this.services.dateUtils.newDateUpToSeconds(),
-            'tsk_date_mod': this.services.dateUtils.newDateUpToSeconds(),
-            'tsk_ctg_status': task.tsk_ctg_status
+            tsk_id: id,
+            tsk_id_container: "tasks",
+            tsk_id_record: task.tsk_id_record || "general",
+            tsk_name: task.tsk_name,
+            tsk_notes: task.tsk_notes || "",
+            tsk_parent: task.tsk_parent || "0",
+            tsk_order: this.nextOrder(),
+            tsk_date_done: task.tsk_date_done || null,
+            tsk_total_time_spent: 0,
+            tsk_time_history: task.tsk_time_history || [],
+            tsk_ctg_in_process: task.tsk_ctg_in_process || 1,
+            tsk_qualifiers: task.tsk_qualifiers || "",
+            tsk_tags: task.tsk_tags || "",
+            tsk_estimated_duration: task.tsk_estimated_duration || 0,
+            tsk_schedule_date_start: task.tsk_schedule_date_start || null,
+            tsk_schedule_date_end: task.tsk_schedule_date_end || null,
+            tsk_schedule_history: [],
+            tsk_date_view_until: task.tsk_date_view_until || null,
+            tsk_notifications: [],
+            tsk_id_user_added: task.tsk_id_user_added || this.data.user,
+            tsk_id_user_asigned: task.tsk_id_user_asigned || this.data.user,
+            tsk_template: task.tsk_template || "",
+            tsk_template_state: task.tsk_template_state || "",
+            tsk_date_due: task.tsk_date_due || null,
+            tsk_id_related: task.tsk_id_related || "0",
+            tsk_url: task.tsk_url || "",
+            tsk_ctg_repeats: task.tsk_ctg_repeats || 0,
+            tsk_id_main: task.tsk_id_main || id,
+            tsk_ctg_rep_type: task.tsk_ctg_rep_type || 0,
+            tsk_ctg_rep_after_completion: task.tsk_ctg_rep_after_completion || 0,
+            tsk_ctg_rep_end: task.tsk_ctg_rep_end || 0,
+            tsk_rep_date_end: task.tsk_rep_date_end || null,
+            tsk_rep_end_iteration: task.tsk_rep_end_iteration || 0,
+            tsk_rep_iteration: task.tsk_rep_iteration || 0,
+            tsk_rep_frequency: task.tsk_rep_frequency || 0,
+            tsk_ctg_rep_frequency_rule: task.tsk_ctg_rep_frequency_rule || 0,
+            tsk_rep_weekdays: task.tsk_rep_weekdays || "",
+            tsk_date_add: task.tsk_date_add || this.services.dateUtils.newDateUpToSeconds(),
+            tsk_date_mod: this.services.dateUtils.newDateUpToSeconds(),
+            tsk_ctg_status: task.tsk_ctg_status
         };
     }
     nextOrder() {
@@ -7714,10 +7796,9 @@ let TasksCore = class TasksCore {
     tasks() {
         return this.data.taskList;
     }
-    tasksGroups() {
-    }
+    tasksGroups() { }
     pad(value, fillChar, length, dir = -1) {
-        let result = value + '';
+        let result = value + "";
         while (result.length < length) {
             if (dir === -1) {
                 result = fillChar + result;
@@ -7733,14 +7814,14 @@ let TasksCore = class TasksCore {
         // total digits 10 + 6 + 10 = 26
         let date = this.services.dateUtils.newDateUpToSeconds();
         let random = Math.floor(Math.random() * 1e14);
-        let datetimeString = `${date.getFullYear()}${this.pad(date.getMonth() + 1, '0', 2)}${this.pad(date.getDate(), '0', 2)}`;
-        datetimeString += `${this.pad(date.getHours(), '0', 2)}${this.pad(date.getMinutes(), '0', 2)}${this.pad(date.getSeconds(), '0', 2)}`;
+        let datetimeString = `${date.getFullYear()}${this.pad(date.getMonth() + 1, "0", 2)}${this.pad(date.getDate(), "0", 2)}`;
+        datetimeString += `${this.pad(date.getHours(), "0", 2)}${this.pad(date.getMinutes(), "0", 2)}${this.pad(date.getSeconds(), "0", 2)}`;
         let id = `T${datetimeString}-${random}`;
         return id;
     }
     /** BEGIN Storage */
     tasksFromStorage() {
-        if (typeof (window.localStorage) !== "undefined") {
+        if (typeof window.localStorage !== "undefined") {
             let tasks = JSON.parse(localStorage.getItem("Tasks"));
             //console.log('from storage recent',tasks.length);
             // tasks = tasks.concat(JSON.parse(localStorage.getItem("Tasks.old")));
@@ -7799,7 +7880,7 @@ let TasksCore = class TasksCore {
         //     });
         //     t.tsk_total_time_spent = total;
         // });
-        if (typeof (window.localStorage) !== "undefined") {
+        if (typeof window.localStorage !== "undefined") {
             // let date = new Date();
             // date = new Date(2017,9,1);
             // let old = this.data.taskList.filter((t: any) => new Date(t.tsk_date_add) < date && t.tsk_ctg_status === 3);
@@ -7813,7 +7894,8 @@ let TasksCore = class TasksCore {
     }
     /** END Storage */
     stringDateToDate(date) {
-        if (/\d{4}-\d{2}-\d{2}/.test(date)) { // looks like a date
+        if (/\d{4}-\d{2}-\d{2}/.test(date)) {
+            // looks like a date
             return new Date(date);
         }
         return undefined;
@@ -7830,15 +7912,15 @@ let TasksCore = class TasksCore {
     }
     addTimeTracking(task) {
         task.tsk_time_history.push({
-            'tsh_id': task.tsk_id,
-            'tsh_num_secuential': (task.tsk_time_history.length + 1),
-            'tsh_name': task.tsk_name,
-            'tsh_date_start': this.services.dateUtils.newDateUpToSeconds(),
-            'tsh_date_end': null,
-            'tsh_time_spent': 0,
-            'tsh_id_user': 'anon',
-            'tsh_date_add': this.services.dateUtils.newDateUpToSeconds(),
-            'tsh_date_mod': this.services.dateUtils.newDateUpToSeconds()
+            tsh_id: task.tsk_id,
+            tsh_num_secuential: task.tsk_time_history.length + 1,
+            tsh_name: task.tsk_name,
+            tsh_date_start: this.services.dateUtils.newDateUpToSeconds(),
+            tsh_date_end: null,
+            tsh_time_spent: 0,
+            tsh_id_user: "anon",
+            tsh_date_add: this.services.dateUtils.newDateUpToSeconds(),
+            tsh_date_mod: this.services.dateUtils.newDateUpToSeconds()
         });
         this.tasksToStorage();
     }
@@ -7861,13 +7943,15 @@ let TasksCore = class TasksCore {
         return task;
     }
     elapsedTime(date1, date2) {
+        // return diff in seconds
         if (date1 && date2) {
             return Math.floor(Math.abs(date1.getTime() - date2.getTime()) / 1000);
         }
         return 0;
     }
     elapsedDays(date1, date2) {
-        return Math.floor(this.elapsedTime(this.dateOnly(date1), this.dateOnly(date2)) / (60 * 60 * 24));
+        return Math.floor(this.elapsedTime(this.dateOnly(date1), this.dateOnly(date2)) /
+            (60 * 60 * 24));
     }
     updateTaskTimeTracking(taskTimeTracking, newData) {
         Object.keys(newData).forEach(k => {
@@ -7883,7 +7967,8 @@ let TasksCore = class TasksCore {
         const task = this.recalculateTotalTimeSpent(this.data.taskList.find((t) => t.tsk_id === taskTimeTracking.tsh_id));
         const index = this.data.taskList.findIndex((t) => t.tsk_id === taskTimeTracking.tsh_id);
         this.data.taskList[index] = task;
-        const historyIndex = task.tsk_time_history.findIndex((h) => h.tsh_id === taskTimeTracking.tsh_id && h.tsh_num_secuential === taskTimeTracking.tsh_num_secuential);
+        const historyIndex = task.tsk_time_history.findIndex((h) => h.tsh_id === taskTimeTracking.tsh_id &&
+            h.tsh_num_secuential === taskTimeTracking.tsh_num_secuential);
         task.tsk_time_history[historyIndex] = taskTimeTracking;
         this.tasksToStorage();
         this.updateTaskBE(task);
@@ -7896,8 +7981,20 @@ let TasksCore = class TasksCore {
         return new Date(base.getFullYear(), base.getMonth(), base.getDate(), 0, 0, 0);
     }
     dateWithFormat(date) {
-        var str = date.getFullYear() + "-" + (date.getMonth() + 1 > 9 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1)) + "-" + (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
-        str += " " + (date.getHours() > 9 ? date.getHours() : "0" + date.getHours()) + ":" + (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()) + ":" + (date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds());
+        var str = date.getFullYear() +
+            "-" +
+            (date.getMonth() + 1 > 9
+                ? date.getMonth() + 1
+                : "0" + (date.getMonth() + 1)) +
+            "-" +
+            (date.getDate() > 9 ? date.getDate() : "0" + date.getDate());
+        str +=
+            " " +
+                (date.getHours() > 9 ? date.getHours() : "0" + date.getHours()) +
+                ":" +
+                (date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()) +
+                ":" +
+                (date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds());
         return str;
     }
     replaceAll(str, find, replace) {
@@ -7908,25 +8005,25 @@ let TasksCore = class TasksCore {
     }
     parseTime(duration) {
         let hours = 0, min = 0;
-        if (duration.indexOf('h') !== -1) {
-            hours = parseInt(duration.substring(0, duration.indexOf('h')));
-            duration = duration.replace(hours + 'h', '');
+        if (duration.indexOf("h") !== -1) {
+            hours = parseInt(duration.substring(0, duration.indexOf("h")));
+            duration = duration.replace(hours + "h", "");
         }
-        if (duration.indexOf(':') !== -1) {
-            hours = parseInt(duration.substring(0, duration.indexOf(':')));
-            duration = duration.replace(hours + ':', '');
+        if (duration.indexOf(":") !== -1) {
+            hours = parseInt(duration.substring(0, duration.indexOf(":")));
+            duration = duration.replace(hours + ":", "");
         }
-        if (duration.indexOf('m') !== -1) {
-            min = parseInt(duration.substring(0, duration.indexOf('m')));
-            duration = duration.replace(min + 'm', '');
+        if (duration.indexOf("m") !== -1) {
+            min = parseInt(duration.substring(0, duration.indexOf("m")));
+            duration = duration.replace(min + "m", "");
         }
         else {
-            if (duration !== '') {
+            if (duration !== "") {
                 min = parseInt(duration);
-                duration = duration.replace(min + '', '');
+                duration = duration.replace(min + "", "");
             }
         }
-        if (duration === '') {
+        if (duration === "") {
             return hours * 60 + min;
         }
         return parseInt(duration);
@@ -7938,7 +8035,7 @@ let TasksCore = class TasksCore {
             date_start: null,
             date_end: null,
             duration: 0,
-            pattern: ''
+            pattern: ""
         };
         let patternTime = /\d{2}/i;
         let patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
@@ -7948,57 +8045,65 @@ let TasksCore = class TasksCore {
         let patternTimeDuration = /\d{2}:\d{2} \+ /i;
         // start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
         if (patternDateTimeDuration.test(expression)) {
-            parts = expression.split(' + ');
+            parts = expression.split(" + ");
             s.date_start = new Date(parts[0]);
             s.duration = this.parseTime(parts[1]);
             s.date_end = new Date(s.date_start.getTime() + s.duration * 60 * 1000);
             parsed = true;
-            s.pattern = 'yyyy-MM-dd HH:mm + ##h##m';
+            s.pattern = "yyyy-MM-dd HH:mm + ##h##m";
         }
         // start time and duration -> HH:mm + ##h##m
         if (patternTimeDuration.test(expression) && !parsed) {
-            parts = expression.split(' + ');
-            let min = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
-            s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
+            parts = expression.split(" + ");
+            let min = parseInt(parts[0].split(":")[0]) * 60 +
+                parseInt(parts[0].split(":")[1]);
+            s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                min * 60 * 1000);
             s.duration = this.parseTime(parts[1]);
             s.date_end = new Date(s.date_start.getTime() + s.duration * 60 * 1000);
             parsed = true;
-            s.pattern = 'HH:mm + ##h##m';
+            s.pattern = "HH:mm + ##h##m";
         }
         // start date and time and end time -> yyyy-MM-dd HH:mm - HH:mm
         if (patternDateTimeEnd.test(expression) && !parsed) {
-            parts = expression.split(' - ');
-            let dateOnly = parts[0].split(' ')[0];
+            parts = expression.split(" - ");
+            let dateOnly = parts[0].split(" ")[0];
             s.date_start = new Date(parts[0]);
-            s.date_end = new Date(dateOnly + ' ' + parts[1]);
+            s.date_end = new Date(dateOnly + " " + parts[1]);
             s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
             parsed = true;
-            s.pattern = 'yyyy-MM-dd HH:mm - HH:mm';
+            s.pattern = "yyyy-MM-dd HH:mm - HH:mm";
         }
         // start time and end time -> HH:mm - HH:mm
         if (patternTimeEnd.test(expression) && !parsed) {
-            parts = expression.split(' - ');
-            let min1 = parseInt(parts[0].split(':')[0]) * 60 + parseInt(parts[0].split(':')[1]);
-            let min2 = parseInt(parts[1].split(':')[0]) * 60 + parseInt(parts[1].split(':')[1]);
-            s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min1 * 60 * 1000));
-            s.date_end = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min2 * 60 * 1000));
+            parts = expression.split(" - ");
+            let min1 = parseInt(parts[0].split(":")[0]) * 60 +
+                parseInt(parts[0].split(":")[1]);
+            let min2 = parseInt(parts[1].split(":")[0]) * 60 +
+                parseInt(parts[1].split(":")[1]);
+            s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                min1 * 60 * 1000);
+            s.date_end = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                min2 * 60 * 1000);
             s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
             parsed = true;
-            s.pattern = 'HH:mm - HH:mm';
+            s.pattern = "HH:mm - HH:mm";
         }
         // start date and time -> yyyy-MM-dd HH:mm
         if (patternDateTime.test(expression) && !parsed) {
-            let dateParts = expression.substring(0, 10).split('-');
+            let dateParts = expression.substring(0, 10).split("-");
             s.date_start = new Date(expression);
             parsed = true;
-            s.pattern = 'yyyy-MM-dd HH:mm';
+            s.pattern = "yyyy-MM-dd HH:mm";
         }
         // time only -> HH:mm
         if (patternTime.test(expression) && !parsed) {
-            let min = parseInt(expression.split(':')[0]) * 60 + parseInt(expression.split(':')[1]);
-            s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() + (min * 60 * 1000));
+            let min = parseInt(expression.split(":")[0]) * 60 +
+                parseInt(expression.split(":")[1]);
+            s.date_start = new Date(this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+                min * 60 * 1000);
             parsed = true;
-            s.pattern = 'HH:mm';
+            s.pattern = "HH:mm";
         }
         return s;
     }
@@ -8021,29 +8126,31 @@ let TasksCore = class TasksCore {
     // }
     getTasks() {
         //return this.http.get(`${this.apiRoot}/api/tasks`).toPromise() // => data.json()
-        return this.getAllForUser('anon')
-            .then((data) => {
+        return this.getAllForUser("anon")
+            .then(data => {
             this.serverData.tasks = data;
-            console.log('from BE', this.serverData.tasks);
+            console.log("from BE", this.serverData.tasks);
             return data;
-        }).catch((err) => {
+        })
+            .catch(err => {
             console.log(err);
         });
     }
     getTasksFromServer() {
-        return this.getAllForUser('anon')
-            .then((data) => {
+        return this.getAllForUser("anon")
+            .then(data => {
             let task;
             let server = data;
             server.forEach((t) => {
                 t.tsk_time_history = t.tsk_time_history || [];
                 task = this.data.taskList.find((d) => d.tsk_id == t.tsk_id);
-                if (!task) { // if task was not found on client but it's coming from server, add it
+                if (!task) {
+                    // if task was not found on client but it's coming from server, add it
                     // add one time tracking if task is done
                     if (t.tsk_ctg_status == 3) {
                         let dateDone = new Date(t.tsk_date_done);
                         let dateStart = new Date(t.tsk_date_done);
-                        dateStart = new Date(dateStart.getTime() - ((t.tsk_estimated_duration - 1) * 60 * 1000));
+                        dateStart = new Date(dateStart.getTime() - (t.tsk_estimated_duration - 1) * 60 * 1000);
                         t.tsk_time_history.push({
                             tsh_id: t.tsk_id,
                             tsh_num_secuential: 1,
@@ -8058,13 +8165,16 @@ let TasksCore = class TasksCore {
                     }
                     this.data.taskList.push(t);
                 }
-                else { // task is in server and client, let's see if it has changes
-                    if ((new Date(t.tsk_date_mod)).getTime() != (new Date(task.tsk_date_mod)).getTime()) {
+                else {
+                    // task is in server and client, let's see if it has changes
+                    if (new Date(t.tsk_date_mod).getTime() !=
+                        new Date(task.tsk_date_mod).getTime()) {
                         // add one time tracking if task is done
                         if (t.tsk_ctg_status == 3) {
                             let dateDone = new Date(t.tsk_date_done);
                             let dateStart = new Date(t.tsk_date_done);
-                            dateStart = new Date(dateStart.getTime() - ((t.tsk_estimated_duration - 1) * 60 * 1000));
+                            dateStart = new Date(dateStart.getTime() -
+                                (t.tsk_estimated_duration - 1) * 60 * 1000);
                             t.tsk_time_history.push({
                                 tsh_id: t.tsk_id,
                                 tsh_num_secuential: 1,
@@ -8083,7 +8193,8 @@ let TasksCore = class TasksCore {
                 }
             });
             this.tasksToStorage();
-        }).catch((err) => {
+        })
+            .catch(err => {
             console.log(err);
         });
     }
@@ -8096,23 +8207,23 @@ let TasksCore = class TasksCore {
     // }
     postTask(t) {
         t.not_sync = true;
-        this.sync.request('create', Utility_1.Utils.entityToRawTableFields(t), {
+        this.sync.request("create", Utility_1.Utils.entityToRawTableFields(t), {
             tsk_id: t.tsk_id
-        }, 'Task', () => {
+        }, "Task", () => {
             t.not_sync = false;
-        }, (e) => e.tsk_id + ' / ' + e.tsk_name, (val) => val.tsk_id === t.tsk_id);
+        }, (e) => e.tsk_id + " / " + e.tsk_name, (val) => val.tsk_id === t.tsk_id);
     }
     postMultipleTasks(list) {
         let syncList = [];
         list.forEach((t) => {
             t.not_sync = true;
             syncList.push({
-                action: 'create',
+                action: "create",
                 model: t,
                 pk: {
                     tsk_id: t.tsk_id
                 },
-                entity: 'Task',
+                entity: "Task",
                 callback: (model, response) => {
                     model.not_sync = false;
                 },
@@ -8123,24 +8234,24 @@ let TasksCore = class TasksCore {
         this.sync.multipleRequest(syncList);
     }
     prepareTaskToPostBE(t) {
-        const history = t['tsk_time_history'];
+        const history = t["tsk_time_history"];
         const simpleTask = Utility_1.Utils.entityToRawTableFields(t);
-        simpleTask['tsk_time_history'] = history;
+        simpleTask["tsk_time_history"] = history;
         return simpleTask;
     }
     updateTaskBE(t) {
         t.not_sync = true;
-        this.sync.request('update', this.prepareTaskToPostBE(t), {
+        this.sync.request("update", this.prepareTaskToPostBE(t), {
             tsk_id: t.tsk_id
-        }, 'Task', () => {
+        }, "Task", () => {
             t.not_sync = false;
-        }, (e) => e.tsk_id + ' / ' + e.tsk_name, (val) => val.tsk_id === t.tsk_id);
+        }, (e) => e.tsk_id + " / " + e.tsk_name, (val) => val.tsk_id === t.tsk_id);
     }
     parseToPost(obj) {
-        let resp = '';
+        let resp = "";
         Object.keys(obj).forEach(k => {
-            if (obj[k] === 0 || (obj[k] !== '' && obj[k])) {
-                resp = (resp !== '' ? resp + '&' : '') + `${k}=${obj[k]}`;
+            if (obj[k] === 0 || (obj[k] !== "" && obj[k])) {
+                resp = (resp !== "" ? resp + "&" : "") + `${k}=${obj[k]}`;
             }
         });
         return resp;
@@ -8154,16 +8265,18 @@ let TasksCore = class TasksCore {
     }
     replaceTokenInText(tsk_name, expression) {
         let r = tsk_name;
-        r = r.replace(expression + ' ', '');
-        r = r.replace(' ' + expression, '');
-        r = r.replace(expression, '');
+        r = r.replace(expression + " ", "");
+        r = r.replace(" " + expression, "");
+        r = r.replace(expression, "");
         return r;
     }
-    doThisWithAToken(task, method, token, tokenEnd = ' ') {
+    doThisWithAToken(task, method, token, tokenEnd = " ") {
         while (task.tsk_name.indexOf(token) !== -1) {
-            let endPosition = task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token)) === -1 ? task.tsk_name.length : task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token));
+            let endPosition = task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token)) === -1
+                ? task.tsk_name.length
+                : task.tsk_name.indexOf(tokenEnd, task.tsk_name.indexOf(token));
             let expression = task.tsk_name.substring(task.tsk_name.indexOf(token) + token.length, endPosition);
-            task.tsk_name = this.replaceTokenInText(task.tsk_name, token + expression + (tokenEnd === ' ' ? '' : tokenEnd));
+            task.tsk_name = this.replaceTokenInText(task.tsk_name, token + expression + (tokenEnd === " " ? "" : tokenEnd));
             method(task, expression);
         }
     }
@@ -8178,32 +8291,41 @@ let TasksCore = class TasksCore {
         const dateGreaterOrEqualThan = (d1, d2) => dateFrom(d1).getTime() >= dateFrom(d2).getTime();
         const dateLowerThan = (d1, d2) => dateFrom(d1).getTime() < dateFrom(d2).getTime();
         const dateLowerOrEqualThan = (d1, d2) => dateFrom(d1).getTime() <= dateFrom(d2).getTime();
-        let t = this.data.taskList.filter((task) => dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2));
-        console.log('tasks to push', t);
-        this.http.post(`${this.apiRoot}/task/batch`, t, { headers: this.headers })
-            .toPromise().then(response => {
-            console.log('post response', response);
+        let t = this.data.taskList.filter((task) => dateGreaterOrEqualThan(task.tsk_date_add, date1) &&
+            dateLowerThan(task.tsk_date_add, date2));
+        console.log("tasks to push", t);
+        this.http
+            .post(`${this.apiRoot}/task/batch`, t, { headers: this.headers })
+            .toPromise()
+            .then(response => {
+            console.log("post response", response);
             // cleanup
             let filtered = this.data.taskList.filter((task) => {
-                return (dateGreaterOrEqualThan(task.tsk_date_add, date2)) || task.tsk_ctg_status <= 2; // BACKLOG, OPEN
+                return (dateGreaterOrEqualThan(task.tsk_date_add, date2) ||
+                    task.tsk_ctg_status <= 2); // BACKLOG, OPEN
             });
             let cleanedup = this.data.taskList.filter((task) => {
-                return (dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2)) && task.tsk_ctg_status > 2; // CLOSED, CANCELLED
+                return (dateGreaterOrEqualThan(task.tsk_date_add, date1) &&
+                    dateLowerThan(task.tsk_date_add, date2) &&
+                    task.tsk_ctg_status > 2); // CLOSED, CANCELLED
             });
             let preservedPush = this.data.taskList.filter((task) => {
-                return (dateGreaterOrEqualThan(task.tsk_date_add, date1) && dateLowerThan(task.tsk_date_add, date2)) && task.tsk_ctg_status <= 2; // BACKLOG, OPEN
+                return (dateGreaterOrEqualThan(task.tsk_date_add, date1) &&
+                    dateLowerThan(task.tsk_date_add, date2) &&
+                    task.tsk_ctg_status <= 2); // BACKLOG, OPEN
             });
-            console.log('tasks remaining after cleanup', filtered);
-            console.log('cleanedup tasks', cleanedup);
-            console.log('preserved from push', preservedPush);
+            console.log("tasks remaining after cleanup", filtered);
+            console.log("cleanedup tasks", cleanedup);
+            console.log("preserved from push", preservedPush);
             this.data.taskList = filtered;
             this.tasksToStorage();
-        }).catch((err) => {
-            console.log('err', err);
+        })
+            .catch(err => {
+            console.log("err", err);
         });
     }
     computeComparisonData() {
-        return this.getAllForUser('anon').then((serverData) => {
+        return this.getAllForUser("anon").then(serverData => {
             let clientData = this.data.taskList;
             let singleTask;
             let comparisonResults = [];
@@ -8220,7 +8342,7 @@ let TasksCore = class TasksCore {
                 else {
                     // use this if task is not in server
                     //comparisonResults.push(this.compareTask(t,{}));
-                    console.log('this task is not in the server', t);
+                    console.log("this task is not in the server", t);
                 }
             });
             this.comparisonData = {
@@ -8234,14 +8356,41 @@ let TasksCore = class TasksCore {
     compareTask(t, s) {
         //let fields = ['tsk_id_container','tsk_id_record','tsk_name','tsk_notes', 'tsk_parent', 'tsk_order', 'tsk_date_done', 'tsk_total_time_spent', 'tsk_ctg_in_process', 'tsk_qualifiers', 'tsk_tags', 'tsk_estimated_duration', 'tsk_schedule_date_start', 'tsk_schedule_date_end', 'tsk_date_view_until', 'tsk_id_user_added', 'tsk_id_user_asigned', 'tsk_date_add', 'tsk_date_mod', 'tsk_ctg_status'];
         //let fields = ['tsk_id_container','tsk_id_record','tsk_name','tsk_notes','tsk_parent','tsk_order','tsk_date_done','tsk_total_time_spent','tsk_ctg_in_process','tsk_qualifiers','tsk_tags','tsk_estimated_duration','tsk_schedule_date_start','tsk_schedule_date_end','tsk_date_view_until','tsk_id_user_added','tsk_id_user_asigned','tsk_template','tsk_template_state','tsk_date_due','tsk_id_related','tsk_url','tsk_ctg_repeats','tsk_id_main','tsk_ctg_rep_type','tsk_ctg_rep_after_completion','tsk_ctg_rep_end','tsk_rep_date_end','tsk_rep_end_iteration','tsk_rep_iteration','tsk_rep_frequency','tsk_ctg_rep_frequency_rule','tsk_rep_weekdays','tsk_date_add','tsk_date_mod','tsk_ctg_status'];
-        let fields = ['tsk_id_container', 'tsk_id_record', 'tsk_name', 'tsk_notes', 'tsk_parent', 'tsk_order', 'tsk_date_done', 'tsk_total_time_spent', 'tsk_ctg_in_process', 'tsk_tags', 'tsk_estimated_duration', 'tsk_schedule_date_start', 'tsk_schedule_date_end', 'tsk_date_view_until', 'tsk_id_user_added', 'tsk_id_user_asigned', 'tsk_template', 'tsk_template_state', 'tsk_date_due', 'tsk_id_related', 'tsk_url', 'tsk_id_main', 'tsk_rep_date_end', 'tsk_rep_weekdays', 'tsk_date_add', 'tsk_ctg_status'];
+        let fields = [
+            "tsk_id_container",
+            "tsk_id_record",
+            "tsk_name",
+            "tsk_notes",
+            "tsk_parent",
+            "tsk_order",
+            "tsk_date_done",
+            "tsk_total_time_spent",
+            "tsk_ctg_in_process",
+            "tsk_tags",
+            "tsk_estimated_duration",
+            "tsk_schedule_date_start",
+            "tsk_schedule_date_end",
+            "tsk_date_view_until",
+            "tsk_id_user_added",
+            "tsk_id_user_asigned",
+            "tsk_template",
+            "tsk_template_state",
+            "tsk_date_due",
+            "tsk_id_related",
+            "tsk_url",
+            "tsk_id_main",
+            "tsk_rep_date_end",
+            "tsk_rep_weekdays",
+            "tsk_date_add",
+            "tsk_ctg_status"
+        ];
         //let fields = ['tsk_date_done'];
         let comparison = [];
         let field = {};
         fields.forEach((f) => {
             field = {};
             field.id = t.tsk_id;
-            field.displayName = t.tsk_id + ' - ' + t.tsk_name;
+            field.displayName = t.tsk_id + " - " + t.tsk_name;
             field.name = f;
             field.client = t[f];
             field.server = s[f];
@@ -8252,13 +8401,13 @@ let TasksCore = class TasksCore {
             else {
                 field.isEqual = t[f] == s[f];
             }
-            if (field.name === 'tsk_total_time_spent' && !field.isEqual) {
+            if (field.name === "tsk_total_time_spent" && !field.isEqual) {
                 // let's find out which one is the real one
                 let taskClient = this.data.taskList.find((t) => t.tsk_id === field.id);
                 this.recalculateTotalTimeSpent(taskClient);
                 field.isEqual = taskClient[f] == s[f];
             }
-            if (field.name === 'tsk_date_mod' && !field.isEqual) {
+            if (field.name === "tsk_date_mod" && !field.isEqual) {
                 // we preserve server date if it defers from browser
                 let taskClient = this.data.taskList.find((t) => t.tsk_id === field.id);
                 taskClient[f] = new Date(s[f]);
@@ -8272,12 +8421,14 @@ let TasksCore = class TasksCore {
     }
     setApiRoot(root) {
         this.apiRoot = root;
-        console.log('api root has changed to:', root);
+        console.log("api root has changed to:", root);
     }
 };
 TasksCore = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [http_1.HttpClient, sync_api_1.SyncAPI, date_common_1.DateCommon])
+    tslib_1.__metadata("design:paramtypes", [http_1.HttpClient,
+        sync_api_1.SyncAPI,
+        date_common_1.DateCommon])
 ], TasksCore);
 exports.TasksCore = TasksCore;
 
