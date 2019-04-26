@@ -41,7 +41,7 @@ export class LastTimeComponent implements OnInit {
   } = {
     id: null
   };
-  public listBackup: LastTime[] = [];
+  public filterApplied: string = "";
 
   constructor(
     lastTimeService: LastTimeService,
@@ -65,7 +65,6 @@ export class LastTimeComponent implements OnInit {
                 return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
             });
             this.viewData.lastTime = list.sort(sort);*/
-        this.listBackup = [...this.viewData.lastTime]; // backup
       });
   }
 
@@ -91,8 +90,12 @@ export class LastTimeComponent implements OnInit {
     const sort = (a: LastTime, b: LastTime) => {
       return a["expiryDate"].getTime() >= b["expiryDate"].getTime() ? 1 : -1;
     };
-    this.viewData.lastTime = list.sort(sort);
-    console.log("listing", this.viewData.lastTime);
+    list = list.sort(sort);
+    if (this.filterApplied) {
+      list = list.filter(i => this.criteriaForFilter(i, this.filterApplied));
+    } else {
+    }
+    this.viewData.lastTime = list;
   }
 
   newItem(form: NgForm) {
@@ -176,7 +179,7 @@ export class LastTimeComponent implements OnInit {
 
       this.services.lastTime.updateItem(item).then(response => {
         this.calculateValidityForAll();
-        this.updateBackupItem(item);
+        // this.updateBackupItem(item);
       });
     }
   }
@@ -188,30 +191,30 @@ export class LastTimeComponent implements OnInit {
 
     this.services.lastTime.updateItem(item).then(response => {
       this.calculateValidityForAll();
-      this.updateBackupItem(item);
+      // this.updateBackupItem(item);
     });
   }
 
-  updateBackupItem(item: LastTime) {
+  /* updateBackupItem(item: LastTime) {
     this.listBackup[
       this.listBackup.findIndex(i => i.lst_id === item.lst_id)
     ] = item; // to keep backup list updated
-  }
+  } */
+
+  criteriaForFilter = (item: LastTime, query: string) =>
+    item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+    item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
   filter(event: KeyboardEvent) {
     const query: string = event.target["value"];
 
-    const criteria = (item: LastTime) => {
-      return (
-        item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-        item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      );
-    };
-
+    this.filterApplied = query;
     if (query) {
-      this.viewData.lastTime = this.listBackup.filter(i => criteria(i));
+      this.viewData.lastTime = this.services.lastTime
+        .list()
+        .filter(i => this.criteriaForFilter(i, this.filterApplied));
     } else {
-      this.viewData.lastTime = this.listBackup;
+      this.viewData.lastTime = this.services.lastTime.list();
     }
   }
 
@@ -229,7 +232,7 @@ export class LastTimeComponent implements OnInit {
 
       this.services.lastTime.updateItem(item).then(response => {
         this.calculateValidityForAll();
-        this.updateBackupItem(item);
+        // this.updateBackupItem(item);
       });
     }
   }

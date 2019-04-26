@@ -2021,7 +2021,14 @@ let LastTimeComponent = class LastTimeComponent {
         this.model = {
             id: null
         };
-        this.listBackup = [];
+        this.filterApplied = "";
+        /* updateBackupItem(item: LastTime) {
+          this.listBackup[
+            this.listBackup.findIndex(i => i.lst_id === item.lst_id)
+          ] = item; // to keep backup list updated
+        } */
+        this.criteriaForFilter = (item, query) => item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+            item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1;
         this.services.lastTime = lastTimeService;
         this.services.lastTimeHistory = lastTimeHistoryService;
         titleService.setTitle("Last Time");
@@ -2038,7 +2045,6 @@ let LastTimeComponent = class LastTimeComponent {
                     return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
                 });
                 this.viewData.lastTime = list.sort(sort);*/
-            this.listBackup = [...this.viewData.lastTime]; // backup
         });
     }
     handleNewItem(form) {
@@ -2055,6 +2061,9 @@ let LastTimeComponent = class LastTimeComponent {
     }
     calculateValidityForAll() {
         let list = this.services.lastTime.list();
+        if (this.filterApplied) {
+            list = list.filter(i => this.criteriaForFilter(i, this.filterApplied));
+        }
         list.forEach(item => {
             this.calculateValidity(item);
         });
@@ -2129,7 +2138,7 @@ let LastTimeComponent = class LastTimeComponent {
             item["isEdited"] = true;
             this.services.lastTime.updateItem(item).then(response => {
                 this.calculateValidityForAll();
-                this.updateBackupItem(item);
+                // this.updateBackupItem(item);
             });
         }
     }
@@ -2139,23 +2148,19 @@ let LastTimeComponent = class LastTimeComponent {
         item["isEdited"] = true;
         this.services.lastTime.updateItem(item).then(response => {
             this.calculateValidityForAll();
-            this.updateBackupItem(item);
+            // this.updateBackupItem(item);
         });
-    }
-    updateBackupItem(item) {
-        this.listBackup[this.listBackup.findIndex(i => i.lst_id === item.lst_id)] = item; // to keep backup list updated
     }
     filter(event) {
         const query = event.target["value"];
-        const criteria = (item) => {
-            return (item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-                item.lst_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-        };
+        this.filterApplied = query;
         if (query) {
-            this.viewData.lastTime = this.listBackup.filter(i => criteria(i));
+            this.viewData.lastTime = this.services.lastTime
+                .list()
+                .filter(i => this.criteriaForFilter(i, this.filterApplied));
         }
         else {
-            this.viewData.lastTime = this.listBackup;
+            this.viewData.lastTime = this.services.lastTime.list();
         }
     }
     editNotes(item) {
@@ -2167,7 +2172,7 @@ let LastTimeComponent = class LastTimeComponent {
             item["isEdited"] = true;
             this.services.lastTime.updateItem(item).then(response => {
                 this.calculateValidityForAll();
-                this.updateBackupItem(item);
+                // this.updateBackupItem(item);
             });
         }
     }

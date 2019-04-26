@@ -61,6 +61,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][mod] Refactor updateState method to change only the needed elements via sub/pub events
   - [AppTasks][mod] Allow to specify a schedule starting date without duration or finish date, it will use current duration in order to set the finish date and save it
   - [AppTasks][new] Add a red flag to those tasks that can't be progressed
+  - [AppTasks][new] Be able to filter today's finished tasks by record
+  - [AppTasks][new] Use date_apply to track today's time tracking block
+  - [AppTasks][new] Save repetiton config
+  - [AppTasks][new] Generate task with repetition
 - Login
   - [AppCommon][new][Login] Login logged user identity service
   - [AppCommon][new][Login] Login basic CSS
@@ -99,10 +103,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
 - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
 - [AppMultimedia][new] Create migration script
-- [AppLastTime][fix] Sorting and filtering UX
 - [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
 
 <hr/>
+
+## v1.8.44 (2019-03-29)
+
+- [AppLastTime][fix] Sorting and filtering UX
 
 ## v1.8.43 (2019-03-28)
 
