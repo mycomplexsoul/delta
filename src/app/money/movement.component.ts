@@ -22,6 +22,7 @@ import { EntryService } from "./entry.service";
 import { BalanceService } from "./balance.service";
 import { PresetService } from "./preset.service";
 import { formatCurrency } from "@angular/common";
+import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
   selector: "movement",
@@ -157,7 +158,7 @@ export class MovementComponent implements OnInit {
       "Health"
     ];
 
-    this.model.date = this.DateToStringDate(new Date());
+    this.model.date = DateUtils.dateToStringDate(new Date());
   }
 
   retrieveAccountsAndBalance() {
@@ -258,7 +259,7 @@ export class MovementComponent implements OnInit {
       // TODO: hash generator for IDs
       p.pre_id = this.services.preset.newId();
       p.pre_name = form.value.fName;
-      p.pre_date = this.stringDateToDate(form.value.fDate);
+      p.pre_date = DateUtils.stringDateToDate(form.value.fDate);
       p.pre_amount = form.value.fAmount;
       p.pre_id_account = form.value.fAccount;
       if (this.isTransfer) {
@@ -313,7 +314,7 @@ export class MovementComponent implements OnInit {
       console.log("this is the preset", p);
     } else {
       let m = new Movement();
-      m.mov_date = this.stringDateToDate(form.value.fDate);
+      m.mov_date = DateUtils.stringDateToDate(form.value.fDate);
       if (this.model.id) {
         // we are editing instead of creating a new movement
         m.mov_id = this.model.id;
@@ -426,6 +427,7 @@ export class MovementComponent implements OnInit {
     const ACCOUNT_FOR_REIMBURSE = "11";
     let newAmount: number = base.mov_amount;
     let descPrefix: string = "";
+    let descSufix: string = "";
     let reimburseType: string = "";
     const REIMBURSE_50 = "reimburse-50";
     const REIMBURSE_100 = "reimburse-100";
@@ -434,6 +436,11 @@ export class MovementComponent implements OnInit {
       reimburseType = REIMBURSE_50;
       newAmount = base.mov_amount * 0.5;
       descPrefix = "Half for: ";
+      descSufix = `, original amount: ${formatCurrency(
+        base.mov_amount,
+        "en",
+        "$"
+      )}`;
     }
     if (base.mov_budget.includes(REIMBURSE_100)) {
       reimburseType = REIMBURSE_100;
@@ -447,12 +454,11 @@ export class MovementComponent implements OnInit {
     }
 
     const reimburse: Movement = new Movement(base);
-    reimburse.mov_desc = `${descPrefix}${
-      base.mov_desc
-    }, original amount: ${formatCurrency(base.mov_amount, "US", "$")}`;
+    reimburse.mov_desc = `${descPrefix}${base.mov_desc}${descSufix}`;
     reimburse.mov_amount = newAmount;
     reimburse.mov_ctg_type = 2;
     reimburse.mov_id_account = ACCOUNT_FOR_REIMBURSE;
+    reimburse.mov_id_category = "mct20190427225032-314918153583"; // 'Rembolso' Reimburse category
     reimburse.mov_budget = base.mov_budget.replace(REIMBURSE_50, "");
 
     // new movement
@@ -550,26 +556,6 @@ export class MovementComponent implements OnInit {
     } else {
       return undefined;
     }
-  }
-
-  stringDateToDate(date: string) {
-    if (/\d{4}-\d{2}-\d{2}/.test(date)) {
-      // looks like a date
-      const s: Array<string> = date.split("-");
-      return new Date(parseInt(s[0]), parseInt(s[1]) - 1, parseInt(s[2]));
-    }
-    return undefined;
-  }
-
-  DateToStringDate(date: Date) {
-    const mm = date.getMonth() + 1;
-    const dd = date.getDate();
-
-    return [
-      date.getFullYear(),
-      (mm > 9 ? "" : "0") + mm,
-      (dd > 9 ? "" : "0") + dd
-    ].join("-");
   }
 
   addNewCategoryForUser(category: string) {
@@ -703,7 +689,7 @@ export class MovementComponent implements OnInit {
         } else {
           console.log("account not found", values[1], d);
         }
-        m.mov_date = this.stringDateToDate(values[0]);
+        m.mov_date = DateUtils.stringDateToDate(values[0]);
         if (
           yearInitial * 100 + monthInitial >
           m.mov_date.getFullYear() * 100 + (m.mov_date.getMonth() + 1)
@@ -813,6 +799,7 @@ export class MovementComponent implements OnInit {
       this.user
     );
   }
+
   setModelDetails(id: string, form: any, prefix: string) {
     let model: iEntity;
     if (!this.viewData.showCreateForm) {
@@ -882,9 +869,9 @@ export class MovementComponent implements OnInit {
 
           if (f.value === "_date") {
             if (value !== null) {
-              valueToSet = this.DateToStringDate(new Date(value));
+              valueToSet = DateUtils.dateToStringDate(new Date(value));
             } else {
-              valueToSet = this.DateToStringDate(new Date());
+              valueToSet = DateUtils.dateToStringDate(new Date());
             }
           } else {
             valueToSet = value || null;
@@ -914,6 +901,6 @@ export class MovementComponent implements OnInit {
     if (form.controls["fMovementType"]) {
       form.controls["fMovementType"].setValue(1);
     }
-    form.controls["fDate"].setValue(this.DateToStringDate(new Date()));
+    form.controls["fDate"].setValue(DateUtils.dateToStringDate(new Date()));
   }
 }

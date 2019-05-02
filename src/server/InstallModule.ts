@@ -157,6 +157,7 @@ export class InstallModule {
         addCatalog('MULTIMEDIA_MEDIA_TYPE',2,'TV SERIES','TV SERIES',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_MEDIA_TYPE',3,'ANIME','ANIME',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_MEDIA_TYPE',4,'BOOK','BOOK',8,new Date(),new Date(),1);
+        addCatalog('MULTIMEDIA_MEDIA_TYPE',5,'MANGA','MANGA',8,new Date(),new Date(),1);
 
         addCatalog('MULTIMEDIA_PLATFORM',1,'PC','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',2,'NETFLIX','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);

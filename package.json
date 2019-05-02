@@ -1,11 +1,11 @@
 {
   "name": "delta",
-  "version": "1.8.44",
+  "version": "1.8.49",
   "scripts": {
     "ng": "ng",
     "start:ng": "ng serve",
     "build": "ng build && node ./node_modules/typescript/lib/tsc ./server.ts --lib es6 --types node",
-    "start": "node server.js",
+    "start": "node --inspect server.js",
     "test": "ng test",
     "coverage:node": "node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha --exit",
     "lint": "ng lint",

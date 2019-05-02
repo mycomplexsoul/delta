@@ -28,7 +28,14 @@ export class BalanceComponent implements OnInit {
     filterNonZero: boolean;
     averageBalanceInfo: any;
     showDailyBalance: boolean;
-    monthlyChart: {
+    monthlyExpenseChart: {
+      chartData: any[];
+      chartLabels: string[];
+      chartOptions: any;
+      chartLegend: boolean;
+      chartType: string;
+    };
+    monthlyIncomeChart: {
       chartData: any[];
       chartLabels: string[];
       chartOptions: any;
@@ -43,7 +50,20 @@ export class BalanceComponent implements OnInit {
     filterNonZero: true,
     averageBalanceInfo: {},
     showDailyBalance: false,
-    monthlyChart: {
+    monthlyExpenseChart: {
+      chartData: [
+        {
+          data: []
+        }
+      ],
+      chartLabels: [],
+      chartOptions: {
+        responsive: true
+      },
+      chartLegend: true,
+      chartType: "pie"
+    },
+    monthlyIncomeChart: {
       chartData: [
         {
           data: []
@@ -232,37 +252,24 @@ export class BalanceComponent implements OnInit {
     type T = { title: string; movements: Movement[]; total: number };
 
     const data = {
-      income: [
-        {
-          title: "Salary",
-          movements: movementList.filter(
-            item =>
-              item.mov_ctg_type === 2 &&
-              item.mov_budget &&
-              item.mov_budget.includes("salary")
-          )
-        },
-        {
-          title: "Mortgage",
-          movements: movementList.filter(
-            item =>
-              item.mov_ctg_type === 2 &&
-              item.mov_budget &&
-              item.mov_budget.includes("mortgage")
-          )
-        },
-        {
-          title: "Other",
-          movements: movementList.filter(
-            item =>
-              item.mov_ctg_type === 2 &&
-              ((item.mov_budget &&
-                !item.mov_budget.includes("salary") &&
-                !item.mov_budget.includes("mortgage")) ||
-                !item.mov_budget)
-          )
-        }
-      ],
+      income: movementList
+        .filter(item => item.mov_ctg_type === 2)
+        .reduce((previous, item) => {
+          const categoryGroup: T = previous.find(
+            x => x.title === item.mov_txt_category
+          );
+          if (categoryGroup) {
+            categoryGroup.movements.push(item);
+            categoryGroup.total += item.mov_amount;
+          } else {
+            previous.push({
+              title: item.mov_txt_category,
+              movements: [item],
+              total: item.mov_amount
+            });
+          }
+          return previous;
+        }, []),
       expenses: movementList
         .filter(item => item.mov_ctg_type === 1)
         .reduce((previous, item) => {
@@ -293,11 +300,19 @@ export class BalanceComponent implements OnInit {
     });
     console.log("monthlyTotals", data);
 
-    const chart = this.viewData.monthlyChart;
-    chart.chartData = [
+    const chartExpenses = this.viewData.monthlyExpenseChart;
+    chartExpenses.chartData = [
       { data: data.expenses.map(item => item.total), label: "Expenses" }
     ];
-    chart.chartLabels = data.expenses.map(
+    chartExpenses.chartLabels = data.expenses.map(
+      item => `${item.title} (${item.movements.length})`
+    );
+
+    const chartIncome = this.viewData.monthlyIncomeChart;
+    chartIncome.chartData = [
+      { data: data.income.map(item => item.total), label: "Income" }
+    ];
+    chartIncome.chartLabels = data.income.map(
       item => `${item.title} (${item.movements.length})`
     );
   }

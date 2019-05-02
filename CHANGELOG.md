@@ -97,15 +97,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppLastTime][new] Show an option to search on or show archived items
-- [AppMoney][fix] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
-
 - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
 - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
-- [AppMultimedia][new] Create migration script
-- [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
+- [AppLastTime][new] Show an option to search on or show archived items
 
 <hr/>
+
+## v1.8.49 (2019-04-05)
+
+- [AppMoney][fix] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
+- [AppCommon][new] Added `--inspect` flag to debug node app
+
+## v1.8.48 (2019-04-04)
+
+- [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
+
+## v1.8.47 (2019-04-03)
+
+- [AppMultimedia][new] Create migration script
+
+## v1.8.46 (2019-04-02)
+
+- [AppMultimedia][new] Added time field to capture Datetime viewed up to seconds
+- [AppMoney][mod] Refactor moved two methods from Movement to DateUtils
+
+## v1.8.46 (2019-04-02)
+
+- [AppMoney][new] Added new graph for displaying income grouped by category
+
+## v1.8.45 (2019-04-01)
+
+- [AppMoney][fix] Fixed movements email, was not querying correctly transfers to loan account, now it shows all movements
+- [AppCommon][new] Added `InstallModule.ts` to prettier ignore to preserve original formatting
 
 ## v1.8.44 (2019-03-29)
 

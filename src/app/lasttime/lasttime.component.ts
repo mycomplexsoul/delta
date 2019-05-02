@@ -82,15 +82,17 @@ export class LastTimeComponent implements OnInit {
     item["ageClass"] = this.ageClass(item["expiryDate"]);
   }
 
+  sort(a: LastTime, b: LastTime) {
+    return a["expiryDate"].getTime() >= b["expiryDate"].getTime() ? 1 : -1;
+  }
+
   calculateValidityForAll() {
     let list: LastTime[] = this.services.lastTime.list();
     list.forEach(item => {
       this.calculateValidity(item);
     });
-    const sort = (a: LastTime, b: LastTime) => {
-      return a["expiryDate"].getTime() >= b["expiryDate"].getTime() ? 1 : -1;
-    };
-    list = list.sort(sort);
+
+    list = list.sort(this.sort);
     if (this.filterApplied) {
       list = list.filter(i => this.criteriaForFilter(i, this.filterApplied));
     } else {
@@ -214,7 +216,7 @@ export class LastTimeComponent implements OnInit {
         .list()
         .filter(i => this.criteriaForFilter(i, this.filterApplied));
     } else {
-      this.viewData.lastTime = this.services.lastTime.list();
+      this.viewData.lastTime = this.services.lastTime.list().sort(this.sort);
     }
   }
 

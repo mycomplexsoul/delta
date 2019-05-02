@@ -137,13 +137,24 @@
   ></movement-listing>
 
   <canvas
-    id="monthlyChart"
+    id="monthlyExpenseChart"
     baseChart
-    [datasets]="viewData.monthlyChart.chartData"
-    [labels]="viewData.monthlyChart.chartLabels"
-    [options]="viewData.monthlyChart.chartOptions"
-    [legend]="viewData.monthlyChart.chartLegend"
-    [chartType]="viewData.monthlyChart.chartType"
+    [datasets]="viewData.monthlyExpenseChart.chartData"
+    [labels]="viewData.monthlyExpenseChart.chartLabels"
+    [options]="viewData.monthlyExpenseChart.chartOptions"
+    [legend]="viewData.monthlyExpenseChart.chartLegend"
+    [chartType]="viewData.monthlyExpenseChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyIncomeChart"
+    baseChart
+    [datasets]="viewData.monthlyIncomeChart.chartData"
+    [labels]="viewData.monthlyIncomeChart.chartLabels"
+    [options]="viewData.monthlyIncomeChart.chartOptions"
+    [legend]="viewData.monthlyIncomeChart.chartLegend"
+    [chartType]="viewData.monthlyIncomeChart.chartType"
   >
   </canvas>
 </div>

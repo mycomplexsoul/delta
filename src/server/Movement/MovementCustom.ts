@@ -1007,7 +1007,7 @@ export class MovementCustom {
       month - 1,
       DateUtils.lastDayInMonth(year, month - 1)
     );
-    const sqlMovements: string = `select * from vimovement where (mov_id_account = '${account}' or mov_id_account = '${account}') and mov_date >= '${DateUtils.formatDate(
+    const sqlMovements: string = `select * from vimovement where (mov_id_account = '${account}' or mov_id_account_to = '${account}') and mov_date >= '${DateUtils.formatDate(
       initialDate
     )}' and mov_date <= '${DateUtils.formatDate(finalDate)}'`;
     const { rows: MovementList } = await connection.runSql(sqlMovements);
@@ -1047,7 +1047,9 @@ export class MovementCustom {
                 <tr ${
                   index % 2 !== 0 ? 'style="background-color: lightgrey"' : ""
                 }>
-                    <td>${DateUtils.formatDate(item.mov_date)}</td>
+                    <td style="padding: 5px; min-width: 70px;">${DateUtils.formatDate(
+                      item.mov_date
+                    )}</td>
                     <td ${styleAmount}>${currencyFormatHelper(
                   item.mov_ctg_type === 1 ||
                     (item.mov_ctg_type === 3 &&

@@ -15,6 +15,13 @@ import { MultimediaDet } from "../../crosscommon/entities/MultimediaDet";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { SyncQueue } from "../common/SyncQueue";
 
+const MEDIA_AGE = {
+  old: 10,
+  normal: 3,
+  recent: 1,
+  today: 0
+};
+
 @Component({
   selector: "multimedia",
   templateUrl: "./multimedia.template.html",
@@ -81,7 +88,8 @@ export class MultimediaComponent implements OnInit {
     fAltEpTitle: string;
     fUrl: string;
     isViewed: boolean;
-    fDateViewed: Date;
+    fDateViewed: string;
+    fTimeViewed: string;
     fSummary: string;
     fRating: number;
     fPlatform: number;
@@ -96,7 +104,8 @@ export class MultimediaComponent implements OnInit {
     fAltEpTitle: null,
     fUrl: null,
     isViewed: false,
-    fDateViewed: new Date(),
+    fDateViewed: "",
+    fTimeViewed: "",
     fSummary: null,
     fRating: 0,
     fPlatform: 0,
@@ -197,6 +206,8 @@ export class MultimediaComponent implements OnInit {
     this.epModel.id = id;
     this.epModel.epId = epId;
     this.epModel.fTitle = title;
+    this.epModel.fDateViewed = DateUtils.dateToStringDate(new Date());
+    this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(new Date());
 
     // see if we have data for this ep in order to populate form
     const detFound = this.services.multimediaDetService
@@ -216,7 +227,12 @@ export class MultimediaComponent implements OnInit {
     if (viewFound) {
       this.epModel.isViewed = true;
       this.epModel.fSummary = viewFound.mmv_ep_summary;
-      this.epModel.fDateViewed = viewFound.mmv_date_viewed;
+      this.epModel.fDateViewed = DateUtils.dateToStringDate(
+        viewFound.mmv_date_viewed
+      );
+      this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(
+        viewFound.mmv_date_viewed
+      );
       this.epModel.fRating = viewFound.mmv_num_rating;
       this.epModel.fPlatform = viewFound.mmv_ctg_platform;
       this.epModel.fNotes = viewFound.mmv_notes;
@@ -287,7 +303,7 @@ export class MultimediaComponent implements OnInit {
         this.epModel.id,
         this.epModel.epId,
         values.fSummary,
-        values.fDateViewed,
+        new Date(`${values.fDateViewed} ${values.fTimeViewed}`),
         values.fRating,
         values.fPlatform,
         values.fNotes,
