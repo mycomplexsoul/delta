@@ -15,16 +15,10 @@ import { MultimediaDet } from "../../crosscommon/entities/MultimediaDet";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { SyncQueue } from "../common/SyncQueue";
 
-const MEDIA_AGE = {
-  old: 10,
-  normal: 3,
-  recent: 1,
-  today: 0
-};
-
 @Component({
   selector: "multimedia",
   templateUrl: "./multimedia.template.html",
+  styleUrls: ["./multimedia.css"],
   providers: [
     MultimediaService,
     MultimediaDetService,
@@ -112,6 +106,12 @@ export class MultimediaComponent implements OnInit {
     fNotes: null,
     fNextEpId: null
   };
+  private MEDIA_AGE = {
+    old: 10,
+    normal: 3,
+    recent: 1,
+    today: 0
+  };
 
   constructor(
     multimediaService: MultimediaService,
@@ -129,12 +129,19 @@ export class MultimediaComponent implements OnInit {
     this.services.multimediaService
       .getAllForUser(this.services.loginService.getUsername() || "anon")
       .then(data => {
-        this.viewData.multimediaList = data;
+        this.viewData.multimediaList = this.calculateAge(data);
       });
     this.services.multimediaDetService
       .getAllForUser(this.services.loginService.getUsername() || "anon")
       .then((data: MultimediaDet[]) => {
-        this.viewData.multimediaDetList = data;
+        this.viewData.multimediaDetList = data
+          .sort((a, b) =>
+            new Date(a.mmd_date_mod).getTime() >
+            new Date(b.mmd_date_mod).getTime()
+              ? -1
+              : 1
+          )
+          .filter((item, index) => index < 20);
       });
     this.services.multimediaViewService
       .getAllForUser(this.services.loginService.getUsername() || "anon")
@@ -349,6 +356,23 @@ export class MultimediaComponent implements OnInit {
       this.viewData.multimediaDetList = id
         ? data.filter(item => item.mmd_id === id)
         : data;
+    });
+  }
+
+  calculateAge(list: Multimedia[]): Multimedia[] {
+    const ageInDays = (base: Date) => DateUtils.elapsedDays(new Date(), base);
+    const classname = (age: number) => {
+      const entry = Object.entries(this.MEDIA_AGE).find(
+        entry => entry[1] <= age
+      );
+      return entry[0];
+    };
+
+    return list.map(item => {
+      const t = item;
+      t["age"] = ageInDays(t.mma_date_mod);
+      t["ageClassname"] = `multimedia-${classname(t["age"])}`;
+      return t;
     });
   }
 }

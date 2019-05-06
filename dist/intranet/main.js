@@ -3713,12 +3713,13 @@ let MovementComponent = class MovementComponent {
     }
     createReimburseMovement(base) {
         const ACCOUNT_FOR_REIMBURSE = "11";
+        const REIMBURSE_CATEGORY = "mct20190427225032-314918153583";
+        const REIMBURSE_50 = "reimburse-50";
+        const REIMBURSE_100 = "reimburse-100";
         let newAmount = base.mov_amount;
         let descPrefix = "";
         let descSufix = "";
         let reimburseType = "";
-        const REIMBURSE_50 = "reimburse-50";
-        const REIMBURSE_100 = "reimburse-100";
         if (base.mov_budget.includes(REIMBURSE_50)) {
             reimburseType = REIMBURSE_50;
             newAmount = base.mov_amount * 0.5;
@@ -3739,7 +3740,9 @@ let MovementComponent = class MovementComponent {
         reimburse.mov_amount = newAmount;
         reimburse.mov_ctg_type = 2;
         reimburse.mov_id_account = ACCOUNT_FOR_REIMBURSE;
-        reimburse.mov_id_category = "mct20190427225032-314918153583"; // 'Rembolso' Reimburse category
+        reimburse.mov_txt_account = this.viewData.accounts.find(acc => acc.acc_id === ACCOUNT_FOR_REIMBURSE).acc_name;
+        reimburse.mov_id_category = REIMBURSE_CATEGORY; // 'Rembolsos' Reimburse category
+        reimburse.mov_txt_category = this.viewData.categories.find(cat => cat.mct_id === REIMBURSE_CATEGORY).mct_name; // 'Rembolsos' Reimburse category
         reimburse.mov_budget = base.mov_budget.replace(REIMBURSE_50, "");
         // new movement
         this.services.movement.newItem(reimburse, () => this.retrieveAccountsAndBalance());
@@ -4815,12 +4818,6 @@ const multimediaview_service_1 = __webpack_require__(/*! ./multimediaview.servic
 const login_service_1 = __webpack_require__(/*! ../common/login.service */ "./src/app/common/login.service.ts");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const DateUtility_1 = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
-const MEDIA_AGE = {
-    old: 10,
-    normal: 3,
-    recent: 1,
-    today: 0
-};
 let MultimediaComponent = class MultimediaComponent {
     constructor(multimediaService, multimediaDetService, multimediaViewService, loginService, syncService) {
         this.viewData = {
@@ -4864,6 +4861,12 @@ let MultimediaComponent = class MultimediaComponent {
             fNotes: null,
             fNextEpId: null
         };
+        this.MEDIA_AGE = {
+            old: 10,
+            normal: 3,
+            recent: 1,
+            today: 0
+        };
         this.services.multimediaService = multimediaService;
         this.services.multimediaDetService = multimediaDetService;
         this.services.multimediaViewService = multimediaViewService;
@@ -4872,12 +4875,17 @@ let MultimediaComponent = class MultimediaComponent {
         this.services.multimediaService
             .getAllForUser(this.services.loginService.getUsername() || "anon")
             .then(data => {
-            this.viewData.multimediaList = data;
+            this.viewData.multimediaList = this.calculateAge(data);
         });
         this.services.multimediaDetService
             .getAllForUser(this.services.loginService.getUsername() || "anon")
             .then((data) => {
-            this.viewData.multimediaDetList = data;
+            this.viewData.multimediaDetList = data
+                .sort((a, b) => new Date(a.mmd_date_mod).getTime() >
+                new Date(b.mmd_date_mod).getTime()
+                ? -1
+                : 1)
+                .filter((item, index) => index < 20);
         });
         this.services.multimediaViewService
             .getAllForUser(this.services.loginService.getUsername() || "anon")
@@ -5022,6 +5030,19 @@ let MultimediaComponent = class MultimediaComponent {
                 : data;
         });
     }
+    calculateAge(list) {
+        const ageInDays = (base) => DateUtility_1.DateUtils.elapsedDays(new Date(), base);
+        const classname = (age) => {
+            const entry = Object.entries(this.MEDIA_AGE).find(entry => entry[1] <= age);
+            return entry[0];
+        };
+        return list.map(item => {
+            const t = item;
+            t["age"] = ageInDays(t.mma_date_mod);
+            t["ageClassname"] = `multimedia-${classname(t["age"])}`;
+            return t;
+        });
+    }
 };
 MultimediaComponent = tslib_1.__decorate([
     core_1.Component({
@@ -5033,7 +5054,8 @@ MultimediaComponent = tslib_1.__decorate([
             multimediaview_service_1.MultimediaViewService,
             login_service_1.LoginService,
             sync_api_1.SyncAPI
-        ]
+        ],
+        styles: [__webpack_require__(/*! ./multimedia.css */ "./src/app/multimedia/multimedia.css")]
     }),
     tslib_1.__metadata("design:paramtypes", [multimedia_service_1.MultimediaService,
         multimediadet_service_1.MultimediaDetService,
@@ -5043,6 +5065,17 @@ MultimediaComponent = tslib_1.__decorate([
 ], MultimediaComponent);
 exports.MultimediaComponent = MultimediaComponent;
 
+
+/***/ }),
+
+/***/ "./src/app/multimedia/multimedia.css":
+/*!*******************************************!*\
+  !*** ./src/app/multimedia/multimedia.css ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Multimedia coloring based on age */\r\n.multimedia-old {\r\n  color: red;\r\n}\r\n.multimedia-normal {\r\n  color: black;\r\n}\r\n.multimedia-recent {\r\n  color: blue;\r\n}\r\n.multimedia-today {\r\n  color: blue;\r\n  font-weight: bold;\r\n}\r\n/* Multimedia coloring based on media type */\r\n.multimedia-movies {\r\n  color: violet;\r\n}\r\n.multimedia-tvseries {\r\n  color: brown;\r\n}\r\n.multimedia-anime {\r\n  color: orange;\r\n}\r\n.multimedia-book {\r\n  color: green;\r\n}\r\n.multimedia-manga {\r\n  color: blue;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbXVsdGltZWRpYS9tdWx0aW1lZGlhLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxxQ0FBcUM7QUFDckM7RUFDRSxVQUFVO0FBQ1o7QUFFQTtFQUNFLFlBQVk7QUFDZDtBQUVBO0VBQ0UsV0FBVztBQUNiO0FBRUE7RUFDRSxXQUFXO0VBQ1gsaUJBQWlCO0FBQ25CO0FBRUEsNENBQTRDO0FBQzVDO0VBQ0UsYUFBYTtBQUNmO0FBRUE7RUFDRSxZQUFZO0FBQ2Q7QUFFQTtFQUNFLGFBQWE7QUFDZjtBQUVBO0VBQ0UsWUFBWTtBQUNkO0FBRUE7RUFDRSxXQUFXO0FBQ2IiLCJmaWxlIjoic3JjL2FwcC9tdWx0aW1lZGlhL211bHRpbWVkaWEuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogTXVsdGltZWRpYSBjb2xvcmluZyBiYXNlZCBvbiBhZ2UgKi9cclxuLm11bHRpbWVkaWEtb2xkIHtcclxuICBjb2xvcjogcmVkO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1ub3JtYWwge1xyXG4gIGNvbG9yOiBibGFjaztcclxufVxyXG5cclxuLm11bHRpbWVkaWEtcmVjZW50IHtcclxuICBjb2xvcjogYmx1ZTtcclxufVxyXG5cclxuLm11bHRpbWVkaWEtdG9kYXkge1xyXG4gIGNvbG9yOiBibHVlO1xyXG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG4vKiBNdWx0aW1lZGlhIGNvbG9yaW5nIGJhc2VkIG9uIG1lZGlhIHR5cGUgKi9cclxuLm11bHRpbWVkaWEtbW92aWVzIHtcclxuICBjb2xvcjogdmlvbGV0O1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS10dnNlcmllcyB7XHJcbiAgY29sb3I6IGJyb3duO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1hbmltZSB7XHJcbiAgY29sb3I6IG9yYW5nZTtcclxufVxyXG5cclxuLm11bHRpbWVkaWEtYm9vayB7XHJcbiAgY29sb3I6IGdyZWVuO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1tYW5nYSB7XHJcbiAgY29sb3I6IGJsdWU7XHJcbn1cclxuIl19 */"
 
 /***/ }),
 
@@ -5174,7 +5207,7 @@ exports.MultimediaService = MultimediaService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"multimedia-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fMediaType\" class=\"label-left\">Media Type</label>\r\n        <select\r\n          name=\"fMediaType\"\r\n          id=\"fMediaType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fMediaType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.mediaTypeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === newForm.value.fMediaType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fSeason\" class=\"label-left\">Season</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fSeason\"\r\n          id=\"fSeason\"\r\n          class=\"field-input multimedia-input-season\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fSeason\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fCurrentEp\" class=\"label-left\">Current Episode</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fCurrentEp\"\r\n          id=\"fCurrentEp\"\r\n          class=\"field-input multimedia-input-currentep\"\r\n          [(ngModel)]=\"model.fCurrentEp\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTotalEp\" class=\"label-left\">Total Episodes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTotalEp\"\r\n          id=\"fTotalEp\"\r\n          class=\"field-input multimedia-input-totalep\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<table>\r\n  <tr>\r\n    <th class=\"padding-all-5 width-80\">#</th>\r\n    <th class=\"padding-all-5 width-100\">Title</th>\r\n    <th class=\"padding-all-5\">Episode</th>\r\n    <th class=\"padding-all-5\">Last Viewed</th>\r\n  </tr>\r\n  <tr\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaList; let i = index\"\r\n  >\r\n    <td class=\"padding-all-5 text-align-right\">{{ i + 1 }}</td>\r\n    <td class=\"padding-all-5\">{{ item.mma_title + \" T\" + item.mma_season }}</td>\r\n    <td class=\"padding-all-5\">\r\n      {{ item.mma_current_ep + \"/\" + item.mma_total_ep }}\r\n      <button\r\n        type=\"button\"\r\n        (click)=\"\r\n          showNewEpForm(item.mma_id, item.mma_current_ep, item.mma_title)\r\n        \"\r\n      >\r\n        +\r\n      </button>\r\n      <button type=\"button\" (click)=\"showDetListing(item.mma_id)\">*</button>\r\n    </td>\r\n    <td class=\"padding-all-5\">{{ item.mma_date_mod | date: \"yyyy-MM-dd\" }}</td>\r\n  </tr>\r\n</table>\r\n\r\n<!--\r\n    <table>\r\n        <tr>\r\n            <th class=\"padding-all-5 width-80\">Episode Id</th>\r\n            <th class=\"padding-all-5 width-100\">Episode Title</th>\r\n    \r\n            <th class=\"padding-all-5\">Date Viewed</th>\r\n            <th class=\"padding-all-5\">Rating</th>\r\n            <th class=\"padding-all-5\">Notes</th>\r\n        </tr>\r\n        <tr class=\"multimedia-listing-row\" *ngFor=\"let item of viewData.multimediaList; let i = index\">\r\n            <td class=\"padding-all-5 text-align-right\">{{i + 1}}</td>\r\n            <td class=\"padding-all-5\">{{item.mma_title + ' T' + item.mma_season}}</td>\r\n            <td class=\"padding-all-5\">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>\r\n            <td class=\"padding-all-5\">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>\r\n        </tr>\r\n    </table>\r\n-->\r\n\r\n<form #newEpForm=\"ngForm\" (ngSubmit)=\"newEpItem(newEpForm)\">\r\n  <div *ngIf=\"viewData.showCreateEpForm\">\r\n    <button type=\"button\" (click)=\"hideNewEpForm()\">\r\n      Hide Ep Form\r\n    </button>\r\n    <div>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          disabled\r\n          [(ngModel)]=\"epModel.fTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpId\"\r\n          id=\"fEpId\"\r\n          class=\"field-input multimedia-input-id\"\r\n          [(ngModel)]=\"epModel.epId\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fEpTitle\" class=\"label-left\">Episode Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpTitle\"\r\n          id=\"fEpTitle\"\r\n          class=\"field-input multimedia-input-eptitle\"\r\n          [(ngModel)]=\"epModel.fEpTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fAltEpTitle\" class=\"label-left\">Alternative Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fAltEpTitle\"\r\n          id=\"fAltEpTitle\"\r\n          class=\"field-input multimedia-input-alteptitle\"\r\n          [(ngModel)]=\"epModel.fAltEpTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"epModel.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          [(ngModel)]=\"epModel.fUrl\"\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <hr />\r\n        <label for=\"fIsViewed\" class=\"label-left\">Viewed</label>\r\n        <input\r\n          type=\"checkbox\"\r\n          name=\"fIsViewed\"\r\n          id=\"fIsViewed\"\r\n          [(ngModel)]=\"epModel.isViewed\"\r\n        />\r\n      </span>\r\n      <span *ngIf=\"epModel.isViewed\">\r\n        <span class=\"field\">\r\n          <label for=\"fSummary\" class=\"label-left\">Summary</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fSummary\"\r\n            id=\"fSummary\"\r\n            class=\"field-input multimedia-input-summary\"\r\n            [(ngModel)]=\"epModel.fSummary\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fDateViewed\" class=\"label-left\">Date Viewed</label>\r\n          <input\r\n            type=\"date\"\r\n            name=\"fDateViewed\"\r\n            [(ngModel)]=\"epModel.fDateViewed\"\r\n          />\r\n          <input\r\n            type=\"time\"\r\n            name=\"fTimeViewed\"\r\n            [(ngModel)]=\"epModel.fTimeViewed\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fRating\" class=\"label-left\">Rating</label>\r\n          <input\r\n            type=\"number\"\r\n            name=\"fRating\"\r\n            id=\"fRating\"\r\n            class=\"field-input multimedia-input-rating\"\r\n            step=\"1\"\r\n            [(ngModel)]=\"epModel.fRating\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fPlatform\" class=\"label-left\">Platform</label>\r\n          <select\r\n            name=\"fPlatform\"\r\n            id=\"fPlatform\"\r\n            class=\"field-select\"\r\n            [(ngModel)]=\"epModel.fPlatform\"\r\n          >\r\n            <option\r\n              *ngFor=\"let opt of viewData.platformList\"\r\n              [value]=\"opt.ctg_sequential\"\r\n              [selected]=\"opt.ctg_sequential === newEpForm.value.fPlatform\"\r\n              >{{ opt.ctg_name }}</option\r\n            >\r\n          </select>\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNotes\"\r\n            id=\"fNotes\"\r\n            class=\"field-input multimedia-input-notes\"\r\n            [(ngModel)]=\"epModel.fNotes\"\r\n          />\r\n        </span>\r\n\r\n        <span class=\"field\">\r\n          <hr />\r\n          <label for=\"fNextEpId\" class=\"label-left\">Next Episode Id</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNextEpId\"\r\n            id=\"fNextEpId\"\r\n            class=\"field-input multimedia-input-nextepid\"\r\n            [(ngModel)]=\"epModel.fNextEpId\"\r\n          />\r\n        </span>\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<button (click)=\"showDetListing()\" *ngIf=\"viewData.showDetList\">\r\n  Remove filter\r\n</button>\r\n<table *ngIf=\"viewData.multimediaDetList\">\r\n  <tr>\r\n    <th class=\"padding-all-5 width-80\">#</th>\r\n    <th class=\"padding-all-5 width-100\">Ep Title</th>\r\n    <th class=\"padding-all-5\">Alt Title</th>\r\n    <th class=\"padding-all-5\">Url</th>\r\n    <th class=\"padding-all-5\">Viewed</th>\r\n  </tr>\r\n  <tr\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaDetList\"\r\n  >\r\n    <td class=\"padding-all-5 text-align-right\">{{ item.mmd_id_ep }}</td>\r\n    <td class=\"padding-all-5\">{{ item.mmd_ep_title }}</td>\r\n    <td class=\"padding-all-5\">{{ item.mmd_ep_alt_title }}</td>\r\n    <td class=\"padding-all-5\">{{ item.mmd_url }}</td>\r\n    <td class=\"padding-all-5\">{{ item.mmd_date_mod | date: \"yyyy-MM-dd\" }}</td>\r\n  </tr>\r\n</table>\r\n"
+module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"multimedia-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fMediaType\" class=\"label-left\">Media Type</label>\r\n        <select\r\n          name=\"fMediaType\"\r\n          id=\"fMediaType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fMediaType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.mediaTypeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === newForm.value.fMediaType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fSeason\" class=\"label-left\">Season</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fSeason\"\r\n          id=\"fSeason\"\r\n          class=\"field-input multimedia-input-season\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fSeason\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fCurrentEp\" class=\"label-left\">Current Episode</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fCurrentEp\"\r\n          id=\"fCurrentEp\"\r\n          class=\"field-input multimedia-input-currentep\"\r\n          [(ngModel)]=\"model.fCurrentEp\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTotalEp\" class=\"label-left\">Total Episodes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTotalEp\"\r\n          id=\"fTotalEp\"\r\n          class=\"field-input multimedia-input-totalep\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<table>\r\n  <tr>\r\n    <th class=\"padding-left-5 padding-right-5 width-80\">#</th>\r\n    <th class=\"padding-left-5 padding-right-5 width-100\">Title</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Episode</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Last Viewed</th>\r\n  </tr>\r\n  <tr\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaList; let i = index\"\r\n  >\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">{{ i + 1 }}</td>\r\n    <td\r\n      class=\"padding-left-5 padding-right-5\"\r\n      [ngClass]=\"{\r\n        'multimedia-movies': item.mma_ctg_media_type === 1,\r\n        'multimedia-tvseries': item.mma_ctg_media_type === 2,\r\n        'multimedia-anime': item.mma_ctg_media_type === 3,\r\n        'multimedia-book': item.mma_ctg_media_type === 4,\r\n        'multimedia-manga': item.mma_ctg_media_type === 5\r\n      }\"\r\n    >\r\n      {{ item.mma_title + \" T\" + item.mma_season }}\r\n    </td>\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">\r\n      <span *ngIf=\"item.mma_total_ep !== '0'\">\r\n        {{ item.mma_current_ep + \"/\" + item.mma_total_ep }}\r\n      </span>\r\n      <span *ngIf=\"item.mma_total_ep === '0'\">\r\n        {{ item.mma_current_ep }}\r\n      </span>\r\n      <button\r\n        type=\"button\"\r\n        (click)=\"\r\n          showNewEpForm(item.mma_id, item.mma_current_ep, item.mma_title)\r\n        \"\r\n      >\r\n        +\r\n      </button>\r\n      <button type=\"button\" (click)=\"showDetListing(item.mma_id)\">*</button>\r\n    </td>\r\n    <td\r\n      class=\"padding-left-5 padding-right-5 width-80\"\r\n      [ngClass]=\"item.ageClassname\"\r\n    >\r\n      {{ item.mma_date_mod | date: \"yyyy-MM-dd\" }}\r\n    </td>\r\n  </tr>\r\n</table>\r\n\r\n<!--\r\n    <table>\r\n        <tr>\r\n            <th class=\"padding-left-5 padding-right-5 width-80\">Episode Id</th>\r\n            <th class=\"padding-left-5 padding-right-5 width-100\">Episode Title</th>\r\n    \r\n            <th class=\"padding-left-5 padding-right-5\">Date Viewed</th>\r\n            <th class=\"padding-left-5 padding-right-5\">Rating</th>\r\n            <th class=\"padding-left-5 padding-right-5\">Notes</th>\r\n        </tr>\r\n        <tr class=\"multimedia-listing-row\" *ngFor=\"let item of viewData.multimediaList; let i = index\">\r\n            <td class=\"padding-left-5 padding-right-5 text-align-right\">{{i + 1}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_title + ' T' + item.mma_season}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>\r\n        </tr>\r\n    </table>\r\n-->\r\n\r\n<form #newEpForm=\"ngForm\" (ngSubmit)=\"newEpItem(newEpForm)\">\r\n  <div *ngIf=\"viewData.showCreateEpForm\">\r\n    <button type=\"button\" (click)=\"hideNewEpForm()\">\r\n      Hide Ep Form\r\n    </button>\r\n    <div>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          disabled\r\n          [(ngModel)]=\"epModel.fTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpId\"\r\n          id=\"fEpId\"\r\n          class=\"field-input multimedia-input-id\"\r\n          [(ngModel)]=\"epModel.epId\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fEpTitle\" class=\"label-left\">Episode Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpTitle\"\r\n          id=\"fEpTitle\"\r\n          class=\"field-input multimedia-input-eptitle\"\r\n          [(ngModel)]=\"epModel.fEpTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fAltEpTitle\" class=\"label-left\">Alternative Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fAltEpTitle\"\r\n          id=\"fAltEpTitle\"\r\n          class=\"field-input multimedia-input-alteptitle\"\r\n          [(ngModel)]=\"epModel.fAltEpTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"epModel.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          [(ngModel)]=\"epModel.fUrl\"\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <hr />\r\n        <label for=\"fIsViewed\" class=\"label-left\">Viewed</label>\r\n        <input\r\n          type=\"checkbox\"\r\n          name=\"fIsViewed\"\r\n          id=\"fIsViewed\"\r\n          [(ngModel)]=\"epModel.isViewed\"\r\n        />\r\n      </span>\r\n      <span *ngIf=\"epModel.isViewed\">\r\n        <span class=\"field\">\r\n          <label for=\"fSummary\" class=\"label-left\">Summary</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fSummary\"\r\n            id=\"fSummary\"\r\n            class=\"field-input multimedia-input-summary\"\r\n            [(ngModel)]=\"epModel.fSummary\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fDateViewed\" class=\"label-left\">Date Viewed</label>\r\n          <input\r\n            type=\"date\"\r\n            name=\"fDateViewed\"\r\n            [(ngModel)]=\"epModel.fDateViewed\"\r\n          />\r\n          <input\r\n            type=\"time\"\r\n            name=\"fTimeViewed\"\r\n            [(ngModel)]=\"epModel.fTimeViewed\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fRating\" class=\"label-left\">Rating</label>\r\n          <input\r\n            type=\"number\"\r\n            name=\"fRating\"\r\n            id=\"fRating\"\r\n            class=\"field-input multimedia-input-rating\"\r\n            step=\"1\"\r\n            [(ngModel)]=\"epModel.fRating\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fPlatform\" class=\"label-left\">Platform</label>\r\n          <select\r\n            name=\"fPlatform\"\r\n            id=\"fPlatform\"\r\n            class=\"field-select\"\r\n            [(ngModel)]=\"epModel.fPlatform\"\r\n          >\r\n            <option\r\n              *ngFor=\"let opt of viewData.platformList\"\r\n              [value]=\"opt.ctg_sequential\"\r\n              [selected]=\"opt.ctg_sequential === newEpForm.value.fPlatform\"\r\n              >{{ opt.ctg_name }}</option\r\n            >\r\n          </select>\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNotes\"\r\n            id=\"fNotes\"\r\n            class=\"field-input multimedia-input-notes\"\r\n            [(ngModel)]=\"epModel.fNotes\"\r\n          />\r\n        </span>\r\n\r\n        <span class=\"field\">\r\n          <hr />\r\n          <label for=\"fNextEpId\" class=\"label-left\">Next Episode Id</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNextEpId\"\r\n            id=\"fNextEpId\"\r\n            class=\"field-input multimedia-input-nextepid\"\r\n            [(ngModel)]=\"epModel.fNextEpId\"\r\n          />\r\n        </span>\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<button (click)=\"showDetListing()\" *ngIf=\"viewData.showDetList\">\r\n  Remove filter\r\n</button>\r\n<table *ngIf=\"viewData.multimediaDetList\">\r\n  <tr>\r\n    <th class=\"padding-left-5 padding-right-5 width-80\">#</th>\r\n    <th class=\"padding-left-5 padding-right-5 width-100\">Ep Title</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Url</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Viewed</th>\r\n  </tr>\r\n  <tr\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaDetList\"\r\n  >\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">\r\n      {{ item.mmd_id_ep }}\r\n    </td>\r\n    <td class=\"padding-left-5 padding-right-5\">\r\n      {{\r\n        item.mmd_txt_title\r\n          ? item.mmd_txt_title + \" | \" + item.mmd_ep_title\r\n          : item.mmd_ep_title\r\n      }}\r\n    </td>\r\n    <td class=\"padding-left-5 padding-right-5\">\r\n      <span *ngIf=\"item.mmd_url\">\r\n        <a [href]=\"item.mmd_url\">link</a>\r\n      </span>\r\n    </td>\r\n    <td class=\"padding-left-5 padding-right-5 width-80\">\r\n      {{ item.mmd_date_mod | date: \"yyyy-MM-dd\" }}\r\n    </td>\r\n  </tr>\r\n</table>\r\n"
 
 /***/ }),
 
@@ -13257,9 +13290,45 @@ class MultimediaDet {
                     orderOnImport: 10,
                     globalOrder: 0,
                     value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'mmd_txt_title',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 300,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'MULTIMEDIA',
+                    linkedField: 'mma_title',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 11,
+                    orderOnNew: 11,
+                    orderOnDetails: 11,
+                    orderOnEdit: 11,
+                    orderOnImport: 11,
+                    globalOrder: 0,
+                    value: null
                 }
             ],
-            view: []
+            view: [
+                {
+                    joinType: 'LEFT',
+                    joinTable: 'MULTIMEDIA',
+                    joinStatement: 'mmd_id = mma_id'
+                }
+            ]
         };
         this.recordName = () => {
             return this.metadata.fields.filter(f => f.isRecordName).map(f => {
@@ -13278,6 +13347,7 @@ class MultimediaDet {
             this.mmd_date_mod = (base.mmd_date_mod !== null) ? new Date(base.mmd_date_mod) : null;
             this.mmd_ctg_status = base.mmd_ctg_status;
             this.mmd_txt_status = base.mmd_txt_status;
+            this.mmd_txt_title = base.mmd_txt_title;
         }
     }
 }
@@ -16417,7 +16487,7 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\data\code\intranet\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\data\code\intranet\src\main.ts */"./src/main.ts");
 
 
 /***/ })

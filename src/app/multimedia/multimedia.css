@@ -1,0 +1,38 @@
+/* Multimedia coloring based on age */
+.multimedia-old {
+  color: red;
+}
+
+.multimedia-normal {
+  color: black;
+}
+
+.multimedia-recent {
+  color: blue;
+}
+
+.multimedia-today {
+  color: blue;
+  font-weight: bold;
+}
+
+/* Multimedia coloring based on media type */
+.multimedia-movies {
+  color: violet;
+}
+
+.multimedia-tvseries {
+  color: brown;
+}
+
+.multimedia-anime {
+  color: orange;
+}
+
+.multimedia-book {
+  color: green;
+}
+
+.multimedia-manga {
+  color: blue;
+}

@@ -103,20 +103,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.8.49 (2019-04-05)
+## v1.8.50 (2019-04-09)
+
+- [AppMultimedia][new] Apply coloring for age and media type on media listing
+- [AppMultimedia][mod] Add title to `multimediadet` view
+
+## v1.8.49 (2019-04-08)
 
 - [AppMoney][fix] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
 - [AppCommon][new] Added `--inspect` flag to debug node app
 
-## v1.8.48 (2019-04-04)
+## v1.8.48 (2019-04-05)
 
 - [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
 
-## v1.8.47 (2019-04-03)
+## v1.8.47 (2019-04-04)
 
 - [AppMultimedia][new] Create migration script
 
-## v1.8.46 (2019-04-02)
+## v1.8.46 (2019-04-03)
 
 - [AppMultimedia][new] Added time field to capture Datetime viewed up to seconds
 - [AppMoney][mod] Refactor moved two methods from Movement to DateUtils

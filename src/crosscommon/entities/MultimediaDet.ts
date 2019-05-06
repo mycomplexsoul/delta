@@ -15,6 +15,7 @@ export class MultimediaDet implements iEntity {
 	public mmd_ctg_status: number;
 
 	public mmd_txt_status: string;
+	public mmd_txt_title: string;
 
 	public metadata: {
 		name: string
@@ -403,9 +404,45 @@ export class MultimediaDet implements iEntity {
 				, orderOnImport: 10
 				, globalOrder: 0
 				, value: null
+			}, {
+				templateId: 'table'
+				, dbName: 'mmd_txt_title'
+				, dbType: 'string'
+				, isTableField: false
+				, isPK: false
+				, size: 300
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: ''
+				, originTable: 'MULTIMEDIA'
+				, linkedField: 'mma_title'
+				, entName: ''
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 11
+				, orderOnNew: 11
+				, orderOnDetails: 11
+				, orderOnEdit: 11
+				, orderOnImport: 11
+				, globalOrder: 0
+				, value: null
 			}
 		]
 		, view: [
+			{
+				joinType: 'LEFT'
+				, joinTable: 'MULTIMEDIA'
+				, joinStatement: 'mmd_id = mma_id'
+			}
 		]
 	};
 
@@ -423,6 +460,7 @@ export class MultimediaDet implements iEntity {
 			this.mmd_ctg_status = base.mmd_ctg_status;
 
 			this.mmd_txt_status = base.mmd_txt_status;
+			this.mmd_txt_title = base.mmd_txt_title;
 		}
 	}
 

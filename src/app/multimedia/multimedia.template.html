@@ -97,19 +97,35 @@
 
 <table>
   <tr>
-    <th class="padding-all-5 width-80">#</th>
-    <th class="padding-all-5 width-100">Title</th>
-    <th class="padding-all-5">Episode</th>
-    <th class="padding-all-5">Last Viewed</th>
+    <th class="padding-left-5 padding-right-5 width-80">#</th>
+    <th class="padding-left-5 padding-right-5 width-100">Title</th>
+    <th class="padding-left-5 padding-right-5">Episode</th>
+    <th class="padding-left-5 padding-right-5">Last Viewed</th>
   </tr>
   <tr
     class="multimedia-listing-row"
     *ngFor="let item of viewData.multimediaList; let i = index"
   >
-    <td class="padding-all-5 text-align-right">{{ i + 1 }}</td>
-    <td class="padding-all-5">{{ item.mma_title + " T" + item.mma_season }}</td>
-    <td class="padding-all-5">
-      {{ item.mma_current_ep + "/" + item.mma_total_ep }}
+    <td class="padding-left-5 padding-right-5 text-align-right">{{ i + 1 }}</td>
+    <td
+      class="padding-left-5 padding-right-5"
+      [ngClass]="{
+        'multimedia-movies': item.mma_ctg_media_type === 1,
+        'multimedia-tvseries': item.mma_ctg_media_type === 2,
+        'multimedia-anime': item.mma_ctg_media_type === 3,
+        'multimedia-book': item.mma_ctg_media_type === 4,
+        'multimedia-manga': item.mma_ctg_media_type === 5
+      }"
+    >
+      {{ item.mma_title + " T" + item.mma_season }}
+    </td>
+    <td class="padding-left-5 padding-right-5 text-align-right">
+      <span *ngIf="item.mma_total_ep !== '0'">
+        {{ item.mma_current_ep + "/" + item.mma_total_ep }}
+      </span>
+      <span *ngIf="item.mma_total_ep === '0'">
+        {{ item.mma_current_ep }}
+      </span>
       <button
         type="button"
         (click)="
@@ -120,25 +136,30 @@
       </button>
       <button type="button" (click)="showDetListing(item.mma_id)">*</button>
     </td>
-    <td class="padding-all-5">{{ item.mma_date_mod | date: "yyyy-MM-dd" }}</td>
+    <td
+      class="padding-left-5 padding-right-5 width-80"
+      [ngClass]="item.ageClassname"
+    >
+      {{ item.mma_date_mod | date: "yyyy-MM-dd" }}
+    </td>
   </tr>
 </table>
 
 <!--
     <table>
         <tr>
-            <th class="padding-all-5 width-80">Episode Id</th>
-            <th class="padding-all-5 width-100">Episode Title</th>
+            <th class="padding-left-5 padding-right-5 width-80">Episode Id</th>
+            <th class="padding-left-5 padding-right-5 width-100">Episode Title</th>
     
-            <th class="padding-all-5">Date Viewed</th>
-            <th class="padding-all-5">Rating</th>
-            <th class="padding-all-5">Notes</th>
+            <th class="padding-left-5 padding-right-5">Date Viewed</th>
+            <th class="padding-left-5 padding-right-5">Rating</th>
+            <th class="padding-left-5 padding-right-5">Notes</th>
         </tr>
         <tr class="multimedia-listing-row" *ngFor="let item of viewData.multimediaList; let i = index">
-            <td class="padding-all-5 text-align-right">{{i + 1}}</td>
-            <td class="padding-all-5">{{item.mma_title + ' T' + item.mma_season}}</td>
-            <td class="padding-all-5">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>
-            <td class="padding-all-5">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>
+            <td class="padding-left-5 padding-right-5 text-align-right">{{i + 1}}</td>
+            <td class="padding-left-5 padding-right-5">{{item.mma_title + ' T' + item.mma_season}}</td>
+            <td class="padding-left-5 padding-right-5">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>
+            <td class="padding-left-5 padding-right-5">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>
         </tr>
     </table>
 -->
@@ -307,20 +328,32 @@
 </button>
 <table *ngIf="viewData.multimediaDetList">
   <tr>
-    <th class="padding-all-5 width-80">#</th>
-    <th class="padding-all-5 width-100">Ep Title</th>
-    <th class="padding-all-5">Alt Title</th>
-    <th class="padding-all-5">Url</th>
-    <th class="padding-all-5">Viewed</th>
+    <th class="padding-left-5 padding-right-5 width-80">#</th>
+    <th class="padding-left-5 padding-right-5 width-100">Ep Title</th>
+    <th class="padding-left-5 padding-right-5">Url</th>
+    <th class="padding-left-5 padding-right-5">Viewed</th>
   </tr>
   <tr
     class="multimedia-listing-row"
     *ngFor="let item of viewData.multimediaDetList"
   >
-    <td class="padding-all-5 text-align-right">{{ item.mmd_id_ep }}</td>
-    <td class="padding-all-5">{{ item.mmd_ep_title }}</td>
-    <td class="padding-all-5">{{ item.mmd_ep_alt_title }}</td>
-    <td class="padding-all-5">{{ item.mmd_url }}</td>
-    <td class="padding-all-5">{{ item.mmd_date_mod | date: "yyyy-MM-dd" }}</td>
+    <td class="padding-left-5 padding-right-5 text-align-right">
+      {{ item.mmd_id_ep }}
+    </td>
+    <td class="padding-left-5 padding-right-5">
+      {{
+        item.mmd_txt_title
+          ? item.mmd_txt_title + " | " + item.mmd_ep_title
+          : item.mmd_ep_title
+      }}
+    </td>
+    <td class="padding-left-5 padding-right-5">
+      <span *ngIf="item.mmd_url">
+        <a [href]="item.mmd_url">link</a>
+      </span>
+    </td>
+    <td class="padding-left-5 padding-right-5 width-80">
+      {{ item.mmd_date_mod | date: "yyyy-MM-dd" }}
+    </td>
   </tr>
 </table>

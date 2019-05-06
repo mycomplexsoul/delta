@@ -41,7 +41,7 @@ export class MovementComponent implements OnInit {
   private accounts: Array<Account> = [];
   private user: string = "anon";
   public viewData: {
-    accounts: Array<any>;
+    accounts: Array<Account>;
     types: Array<any>;
     statuses: Array<any>;
     budgets: Array<any>;
@@ -425,12 +425,14 @@ export class MovementComponent implements OnInit {
 
   createReimburseMovement(base: Movement) {
     const ACCOUNT_FOR_REIMBURSE = "11";
+    const REIMBURSE_CATEGORY = "mct20190427225032-314918153583";
+    const REIMBURSE_50 = "reimburse-50";
+    const REIMBURSE_100 = "reimburse-100";
+
     let newAmount: number = base.mov_amount;
     let descPrefix: string = "";
     let descSufix: string = "";
     let reimburseType: string = "";
-    const REIMBURSE_50 = "reimburse-50";
-    const REIMBURSE_100 = "reimburse-100";
 
     if (base.mov_budget.includes(REIMBURSE_50)) {
       reimburseType = REIMBURSE_50;
@@ -458,7 +460,13 @@ export class MovementComponent implements OnInit {
     reimburse.mov_amount = newAmount;
     reimburse.mov_ctg_type = 2;
     reimburse.mov_id_account = ACCOUNT_FOR_REIMBURSE;
-    reimburse.mov_id_category = "mct20190427225032-314918153583"; // 'Rembolso' Reimburse category
+    reimburse.mov_txt_account = this.viewData.accounts.find(
+      acc => acc.acc_id === ACCOUNT_FOR_REIMBURSE
+    ).acc_name;
+    reimburse.mov_id_category = REIMBURSE_CATEGORY; // 'Rembolsos' Reimburse category
+    reimburse.mov_txt_category = this.viewData.categories.find(
+      cat => cat.mct_id === REIMBURSE_CATEGORY
+    ).mct_name; // 'Rembolsos' Reimburse category
     reimburse.mov_budget = base.mov_budget.replace(REIMBURSE_50, "");
 
     // new movement
