@@ -107,17 +107,24 @@
     *ngFor="let item of viewData.multimediaList; let i = index"
   >
     <td class="padding-left-5 padding-right-5 text-align-right">{{ i + 1 }}</td>
-    <td
-      class="padding-left-5 padding-right-5"
-      [ngClass]="{
-        'multimedia-movies': item.mma_ctg_media_type === 1,
-        'multimedia-tvseries': item.mma_ctg_media_type === 2,
-        'multimedia-anime': item.mma_ctg_media_type === 3,
-        'multimedia-book': item.mma_ctg_media_type === 4,
-        'multimedia-manga': item.mma_ctg_media_type === 5
-      }"
-    >
-      {{ item.mma_title + " T" + item.mma_season }}
+    <td class="padding-left-5 padding-right-5">
+      <span
+        [ngClass]="{
+          'multimedia-movies': item.mma_ctg_media_type === 1,
+          'multimedia-tvseries': item.mma_ctg_media_type === 2,
+          'multimedia-anime': item.mma_ctg_media_type === 3,
+          'multimedia-book': item.mma_ctg_media_type === 4,
+          'multimedia-manga': item.mma_ctg_media_type === 5
+        }"
+      >
+        {{ item.mma_title + " T" + item.mma_season }}
+      </span>
+      <span *ngIf="item.mma_year">
+        <a [href]="item.mma_url" target="_blank" *ngIf="item.mma_url">
+          [{{ item.mma_year }}]
+        </a>
+        <span *ngIf="!item.mma_url">[{{ item.mma_year }}]</span>
+      </span>
     </td>
     <td class="padding-left-5 padding-right-5 text-align-right">
       <span *ngIf="item.mma_total_ep !== '0'">
@@ -129,12 +136,24 @@
       <button
         type="button"
         (click)="
-          showNewEpForm(item.mma_id, item.mma_current_ep, item.mma_title)
+          showNewEpForm(
+            item.mma_id,
+            item.mma_current_ep,
+            item.mma_title,
+            item.mma_year
+          )
         "
+        *ngIf="item.mma_ctg_status === 1"
       >
         +
       </button>
-      <button type="button" (click)="showDetListing(item.mma_id)">*</button>
+      <button
+        type="button"
+        (click)="showDetListing(item.mma_id)"
+        *ngIf="item.mma_ctg_status === 1"
+      >
+        *
+      </button>
     </td>
     <td
       class="padding-left-5 padding-right-5 width-80"
@@ -253,6 +272,9 @@
             class="field-input multimedia-input-summary"
             [(ngModel)]="epModel.fSummary"
           />
+          <span *ngIf="epModel.fSummary">
+            {{ epModel.fSummary.length }} / 4000 characters
+          </span>
         </span>
         <span class="field">
           <label for="fDateViewed" class="label-left">Date Viewed</label>
@@ -303,6 +325,9 @@
             class="field-input multimedia-input-notes"
             [(ngModel)]="epModel.fNotes"
           />
+          <span *ngIf="epModel.fNotes">
+            {{ epModel.fNotes.length }} / 500 characters
+          </span>
         </span>
 
         <span class="field">
@@ -326,12 +351,16 @@
 <button (click)="showDetListing()" *ngIf="viewData.showDetList">
   Remove filter
 </button>
+<span *ngIf="viewData.showDetList"
+  >Listing for media: {{ viewData.detListTitle }}</span
+>
 <table *ngIf="viewData.multimediaDetList">
   <tr>
     <th class="padding-left-5 padding-right-5 width-80">#</th>
-    <th class="padding-left-5 padding-right-5 width-100">Ep Title</th>
-    <th class="padding-left-5 padding-right-5">Url</th>
     <th class="padding-left-5 padding-right-5">Viewed</th>
+    <th class="padding-left-5 padding-right-5 width-100">
+      Title | Ep Title | Year - link
+    </th>
   </tr>
   <tr
     class="multimedia-listing-row"
@@ -340,20 +369,23 @@
     <td class="padding-left-5 padding-right-5 text-align-right">
       {{ item.mmd_id_ep }}
     </td>
-    <td class="padding-left-5 padding-right-5">
-      {{
-        item.mmd_txt_title
-          ? item.mmd_txt_title + " | " + item.mmd_ep_title
-          : item.mmd_ep_title
-      }}
-    </td>
-    <td class="padding-left-5 padding-right-5">
-      <span *ngIf="item.mmd_url">
-        <a [href]="item.mmd_url">link</a>
-      </span>
-    </td>
     <td class="padding-left-5 padding-right-5 width-80">
       {{ item.mmd_date_mod | date: "yyyy-MM-dd" }}
+    </td>
+    <td class="padding-left-5 padding-right-5">
+      <span>
+        {{
+          !viewData.showDetList && item.mmd_txt_title
+            ? item.mmd_txt_title + " | " + item.mmd_ep_title
+            : item.mmd_ep_title
+        }}
+      </span>
+      <span *ngIf="item.mmd_year">
+        <a [href]="item.mmd_url" target="_blank" *ngIf="item.mmd_url">
+          [{{ item.mmd_year }}]
+        </a>
+        <span *ngIf="!item.mmd_url">[{{ item.mmd_year }}]</span>
+      </span>
     </td>
   </tr>
 </table>

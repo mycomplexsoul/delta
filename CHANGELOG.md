@@ -10,13 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Money
   - Graphs
     - [AppMoney][new] Daily balance over an account or over all accounts totals
+    - [AppMoney][new] Monthly totals on income vs expenses comparison against past months
+    - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
   - Balance
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Spent report for monthly/range basis
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
-    - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
   - Movement
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Movements with pending status
@@ -26,11 +27,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
   - Account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add account form to edit or add new accounts
     - [AppMoney][new] Consume endpoints to finish adding or editing accounts
   - Places
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add places UI listing
     - [AppMoney][new] Add places form to edit or add new places
     - [AppMoney][new] Consume endpoints to finish adding or editing places
     - [AppMoney][new] Add a functionality to count all uses of a place inside registered movements
@@ -46,7 +45,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Presets
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add presets listing/new/update endpoints
-    - [AppMoney][new] Add presets UI listing
     - [AppMoney][new] Add presets form to edit or add new presets
     - [AppMoney][new] Consume endpoints to finish adding or editing presets
 - Tasks
@@ -62,13 +60,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][mod] Allow to specify a schedule starting date without duration or finish date, it will use current duration in order to set the finish date and save it
   - [AppTasks][new] Add a red flag to those tasks that can't be progressed
   - [AppTasks][new] Be able to filter today's finished tasks by record
-  - [AppTasks][new] Use date_apply to track today's time tracking block
   - [AppTasks][new] Save repetiton config
   - [AppTasks][new] Generate task with repetition
+  - [AppTasks][new] Dark theme
 - Login
   - [AppCommon][new][Login] Login logged user identity service
   - [AppCommon][new][Login] Login basic CSS
-  - [AppCommon][new][Login] Store cyphred passwords
   - [AppCommon][new][Menu] Apply styles and layout to menu items
 - Common
   - [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
@@ -83,17 +80,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new] Add front end coverage report
   - [AppCommon][mod][Install] Create InnoDB tables
   - [AppCommon][new] Alert component that renders a notification inside window
-  - [AppCommon][new][CFG] Basic CFG configuration page
   - [AppCommon][new][CFG] Save/retrieve and cypher config values in `cfg.json`
   - [AppCommon][new][CFG] Once CFG is created/modified, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][new][Install] When entering `/health-check` route, look for `cfg.json`, if present, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
-  - [AppMultimedia][new] Migrate legacy information
   - [AppMultimedia][new] Reset form after successful registration
 - LastTime
   - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
+- Kanban
+  - [AppKanban][new] Entry and table generation
 
 ## [Unreleased / Work In Progress]
 
@@ -101,7 +98,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
 - [AppLastTime][new] Show an option to search on or show archived items
 
+- [AppMoney][mod] Unify balance rebuild page into balance page, add rebuild and transfer buttons below an options section
+- [AppMoney][new] Add account form to edit or add new accounts
+- [AppMoney][new] Add places UI listing
+- [AppMoney][new] Add presets UI listing
+- [AppTasks][new] Use date_due to track today's time tracking block
+- [AppCommon][new][Login] Store cyphred passwords
+- [AppCommon][new][CFG] Basic CFG configuration page
+- [AppMultimedia][new] Migrate legacy information
+- [AppLastTime][new] When editing a value from a record that has a note, prompt for changes on the note before saving it
+- [AppKanban][new] Entity definition
+
 <hr/>
+
+## v1.8.52 (2019-04-11)
+
+- [AppMultimedia][new] Layout changes, filtering and sorting details listing
+
+## v1.8.51 (2019-04-10)
+
+- [AppMultimedia][new] `MultimediaView` listing endpoints
 
 ## v1.8.50 (2019-04-09)
 

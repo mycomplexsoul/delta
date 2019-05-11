@@ -37,6 +37,7 @@ export class MultimediaComponent implements OnInit {
     showCreateForm: boolean;
     showCreateEpForm: boolean;
     showDetList: boolean;
+    detListTitle: string;
   } = {
     multimediaList: [],
     multimediaDetList: [],
@@ -45,7 +46,8 @@ export class MultimediaComponent implements OnInit {
     platformList: [],
     showCreateForm: false,
     showCreateEpForm: false,
-    showDetList: false
+    showDetList: false,
+    detListTitle: null
   };
   public services: {
     multimediaService: MultimediaService;
@@ -131,23 +133,17 @@ export class MultimediaComponent implements OnInit {
       .then(data => {
         this.viewData.multimediaList = this.calculateAge(data);
       });
-    this.services.multimediaDetService
-      .getAllForUser(this.services.loginService.getUsername() || "anon")
-      .then((data: MultimediaDet[]) => {
-        this.viewData.multimediaDetList = data
-          .sort((a, b) =>
-            new Date(a.mmd_date_mod).getTime() >
-            new Date(b.mmd_date_mod).getTime()
-              ? -1
-              : 1
-          )
-          .filter((item, index) => index < 20);
-      });
-    this.services.multimediaViewService
-      .getAllForUser(this.services.loginService.getUsername() || "anon")
-      .then((data: MultimediaView[]) => {
-        this.viewData.multimediaViewList = data;
-      });
+    const det = this.services.multimediaDetService.getAllForUser(
+      this.services.loginService.getUsername() || "anon"
+    );
+    const view = this.services.multimediaViewService.getAllForUser(
+      this.services.loginService.getUsername() || "anon"
+    );
+
+    Promise.all([det, view]).then(values => {
+      this.viewData.multimediaViewList = values[1];
+      this.renderDetListing(values[0], null);
+    });
     const mediaTypes: string = JSON.stringify({
       gc: "AND",
       cont: [
@@ -208,11 +204,12 @@ export class MultimediaComponent implements OnInit {
     this.viewData.multimediaList.push(item);
   }
 
-  showNewEpForm(id: string, epId: string, title: string) {
+  showNewEpForm(id: string, epId: string, title: string, year: number) {
     this.viewData.showCreateEpForm = true;
     this.epModel.id = id;
     this.epModel.epId = epId;
     this.epModel.fTitle = title;
+    this.epModel.fYear = year;
     this.epModel.fDateViewed = DateUtils.dateToStringDate(new Date());
     this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(new Date());
 
@@ -300,7 +297,11 @@ export class MultimediaComponent implements OnInit {
         DateUtils.newDateUpToSeconds()
       );
 
+      item.mmd_txt_title = this.epModel.fTitle;
       this.viewData.multimediaDetList.push(item);
+      this.viewData.multimediaDetList = this.viewData.multimediaDetList.sort(
+        this.sortMultimediaDet
+      );
       queue.push(this.services.multimediaDetService.asSyncQueue(item));
     }
 
@@ -324,8 +325,18 @@ export class MultimediaComponent implements OnInit {
       const media = this.viewData.multimediaList.find(
         item => item.mma_id === this.epModel.id
       );
-      media.mma_current_ep = values.fNextEpId;
+      let isFinished: boolean = media.mma_total_ep === values.fNextEpId;
+      if (!isFinished) {
+        media.mma_current_ep = values.fNextEpId;
+      } else {
+        media.mma_ctg_status = 2; // marks it as finished
+      }
       media.mma_date_mod = new Date();
+      this.viewData.multimediaList = this.calculateAge(
+        this.viewData.multimediaList
+      ).sort((a: Multimedia, b: Multimedia) => {
+        return a.mma_date_mod.getTime() > b.mma_date_mod.getTime() ? 1 : -1;
+      });
       queue.push(this.services.multimediaService.asUpdateSyncQueue(media));
     }
 
@@ -350,12 +361,40 @@ export class MultimediaComponent implements OnInit {
     }
   }
 
+  renderDetListing(list: MultimediaDet[], id: string) {
+    this.viewData.showDetList = !!id;
+    if (id) {
+      this.viewData.detListTitle = this.viewData.multimediaList.find(
+        item => item.mma_id === id
+      ).mma_title;
+    } else {
+      this.viewData.detListTitle = null;
+    }
+    this.viewData.multimediaDetList = id
+      ? list.filter(item => item.mmd_id === id)
+      : list.sort(this.sortMultimediaDet);
+
+    this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter(
+      item => {
+        const ref: MultimediaDet = item;
+        const found: MultimediaView = this.viewData.multimediaViewList.find(
+          e => e.mmv_id === item.mmd_id && e.mmv_id_ep === item.mmd_id_ep
+        );
+        ref["viewedDate"] = found ? found.mmv_date_mod : null;
+        return !!found;
+      }
+    );
+
+    if (!id) {
+      this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter(
+        (item, index) => index < 20
+      );
+    }
+  }
+
   showDetListing(id: string) {
     this.services.multimediaDetService.getAllForUser("anon").then(data => {
-      this.viewData.showDetList = !!id;
-      this.viewData.multimediaDetList = id
-        ? data.filter(item => item.mmd_id === id)
-        : data;
+      this.renderDetListing(data, id);
     });
   }
 
@@ -374,5 +413,12 @@ export class MultimediaComponent implements OnInit {
       t["ageClassname"] = `multimedia-${classname(t["age"])}`;
       return t;
     });
+  }
+
+  sortMultimediaDet(a: MultimediaDet, b: MultimediaDet) {
+    return new Date(a.mmd_date_mod).getTime() >
+      new Date(b.mmd_date_mod).getTime()
+      ? -1
+      : 1;
   }
 }

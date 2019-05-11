@@ -12,6 +12,7 @@ import * as LastTimeRoute from "./LastTime/LastTimeRoute";
 import * as LastTimeHistoryRoute from "./LastTimeHistory/LastTimeHistoryRoute";
 import * as MultimediaRoute from "./Multimedia/MultimediaRoute";
 import * as MultimediaDetRoute from "./MultimediaDet/MultimediaDetRoute";
+import * as MultimediaViewRoute from "./MultimediaView/MultimediaViewRoute";
 import * as SyncRoute from "./Sync/SyncRoute";
 
 // Other pages
@@ -35,6 +36,7 @@ router.use("/lasttime", LastTimeRoute.router);
 router.use("/lasttimehistory", LastTimeHistoryRoute.router);
 router.use("/multimedia", MultimediaRoute.router);
 router.use("/multimediadet", MultimediaDetRoute.router);
+router.use("/multimediaview", MultimediaViewRoute.router);
 
 router.use("/sync", SyncRoute.router);
 
