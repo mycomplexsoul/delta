@@ -157,6 +157,7 @@
       >
       <span
         contenteditable="true"
+        spellcheck="false"
         (keyup)="taskEdit(t, $event)"
         [ngClass]="{
           'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
@@ -168,6 +169,7 @@
       >
       <span
         contenteditable="true"
+        spellcheck="false"
         (blur)="taskEstimatedDurationEdit(t, $event)"
         [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
         class="task-eta"
@@ -194,6 +196,7 @@
     >
     <span
       contenteditable="true"
+      spellcheck="false"
       (keyup)="taskEdit(t, $event)"
       [ngClass]="{
         'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
@@ -208,6 +211,7 @@
     >
     <span
       contenteditable="true"
+      spellcheck="false"
       (blur)="taskEstimatedDurationEdit(t, $event)"
       [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
       class="task-eta"
@@ -281,6 +285,7 @@
             [<span
               class="tt-start"
               contenteditable="true"
+              spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
               >{{
                 t.tsk_time_history[t.tsk_time_history.length - 1]
@@ -291,6 +296,7 @@
             <span
               class="tt-end"
               contenteditable="true"
+              spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
               >{{
                 t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
@@ -302,6 +308,7 @@
         <span *ngIf="t.tsk_ctg_in_process === 2">
           [<span
             contenteditable="true"
+            spellcheck="false"
             (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
             >{{
               t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start
@@ -318,6 +325,7 @@
         </span>
         <span
           contenteditable="true"
+          spellcheck="false"
           (keyup)="taskEdit(t, $event)"
           [ngClass]="{
             'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
@@ -343,6 +351,7 @@
         >
         <span
           contenteditable="true"
+          spellcheck="false"
           (blur)="taskEstimatedDurationEdit(t, $event)"
           (keydown)="etaKeyDown($event)"
           [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
@@ -477,6 +486,7 @@
             [<span
               class="tt-start"
               contenteditable="true"
+              spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
               >{{
                 t.tsk_time_history[t.tsk_time_history.length - 1]
@@ -487,6 +497,7 @@
             <span
               class="tt-end"
               contenteditable="true"
+              spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
               >{{
                 t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
@@ -498,6 +509,7 @@
         <span *ngIf="t.tsk_ctg_in_process === 2">
           [<span
             contenteditable="true"
+            spellcheck="false"
             (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
             >{{
               t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start
@@ -514,6 +526,7 @@
         </span>
         <span
           contenteditable="true"
+          spellcheck="false"
           (keyup)="taskEdit(t, $event)"
           [ngClass]="{
             'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
@@ -531,6 +544,7 @@
         >
         <span
           contenteditable="true"
+          spellcheck="false"
           (blur)="taskEstimatedDurationEdit(t, $event)"
           [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
           class="task-eta"
@@ -599,6 +613,7 @@
     Notes:
     <span
       contenteditable="true"
+      spellcheck="false"
       (blur)="setTaskNotes(state.selected, $event)"
       >{{ state.selected.tsk_notes ? state.selected.tsk_notes : "-" }}</span
     >
@@ -609,6 +624,7 @@
     Date Done:
     <span
       contenteditable="true"
+      spellcheck="false"
       (keyup)="editDateDone(state.selected, $event)"
       >{{ state.selected.tsk_date_done | date: format }}</span
     >
@@ -637,6 +653,7 @@
           <td>
             <span
               contenteditable="true"
+              spellcheck="false"
               (keyup)="editTimeTracking(h, 1, $event)"
               >{{ h.tsh_date_start | date: format }}</span
             >
@@ -644,6 +661,7 @@
           <td>
             <span
               contenteditable="true"
+              spellcheck="false"
               (keyup)="editTimeTracking(h, 2, $event)"
               >{{ h.tsh_date_end | date: format }}</span
             >
@@ -669,6 +687,7 @@
     Qualifiers:
     <span
       contenteditable="true"
+      spellcheck="false"
       (blur)="taskQualifiersEdit(state.selected, $event)"
       >{{ state.selected.tsk_qualifiers }}</span
     >
@@ -677,6 +696,7 @@
     Tags:
     <span
       contenteditable="true"
+      spellcheck="false"
       (blur)="taskTagsEdit(state.selected, $event)"
       >{{ state.selected.tsk_tags }}</span
     >
@@ -721,6 +741,7 @@
           [<span
             class="tt-start"
             contenteditable="true"
+            spellcheck="false"
             (keyup)="timeTrackingQuickEdit(item, $event, 'start')"
             >{{
               item.tsk_time_history[item.tsk_time_history.length - 1]
@@ -731,6 +752,7 @@
           <span
             class="tt-end"
             contenteditable="true"
+            spellcheck="false"
             (keyup)="timeTrackingQuickEdit(item, $event, 'end')"
             >{{
               item.tsk_time_history[item.tsk_time_history.length - 1]
@@ -741,10 +763,14 @@
       </span>
       <span
         >(Done at:
-        <span contenteditable="true" (keyup)="editDateDone(item, $event)">{{
-          item.tsk_date_done | date: format
-        }}</span
-        >)</span
+        <span
+          contenteditable="true"
+          spellcheck="false"
+          (keyup)="editDateDone(item, $event)"
+        >
+          {{ item.tsk_date_done | date: format }}
+        </span>
+        )</span
       >
       <span
         [ngClass]="{

@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Money
   - Graphs
     - [AppMoney][new] Daily balance over an account or over all accounts totals
-    - [AppMoney][new] Monthly totals on income vs expenses comparison against past months
     - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
   - Balance
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
@@ -27,16 +26,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
   - Account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Consume endpoints to finish adding or editing accounts
   - Places
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add places form to edit or add new places
     - [AppMoney][new] Consume endpoints to finish adding or editing places
     - [AppMoney][new] Add a functionality to count all uses of a place inside registered movements
     - [AppMoney][new] Add a functionality to replace all uses of a place with another selected place
   - Categories
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add categories listing/new/update endpoints
     - [AppMoney][new] Add categories UI listing
     - [AppMoney][new] Add categories form to edit or add new categories
     - [AppMoney][new] Consume endpoints to finish adding or editing categories
@@ -53,7 +49,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][new] Idle time counter (time since last time tracked record today)
   - [AppTasks][new] Keyboard shortcuts for navigating from record list to next/previous record list and focus into first task in the list
   - [AppTasks][new] Option to show/hide Indicators
-  - [AppTasks][new] Clean up Indicators legacy section
   - [AppTasks][new] Unset schedule
   - [AppTasks][new] Unset link
   - [AppTasks][mod] Refactor updateState method to change only the needed elements via sub/pub events
@@ -98,7 +93,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
 - [AppLastTime][new] Show an option to search on or show archived items
 
-- [AppMoney][mod] Unify balance rebuild page into balance page, add rebuild and transfer buttons below an options section
 - [AppMoney][new] Add account form to edit or add new accounts
 - [AppMoney][new] Add places UI listing
 - [AppMoney][new] Add presets UI listing
@@ -109,7 +103,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] When editing a value from a record that has a note, prompt for changes on the note before saving it
 - [AppKanban][new] Entity definition
 
+- [AppMoney][new] Monthly totals on income vs expenses comparison against past months
+- [AppMoney][new] Consume endpoints to finish adding or editing accounts
+- [AppMoney][new] Add places form to edit or add new places
+- [AppMoney][new] Add categories listing/new/update endpoints
+- [AppTasks][new] Clean up Indicators legacy section
+
 <hr/>
+
+## v1.8.58 (2019-04-19)
+
+- [AppCommon][new] Added `FileOrganizer` API listing and backup routes and logic as internals
+
+## v1.8.57 (2019-04-18)
+
+- [AppMultimedia][new] Clear ep form and hide it, assign defaults on ep form and fix for last ep and archiving correctly
+
+## v1.8.56 (2019-04-17)
+
+- [AppTasks][new] Applied `spellcheck="false"` in `contenteditable` tags to disable spell checking
+
+## v1.8.55 (2019-04-16)
+
+- [AppMoney][fix] When a new active account does not have balance it was not showing up on accounts combo for creating a new movement, not it shows up
+
+## v1.8.54 (2019-04-15)
+
+- [AppMoney][new] Add options section under balance page and a toggle button
+
+## v1.8.53 (2019-04-12)
+
+- [AppMoney][mod] Unify balance rebuild page into balance page, add rebuild and transfer buttons below an options section
+- [AppMoney][del] Remove balance rebuild page and routing
 
 ## v1.8.52 (2019-04-11)
 

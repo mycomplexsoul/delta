@@ -740,7 +740,7 @@ export class MovementCustom {
     let connection: iConnection = ConnectionService.getConnection();
     let params: string = node.request.query["q"];
     let sqlMotor: MoSQL = new MoSQL(m);
-    let sql: string = `select viaccount.*, bal_final from viaccount inner join balance on (bal_year * 100 + bal_month = (select max(bal_year * 100 + bal_month) from balance) and bal_id_account = acc_id)`;
+    let sql: string = `select viaccount.*, case when bal_final is null then 0 else bal_final end as bal_final from viaccount left join balance on (bal_year * 100 + bal_month = (select max(bal_year * 100 + bal_month) from balance) and bal_id_account = acc_id)`;
     if (params) {
       sql += ` where ${sqlMotor.criteriaToSQL(
         sqlMotor.parseSQLCriteria(params),

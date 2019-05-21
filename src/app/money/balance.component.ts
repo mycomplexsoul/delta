@@ -42,6 +42,7 @@ export class BalanceComponent implements OnInit {
       chartLegend: boolean;
       chartType: string;
     };
+    showOptions: boolean;
   } = {
     balance: [],
     movements: [],
@@ -75,7 +76,8 @@ export class BalanceComponent implements OnInit {
       },
       chartLegend: true,
       chartType: "pie"
-    }
+    },
+    showOptions: false
   };
   public services: {
     balance: BalanceService;
@@ -315,5 +317,55 @@ export class BalanceComponent implements OnInit {
     chartIncome.chartLabels = data.income.map(
       item => `${item.title} (${item.movements.length})`
     );
+  }
+
+  parseModel(): { parsedYear: number; parsedMonth: number } {
+    this.model.iterable = parseInt(this.model.iterable + "");
+    const parsedYear: number = Math.floor(this.model.iterable / 100);
+    const parsedMonth: number = this.model.iterable % 100;
+    return {
+      parsedYear,
+      parsedMonth
+    };
+  }
+
+  rebuild() {
+    const model = this.parseModel();
+
+    this.services.sync.post("/api/balance/rebuild", {
+      year: model.parsedYear,
+      month: model.parsedMonth,
+      user: "anon"
+    });
+  }
+
+  transfer() {
+    const model = this.parseModel();
+
+    this.services.sync.post("/api/balance/transfer", {
+      year: model.parsedYear,
+      month: model.parsedMonth,
+      user: "anon"
+    });
+  }
+
+  rebuildAndTransfer() {
+    const model = this.parseModel();
+
+    this.services.sync.post("/api/balance/rebuild-and-transfer", {
+      year: model.parsedYear,
+      month: model.parsedMonth,
+      user: "anon"
+    });
+  }
+
+  rebuildAndTransferUntilCurrentMonth() {
+    const model = this.parseModel();
+
+    this.services.sync.post("/api/balance/rebuild-and-transfer-range", {
+      year: model.parsedYear,
+      month: model.parsedMonth,
+      user: "anon"
+    });
   }
 }

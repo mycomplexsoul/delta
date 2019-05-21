@@ -212,6 +212,9 @@ export class MultimediaComponent implements OnInit {
     this.epModel.fYear = year;
     this.epModel.fDateViewed = DateUtils.dateToStringDate(new Date());
     this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(new Date());
+    this.epModel.fRating = 3;
+    this.epModel.fPlatform = this.viewData.platformList[0].ctg_sequential;
+    this.epModel.isViewed = true;
 
     // see if we have data for this ep in order to populate form
     const detFound = this.services.multimediaDetService
@@ -224,7 +227,6 @@ export class MultimediaComponent implements OnInit {
       this.epModel.fUrl = detFound.mmd_url;
     }
 
-    this.epModel.isViewed = false;
     const viewFound = this.services.multimediaViewService
       .list()
       .find(item => item.mmv_id === id && item.mmv_id_ep === epId);
@@ -244,6 +246,18 @@ export class MultimediaComponent implements OnInit {
 
     // set our guess on the next ep id so the user can verify or change it
     this.epModel.fNextEpId = this.calculateNextEp(epId);
+    // if next ep is beyond last ep, set it as the last ep
+    const numericNextEpId: number = Number.parseFloat(this.epModel.fNextEpId);
+    const numericLastEpId: number = Number.parseFloat(
+      this.services.multimediaService.list().find(item => item.mma_id === id)
+        .mma_total_ep
+    );
+    if (numericNextEpId > numericLastEpId) {
+      this.epModel.fNextEpId = String(numericLastEpId);
+    }
+
+    // set focus
+    setTimeout(() => document.querySelector("#fEpTitle")["focus"](), 100);
   }
 
   hideNewEpForm() {
@@ -325,7 +339,7 @@ export class MultimediaComponent implements OnInit {
       const media = this.viewData.multimediaList.find(
         item => item.mma_id === this.epModel.id
       );
-      let isFinished: boolean = media.mma_total_ep === values.fNextEpId;
+      const isFinished: boolean = media.mma_current_ep === media.mma_total_ep;
       if (!isFinished) {
         media.mma_current_ep = values.fNextEpId;
       } else {
@@ -341,6 +355,8 @@ export class MultimediaComponent implements OnInit {
     }
 
     this.services.syncService.multipleRequest(queue);
+    this.clearEpForm(form);
+    this.viewData.showCreateEpForm = false;
   }
 
   calculateNextEp(currentEp: string): string {
@@ -420,5 +436,9 @@ export class MultimediaComponent implements OnInit {
       new Date(b.mmd_date_mod).getTime()
       ? -1
       : 1;
+  }
+
+  clearEpForm(form: NgForm) {
+    form.resetForm();
   }
 }

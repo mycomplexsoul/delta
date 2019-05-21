@@ -330,7 +330,7 @@
           </span>
         </span>
 
-        <span class="field">
+        <span class="field" *ngIf="newEpForm.value.fEpId !== epModel.fNextEpId">
           <hr />
           <label for="fNextEpId" class="label-left">Next Episode Id</label>
           <input
@@ -340,6 +340,9 @@
             class="field-input multimedia-input-nextepid"
             [(ngModel)]="epModel.fNextEpId"
           />
+        </span>
+        <span class="field" *ngIf="newEpForm.value.fEpId === epModel.fNextEpId">
+          This is the last episode :-D
         </span>
       </span>
 

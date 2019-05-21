@@ -1,4 +1,16 @@
 <div>
+  <button (click)="viewData.showOptions = !viewData.showOptions">
+    {{ viewData.showOptions ? "Hide" : "Show" }} Options
+  </button>
+  <div class="balance-options" *ngIf="viewData.showOptions">
+    <button (click)="rebuild()">Rebuild</button>
+    <button (click)="transfer()">Transfer</button>
+    <button (click)="rebuildAndTransfer()">Rebuild & Transfer</button>
+    <button (click)="rebuildAndTransferUntilCurrentMonth()">
+      Rebuild & Transfer Until Current Month
+    </button>
+  </div>
+  <br />
   <strong>Balance</strong>
 
   <span class="field">

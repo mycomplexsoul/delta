@@ -164,6 +164,7 @@ export class InstallModule {
         addCatalog('MULTIMEDIA_PLATFORM',3,'YOUTUBE','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',4,'PRIME VIDEO','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',5,'TV','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
+        addCatalog('MULTIMEDIA_PLATFORM',6,'CINEMA','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
 
         inserts.forEach(i => {
             connection.runSyncSql(i,(err) => {
