@@ -385,6 +385,7 @@ const account_component_1 = __webpack_require__(/*! ./money/account.component */
 const movement_component_1 = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
 const balance_component_1 = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
 const place_component_1 = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
+const preset_component_1 = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
 const movementListing_component_1 = __webpack_require__(/*! ./money/movementListing.component */ "./src/app/money/movementListing.component.ts");
 const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
 const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
@@ -421,6 +422,7 @@ AppModule = tslib_1.__decorate([
             movement_component_1.MovementComponent,
             balance_component_1.BalanceComponent,
             place_component_1.PlaceComponent,
+            preset_component_1.PresetComponent,
             movementListing_component_1.MovementListingComponent,
             comboItem_component_1.ComboItemComponent,
             drinkwater_component_1.DrinkWaterComponent,
@@ -471,6 +473,7 @@ const account_component_1 = __webpack_require__(/*! ./money/account.component */
 const movement_component_1 = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
 const balance_component_1 = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
 const place_component_1 = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
+const preset_component_1 = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
 const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
 const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
 const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
@@ -500,6 +503,11 @@ const appRoutes = [
     {
         path: "places",
         component: place_component_1.PlaceComponent,
+        canActivate: [auth_guard_1.AuthGuard]
+    },
+    {
+        path: "presets",
+        component: preset_component_1.PresetComponent,
         canActivate: [auth_guard_1.AuthGuard]
     },
     {
@@ -4615,6 +4623,49 @@ module.exports = "<div>\r\n  <strong>Places</strong>\r\n  <button (click)=\"show
 
 /***/ }),
 
+/***/ "./src/app/money/preset.component.ts":
+/*!*******************************************!*\
+  !*** ./src/app/money/preset.component.ts ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const preset_service_1 = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
+let PresetComponent = class PresetComponent {
+    constructor(presetService) {
+        this.viewData = {
+            presetList: []
+        };
+        this.services = {
+            presetService: null
+        };
+        this.services.presetService = presetService;
+    }
+    ngOnInit() {
+        this.services.presetService.getAll().then(list => {
+            this.viewData.presetList = list;
+        });
+    }
+    showNewPresetForm() { }
+};
+PresetComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "preset",
+        template: __webpack_require__(/*! ./preset.template.html */ "./src/app/money/preset.template.html"),
+        providers: [preset_service_1.PresetService]
+    }),
+    tslib_1.__metadata("design:paramtypes", [preset_service_1.PresetService])
+], PresetComponent);
+exports.PresetComponent = PresetComponent;
+
+
+/***/ }),
+
 /***/ "./src/app/money/preset.service.ts":
 /*!*****************************************!*\
   !*** ./src/app/money/preset.service.ts ***!
@@ -4750,6 +4801,17 @@ PresetService = tslib_1.__decorate([
 ], PresetService);
 exports.PresetService = PresetService;
 
+
+/***/ }),
+
+/***/ "./src/app/money/preset.template.html":
+/*!********************************************!*\
+  !*** ./src/app/money/preset.template.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <strong>Presets</strong>\r\n  <button (click)=\"showNewPresetForm()\">New Preset</button>\r\n\r\n  <div id=\"newPresetFormSection\" hidden>\r\n    <form name=\"presetForm\">\r\n      <label for=\"presetName\">Preset Name</label>\r\n      <input type=\"text\" name=\"presetName\" />\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"card-list\">\r\n    <div *ngFor=\"let item of viewData.presetList\" class=\"card-item-container\">\r\n      <span class=\"preset-name\">{{ item.mpl_name }}</span>\r\n      <br />\r\n      <span\r\n        [ngClass]=\"{\r\n          'movement-amount-income': item.pre_ctg_type === 2,\r\n          'movement-amount-expense': item.pre_ctg_type === 1,\r\n          'movement-amount-transfer': item.pre_ctg_type === 3\r\n        }\"\r\n      >\r\n        <span *ngIf=\"item.pre_txt_type === 'EXPENSE'\">-</span>\r\n        <span *ngIf=\"item.pre_txt_type === 'INCOME'\">+</span>\r\n        <span>{{\r\n          item.pre_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}</span>\r\n      </span>\r\n      <span class=\"movement-account\">[{{ item.pre_txt_account }}]</span>\r\n      <span class=\"movement-account\" *ngIf=\"item.pre_txt_account_to\">\r\n        -> [{{ item.pre_txt_account_to }}]</span\r\n      ><br />\r\n      <span class=\"movement-date\"\r\n        >[{{ item.pre_date | date: \"yyyy-MM-dd\" }}]</span\r\n      >\r\n      <span class=\"movement-description\">{{ item.pre_desc }}</span>\r\n      <br />\r\n      <span class=\"movement-category\" *ngIf=\"item.pre_txt_category\">{{\r\n        item.pre_txt_category\r\n      }}</span>\r\n      <span class=\"movement-place\" *ngIf=\"item.pre_txt_place\">\r\n        | {{ item.pre_txt_place }}</span\r\n      >\r\n      <span class=\"movement-budget\" *ngIf=\"item.pre_budget\">\r\n        | #[{{ item.pre_budget }}]</span\r\n      >\r\n      <br *ngIf=\"item.pre_ctg_type === 1 || item.pre_ctg_type === 2\" />\r\n      <span class=\"movement-notes\">{{ item.pre_notes }}</span>\r\n      <span class=\"movement-status\" *ngIf=\"false\">{{\r\n        item.pre_txt_status\r\n      }}</span>\r\n      <span class=\"movement-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"movement-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n              <span *ngIf=\"item.showOptions\">\r\n                <button (click)=\"archiveRecord(item)\">archive</button>\r\n                <button (click)=\"editNotes(item)\">edit notes</button>\r\n                <button (click)=\"viewHistory(item)\">view history</button>\r\n            </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 

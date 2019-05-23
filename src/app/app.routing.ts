@@ -11,6 +11,7 @@ import { AccountComponent } from "./money/account.component";
 import { MovementComponent } from "./money/movement.component";
 import { BalanceComponent } from "./money/balance.component";
 import { PlaceComponent } from "./money/place.component";
+import { PresetComponent } from "./money/preset.component";
 
 import { LastTimeComponent } from "./lasttime/lasttime.component";
 
@@ -44,6 +45,11 @@ const appRoutes: Routes = [
   {
     path: "places",
     component: PlaceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "presets",
+    component: PresetComponent,
     canActivate: [AuthGuard]
   },
   {

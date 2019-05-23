@@ -17,6 +17,7 @@ import { AccountComponent } from "./money/account.component";
 import { MovementComponent } from "./money/movement.component";
 import { BalanceComponent } from "./money/balance.component";
 import { PlaceComponent } from "./money/place.component";
+import { PresetComponent } from "./money/preset.component";
 import { MovementListingComponent } from "./money/movementListing.component";
 
 import { LastTimeComponent } from "./lasttime/lasttime.component";
@@ -55,6 +56,7 @@ import { RegisterComponent } from "./common/register.component";
     MovementComponent,
     BalanceComponent,
     PlaceComponent,
+    PresetComponent,
     MovementListingComponent,
     ComboItemComponent,
     DrinkWaterComponent,

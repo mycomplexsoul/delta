@@ -1,0 +1,62 @@
+<div>
+  <strong>Presets</strong>
+  <button (click)="showNewPresetForm()">New Preset</button>
+
+  <div id="newPresetFormSection" hidden>
+    <form name="presetForm">
+      <label for="presetName">Preset Name</label>
+      <input type="text" name="presetName" />
+    </form>
+  </div>
+
+  <div class="card-list">
+    <div *ngFor="let item of viewData.presetList" class="card-item-container">
+      <span class="preset-name">{{ item.mpl_name }}</span>
+      <br />
+      <span
+        [ngClass]="{
+          'movement-amount-income': item.pre_ctg_type === 2,
+          'movement-amount-expense': item.pre_ctg_type === 1,
+          'movement-amount-transfer': item.pre_ctg_type === 3
+        }"
+      >
+        <span *ngIf="item.pre_txt_type === 'EXPENSE'">-</span>
+        <span *ngIf="item.pre_txt_type === 'INCOME'">+</span>
+        <span>{{
+          item.pre_amount | currency: "USD":"symbol-narrow":"1.2-2"
+        }}</span>
+      </span>
+      <span class="movement-account">[{{ item.pre_txt_account }}]</span>
+      <span class="movement-account" *ngIf="item.pre_txt_account_to">
+        -> [{{ item.pre_txt_account_to }}]</span
+      ><br />
+      <span class="movement-date"
+        >[{{ item.pre_date | date: "yyyy-MM-dd" }}]</span
+      >
+      <span class="movement-description">{{ item.pre_desc }}</span>
+      <br />
+      <span class="movement-category" *ngIf="item.pre_txt_category">{{
+        item.pre_txt_category
+      }}</span>
+      <span class="movement-place" *ngIf="item.pre_txt_place">
+        | {{ item.pre_txt_place }}</span
+      >
+      <span class="movement-budget" *ngIf="item.pre_budget">
+        | #[{{ item.pre_budget }}]</span
+      >
+      <br *ngIf="item.pre_ctg_type === 1 || item.pre_ctg_type === 2" />
+      <span class="movement-notes">{{ item.pre_notes }}</span>
+      <span class="movement-status" *ngIf="false">{{
+        item.pre_txt_status
+      }}</span>
+      <span class="movement-badge-new" *ngIf="item.isNew">new</span>
+      <span class="movement-badge-edited" *ngIf="item.isEdited">edited</span>
+      <!--
+              <span *ngIf="item.showOptions">
+                <button (click)="archiveRecord(item)">archive</button>
+                <button (click)="editNotes(item)">edit notes</button>
+                <button (click)="viewHistory(item)">view history</button>
+            </span>    -->
+    </div>
+  </div>
+</div>

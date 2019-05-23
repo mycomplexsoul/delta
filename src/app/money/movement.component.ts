@@ -7,7 +7,7 @@ import { Movement } from "../../crosscommon/entities/Movement";
 import { Account } from "../../crosscommon/entities/Account";
 import { Catalog } from "../common/catalog.type";
 import { Category } from "./category.type";
-import { Place } from "./place.type";
+import { Place } from "../../crosscommon/entities/Place";
 import { Entry } from "../../crosscommon/entities/Entry";
 import { Preset } from "../../crosscommon/entities/Preset";
 import { iEntity } from "../../crosscommon/iEntity";

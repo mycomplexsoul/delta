@@ -94,7 +94,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] Show an option to search on or show archived items
 
 - [AppMoney][new] Add account form to edit or add new accounts
-- [AppMoney][new] Add presets UI listing
 - [AppTasks][new] Use date_due to track today's time tracking block
 - [AppCommon][new][Login] Store cyphred passwords
 - [AppCommon][new][CFG] Basic CFG configuration page
@@ -108,6 +107,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Clean up Indicators legacy section
 
 <hr/>
+
+## v1.8.63 (2019-04-25)
+
+- [AppMoney][new] Add presets UI listing under `/presets`
 
 ## v1.8.62 (2019-04-24)
 
