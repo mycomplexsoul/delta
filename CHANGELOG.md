@@ -94,12 +94,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] Show an option to search on or show archived items
 
 - [AppMoney][new] Add account form to edit or add new accounts
-- [AppMoney][new] Add places UI listing
 - [AppMoney][new] Add presets UI listing
 - [AppTasks][new] Use date_due to track today's time tracking block
 - [AppCommon][new][Login] Store cyphred passwords
 - [AppCommon][new][CFG] Basic CFG configuration page
-- [AppMultimedia][new] Migrate legacy information
 - [AppLastTime][new] When editing a value from a record that has a note, prompt for changes on the note before saving it
 - [AppKanban][new] Entity definition
 
@@ -111,7 +109,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.8.58 (2019-04-19)
+## v1.8.62 (2019-04-24)
+
+- [AppMoney][new] Add places UI listing under `/places`
+
+## v1.8.61 (2019-04-23)
+
+- [AppMultimedia][new] Add split info logic in order to speed up capture by splitting content into multiple fields
+
+## v1.8.60 (2019-04-22)
+
+- [AppMultimedia][new] Migrate legacy information
+
+## v1.8.59 (2019-04-19)
 
 - [AppCommon][new] Added `FileOrganizer` API listing and backup routes and logic as internals
 

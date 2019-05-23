@@ -441,4 +441,18 @@ export class MultimediaComponent implements OnInit {
   clearEpForm(form: NgForm) {
     form.resetForm();
   }
+
+  splitEpInfo(info: string): void {
+    if (info.includes("|")) {
+      const splitted: string[] = info.split("|");
+
+      this.epModel.fEpTitle = splitted[0];
+      this.epModel.fAltEpTitle = splitted[1] || "";
+      this.epModel.fYear = Number.parseInt(splitted[2]);
+      this.epModel.fUrl = splitted[3].trim() || "";
+      this.epModel.fSummary = splitted[4] || "";
+
+      document.querySelector("#fRating")["focus"]();
+    }
+  }
 }

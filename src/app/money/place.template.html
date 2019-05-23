@@ -1,0 +1,28 @@
+<div>
+  <strong>Places</strong>
+  <button (click)="showNewPlaceForm()">New Place</button>
+
+  <div id="newPlaceFormSection" hidden>
+    <form name="placeForm">
+      <label for="placeName">Place Name</label>
+      <input type="text" name="placeName" />
+    </form>
+  </div>
+
+  <div class="card-list">
+    <div *ngFor="let item of viewData.placeList" class="card-item-container">
+      <span class="place-name">{{ item.mpl_name }}</span>
+      <br />
+      <span>Status: {{ item.mpl_txt_status }}</span>
+
+      <span class="place-badge-new" *ngIf="item.isNew">new</span>
+      <span class="place-badge-edited" *ngIf="item.isEdited">edited</span>
+      <!--
+            <span *ngIf="item.showOptions">
+              <button (click)="archiveRecord(item)">archive</button>
+              <button (click)="editNotes(item)">edit notes</button>
+              <button (click)="viewHistory(item)">view history</button>
+          </span>    -->
+    </div>
+  </div>
+</div>
