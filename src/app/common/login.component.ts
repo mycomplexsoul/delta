@@ -6,6 +6,8 @@ import { first } from "rxjs/operators";
 import { AlertService } from "./alert.service";
 import { AuthenticationService } from "./authentication.service";
 
+import { SyncAPI } from "./sync.api";
+
 @Component({ templateUrl: "./login.template.html", styleUrls: ["./login.css"] })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -18,12 +20,14 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private sync: SyncAPI
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(["/"]);
     }
+    this.sync = sync;
   }
 
   ngOnInit() {
@@ -34,6 +38,13 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+
+    // look if the backend has cfg
+    this.doesServerHaveConfig().then(answer => {
+      if (!answer.hasCFG) {
+        this.router.navigate(["/cfg"]);
+      }
+    });
   }
 
   // convenience getter for easy access to form fields
@@ -63,88 +74,8 @@ export class LoginComponent implements OnInit {
         }
       );
   }
+
+  doesServerHaveConfig() {
+    return this.sync.get("/metadata");
+  }
 }
-/* import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-// types
-
-// services
-import { SyncAPI } from "../common/sync.api";
-import { LoginService } from "./login.service";
-
-@Component({
-    selector: "login",
-    templateUrl: "./login.template.html",
-    providers: [LoginService]
-})
-export class LoginComponent implements OnInit {
-    private user: string = "anon";
-    public viewData: {
-        error: boolean;
-        errorMessage: string;
-    } = {
-        error: true,
-        errorMessage: ""
-    };
-    public services: {
-        login: LoginService;
-    } = {
-        login: null
-    };
-    public sync: SyncAPI;
-    public model: {
-        iterable: number;
-        year: number;
-        month: number;
-    } = {
-        iterable: 0,
-        year: 2017,
-        month: 12
-    };
-    @Output() loginSuccess: EventEmitter<any> = new EventEmitter();
-
-    constructor(
-        loginService: LoginService,
-        private titleService: Title,
-        syncService: SyncAPI
-    ) {
-        this.services.login = loginService;
-        titleService.setTitle("Login");
-        this.sync = syncService;
-    }
-
-    ngOnInit() {}
-
-    submit(loginForm: NgForm) {
-        const { fUsername, fPassword } = loginForm.value;
-
-        if (!fUsername || !fPassword) {
-            this.viewData.error = true;
-            this.viewData.errorMessage = "Username and Password are required";
-            return false;
-        }
-
-        // Send to server
-        this.sync
-            .post("/api/login", {
-                fUsername,
-                fPassword
-            })
-            .then(response => {
-                if (response.operationResult) {
-                    this.services.login.setIdentity(response.identity);
-                    this.loginSuccess.emit(response.identity);
-                    // window.location.href = '/tasks'; // navigate to initial app
-                } else {
-                    this.viewData.error = true;
-                    this.viewData.errorMessage = response.message;
-                }
-            })
-            .catch(err => {
-                this.viewData.error = true;
-                this.viewData.errorMessage = err.message;
-            });
-    }
-}
-*/

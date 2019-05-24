@@ -397,6 +397,7 @@ const drinkwater_component_1 = __webpack_require__(/*! ./common/drinkwater.compo
 const sync_api_1 = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
 const utils_common_1 = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
 const login_component_1 = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
+const cfg_component_1 = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
 const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
 const alert_component_1 = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
 const jwt_interceptor_1 = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
@@ -428,6 +429,7 @@ AppModule = tslib_1.__decorate([
             drinkwater_component_1.DrinkWaterComponent,
             menu_component_1.MenuComponent,
             login_component_1.LoginComponent,
+            cfg_component_1.CfgComponent,
             lasttime_component_1.LastTimeComponent,
             multimedia_component_1.MultimediaComponent,
             type_generator_component_1.TypeGeneratorComponent,
@@ -468,6 +470,7 @@ const home_component_1 = __webpack_require__(/*! ./common/home.component */ "./s
 const login_component_1 = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
 const register_component_1 = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
 const auth_guard_1 = __webpack_require__(/*! ./common/auth.guard */ "./src/app/common/auth.guard.ts");
+const cfg_component_1 = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
 const tasks_component_1 = __webpack_require__(/*! ./task/tasks.component */ "./src/app/task/tasks.component.ts");
 const account_component_1 = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
 const movement_component_1 = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
@@ -513,6 +516,10 @@ const appRoutes = [
     {
         path: "login",
         component: login_component_1.LoginComponent
+    },
+    {
+        path: "cfg",
+        component: cfg_component_1.CfgComponent
     },
     {
         path: "lasttime",
@@ -738,6 +745,43 @@ AuthenticationService = tslib_1.__decorate([
 ], AuthenticationService);
 exports.AuthenticationService = AuthenticationService;
 
+
+/***/ }),
+
+/***/ "./src/app/common/cfg.component.ts":
+/*!*****************************************!*\
+  !*** ./src/app/common/cfg.component.ts ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let CfgComponent = class CfgComponent {
+    ngOnInit() { }
+};
+CfgComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "cfg",
+        template: __webpack_require__(/*! ./cfg.template.html */ "./src/app/common/cfg.template.html")
+    })
+], CfgComponent);
+exports.CfgComponent = CfgComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/common/cfg.template.html":
+/*!******************************************!*\
+  !*** ./src/app/common/cfg.template.html ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>This will be CFG form</div>\r\n"
 
 /***/ }),
 
@@ -1094,19 +1138,22 @@ const forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angul
 const operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
 const alert_service_1 = __webpack_require__(/*! ./alert.service */ "./src/app/common/alert.service.ts");
 const authentication_service_1 = __webpack_require__(/*! ./authentication.service */ "./src/app/common/authentication.service.ts");
+const sync_api_1 = __webpack_require__(/*! ./sync.api */ "./src/app/common/sync.api.ts");
 let LoginComponent = class LoginComponent {
-    constructor(formBuilder, route, router, authenticationService, alertService) {
+    constructor(formBuilder, route, router, authenticationService, alertService, sync) {
         this.formBuilder = formBuilder;
         this.route = route;
         this.router = router;
         this.authenticationService = authenticationService;
         this.alertService = alertService;
+        this.sync = sync;
         this.loading = false;
         this.submitted = false;
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
             this.router.navigate(["/"]);
         }
+        this.sync = sync;
     }
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -1115,6 +1162,12 @@ let LoginComponent = class LoginComponent {
         });
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+        // look if the backend has cfg
+        this.doesServerHaveConfig().then(answer => {
+            if (!answer.hasCFG) {
+                this.router.navigate(["/cfg"]);
+            }
+        });
     }
     // convenience getter for easy access to form fields
     get f() {
@@ -1137,6 +1190,9 @@ let LoginComponent = class LoginComponent {
             this.loading = false;
         });
     }
+    doesServerHaveConfig() {
+        return this.sync.get("/metadata");
+    }
 };
 LoginComponent = tslib_1.__decorate([
     core_1.Component({ template: __webpack_require__(/*! ./login.template.html */ "./src/app/common/login.template.html"), styles: [__webpack_require__(/*! ./login.css */ "./src/app/common/login.css")] }),
@@ -1144,93 +1200,10 @@ LoginComponent = tslib_1.__decorate([
         router_1.ActivatedRoute,
         router_1.Router,
         authentication_service_1.AuthenticationService,
-        alert_service_1.AlertService])
+        alert_service_1.AlertService,
+        sync_api_1.SyncAPI])
 ], LoginComponent);
 exports.LoginComponent = LoginComponent;
-/* import { Component, OnInit, Output, EventEmitter } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-// types
-
-// services
-import { SyncAPI } from "../common/sync.api";
-import { LoginService } from "./login.service";
-
-@Component({
-    selector: "login",
-    templateUrl: "./login.template.html",
-    providers: [LoginService]
-})
-export class LoginComponent implements OnInit {
-    private user: string = "anon";
-    public viewData: {
-        error: boolean;
-        errorMessage: string;
-    } = {
-        error: true,
-        errorMessage: ""
-    };
-    public services: {
-        login: LoginService;
-    } = {
-        login: null
-    };
-    public sync: SyncAPI;
-    public model: {
-        iterable: number;
-        year: number;
-        month: number;
-    } = {
-        iterable: 0,
-        year: 2017,
-        month: 12
-    };
-    @Output() loginSuccess: EventEmitter<any> = new EventEmitter();
-
-    constructor(
-        loginService: LoginService,
-        private titleService: Title,
-        syncService: SyncAPI
-    ) {
-        this.services.login = loginService;
-        titleService.setTitle("Login");
-        this.sync = syncService;
-    }
-
-    ngOnInit() {}
-
-    submit(loginForm: NgForm) {
-        const { fUsername, fPassword } = loginForm.value;
-
-        if (!fUsername || !fPassword) {
-            this.viewData.error = true;
-            this.viewData.errorMessage = "Username and Password are required";
-            return false;
-        }
-
-        // Send to server
-        this.sync
-            .post("/api/login", {
-                fUsername,
-                fPassword
-            })
-            .then(response => {
-                if (response.operationResult) {
-                    this.services.login.setIdentity(response.identity);
-                    this.loginSuccess.emit(response.identity);
-                    // window.location.href = '/tasks'; // navigate to initial app
-                } else {
-                    this.viewData.error = true;
-                    this.viewData.errorMessage = response.message;
-                }
-            })
-            .catch(err => {
-                this.viewData.error = true;
-                this.viewData.errorMessage = err.message;
-            });
-    }
-}
-*/
 
 
 /***/ }),
@@ -4977,13 +4950,26 @@ let MultimediaComponent = class MultimediaComponent {
             this.epModel.fPlatform = viewFound.mmv_ctg_platform;
             this.epModel.fNotes = viewFound.mmv_notes;
         }
+        // if year is not set, try to peek into previous ep and use that
+        if (this.epModel.fYear === 0) {
+            const previousEpisodes = this.services.multimediaDetService
+                .list()
+                .filter(item => item.mmd_id === id)
+                .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
+            if (previousEpisodes.length > 0) {
+                const previousEp = previousEpisodes[0];
+                if (previousEp) {
+                    this.epModel.fYear = previousEp.mmd_year;
+                }
+            }
+        }
         // set our guess on the next ep id so the user can verify or change it
         this.epModel.fNextEpId = this.calculateNextEp(epId);
         // if next ep is beyond last ep, set it as the last ep
         const numericNextEpId = Number.parseFloat(this.epModel.fNextEpId);
         const numericLastEpId = Number.parseFloat(this.services.multimediaService.list().find(item => item.mma_id === id)
             .mma_total_ep);
-        if (numericNextEpId > numericLastEpId) {
+        if (numericLastEpId !== 0 && numericNextEpId > numericLastEpId) {
             this.epModel.fNextEpId = String(numericLastEpId);
         }
         // set focus

@@ -90,7 +90,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
-- [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
 - [AppLastTime][new] Show an option to search on or show archived items
 
 - [AppMoney][new] Add account form to edit or add new accounts
@@ -107,6 +106,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Clean up Indicators legacy section
 
 <hr/>
+
+## v1.8.65 (2019-04-29)
+
+- [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
+
+## v1.8.65 (2019-04-29)
+
+- [AppCommon][new][Install] Added `/cfg` page, later it will allow to modify cfg with encryption
+
+## v1.8.64 (2019-04-26)
+
+- [AppMoney][new] When registering a new episode, if ep year is 0 peek into previous one and use it to prefill form
+- [AppMoney][fix] Next episode calculation was failing for those media that had 0 as total episodes, now it works again
 
 ## v1.8.63 (2019-04-25)
 

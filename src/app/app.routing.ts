@@ -4,6 +4,7 @@ import { HomeComponent } from "./common/home.component";
 import { LoginComponent } from "./common/login.component";
 import { RegisterComponent } from "./common/register.component";
 import { AuthGuard } from "./common/auth.guard";
+import { CfgComponent } from "./common/cfg.component";
 
 import { TasksComponent } from "./task/tasks.component";
 
@@ -55,6 +56,10 @@ const appRoutes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "cfg",
+    component: CfgComponent
   },
   {
     path: "lasttime",

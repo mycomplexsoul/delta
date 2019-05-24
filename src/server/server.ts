@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as express from "express";
 import * as Routes from "./Routes";
+import { existsSync } from "fs";
 
 const app = express();
 app.use(express.json());
@@ -28,11 +29,13 @@ app.get("/status", (req, res) => {
 
 app.get("/metadata", (req, res) => {
   const appVersion: string = process.env.npm_package_version;
+  const hasCFG: boolean = existsSync(path.join(__dirname, "../../cfg.json"));
 
   res.end(
     JSON.stringify({
       appVersion,
-      serverDate: new Date()
+      serverDate: new Date(),
+      hasCFG
     })
   );
 });

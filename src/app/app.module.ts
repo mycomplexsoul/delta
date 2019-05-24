@@ -32,6 +32,7 @@ import { DrinkWaterComponent } from "./common/drinkwater.component";
 import { SyncAPI } from "./common/sync.api";
 import { UtilsCommon } from "./common/utils.common";
 import { LoginComponent } from "./common/login.component";
+import { CfgComponent } from "./common/cfg.component";
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 
 import { AlertComponent } from "./common/alert.component";
@@ -62,6 +63,7 @@ import { RegisterComponent } from "./common/register.component";
     DrinkWaterComponent,
     MenuComponent,
     LoginComponent,
+    CfgComponent,
     LastTimeComponent,
     MultimediaComponent,
     TypeGeneratorComponent,

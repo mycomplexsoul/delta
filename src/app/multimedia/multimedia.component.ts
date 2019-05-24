@@ -244,6 +244,21 @@ export class MultimediaComponent implements OnInit {
       this.epModel.fNotes = viewFound.mmv_notes;
     }
 
+    // if year is not set, try to peek into previous ep and use that
+    if (this.epModel.fYear === 0) {
+      const previousEpisodes = this.services.multimediaDetService
+        .list()
+        .filter(item => item.mmd_id === id)
+        .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
+      if (previousEpisodes.length > 0) {
+        const previousEp: MultimediaDet = previousEpisodes[0];
+
+        if (previousEp) {
+          this.epModel.fYear = previousEp.mmd_year;
+        }
+      }
+    }
+
     // set our guess on the next ep id so the user can verify or change it
     this.epModel.fNextEpId = this.calculateNextEp(epId);
     // if next ep is beyond last ep, set it as the last ep
@@ -252,7 +267,7 @@ export class MultimediaComponent implements OnInit {
       this.services.multimediaService.list().find(item => item.mma_id === id)
         .mma_total_ep
     );
-    if (numericNextEpId > numericLastEpId) {
+    if (numericLastEpId !== 0 && numericNextEpId > numericLastEpId) {
       this.epModel.fNextEpId = String(numericLastEpId);
     }
 
