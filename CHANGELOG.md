@@ -96,7 +96,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Use date_due to track today's time tracking block
 - [AppCommon][new][Login] Store cyphred passwords
 - [AppCommon][new][CFG] Basic CFG configuration page
-- [AppLastTime][new] When editing a value from a record that has a note, prompt for changes on the note before saving it
 - [AppKanban][new] Entity definition
 
 - [AppMoney][new] Monthly totals on income vs expenses comparison against past months
@@ -107,7 +106,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.8.65 (2019-04-29)
+## v1.8.67 (2019-05-01)
+
+- [AppLastTime][new] When editing a value from a record that has a note, prompt for changes on the note before saving it
+
+## v1.8.66 (2019-04-30)
 
 - [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
 

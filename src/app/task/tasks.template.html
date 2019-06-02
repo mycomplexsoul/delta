@@ -17,6 +17,7 @@
     (keyup)="inputKeyUpHandler($event)"
     [(ngModel)]="tsk_multiple_name"
     *ngIf="showBatchAdd"
+    spellcheck="false"
   ></textarea>
   <button type="submit" (click)="addTask(tasksForm)" id="btnAddTask">
     Add task

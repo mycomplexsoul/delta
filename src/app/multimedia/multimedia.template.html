@@ -97,7 +97,7 @@
 
 <table>
   <tr>
-    <th class="padding-left-5 padding-right-5 width-80">#</th>
+    <th class="padding-left-5 padding-right-5">#</th>
     <th class="padding-left-5 padding-right-5 width-100">Title</th>
     <th class="padding-left-5 padding-right-5">Episode</th>
     <th class="padding-left-5 padding-right-5">Last Viewed</th>
@@ -358,30 +358,27 @@
 <span *ngIf="viewData.showDetList"
   >Listing for media: {{ viewData.detListTitle }}</span
 >
-<table *ngIf="viewData.multimediaDetList">
-  <tr>
-    <th class="padding-left-5 padding-right-5 width-80">#</th>
-    <th class="padding-left-5 padding-right-5">Viewed</th>
-    <th class="padding-left-5 padding-right-5 width-100">
-      Title | Ep Title | Year - link
-    </th>
-  </tr>
-  <tr
+<div *ngIf="viewData.multimediaDetList">
+  <div>
+    Title | Ep Title | Year - link
+  </div>
+  <div
     class="multimedia-listing-row"
-    *ngFor="let item of viewData.multimediaDetList"
+    *ngFor="let item of viewData.multimediaDetList; let i = index"
   >
-    <td class="padding-left-5 padding-right-5 text-align-right">
-      {{ item.mmd_id_ep }}
-    </td>
-    <td class="padding-left-5 padding-right-5 width-80">
+    <span class="padding-left-5 padding-right-5 width-80">
       {{ item.mmd_date_mod | date: "yyyy-MM-dd" }}
-    </td>
-    <td class="padding-left-5 padding-right-5">
+    </span>
+    <span class="padding-left-5 padding-right-5">
       <span>
         {{
           !viewData.showDetList && item.mmd_txt_title
-            ? item.mmd_txt_title + " | " + item.mmd_ep_title
-            : item.mmd_ep_title
+            ? item.mmd_txt_title +
+              " | " +
+              item.mmd_id_ep +
+              " - " +
+              item.mmd_ep_title
+            : item.mmd_id_ep + " - " + item.mmd_ep_title
         }}
       </span>
       <span *ngIf="item.mmd_year">
@@ -390,6 +387,6 @@
         </a>
         <span *ngIf="!item.mmd_url">[{{ item.mmd_year }}]</span>
       </span>
-    </td>
-  </tr>
-</table>
+    </span>
+  </div>
+</div>

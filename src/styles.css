@@ -14,6 +14,7 @@ body {
   margin: 2em;
   margin-top: 0;
   background-color: #eee;
+  font-size: 11px;
 }
 body,
 input[text],
@@ -480,3 +481,7 @@ combo-item .combo-item-container {
     width: 350px;
   }
 }
+
+/* @​media (prefers-color-scheme: dark) {
+
+}*/

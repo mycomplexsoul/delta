@@ -1112,7 +1112,7 @@ export class TasksComponent implements OnInit {
       new Date()
     );
     return `${
-      diff > 1 ? "(" + diff + " days ago)" : diff === 1 ? "(yesterday)" : ""
+      diff > 1 ? "(" + diff + "d ago)" : diff === 1 ? "(yesterday)" : ""
     }`;
   }
 
@@ -1998,7 +1998,7 @@ export class TasksComponent implements OnInit {
       if (this.dayHasActivity(nextDay)) {
         days.push(nextDay);
         dayLabels.push(
-          i === 0 ? "Today" : i === 1 ? "Yesterday" : i + " days ago"
+          i === 0 ? "Today" : i === 1 ? "Yesterday" : i + "d ago"
         );
       }
     }
