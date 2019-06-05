@@ -28,6 +28,7 @@ import { StorageService } from "./common/storage.service";
 import { EntryService } from "./money/entry.service";
 import { DateCommon } from "./common/date.common";
 import { ComboItemComponent } from "./common/comboItem.component";
+import { CheckboxOptionComponent } from "./common/checkbox-option.component";
 import { DrinkWaterComponent } from "./common/drinkwater.component";
 import { SyncAPI } from "./common/sync.api";
 import { UtilsCommon } from "./common/utils.common";
@@ -60,6 +61,7 @@ import { RegisterComponent } from "./common/register.component";
     PresetComponent,
     MovementListingComponent,
     ComboItemComponent,
+    CheckboxOptionComponent,
     DrinkWaterComponent,
     MenuComponent,
     LoginComponent,

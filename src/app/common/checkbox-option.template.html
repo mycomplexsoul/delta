@@ -1,0 +1,13 @@
+<form>
+  <span class="option-item">
+    <input
+      type="checkbox"
+      [name]="optionId"
+      [id]="optionId"
+      ng-checked="checked"
+      [(ngModel)]="checked"
+      (click)="toggleCheckbox($event)"
+    />
+    <label [for]="optionId">{{ label }}</label>
+  </span>
+</form>

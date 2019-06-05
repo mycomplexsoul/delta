@@ -207,8 +207,8 @@ export class BalanceModule {
         );
 
         balanceCurrent.forEach((bc: Balance) => {
-          let bn: Balance = balanceNext.find(
-            b => b.bal_id_account === bc.bal_id_account
+          let bn: Balance = new Balance(
+            balanceNext.find(b => b.bal_id_account === bc.bal_id_account)
           );
 
           if (bn) {

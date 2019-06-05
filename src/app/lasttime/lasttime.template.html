@@ -93,6 +93,13 @@
 <div>
   {{ viewData.lastTime.length }} items.
   <br />
+  <checkbox-option
+    label="Include archived items"
+    optionId="lasttime-options-archived"
+    [(checked)]="viewData.includeArchived"
+    [onClick]="reloadItems"
+  ></checkbox-option>
+  <br />
   <label>Search</label>
   <input (keyup)="filter($event)" placeholder="Filter" />
 </div>

@@ -72,6 +72,10 @@ export class FileOrganizerServer {
       {
         s: "C:/data/comprobantes/to-backup",
         d: "K:/personal-data-2019/comprobantes-monetarios-2019"
+      },
+      {
+        s: "C:/data/downloads/torend-2019Q1/nipponsei-to-backup",
+        d: "E:/downloads-arranged/nipponsei-2019"
       }
     ];
 

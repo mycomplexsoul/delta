@@ -23,11 +23,13 @@ export class LastTimeComponent implements OnInit {
     showCreateForm: boolean;
     historyList: LastTimeHistory[];
     historyMetadata: LastTime;
+    includeArchived: boolean;
   } = {
     lastTime: [],
     showCreateForm: false,
     historyList: [],
-    historyMetadata: null
+    historyMetadata: null,
+    includeArchived: false
   };
   public services: {
     lastTime: LastTimeService;
@@ -66,6 +68,8 @@ export class LastTimeComponent implements OnInit {
             });
             this.viewData.lastTime = list.sort(sort);*/
       });
+
+    this.reloadItems = this.reloadItems.bind(this);
   }
 
   handleNewItem(form: NgForm) {
@@ -268,5 +272,14 @@ export class LastTimeComponent implements OnInit {
 
   selectValue(event: Node) {
     window.getSelection().selectAllChildren(event["target"]);
+  }
+
+  reloadItems(includeArchived: boolean) {
+    this.services.lastTime.setIncludeArchived(includeArchived);
+    this.services.lastTime.getAll().then(lastTimeList => {
+      this.viewData.lastTime = lastTimeList;
+
+      this.calculateValidityForAll();
+    });
   }
 }

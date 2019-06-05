@@ -90,7 +90,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
-- [AppLastTime][new] Show an option to search on or show archived items
 
 - [AppMoney][new] Add account form to edit or add new accounts
 - [AppTasks][new] Use date_due to track today's time tracking block
@@ -105,6 +104,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Clean up Indicators legacy section
 
 <hr/>
+
+## v1.8.70 (2019-05-06)
+
+- [AppLastTime][new] Show an option to search on or show archived items with a checkbox option
+
+## v1.8.69 (2019-05-03)
+
+- [AppMoney][fix] Transfer balance was not updating records for accounts that already had movements, it works now
+
+## v1.8.68 (2019-05-02)
+
+- [AppCommon][new] Create a `CheckboxOption` component in order to render a checkbox with a label, and clicking it triggers some method defined by the consumer, allows to reduce markup on consumers
+- [AppMoney][fix] Rebuild and transfer by range was not working due to incorrect routing, it works now
 
 ## v1.8.67 (2019-05-01)
 

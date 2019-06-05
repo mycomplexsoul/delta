@@ -393,6 +393,7 @@ const storage_service_1 = __webpack_require__(/*! ./common/storage.service */ ".
 const entry_service_1 = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
 const date_common_1 = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
 const comboItem_component_1 = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
+const checkbox_option_component_1 = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
 const drinkwater_component_1 = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
 const sync_api_1 = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
 const utils_common_1 = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
@@ -426,6 +427,7 @@ AppModule = tslib_1.__decorate([
             preset_component_1.PresetComponent,
             movementListing_component_1.MovementListingComponent,
             comboItem_component_1.ComboItemComponent,
+            checkbox_option_component_1.CheckboxOptionComponent,
             drinkwater_component_1.DrinkWaterComponent,
             menu_component_1.MenuComponent,
             login_component_1.LoginComponent,
@@ -782,6 +784,68 @@ exports.CfgComponent = CfgComponent;
 /***/ (function(module, exports) {
 
 module.exports = "<div>This will be CFG form</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/common/checkbox-option.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/common/checkbox-option.component.ts ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+let CheckboxOptionComponent = class CheckboxOptionComponent {
+    constructor() {
+        this.label = "Option";
+    }
+    toggleCheckbox(event) {
+        this.checked = event.target["checked"];
+        if (this.onClick) {
+            this.onClick(this.checked);
+        }
+    }
+};
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", Boolean)
+], CheckboxOptionComponent.prototype, "checked", void 0);
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", Function)
+], CheckboxOptionComponent.prototype, "onClick", void 0);
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", String)
+], CheckboxOptionComponent.prototype, "optionId", void 0);
+tslib_1.__decorate([
+    core_1.Input(),
+    tslib_1.__metadata("design:type", String)
+], CheckboxOptionComponent.prototype, "label", void 0);
+CheckboxOptionComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "checkbox-option",
+        template: __webpack_require__(/*! ./checkbox-option.template.html */ "./src/app/common/checkbox-option.template.html"),
+        providers: []
+    })
+], CheckboxOptionComponent);
+exports.CheckboxOptionComponent = CheckboxOptionComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/common/checkbox-option.template.html":
+/*!******************************************************!*\
+  !*** ./src/app/common/checkbox-option.template.html ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<form>\r\n  <span class=\"option-item\">\r\n    <input\r\n      type=\"checkbox\"\r\n      [name]=\"optionId\"\r\n      [id]=\"optionId\"\r\n      ng-checked=\"checked\"\r\n      [(ngModel)]=\"checked\"\r\n      (click)=\"toggleCheckbox($event)\"\r\n    />\r\n    <label [for]=\"optionId\">{{ label }}</label>\r\n  </span>\r\n</form>\r\n"
 
 /***/ }),
 
@@ -1994,7 +2058,8 @@ let LastTimeComponent = class LastTimeComponent {
             lastTime: [],
             showCreateForm: false,
             historyList: [],
-            historyMetadata: null
+            historyMetadata: null,
+            includeArchived: false
         };
         this.services = {
             lastTime: null,
@@ -2028,6 +2093,7 @@ let LastTimeComponent = class LastTimeComponent {
                 });
                 this.viewData.lastTime = list.sort(sort);*/
         });
+        this.reloadItems = this.reloadItems.bind(this);
     }
     handleNewItem(form) {
         this.viewData.showCreateForm = !this.viewData.showCreateForm;
@@ -2184,6 +2250,13 @@ let LastTimeComponent = class LastTimeComponent {
     selectValue(event) {
         window.getSelection().selectAllChildren(event["target"]);
     }
+    reloadItems(includeArchived) {
+        this.services.lastTime.setIncludeArchived(includeArchived);
+        this.services.lastTime.getAll().then(lastTimeList => {
+            this.viewData.lastTime = lastTimeList;
+            this.calculateValidityForAll();
+        });
+    }
 };
 LastTimeComponent = tslib_1.__decorate([
     core_1.Component({
@@ -2234,14 +2307,15 @@ let LastTimeService = class LastTimeService {
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'lasttime',
-            defaultUser: 'anon',
+            storageKey: "lasttime",
+            defaultUser: "anon",
             api: {
-                list: '/api/lasttime',
-                create: '/api/lasttime',
-                update: '/api/lasttime/:id'
+                list: "/api/lasttime",
+                create: "/api/lasttime",
+                update: "/api/lasttime/:id"
             }
         };
+        this.includeArchived = false;
         this.storage = storage;
         this.sync = sync;
     }
@@ -2251,22 +2325,27 @@ let LastTimeService = class LastTimeService {
     getAll() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             const filter = {
-                gc: 'AND',
-                cont: [{
-                        f: 'lst_ctg_status',
-                        op: 'eq',
+                gc: "AND",
+                cont: [
+                    {
+                        f: "lst_ctg_status",
+                        op: "eq",
                         val: 1
-                    }]
+                    }
+                ]
             };
             const query = `?q=${JSON.stringify(filter)}`;
-            const sort = ((a, b) => {
+            const sort = (a, b) => {
                 return a.lst_date_mod.getTime() > b.lst_date_mod.getTime() ? 1 : -1;
-            });
-            return this.sync.get(`${this.config.api.list}${query}`).then(data => {
+            };
+            return this.sync
+                .get(`${this.config.api.list}${this.includeArchived ? "" : query}`)
+                .then(data => {
                 this.data = data.map((d) => new LastTime_1.LastTime(d));
                 this.data = this.data.sort(sort);
                 return this.data;
-            }).catch(err => {
+            })
+                .catch(err => {
                 return [];
             });
         });
@@ -2282,7 +2361,7 @@ let LastTimeService = class LastTimeService {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
     }
     newItem(name, value, validity, tags, notes, user) {
-        let newId = Utility_1.Utils.hashIdForEntity(new LastTime_1.LastTime(), 'lst_id');
+        let newId = Utility_1.Utils.hashIdForEntity(new LastTime_1.LastTime(), "lst_id");
         let newItem = new LastTime_1.LastTime({
             lst_id: newId,
             lst_name: name,
@@ -2295,18 +2374,21 @@ let LastTimeService = class LastTimeService {
             lst_date_mod: new Date(),
             lst_ctg_status: 1
         });
-        return this.sync.post(this.config.api.create, newItem).then(response => {
+        return this.sync
+            .post(this.config.api.create, newItem)
+            .then(response => {
             if (response.processOk) {
                 this.data.push(newItem);
             }
             else {
-                newItem['sync'] = false;
+                newItem["sync"] = false;
                 this.data.push(newItem);
             }
             return newItem;
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            newItem['sync'] = false;
+            newItem["sync"] = false;
             this.data.push(newItem);
             return newItem;
         });
@@ -2318,19 +2400,25 @@ let LastTimeService = class LastTimeService {
                 this.data[index] = item;
             }
         };
-        return this.sync.post(this.config.api.update.replace(':id', item.lst_id), Utility_1.Utils.entityToRawTableFields(item)).then(response => {
+        return this.sync
+            .post(this.config.api.update.replace(":id", item.lst_id), Utility_1.Utils.entityToRawTableFields(item))
+            .then(response => {
             if (!response.operationOk) {
-                item['sync'] = false;
+                item["sync"] = false;
             }
             updateLocal();
             return item;
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            console.log('error on update', err);
-            item['sync'] = false;
+            console.log("error on update", err);
+            item["sync"] = false;
             updateLocal();
             return item;
         });
+    }
+    setIncludeArchived(status) {
+        this.includeArchived = status;
     }
 };
 LastTimeService = tslib_1.__decorate([
@@ -2349,7 +2437,7 @@ exports.LastTimeService = LastTimeService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"lasttime-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input lasttime-input-name\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValue\" class=\"label-left\">Value</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fValue\"\r\n          id=\"fValue\"\r\n          class=\"field-input lasttime-input-value\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValidity\" class=\"label-left\">Validity</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fValidity\"\r\n          id=\"fValidity\"\r\n          class=\"field-input lasttime-input-validity\"\r\n          step=\"1\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTags\"\r\n          id=\"fTags\"\r\n          class=\"field-input lasttime-input-tags\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fNotes\"\r\n          id=\"fNotes\"\r\n          class=\"field-input lasttime-input-notes\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<div *ngIf=\"viewData.historyList.length\">\r\n  Showing history for: {{ viewData.historyMetadata.lst_name }}\r\n  <br />\r\n  <button (click)=\"hideHistory()\">\r\n    Hide History\r\n  </button>\r\n  <table>\r\n    <tr>\r\n      <td>#</td>\r\n      <td>Value</td>\r\n      <td>Notes</td>\r\n      <td>Date Mod</td>\r\n    </tr>\r\n    <tr *ngFor=\"let item of viewData.historyList\">\r\n      <td>{{ item.lth_num_sequential }}</td>\r\n      <td>{{ item.lth_value }}</td>\r\n      <td>{{ item.lth_notes }}</td>\r\n      <td>{{ item.lth_date_mod | date: \"yyyy-MM-dd HH:mm\" }}</td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n\r\n<div>\r\n  {{ viewData.lastTime.length }} items.\r\n  <br />\r\n  <label>Search</label>\r\n  <input (keyup)=\"filter($event)\" placeholder=\"Filter\" />\r\n</div>\r\n\r\n<div class=\"lasttime-list\">\r\n  <div *ngFor=\"let item of viewData.lastTime\" class=\"lasttime-item-container\">\r\n    <span class=\"lasttime-name\">{{ item.lst_name }}:</span>\r\n    <span\r\n      contenteditable=\"true\"\r\n      (blur)=\"editValue(item, $event)\"\r\n      (focus)=\"selectValue($event)\"\r\n      class=\"lasttime-value\"\r\n      >{{ item.lst_value }}</span\r\n    >\r\n    <br />\r\n    <span\r\n      [ngClass]=\"item.ageClass\"\r\n      class=\"lasttime-age\"\r\n      [title]=\"item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'\"\r\n    >\r\n      {{ item.ageSentence }}\r\n    </span>\r\n    <span (click)=\"item.showOptions = !item.showOptions\">\r\n      {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>\r\n    <br />\r\n    <span class=\"lasttime-tags\"> #[{{ item.lst_tags }}] </span>\r\n    <span class=\"lasttime-notes\">\r\n      {{ item.lst_notes }}\r\n    </span>\r\n    <span class=\"lasttime-badge-archived\" *ngIf=\"item.lst_ctg_status === 3\"\r\n      >archived</span\r\n    >\r\n    <span class=\"lasttime-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n    <span class=\"lasttime-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n    <br />\r\n    <span *ngIf=\"item.showOptions\">\r\n      <button (click)=\"archiveRecord(item)\">archive</button>\r\n      <button (click)=\"editNotes(item)\">edit notes</button>\r\n      <button (click)=\"viewHistory(item)\">view history</button>\r\n    </span>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"lasttime-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input lasttime-input-name\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValue\" class=\"label-left\">Value</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fValue\"\r\n          id=\"fValue\"\r\n          class=\"field-input lasttime-input-value\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValidity\" class=\"label-left\">Validity</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fValidity\"\r\n          id=\"fValidity\"\r\n          class=\"field-input lasttime-input-validity\"\r\n          step=\"1\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTags\"\r\n          id=\"fTags\"\r\n          class=\"field-input lasttime-input-tags\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fNotes\"\r\n          id=\"fNotes\"\r\n          class=\"field-input lasttime-input-notes\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<div *ngIf=\"viewData.historyList.length\">\r\n  Showing history for: {{ viewData.historyMetadata.lst_name }}\r\n  <br />\r\n  <button (click)=\"hideHistory()\">\r\n    Hide History\r\n  </button>\r\n  <table>\r\n    <tr>\r\n      <td>#</td>\r\n      <td>Value</td>\r\n      <td>Notes</td>\r\n      <td>Date Mod</td>\r\n    </tr>\r\n    <tr *ngFor=\"let item of viewData.historyList\">\r\n      <td>{{ item.lth_num_sequential }}</td>\r\n      <td>{{ item.lth_value }}</td>\r\n      <td>{{ item.lth_notes }}</td>\r\n      <td>{{ item.lth_date_mod | date: \"yyyy-MM-dd HH:mm\" }}</td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n\r\n<div>\r\n  {{ viewData.lastTime.length }} items.\r\n  <br />\r\n  <checkbox-option\r\n    label=\"Include archived items\"\r\n    optionId=\"lasttime-options-archived\"\r\n    [(checked)]=\"viewData.includeArchived\"\r\n    [onClick]=\"reloadItems\"\r\n  ></checkbox-option>\r\n  <br />\r\n  <label>Search</label>\r\n  <input (keyup)=\"filter($event)\" placeholder=\"Filter\" />\r\n</div>\r\n\r\n<div class=\"lasttime-list\">\r\n  <div *ngFor=\"let item of viewData.lastTime\" class=\"lasttime-item-container\">\r\n    <span class=\"lasttime-name\">{{ item.lst_name }}:</span>\r\n    <span\r\n      contenteditable=\"true\"\r\n      (blur)=\"editValue(item, $event)\"\r\n      (focus)=\"selectValue($event)\"\r\n      class=\"lasttime-value\"\r\n      >{{ item.lst_value }}</span\r\n    >\r\n    <br />\r\n    <span\r\n      [ngClass]=\"item.ageClass\"\r\n      class=\"lasttime-age\"\r\n      [title]=\"item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'\"\r\n    >\r\n      {{ item.ageSentence }}\r\n    </span>\r\n    <span (click)=\"item.showOptions = !item.showOptions\">\r\n      {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>\r\n    <br />\r\n    <span class=\"lasttime-tags\"> #[{{ item.lst_tags }}] </span>\r\n    <span class=\"lasttime-notes\">\r\n      {{ item.lst_notes }}\r\n    </span>\r\n    <span class=\"lasttime-badge-archived\" *ngIf=\"item.lst_ctg_status === 3\"\r\n      >archived</span\r\n    >\r\n    <span class=\"lasttime-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n    <span class=\"lasttime-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n    <br />\r\n    <span *ngIf=\"item.showOptions\">\r\n      <button (click)=\"archiveRecord(item)\">archive</button>\r\n      <button (click)=\"editNotes(item)\">edit notes</button>\r\n      <button (click)=\"viewHistory(item)\">view history</button>\r\n    </span>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
