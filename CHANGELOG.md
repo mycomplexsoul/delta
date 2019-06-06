@@ -89,8 +89,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
-
 - [AppMoney][new] Add account form to edit or add new accounts
 - [AppTasks][new] Use date_due to track today's time tracking block
 - [AppCommon][new][Login] Store cyphred passwords
@@ -104,6 +102,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Clean up Indicators legacy section
 
 <hr/>
+
+## v1.8.73 (2019-05-09)
+
+- [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
+
+## v1.8.72 (2019-05-08)
+
+- [AppCommon][new] Added array of routes that needs authentication token validation in server routing
+
+## v1.8.71 (2019-05-07)
+
+- [AppCommon][new] Add `jsonwebtoken` to dependencies, to generate and validate tokens for authentication
 
 ## v1.8.70 (2019-05-06)
 

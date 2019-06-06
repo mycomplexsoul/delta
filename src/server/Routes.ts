@@ -1,4 +1,7 @@
 import * as express from "express";
+import * as jwt from "jsonwebtoken";
+import { secretForToken } from "./SecretForToken";
+
 // From entities
 import * as CategoryRoute from "./Category/CategoryRoute";
 import * as BalanceRoute from "./Balance/BalanceRoute";
@@ -24,22 +27,54 @@ import * as FileOrganizer from "./FileOrganizer/FileOrganizerRoute";
 
 const router = express.Router();
 
-// Routing from entities
-router.use("/categories", CategoryRoute.router);
-router.use("/balance", BalanceRoute.router);
-router.use("/movements", MovementRoute.router);
-router.use("/entries", EntryRoute.router);
-router.use("/accounts", AccountRoute.router);
-router.use("/places", PlaceRoute.router);
-router.use("/presets", PresetRoute.router);
-router.use("/tasks", TaskRoute.router);
-router.use("/lasttime", LastTimeRoute.router);
-router.use("/lasttimehistory", LastTimeHistoryRoute.router);
-router.use("/multimedia", MultimediaRoute.router);
-router.use("/multimediadet", MultimediaDetRoute.router);
-router.use("/multimediaview", MultimediaViewRoute.router);
+// Entites that use authentication
+const entitiesWithAuth = [
+  { url: "/categories", handler: CategoryRoute.router },
+  { url: "/balance", handler: BalanceRoute.router },
+  { url: "/movements", handler: MovementRoute.router },
+  { url: "/entries", handler: EntryRoute.router },
+  { url: "/accounts", handler: AccountRoute.router },
+  { url: "/places", handler: PlaceRoute.router },
+  { url: "/presets", handler: PresetRoute.router },
+  { url: "/tasks", handler: TaskRoute.router },
+  { url: "/lasttime", handler: LastTimeRoute.router },
+  { url: "/lasttimehistory", handler: LastTimeHistoryRoute.router },
+  { url: "/multimedia", handler: MultimediaRoute.router },
+  { url: "/multimediadet", handler: MultimediaDetRoute.router },
+  { url: "/multimediaview", handler: MultimediaViewRoute.router },
 
-router.use("/sync", SyncRoute.router);
+  { url: "/sync", handler: SyncRoute.router }
+];
+
+const authMiddleware = (req, res, next) => {
+  let token = req.headers["authorization"];
+
+  if (!token) {
+    res.status(401).send({
+      operationResult: false,
+      message: "An authentication token is needed"
+    });
+    return false;
+  }
+
+  token = token.replace("Bearer ", "");
+
+  jwt.verify(token, secretForToken, (err, user) => {
+    if (err) {
+      res.status(401).send({
+        operationResult: false,
+        message: "Invalid token"
+      });
+    } else {
+      next();
+    }
+  });
+};
+
+// Routing from entities
+entitiesWithAuth.forEach(({ url, handler }) => {
+  router.use(url, authMiddleware, handler);
+});
 
 // Routing for other pages
 router.use("/login", LoginRoute.router);

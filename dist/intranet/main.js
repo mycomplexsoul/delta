@@ -730,7 +730,7 @@ let AuthenticationService = class AuthenticationService {
             if (user && user.identity.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem("currentUser", JSON.stringify(user.identity));
-                this.currentUserSubject.next(user);
+                this.currentUserSubject.next(user.identity);
             }
             return user;
         }));
