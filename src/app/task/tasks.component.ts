@@ -137,6 +137,7 @@ export class TasksComponent implements OnInit {
         this.services.tasksCore.addTask(
           {
             tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
+            tsk_date_due: this.services.dateUtils.newDateUpToSeconds(),
             tsk_name: form.value.tsk_name
           },
           this.options
@@ -260,11 +261,7 @@ export class TasksComponent implements OnInit {
         );
       });
     this.tasks
-      .filter(
-        t =>
-          new Date(t.tsk_date_add) >= today0 &&
-          new Date(t.tsk_date_add) <= today
-      )
+      .filter(t => new Date(t.tsk_date_due).getTime() === today0.getTime())
       .forEach((t: any) => {
         this.state.totalTimeEstimatedAddedToday += parseInt(
           t.tsk_estimated_duration
@@ -288,8 +285,8 @@ export class TasksComponent implements OnInit {
         t =>
           (new Date(t.tsk_date_done) >= today0 &&
             new Date(t.tsk_date_done) < today &&
-            new Date(t.tsk_date_add) < today0) ||
-          (new Date(t.tsk_date_add) < today0 &&
+            new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
+          (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
             t.tsk_ctg_status == this.taskStatus.OPEN)
       )
       .forEach((t: any) => {
@@ -299,8 +296,8 @@ export class TasksComponent implements OnInit {
       t =>
         (new Date(t.tsk_date_done) >= today0 &&
           new Date(t.tsk_date_done) < today &&
-          new Date(t.tsk_date_add) < today0) ||
-        (new Date(t.tsk_date_add) < today0 &&
+          new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
+        (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
           t.tsk_ctg_status == this.taskStatus.OPEN)
     ).length;
 
@@ -1041,6 +1038,7 @@ export class TasksComponent implements OnInit {
           t = this.services.tasksCore.parseTask(
             {
               tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
+              tsk_date_due: this.services.dateUtils.newDateUpToSeconds(),
               tsk_name: text
             },
             this.options
@@ -1102,14 +1100,14 @@ export class TasksComponent implements OnInit {
 
   taskAgeRaw(t: any) {
     return this.services.tasksCore.elapsedDays(
-      new Date(t.tsk_date_add),
+      new Date(t.tsk_date_due),
       new Date()
     );
   }
 
   taskAge(t: any) {
     let diff = this.services.tasksCore.elapsedDays(
-      new Date(t.tsk_date_add),
+      new Date(t.tsk_date_due),
       new Date()
     );
     return `${
@@ -1119,7 +1117,7 @@ export class TasksComponent implements OnInit {
 
   taskAgeClass(t: any) {
     let diff = this.services.tasksCore.elapsedDays(
-      new Date(t.tsk_date_add),
+      new Date(t.tsk_date_due),
       new Date()
     );
     let classes = ["task-age-0", "task-age-1", "task-age-2", "task-age-10"];

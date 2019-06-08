@@ -5708,43 +5708,53 @@ let TaskIndicator = class TaskIndicator {
     }
     closedETA(initialDate, finalDate) {
         let total = 0;
-        this.tasks.filter((t) => t.tsk_ctg_status == task_type_1.TaskStatus.CLOSED && new Date(t.tsk_date_done) >= initialDate && new Date(t.tsk_date_done) <= finalDate).forEach((t) => {
+        this.tasks
+            .filter((t) => t.tsk_ctg_status == task_type_1.TaskStatus.CLOSED &&
+            new Date(t.tsk_date_done) >= initialDate &&
+            new Date(t.tsk_date_done) <= finalDate)
+            .forEach((t) => {
             total += parseInt(t.tsk_estimated_duration);
         });
         return total;
     }
-    ;
     addedETA(initialDate, finalDate) {
         let total = 0;
-        this.tasks.filter((t) => new Date(t.tsk_date_add) >= initialDate && new Date(t.tsk_date_add) <= finalDate).forEach((t) => {
+        this.tasks
+            .filter((t) => new Date(t.tsk_date_due).getTime() === initialDate.getTime())
+            .forEach((t) => {
             total += parseInt(t.tsk_estimated_duration);
         });
         return total;
     }
-    ;
     closedTaskCount(initialDate, finalDate) {
         let total = 0;
-        total = this.tasks.filter((t) => t.tsk_ctg_status == task_type_1.TaskStatus.CLOSED && new Date(t.tsk_date_done) >= initialDate && new Date(t.tsk_date_done) <= finalDate).length;
+        total = this.tasks.filter((t) => t.tsk_ctg_status == task_type_1.TaskStatus.CLOSED &&
+            new Date(t.tsk_date_done) >= initialDate &&
+            new Date(t.tsk_date_done) <= finalDate).length;
         return total;
     }
-    ;
     addedTaskCount(initialDate, finalDate) {
         let total = 0;
-        total = this.tasks.filter((t) => new Date(t.tsk_date_add) >= initialDate && new Date(t.tsk_date_add) <= finalDate).length;
+        total = this.tasks.filter((t) => new Date(t.tsk_date_due).getTime() === initialDate.getTime()).length;
         return total;
     }
-    ;
     calculateTotalTimeSpent(initialDate, finalDate) {
         let state = {};
         state.allClosedTimeTrackingToday = [];
         state.allOpenTimeTrackingToday = [];
-        this.tasks.filter((t) => {
+        this.tasks.filter(t => {
+            // for all tasks
             t.tsk_time_history.filter((h) => {
-                if (initialDate <= new Date(h.tsh_date_start) && new Date(h.tsh_date_start) <= finalDate) { // that is between the range
-                    if (t.tsk_ctg_status === task_type_1.TaskStatus.CLOSED) { // closed tasks
+                // get each time tracking
+                if (initialDate <= new Date(h.tsh_date_start) &&
+                    new Date(h.tsh_date_start) <= finalDate) {
+                    // that is between the range
+                    if (t.tsk_ctg_status === task_type_1.TaskStatus.CLOSED) {
+                        // closed tasks
                         state.allClosedTimeTrackingToday.push(h);
                     }
-                    else { // open tasks
+                    else {
+                        // open tasks
                         state.allOpenTimeTrackingToday.push(h);
                     }
                 }
@@ -5767,7 +5777,8 @@ let TaskIndicator = class TaskIndicator {
     }
     calculateProductivityRatio(initialDate, finalDate) {
         let totalTimeETAClosed = this.closedETA(initialDate, finalDate);
-        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
+        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate)
+            .totalTimeSpentTodayOnClosedTasks;
         if (totalTimeSpent === 0) {
             return 0;
         }
@@ -5775,15 +5786,17 @@ let TaskIndicator = class TaskIndicator {
     }
     calculateTimeManagementRatio(initialDate, finalDate) {
         let realTimeElapsed = this.dateUtils.elapsedTime(this.firstTTEntryFromDay(initialDate), this.lastTTEntryFromDay(initialDate));
-        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
+        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate)
+            .totalTimeSpentTodayOnClosedTasks;
         if (realTimeElapsed === 0) {
             return 0;
         }
-        return Math.round(totalTimeSpent * 100 / realTimeElapsed) / 100;
+        return Math.round((totalTimeSpent * 100) / realTimeElapsed) / 100;
     }
     calculateKarma(initialDate, finalDate) {
         let totalTimeETAClosed = this.closedETA(initialDate, finalDate);
-        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate).totalTimeSpentTodayOnClosedTasks;
+        let totalTimeSpent = this.calculateTotalTimeSpent(initialDate, finalDate)
+            .totalTimeSpentTodayOnClosedTasks;
         return Math.round((totalTimeETAClosed * 60 * 100) / totalTimeSpent) / 100;
     }
     firstTTEntryFromDay(date) {
@@ -5791,12 +5804,14 @@ let TaskIndicator = class TaskIndicator {
         let nextDay0 = this.dateUtils.addDays(day0, 1);
         let firstDate = nextDay0;
         let tasksOfTheDay = this.tasks.filter((t) => {
-            return new Date(t.tsk_date_done) >= day0 && new Date(t.tsk_date_done) < nextDay0;
+            return (new Date(t.tsk_date_done) >= day0 &&
+                new Date(t.tsk_date_done) < nextDay0);
         });
         tasksOfTheDay.forEach((t) => {
             if (t.tsk_time_history.length) {
                 t.tsk_time_history.forEach((h) => {
-                    if (new Date(h.tsh_date_start) < firstDate && day0 < new Date(h.tsh_date_start)) {
+                    if (new Date(h.tsh_date_start) < firstDate &&
+                        day0 < new Date(h.tsh_date_start)) {
                         firstDate = new Date(h.tsh_date_start);
                     }
                 });
@@ -5812,12 +5827,14 @@ let TaskIndicator = class TaskIndicator {
         let nextDay0 = this.dateUtils.addDays(day0, 1);
         let lastDate = day0;
         let tasksOfTheDay = this.tasks.filter((t) => {
-            return new Date(t.tsk_date_done) >= day0 && new Date(t.tsk_date_done) < nextDay0;
+            return (new Date(t.tsk_date_done) >= day0 &&
+                new Date(t.tsk_date_done) < nextDay0);
         });
         tasksOfTheDay.forEach((t) => {
             if (t.tsk_time_history.length) {
                 t.tsk_time_history.forEach((h) => {
-                    if (new Date(h.tsh_date_end) > lastDate && new Date(h.tsh_date_end) < nextDay0) {
+                    if (new Date(h.tsh_date_end) > lastDate &&
+                        new Date(h.tsh_date_end) < nextDay0) {
                         lastDate = new Date(h.tsh_date_end);
                     }
                 });
@@ -5835,7 +5852,10 @@ let TaskIndicator = class TaskIndicator {
      */
     totalTaskCountUntil(initialDate, finalDate) {
         let total;
-        total = this.tasks.filter((t) => new Date(t.tsk_date_add) <= finalDate && (new Date(t.tsk_date_done) >= finalDate || (t.tsk_ctg_status !== task_type_1.TaskStatus.CLOSED && t.tsk_ctg_status !== task_type_1.TaskStatus.CANCELLED)));
+        total = this.tasks.filter((t) => new Date(t.tsk_date_due) <= initialDate &&
+            (new Date(t.tsk_date_done) >= finalDate ||
+                (t.tsk_ctg_status !== task_type_1.TaskStatus.CLOSED &&
+                    t.tsk_ctg_status !== task_type_1.TaskStatus.CANCELLED)));
         return total.length;
     }
 };
@@ -5989,6 +6009,7 @@ let TasksComponent = class TasksComponent {
             if (form.value.tsk_name) {
                 this.services.tasksCore.addTask({
                     tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
+                    tsk_date_due: this.services.dateUtils.newDateUpToSeconds(),
                     tsk_name: form.value.tsk_name
                 }, this.options);
                 this.tasks = this.services.tasksCore.tasks();
@@ -6073,8 +6094,10 @@ let TasksComponent = class TasksComponent {
             this.state.totalTimeEstimatedClosedToday += parseInt(t.tsk_estimated_duration);
         });
         this.tasks
-            .filter(t => new Date(t.tsk_date_add) >= today0 &&
-            new Date(t.tsk_date_add) <= today)
+            .filter(t => new Date(t.tsk_date_due).getTime() === today0.getTime()
+        //new Date(t.tsk_date_add) >= today0 &&
+        //new Date(t.tsk_date_add) <= today
+        )
             .forEach((t) => {
             this.state.totalTimeEstimatedAddedToday += parseInt(t.tsk_estimated_duration);
             if (t.tsk_ctg_status == this.taskStatus.OPEN) {
@@ -6090,16 +6113,20 @@ let TasksComponent = class TasksComponent {
         this.tasks
             .filter(t => (new Date(t.tsk_date_done) >= today0 &&
             new Date(t.tsk_date_done) < today &&
-            new Date(t.tsk_date_add) < today0) ||
-            (new Date(t.tsk_date_add) < today0 &&
+            new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
+            //new Date(t.tsk_date_add) < today0) ||
+            (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
+                //(new Date(t.tsk_date_add) < today0 &&
                 t.tsk_ctg_status == this.taskStatus.OPEN))
             .forEach((t) => {
             this.state.totalTimeEstimatedOld += parseInt(t.tsk_estimated_duration);
         });
         this.state.totalTaskCountOld = this.tasks.filter(t => (new Date(t.tsk_date_done) >= today0 &&
             new Date(t.tsk_date_done) < today &&
-            new Date(t.tsk_date_add) < today0) ||
-            (new Date(t.tsk_date_add) < today0 &&
+            new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
+            //new Date(t.tsk_date_add) < today0) ||
+            (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
+                //(new Date(t.tsk_date_add) < today0 &&
                 t.tsk_ctg_status == this.taskStatus.OPEN)).length;
         // Info
         // Total time spent today
@@ -6716,6 +6743,7 @@ let TasksComponent = class TasksComponent {
                 if (!text.startsWith("//") && text !== "") {
                     t = this.services.tasksCore.parseTask({
                         tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
+                        tsk_date_due: this.services.dateUtils.newDateUpToSeconds(),
                         tsk_name: text
                     }, this.options);
                     if (totalPerRecord.find((r) => r.record === t.tsk_id_record)) {
@@ -6766,14 +6794,14 @@ let TasksComponent = class TasksComponent {
         return age >= 72 ? 80 : age + 8;
     }
     taskAgeRaw(t) {
-        return this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
+        return this.services.tasksCore.elapsedDays(new Date(t.tsk_date_due), new Date());
     }
     taskAge(t) {
-        let diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
+        let diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_due), new Date());
         return `${diff > 1 ? "(" + diff + "d ago)" : diff === 1 ? "(yesterday)" : ""}`;
     }
     taskAgeClass(t) {
-        let diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_add), new Date());
+        let diff = this.services.tasksCore.elapsedDays(new Date(t.tsk_date_due), new Date());
         let classes = ["task-age-0", "task-age-1", "task-age-2", "task-age-10"];
         if (diff <= 2) {
             return classes[diff];

@@ -83,7 +83,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppTasks][new] Use date_due to track today's time tracking block
 - [AppCommon][new][Login] Store cyphred passwords
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
@@ -107,6 +106,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Dark theme
 
 <hr/>
+
+## v1.8.77 (2019-05-16)
+
+- [AppTasks][new] Use date_due to track today's time tracking block
 
 ## v1.8.76 (2019-05-15)
 
