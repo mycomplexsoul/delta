@@ -240,7 +240,13 @@
     >
     <hr />
   </div>
-  <div class="task-open-task-list-container">
+  <div
+    [ngClass]="{
+      'task-open-task-list-container': true,
+      'task-open-task-list-container--grid': layout === 'grid',
+      'task-open-task-list-container--float': layout === 'float'
+    }"
+  >
     <div *ngFor="let item of state.openTasks" class="task-record">
       <div>
         <strong>{{ item.header }}</strong>
@@ -423,7 +429,10 @@
     <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong>{{
       isOnline() ? "" : "You are OFFLINE"
     }}</strong>
-    <div *ngIf="options.optShowIndicatorsTable">
+    <div
+      *ngIf="options.optShowIndicatorsTable"
+      class="task-indicators-container"
+    >
       <strong>Indicators</strong>
       <table class="indicators-table">
         <tr>

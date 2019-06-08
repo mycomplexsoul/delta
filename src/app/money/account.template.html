@@ -1,15 +1,114 @@
 <div>
   <div>
     <a routerLink="places" href="../places">Places</a>
+    <a routerLink="presets" href="../presets">Presets</a>
   </div>
+
   <strong>Account List</strong>
-  <button (click)="showNewAccountForm()">New Account</button>
-  <div id="newAccountFormSection">
-    <form name="accountForm">
-      <label for="accountName">Account Name</label>
-      <input type="text" name="accountName" />
-    </form>
-  </div>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    <div id="newAccountFormSection" *ngIf="viewData.showItemForm">
+      <span class="field" *ngIf="model.id">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small">{{
+          model.id
+        }}</span>
+      </span>
+
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          id="fName"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fType" class="label-left">Type</label>
+        <select
+          name="fType"
+          id="fType"
+          class="field-select"
+          [(ngModel)]="model.fType"
+        >
+          <option
+            *ngFor="let opt of viewData.typeList"
+            [value]="opt.ctg_sequential"
+            [selected]="opt.ctg_sequential === itemForm.value.fType"
+            >{{ opt.ctg_name }}</option
+          >
+        </select>
+      </span>
+
+      <span class="field">
+        <label for="fComment" class="label-left">Comment</label>
+        <input
+          type="text"
+          name="fComment"
+          id="fComment"
+          class="field-input field-input-large"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fCheckDay" class="label-left">Check Day</label>
+        <input
+          type="number"
+          name="fCheckDay"
+          id="fCheckDay"
+          class="field-input field-input-number"
+          step="1"
+          min="0"
+          max="31"
+          maxlength="2"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fAverageMinBalance" class="label-left"
+          >Average Min Balance</label
+        >
+        <input
+          type="number"
+          name="fAverageMinBalance"
+          id="fAverageMinBalance"
+          class="field-input field-input-number"
+          step="1"
+          min="0"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fPaymentDay" class="label-left">Payment Day</label>
+        <input
+          type="number"
+          name="fPaymentDay"
+          id="fPaymentDay"
+          class="field-input field-input-number"
+          step="1"
+          min="0"
+          max="31"
+          maxlength="2"
+          ngModel
+        />
+      </span>
+
+      <button type="submit">Save</button>
+    </div>
+  </form>
 
   <div class="card-list">
     <div *ngFor="let item of viewData.accountList" class="card-item-container">

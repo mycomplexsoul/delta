@@ -73,6 +73,7 @@ export class TasksComponent implements OnInit {
     element: null
   };
   public events: any[] = [];
+  public layout: string = "float"; // possible values: grid, float
 
   constructor(
     tasksCore: TasksCore,
@@ -1997,9 +1998,7 @@ export class TasksComponent implements OnInit {
       nextDay = this.services.dateUtils.addDays(today0, -1 * i);
       if (this.dayHasActivity(nextDay)) {
         days.push(nextDay);
-        dayLabels.push(
-          i === 0 ? "Today" : i === 1 ? "Yesterday" : i + "d ago"
-        );
+        dayLabels.push(i === 0 ? "Today" : i === 1 ? "Yesterday" : i + "d ago");
       }
     }
     days.reverse();

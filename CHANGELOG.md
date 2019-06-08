@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Money
   - Graphs
     - [AppMoney][new] Daily balance over an account or over all accounts totals
-    - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
   - Balance
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Spent report for monthly/range basis
@@ -23,7 +22,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Scheduled movements
     - [AppMoney][new] Movement form validation server side
     - [AppMoney][new] Movement form validation client side
-    - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
   - Account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
   - Places
@@ -40,7 +38,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Add a functionality to replace all uses of a category with another selected category
   - Presets
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add presets listing/new/update endpoints
     - [AppMoney][new] Add presets form to edit or add new presets
     - [AppMoney][new] Consume endpoints to finish adding or editing presets
 - Tasks
@@ -57,9 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][new] Be able to filter today's finished tasks by record
   - [AppTasks][new] Save repetiton config
   - [AppTasks][new] Generate task with repetition
-  - [AppTasks][new] Dark theme
 - Login
-  - [AppCommon][new][Login] Login logged user identity service
   - [AppCommon][new][Login] Login basic CSS
   - [AppCommon][new][Menu] Apply styles and layout to menu items
 - Common
@@ -81,15 +76,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
-  - [AppMultimedia][new] Reset form after successful registration
 - LastTime
-  - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
+  - [AppLastTime][new] n/a
 - Kanban
-  - [AppKanban][new] Entry and table generation
+  - [AppKanban][new] Entity generation
 
 ## [Unreleased / Work In Progress]
 
-- [AppMoney][new] Add account form to edit or add new accounts
 - [AppTasks][new] Use date_due to track today's time tracking block
 - [AppCommon][new][Login] Store cyphred passwords
 - [AppCommon][new][CFG] Basic CFG configuration page
@@ -101,7 +94,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add categories listing/new/update endpoints
 - [AppTasks][new] Clean up Indicators legacy section
 
+- [AppCommon][new][Login] Login logged user identity service uses token data
+- [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
+- [AppMultimedia][new] Reset form after successful registration
+- [AppLastTime][new] Migrate user data to proper username and consume user authentication service
+- [AppKanban][new] Entry and table generation
+
+- [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
+- [AppMoney][new] In balance page, once loaded, check if there's balance for current month, if it is proceed with rendering, if it isn't look for balance on previous month, if no balance is found, proceed with rendering, if balance is found, do a balance transfer for previous to current month
+- [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
+- [AppMoney][new] Add presets listing/new/update endpoints
+- [AppTasks][new] Dark theme
+
 <hr/>
+
+## v1.8.76 (2019-05-15)
+
+- [AppTasks][new] Backend specific endpoint `/api/tasks/list-open` to get current open tasks and 7 days old closed tasks
+
+## v1.8.75 (2019-05-14)
+
+- [AppTasks][new] Add layouts grid and float, also internal configuration to apply different CSS for each layout
+
+## v1.8.74 (2019-05-13)
+
+- [AppMoney][new] Add account form to edit or add new accounts
 
 ## v1.8.73 (2019-05-09)
 

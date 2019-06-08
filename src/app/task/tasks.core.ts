@@ -35,23 +35,7 @@ export class TasksCore {
   }
 
   getAll(): Promise<Array<Task>> {
-    const filter = {
-      gc: "OR",
-      cont: [
-        {
-          f: "tsk_ctg_status",
-          op: "lt",
-          val: 3
-        },
-        {
-          f: "tsk_date_add",
-          op: "ge",
-          val: "2019-03-10"
-        }
-      ]
-    };
-    const query = `?q=${JSON.stringify(filter)}`;
-    return this.sync.get(`/api/tasks${query}`).then(data => {
+    return this.sync.get(`/api/tasks/list-open`).then(data => {
       this.data.taskList = data.tasks.map(
         (d: any): Task => {
           let item: Task = new Task(d);
@@ -575,7 +559,8 @@ export class TasksCore {
       tsk_id_user_asigned: task.tsk_id_user_asigned || this.data.user,
       tsk_template: task.tsk_template || "",
       tsk_template_state: task.tsk_template_state || "",
-      tsk_date_due: task.tsk_date_due || null,
+      tsk_date_due:
+        task.tsk_date_due || this.services.dateUtils.newDateUpToSeconds(),
       tsk_id_related: task.tsk_id_related || "0",
       tsk_url: task.tsk_url || "",
       tsk_ctg_repeats: task.tsk_ctg_repeats || 0,

@@ -14,7 +14,12 @@ body {
   margin: 2em;
   margin-top: 0;
   background-color: #eee;
-  font-size: 11px;
+  font-size: 13px;
+}
+@media (min-width: 505px) {
+  body {
+    font-size: 11px;
+  }
 }
 body,
 input[text],
@@ -281,22 +286,33 @@ textarea.task-multiple {
   }
 }
 
-.task-open-task-list-container {
+.task-open-task-list-container--grid {
   display: flex;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
 }
 .task-record {
-  max-width: 500px;
-  min-width: 300px;
+  max-width: 450px;
+  min-width: 200px;
   flex: 1 0;
   margin: 5px;
   padding: 5px;
   border: 1px solid lightgray;
 }
 @media (min-width: 505px) {
-  .task-record {
+  .task-open-task-list-container--grid .task-record {
     flex: 0 0 31%;
   }
+  .task-open-task-list-container--float .task-record {
+    float: left;
+  }
+}
+
+#Info {
+  clear: both;
+}
+
+.task-indicators-container {
+  overflow-x: auto;
 }
 
 .option-item {
