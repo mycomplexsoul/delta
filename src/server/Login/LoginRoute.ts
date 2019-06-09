@@ -25,4 +25,16 @@ router.get("/validate", async (req, res) => {
   server.validateToken(node);
 });
 
+/*
+ * Creates a new user in the database
+ */
+router.post("/register", (req, res) => {
+  let server: LoginServer = new LoginServer();
+  let node: iNode = {
+    request: req,
+    response: res
+  };
+  server.register(node);
+});
+
 export { router };

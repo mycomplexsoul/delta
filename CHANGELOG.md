@@ -83,7 +83,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppCommon][new][Login] Store cyphred passwords
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
@@ -106,328 +105,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.8.78 (2019-05-17)
+## v1.9.6 (2019-05-28)
 
-- [AppMoney][new] Monthly totals on income vs expenses comparison against past months
+- [AppCommon][new][Login] Add email to register page, consume register endpoint
 
-## v1.8.77 (2019-05-16)
+## v1.9.5 (2019-05-27)
 
-- [AppTasks][new] Use date_due to track today's time tracking block
+- [AppCommon][new] Fix username display after login, it was not being displayed correctly
 
-## v1.8.76 (2019-05-15)
+## v1.9.4 (2019-05-24)
 
-- [AppTasks][new] Backend specific endpoint `/api/tasks/list-open` to get current open tasks and 7 days old closed tasks
+- [AppCommon][new] Add password hash verification on `/api/login/authenticate` endpoint for login completion
 
-## v1.8.75 (2019-05-14)
+## v1.9.3 (2019-05-23)
 
-- [AppTasks][new] Add layouts grid and float, also internal configuration to apply different CSS for each layout
+- [AppCommon][new][Login] Store cyphred passwords
+- [AppCommon][new] Add `/api/login/register` endpoint to support new user registration on the backend
 
-## v1.8.74 (2019-05-13)
+## v1.9.2 (2019-05-22)
 
-- [AppMoney][new] Add account form to edit or add new accounts
+- [AppCommon][new] Add `/api/install` route to run installation procedure
 
-## v1.8.73 (2019-05-09)
+## v1.9.1 (2019-05-21)
 
-- [AppCommon][new][Login] Add JSON Web Token support on backend https://www.oscarblancarteblog.com/2018/01/16/implementar-json-web-tokens-nodejs/
+- [AppCommon][new] Create `Crypto` module, able to create salt for password and password hashes
 
-## v1.8.72 (2019-05-08)
+## v1.9.0 (2019-05-20)
 
-- [AppCommon][new] Added array of routes that needs authentication token validation in server routing
-
-## v1.8.71 (2019-05-07)
-
-- [AppCommon][new] Add `jsonwebtoken` to dependencies, to generate and validate tokens for authentication
-
-## v1.8.70 (2019-05-06)
-
-- [AppLastTime][new] Show an option to search on or show archived items with a checkbox option
-
-## v1.8.69 (2019-05-03)
-
-- [AppMoney][fix] Transfer balance was not updating records for accounts that already had movements, it works now
-
-## v1.8.68 (2019-05-02)
-
-- [AppCommon][new] Create a `CheckboxOption` component in order to render a checkbox with a label, and clicking it triggers some method defined by the consumer, allows to reduce markup on consumers
-- [AppMoney][fix] Rebuild and transfer by range was not working due to incorrect routing, it works now
-
-## v1.8.67 (2019-05-01)
-
-- [AppLastTime][new] When editing a value from a record that has a note, prompt for changes on the note before saving it
-
-## v1.8.66 (2019-04-30)
-
-- [AppCommon][new][Install] When entering `/` route, look for `cfg.json`, if not present redirect to configuration page
-
-## v1.8.65 (2019-04-29)
-
-- [AppCommon][new][Install] Added `/cfg` page, later it will allow to modify cfg with encryption
-
-## v1.8.64 (2019-04-26)
-
-- [AppMoney][new] When registering a new episode, if ep year is 0 peek into previous one and use it to prefill form
-- [AppMoney][fix] Next episode calculation was failing for those media that had 0 as total episodes, now it works again
-
-## v1.8.63 (2019-04-25)
-
-- [AppMoney][new] Add presets UI listing under `/presets`
-
-## v1.8.62 (2019-04-24)
-
-- [AppMoney][new] Add places UI listing under `/places`
-
-## v1.8.61 (2019-04-23)
-
-- [AppMultimedia][new] Add split info logic in order to speed up capture by splitting content into multiple fields
-
-## v1.8.60 (2019-04-22)
-
-- [AppMultimedia][new] Migrate legacy information
-
-## v1.8.59 (2019-04-19)
-
-- [AppCommon][new] Added `FileOrganizer` API listing and backup routes and logic as internals
-
-## v1.8.57 (2019-04-18)
-
-- [AppMultimedia][new] Clear ep form and hide it, assign defaults on ep form and fix for last ep and archiving correctly
-
-## v1.8.56 (2019-04-17)
-
-- [AppTasks][new] Applied `spellcheck="false"` in `contenteditable` tags to disable spell checking
-
-## v1.8.55 (2019-04-16)
-
-- [AppMoney][fix] When a new active account does not have balance it was not showing up on accounts combo for creating a new movement, not it shows up
-
-## v1.8.54 (2019-04-15)
-
-- [AppMoney][new] Add options section under balance page and a toggle button
-
-## v1.8.53 (2019-04-12)
-
-- [AppMoney][mod] Unify balance rebuild page into balance page, add rebuild and transfer buttons below an options section
-- [AppMoney][del] Remove balance rebuild page and routing
-
-## v1.8.52 (2019-04-11)
-
-- [AppMultimedia][new] Layout changes, filtering and sorting details listing
-
-## v1.8.51 (2019-04-10)
-
-- [AppMultimedia][new] `MultimediaView` listing endpoints
-
-## v1.8.50 (2019-04-09)
-
-- [AppMultimedia][new] Apply coloring for age and media type on media listing
-- [AppMultimedia][mod] Add title to `multimediadet` view
-
-## v1.8.49 (2019-04-08)
-
-- [AppMoney][fix] Fix Balance Rebuild page in order to be able to Rebuild and Transfer balance from UI
-- [AppCommon][new] Added `--inspect` flag to debug node app
-
-## v1.8.48 (2019-04-05)
-
-- [AppMoney][new] When the tag `reimburse-100` is added to a movement, create a new movement based on it which will add a legend "Reimburse for:" at the beginning of the description and the account will be set to loans account
-
-## v1.8.47 (2019-04-04)
-
-- [AppMultimedia][new] Create migration script
-
-## v1.8.46 (2019-04-03)
-
-- [AppMultimedia][new] Added time field to capture Datetime viewed up to seconds
-- [AppMoney][mod] Refactor moved two methods from Movement to DateUtils
-
-## v1.8.46 (2019-04-02)
-
-- [AppMoney][new] Added new graph for displaying income grouped by category
-
-## v1.8.45 (2019-04-01)
-
-- [AppMoney][fix] Fixed movements email, was not querying correctly transfers to loan account, now it shows all movements
-- [AppCommon][new] Added `InstallModule.ts` to prettier ignore to preserve original formatting
-
-## v1.8.44 (2019-03-29)
-
-- [AppLastTime][fix] Sorting and filtering UX
-
-## v1.8.43 (2019-03-28)
-
-- [AppTasks][new] When a new task is created, set `tsk_date_due` to equal `tsk_date_add` if status is OPEN, if not set is as null, also when moving to backlog and `tsk_date_add` is current day, set `tsk_date_due` as null, otherwise do not modify it
-
-## v1.8.42 (2019-03-27)
-
-- [AppMoney][new] When the tag `reimburse-50` is added to a movement, create a new movement based on it which will add a legend "Half for:" at the beginning and ", original amount \${MOV_AMOUNT}" at the end of the description, also movement amount will be half of the original and the account will be set to loans account
-
-## v1.8.41 (2019-03-26)
-
-- [AppMoney][new] Add expenses chart for current selected month in Balance page
-
-## v1.8.40 (2019-03-23)
-
-- [AppCommon][new] Add `Chart.js` to project
-- [AppCommon][new] Add `--types node` to node typescript compilation in order to workaround `@types/chart.js` compilation issues
-
-## v1.8.39 (2019-03-22)
-
-- [AppMoney][new] Add expenses summary along with details to balance
-
-## v1.8.38 (2019-03-21)
-
-- [AppMultimedia][new] Add an input box with the calculated next ep suggestion, user can edit it and the value should be saved on server
-
-## v1.8.37 (2019-03-20)
-
-- [AppCommon][mod] Refactor database view generation for using joins on catalog instead of subqueries, creating a new `MoInstallSQL.createViewSQLNoSubQuery` method
-
-## v1.8.36 (2019-03-19)
-
-- [AppMoney][new] Add places listing/new/update endpoints
-
-## v1.8.35 (2019-03-16)
-
-- [AppMoney][new] Add listing generic request handler in `ApiServer`
-
-## v1.8.34 (2019-03-15)
-
-- [AppCommon][new][Login] Redirect to login logic in all pages
-- [AppCommon][new][Login] Basic styling for login form page
-
-## v1.8.33 (2019-03-14)
-
-- [AppTasks][new] Option or button to show/hide remaining done tasks in Finished Today section, by default only the latest 3 tasks are shown
-
-## v1.8.32 (2019-03-13)
-
-- [AppCommon][new][Login] Add login flow following http://jasonwatmore.com/post/2018/10/29/angular-7-user-registration-and-login-example-tutorial
-
-## v1.8.31 (2019-03-12)
-
-- [AppMoney][new] Add account UI listing with cards
-
-## v1.8.30 (2019-03-09)
-
-- [AppCommon][new] Created `card-list` and `card-item-container` CSS class names for generic styling cards
-- [AppCommon][new] Added `/account` Accounts menu item
-
-## v1.8.29 (2019-03-08)
-
-- [AppLastTime][new] When value is focused, select all text by default
-
-## v1.8.28 (2019-03-07)
-
-- [AppMultimedia][new] When showing Media history, show a button 'Remove filter' to remove the Media filter
-
-## v1.8.27 (2019-03-06)
-
-- [AppCommon][new] Display app version in main page header by consuming `/metadata` endpoint
-
-## v1.8.26 (2019-03-05)
-
-- [AppCommon][new] Create an endpoint `/metadata` to get appVersion
-
-## v1.8.25 (2019-03-04)
-
-- [AppTasks][new] Alt + Shift + 1 or Alt + Shift + \* should close task using time tracking end date as the done date
-
-## v1.8.24 (2019-03-01)
-
-- [AppMoney][new] Add account listing/new/update endpoints under `/api/accounts`
-
-## v1.8.23 (2019-02-28)
-
-- [AppCommon][new] Create an `ApiServer` component to have common Server methods for create/update generic scenarios
-
-## v1.8.22 (2019-02-27)
-
-- [AppMoney][new] Add click event handler `onItemClick` property to `movementsListing` component
-
-## v1.8.21 (2019-02-26)
-
-- [AppLastTime][new] Show LastTime item history
-
-## v1.8.20 (2019-02-25)
-
-- [AppLastTime][new] Add Last time history listing endpoint `/api/lasttimehistory`
-
-## v1.8.19 (2019-02-22)
-
-- [AppMultimedia][new] With existing Detail episode info, add View info (and update Detail info if needed)
-
-## v1.8.18 (2019-02-21)
-
-- [AppCommon][new] Add Prettier runner
-
-## v1.8.17 (2019-02-20)
-
-- [AppCommon][new][Login] Show logged user name on top of pages (still needs work but shows hardcoded)
-
-## v1.8.16 (2019-02-19)
-
-- [AppCommon][new][Login] Add support for `/login` route endpoint
-
-## v1.8.15 (2019-02-18)
-
-- [AppTasks][new] Indicator for last finished task timestamp
-
-## v1.8.14 (2019-02-15)
-
-- [AppMoney][mod] Consume movement listing component in balance page
-
-## v1.8.13 (2019-02-14)
-
-- [AppMoney][new] Select movement layout for listing in movements page
-
-## v1.8.12 (2019-02-13)
-
-- [AppMoney][new] Add `selectedBalance` to movement listing component, in order to add support for existing account balance initial and final rows on compact view.
-
-## v1.8.11 (2019-02-12)
-
-- [AppMoney][new] Add `movementList` and `selectedView` to movement listing component to choose a default view.
-
-## v1.8.10 (2019-02-11)
-
-- [AppMoney][new] Create `<movement-listing>` component in order to abstract movement listing logic out of balance component.
-
-## v1.8.9 (2019-02-08)
-
-- [AppMoney][new] Display Average Balance on Balance page (using account daycheck information)
-
-## v1.8.8 (2019-02-07)
-
-- [AppMoney][new] On balance movement listing, show Month name instead of month number
-
-## v1.8.7 (2019-02-06)
-
-- [AppTasks][new] Alt + t on a not in progress task adds time tracking record.
-
-## v1.8.6 (2019-02-05)
-
-- [AppTasks][new] Leaving pressed up/down arrow navigates through tasks (even on estimates).
-
-## v1.8.5 (2019-02-04)
-
-- [AppCommon][new] Added backend unit test runner.
-
-## v1.8.4 (2019-02-01)
-
-- [AppCommon][new] Added all backend endpoints.
-
-## v1.8.3 (2019-01-31)
-
-- [AppCommon][new] Added `/dist` folder for client build deployments.
-
-## v1.8.2 (2019-01-30)
-
-- [AppCommon][new] Added config to fetch angular app.
-
-## v1.8.1 (2019-01-29)
-
-- [AppCommon][new] Added config to run node.
-
-## v1.8.0 (2019-01-28)
-
-- [Breaking][appcommon][new] Migrated to Angular 7.
+- [AppCommon][breaking][new][login] Add password salt to `User` entity, generate `User` entity

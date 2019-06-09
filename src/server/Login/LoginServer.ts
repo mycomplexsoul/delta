@@ -5,6 +5,8 @@ import ConnectionService from "../ConnectionService";
 import { User } from "../../crosscommon/entities/User";
 import * as jwt from "jsonwebtoken";
 import { secretForToken } from "../SecretForToken";
+import { DateUtils } from "../../crosscommon/DateUtility";
+import { Crypto } from "../Crypto";
 
 export class LoginServer {
   login = async (node: iNode) => {
@@ -42,7 +44,20 @@ export class LoginServer {
     const userDB: User = new User(UserList[0]);
 
     // validate password
-    // TODO: needs crypto methods to cypher passwords
+    const cypher: Crypto = new Crypto();
+    const { hashPassword } = cypher.saltHashPassword(
+      password,
+      userDB.usr_pwd_salt
+    );
+
+    if (hashPassword !== userDB.usr_pwd) {
+      node.response.end(
+        JSON.stringify({
+          operationResult: false,
+          message: "Authentication failed."
+        })
+      );
+    }
 
     const tokenData = {
       username,
@@ -93,4 +108,58 @@ export class LoginServer {
       }
     });
   }
+
+  register = (node: iNode) => {
+    const {
+      username,
+      password,
+      email,
+      firstName,
+      lastName
+    } = node.request.body;
+
+    const cypher: Crypto = new Crypto();
+    const { salt, hashPassword } = cypher.saltHashPassword(password);
+
+    const user: User = new User();
+    user.usr_id = username;
+    user.usr_pwd_salt = salt;
+    user.usr_pwd = hashPassword;
+    user.usr_first_name = firstName;
+    user.usr_middle_name = "";
+    user.usr_last_name = lastName;
+    user.usr_ctg_user_type = 1;
+    user.usr_email = email;
+    user.usr_ctg_connected = 1;
+    user.usr_login_attempts = 0;
+    user.usr_date_last_login_attempt = null;
+    user.usr_date_pwd_change = DateUtils.newDateUpToSeconds();
+    user.usr_ctg_pwd_temporal = 1;
+    user.usr_ctg_blocked = 1;
+    user.usr_config = null;
+    user.usr_date_add = DateUtils.newDateUpToSeconds();
+    user.usr_date_mod = DateUtils.newDateUpToSeconds();
+    user.usr_ctg_status = 1;
+
+    const sqlMotor: MoSQL = new MoSQL(user);
+    const connection: iConnection = ConnectionService.getConnection();
+    connection
+      .runSql(sqlMotor.toInsertSQL())
+      .then(response => {
+        node.response.end(
+          JSON.stringify({
+            operationResult: true,
+            message: `Successfully created new user`
+          })
+        );
+      })
+      .catch(err => {
+        node.response.end(
+          JSON.stringify({
+            operationResult: false,
+            message: `Something wrong happened while creating user`
+          })
+        );
+      });
+  };
 }

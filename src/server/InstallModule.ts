@@ -179,6 +179,7 @@ export class InstallModule {
         inserts = [];
         let addUser = (
             usr_id: string,
+	        usr_pwd_salt: string,
 	        usr_pwd: string,
 	        usr_first_name: string,
 	        usr_middle_name: string,
@@ -197,14 +198,13 @@ export class InstallModule {
 	        usr_ctg_status: number
         ) => {
             t = new User({
-                usr_id,usr_pwd,usr_first_name,usr_middle_name,usr_last_name,usr_ctg_user_type,usr_email,usr_ctg_connected,usr_login_attempts,usr_date_last_login_attempt,usr_date_pwd_change,usr_ctg_pwd_temporal,usr_ctg_blocked,usr_config,usr_date_add,usr_date_mod,usr_ctg_status
+                usr_id,usr_pwd_salt,usr_pwd,usr_first_name,usr_middle_name,usr_last_name,usr_ctg_user_type,usr_email,usr_ctg_connected,usr_login_attempts,usr_date_last_login_attempt,usr_date_pwd_change,usr_ctg_pwd_temporal,usr_ctg_blocked,usr_config,usr_date_add,usr_date_mod,usr_ctg_status
             });
             inserts.push(sqlMotor.toInsertSQL(t));
         };
 
-        addUser('dummy','dummypwd','Dummy','D.','Doe',1,'dummy@dummy.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
-        addUser('admin','admin','Admin','-','-',2,'admin@domain.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
-        addUser('mycomplexsoul','*','Daniel','-','-',2,'mycomplexsoul@gmail.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
+        addUser('dummy','8nd423e3e9iewijns','dummypwd','Dummy','D.','Doe',1,'dummy@dummy.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
+        addUser('admin','9813812n329832b31','admin','Admin','-','-',2,'admin@domain.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
 
         inserts.forEach(i => {
             connection.runSyncSql(i,(err) => {

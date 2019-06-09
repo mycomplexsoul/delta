@@ -35,9 +35,12 @@ export class MenuComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private loginService: LoginService
   ) {
-    this.authenticationService.currentUser.subscribe(
-      x => (this.currentUser = x)
-    );
+    this.authenticationService.currentUser.subscribe(x => {
+      this.currentUser = x;
+      if (this.currentUser) {
+        this.viewData.username = this.currentUser.username;
+      }
+    });
     this.services.loginService = loginService;
   }
 

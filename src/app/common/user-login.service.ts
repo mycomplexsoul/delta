@@ -20,7 +20,7 @@ export class UserService {
   }
 
   register(user: User) {
-    return this.http.post(`${config.apiUrl}/users/register`, user);
+    return this.http.post(`${config.apiUrl}/login/register`, user);
   }
 
   update(user: User) {

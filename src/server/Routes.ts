@@ -23,6 +23,7 @@ import * as LoginRoute from "./Login/LoginRoute";
 
 // Internal
 import * as TypeGenerator from "./TypeGenerator/TypeGeneratorRoute";
+import * as Install from "./Install/InstallRoute";
 import * as FileOrganizer from "./FileOrganizer/FileOrganizerRoute";
 
 const router = express.Router();
@@ -81,6 +82,7 @@ router.use("/login", LoginRoute.router);
 
 // Routing for internals
 router.use("/type-generator", TypeGenerator.router);
+router.use("/install", Install.router);
 router.use("/file-organizer", FileOrganizer.router);
 
 export { router };

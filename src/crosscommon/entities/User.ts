@@ -4,6 +4,7 @@ import { ViewJoinDefinition } from "../ViewJoinDefinition";
 
 export class User implements iEntity {
 	public usr_id: string;
+	public usr_pwd_salt: string;
 	public usr_pwd: string;
 	public usr_first_name: string;
 	public usr_middle_name: string;
@@ -101,11 +102,11 @@ export class User implements iEntity {
 				, value: null
 			}, {
 				templateId: 'string'
-				, dbName: 'usr_pwd'
+				, dbName: 'usr_pwd_salt'
 				, dbType: 'string'
 				, isTableField: true
 				, isPK: false
-				, size: 100
+				, size: 1000
 				, decimal: 0
 				, minLength: 0
 				, allowNull: false
@@ -132,6 +133,37 @@ export class User implements iEntity {
 				, value: null
 			}, {
 				templateId: 'string'
+				, dbName: 'usr_pwd'
+				, dbType: 'string'
+				, isTableField: true
+				, isPK: false
+				, size: 4000
+				, decimal: 0
+				, minLength: 0
+				, allowNull: false
+				, default: ''
+				, dbComment: 'Password'
+				, catalogId: ''
+				, originTable: ''
+				, linkedField: ''
+				, entName: 'Password'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: 'Password'
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 2
+				, orderOnNew: 2
+				, orderOnDetails: 2
+				, orderOnEdit: 2
+				, orderOnImport: 2
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'string'
 				, dbName: 'usr_first_name'
 				, dbType: 'string'
 				, isTableField: true
@@ -154,11 +186,11 @@ export class User implements iEntity {
 				, displayName: 'First Name'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 2
-				, orderOnNew: 2
-				, orderOnDetails: 2
-				, orderOnEdit: 2
-				, orderOnImport: 2
+				, gridOrder: 3
+				, orderOnNew: 3
+				, orderOnDetails: 3
+				, orderOnEdit: 3
+				, orderOnImport: 3
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -185,11 +217,11 @@ export class User implements iEntity {
 				, displayName: 'Middle Name'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 3
-				, orderOnNew: 3
-				, orderOnDetails: 3
-				, orderOnEdit: 3
-				, orderOnImport: 3
+				, gridOrder: 4
+				, orderOnNew: 4
+				, orderOnDetails: 4
+				, orderOnEdit: 4
+				, orderOnImport: 4
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -216,11 +248,11 @@ export class User implements iEntity {
 				, displayName: 'Last Name'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 4
-				, orderOnNew: 4
-				, orderOnDetails: 4
-				, orderOnEdit: 4
-				, orderOnImport: 4
+				, gridOrder: 5
+				, orderOnNew: 5
+				, orderOnDetails: 5
+				, orderOnEdit: 5
+				, orderOnImport: 5
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -247,11 +279,11 @@ export class User implements iEntity {
 				, displayName: 'User Type'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 5
-				, orderOnNew: 5
-				, orderOnDetails: 5
-				, orderOnEdit: 5
-				, orderOnImport: 5
+				, gridOrder: 6
+				, orderOnNew: 6
+				, orderOnDetails: 6
+				, orderOnEdit: 6
+				, orderOnImport: 6
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -278,11 +310,11 @@ export class User implements iEntity {
 				, displayName: 'Email'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 6
-				, orderOnNew: 6
-				, orderOnDetails: 6
-				, orderOnEdit: 6
-				, orderOnImport: 6
+				, gridOrder: 7
+				, orderOnNew: 7
+				, orderOnDetails: 7
+				, orderOnEdit: 7
+				, orderOnImport: 7
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -309,11 +341,11 @@ export class User implements iEntity {
 				, displayName: 'Is Connected'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 7
-				, orderOnNew: 7
-				, orderOnDetails: 7
-				, orderOnEdit: 7
-				, orderOnImport: 7
+				, gridOrder: 8
+				, orderOnNew: 8
+				, orderOnDetails: 8
+				, orderOnEdit: 8
+				, orderOnImport: 8
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -340,11 +372,11 @@ export class User implements iEntity {
 				, displayName: 'Consecutive Failed Attemps to Login'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 8
-				, orderOnNew: 8
-				, orderOnDetails: 8
-				, orderOnEdit: 8
-				, orderOnImport: 8
+				, gridOrder: 9
+				, orderOnNew: 9
+				, orderOnDetails: 9
+				, orderOnEdit: 9
+				, orderOnImport: 9
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -371,11 +403,11 @@ export class User implements iEntity {
 				, displayName: 'Date of Last Login Attempt'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 9
-				, orderOnNew: 9
-				, orderOnDetails: 9
-				, orderOnEdit: 9
-				, orderOnImport: 9
+				, gridOrder: 10
+				, orderOnNew: 10
+				, orderOnDetails: 10
+				, orderOnEdit: 10
+				, orderOnImport: 10
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -402,11 +434,11 @@ export class User implements iEntity {
 				, displayName: 'Date of Last Password Change'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 10
-				, orderOnNew: 10
-				, orderOnDetails: 10
-				, orderOnEdit: 10
-				, orderOnImport: 10
+				, gridOrder: 11
+				, orderOnNew: 11
+				, orderOnDetails: 11
+				, orderOnEdit: 11
+				, orderOnImport: 11
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -433,11 +465,11 @@ export class User implements iEntity {
 				, displayName: 'Password is Temporal'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 11
-				, orderOnNew: 11
-				, orderOnDetails: 11
-				, orderOnEdit: 11
-				, orderOnImport: 11
+				, gridOrder: 12
+				, orderOnNew: 12
+				, orderOnDetails: 12
+				, orderOnEdit: 12
+				, orderOnImport: 12
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -464,11 +496,11 @@ export class User implements iEntity {
 				, displayName: 'User is Blocked'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 12
-				, orderOnNew: 12
-				, orderOnDetails: 12
-				, orderOnEdit: 12
-				, orderOnImport: 12
+				, gridOrder: 13
+				, orderOnNew: 13
+				, orderOnDetails: 13
+				, orderOnEdit: 13
+				, orderOnImport: 13
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -495,11 +527,11 @@ export class User implements iEntity {
 				, displayName: 'Configuration'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 13
-				, orderOnNew: 13
-				, orderOnDetails: 13
-				, orderOnEdit: 13
-				, orderOnImport: 13
+				, gridOrder: 14
+				, orderOnNew: 14
+				, orderOnDetails: 14
+				, orderOnEdit: 14
+				, orderOnImport: 14
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -527,11 +559,11 @@ export class User implements iEntity {
 				, displayName: 'Creation Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 14
-				, orderOnNew: 14
-				, orderOnDetails: 14
-				, orderOnEdit: 14
-				, orderOnImport: 14
+				, gridOrder: 15
+				, orderOnNew: 15
+				, orderOnDetails: 15
+				, orderOnEdit: 15
+				, orderOnImport: 15
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -560,11 +592,11 @@ export class User implements iEntity {
 				, displayName: 'Last Modification Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 15
-				, orderOnNew: 15
-				, orderOnDetails: 15
-				, orderOnEdit: 15
-				, orderOnImport: 15
+				, gridOrder: 16
+				, orderOnNew: 16
+				, orderOnDetails: 16
+				, orderOnEdit: 16
+				, orderOnImport: 16
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -591,11 +623,11 @@ export class User implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 16
-				, orderOnNew: 16
-				, orderOnDetails: 16
-				, orderOnEdit: 16
-				, orderOnImport: 16
+				, gridOrder: 17
+				, orderOnNew: 17
+				, orderOnDetails: 17
+				, orderOnEdit: 17
+				, orderOnImport: 17
 				, globalOrder: undefined
 				, value: null
 			}, {
@@ -622,11 +654,11 @@ export class User implements iEntity {
 				, displayName: 'User Type'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 17
-				, orderOnNew: 17
-				, orderOnDetails: 17
-				, orderOnEdit: 17
-				, orderOnImport: 17
+				, gridOrder: 18
+				, orderOnNew: 18
+				, orderOnDetails: 18
+				, orderOnEdit: 18
+				, orderOnImport: 18
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -653,11 +685,11 @@ export class User implements iEntity {
 				, displayName: 'Is Connected'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 18
-				, orderOnNew: 18
-				, orderOnDetails: 18
-				, orderOnEdit: 18
-				, orderOnImport: 18
+				, gridOrder: 19
+				, orderOnNew: 19
+				, orderOnDetails: 19
+				, orderOnEdit: 19
+				, orderOnImport: 19
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -684,11 +716,11 @@ export class User implements iEntity {
 				, displayName: 'Password is Temporal'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 19
-				, orderOnNew: 19
-				, orderOnDetails: 19
-				, orderOnEdit: 19
-				, orderOnImport: 19
+				, gridOrder: 20
+				, orderOnNew: 20
+				, orderOnDetails: 20
+				, orderOnEdit: 20
+				, orderOnImport: 20
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -715,11 +747,11 @@ export class User implements iEntity {
 				, displayName: 'User is Blocked'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 20
-				, orderOnNew: 20
-				, orderOnDetails: 20
-				, orderOnEdit: 20
-				, orderOnImport: 20
+				, gridOrder: 21
+				, orderOnNew: 21
+				, orderOnDetails: 21
+				, orderOnEdit: 21
+				, orderOnImport: 21
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -746,11 +778,11 @@ export class User implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 21
-				, orderOnNew: 21
-				, orderOnDetails: 21
-				, orderOnEdit: 21
-				, orderOnImport: 21
+				, gridOrder: 22
+				, orderOnNew: 22
+				, orderOnDetails: 22
+				, orderOnEdit: 22
+				, orderOnImport: 22
 				, globalOrder: 0
 				, value: null
 			}
@@ -762,6 +794,7 @@ export class User implements iEntity {
 	constructor(base?: any){
 		if (base !== undefined){
 			this.usr_id = base.usr_id;
+			this.usr_pwd_salt = base.usr_pwd_salt;
 			this.usr_pwd = base.usr_pwd;
 			this.usr_first_name = base.usr_first_name;
 			this.usr_middle_name = base.usr_middle_name;
