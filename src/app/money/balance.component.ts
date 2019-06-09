@@ -43,6 +43,7 @@ export class BalanceComponent implements OnInit {
       chartType: string;
     };
     showOptions: boolean;
+    monthlyExpenseVsIncomeChart: any;
   } = {
     balance: [],
     movements: [],
@@ -77,7 +78,16 @@ export class BalanceComponent implements OnInit {
       chartLegend: true,
       chartType: "pie"
     },
-    showOptions: false
+    showOptions: false,
+    monthlyExpenseVsIncomeChart: {
+      chartType: "bar",
+      chartData: [
+        {
+          data: []
+        }
+      ],
+      chartLabels: []
+    }
   };
   public services: {
     balance: BalanceService;
@@ -139,6 +149,8 @@ export class BalanceComponent implements OnInit {
         //this.viewData.monthBalance = this.services.balance.list;
         // TODO: add list of year/months of balance for combo box
         this.viewData.monthList = this.services.balance.monthList(this.user);
+
+        this.monthlyIncomeVsExpense();
       });
     this.services.movement
       .getAllForUser(this.user)
@@ -367,5 +379,63 @@ export class BalanceComponent implements OnInit {
       month: model.parsedMonth,
       user: "anon"
     });
+  }
+
+  monthlyIncomeVsExpense() {
+    this.parseIterable();
+    const capitalAccountId: string = "1";
+    const itemCount: number = 12;
+    const monthList: {
+      iterable: number;
+      year: number;
+      month: number;
+      name: string;
+    }[] = this.viewData.monthList
+      .filter((m, index) => index < itemCount)
+      .reverse();
+    const capitalBalanceMonthly: Balance[] = this.services.balance
+      .list()
+      .filter(b => b.bal_id_account === capitalAccountId);
+    const graphData = {
+      chartLabels: monthList.map(m => m.name),
+      chartData: [
+        {
+          label: `Income`,
+          backgroundColor: "rgb(54, 162, 235)",
+          borderColor: "rgb(54, 162, 235)",
+          data: monthList.map(
+            m =>
+              capitalBalanceMonthly.find(
+                b => b.bal_year === m.year && b.bal_month === m.month
+              ).bal_charges
+          )
+        },
+        {
+          label: `Expenses`,
+          backgroundColor: "rgb(255, 99, 132)",
+          borderColor: "rgb(255, 99, 132)",
+          data: monthList.map(
+            m =>
+              capitalBalanceMonthly.find(
+                b => b.bal_year === m.year && b.bal_month === m.month
+              ).bal_withdrawals
+          )
+        },
+        {
+          label: `Final`,
+          backgroundColor: "rgb(75, 192, 192)",
+          borderColor: "rgb(75, 192, 192)",
+          data: monthList.map(
+            m =>
+              capitalBalanceMonthly.find(
+                b => b.bal_year === m.year && b.bal_month === m.month
+              ).bal_final
+          )
+        }
+      ],
+      chartType: "pie"
+    };
+
+    this.viewData.monthlyExpenseVsIncomeChart = graphData;
   }
 }

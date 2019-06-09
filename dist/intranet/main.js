@@ -2812,7 +2812,16 @@ let BalanceComponent = class BalanceComponent {
                 chartLegend: true,
                 chartType: "pie"
             },
-            showOptions: false
+            showOptions: false,
+            monthlyExpenseVsIncomeChart: {
+                chartType: "bar",
+                chartData: [
+                    {
+                        data: []
+                    }
+                ],
+                chartLabels: []
+            }
         };
         this.services = {
             balance: null,
@@ -2850,6 +2859,7 @@ let BalanceComponent = class BalanceComponent {
             //this.viewData.monthBalance = this.services.balance.list;
             // TODO: add list of year/months of balance for combo box
             this.viewData.monthList = this.services.balance.monthList(this.user);
+            this.monthlyIncomeVsExpense();
         });
         this.services.movement
             .getAllForUser(this.user)
@@ -3019,6 +3029,42 @@ let BalanceComponent = class BalanceComponent {
             month: model.parsedMonth,
             user: "anon"
         });
+    }
+    monthlyIncomeVsExpense() {
+        this.parseIterable();
+        const capitalAccountId = "1";
+        const itemCount = 12;
+        const monthList = this.viewData.monthList
+            .filter((m, index) => index < itemCount)
+            .reverse();
+        const capitalBalanceMonthly = this.services.balance
+            .list()
+            .filter(b => b.bal_id_account === capitalAccountId);
+        const graphData = {
+            chartLabels: monthList.map(m => m.name),
+            chartData: [
+                {
+                    label: `Income`,
+                    backgroundColor: "rgb(54, 162, 235)",
+                    borderColor: "rgb(54, 162, 235)",
+                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_charges)
+                },
+                {
+                    label: `Expenses`,
+                    backgroundColor: "rgb(255, 99, 132)",
+                    borderColor: "rgb(255, 99, 132)",
+                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_withdrawals)
+                },
+                {
+                    label: `Final`,
+                    backgroundColor: "rgb(75, 192, 192)",
+                    borderColor: "rgb(75, 192, 192)",
+                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_final)
+                }
+            ],
+            chartType: "pie"
+        };
+        this.viewData.monthlyExpenseVsIncomeChart = graphData;
     }
 };
 BalanceComponent = tslib_1.__decorate([
@@ -3355,7 +3401,7 @@ exports.BalanceService = BalanceService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <button (click)=\"viewData.showOptions = !viewData.showOptions\">\r\n    {{ viewData.showOptions ? \"Hide\" : \"Show\" }} Options\r\n  </button>\r\n  <div class=\"balance-options\" *ngIf=\"viewData.showOptions\">\r\n    <button (click)=\"rebuild()\">Rebuild</button>\r\n    <button (click)=\"transfer()\">Transfer</button>\r\n    <button (click)=\"rebuildAndTransfer()\">Rebuild & Transfer</button>\r\n    <button (click)=\"rebuildAndTransferUntilCurrentMonth()\">\r\n      Rebuild & Transfer Until Current Month\r\n    </button>\r\n  </div>\r\n  <br />\r\n  <strong>Balance</strong>\r\n\r\n  <span class=\"field\">\r\n    <label for=\"fMonth\" class=\"label-left\">Year-Month</label>\r\n    <select\r\n      [(ngModel)]=\"model.iterable\"\r\n      name=\"fMonth\"\r\n      id=\"fMonth\"\r\n      (change)=\"reloadBalance()\"\r\n    >\r\n      <option\r\n        *ngFor=\"let opt of viewData.monthList\"\r\n        value=\"{{ opt.iterable }}\"\r\n        >{{ opt.name }}</option\r\n      >\r\n    </select>\r\n\r\n    <br />\r\n    <input\r\n      name=\"fFilterNonZero\"\r\n      id=\"fFilterNonZero\"\r\n      type=\"checkbox\"\r\n      (click)=\"toggleFilterNonZero()\"\r\n      [(ngModel)]=\"viewData.filterNonZero\"\r\n    />\r\n    <label for=\"fFilterNonZero\">Filter Non Zero Balance</label>\r\n  </span>\r\n\r\n  <table>\r\n    <tr>\r\n      <th>Account</th>\r\n      <th>Initial</th>\r\n      <th>Charges</th>\r\n      <th>Withdrawals</th>\r\n      <th>Final</th>\r\n      <th>Actions</th>\r\n    </tr>\r\n    <tr *ngFor=\"let b of viewData.monthBalance\" class=\"balance-row\">\r\n      <td>{{ b.bal_txt_account }}</td>\r\n      <td class=\"text-align-right padding-all-5\">\r\n        {{ b.bal_initial | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td class=\"text-align-right padding-all-5\">\r\n        {{ b.bal_charges | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td class=\"text-align-right padding-all-5\">\r\n        {{ b.bal_withdrawals | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td\r\n        class=\"text-align-right padding-all-5\"\r\n        [ngClass]=\"{\r\n          'balance-zero': b.bal_final == 0,\r\n          'balance-positive': b.bal_final > 0,\r\n          'balance-negative': b.bal_final < 0\r\n        }\"\r\n      >\r\n        {{ b.bal_final | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td>\r\n        <a href=\"#\" (click)=\"renderMovements(b, $event)\">View Movements</a>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n\r\n  <div *ngIf=\"model.selectedBalance\">\r\n    Listing {{ viewData.movements.length }} movements for account\r\n    <strong>{{ model.selectedBalance.bal_txt_account }}</strong> for period\r\n    {{ model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}\r\n\r\n    <div>\r\n      <div>\r\n        Average Balance:\r\n        {{\r\n          viewData.averageBalanceInfo.averageBalance\r\n            | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n        <span\r\n          *ngIf=\"\r\n            viewData.averageBalanceInfo.averageBalance >=\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n          \"\r\n        >\r\n          &gt;=\r\n          {{\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n              | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n          }}\r\n        </span>\r\n        <span\r\n          *ngIf=\"\r\n            viewData.averageBalanceInfo.averageBalance <\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n          \"\r\n        >\r\n          &lt;\r\n          {{\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n              | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n          }}\r\n        </span>\r\n      </div>\r\n      <div>\r\n        Date Range:\r\n        {{ viewData.averageBalanceInfo.startingDate | date: \"yyyy-MM-dd\" }}\r\n        -\r\n        {{ viewData.averageBalanceInfo.finalDate | date: \"yyyy-MM-dd\" }}\r\n      </div>\r\n      <button (click)=\"toggleDailyBalance()\">\r\n        {{ viewData.showDailyBalance ? \"Hide\" : \"Show\" }} daily balance\r\n      </button>\r\n      <div *ngIf=\"viewData.showDailyBalance\">\r\n        <table>\r\n          <tr>\r\n            <th class=\"padding-all-5 width-80\">Date</th>\r\n            <th class=\"padding-all-5 width-100\">Balance</th>\r\n          </tr>\r\n          <tr\r\n            class=\"movements-listing-row\"\r\n            *ngFor=\"let m of viewData.averageBalanceInfo.dailyBalance\"\r\n          >\r\n            <td class=\"padding-all-5\">{{ m.date | date: \"yyyy-MM-dd\" }}</td>\r\n            <td class=\"padding-all-5 text-align-right\">\r\n              {{ m.balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n            </td>\r\n          </tr>\r\n        </table>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <movement-listing\r\n    [movementList]=\"viewData.movements\"\r\n    [selectedBalance]=\"model.selectedBalance\"\r\n    selectedView=\"compact\"\r\n    *ngIf=\"viewData.movements.length\"\r\n  ></movement-listing>\r\n\r\n  <canvas\r\n    id=\"monthlyExpenseChart\"\r\n    baseChart\r\n    [datasets]=\"viewData.monthlyExpenseChart.chartData\"\r\n    [labels]=\"viewData.monthlyExpenseChart.chartLabels\"\r\n    [options]=\"viewData.monthlyExpenseChart.chartOptions\"\r\n    [legend]=\"viewData.monthlyExpenseChart.chartLegend\"\r\n    [chartType]=\"viewData.monthlyExpenseChart.chartType\"\r\n  >\r\n  </canvas>\r\n\r\n  <canvas\r\n    id=\"monthlyIncomeChart\"\r\n    baseChart\r\n    [datasets]=\"viewData.monthlyIncomeChart.chartData\"\r\n    [labels]=\"viewData.monthlyIncomeChart.chartLabels\"\r\n    [options]=\"viewData.monthlyIncomeChart.chartOptions\"\r\n    [legend]=\"viewData.monthlyIncomeChart.chartLegend\"\r\n    [chartType]=\"viewData.monthlyIncomeChart.chartType\"\r\n  >\r\n  </canvas>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <button (click)=\"viewData.showOptions = !viewData.showOptions\">\r\n    {{ viewData.showOptions ? \"Hide\" : \"Show\" }} Options\r\n  </button>\r\n  <div class=\"balance-options\" *ngIf=\"viewData.showOptions\">\r\n    <button (click)=\"rebuild()\">Rebuild</button>\r\n    <button (click)=\"transfer()\">Transfer</button>\r\n    <button (click)=\"rebuildAndTransfer()\">Rebuild & Transfer</button>\r\n    <button (click)=\"rebuildAndTransferUntilCurrentMonth()\">\r\n      Rebuild & Transfer Until Current Month\r\n    </button>\r\n  </div>\r\n  <br />\r\n  <strong>Balance</strong>\r\n\r\n  <span class=\"field\">\r\n    <label for=\"fMonth\" class=\"label-left\">Year-Month</label>\r\n    <select\r\n      [(ngModel)]=\"model.iterable\"\r\n      name=\"fMonth\"\r\n      id=\"fMonth\"\r\n      (change)=\"reloadBalance()\"\r\n    >\r\n      <option\r\n        *ngFor=\"let opt of viewData.monthList\"\r\n        value=\"{{ opt.iterable }}\"\r\n        >{{ opt.name }}</option\r\n      >\r\n    </select>\r\n\r\n    <br />\r\n    <input\r\n      name=\"fFilterNonZero\"\r\n      id=\"fFilterNonZero\"\r\n      type=\"checkbox\"\r\n      (click)=\"toggleFilterNonZero()\"\r\n      [(ngModel)]=\"viewData.filterNonZero\"\r\n    />\r\n    <label for=\"fFilterNonZero\">Filter Non Zero Balance</label>\r\n  </span>\r\n\r\n  <table>\r\n    <tr>\r\n      <th>Account</th>\r\n      <th>Initial</th>\r\n      <th>Charges</th>\r\n      <th>Withdrawals</th>\r\n      <th>Final</th>\r\n      <th>Actions</th>\r\n    </tr>\r\n    <tr *ngFor=\"let b of viewData.monthBalance\" class=\"balance-row\">\r\n      <td>{{ b.bal_txt_account }}</td>\r\n      <td class=\"text-align-right padding-all-5\">\r\n        {{ b.bal_initial | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td class=\"text-align-right padding-all-5\">\r\n        {{ b.bal_charges | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td class=\"text-align-right padding-all-5\">\r\n        {{ b.bal_withdrawals | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td\r\n        class=\"text-align-right padding-all-5\"\r\n        [ngClass]=\"{\r\n          'balance-zero': b.bal_final == 0,\r\n          'balance-positive': b.bal_final > 0,\r\n          'balance-negative': b.bal_final < 0\r\n        }\"\r\n      >\r\n        {{ b.bal_final | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n      </td>\r\n      <td>\r\n        <a href=\"#\" (click)=\"renderMovements(b, $event)\">View Movements</a>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n\r\n  <div *ngIf=\"model.selectedBalance\">\r\n    Listing {{ viewData.movements.length }} movements for account\r\n    <strong>{{ model.selectedBalance.bal_txt_account }}</strong> for period\r\n    {{ model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}\r\n\r\n    <div>\r\n      <div>\r\n        Average Balance:\r\n        {{\r\n          viewData.averageBalanceInfo.averageBalance\r\n            | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n        <span\r\n          *ngIf=\"\r\n            viewData.averageBalanceInfo.averageBalance >=\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n          \"\r\n        >\r\n          &gt;=\r\n          {{\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n              | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n          }}\r\n        </span>\r\n        <span\r\n          *ngIf=\"\r\n            viewData.averageBalanceInfo.averageBalance <\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n          \"\r\n        >\r\n          &lt;\r\n          {{\r\n            viewData.averageBalanceInfo.averageMinBalance\r\n              | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n          }}\r\n        </span>\r\n      </div>\r\n      <div>\r\n        Date Range:\r\n        {{ viewData.averageBalanceInfo.startingDate | date: \"yyyy-MM-dd\" }}\r\n        -\r\n        {{ viewData.averageBalanceInfo.finalDate | date: \"yyyy-MM-dd\" }}\r\n      </div>\r\n      <button (click)=\"toggleDailyBalance()\">\r\n        {{ viewData.showDailyBalance ? \"Hide\" : \"Show\" }} daily balance\r\n      </button>\r\n      <div *ngIf=\"viewData.showDailyBalance\">\r\n        <table>\r\n          <tr>\r\n            <th class=\"padding-all-5 width-80\">Date</th>\r\n            <th class=\"padding-all-5 width-100\">Balance</th>\r\n          </tr>\r\n          <tr\r\n            class=\"movements-listing-row\"\r\n            *ngFor=\"let m of viewData.averageBalanceInfo.dailyBalance\"\r\n          >\r\n            <td class=\"padding-all-5\">{{ m.date | date: \"yyyy-MM-dd\" }}</td>\r\n            <td class=\"padding-all-5 text-align-right\">\r\n              {{ m.balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n            </td>\r\n          </tr>\r\n        </table>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <movement-listing\r\n    [movementList]=\"viewData.movements\"\r\n    [selectedBalance]=\"model.selectedBalance\"\r\n    selectedView=\"compact\"\r\n    *ngIf=\"viewData.movements.length\"\r\n  ></movement-listing>\r\n\r\n  <canvas\r\n    id=\"monthlyExpenseChart\"\r\n    baseChart\r\n    [datasets]=\"viewData.monthlyExpenseChart.chartData\"\r\n    [labels]=\"viewData.monthlyExpenseChart.chartLabels\"\r\n    [options]=\"viewData.monthlyExpenseChart.chartOptions\"\r\n    [legend]=\"viewData.monthlyExpenseChart.chartLegend\"\r\n    [chartType]=\"viewData.monthlyExpenseChart.chartType\"\r\n  >\r\n  </canvas>\r\n\r\n  <canvas\r\n    id=\"monthlyIncomeChart\"\r\n    baseChart\r\n    [datasets]=\"viewData.monthlyIncomeChart.chartData\"\r\n    [labels]=\"viewData.monthlyIncomeChart.chartLabels\"\r\n    [options]=\"viewData.monthlyIncomeChart.chartOptions\"\r\n    [legend]=\"viewData.monthlyIncomeChart.chartLegend\"\r\n    [chartType]=\"viewData.monthlyIncomeChart.chartType\"\r\n  >\r\n  </canvas>\r\n\r\n  <canvas\r\n    id=\"monthlyExpenseVsIncomeChart\"\r\n    baseChart\r\n    [datasets]=\"viewData.monthlyExpenseVsIncomeChart.chartData\"\r\n    [labels]=\"viewData.monthlyExpenseVsIncomeChart.chartLabels\"\r\n    [chartType]=\"viewData.monthlyExpenseVsIncomeChart.chartType\"\r\n  >\r\n  </canvas>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -6094,10 +6140,7 @@ let TasksComponent = class TasksComponent {
             this.state.totalTimeEstimatedClosedToday += parseInt(t.tsk_estimated_duration);
         });
         this.tasks
-            .filter(t => new Date(t.tsk_date_due).getTime() === today0.getTime()
-        //new Date(t.tsk_date_add) >= today0 &&
-        //new Date(t.tsk_date_add) <= today
-        )
+            .filter(t => new Date(t.tsk_date_due).getTime() === today0.getTime())
             .forEach((t) => {
             this.state.totalTimeEstimatedAddedToday += parseInt(t.tsk_estimated_duration);
             if (t.tsk_ctg_status == this.taskStatus.OPEN) {
@@ -6114,9 +6157,7 @@ let TasksComponent = class TasksComponent {
             .filter(t => (new Date(t.tsk_date_done) >= today0 &&
             new Date(t.tsk_date_done) < today &&
             new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
-            //new Date(t.tsk_date_add) < today0) ||
             (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
-                //(new Date(t.tsk_date_add) < today0 &&
                 t.tsk_ctg_status == this.taskStatus.OPEN))
             .forEach((t) => {
             this.state.totalTimeEstimatedOld += parseInt(t.tsk_estimated_duration);
@@ -6124,9 +6165,7 @@ let TasksComponent = class TasksComponent {
         this.state.totalTaskCountOld = this.tasks.filter(t => (new Date(t.tsk_date_done) >= today0 &&
             new Date(t.tsk_date_done) < today &&
             new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
-            //new Date(t.tsk_date_add) < today0) ||
             (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
-                //(new Date(t.tsk_date_add) < today0 &&
                 t.tsk_ctg_status == this.taskStatus.OPEN)).length;
         // Info
         // Total time spent today

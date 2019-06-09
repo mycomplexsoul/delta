@@ -87,7 +87,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
-- [AppMoney][new] Monthly totals on income vs expenses comparison against past months
 - [AppMoney][new] Consume endpoints to finish adding or editing accounts
 - [AppMoney][new] Add places form to edit or add new places
 - [AppMoney][new] Add categories listing/new/update endpoints
@@ -106,6 +105,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Dark theme
 
 <hr/>
+
+## v1.8.78 (2019-05-17)
+
+- [AppMoney][new] Monthly totals on income vs expenses comparison against past months
 
 ## v1.8.77 (2019-05-16)
 
