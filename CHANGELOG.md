@@ -86,7 +86,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
-- [AppMoney][new] Consume endpoints to finish adding or editing accounts
 - [AppMoney][new] Add places form to edit or add new places
 - [AppMoney][new] Add categories listing/new/update endpoints
 - [AppTasks][new] Clean up Indicators legacy section
@@ -104,6 +103,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][new] Dark theme
 
 <hr/>
+
+## v1.9.8 (2019-05-30)
+
+- [AppMoney][new] Consume endpoints to finish adding or editing accounts
+
+## v1.9.7 (2019-05-29)
+
+- [AppMultimedia][new] Reorganize buttons to add and list episodes below a flag and under Media title
 
 ## v1.9.6 (2019-05-28)
 

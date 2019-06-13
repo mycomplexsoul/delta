@@ -204,12 +204,13 @@ export class MultimediaComponent implements OnInit {
     this.viewData.multimediaList.push(item);
   }
 
-  showNewEpForm(id: string, epId: string, title: string, year: number) {
+  showNewEpForm(item: Multimedia) {
+    item["showOptions"] = false;
     this.viewData.showCreateEpForm = true;
-    this.epModel.id = id;
-    this.epModel.epId = epId;
-    this.epModel.fTitle = title;
-    this.epModel.fYear = year;
+    this.epModel.id = item.mma_id;
+    this.epModel.epId = item.mma_current_ep;
+    this.epModel.fTitle = item.mma_title;
+    this.epModel.fYear = item.mma_year;
     this.epModel.fDateViewed = DateUtils.dateToStringDate(new Date());
     this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(new Date());
     this.epModel.fRating = 3;
@@ -219,7 +220,9 @@ export class MultimediaComponent implements OnInit {
     // see if we have data for this ep in order to populate form
     const detFound = this.services.multimediaDetService
       .list()
-      .find(item => item.mmd_id === id && item.mmd_id_ep === epId);
+      .find(
+        e => e.mmd_id === item.mma_id && e.mmd_id_ep === item.mma_current_ep
+      );
     if (detFound) {
       this.epModel.fEpTitle = detFound.mmd_ep_title;
       this.epModel.fAltEpTitle = detFound.mmd_ep_alt_title;
@@ -229,7 +232,9 @@ export class MultimediaComponent implements OnInit {
 
     const viewFound = this.services.multimediaViewService
       .list()
-      .find(item => item.mmv_id === id && item.mmv_id_ep === epId);
+      .find(
+        e => e.mmv_id === item.mma_id && e.mmv_id_ep === item.mma_current_ep
+      );
     if (viewFound) {
       this.epModel.isViewed = true;
       this.epModel.fSummary = viewFound.mmv_ep_summary;
@@ -248,7 +253,7 @@ export class MultimediaComponent implements OnInit {
     if (this.epModel.fYear === 0) {
       const previousEpisodes = this.services.multimediaDetService
         .list()
-        .filter(item => item.mmd_id === id)
+        .filter(e => e.mmd_id === item.mma_id)
         .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
       if (previousEpisodes.length > 0) {
         const previousEp: MultimediaDet = previousEpisodes[0];
@@ -260,11 +265,11 @@ export class MultimediaComponent implements OnInit {
     }
 
     // set our guess on the next ep id so the user can verify or change it
-    this.epModel.fNextEpId = this.calculateNextEp(epId);
+    this.epModel.fNextEpId = this.calculateNextEp(item.mma_current_ep);
     // if next ep is beyond last ep, set it as the last ep
     const numericNextEpId: number = Number.parseFloat(this.epModel.fNextEpId);
     const numericLastEpId: number = Number.parseFloat(
-      this.services.multimediaService.list().find(item => item.mma_id === id)
+      this.services.multimediaService.list().find(e => e.mma_id === item.mma_id)
         .mma_total_ep
     );
     if (numericLastEpId !== 0 && numericNextEpId > numericLastEpId) {

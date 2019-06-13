@@ -447,6 +447,9 @@ input[type="radio"] {
   color: gray;
 }
 
+.general-badge-new,
+.general-badge-edited,
+.general-badge-archived,
 .movement-badge-new,
 .movement-badge-edited,
 .lasttime-badge-archived,

@@ -109,6 +109,13 @@
     <td class="padding-left-5 padding-right-5 text-align-right">{{ i + 1 }}</td>
     <td class="padding-left-5 padding-right-5">
       <span
+        (click)="item.showOptions = !item.showOptions"
+        tabindex="0"
+        (keydown.enter)="item.showOptions = !item.showOptions"
+      >
+        {{ item.showOptions ? "-" : "+" }}
+      </span>
+      <span
         [ngClass]="{
           'multimedia-movies': item.mma_ctg_media_type === 1,
           'multimedia-tvseries': item.mma_ctg_media_type === 2,
@@ -125,6 +132,23 @@
         </a>
         <span *ngIf="!item.mma_url">[{{ item.mma_year }}]</span>
       </span>
+      <br />
+      <span *ngIf="item.showOptions">
+        <button
+          type="button"
+          (click)="showNewEpForm(item)"
+          *ngIf="item.mma_ctg_status === 1"
+        >
+          add episode
+        </button>
+        <button
+          type="button"
+          (click)="showDetListing(item.mma_id)"
+          *ngIf="item.mma_ctg_status === 1"
+        >
+          list episodes
+        </button>
+      </span>
     </td>
     <td class="padding-left-5 padding-right-5 text-align-right">
       <span *ngIf="item.mma_total_ep !== '0'">
@@ -133,27 +157,6 @@
       <span *ngIf="item.mma_total_ep === '0'">
         {{ item.mma_current_ep }}
       </span>
-      <button
-        type="button"
-        (click)="
-          showNewEpForm(
-            item.mma_id,
-            item.mma_current_ep,
-            item.mma_title,
-            item.mma_year
-          )
-        "
-        *ngIf="item.mma_ctg_status === 1"
-      >
-        +
-      </button>
-      <button
-        type="button"
-        (click)="showDetListing(item.mma_id)"
-        *ngIf="item.mma_ctg_status === 1"
-      >
-        *
-      </button>
     </td>
     <td
       class="padding-left-5 padding-right-5 width-80"

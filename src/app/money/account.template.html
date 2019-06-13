@@ -106,12 +106,16 @@
         />
       </span>
 
-      <button type="submit">Save</button>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
   </form>
 
   <div class="card-list">
-    <div *ngFor="let item of viewData.accountList" class="card-item-container">
+    <div
+      *ngFor="let item of viewData.accountList"
+      class="card-item-container"
+      (click)="setModelDetails(item.acc_id, itemForm)"
+    >
       <span class="account-name">{{ item.acc_name }}</span>
       <br />
       <span class="account-type">{{ item.acc_txt_type }}</span>
@@ -133,8 +137,8 @@
       <br />
       <span>Status: {{ item.acc_txt_status }}</span>
 
-      <span class="account-badge-new" *ngIf="item.isNew">new</span>
-      <span class="account-badge-edited" *ngIf="item.isEdited">edited</span>
+      <span class="general-badge-new" *ngIf="item.isNew">new</span>
+      <span class="general-badge-edited" *ngIf="item.isEdited">edited</span>
       <br />
       <!--
           <span *ngIf="item.showOptions">
