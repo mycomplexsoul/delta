@@ -223,6 +223,9 @@
           [(ngModel)]="epModel.fEpTitle"
           (blur)="splitEpInfo(epModel.fEpTitle)"
         />
+        <span *ngIf="epModel.fEpTitle">
+          {{ epModel.fEpTitle.length }} / 500 characters
+        </span>
       </span>
       <span class="field">
         <label for="fAltEpTitle" class="label-left">Alternative Title</label>
@@ -233,6 +236,9 @@
           class="field-input multimedia-input-alteptitle"
           [(ngModel)]="epModel.fAltEpTitle"
         />
+        <span *ngIf="epModel.fAltEpTitle">
+          {{ epModel.fAltEpTitle.length }} / 500 characters
+        </span>
       </span>
       <span class="field">
         <label for="fYear" class="label-left">Year</label>
@@ -269,13 +275,12 @@
       <span *ngIf="epModel.isViewed">
         <span class="field">
           <label for="fSummary" class="label-left">Summary</label>
-          <input
-            type="text"
+          <textarea
             name="fSummary"
             id="fSummary"
             class="field-input multimedia-input-summary"
             [(ngModel)]="epModel.fSummary"
-          />
+          ></textarea>
           <span *ngIf="epModel.fSummary">
             {{ epModel.fSummary.length }} / 4000 characters
           </span>

@@ -921,6 +921,48 @@ module.exports = "<button (click)=\"toggleView()\" title=\"Click to add an item 
 
 /***/ }),
 
+/***/ "./src/app/common/common.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/common/common.component.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class CommonComponent {
+    newItem({ form, listing, onFindExpression, onAssignForCreate, onNewItemService, onFinalExecution }) {
+        const formValues = form.value;
+        // new item
+        const item = onAssignForCreate(formValues);
+        onNewItemService(item).then(item => {
+            const listItem = listing.find(onFindExpression);
+            listItem["isNew"] = true;
+        });
+        onFinalExecution(item);
+    }
+    updateItem({ form, model, listing, onFindExpression, onAssignForEdit, onUpdateItemService, onFinalExecution }) {
+        const formValues = form.value;
+        // edit
+        const existingIndex = listing.findIndex(onFindExpression);
+        const item = listing[existingIndex];
+        const edited = onAssignForEdit(item, formValues);
+        onUpdateItemService(edited);
+        edited["isEdited"] = true; // flag to render as edited on UI
+        listing[existingIndex] = edited;
+        onFinalExecution(edited);
+    }
+    resetForm(form, onReset) {
+        onReset(form);
+        form.reset();
+    }
+}
+exports.CommonComponent = CommonComponent;
+
+
+/***/ }),
+
 /***/ "./src/app/common/date.common.ts":
 /*!***************************************!*\
   !*** ./src/app/common/date.common.ts ***!
@@ -1058,7 +1100,7 @@ let ErrorInterceptor = class ErrorInterceptor {
     }
     intercept(request, next) {
         return next.handle(request).pipe(operators_1.catchError(err => {
-            if (err.status === 401) {
+            if (err.status === 401 && window.location.pathname !== "/login") {
                 // auto logout if 401 response returned from api
                 this.authenticationService.logout();
                 location.reload(true);
@@ -2799,7 +2841,7 @@ exports.AccountService = AccountService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div>\r\n    <a routerLink=\"places\" href=\"../places\">Places</a>\r\n    <a routerLink=\"presets\" href=\"../presets\">Presets</a>\r\n  </div>\r\n\r\n  <strong>Account List</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newAccountFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fType\" class=\"label-left\">Type</label>\r\n        <select\r\n          name=\"fType\"\r\n          id=\"fType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.typeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === itemForm.value.fType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fComment\" class=\"label-left\">Comment</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fComment\"\r\n          id=\"fComment\"\r\n          class=\"field-input field-input-large\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fCheckDay\" class=\"label-left\">Check Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fCheckDay\"\r\n          id=\"fCheckDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fAverageMinBalance\" class=\"label-left\"\r\n          >Average Min Balance</label\r\n        >\r\n        <input\r\n          type=\"number\"\r\n          name=\"fAverageMinBalance\"\r\n          id=\"fAverageMinBalance\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fPaymentDay\" class=\"label-left\">Payment Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fPaymentDay\"\r\n          id=\"fPaymentDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.accountList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.acc_id, itemForm)\"\r\n    >\r\n      <span class=\"account-name\">{{ item.acc_name }}</span>\r\n      <br />\r\n      <span class=\"account-type\">{{ item.acc_txt_type }}</span>\r\n      <br />\r\n      <span> Check day: {{ item.acc_check_day }} </span>\r\n      <span *ngIf=\"item.acc_comment\"> | Comment: {{ item.acc_comment }}</span>\r\n      <!--<span (click)=\"item.showOptions = !item.showOptions\">\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>-->\r\n      <br />\r\n      <span *ngIf=\"item.acc_average_min_balance != 0\">\r\n        Average min balance:\r\n        {{\r\n          item.acc_average_min_balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n      </span>\r\n      <br />\r\n      <span>Payment day: {{ item.acc_payment_day }}</span>\r\n      <br />\r\n      <span>Status: {{ item.acc_txt_status }}</span>\r\n\r\n      <span class=\"general-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"general-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <br />\r\n      <!--\r\n          <span *ngIf=\"item.showOptions\">\r\n            <button (click)=\"archiveRecord(item)\">archive</button>\r\n            <button (click)=\"editNotes(item)\">edit notes</button>\r\n            <button (click)=\"viewHistory(item)\">view history</button>\r\n        </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <div>\r\n    <a routerLink=\"places\" href=\"../places\">Places</a>\r\n    <a routerLink=\"presets\" href=\"../presets\">Presets</a>\r\n  </div>\r\n\r\n  <strong>Accounts</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newAccountFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fType\" class=\"label-left\">Type</label>\r\n        <select\r\n          name=\"fType\"\r\n          id=\"fType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.typeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === itemForm.value.fType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fComment\" class=\"label-left\">Comment</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fComment\"\r\n          id=\"fComment\"\r\n          class=\"field-input field-input-large\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fCheckDay\" class=\"label-left\">Check Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fCheckDay\"\r\n          id=\"fCheckDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fAverageMinBalance\" class=\"label-left\"\r\n          >Average Min Balance</label\r\n        >\r\n        <input\r\n          type=\"number\"\r\n          name=\"fAverageMinBalance\"\r\n          id=\"fAverageMinBalance\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fPaymentDay\" class=\"label-left\">Payment Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fPaymentDay\"\r\n          id=\"fPaymentDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.accountList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.acc_id, itemForm)\"\r\n    >\r\n      <span class=\"account-name\">{{ item.acc_name }}</span>\r\n      <br />\r\n      <span class=\"account-type\">{{ item.acc_txt_type }}</span>\r\n      <br />\r\n      <span> Check day: {{ item.acc_check_day }} </span>\r\n      <span *ngIf=\"item.acc_comment\"> | Comment: {{ item.acc_comment }}</span>\r\n      <!--<span (click)=\"item.showOptions = !item.showOptions\">\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>-->\r\n      <br />\r\n      <span *ngIf=\"item.acc_average_min_balance != 0\">\r\n        Average min balance:\r\n        {{\r\n          item.acc_average_min_balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n      </span>\r\n      <br />\r\n      <span>Payment day: {{ item.acc_payment_day }}</span>\r\n      <br />\r\n      <span>Status: {{ item.acc_txt_status }}</span>\r\n\r\n      <span class=\"general-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"general-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <br />\r\n      <!--\r\n          <span *ngIf=\"item.showOptions\">\r\n            <button (click)=\"archiveRecord(item)\">archive</button>\r\n            <button (click)=\"editNotes(item)\">edit notes</button>\r\n            <button (click)=\"viewHistory(item)\">view history</button>\r\n        </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -3079,7 +3121,7 @@ let BalanceComponent = class BalanceComponent {
     monthlyIncomeVsExpense() {
         this.parseIterable();
         const capitalAccountId = "1";
-        const itemCount = 24;
+        const itemCount = 12;
         const monthList = this.viewData.monthList
             .filter((m, index) => index < itemCount)
             .reverse();
@@ -3724,6 +3766,7 @@ const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ 
 //import { CurrencyPipe } from '@angular/common';
 // types
 const Movement_1 = __webpack_require__(/*! ../../crosscommon/entities/Movement */ "./src/crosscommon/entities/Movement.ts");
+const Place_1 = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
 const Entry_1 = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
 const Preset_1 = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
 const account_service_1 = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
@@ -4139,7 +4182,9 @@ let MovementComponent = class MovementComponent {
         });
     }
     addNewPlaceForUser(place) {
-        this.services.place.newItem(place, this.user).then((item) => {
+        this.services.place
+            .newItem(new Place_1.Place({ mpl_name: place }))
+            .then((item) => {
             this.viewData.places = this.services.place.list();
             this.model.place = item.mpl_id;
         });
@@ -4211,7 +4256,7 @@ let MovementComponent = class MovementComponent {
                 this.services.category.newItem(values[5], this.user);
             }
             if (!this.findIn(this.services.place.list(), (e) => e.mpl_name === values[6], "mpl_id")) {
-                this.services.place.newItem(values[6], this.user);
+                this.services.place.newItem(new Place_1.Place({ mpl_name: values[6] }));
             }
         });
         this.viewData.categories = this.services.category.list();
@@ -4725,23 +4770,87 @@ module.exports = "<div>\r\n  Use View\r\n  <select [(ngModel)]=\"selectedView\">
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const Place_1 = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
 const place_service_1 = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
+const common_component_1 = __webpack_require__(/*! ../common/common.component */ "./src/app/common/common.component.ts");
 let PlaceComponent = class PlaceComponent {
     constructor(placeService) {
         this.viewData = {
-            placeList: []
+            placeList: [],
+            showItemForm: false
         };
         this.services = {
             placeService: null
         };
+        this.model = {
+            id: null
+        };
+        this.common = null;
         this.services.placeService = placeService;
+        this.common = new common_component_1.CommonComponent();
     }
     ngOnInit() {
         this.services.placeService.getAll().then(list => {
             this.viewData.placeList = list;
         });
     }
-    showNewPlaceForm() { }
+    newItem(form) {
+        if (this.model.id) {
+            // edit item
+            this.common.updateItem({
+                form,
+                model: this.model,
+                listing: this.viewData.placeList,
+                onFindExpression: item => item.mpl_id === this.model.id,
+                onAssignForEdit: (item, formValues) => {
+                    const newItem = new Place_1.Place(item);
+                    newItem.mpl_name = formValues.fName;
+                    return newItem;
+                },
+                onUpdateItemService: item => this.services.placeService.updateItem(item),
+                onFinalExecution: () => {
+                    this.model.id = null;
+                }
+            });
+        }
+        else {
+            // new item
+            this.common.newItem({
+                form,
+                listing: this.viewData.placeList,
+                onFindExpression: item => item.mpl_id === this.model.id,
+                onAssignForCreate: formValues => {
+                    const newItem = new Place_1.Place({
+                        mpl_name: formValues.fName
+                    });
+                    return newItem;
+                },
+                onNewItemService: item => this.services.placeService.newItem(item),
+                onFinalExecution: () => {
+                    this.viewData.showItemForm = false;
+                }
+            });
+        }
+        this.common.resetForm(form, () => {
+            this.model.id = null;
+        });
+        this.viewData.showItemForm = false;
+    }
+    resetForm(form) {
+        this.model.id = null;
+        form.reset();
+    }
+    setModelDetails(id, form) {
+        let model;
+        if (!this.viewData.showItemForm) {
+            this.viewData.showItemForm = !this.viewData.showItemForm;
+        }
+        model = this.viewData.placeList.find(e => e.mpl_id === id);
+        this.model.id = model["mpl_id"]; // to tell the form that this is an edition
+        setTimeout(() => {
+            form.controls["fName"].setValue(model["mpl_name"]);
+        }, 0);
+    }
 };
 PlaceComponent = tslib_1.__decorate([
     core_1.Component({
@@ -4772,17 +4881,21 @@ const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+const authentication_service_1 = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
 let PlaceService = class PlaceService {
-    constructor(storage, sync) {
+    constructor(authenticationService, storage, sync) {
+        this.authenticationService = authenticationService;
         this.data = [];
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'places',
-            defaultUser: 'anon',
+            storageKey: "places",
+            defaultUser: "anon",
             api: {
-                list: '/api/places',
-                create: '/api/places'
+                list: "/api/places",
+                create: "/api/places",
+                update: "/api/places/:id"
             }
         };
         this.storage = storage;
@@ -4791,33 +4904,19 @@ let PlaceService = class PlaceService {
     list() {
         return this.data;
     }
-    initialData() {
-        let list;
-        let newData = (mpl_id, mpl_name) => {
-            return { mpl_id, mpl_name };
-        };
-        let data = [];
-        data.push(newData('1', 'Walmart'));
-        data.push(newData('2', 'Vips'));
-        data.push(newData('3', 'Sams Club'));
-        data.push(newData('4', 'Cinepolis'));
-        data.push(newData('5', 'The Home Depot'));
-        list = data.map((d) => {
-            d.mpl_id_user = this.config.defaultUser;
-            return new Place_1.Place(d);
-        });
-        return list;
-    }
     getAll() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const sort = ((a, b) => {
+            const sort = (a, b) => {
                 return a.mpl_name > b.mpl_name ? 1 : -1;
-            });
-            return this.sync.get(`${this.config.api.list}`).then(data => {
+            };
+            return this.sync
+                .get(`${this.config.api.list}`)
+                .then(data => {
                 this.data = data.map((d) => new Place_1.Place(d));
                 this.data = this.data.sort(sort);
                 return this.data;
-            }).catch(err => {
+            })
+                .catch(err => {
                 return [];
             });
         });
@@ -4834,41 +4933,73 @@ let PlaceService = class PlaceService {
     }
     newId() {
         const m = new Place_1.Place();
-        const length = m.metadata.fields.find(f => f.dbName === 'mpl_id').size;
+        const length = m.metadata.fields.find(f => f.dbName === "mpl_id")
+            .size;
         return Utility_1.Utils.hashId(m.metadata.prefix, length);
     }
-    newItem(place, user) {
-        let newId = this.newId();
-        let newItem = new Place_1.Place({
+    getUser() {
+        const currentUser = this.authenticationService.currentUserValue;
+        return currentUser ? currentUser.username : null;
+    }
+    newItem(baseItem) {
+        const newId = Utility_1.Utils.hashIdForEntity(new Place_1.Place(), "mpl_id");
+        const newItem = new Place_1.Place({
             mpl_id: newId,
-            mpl_name: place,
-            mpl_id_user: user,
-            mpl_date_add: new Date(),
-            mpl_date_mod: new Date(),
+            mpl_name: baseItem.mpl_name,
+            mpl_id_user: this.getUser(),
+            mpl_date_add: DateUtility_1.DateUtils.newDateUpToSeconds(),
+            mpl_date_mod: DateUtility_1.DateUtils.newDateUpToSeconds(),
             mpl_ctg_status: 1
         });
-        //this.data.push(newItem);
-        //this.saveToStorage();
-        return this.sync.post(this.config.api.create, newItem).then(response => {
+        return this.sync
+            .post(this.config.api.create, newItem)
+            .then(response => {
             if (response.processOk) {
                 this.data.push(newItem);
             }
             else {
-                newItem['sync'] = false;
+                newItem["sync"] = false;
                 this.data.push(newItem);
             }
             return newItem;
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            newItem['sync'] = false;
+            newItem["sync"] = false;
             this.data.push(newItem);
             return newItem;
+        });
+    }
+    updateItem(item) {
+        const updateLocal = () => {
+            const index = this.data.findIndex(e => e.mpl_id === item.mpl_id);
+            if (index !== -1) {
+                this.data[index] = item;
+            }
+        };
+        return this.sync
+            .post(this.config.api.update.replace(":id", item.mpl_id), Utility_1.Utils.entityToRawTableFields(item))
+            .then(response => {
+            if (!response.operationOk) {
+                item["sync"] = false;
+            }
+            updateLocal();
+            return item;
+        })
+            .catch(err => {
+            // Append it to the listing but flag it as non-synced yet
+            console.log("error on update", err);
+            item["sync"] = false;
+            updateLocal();
+            return item;
         });
     }
 };
 PlaceService = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [authentication_service_1.AuthenticationService,
+        storage_service_1.StorageService,
+        sync_api_1.SyncAPI])
 ], PlaceService);
 exports.PlaceService = PlaceService;
 
@@ -4882,7 +5013,7 @@ exports.PlaceService = PlaceService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <strong>Places</strong>\r\n  <button (click)=\"showNewPlaceForm()\">New Place</button>\r\n\r\n  <div id=\"newPlaceFormSection\" hidden>\r\n    <form name=\"placeForm\">\r\n      <label for=\"placeName\">Place Name</label>\r\n      <input type=\"text\" name=\"placeName\" />\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"card-list\">\r\n    <div *ngFor=\"let item of viewData.placeList\" class=\"card-item-container\">\r\n      <span class=\"place-name\">{{ item.mpl_name }}</span>\r\n      <br />\r\n      <span>Status: {{ item.mpl_txt_status }}</span>\r\n\r\n      <span class=\"place-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"place-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n            <span *ngIf=\"item.showOptions\">\r\n              <button (click)=\"archiveRecord(item)\">archive</button>\r\n              <button (click)=\"editNotes(item)\">edit notes</button>\r\n              <button (click)=\"viewHistory(item)\">view history</button>\r\n          </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <strong>Places</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.placeList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.mpl_id, itemForm)\"\r\n    >\r\n      <span class=\"place-name\">{{ item.mpl_name }}</span>\r\n      <br />\r\n      <span>Status: {{ item.mpl_txt_status }}</span>\r\n\r\n      <span class=\"place-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"place-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n            <span *ngIf=\"item.showOptions\">\r\n              <button (click)=\"archiveRecord(item)\">archive</button>\r\n              <button (click)=\"editNotes(item)\">edit notes</button>\r\n              <button (click)=\"viewHistory(item)\">view history</button>\r\n          </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -5207,12 +5338,13 @@ let MultimediaComponent = class MultimediaComponent {
         const item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || "anon");
         this.viewData.multimediaList.push(item);
     }
-    showNewEpForm(id, epId, title, year) {
+    showNewEpForm(item) {
+        item["showOptions"] = false;
         this.viewData.showCreateEpForm = true;
-        this.epModel.id = id;
-        this.epModel.epId = epId;
-        this.epModel.fTitle = title;
-        this.epModel.fYear = year;
+        this.epModel.id = item.mma_id;
+        this.epModel.epId = item.mma_current_ep;
+        this.epModel.fTitle = item.mma_title;
+        this.epModel.fYear = item.mma_year;
         this.epModel.fDateViewed = DateUtility_1.DateUtils.dateToStringDate(new Date());
         this.epModel.fTimeViewed = DateUtility_1.DateUtils.timeFromDateAsString(new Date());
         this.epModel.fRating = 3;
@@ -5221,7 +5353,7 @@ let MultimediaComponent = class MultimediaComponent {
         // see if we have data for this ep in order to populate form
         const detFound = this.services.multimediaDetService
             .list()
-            .find(item => item.mmd_id === id && item.mmd_id_ep === epId);
+            .find(e => e.mmd_id === item.mma_id && e.mmd_id_ep === item.mma_current_ep);
         if (detFound) {
             this.epModel.fEpTitle = detFound.mmd_ep_title;
             this.epModel.fAltEpTitle = detFound.mmd_ep_alt_title;
@@ -5230,7 +5362,7 @@ let MultimediaComponent = class MultimediaComponent {
         }
         const viewFound = this.services.multimediaViewService
             .list()
-            .find(item => item.mmv_id === id && item.mmv_id_ep === epId);
+            .find(e => e.mmv_id === item.mma_id && e.mmv_id_ep === item.mma_current_ep);
         if (viewFound) {
             this.epModel.isViewed = true;
             this.epModel.fSummary = viewFound.mmv_ep_summary;
@@ -5244,7 +5376,7 @@ let MultimediaComponent = class MultimediaComponent {
         if (this.epModel.fYear === 0) {
             const previousEpisodes = this.services.multimediaDetService
                 .list()
-                .filter(item => item.mmd_id === id)
+                .filter(e => e.mmd_id === item.mma_id)
                 .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
             if (previousEpisodes.length > 0) {
                 const previousEp = previousEpisodes[0];
@@ -5254,10 +5386,10 @@ let MultimediaComponent = class MultimediaComponent {
             }
         }
         // set our guess on the next ep id so the user can verify or change it
-        this.epModel.fNextEpId = this.calculateNextEp(epId);
+        this.epModel.fNextEpId = this.calculateNextEp(item.mma_current_ep);
         // if next ep is beyond last ep, set it as the last ep
         const numericNextEpId = Number.parseFloat(this.epModel.fNextEpId);
-        const numericLastEpId = Number.parseFloat(this.services.multimediaService.list().find(item => item.mma_id === id)
+        const numericLastEpId = Number.parseFloat(this.services.multimediaService.list().find(e => e.mma_id === item.mma_id)
             .mma_total_ep);
         if (numericLastEpId !== 0 && numericNextEpId > numericLastEpId) {
             this.epModel.fNextEpId = String(numericLastEpId);
@@ -5380,7 +5512,7 @@ let MultimediaComponent = class MultimediaComponent {
         form.resetForm();
     }
     splitEpInfo(info) {
-        if (info.includes("|")) {
+        if (info && info.includes("|")) {
             const splitted = info.split("|");
             this.epModel.fEpTitle = splitted[0];
             this.epModel.fAltEpTitle = splitted[1] || "";
@@ -5422,7 +5554,7 @@ exports.MultimediaComponent = MultimediaComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Multimedia coloring based on age */\r\n.multimedia-old {\r\n  color: red;\r\n}\r\n.multimedia-normal {\r\n  color: black;\r\n}\r\n.multimedia-recent {\r\n  color: blue;\r\n}\r\n.multimedia-today {\r\n  color: blue;\r\n  font-weight: bold;\r\n}\r\n/* Multimedia coloring based on media type */\r\n.multimedia-movies {\r\n  color: violet;\r\n}\r\n.multimedia-tvseries {\r\n  color: brown;\r\n}\r\n.multimedia-anime {\r\n  color: orange;\r\n}\r\n.multimedia-book {\r\n  color: green;\r\n}\r\n.multimedia-manga {\r\n  color: blue;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbXVsdGltZWRpYS9tdWx0aW1lZGlhLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxxQ0FBcUM7QUFDckM7RUFDRSxVQUFVO0FBQ1o7QUFFQTtFQUNFLFlBQVk7QUFDZDtBQUVBO0VBQ0UsV0FBVztBQUNiO0FBRUE7RUFDRSxXQUFXO0VBQ1gsaUJBQWlCO0FBQ25CO0FBRUEsNENBQTRDO0FBQzVDO0VBQ0UsYUFBYTtBQUNmO0FBRUE7RUFDRSxZQUFZO0FBQ2Q7QUFFQTtFQUNFLGFBQWE7QUFDZjtBQUVBO0VBQ0UsWUFBWTtBQUNkO0FBRUE7RUFDRSxXQUFXO0FBQ2IiLCJmaWxlIjoic3JjL2FwcC9tdWx0aW1lZGlhL211bHRpbWVkaWEuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogTXVsdGltZWRpYSBjb2xvcmluZyBiYXNlZCBvbiBhZ2UgKi9cclxuLm11bHRpbWVkaWEtb2xkIHtcclxuICBjb2xvcjogcmVkO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1ub3JtYWwge1xyXG4gIGNvbG9yOiBibGFjaztcclxufVxyXG5cclxuLm11bHRpbWVkaWEtcmVjZW50IHtcclxuICBjb2xvcjogYmx1ZTtcclxufVxyXG5cclxuLm11bHRpbWVkaWEtdG9kYXkge1xyXG4gIGNvbG9yOiBibHVlO1xyXG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG4vKiBNdWx0aW1lZGlhIGNvbG9yaW5nIGJhc2VkIG9uIG1lZGlhIHR5cGUgKi9cclxuLm11bHRpbWVkaWEtbW92aWVzIHtcclxuICBjb2xvcjogdmlvbGV0O1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS10dnNlcmllcyB7XHJcbiAgY29sb3I6IGJyb3duO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1hbmltZSB7XHJcbiAgY29sb3I6IG9yYW5nZTtcclxufVxyXG5cclxuLm11bHRpbWVkaWEtYm9vayB7XHJcbiAgY29sb3I6IGdyZWVuO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1tYW5nYSB7XHJcbiAgY29sb3I6IGJsdWU7XHJcbn1cclxuIl19 */"
+module.exports = "/* Multimedia coloring based on age */\r\n.multimedia-old {\r\n  color: red;\r\n}\r\n.multimedia-normal {\r\n  color: black;\r\n}\r\n.multimedia-recent {\r\n  color: blue;\r\n}\r\n.multimedia-today {\r\n  color: blue;\r\n  font-weight: bold;\r\n}\r\n/* Multimedia coloring based on media type */\r\n.multimedia-movies {\r\n  color: violet;\r\n}\r\n.multimedia-tvseries {\r\n  color: brown;\r\n}\r\n.multimedia-anime {\r\n  color: orange;\r\n}\r\n.multimedia-book {\r\n  color: green;\r\n}\r\n.multimedia-manga {\r\n  color: blue;\r\n}\r\n/* Inputs specifics */\r\n.multimedia-input-summary {\r\n  vertical-align: top;\r\n  width: 100%;\r\n  height: 60px;\r\n}\r\n@media all and (min-width: 505px) {\r\n  .multimedia-input-summary {\r\n    width: 60%;\r\n  }\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbXVsdGltZWRpYS9tdWx0aW1lZGlhLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxxQ0FBcUM7QUFDckM7RUFDRSxVQUFVO0FBQ1o7QUFFQTtFQUNFLFlBQVk7QUFDZDtBQUVBO0VBQ0UsV0FBVztBQUNiO0FBRUE7RUFDRSxXQUFXO0VBQ1gsaUJBQWlCO0FBQ25CO0FBRUEsNENBQTRDO0FBQzVDO0VBQ0UsYUFBYTtBQUNmO0FBRUE7RUFDRSxZQUFZO0FBQ2Q7QUFFQTtFQUNFLGFBQWE7QUFDZjtBQUVBO0VBQ0UsWUFBWTtBQUNkO0FBRUE7RUFDRSxXQUFXO0FBQ2I7QUFFQSxxQkFBcUI7QUFDckI7RUFDRSxtQkFBbUI7RUFDbkIsV0FBVztFQUNYLFlBQVk7QUFDZDtBQUVBO0VBQ0U7SUFDRSxVQUFVO0VBQ1o7QUFDRiIsImZpbGUiOiJzcmMvYXBwL211bHRpbWVkaWEvbXVsdGltZWRpYS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBNdWx0aW1lZGlhIGNvbG9yaW5nIGJhc2VkIG9uIGFnZSAqL1xyXG4ubXVsdGltZWRpYS1vbGQge1xyXG4gIGNvbG9yOiByZWQ7XHJcbn1cclxuXHJcbi5tdWx0aW1lZGlhLW5vcm1hbCB7XHJcbiAgY29sb3I6IGJsYWNrO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1yZWNlbnQge1xyXG4gIGNvbG9yOiBibHVlO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS10b2RheSB7XHJcbiAgY29sb3I6IGJsdWU7XHJcbiAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbn1cclxuXHJcbi8qIE11bHRpbWVkaWEgY29sb3JpbmcgYmFzZWQgb24gbWVkaWEgdHlwZSAqL1xyXG4ubXVsdGltZWRpYS1tb3ZpZXMge1xyXG4gIGNvbG9yOiB2aW9sZXQ7XHJcbn1cclxuXHJcbi5tdWx0aW1lZGlhLXR2c2VyaWVzIHtcclxuICBjb2xvcjogYnJvd247XHJcbn1cclxuXHJcbi5tdWx0aW1lZGlhLWFuaW1lIHtcclxuICBjb2xvcjogb3JhbmdlO1xyXG59XHJcblxyXG4ubXVsdGltZWRpYS1ib29rIHtcclxuICBjb2xvcjogZ3JlZW47XHJcbn1cclxuXHJcbi5tdWx0aW1lZGlhLW1hbmdhIHtcclxuICBjb2xvcjogYmx1ZTtcclxufVxyXG5cclxuLyogSW5wdXRzIHNwZWNpZmljcyAqL1xyXG4ubXVsdGltZWRpYS1pbnB1dC1zdW1tYXJ5IHtcclxuICB2ZXJ0aWNhbC1hbGlnbjogdG9wO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGhlaWdodDogNjBweDtcclxufVxyXG5cclxuQG1lZGlhIGFsbCBhbmQgKG1pbi13aWR0aDogNTA1cHgpIHtcclxuICAubXVsdGltZWRpYS1pbnB1dC1zdW1tYXJ5IHtcclxuICAgIHdpZHRoOiA2MCU7XHJcbiAgfVxyXG59XHJcbiJdfQ== */"
 
 /***/ }),
 
@@ -5554,7 +5686,7 @@ exports.MultimediaService = MultimediaService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"multimedia-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fMediaType\" class=\"label-left\">Media Type</label>\r\n        <select\r\n          name=\"fMediaType\"\r\n          id=\"fMediaType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fMediaType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.mediaTypeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === newForm.value.fMediaType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fSeason\" class=\"label-left\">Season</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fSeason\"\r\n          id=\"fSeason\"\r\n          class=\"field-input multimedia-input-season\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fSeason\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fCurrentEp\" class=\"label-left\">Current Episode</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fCurrentEp\"\r\n          id=\"fCurrentEp\"\r\n          class=\"field-input multimedia-input-currentep\"\r\n          [(ngModel)]=\"model.fCurrentEp\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTotalEp\" class=\"label-left\">Total Episodes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTotalEp\"\r\n          id=\"fTotalEp\"\r\n          class=\"field-input multimedia-input-totalep\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<table>\r\n  <tr>\r\n    <th class=\"padding-left-5 padding-right-5\">#</th>\r\n    <th class=\"padding-left-5 padding-right-5 width-100\">Title</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Episode</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Last Viewed</th>\r\n  </tr>\r\n  <tr\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaList; let i = index\"\r\n  >\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">{{ i + 1 }}</td>\r\n    <td class=\"padding-left-5 padding-right-5\">\r\n      <span\r\n        (click)=\"item.showOptions = !item.showOptions\"\r\n        tabindex=\"0\"\r\n        (keydown.enter)=\"item.showOptions = !item.showOptions\"\r\n      >\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n      </span>\r\n      <span\r\n        [ngClass]=\"{\r\n          'multimedia-movies': item.mma_ctg_media_type === 1,\r\n          'multimedia-tvseries': item.mma_ctg_media_type === 2,\r\n          'multimedia-anime': item.mma_ctg_media_type === 3,\r\n          'multimedia-book': item.mma_ctg_media_type === 4,\r\n          'multimedia-manga': item.mma_ctg_media_type === 5\r\n        }\"\r\n      >\r\n        {{ item.mma_title + \" T\" + item.mma_season }}\r\n      </span>\r\n      <span *ngIf=\"item.mma_year\">\r\n        <a [href]=\"item.mma_url\" target=\"_blank\" *ngIf=\"item.mma_url\">\r\n          [{{ item.mma_year }}]\r\n        </a>\r\n        <span *ngIf=\"!item.mma_url\">[{{ item.mma_year }}]</span>\r\n      </span>\r\n      <br />\r\n      <span *ngIf=\"item.showOptions\">\r\n        <button\r\n          type=\"button\"\r\n          (click)=\"\r\n            showNewEpForm(\r\n              item.mma_id,\r\n              item.mma_current_ep,\r\n              item.mma_title,\r\n              item.mma_year\r\n            )\r\n          \"\r\n          *ngIf=\"item.mma_ctg_status === 1\"\r\n        >\r\n          add episode\r\n        </button>\r\n        <button\r\n          type=\"button\"\r\n          (click)=\"showDetListing(item.mma_id)\"\r\n          *ngIf=\"item.mma_ctg_status === 1\"\r\n        >\r\n          list episodes\r\n        </button>\r\n      </span>\r\n    </td>\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">\r\n      <span *ngIf=\"item.mma_total_ep !== '0'\">\r\n        {{ item.mma_current_ep + \"/\" + item.mma_total_ep }}\r\n      </span>\r\n      <span *ngIf=\"item.mma_total_ep === '0'\">\r\n        {{ item.mma_current_ep }}\r\n      </span>\r\n    </td>\r\n    <td\r\n      class=\"padding-left-5 padding-right-5 width-80\"\r\n      [ngClass]=\"item.ageClassname\"\r\n    >\r\n      {{ item.mma_date_mod | date: \"yyyy-MM-dd\" }}\r\n    </td>\r\n  </tr>\r\n</table>\r\n\r\n<!--\r\n    <table>\r\n        <tr>\r\n            <th class=\"padding-left-5 padding-right-5 width-80\">Episode Id</th>\r\n            <th class=\"padding-left-5 padding-right-5 width-100\">Episode Title</th>\r\n    \r\n            <th class=\"padding-left-5 padding-right-5\">Date Viewed</th>\r\n            <th class=\"padding-left-5 padding-right-5\">Rating</th>\r\n            <th class=\"padding-left-5 padding-right-5\">Notes</th>\r\n        </tr>\r\n        <tr class=\"multimedia-listing-row\" *ngFor=\"let item of viewData.multimediaList; let i = index\">\r\n            <td class=\"padding-left-5 padding-right-5 text-align-right\">{{i + 1}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_title + ' T' + item.mma_season}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>\r\n        </tr>\r\n    </table>\r\n-->\r\n\r\n<form #newEpForm=\"ngForm\" (ngSubmit)=\"newEpItem(newEpForm)\">\r\n  <div *ngIf=\"viewData.showCreateEpForm\">\r\n    <button type=\"button\" (click)=\"hideNewEpForm()\">\r\n      Hide Ep Form\r\n    </button>\r\n    <div>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          disabled\r\n          [(ngModel)]=\"epModel.fTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpId\"\r\n          id=\"fEpId\"\r\n          class=\"field-input multimedia-input-id\"\r\n          [(ngModel)]=\"epModel.epId\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fEpTitle\" class=\"label-left\">Episode Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpTitle\"\r\n          id=\"fEpTitle\"\r\n          class=\"field-input multimedia-input-eptitle\"\r\n          [(ngModel)]=\"epModel.fEpTitle\"\r\n          (blur)=\"splitEpInfo(epModel.fEpTitle)\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fAltEpTitle\" class=\"label-left\">Alternative Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fAltEpTitle\"\r\n          id=\"fAltEpTitle\"\r\n          class=\"field-input multimedia-input-alteptitle\"\r\n          [(ngModel)]=\"epModel.fAltEpTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"epModel.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          [(ngModel)]=\"epModel.fUrl\"\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <hr />\r\n        <label for=\"fIsViewed\" class=\"label-left\">Viewed</label>\r\n        <input\r\n          type=\"checkbox\"\r\n          name=\"fIsViewed\"\r\n          id=\"fIsViewed\"\r\n          [(ngModel)]=\"epModel.isViewed\"\r\n        />\r\n      </span>\r\n      <span *ngIf=\"epModel.isViewed\">\r\n        <span class=\"field\">\r\n          <label for=\"fSummary\" class=\"label-left\">Summary</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fSummary\"\r\n            id=\"fSummary\"\r\n            class=\"field-input multimedia-input-summary\"\r\n            [(ngModel)]=\"epModel.fSummary\"\r\n          />\r\n          <span *ngIf=\"epModel.fSummary\">\r\n            {{ epModel.fSummary.length }} / 4000 characters\r\n          </span>\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fDateViewed\" class=\"label-left\">Date Viewed</label>\r\n          <input\r\n            type=\"date\"\r\n            name=\"fDateViewed\"\r\n            [(ngModel)]=\"epModel.fDateViewed\"\r\n          />\r\n          <input\r\n            type=\"time\"\r\n            name=\"fTimeViewed\"\r\n            [(ngModel)]=\"epModel.fTimeViewed\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fRating\" class=\"label-left\">Rating</label>\r\n          <input\r\n            type=\"number\"\r\n            name=\"fRating\"\r\n            id=\"fRating\"\r\n            class=\"field-input multimedia-input-rating\"\r\n            step=\"1\"\r\n            [(ngModel)]=\"epModel.fRating\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fPlatform\" class=\"label-left\">Platform</label>\r\n          <select\r\n            name=\"fPlatform\"\r\n            id=\"fPlatform\"\r\n            class=\"field-select\"\r\n            [(ngModel)]=\"epModel.fPlatform\"\r\n          >\r\n            <option\r\n              *ngFor=\"let opt of viewData.platformList\"\r\n              [value]=\"opt.ctg_sequential\"\r\n              [selected]=\"opt.ctg_sequential === newEpForm.value.fPlatform\"\r\n              >{{ opt.ctg_name }}</option\r\n            >\r\n          </select>\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNotes\"\r\n            id=\"fNotes\"\r\n            class=\"field-input multimedia-input-notes\"\r\n            [(ngModel)]=\"epModel.fNotes\"\r\n          />\r\n          <span *ngIf=\"epModel.fNotes\">\r\n            {{ epModel.fNotes.length }} / 500 characters\r\n          </span>\r\n        </span>\r\n\r\n        <span class=\"field\" *ngIf=\"newEpForm.value.fEpId !== epModel.fNextEpId\">\r\n          <hr />\r\n          <label for=\"fNextEpId\" class=\"label-left\">Next Episode Id</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNextEpId\"\r\n            id=\"fNextEpId\"\r\n            class=\"field-input multimedia-input-nextepid\"\r\n            [(ngModel)]=\"epModel.fNextEpId\"\r\n          />\r\n        </span>\r\n        <span class=\"field\" *ngIf=\"newEpForm.value.fEpId === epModel.fNextEpId\">\r\n          This is the last episode :-D\r\n        </span>\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<button (click)=\"showDetListing()\" *ngIf=\"viewData.showDetList\">\r\n  Remove filter\r\n</button>\r\n<span *ngIf=\"viewData.showDetList\"\r\n  >Listing for media: {{ viewData.detListTitle }}</span\r\n>\r\n<div *ngIf=\"viewData.multimediaDetList\">\r\n  <div>\r\n    Title | Ep Title | Year - link\r\n  </div>\r\n  <div\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaDetList; let i = index\"\r\n  >\r\n    <span class=\"padding-left-5 padding-right-5 width-80\">\r\n      {{ item.mmd_date_mod | date: \"yyyy-MM-dd\" }}\r\n    </span>\r\n    <span class=\"padding-left-5 padding-right-5\">\r\n      <span>\r\n        {{\r\n          !viewData.showDetList && item.mmd_txt_title\r\n            ? item.mmd_txt_title +\r\n              \" | \" +\r\n              item.mmd_id_ep +\r\n              \" - \" +\r\n              item.mmd_ep_title\r\n            : item.mmd_id_ep + \" - \" + item.mmd_ep_title\r\n        }}\r\n      </span>\r\n      <span *ngIf=\"item.mmd_year\">\r\n        <a [href]=\"item.mmd_url\" target=\"_blank\" *ngIf=\"item.mmd_url\">\r\n          [{{ item.mmd_year }}]\r\n        </a>\r\n        <span *ngIf=\"!item.mmd_url\">[{{ item.mmd_year }}]</span>\r\n      </span>\r\n    </span>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"multimedia-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fMediaType\" class=\"label-left\">Media Type</label>\r\n        <select\r\n          name=\"fMediaType\"\r\n          id=\"fMediaType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fMediaType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.mediaTypeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === newForm.value.fMediaType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fSeason\" class=\"label-left\">Season</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fSeason\"\r\n          id=\"fSeason\"\r\n          class=\"field-input multimedia-input-season\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fSeason\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"model.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fCurrentEp\" class=\"label-left\">Current Episode</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fCurrentEp\"\r\n          id=\"fCurrentEp\"\r\n          class=\"field-input multimedia-input-currentep\"\r\n          [(ngModel)]=\"model.fCurrentEp\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTotalEp\" class=\"label-left\">Total Episodes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTotalEp\"\r\n          id=\"fTotalEp\"\r\n          class=\"field-input multimedia-input-totalep\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<table>\r\n  <tr>\r\n    <th class=\"padding-left-5 padding-right-5\">#</th>\r\n    <th class=\"padding-left-5 padding-right-5 width-100\">Title</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Episode</th>\r\n    <th class=\"padding-left-5 padding-right-5\">Last Viewed</th>\r\n  </tr>\r\n  <tr\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaList; let i = index\"\r\n  >\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">{{ i + 1 }}</td>\r\n    <td class=\"padding-left-5 padding-right-5\">\r\n      <span\r\n        (click)=\"item.showOptions = !item.showOptions\"\r\n        tabindex=\"0\"\r\n        (keydown.enter)=\"item.showOptions = !item.showOptions\"\r\n      >\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n      </span>\r\n      <span\r\n        [ngClass]=\"{\r\n          'multimedia-movies': item.mma_ctg_media_type === 1,\r\n          'multimedia-tvseries': item.mma_ctg_media_type === 2,\r\n          'multimedia-anime': item.mma_ctg_media_type === 3,\r\n          'multimedia-book': item.mma_ctg_media_type === 4,\r\n          'multimedia-manga': item.mma_ctg_media_type === 5\r\n        }\"\r\n      >\r\n        {{ item.mma_title + \" T\" + item.mma_season }}\r\n      </span>\r\n      <span *ngIf=\"item.mma_year\">\r\n        <a [href]=\"item.mma_url\" target=\"_blank\" *ngIf=\"item.mma_url\">\r\n          [{{ item.mma_year }}]\r\n        </a>\r\n        <span *ngIf=\"!item.mma_url\">[{{ item.mma_year }}]</span>\r\n      </span>\r\n      <br />\r\n      <span *ngIf=\"item.showOptions\">\r\n        <button\r\n          type=\"button\"\r\n          (click)=\"showNewEpForm(item)\"\r\n          *ngIf=\"item.mma_ctg_status === 1\"\r\n        >\r\n          add episode\r\n        </button>\r\n        <button\r\n          type=\"button\"\r\n          (click)=\"showDetListing(item.mma_id)\"\r\n          *ngIf=\"item.mma_ctg_status === 1\"\r\n        >\r\n          list episodes\r\n        </button>\r\n      </span>\r\n    </td>\r\n    <td class=\"padding-left-5 padding-right-5 text-align-right\">\r\n      <span *ngIf=\"item.mma_total_ep !== '0'\">\r\n        {{ item.mma_current_ep + \"/\" + item.mma_total_ep }}\r\n      </span>\r\n      <span *ngIf=\"item.mma_total_ep === '0'\">\r\n        {{ item.mma_current_ep }}\r\n      </span>\r\n    </td>\r\n    <td\r\n      class=\"padding-left-5 padding-right-5 width-80\"\r\n      [ngClass]=\"item.ageClassname\"\r\n    >\r\n      {{ item.mma_date_mod | date: \"yyyy-MM-dd\" }}\r\n    </td>\r\n  </tr>\r\n</table>\r\n\r\n<!--\r\n    <table>\r\n        <tr>\r\n            <th class=\"padding-left-5 padding-right-5 width-80\">Episode Id</th>\r\n            <th class=\"padding-left-5 padding-right-5 width-100\">Episode Title</th>\r\n    \r\n            <th class=\"padding-left-5 padding-right-5\">Date Viewed</th>\r\n            <th class=\"padding-left-5 padding-right-5\">Rating</th>\r\n            <th class=\"padding-left-5 padding-right-5\">Notes</th>\r\n        </tr>\r\n        <tr class=\"multimedia-listing-row\" *ngFor=\"let item of viewData.multimediaList; let i = index\">\r\n            <td class=\"padding-left-5 padding-right-5 text-align-right\">{{i + 1}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_title + ' T' + item.mma_season}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>\r\n            <td class=\"padding-left-5 padding-right-5\">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>\r\n        </tr>\r\n    </table>\r\n-->\r\n\r\n<form #newEpForm=\"ngForm\" (ngSubmit)=\"newEpItem(newEpForm)\">\r\n  <div *ngIf=\"viewData.showCreateEpForm\">\r\n    <button type=\"button\" (click)=\"hideNewEpForm()\">\r\n      Hide Ep Form\r\n    </button>\r\n    <div>\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input multimedia-input-title\"\r\n          disabled\r\n          [(ngModel)]=\"epModel.fTitle\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpId\"\r\n          id=\"fEpId\"\r\n          class=\"field-input multimedia-input-id\"\r\n          [(ngModel)]=\"epModel.epId\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fEpTitle\" class=\"label-left\">Episode Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fEpTitle\"\r\n          id=\"fEpTitle\"\r\n          class=\"field-input multimedia-input-eptitle\"\r\n          [(ngModel)]=\"epModel.fEpTitle\"\r\n          (blur)=\"splitEpInfo(epModel.fEpTitle)\"\r\n        />\r\n        <span *ngIf=\"epModel.fEpTitle\">\r\n          {{ epModel.fEpTitle.length }} / 500 characters\r\n        </span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fAltEpTitle\" class=\"label-left\">Alternative Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fAltEpTitle\"\r\n          id=\"fAltEpTitle\"\r\n          class=\"field-input multimedia-input-alteptitle\"\r\n          [(ngModel)]=\"epModel.fAltEpTitle\"\r\n        />\r\n        <span *ngIf=\"epModel.fAltEpTitle\">\r\n          {{ epModel.fAltEpTitle.length }} / 500 characters\r\n        </span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fYear\" class=\"label-left\">Year</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fYear\"\r\n          id=\"fYear\"\r\n          class=\"field-input multimedia-input-year\"\r\n          step=\"1\"\r\n          [(ngModel)]=\"epModel.fYear\"\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input multimedia-input-url\"\r\n          [(ngModel)]=\"epModel.fUrl\"\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <hr />\r\n        <label for=\"fIsViewed\" class=\"label-left\">Viewed</label>\r\n        <input\r\n          type=\"checkbox\"\r\n          name=\"fIsViewed\"\r\n          id=\"fIsViewed\"\r\n          [(ngModel)]=\"epModel.isViewed\"\r\n        />\r\n      </span>\r\n      <span *ngIf=\"epModel.isViewed\">\r\n        <span class=\"field\">\r\n          <label for=\"fSummary\" class=\"label-left\">Summary</label>\r\n          <textarea\r\n            name=\"fSummary\"\r\n            id=\"fSummary\"\r\n            class=\"field-input multimedia-input-summary\"\r\n            [(ngModel)]=\"epModel.fSummary\"\r\n          ></textarea>\r\n          <span *ngIf=\"epModel.fSummary\">\r\n            {{ epModel.fSummary.length }} / 4000 characters\r\n          </span>\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fDateViewed\" class=\"label-left\">Date Viewed</label>\r\n          <input\r\n            type=\"date\"\r\n            name=\"fDateViewed\"\r\n            [(ngModel)]=\"epModel.fDateViewed\"\r\n          />\r\n          <input\r\n            type=\"time\"\r\n            name=\"fTimeViewed\"\r\n            [(ngModel)]=\"epModel.fTimeViewed\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fRating\" class=\"label-left\">Rating</label>\r\n          <input\r\n            type=\"number\"\r\n            name=\"fRating\"\r\n            id=\"fRating\"\r\n            class=\"field-input multimedia-input-rating\"\r\n            step=\"1\"\r\n            [(ngModel)]=\"epModel.fRating\"\r\n          />\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fPlatform\" class=\"label-left\">Platform</label>\r\n          <select\r\n            name=\"fPlatform\"\r\n            id=\"fPlatform\"\r\n            class=\"field-select\"\r\n            [(ngModel)]=\"epModel.fPlatform\"\r\n          >\r\n            <option\r\n              *ngFor=\"let opt of viewData.platformList\"\r\n              [value]=\"opt.ctg_sequential\"\r\n              [selected]=\"opt.ctg_sequential === newEpForm.value.fPlatform\"\r\n              >{{ opt.ctg_name }}</option\r\n            >\r\n          </select>\r\n        </span>\r\n        <span class=\"field\">\r\n          <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNotes\"\r\n            id=\"fNotes\"\r\n            class=\"field-input multimedia-input-notes\"\r\n            [(ngModel)]=\"epModel.fNotes\"\r\n          />\r\n          <span *ngIf=\"epModel.fNotes\">\r\n            {{ epModel.fNotes.length }} / 500 characters\r\n          </span>\r\n        </span>\r\n\r\n        <span class=\"field\" *ngIf=\"newEpForm.value.fEpId !== epModel.fNextEpId\">\r\n          <hr />\r\n          <label for=\"fNextEpId\" class=\"label-left\">Next Episode Id</label>\r\n          <input\r\n            type=\"text\"\r\n            name=\"fNextEpId\"\r\n            id=\"fNextEpId\"\r\n            class=\"field-input multimedia-input-nextepid\"\r\n            [(ngModel)]=\"epModel.fNextEpId\"\r\n          />\r\n        </span>\r\n        <span class=\"field\" *ngIf=\"newEpForm.value.fEpId === epModel.fNextEpId\">\r\n          This is the last episode :-D\r\n        </span>\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<button (click)=\"showDetListing()\" *ngIf=\"viewData.showDetList\">\r\n  Remove filter\r\n</button>\r\n<span *ngIf=\"viewData.showDetList\"\r\n  >Listing for media: {{ viewData.detListTitle }}</span\r\n>\r\n<div *ngIf=\"viewData.multimediaDetList\">\r\n  <div>\r\n    Title | Ep Title | Year - link\r\n  </div>\r\n  <div\r\n    class=\"multimedia-listing-row\"\r\n    *ngFor=\"let item of viewData.multimediaDetList; let i = index\"\r\n  >\r\n    <span class=\"padding-left-5 padding-right-5 width-80\">\r\n      {{ item.mmd_date_mod | date: \"yyyy-MM-dd\" }}\r\n    </span>\r\n    <span class=\"padding-left-5 padding-right-5\">\r\n      <span>\r\n        {{\r\n          !viewData.showDetList && item.mmd_txt_title\r\n            ? item.mmd_txt_title +\r\n              \" | \" +\r\n              item.mmd_id_ep +\r\n              \" - \" +\r\n              item.mmd_ep_title\r\n            : item.mmd_id_ep + \" - \" + item.mmd_ep_title\r\n        }}\r\n      </span>\r\n      <span *ngIf=\"item.mmd_year\">\r\n        <a [href]=\"item.mmd_url\" target=\"_blank\" *ngIf=\"item.mmd_url\">\r\n          [{{ item.mmd_year }}]\r\n        </a>\r\n        <span *ngIf=\"!item.mmd_url\">[{{ item.mmd_year }}]</span>\r\n      </span>\r\n    </span>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -6534,6 +6666,14 @@ let TasksComponent = class TasksComponent {
             // detect jump down
             this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
         }
+        if (event.ctrlKey && event.keyCode == 38) {
+            // detect jump up
+            this.taskRecordJumpUp(parent, "span.task-text[contenteditable=true]");
+        }
+        if (event.ctrlKey && event.keyCode == 40) {
+            // detect jump down
+            this.taskRecordJumpDown(parent, "span.task-text[contenteditable=true]");
+        }
     }
     etaKeyDown(event) {
         const parent = event.target["parentNode"];
@@ -6615,6 +6755,22 @@ let TasksComponent = class TasksComponent {
             }
         }
     }
+    taskRecordJumpUp(current, selector) {
+        if (current.parentNode.previousElementSibling &&
+            current.parentNode.previousElementSibling.firstElementChild.nextElementSibling.querySelector(selector)) {
+            current.parentNode.previousElementSibling.firstElementChild.nextElementSibling
+                .querySelector(selector)
+                .focus();
+        }
+        else {
+            if (this.showBatchAdd) {
+                this.focusElement("textarea[name=tsk_multiple_name]");
+            }
+            else {
+                this.focusElement("input[name=tsk_name]");
+            }
+        }
+    }
     focusElement(selector) {
         document.querySelector(selector)["focus"]();
     }
@@ -6630,6 +6786,14 @@ let TasksComponent = class TasksComponent {
                     .querySelector(selector)
                     .focus();
             }
+        }
+    }
+    taskRecordJumpDown(current, selector) {
+        if (current.parentNode.nextElementSibling &&
+            current.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(selector)) {
+            current.parentNode.nextElementSibling.firstElementChild.nextElementSibling
+                .querySelector(selector)
+                .focus();
         }
     }
     taskToggleTimeTracking(task, dom) {

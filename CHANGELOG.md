@@ -10,35 +10,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Money
   - Graphs
     - [AppMoney][new] Daily balance over an account or over all accounts totals
+    - [AppMoney][new] Define mapping for groups of expenses based on categories
   - Balance
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Spent report for monthly/range basis
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
+    - [AppMoney][new] Balance page, optimize data consumption for slow networks, fetch dinamically as needed
   - Movement
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Movements with pending status
-    - [AppMoney][new] Scheduled movements
+    - [AppMoney][new] Scheduled movements (with PENDING status)
+      - [AppMoney][new] Rebuild should use only active movements
+      - [AppMoney][new] Listing of pending movements
     - [AppMoney][new] Movement form validation server side
     - [AppMoney][new] Movement form validation client side
+    - [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
   - Account
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
+    - [AppMoney][new] Option to display archived/cancelled accounts into listing
   - Places
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Consume endpoints to finish adding or editing places
-    - [AppMoney][new] Add a functionality to count all uses of a place inside registered movements
-    - [AppMoney][new] Add a functionality to replace all uses of a place with another selected place
+    - [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
+    - [AppMoney][new] Add a functionality to replace all uses of a place with another selected place using a button and a combo with places
+    - [AppMoney][new] Add a button to delete a place, but it will be available only if the count of all uses is zero
   - Categories
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add categories UI listing
     - [AppMoney][new] Add categories form to edit or add new categories
     - [AppMoney][new] Consume endpoints to finish adding or editing categories
-    - [AppMoney][new] Add a functionality to count all uses of a category inside registered movements
-    - [AppMoney][new] Add a functionality to replace all uses of a category with another selected category
+    - [AppMoney][new] Add a badge with the count of all uses of a category inside registered movements
+    - [AppMoney][new] Add a functionality to replace all uses of a category with another selected category using a button and a combo with categories
+    - [AppMoney][new] Add a button to delete a category, but it will be available only if the count of all uses is zero
   - Presets
     - [AppMoney][new] Migrate user data to proper username and consume user authentication service
-    - [AppMoney][new] Add presets form to edit or add new presets
     - [AppMoney][new] Consume endpoints to finish adding or editing presets
 - Tasks
   - [AppTasks][new] Migrate user data to proper username and consume user authentication service
@@ -54,11 +58,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppTasks][new] Be able to filter today's finished tasks by record
   - [AppTasks][new] Save repetiton config
   - [AppTasks][new] Generate task with repetition
+  - [AppTasks][new] Graph of task add/completion daily
 - Login
   - [AppCommon][new][Login] Login basic CSS
-  - [AppCommon][new][Menu] Apply styles and layout to menu items
+  - [AppCommon][new][Login] Define permissions entities to allow authorization on page/feature
 - Common
-  - [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
   - [AppCommon][new] Add unit tests to utilities classes
   - [AppCommon][fix] Fix coverage report
     http://rundef.com/typescript-code-coverage-istanbul-nyc
@@ -74,19 +78,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new][CFG] Once CFG is created/modified, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][new][Install] When entering `/health-check` route, look for `cfg.json`, if present, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
+  - [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
+  - [AppMultimedia][new] View episode details in a form, to be able to edit them
 - LastTime
-  - [AppLastTime][new] n/a
+  - [AppLastTime][new] Use a tag `edit-note` to just prompt for updates on notes for the items that had this tag
+  - [AppLastTime][new] Add instructions section with details of `edit-note` tag usage
 - Kanban
-  - [AppKanban][new] Entity generation
+  - [AppKanban][new] CRUD endpoints
+  - [AppKanban][new] Listing UI
 
 ## [Unreleased / Work In Progress]
 
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
-- [AppMoney][new] Add places form to edit or add new places
 - [AppMoney][new] Add categories listing/new/update endpoints
 - [AppTasks][new] Clean up Indicators legacy section
 
@@ -102,7 +109,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add presets listing/new/update endpoints
 - [AppTasks][new] Dark theme
 
+- [AppCommon][new][Menu] Apply styles and layout to menu items
+- [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
+- [AppMultimedia][new] Episode listing should be displayed with groups by date
+- [AppLastTime][new] Reuse CSS styles and generic grid listing components
+- [AppKanban][new] Entity generation
+
+- [AppMoney][new] Add categories UI listing
+- [AppMoney][new] Add presets form to edit or add new presets
+
 <hr/>
+
+## v1.9.14 (2019-06-07)
+
+- [AppMoney][new] Consume endpoints to finish adding or editing places
+
+## v1.9.13 (2019-06-06)
+
+- [AppMoney][new] Add places form to edit or add new places
+
+## v1.9.12 (2019-06-05)
+
+- [AppMoney][new] Created a `common.component` for `newItems` and `updateItems` standard flow
+
+## v1.9.11 (2019-06-04)
+
+- [AppMultimedia][new] Title and AltTitle now display length on UI, summary was changed to render a Textarea
+
+## v1.9.10 (2019-06-03)
+
+- [AppTasks][new] Ctrl + Up and Ctrl + Down jumps between record lists' first element in open tasks
+
+## v1.9.9 (2019-05-31)
+
+- [AppCommon][fix] After session expired, infinite redirection was taking place, fixed now it just redirects to login
 
 ## v1.9.8 (2019-05-30)
 

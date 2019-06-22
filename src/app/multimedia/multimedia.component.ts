@@ -463,7 +463,7 @@ export class MultimediaComponent implements OnInit {
   }
 
   splitEpInfo(info: string): void {
-    if (info.includes("|")) {
+    if (info && info.includes("|")) {
       const splitted: string[] = info.split("|");
 
       this.epModel.fEpTitle = splitted[0];

@@ -684,6 +684,14 @@ export class TasksComponent implements OnInit {
       // detect jump down
       this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
     }
+    if (event.ctrlKey && event.keyCode == 38) {
+      // detect jump up
+      this.taskRecordJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (event.ctrlKey && event.keyCode == 40) {
+      // detect jump down
+      this.taskRecordJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
   }
 
   etaKeyDown(event: KeyboardEvent) {
@@ -781,6 +789,25 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  taskRecordJumpUp(current: any, selector: string) {
+    if (
+      current.parentNode.previousElementSibling &&
+      current.parentNode.previousElementSibling.firstElementChild.nextElementSibling.querySelector(
+        selector
+      )
+    ) {
+      current.parentNode.previousElementSibling.firstElementChild.nextElementSibling
+        .querySelector(selector)
+        .focus();
+    } else {
+      if (this.showBatchAdd) {
+        this.focusElement("textarea[name=tsk_multiple_name]");
+      } else {
+        this.focusElement("input[name=tsk_name]");
+      }
+    }
+  }
+
   focusElement(selector: string) {
     document.querySelector(selector)["focus"]();
   }
@@ -802,6 +829,19 @@ export class TasksComponent implements OnInit {
           .querySelector(selector)
           .focus();
       }
+    }
+  }
+
+  taskRecordJumpDown(current: any, selector: string) {
+    if (
+      current.parentNode.nextElementSibling &&
+      current.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(
+        selector
+      )
+    ) {
+      current.parentNode.nextElementSibling.firstElementChild.nextElementSibling
+        .querySelector(selector)
+        .focus();
     }
   }
 

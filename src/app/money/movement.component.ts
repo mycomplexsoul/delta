@@ -576,10 +576,12 @@ export class MovementComponent implements OnInit {
   }
 
   addNewPlaceForUser(place: string) {
-    this.services.place.newItem(place, this.user).then((item: Place) => {
-      this.viewData.places = this.services.place.list();
-      this.model.place = item.mpl_id;
-    });
+    this.services.place
+      .newItem(new Place({ mpl_name: place }))
+      .then((item: Place) => {
+        this.viewData.places = this.services.place.list();
+        this.model.place = item.mpl_id;
+      });
   }
 
   /*selectPreset(presetId: string, form: any){
@@ -664,7 +666,7 @@ export class MovementComponent implements OnInit {
           "mpl_id"
         )
       ) {
-        this.services.place.newItem(values[6], this.user);
+        this.services.place.newItem(new Place({ mpl_name: values[6] }));
       }
     });
     this.viewData.categories = this.services.category.list();

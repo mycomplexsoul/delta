@@ -36,3 +36,16 @@
 .multimedia-manga {
   color: blue;
 }
+
+/* Inputs specifics */
+.multimedia-input-summary {
+  vertical-align: top;
+  width: 100%;
+  height: 60px;
+}
+
+@media all and (min-width: 505px) {
+  .multimedia-input-summary {
+    width: 60%;
+  }
+}
