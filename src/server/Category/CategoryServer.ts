@@ -1,21 +1,15 @@
-import { ApiModule } from "../ApiModule";
-import { iNode } from "../iNode";
-import { Category } from "../../crosscommon/entities/Category";
+import { ApiServer } from "../ApiServer";
+import { Category } from "src/crosscommon/entities/Category";
 
 export class CategoryServer {
-    list = (node: iNode) => {
-        let api: ApiModule = new ApiModule(new Category());
+  private api: ApiServer = new ApiServer(new Category());
 
-        api.list({ q: node.request.query['q'] }).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  listRequestHandler = this.api.listRequestHandler;
+  list = this.api.list;
 
-    create = (node: iNode) => {
-        const api: ApiModule = new ApiModule(new Category());
+  createRequestHandler = this.api.createRequestHandler;
+  create = this.api.create;
 
-        api.create({ body: node.request.body }, {}).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  updateRequestHandler = this.api.updateRequestHandler;
+  update = this.api.update;
 }
