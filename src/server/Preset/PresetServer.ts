@@ -1,29 +1,15 @@
-import { ApiModule } from "../ApiModule";
-import { iNode } from "../iNode";
-import { Preset } from "../../crosscommon/entities/Preset";
+import { ApiServer } from "../ApiServer";
+import { Preset } from "src/crosscommon/entities/Preset";
 
 export class PresetServer {
-    list = (node: iNode) => {
-        let api: ApiModule = new ApiModule(new Preset());
+  private api: ApiServer = new ApiServer(new Preset());
 
-        api.list({ q: node.request.query['q'] }).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  listRequestHandler = this.api.listRequestHandler;
+  list = this.api.list;
 
-    create = (node: iNode) => {
-        const api: ApiModule = new ApiModule(new Preset());
+  createRequestHandler = this.api.createRequestHandler;
+  create = this.api.create;
 
-        api.create({ body: node.request.body }, {}).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
-
-    update = (node: iNode) => {
-        let api: ApiModule = new ApiModule(new Preset());
-
-        api.update({ body: node.request.body, pk: node.request.params }, {}).then((response) => {
-            node.response.end(JSON.stringify(response));
-        });
-    };
+  updateRequestHandler = this.api.updateRequestHandler;
+  update = this.api.update;
 }

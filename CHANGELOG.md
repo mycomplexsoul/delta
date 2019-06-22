@@ -105,7 +105,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
 - [AppMoney][new] In balance page, once loaded, check if there's balance for current month, if it is proceed with rendering, if it isn't look for balance on previous month, if no balance is found, proceed with rendering, if balance is found, do a balance transfer for previous to current month
 - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
-- [AppMoney][new] Add presets listing/new/update endpoints
 - [AppTasks][new] Dark theme
 
 - [AppCommon][new][Menu] Apply styles and layout to menu items
@@ -118,6 +117,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add presets form to edit or add new presets
 
 <hr/>
+
+## v1.9.16 (2019-06-11)
+
+- [AppMoney][new] Add presets listing/new/update endpoints
 
 ## v1.9.15 (2019-06-10)
 
