@@ -94,7 +94,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
-- [AppMoney][new] Add categories listing/new/update endpoints
 - [AppTasks][new] Clean up Indicators legacy section
 
 - [AppCommon][new][Login] Login logged user identity service uses token data
@@ -119,6 +118,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add presets form to edit or add new presets
 
 <hr/>
+
+## v1.9.15 (2019-06-10)
+
+- [AppMoney][new] Add categories listing/new/update endpoints
 
 ## v1.9.14 (2019-06-07)
 
