@@ -1,5 +1,5 @@
 import { ApiServer } from "../ApiServer";
-import { Category } from "src/crosscommon/entities/Category";
+import { Category } from "../../crosscommon/entities/Category";
 
 export class CategoryServer {
   private api: ApiServer = new ApiServer(new Category());

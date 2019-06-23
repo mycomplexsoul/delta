@@ -98,7 +98,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppCommon][new][Login] Login logged user identity service uses token data
 - [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
-- [AppMultimedia][new] Reset form after successful registration
 - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 - [AppKanban][new] Entry and table generation
 
@@ -117,6 +116,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add presets form to edit or add new presets
 
 <hr/>
+
+## v1.9.17 (2019-06-12)
+
+- [AppMultimedia][new] Reset form after successful registration
 
 ## v1.9.16 (2019-06-11)
 

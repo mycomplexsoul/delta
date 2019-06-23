@@ -2841,7 +2841,7 @@ exports.AccountService = AccountService;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div>\r\n    <a routerLink=\"places\" href=\"../places\">Places</a>\r\n    <a routerLink=\"presets\" href=\"../presets\">Presets</a>\r\n  </div>\r\n\r\n  <strong>Accounts</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newAccountFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fType\" class=\"label-left\">Type</label>\r\n        <select\r\n          name=\"fType\"\r\n          id=\"fType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.typeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === itemForm.value.fType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fComment\" class=\"label-left\">Comment</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fComment\"\r\n          id=\"fComment\"\r\n          class=\"field-input field-input-large\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fCheckDay\" class=\"label-left\">Check Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fCheckDay\"\r\n          id=\"fCheckDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fAverageMinBalance\" class=\"label-left\"\r\n          >Average Min Balance</label\r\n        >\r\n        <input\r\n          type=\"number\"\r\n          name=\"fAverageMinBalance\"\r\n          id=\"fAverageMinBalance\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fPaymentDay\" class=\"label-left\">Payment Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fPaymentDay\"\r\n          id=\"fPaymentDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.accountList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.acc_id, itemForm)\"\r\n    >\r\n      <span class=\"account-name\">{{ item.acc_name }}</span>\r\n      <br />\r\n      <span class=\"account-type\">{{ item.acc_txt_type }}</span>\r\n      <br />\r\n      <span> Check day: {{ item.acc_check_day }} </span>\r\n      <span *ngIf=\"item.acc_comment\"> | Comment: {{ item.acc_comment }}</span>\r\n      <!--<span (click)=\"item.showOptions = !item.showOptions\">\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>-->\r\n      <br />\r\n      <span *ngIf=\"item.acc_average_min_balance != 0\">\r\n        Average min balance:\r\n        {{\r\n          item.acc_average_min_balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n      </span>\r\n      <br />\r\n      <span>Payment day: {{ item.acc_payment_day }}</span>\r\n      <br />\r\n      <span>Status: {{ item.acc_txt_status }}</span>\r\n\r\n      <span class=\"general-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"general-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <br />\r\n      <!--\r\n          <span *ngIf=\"item.showOptions\">\r\n            <button (click)=\"archiveRecord(item)\">archive</button>\r\n            <button (click)=\"editNotes(item)\">edit notes</button>\r\n            <button (click)=\"viewHistory(item)\">view history</button>\r\n        </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <div>\r\n    <a [routerLink]=\"['/places']\">Places</a>\r\n    <a [routerLink]=\"['/presets']\">Presets</a>\r\n  </div>\r\n\r\n  <strong>Accounts</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newAccountFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fType\" class=\"label-left\">Type</label>\r\n        <select\r\n          name=\"fType\"\r\n          id=\"fType\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.fType\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.typeList\"\r\n            [value]=\"opt.ctg_sequential\"\r\n            [selected]=\"opt.ctg_sequential === itemForm.value.fType\"\r\n            >{{ opt.ctg_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fComment\" class=\"label-left\">Comment</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fComment\"\r\n          id=\"fComment\"\r\n          class=\"field-input field-input-large\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fCheckDay\" class=\"label-left\">Check Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fCheckDay\"\r\n          id=\"fCheckDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fAverageMinBalance\" class=\"label-left\"\r\n          >Average Min Balance</label\r\n        >\r\n        <input\r\n          type=\"number\"\r\n          name=\"fAverageMinBalance\"\r\n          id=\"fAverageMinBalance\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fPaymentDay\" class=\"label-left\">Payment Day</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fPaymentDay\"\r\n          id=\"fPaymentDay\"\r\n          class=\"field-input field-input-number\"\r\n          step=\"1\"\r\n          min=\"0\"\r\n          max=\"31\"\r\n          maxlength=\"2\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.accountList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.acc_id, itemForm)\"\r\n    >\r\n      <span class=\"account-name\">{{ item.acc_name }}</span>\r\n      <br />\r\n      <span class=\"account-type\">{{ item.acc_txt_type }}</span>\r\n      <br />\r\n      <span> Check day: {{ item.acc_check_day }} </span>\r\n      <span *ngIf=\"item.acc_comment\"> | Comment: {{ item.acc_comment }}</span>\r\n      <!--<span (click)=\"item.showOptions = !item.showOptions\">\r\n        {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>-->\r\n      <br />\r\n      <span *ngIf=\"item.acc_average_min_balance != 0\">\r\n        Average min balance:\r\n        {{\r\n          item.acc_average_min_balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}\r\n      </span>\r\n      <br />\r\n      <span>Payment day: {{ item.acc_payment_day }}</span>\r\n      <br />\r\n      <span>Status: {{ item.acc_txt_status }}</span>\r\n\r\n      <span class=\"general-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"general-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <br />\r\n      <!--\r\n          <span *ngIf=\"item.showOptions\">\r\n            <button (click)=\"archiveRecord(item)\">archive</button>\r\n            <button (click)=\"editNotes(item)\">edit notes</button>\r\n            <button (click)=\"viewHistory(item)\">view history</button>\r\n        </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -5337,6 +5337,20 @@ let MultimediaComponent = class MultimediaComponent {
         let values = form.value;
         const item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || "anon");
         this.viewData.multimediaList.push(item);
+        this.resetForm(form);
+        this.viewData.showCreateForm = false;
+    }
+    resetForm(form) {
+        form.resetForm();
+        this.model.id = null;
+        this.model.fMediaType = 1;
+        this.model.fSeason = 1;
+        this.model.fYear = new Date().getFullYear();
+        this.model.fCurrentEp = "1";
+        /*form.controls["fMediaType"].setValue(this.model.fMediaType);
+        form.controls["fSeason"].setValue(this.model.fSeason);
+        form.controls["fYear"].setValue(this.model.fYear);
+        form.controls["fCurrentEp"].setValue(this.model.fCurrentEp);*/
     }
     showNewEpForm(item) {
         item["showOptions"] = false;
@@ -5444,7 +5458,7 @@ let MultimediaComponent = class MultimediaComponent {
             queue.push(this.services.multimediaService.asUpdateSyncQueue(media));
         }
         this.services.syncService.multipleRequest(queue);
-        this.clearEpForm(form);
+        this.resetEpForm(form);
         this.viewData.showCreateEpForm = false;
     }
     calculateNextEp(currentEp) {
@@ -5508,7 +5522,22 @@ let MultimediaComponent = class MultimediaComponent {
             ? -1
             : 1;
     }
-    clearEpForm(form) {
+    resetEpForm(form) {
+        this.epModel.id = null;
+        this.epModel.epId = null;
+        this.epModel.fTitle = null;
+        this.epModel.fYear = null;
+        this.epModel.fEpTitle = null;
+        this.epModel.fAltEpTitle = null;
+        this.epModel.fUrl = null;
+        this.epModel.isViewed = false;
+        this.epModel.fDateViewed = "";
+        this.epModel.fTimeViewed = "";
+        this.epModel.fSummary = null;
+        this.epModel.fRating = 0;
+        this.epModel.fPlatform = 0;
+        this.epModel.fNotes = null;
+        this.epModel.fNextEpId = null;
         form.resetForm();
     }
     splitEpInfo(info) {

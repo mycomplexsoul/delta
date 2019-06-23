@@ -1,5 +1,5 @@
 import { ApiServer } from "../ApiServer";
-import { Preset } from "src/crosscommon/entities/Preset";
+import { Preset } from "../../crosscommon/entities/Preset";
 
 export class PresetServer {
   private api: ApiServer = new ApiServer(new Preset());

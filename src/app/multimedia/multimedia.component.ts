@@ -202,6 +202,23 @@ export class MultimediaComponent implements OnInit {
     );
 
     this.viewData.multimediaList.push(item);
+    this.resetForm(form);
+    this.viewData.showCreateForm = false;
+  }
+
+  resetForm(form: NgForm) {
+    form.resetForm();
+
+    this.model.id = null;
+    this.model.fMediaType = 1;
+    this.model.fSeason = 1;
+    this.model.fYear = new Date().getFullYear();
+    this.model.fCurrentEp = "1";
+
+    /*form.controls["fMediaType"].setValue(this.model.fMediaType);
+    form.controls["fSeason"].setValue(this.model.fSeason);
+    form.controls["fYear"].setValue(this.model.fYear);
+    form.controls["fCurrentEp"].setValue(this.model.fCurrentEp);*/
   }
 
   showNewEpForm(item: Multimedia) {
@@ -375,7 +392,7 @@ export class MultimediaComponent implements OnInit {
     }
 
     this.services.syncService.multipleRequest(queue);
-    this.clearEpForm(form);
+    this.resetEpForm(form);
     this.viewData.showCreateEpForm = false;
   }
 
@@ -458,7 +475,23 @@ export class MultimediaComponent implements OnInit {
       : 1;
   }
 
-  clearEpForm(form: NgForm) {
+  resetEpForm(form: NgForm) {
+    this.epModel.id = null;
+    this.epModel.epId = null;
+    this.epModel.fTitle = null;
+    this.epModel.fYear = null;
+    this.epModel.fEpTitle = null;
+    this.epModel.fAltEpTitle = null;
+    this.epModel.fUrl = null;
+    this.epModel.isViewed = false;
+    this.epModel.fDateViewed = "";
+    this.epModel.fTimeViewed = "";
+    this.epModel.fSummary = null;
+    this.epModel.fRating = 0;
+    this.epModel.fPlatform = 0;
+    this.epModel.fNotes = null;
+    this.epModel.fNextEpId = null;
+
     form.resetForm();
   }
 
