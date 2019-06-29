@@ -1,6 +1,7 @@
-import { Task, TaskStatus } from "./task.type";
+import { TaskStatus } from "./task.type";
 import { DateCommon } from "../common/date.common";
 import { Injectable } from "@angular/core";
+import { Task } from "src/crosscommon/entities/Task";
 
 @Injectable()
 export class TaskIndicator {
@@ -15,13 +16,13 @@ export class TaskIndicator {
     let total: number = 0;
     this.tasks
       .filter(
-        (t: any) =>
+        (t: Task) =>
           t.tsk_ctg_status == TaskStatus.CLOSED &&
           new Date(t.tsk_date_done) >= initialDate &&
           new Date(t.tsk_date_done) <= finalDate
       )
-      .forEach((t: any) => {
-        total += parseInt(t.tsk_estimated_duration);
+      .forEach((t: Task) => {
+        total += t.tsk_estimated_duration;
       });
     return total;
   }
@@ -30,10 +31,11 @@ export class TaskIndicator {
     let total: number = 0;
     this.tasks
       .filter(
-        (t: any) => new Date(t.tsk_date_due).getTime() === initialDate.getTime()
+        (t: Task) =>
+          new Date(t.tsk_date_due).getTime() === initialDate.getTime()
       )
-      .forEach((t: any) => {
-        total += parseInt(t.tsk_estimated_duration);
+      .forEach((t: Task) => {
+        total += t.tsk_estimated_duration;
       });
     return total;
   }
@@ -41,7 +43,7 @@ export class TaskIndicator {
   closedTaskCount(initialDate: Date, finalDate: Date) {
     let total: number = 0;
     total = this.tasks.filter(
-      (t: any) =>
+      (t: Task) =>
         t.tsk_ctg_status == TaskStatus.CLOSED &&
         new Date(t.tsk_date_done) >= initialDate &&
         new Date(t.tsk_date_done) <= finalDate
@@ -52,7 +54,7 @@ export class TaskIndicator {
   addedTaskCount(initialDate: Date, finalDate: Date) {
     let total: number = 0;
     total = this.tasks.filter(
-      (t: any) => new Date(t.tsk_date_due).getTime() === initialDate.getTime()
+      (t: Task) => new Date(t.tsk_date_due).getTime() === initialDate.getTime()
     ).length;
     return total;
   }
@@ -65,7 +67,7 @@ export class TaskIndicator {
 
     this.tasks.filter(t => {
       // for all tasks
-      t.tsk_time_history.filter((h: any) => {
+      t["tsk_time_history"].filter((h: any) => {
         // get each time tracking
         if (
           initialDate <= new Date(h.tsh_date_start) &&
@@ -136,15 +138,15 @@ export class TaskIndicator {
     let day0 = this.dateUtils.dateOnly(date);
     let nextDay0 = this.dateUtils.addDays(day0, 1);
     let firstDate: Date = nextDay0;
-    let tasksOfTheDay = this.tasks.filter((t: any) => {
+    let tasksOfTheDay = this.tasks.filter((t: Task) => {
       return (
         new Date(t.tsk_date_done) >= day0 &&
         new Date(t.tsk_date_done) < nextDay0
       );
     });
-    tasksOfTheDay.forEach((t: any) => {
-      if (t.tsk_time_history.length) {
-        t.tsk_time_history.forEach((h: any) => {
+    tasksOfTheDay.forEach((t: Task) => {
+      if (t["tsk_time_history"].length) {
+        t["tsk_time_history"].forEach((h: any) => {
           if (
             new Date(h.tsh_date_start) < firstDate &&
             day0 < new Date(h.tsh_date_start)
@@ -164,15 +166,15 @@ export class TaskIndicator {
     let day0 = this.dateUtils.dateOnly(date);
     let nextDay0 = this.dateUtils.addDays(day0, 1);
     let lastDate: Date = day0;
-    let tasksOfTheDay = this.tasks.filter((t: any) => {
+    let tasksOfTheDay = this.tasks.filter((t: Task) => {
       return (
         new Date(t.tsk_date_done) >= day0 &&
         new Date(t.tsk_date_done) < nextDay0
       );
     });
-    tasksOfTheDay.forEach((t: any) => {
-      if (t.tsk_time_history.length) {
-        t.tsk_time_history.forEach((h: any) => {
+    tasksOfTheDay.forEach((t: Task) => {
+      if (t["tsk_time_history"].length) {
+        t["tsk_time_history"].forEach((h: any) => {
           if (
             new Date(h.tsh_date_end) > lastDate &&
             new Date(h.tsh_date_end) < nextDay0
@@ -196,12 +198,26 @@ export class TaskIndicator {
   totalTaskCountUntil(initialDate: Date, finalDate: Date): number {
     let total: Array<any>;
     total = this.tasks.filter(
-      (t: any) =>
+      (t: Task) =>
         new Date(t.tsk_date_due) <= initialDate &&
         (new Date(t.tsk_date_done) >= finalDate ||
           (t.tsk_ctg_status !== TaskStatus.CLOSED &&
             t.tsk_ctg_status !== TaskStatus.CANCELLED))
     );
     return total.length;
+  }
+
+  openETA(initialDate: Date, finalDate: Date) {
+    let total: number = 0;
+    this.tasks
+      .filter(
+        (t: Task) =>
+          t.tsk_ctg_status === TaskStatus.OPEN &&
+          new Date(t.tsk_date_add).getTime() <= finalDate.getTime()
+      )
+      .forEach((t: Task) => {
+        total += t.tsk_estimated_duration;
+      });
+    return total;
   }
 }

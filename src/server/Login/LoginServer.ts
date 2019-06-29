@@ -64,8 +64,23 @@ export class LoginServer {
       email: userDB.usr_email
     };
 
+    // calculates time until next monday 3am
+    const currentTime: Date = new Date();
+    const nextMonday: Date = DateUtils.addDays(
+      currentTime,
+      7 + 1 - currentTime.getDay()
+    ); // 7 for a whole week, 1 to be monday
+    nextMonday.setHours(0);
+    nextMonday.setMinutes(0);
+    nextMonday.setSeconds(0);
+
+    console.log("token generated for next monday", nextMonday);
+    const differential: number = DateUtils.elapsedTime(nextMonday, currentTime);
+    console.log("differential, expiration seconds", differential);
+
     const token = jwt.sign(tokenData, secretForToken, {
-      expiresIn: 60 * 60 * 24 // expires in 24 hours
+      //expiresIn: 60 * 60 * 24 // expires in 24 hours
+      expiresIn: differential // expires in 24 hours
     });
 
     node.response.end(

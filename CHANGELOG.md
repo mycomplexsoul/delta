@@ -94,28 +94,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
-- [AppTasks][new] Clean up Indicators legacy section
+* [AppCommon][new][Login] Login logged user identity service uses token data
+* [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
+* [AppLastTime][new] Migrate user data to proper username and consume user authentication service
+* [AppKanban][new] Entry and table generation
 
-- [AppCommon][new][Login] Login logged user identity service uses token data
-- [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
-- [AppLastTime][new] Migrate user data to proper username and consume user authentication service
-- [AppKanban][new] Entry and table generation
+* [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
+* [AppMoney][new] In balance page, once loaded, check if there's balance for current month, if it is proceed with rendering, if it isn't look for balance on previous month, if no balance is found, proceed with rendering, if balance is found, do a balance transfer for previous to current month
+* [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
+* [AppTasks][new] Dark theme
 
-- [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
-- [AppMoney][new] In balance page, once loaded, check if there's balance for current month, if it is proceed with rendering, if it isn't look for balance on previous month, if no balance is found, proceed with rendering, if balance is found, do a balance transfer for previous to current month
-- [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
-- [AppTasks][new] Dark theme
+* [AppCommon][new][Menu] Apply styles and layout to menu items
+* [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
+* [AppMultimedia][new] Episode listing should be displayed with groups by date
+* [AppLastTime][new] Reuse CSS styles and generic grid listing components
+* [AppKanban][new] Entity generation
 
-- [AppCommon][new][Menu] Apply styles and layout to menu items
-- [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
-- [AppMultimedia][new] Episode listing should be displayed with groups by date
-- [AppLastTime][new] Reuse CSS styles and generic grid listing components
-- [AppKanban][new] Entity generation
-
-- [AppMoney][new] Add categories UI listing
-- [AppMoney][new] Add presets form to edit or add new presets
+* [AppMoney][new] Add categories UI listing
+* [AppMoney][new] Add presets form to edit or add new presets
 
 <hr/>
+
+## v1.9.19 (2019-06-14)
+
+- [AppTasks][mod] Clean up Indicators legacy section
+
+## v1.9.18 (2019-06-13)
+
+- [AppCommon][mod][Login] Session expiration extended to next monday at 0 hours for less login attempts
 
 ## v1.9.17 (2019-06-12)
 

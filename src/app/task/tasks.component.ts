@@ -234,79 +234,9 @@ export class TasksComponent implements OnInit {
       )
       .sort(sortByDateUntilView);
 
-    // Estimated Total
-    this.state.totalTimeEstimated = 0;
-    this.state.totalTimeEstimatedOld = 0;
-    this.state.totalTaskCountOld = 0;
-    this.state.totalTimeEstimatedAddedToday = 0;
-    this.state.totalTimeEstimatedAddedTodayClosed = 0;
-    this.state.totalTimeEstimatedAddedTodayOpen = 0;
-    this.state.totalTimeEstimatedOpen = 0;
-    this.state.totalTimeEstimatedClosedToday = 0;
-    this.tasks
-      .filter(t => t.tsk_ctg_status == this.taskStatus.OPEN)
-      .forEach((t: any) => {
-        this.state.totalTimeEstimatedOpen += parseInt(t.tsk_estimated_duration);
-      });
-    this.tasks
-      .filter(
-        t =>
-          t.tsk_ctg_status == this.taskStatus.CLOSED &&
-          new Date(t.tsk_date_done) >= today0 &&
-          new Date(t.tsk_date_done) <= today
-      )
-      .forEach((t: any) => {
-        this.state.totalTimeEstimatedClosedToday += parseInt(
-          t.tsk_estimated_duration
-        );
-      });
-    this.tasks
-      .filter(t => new Date(t.tsk_date_due).getTime() === today0.getTime())
-      .forEach((t: any) => {
-        this.state.totalTimeEstimatedAddedToday += parseInt(
-          t.tsk_estimated_duration
-        );
-        if (t.tsk_ctg_status == this.taskStatus.OPEN) {
-          this.state.totalTimeEstimatedAddedTodayOpen += parseInt(
-            t.tsk_estimated_duration
-          );
-        }
-        if (t.tsk_ctg_status == this.taskStatus.CLOSED) {
-          this.state.totalTimeEstimatedAddedTodayClosed += parseInt(
-            t.tsk_estimated_duration
-          );
-        }
-      });
-    this.state.totalTimeEstimated =
-      this.state.totalTimeEstimatedOpen +
-      this.state.totalTimeEstimatedClosedToday;
-    this.tasks
-      .filter(
-        t =>
-          (new Date(t.tsk_date_done) >= today0 &&
-            new Date(t.tsk_date_done) < today &&
-            new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
-          (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
-            t.tsk_ctg_status == this.taskStatus.OPEN)
-      )
-      .forEach((t: any) => {
-        this.state.totalTimeEstimatedOld += parseInt(t.tsk_estimated_duration);
-      });
-    this.state.totalTaskCountOld = this.tasks.filter(
-      t =>
-        (new Date(t.tsk_date_done) >= today0 &&
-          new Date(t.tsk_date_done) < today &&
-          new Date(t.tsk_date_due).getTime() < today0.getTime()) ||
-        (new Date(t.tsk_date_due).getTime() < today0.getTime() &&
-          t.tsk_ctg_status == this.taskStatus.OPEN)
-    ).length;
-
     // Info
     // Total time spent today
-    this.calculateTotalTimeSpentToday();
-    this.state.openTasksCount = this.tasks.filter(
-      t => t.tsk_ctg_status == this.taskStatus.OPEN
-    ).length;
+    // this.calculateTotalTimeSpentToday();
     this.state.backlogTasksCount = this.tasks.filter(
       t => t.tsk_ctg_status == this.taskStatus.BACKLOG
     ).length;
@@ -319,34 +249,8 @@ export class TasksComponent implements OnInit {
           ? new Date(t.tsk_date_view_until) > today
           : false)
     ).length;
-    this.state.productivityRatio = {};
-    if (this.state.totalTimeSpentToday !== 0) {
-      this.state.productivityRatio.value =
-        Math.round(
-          (this.state.totalTimeEstimatedClosedToday * 60 * 100) /
-            this.state.totalTimeSpentToday
-        ) / 100;
-      if (this.state.productivityRatio.value >= 1) {
-        this.state.productivityRatio.className = "productivity-good";
-        this.state.productivityRatio.message = "Good! keep going!";
-      } else {
-        this.state.productivityRatio.className = "productivity-bad";
-        this.state.productivityRatio.message = "Come on! you can do it!";
-      }
-    } else {
-      this.state.productivityRatio.value = 0;
-      this.state.productivityRatio.className = "productivity-good";
-      this.state.productivityRatio.message = "Let's begin!";
-    }
 
     // Indicators
-    this.state.dayStartedAtDate = this.firstTTEntryFromDay(today0);
-    if (this.state.dayStartedAtDate) {
-      this.state.realTimeElapsed = this.elapsedTime(
-        this.firstTTEntryFromDay(today0),
-        this.lastTTEntryFromDay(today0)
-      );
-    }
     this.state.karmaCount = 0;
     this.state.karmaScore = 0;
     this.state.closedTodayTasks.forEach((t: any) => {
@@ -357,13 +261,6 @@ export class TasksComponent implements OnInit {
       this.state.karmaScore =
         Math.round(
           (this.state.karmaCount * 100) / this.state.closedTodayTasks.length
-        ) / 100;
-    }
-    this.state.timeManagementRatio = 0;
-    if (this.state.realTimeElapsed) {
-      this.state.timeManagementRatio =
-        Math.round(
-          (this.state.totalTimeSpentToday * 100) / this.state.realTimeElapsed
         ) / 100;
     }
 
@@ -864,7 +761,7 @@ export class TasksComponent implements OnInit {
       // hide timer
       this.hideTimer(task, dom);
       this.services.tasksCore.stopTimeTracking(task);
-      this.calculateTotalTimeSpentToday();
+      // this.calculateTotalTimeSpentToday();
     }
   }
 
@@ -995,7 +892,7 @@ export class TasksComponent implements OnInit {
 
     t.tsk_time_history.splice(h.tsh_num_secuential - 1, 1);
     t.tsk_total_time_spent = spent;
-    this.calculateTotalTimeSpentToday();
+    // this.calculateTotalTimeSpentToday();
   }
 
   editTimeTracking(h: any, which: number, event: KeyboardEvent) {
@@ -1024,7 +921,7 @@ export class TasksComponent implements OnInit {
       this.hideTimer(task, dom);
       this.showTimer(task, dom);
     }
-    this.calculateTotalTimeSpentToday();
+    // this.calculateTotalTimeSpentToday();
   }
 
   updateTaskTimeTracking(
@@ -1178,7 +1075,7 @@ export class TasksComponent implements OnInit {
     this.updateState();
   }
 
-  calculateTotalTimeSpentToday() {
+  /*calculateTotalTimeSpentToday() {
     let today = new Date();
     let today0 = new Date(
       today.getFullYear(),
@@ -1219,7 +1116,7 @@ export class TasksComponent implements OnInit {
     });
     this.state.totalTimeSpentTodayOnOpenTasks = spent;
     this.state.totalTimeSpentToday += spent;
-  }
+  }*/
 
   setOpen(t: Task) {
     const isDateDueNotSet: boolean = !t.tsk_date_due;
@@ -1915,7 +1812,7 @@ export class TasksComponent implements OnInit {
           this.hideTimer(task, dom);
           this.showTimer(task, dom);
         }
-        this.calculateTotalTimeSpentToday();
+        // //this.calculateTotalTimeSpentToday();
         this.triggerEvent(
           "updateTimeTracking",
           task.tsk_time_history[task.tsk_time_history.length - 1]
@@ -2000,7 +1897,7 @@ export class TasksComponent implements OnInit {
       }
     );
 
-    console.log("closed tasks", res);
+    // console.log("closed tasks", res);
 
     return res;
   }
@@ -2102,6 +1999,21 @@ export class TasksComponent implements OnInit {
       return calculatedValues;
     };
 
+    // total task count overall
+    addIndicator(
+      "Open Count EOD",
+      calculateForAllDays(
+        days,
+        this.services.taskIndicator.totalTaskCountUntil
+      ),
+      null,
+      (prev: number, curr: number) => ({
+        isCompleted: prev >= curr,
+        percentageCompleted:
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+      })
+    );
+
     // added ETA
     addIndicator(
       "Added ETA",
@@ -2169,6 +2081,19 @@ export class TasksComponent implements OnInit {
       )
     );
 
+    // first time tracking entry start time stamp for the day
+    addIndicator(
+      "First TT stamp",
+      calculateForAllDays(
+        days,
+        (d1: Date, d2: Date): number => {
+          const t = this.services.taskIndicator.firstTTEntryFromDay(d1);
+          return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
+        }
+      ),
+      (v: number) => this.formatTime(v)
+    );
+
     // last time tracking entry end time stamp for the day
     addIndicator(
       "Last TT stamp",
@@ -2182,19 +2107,28 @@ export class TasksComponent implements OnInit {
       (v: number) => this.formatTime(v)
     );
 
-    // total task count overall
+    // Open ETA
     addIndicator(
-      "Overall Task Count EOD",
-      calculateForAllDays(
-        days,
-        this.services.taskIndicator.totalTaskCountUntil
-      ),
-      null,
+      "Open ETA",
+      calculateForAllDays(days, this.services.taskIndicator.openETA),
+      (v: number) => this.formatTime(v * 60),
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
           prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
       })
+    );
+
+    // Spent on Open Tasks
+    addIndicator(
+      "Open Spent",
+      calculateForAllDays(
+        days,
+        (d1: Date, d2: Date): number =>
+          this.services.taskIndicator.calculateTotalTimeSpent(d1, d2)
+            .totalTimeSpentTodayOnOpenTasks
+      ),
+      (v: number) => this.formatTime(v)
     );
 
     // karma
