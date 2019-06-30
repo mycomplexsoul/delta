@@ -62,11 +62,6 @@ export class LastTimeComponent implements OnInit {
         this.viewData.lastTime = list;
         // calculate validity on each
         this.calculateValidityForAll();
-        // sort
-        /*const sort = ((a: LastTime, b: LastTime) => {
-                return a['expiryDate'].getTime() >= b['expiryDate'].getTime() ? 1 : -1;
-            });
-            this.viewData.lastTime = list.sort(sort);*/
       });
 
     this.reloadItems = this.reloadItems.bind(this);
@@ -193,7 +188,6 @@ export class LastTimeComponent implements OnInit {
 
       this.services.lastTime.updateItem(item).then(response => {
         this.calculateValidityForAll();
-        // this.updateBackupItem(item);
       });
     }
   }
@@ -208,12 +202,6 @@ export class LastTimeComponent implements OnInit {
       // this.updateBackupItem(item);
     });
   }
-
-  /* updateBackupItem(item: LastTime) {
-    this.listBackup[
-      this.listBackup.findIndex(i => i.lst_id === item.lst_id)
-    ] = item; // to keep backup list updated
-  } */
 
   criteriaForFilter = (item: LastTime, query: string) =>
     item.lst_name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
@@ -246,23 +234,19 @@ export class LastTimeComponent implements OnInit {
 
       this.services.lastTime.updateItem(item).then(response => {
         this.calculateValidityForAll();
-        // this.updateBackupItem(item);
       });
     }
   }
 
   viewHistory(item: LastTime) {
     this.viewData.historyMetadata = item;
-    this.services.lastTimeHistory
-      .getAllForUser("anon", item.lst_id)
-      .then(data => {
-        this.viewData.historyList = data.sort((a, b) =>
-          new Date(a.lth_date_mod).getTime() <
-          new Date(b.lth_date_mod).getTime()
-            ? 1
-            : -1
-        );
-      });
+    this.services.lastTimeHistory.getAll(item.lst_id).then(data => {
+      this.viewData.historyList = data.sort((a, b) =>
+        new Date(a.lth_date_mod).getTime() < new Date(b.lth_date_mod).getTime()
+          ? 1
+          : -1
+      );
+    });
   }
 
   hideHistory() {

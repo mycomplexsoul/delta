@@ -67,6 +67,7 @@ const authMiddleware = (req, res, next) => {
         message: "Invalid token"
       });
     } else {
+      req.userData = user;
       next();
     }
   });

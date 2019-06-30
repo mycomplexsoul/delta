@@ -2282,11 +2282,8 @@ let LastTimeComponent = class LastTimeComponent {
     }
     viewHistory(item) {
         this.viewData.historyMetadata = item;
-        this.services.lastTimeHistory
-            .getAllForUser("anon", item.lst_id)
-            .then(data => {
-            this.viewData.historyList = data.sort((a, b) => new Date(a.lth_date_mod).getTime() <
-                new Date(b.lth_date_mod).getTime()
+        this.services.lastTimeHistory.getAll(item.lst_id).then(data => {
+            this.viewData.historyList = data.sort((a, b) => new Date(a.lth_date_mod).getTime() < new Date(b.lth_date_mod).getTime()
                 ? 1
                 : -1);
         });
@@ -7704,7 +7701,7 @@ let TasksComponent = class TasksComponent {
         res = res.sort((a, b) => {
             return a.header > b.header ? -1 : 1;
         });
-        console.log("closed tasks", res);
+        // console.log("closed tasks", res);
         return res;
     }
     dayHasActivity(day) {

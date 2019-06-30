@@ -18,6 +18,10 @@ export class ApiModule {
     let sql: string = sqlMotor.toSelectSQL(params);
     let array: iEntity[] = [];
 
+    if (params && data.username) {
+      sql += ` and ${m.metadata.prefix}_id_user = '${data.username}'`;
+    }
+
     return connection.runSql(sql).then(response => {
       if (!response.err) {
         array = response.rows;
