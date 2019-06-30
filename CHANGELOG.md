@@ -96,7 +96,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [AppCommon][new][Login] Login logged user identity service uses token data
 * [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
-* [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 * [AppKanban][new] Entry and table generation
 
 * [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
@@ -114,6 +113,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppMoney][new] Add presets form to edit or add new presets
 
 <hr/>
+
+## v1.9.20 (2019-06-17)
+
+- [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 
 ## v1.9.19 (2019-06-14)
 
