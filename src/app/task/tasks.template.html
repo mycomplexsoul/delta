@@ -177,8 +177,7 @@
         >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
       >
       <span *ngIf="t.tsk_schedule_date_start"
-        >(start at
-        {{ t.tsk_schedule_date_start | date: "yyyy-MM-dd HH:mm" }})</span
+        >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span
       >
       <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
       <button (click)="setOpen(t)">Move to open</button>
@@ -219,8 +218,7 @@
       >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
     >
     <span *ngIf="t.tsk_schedule_date_start"
-      >(start at
-      {{ t.tsk_schedule_date_start | date: "yyyy-MM-dd HH:mm" }})</span
+      >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span
     >
     <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
     <span
@@ -376,8 +374,7 @@
         </span>
         <span *ngIf="t.tsk_schedule_date_start"
           ><strong
-            >(start at
-            {{ t.tsk_schedule_date_start | date: "yyyy-MM-dd HH:mm" }})</strong
+            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong
           ></span
         >
         <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays">{{
@@ -542,8 +539,7 @@
         </span>
         <span *ngIf="t.tsk_schedule_date_start"
           ><strong
-            >(start at
-            {{ t.tsk_schedule_date_start | date: "yyyy-MM-dd HH:mm" }})</strong
+            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong
           ></span
         >
         <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays">{{

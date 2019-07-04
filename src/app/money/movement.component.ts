@@ -433,8 +433,9 @@ export class MovementComponent implements OnInit {
     let descPrefix: string = "";
     let descSufix: string = "";
     let reimburseType: string = "";
+    const budget = base.mov_budget || "";
 
-    if (base.mov_budget.includes(REIMBURSE_50)) {
+    if (budget.includes(REIMBURSE_50)) {
       reimburseType = REIMBURSE_50;
       newAmount = base.mov_amount * 0.5;
       descPrefix = "Half for: ";
@@ -444,7 +445,7 @@ export class MovementComponent implements OnInit {
         "$"
       )}`;
     }
-    if (base.mov_budget.includes(REIMBURSE_100)) {
+    if (budget.includes(REIMBURSE_100)) {
       reimburseType = REIMBURSE_100;
       newAmount = base.mov_amount;
       descPrefix = "Reimburse for: ";

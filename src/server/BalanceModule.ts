@@ -207,9 +207,14 @@ export class BalanceModule {
         );
 
         balanceCurrent.forEach((bc: Balance) => {
-          let bn: Balance = new Balance(
-            balanceNext.find(b => b.bal_id_account === bc.bal_id_account)
+          const foundBalance = balanceNext.find(
+            b => b.bal_id_account === bc.bal_id_account
           );
+
+          let bn: Balance;
+          if (foundBalance) {
+            bn = new Balance(foundBalance);
+          }
 
           if (bn) {
             if (bn.bal_initial !== bc.bal_final) {

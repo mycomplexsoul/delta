@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { TasksCore } from "./tasks.core";
 import { SyncAPI } from "../common/sync.api";
-import { Task } from "./task.type";
+import { Task, TaskStatus } from "./task.type";
 import { TaskIndicator } from "./task.indicator.service";
 import { DateCommon } from "../common/date.common";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
@@ -1461,7 +1461,8 @@ export class TasksComponent implements OnInit {
     let tasksOfTheDay = this.tasks.filter((t: any) => {
       return (
         new Date(t.tsk_date_done) >= day0 &&
-        new Date(t.tsk_date_done) < nextDay0
+        new Date(t.tsk_date_done) < nextDay0 &&
+        t.tsk_ctg_status === TaskStatus.CLOSED
       );
     });
     tasksOfTheDay.forEach((t: any) => {
@@ -2192,5 +2193,18 @@ export class TasksComponent implements OnInit {
     handlers.forEach((handler: Function) => {
       handler(params);
     });
+  }
+
+  formatDateTime(date: Date): string {
+    if (
+      DateUtils.dateOnly(date).getTime() ===
+      DateUtils.dateOnly(new Date()).getTime()
+    ) {
+      // Date is today, just show time
+      return DateUtils.timeFromDateAsString(date).substring(0, 5);
+    } else {
+      // Date is not today, show date and time
+      return DateUtils.formatDate(date, "yyyy-MM-dd HH:mm");
+    }
   }
 }

@@ -10,6 +10,7 @@
   </ul>
   <span class="menu-user-section">
     {{ viewData.username }}
-    | <a (click)="logout()">logout</a> | v{{ metadata.appVersion }}
+    | <a (click)="logout()">logout</a> | v{{ metadata.appVersion }} |
+    {{ viewData.currentTime | date: "HH:mm:ss" }}
   </span>
 </div>

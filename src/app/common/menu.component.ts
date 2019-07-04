@@ -17,8 +17,10 @@ import { AuthenticationService } from "./authentication.service";
 export class MenuComponent implements OnInit {
   public viewData: {
     username: string;
+    currentTime: Date;
   } = {
-    username: "anon-default"
+    username: "anon-default",
+    currentTime: null
   };
   public services: {
     loginService: LoginService;
@@ -29,6 +31,7 @@ export class MenuComponent implements OnInit {
     appVersion: ""
   };
   currentUser: User;
+  timeInterval: number;
 
   constructor(
     private router: Router,
@@ -65,5 +68,11 @@ export class MenuComponent implements OnInit {
       .then(metadata => {
         this.metadata = metadata;
       });
+
+    this.viewData.currentTime = new Date();
+    this.timeInterval = window.setInterval(
+      () => (this.viewData.currentTime = new Date()),
+      1000
+    );
   }
 }

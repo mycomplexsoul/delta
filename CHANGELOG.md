@@ -114,6 +114,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.9.22 (2019-06-19)
+
+- [AppTasks][mod] Display time information with only time part if date is today, otherwise it renders date and time
+
+## v1.9.21 (2019-06-18)
+
+- [AppCommon][new][Menu] Show current Time, as a clock
+
 ## v1.9.20 (2019-06-17)
 
 - [AppLastTime][new] Migrate user data to proper username and consume user authentication service
