@@ -38,6 +38,7 @@ export class MultimediaComponent implements OnInit {
     showCreateEpForm: boolean;
     showDetList: boolean;
     detListTitle: string;
+    multimediaDetListWithGroups: any[];
   } = {
     multimediaList: [],
     multimediaDetList: [],
@@ -47,7 +48,8 @@ export class MultimediaComponent implements OnInit {
     showCreateForm: false,
     showCreateEpForm: false,
     showDetList: false,
-    detListTitle: null
+    detListTitle: null,
+    multimediaDetListWithGroups: []
   };
   public services: {
     multimediaService: MultimediaService;
@@ -394,6 +396,7 @@ export class MultimediaComponent implements OnInit {
     this.services.syncService.multipleRequest(queue);
     this.resetEpForm(form);
     this.viewData.showCreateEpForm = false;
+    this.renderDetListing(this.viewData.multimediaDetList, null);
   }
 
   calculateNextEp(currentEp: string): string {
@@ -443,6 +446,25 @@ export class MultimediaComponent implements OnInit {
         (item, index) => index < 20
       );
     }
+
+    const multimediaDetListWithGroups = [];
+    const diffDates: Date[] = [];
+    this.viewData.multimediaDetList.forEach(d => {
+      const dayViewed: Date = DateUtils.dateOnly(d["viewedDate"]);
+      const found = diffDates.find(e => e.getTime() === dayViewed.getTime());
+      if (!found) {
+        diffDates.push(dayViewed);
+        multimediaDetListWithGroups.push({
+          date: dayViewed,
+          items: this.viewData.multimediaDetList.filter(
+            m =>
+              DateUtils.dateOnly(m["viewedDate"]).getTime() ===
+              dayViewed.getTime()
+          )
+        });
+      }
+    });
+    this.viewData.multimediaDetListWithGroups = multimediaDetListWithGroups;
   }
 
   showDetListing(id: string) {

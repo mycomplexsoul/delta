@@ -105,7 +105,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * [AppCommon][new][Menu] Apply styles and layout to menu items
 * [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
-* [AppMultimedia][new] Episode listing should be displayed with groups by date
 * [AppLastTime][new] Reuse CSS styles and generic grid listing components
 * [AppKanban][new] Entity generation
 
@@ -113,6 +112,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppMoney][new] Add presets form to edit or add new presets
 
 <hr/>
+
+## v1.9.23 (2019-06-20)
+
+- [AppMultimedia][new] Episode listing should be displayed with groups by date
 
 ## v1.9.22 (2019-06-19)
 
