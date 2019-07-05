@@ -12,14 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Daily balance over an account or over all accounts totals
     - [AppMoney][new] Define mapping for groups of expenses based on categories
   - Balance
-    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Spent report for monthly/range basis
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
     - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
     - [AppMoney][new] Balance page, optimize data consumption for slow networks, fetch dinamically as needed
   - Movement
-    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Scheduled movements (with PENDING status)
       - [AppMoney][new] Rebuild should use only active movements
       - [AppMoney][new] Listing of pending movements
@@ -27,29 +25,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Movement form validation client side
     - [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
   - Account
-    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Option to display archived/cancelled accounts into listing
   - Places
-    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
     - [AppMoney][new] Add a functionality to replace all uses of a place with another selected place using a button and a combo with places
     - [AppMoney][new] Add a button to delete a place, but it will be available only if the count of all uses is zero
   - Categories
-    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Add categories form to edit or add new categories
     - [AppMoney][new] Consume endpoints to finish adding or editing categories
     - [AppMoney][new] Add a badge with the count of all uses of a category inside registered movements
     - [AppMoney][new] Add a functionality to replace all uses of a category with another selected category using a button and a combo with categories
     - [AppMoney][new] Add a button to delete a category, but it will be available only if the count of all uses is zero
   - Presets
-    - [AppMoney][new] Migrate user data to proper username and consume user authentication service
     - [AppMoney][new] Consume endpoints to finish adding or editing presets
 - Tasks
-  - [AppTasks][new] Migrate user data to proper username and consume user authentication service
   - [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
   - [AppTasks][new] Idle time counter (time since last time tracked record today)
   - [AppTasks][new] Keyboard shortcuts for navigating from record list to next/previous record list and focus into first task in the list
-  - [AppTasks][new] Option to show/hide Indicators
   - [AppTasks][new] Unset schedule
   - [AppTasks][new] Unset link
   - [AppTasks][mod] Refactor updateState method to change only the needed elements via sub/pub events
@@ -78,10 +70,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new][CFG] Once CFG is created/modified, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][new][Install] When entering `/health-check` route, look for `cfg.json`, if present, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
-  - [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
 - Multimedia
   - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
-  - [AppMultimedia][new] View episode details in a form, to be able to edit them
 - LastTime
   - [AppLastTime][new] Use a tag `edit-note` to just prompt for updates on notes for the items that had this tag
   - [AppLastTime][new] Add instructions section with details of `edit-note` tag usage
@@ -99,7 +89,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppKanban][new] Entry and table generation
 
 * [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
-* [AppMoney][new] In balance page, once loaded, check if there's balance for current month, if it is proceed with rendering, if it isn't look for balance on previous month, if no balance is found, proceed with rendering, if balance is found, do a balance transfer for previous to current month
 * [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
 * [AppTasks][new] Dark theme
 
@@ -111,7 +100,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppMoney][new] Add categories UI listing
 * [AppMoney][new] Add presets form to edit or add new presets
 
+- [AppMoney][new] Balance, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Movements, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Accounts, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Places, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Categories, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Presets, Migrate user data to proper username and consume user authentication service
+- [AppTasks][new] Tasks, TimeTracking, Migrate user data to proper username and consume user authentication service
+- [AppTasks][new] Options to show/hide individual Indicators
+- [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
+- [AppMultimedia][new] View episode details in a form, to be able to edit them
+
 <hr/>
+
+## v1.9.24 (2019-06-21)
+
+- [AppMoney][new] In balance page, once loaded, check if there's balance for current month, if it is proceed with rendering, if it isn't look for balance on previous month, if no balance is found, proceed with rendering, if balance is found, do a balance transfer for previous to current month
 
 ## v1.9.23 (2019-06-20)
 

@@ -150,6 +150,8 @@ export class BalanceComponent implements OnInit {
         // TODO: add list of year/months of balance for combo box
         this.viewData.monthList = this.services.balance.monthList(this.user);
 
+        this.checkCurrentBalance(list);
+
         this.monthlyIncomeVsExpense();
       });
     this.services.movement
@@ -157,6 +159,18 @@ export class BalanceComponent implements OnInit {
       .then((list: Array<Movement>) => {
         this.state.movementList = list;
         this.monthlyTotals();
+      });
+  }
+
+  fetchBalance() {
+    this.services.balance
+      .getAllForUser(this.user)
+      .then((list: Array<Balance>) => {
+        this.viewData.balance = list;
+
+        this.viewData.monthBalance = this.filterMonthBalance();
+        this.viewData.monthList = this.services.balance.monthList(this.user);
+        this.monthlyIncomeVsExpense();
       });
   }
 
@@ -344,41 +358,57 @@ export class BalanceComponent implements OnInit {
   rebuild() {
     const model = this.parseModel();
 
-    this.services.sync.post("/api/balance/rebuild", {
-      year: model.parsedYear,
-      month: model.parsedMonth,
-      user: "anon"
-    });
+    this.services.sync
+      .post("/api/balance/rebuild", {
+        year: model.parsedYear,
+        month: model.parsedMonth,
+        user: "anon"
+      })
+      .then(() => {
+        this.fetchBalance();
+      });
   }
 
   transfer() {
     const model = this.parseModel();
 
-    this.services.sync.post("/api/balance/transfer", {
-      year: model.parsedYear,
-      month: model.parsedMonth,
-      user: "anon"
-    });
+    this.services.sync
+      .post("/api/balance/transfer", {
+        year: model.parsedYear,
+        month: model.parsedMonth,
+        user: "anon"
+      })
+      .then(() => {
+        this.fetchBalance();
+      });
   }
 
   rebuildAndTransfer() {
     const model = this.parseModel();
 
-    this.services.sync.post("/api/balance/rebuild-and-transfer", {
-      year: model.parsedYear,
-      month: model.parsedMonth,
-      user: "anon"
-    });
+    this.services.sync
+      .post("/api/balance/rebuild-and-transfer", {
+        year: model.parsedYear,
+        month: model.parsedMonth,
+        user: "anon"
+      })
+      .then(() => {
+        this.fetchBalance();
+      });
   }
 
   rebuildAndTransferUntilCurrentMonth() {
     const model = this.parseModel();
 
-    this.services.sync.post("/api/balance/rebuild-and-transfer-range", {
-      year: model.parsedYear,
-      month: model.parsedMonth,
-      user: "anon"
-    });
+    this.services.sync
+      .post("/api/balance/rebuild-and-transfer-range", {
+        year: model.parsedYear,
+        month: model.parsedMonth,
+        user: "anon"
+      })
+      .then(() => {
+        this.fetchBalance();
+      });
   }
 
   monthlyIncomeVsExpense() {
@@ -437,5 +467,36 @@ export class BalanceComponent implements OnInit {
     };
 
     this.viewData.monthlyExpenseVsIncomeChart = graphData;
+  }
+
+  /**
+   * Check if there's balance for current month, if it is proceed with rendering.
+   * If it isn't look for balance on previous month,
+   * - if no balance is found, proceed with rendering,
+   * - if balance is found, do a balance transfer from previous to current month
+   */
+  checkCurrentBalance(balanceList: Balance[]) {
+    const currentMonthIterable: number = this.model.iterable;
+    const previousMonthIterable: number = DateUtils.getIterablePreviousMonth(
+      this.model.year,
+      this.model.month
+    ).iterable;
+
+    const existsBalanceForCurrentMonth: boolean =
+      balanceList.filter(
+        b => b.bal_year * 100 + b.bal_month === currentMonthIterable
+      ).length > 0;
+
+    if (!existsBalanceForCurrentMonth) {
+      const existsBalanceForPreviousMonth: boolean =
+        balanceList.filter(
+          b => b.bal_year * 100 + b.bal_month === previousMonthIterable
+        ).length > 0;
+
+      if (existsBalanceForPreviousMonth) {
+        this.model.iterable = previousMonthIterable;
+        this.transfer();
+      }
+    }
   }
 }

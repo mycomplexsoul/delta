@@ -443,7 +443,7 @@ export class MultimediaComponent implements OnInit {
 
     if (!id) {
       this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter(
-        (item, index) => index < 20
+        (item, index) => index < 40
       );
     }
 
