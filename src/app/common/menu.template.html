@@ -1,16 +1,89 @@
 <div class="menu-container" *ngIf="currentUser">
-  <ul>
-    <li><a routerLink="tasks" href="/tasks">Tasks</a> |&nbsp;</li>
-    <li><a routerLink="movement" href="/movement">Movements</a> |&nbsp;</li>
-    <li><a routerLink="balance" href="/balance">Balance</a> |&nbsp;</li>
-    <li><a routerLink="lasttime" href="/lasttime">Last Time</a> |&nbsp;</li>
-    <li><a routerLink="multimedia" href="/multimedia">Multimedia</a> |</li>
-    <li>&nbsp;<a routerLink="account" href="/account">Accounts</a> |&nbsp;</li>
-    <li><drink-water></drink-water></li>
-  </ul>
-  <span class="menu-user-section">
-    {{ viewData.username }}
-    | <a (click)="logout()">logout</a> | v{{ metadata.appVersion }} |
-    {{ viewData.currentTime | date: "HH:mm:ss" }}
-  </span>
+  <div class="menu-header">
+    <div class="menu-icon">
+      <button (click)="viewData.isOpen = !viewData.isOpen">
+        menu
+      </button>
+    </div>
+    <div class="menu-area">
+      <drink-water></drink-water>
+    </div>
+    <div class="menu-section" *ngIf="viewData.isOpen">
+      <ul class="menu-items" (keydown.esc)="viewData.isOpen = false">
+        <li>
+          <a (click)="viewData.isOpen = false" routerLink="tasks" href="/tasks"
+            >Tasks</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="movement"
+            href="/movement"
+            >Movements</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="balance"
+            href="/balance"
+            >Balance</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="lasttime"
+            href="/lasttime"
+            >Last Time</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="multimedia"
+            href="/multimedia"
+            >Multimedia</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="account"
+            href="/account"
+            >Accounts</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="places"
+            href="/places"
+            >Places</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
+            routerLink="presets"
+            href="/presets"
+            >Presets</a
+          >
+        </li>
+        <li>
+          <span>{{ viewData.username }}</span>
+        </li>
+        <li>
+          <a (click)="logout()">logout</a>
+        </li>
+        <li>
+          <span>v{{ metadata.appVersion }}</span>
+        </li>
+        <li>
+          <span> {{ viewData.currentTime | date: "HH:mm:ss" }} </span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

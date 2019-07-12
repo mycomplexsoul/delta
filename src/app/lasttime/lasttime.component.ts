@@ -17,7 +17,6 @@ import { LastTimeHistoryService } from "./lasttimehistory.service";
   providers: [LastTimeService, LastTimeHistoryService]
 })
 export class LastTimeComponent implements OnInit {
-  private user: string = "anon";
   public viewData: {
     lastTime: Array<LastTime>;
     showCreateForm: boolean;
@@ -56,13 +55,11 @@ export class LastTimeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.services.lastTime
-      .getAllForUser(this.user)
-      .then((list: Array<LastTime>) => {
-        this.viewData.lastTime = list;
-        // calculate validity on each
-        this.calculateValidityForAll();
-      });
+    this.services.lastTime.getAll().then((list: Array<LastTime>) => {
+      this.viewData.lastTime = list;
+      // calculate validity on each
+      this.calculateValidityForAll();
+    });
 
     this.reloadItems = this.reloadItems.bind(this);
   }
@@ -108,8 +105,7 @@ export class LastTimeComponent implements OnInit {
         values.fValue,
         values.fValidity,
         values.fTags,
-        values.fNotes,
-        this.user
+        values.fNotes
       )
       .then(item => {
         this.viewData.lastTime = this.services.lastTime.list();

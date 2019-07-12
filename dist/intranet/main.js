@@ -328,7 +328,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<menu></menu>\n<router-outlet></router-outlet>\n"
+module.exports = "<menu></menu>\n<div class=\"app-container\">\n  <router-outlet></router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -1408,7 +1408,8 @@ let MenuComponent = class MenuComponent {
         this.loginService = loginService;
         this.viewData = {
             username: "anon-default",
-            currentTime: null
+            currentTime: null,
+            isOpen: false
         };
         this.services = {
             loginService: null
@@ -1470,7 +1471,7 @@ exports.MenuComponent = MenuComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".menu-container ul {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.menu-container ul li {\r\n  display: inline;\r\n}\r\n\r\n.menu-container ul li a {\r\n  text-decoration: none;\r\n}\r\n\r\n.menu-container {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.menu-user-section {\r\n  flex-shrink: 0;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL21lbnUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFNBQVM7RUFDVCxVQUFVO0FBQ1o7O0FBRUE7RUFDRSxlQUFlO0FBQ2pCOztBQUVBO0VBQ0UscUJBQXFCO0FBQ3ZCOztBQUVBO0VBQ0UsYUFBYTtFQUNiLDhCQUE4QjtBQUNoQzs7QUFFQTtFQUNFLGNBQWM7QUFDaEIiLCJmaWxlIjoic3JjL2FwcC9jb21tb24vbWVudS5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubWVudS1jb250YWluZXIgdWwge1xyXG4gIGxpc3Qtc3R5bGU6IG5vbmU7XHJcbiAgbWFyZ2luOiAwO1xyXG4gIHBhZGRpbmc6IDA7XHJcbn1cclxuXHJcbi5tZW51LWNvbnRhaW5lciB1bCBsaSB7XHJcbiAgZGlzcGxheTogaW5saW5lO1xyXG59XHJcblxyXG4ubWVudS1jb250YWluZXIgdWwgbGkgYSB7XHJcbiAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xyXG59XHJcblxyXG4ubWVudS1jb250YWluZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xyXG59XHJcblxyXG4ubWVudS11c2VyLXNlY3Rpb24ge1xyXG4gIGZsZXgtc2hyaW5rOiAwO1xyXG59XHJcbiJdfQ== */"
+module.exports = ".menu-container {\r\n  width: 100%;\r\n}\r\n\r\n.menu-header ul {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.menu-items li {\r\n  border-bottom: 1px solid #888;\r\n}\r\n\r\n.menu-items li a,\r\n.menu-items li span {\r\n  padding: 5px;\r\n  display: inline-block;\r\n  width: 97%;\r\n  color: black;\r\n}\r\n\r\n.menu-items {\r\n  color: black;\r\n}\r\n\r\n.menu-header ul li a {\r\n  text-decoration: none;\r\n}\r\n\r\n.menu-header {\r\n  display: flex;\r\n}\r\n\r\n.menu-icon {\r\n  cursor: pointer;\r\n}\r\n\r\n.menu-section {\r\n  display: block;\r\n  position: absolute;\r\n  top: 19px;\r\n  left: 0;\r\n  width: 100%;\r\n  background-color: #aaa;\r\n}\r\n\r\n@media all and (min-width: 505px) {\r\n  .menu-section {\r\n    width: 30%;\r\n  }\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL21lbnUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztBQUNiOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFNBQVM7RUFDVCxVQUFVO0FBQ1o7O0FBRUE7RUFDRSw2QkFBNkI7QUFDL0I7O0FBRUE7O0VBRUUsWUFBWTtFQUNaLHFCQUFxQjtFQUNyQixVQUFVO0VBQ1YsWUFBWTtBQUNkOztBQUVBO0VBQ0UsWUFBWTtBQUNkOztBQUVBO0VBQ0UscUJBQXFCO0FBQ3ZCOztBQUVBO0VBQ0UsYUFBYTtBQUNmOztBQUVBO0VBQ0UsZUFBZTtBQUNqQjs7QUFFQTtFQUNFLGNBQWM7RUFDZCxrQkFBa0I7RUFDbEIsU0FBUztFQUNULE9BQU87RUFDUCxXQUFXO0VBQ1gsc0JBQXNCO0FBQ3hCOztBQUVBO0VBQ0U7SUFDRSxVQUFVO0VBQ1o7QUFDRiIsImZpbGUiOiJzcmMvYXBwL2NvbW1vbi9tZW51LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tZW51LWNvbnRhaW5lciB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbn1cclxuXHJcbi5tZW51LWhlYWRlciB1bCB7XHJcbiAgbGlzdC1zdHlsZTogbm9uZTtcclxuICBtYXJnaW46IDA7XHJcbiAgcGFkZGluZzogMDtcclxufVxyXG5cclxuLm1lbnUtaXRlbXMgbGkge1xyXG4gIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjODg4O1xyXG59XHJcblxyXG4ubWVudS1pdGVtcyBsaSBhLFxyXG4ubWVudS1pdGVtcyBsaSBzcGFuIHtcclxuICBwYWRkaW5nOiA1cHg7XHJcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xyXG4gIHdpZHRoOiA5NyU7XHJcbiAgY29sb3I6IGJsYWNrO1xyXG59XHJcblxyXG4ubWVudS1pdGVtcyB7XHJcbiAgY29sb3I6IGJsYWNrO1xyXG59XHJcblxyXG4ubWVudS1oZWFkZXIgdWwgbGkgYSB7XHJcbiAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xyXG59XHJcblxyXG4ubWVudS1oZWFkZXIge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbn1cclxuXHJcbi5tZW51LWljb24ge1xyXG4gIGN1cnNvcjogcG9pbnRlcjtcclxufVxyXG5cclxuLm1lbnUtc2VjdGlvbiB7XHJcbiAgZGlzcGxheTogYmxvY2s7XHJcbiAgcG9zaXRpb246IGFic29sdXRlO1xyXG4gIHRvcDogMTlweDtcclxuICBsZWZ0OiAwO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGJhY2tncm91bmQtY29sb3I6ICNhYWE7XHJcbn1cclxuXHJcbkBtZWRpYSBhbGwgYW5kIChtaW4td2lkdGg6IDUwNXB4KSB7XHJcbiAgLm1lbnUtc2VjdGlvbiB7XHJcbiAgICB3aWR0aDogMzAlO1xyXG4gIH1cclxufVxyXG4iXX0= */"
 
 /***/ }),
 
@@ -1481,7 +1482,7 @@ module.exports = ".menu-container ul {\r\n  list-style: none;\r\n  margin: 0;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <ul>\r\n    <li><a routerLink=\"tasks\" href=\"/tasks\">Tasks</a> |&nbsp;</li>\r\n    <li><a routerLink=\"movement\" href=\"/movement\">Movements</a> |&nbsp;</li>\r\n    <li><a routerLink=\"balance\" href=\"/balance\">Balance</a> |&nbsp;</li>\r\n    <li><a routerLink=\"lasttime\" href=\"/lasttime\">Last Time</a> |&nbsp;</li>\r\n    <li><a routerLink=\"multimedia\" href=\"/multimedia\">Multimedia</a> |</li>\r\n    <li>&nbsp;<a routerLink=\"account\" href=\"/account\">Accounts</a> |&nbsp;</li>\r\n    <li><drink-water></drink-water></li>\r\n  </ul>\r\n  <span class=\"menu-user-section\">\r\n    {{ viewData.username }}\r\n    | <a (click)=\"logout()\">logout</a> | v{{ metadata.appVersion }} |\r\n    {{ viewData.currentTime | date: \"HH:mm:ss\" }}\r\n  </span>\r\n</div>\r\n"
+module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <div class=\"menu-header\">\r\n    <div class=\"menu-icon\">\r\n      <button (click)=\"viewData.isOpen = !viewData.isOpen\">\r\n        menu\r\n      </button>\r\n    </div>\r\n    <div class=\"menu-area\">\r\n      <drink-water></drink-water>\r\n    </div>\r\n    <div class=\"menu-section\" *ngIf=\"viewData.isOpen\">\r\n      <ul class=\"menu-items\" (keydown.esc)=\"viewData.isOpen = false\">\r\n        <li>\r\n          <a (click)=\"viewData.isOpen = false\" routerLink=\"tasks\" href=\"/tasks\"\r\n            >Tasks</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"movement\"\r\n            href=\"/movement\"\r\n            >Movements</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"balance\"\r\n            href=\"/balance\"\r\n            >Balance</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"lasttime\"\r\n            href=\"/lasttime\"\r\n            >Last Time</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"multimedia\"\r\n            href=\"/multimedia\"\r\n            >Multimedia</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"account\"\r\n            href=\"/account\"\r\n            >Accounts</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"places\"\r\n            href=\"/places\"\r\n            >Places</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"presets\"\r\n            href=\"/presets\"\r\n            >Presets</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <span>{{ viewData.username }}</span>\r\n        </li>\r\n        <li>\r\n          <a (click)=\"logout()\">logout</a>\r\n        </li>\r\n        <li>\r\n          <span>v{{ metadata.appVersion }}</span>\r\n        </li>\r\n        <li>\r\n          <span> {{ viewData.currentTime | date: \"HH:mm:ss\" }} </span>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -2104,7 +2105,6 @@ const lasttimehistory_service_1 = __webpack_require__(/*! ./lasttimehistory.serv
 let LastTimeComponent = class LastTimeComponent {
     constructor(lastTimeService, lastTimeHistoryService, titleService) {
         this.titleService = titleService;
-        this.user = "anon";
         this.viewData = {
             lastTime: [],
             showCreateForm: false,
@@ -2127,9 +2127,7 @@ let LastTimeComponent = class LastTimeComponent {
         titleService.setTitle("Last Time");
     }
     ngOnInit() {
-        this.services.lastTime
-            .getAllForUser(this.user)
-            .then((list) => {
+        this.services.lastTime.getAll().then((list) => {
             this.viewData.lastTime = list;
             // calculate validity on each
             this.calculateValidityForAll();
@@ -2167,7 +2165,7 @@ let LastTimeComponent = class LastTimeComponent {
     newItem(form) {
         let values = form.value;
         this.services.lastTime
-            .newItem(values.fName, values.fValue, values.fValidity, values.fTags, values.fNotes, this.user)
+            .newItem(values.fName, values.fValue, values.fValidity, values.fTags, values.fNotes)
             .then(item => {
             this.viewData.lastTime = this.services.lastTime.list();
             const listItem = this.viewData.lastTime.find(elem => elem.lst_id === item.lst_id);
@@ -2337,8 +2335,10 @@ const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const authentication_service_1 = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
 let LastTimeService = class LastTimeService {
-    constructor(storage, sync) {
+    constructor(storage, sync, authenticationService) {
+        this.authenticationService = authenticationService;
         this.data = [];
         this.storage = null;
         this.sync = null;
@@ -2396,7 +2396,7 @@ let LastTimeService = class LastTimeService {
     saveToStorage() {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
     }
-    newItem(name, value, validity, tags, notes, user) {
+    newItem(name, value, validity, tags, notes) {
         let newId = Utility_1.Utils.hashIdForEntity(new LastTime_1.LastTime(), "lst_id");
         let newItem = new LastTime_1.LastTime({
             lst_id: newId,
@@ -2405,7 +2405,7 @@ let LastTimeService = class LastTimeService {
             lst_validity: validity,
             lst_tags: tags,
             lst_notes: notes,
-            lst_id_user: user,
+            lst_id_user: this.authenticationService.currentUserValue.username,
             lst_date_add: new Date(),
             lst_date_mod: new Date(),
             lst_ctg_status: 1
@@ -2459,7 +2459,9 @@ let LastTimeService = class LastTimeService {
 };
 LastTimeService = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService,
+        sync_api_1.SyncAPI,
+        authentication_service_1.AuthenticationService])
 ], LastTimeService);
 exports.LastTimeService = LastTimeService;
 
@@ -2853,7 +2855,6 @@ const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./
 let BalanceComponent = class BalanceComponent {
     constructor(balanceService, movementService, syncService, titleService) {
         this.titleService = titleService;
-        this.user = "anon";
         this.viewData = {
             balance: [],
             movements: [],
@@ -2924,24 +2925,29 @@ let BalanceComponent = class BalanceComponent {
         this.model.iterable =
             new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
         this.parseIterable();
-        this.services.balance
-            .getAllForUser(this.user)
-            .then((list) => {
+        this.services.balance.getAll().then((list) => {
             this.viewData.balance = list;
             /*this.viewData.balance = this.viewData.balance
-                .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
-                .slice(0,10);*/
+                  .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
+                  .slice(0,10);*/
             this.viewData.monthBalance = this.filterMonthBalance();
             //this.viewData.monthBalance = this.services.balance.list;
             // TODO: add list of year/months of balance for combo box
-            this.viewData.monthList = this.services.balance.monthList(this.user);
+            this.viewData.monthList = this.services.balance.monthList();
+            this.checkCurrentBalance(list);
             this.monthlyIncomeVsExpense();
         });
-        this.services.movement
-            .getAllForUser(this.user)
-            .then((list) => {
+        this.services.movement.getAll().then((list) => {
             this.state.movementList = list;
             this.monthlyTotals();
+        });
+    }
+    fetchBalance() {
+        this.services.balance.getAll().then((list) => {
+            this.viewData.balance = list;
+            this.viewData.monthBalance = this.filterMonthBalance();
+            this.viewData.monthList = this.services.balance.monthList();
+            this.monthlyIncomeVsExpense();
         });
     }
     parseIterable() {
@@ -2987,9 +2993,7 @@ let BalanceComponent = class BalanceComponent {
                 balance
             }));
         });
-        this.services.movement
-            .getAllForUser(this.user)
-            .then((list) => {
+        this.services.movement.getAll().then((list) => {
             let ref = balance.bal_year * 100 + balance.bal_month;
             this.viewData.movements = list.filter(m => {
                 let movRef = new Date(m.mov_date).getFullYear() * 100 +
@@ -3076,34 +3080,50 @@ let BalanceComponent = class BalanceComponent {
     }
     rebuild() {
         const model = this.parseModel();
-        this.services.sync.post("/api/balance/rebuild", {
+        this.services.sync
+            .post("/api/balance/rebuild", {
             year: model.parsedYear,
             month: model.parsedMonth,
             user: "anon"
+        })
+            .then(() => {
+            this.fetchBalance();
         });
     }
     transfer() {
         const model = this.parseModel();
-        this.services.sync.post("/api/balance/transfer", {
+        this.services.sync
+            .post("/api/balance/transfer", {
             year: model.parsedYear,
             month: model.parsedMonth,
             user: "anon"
+        })
+            .then(() => {
+            this.fetchBalance();
         });
     }
     rebuildAndTransfer() {
         const model = this.parseModel();
-        this.services.sync.post("/api/balance/rebuild-and-transfer", {
+        this.services.sync
+            .post("/api/balance/rebuild-and-transfer", {
             year: model.parsedYear,
             month: model.parsedMonth,
             user: "anon"
+        })
+            .then(() => {
+            this.fetchBalance();
         });
     }
     rebuildAndTransferUntilCurrentMonth() {
         const model = this.parseModel();
-        this.services.sync.post("/api/balance/rebuild-and-transfer-range", {
+        this.services.sync
+            .post("/api/balance/rebuild-and-transfer-range", {
             year: model.parsedYear,
             month: model.parsedMonth,
             user: "anon"
+        })
+            .then(() => {
+            this.fetchBalance();
         });
     }
     monthlyIncomeVsExpense() {
@@ -3141,6 +3161,24 @@ let BalanceComponent = class BalanceComponent {
             chartType: "pie"
         };
         this.viewData.monthlyExpenseVsIncomeChart = graphData;
+    }
+    /**
+     * Check if there's balance for current month, if it is proceed with rendering.
+     * If it isn't look for balance on previous month,
+     * - if no balance is found, proceed with rendering,
+     * - if balance is found, do a balance transfer from previous to current month
+     */
+    checkCurrentBalance(balanceList) {
+        const currentMonthIterable = this.model.iterable;
+        const previousMonthIterable = DateUtility_1.DateUtils.getIterablePreviousMonth(this.model.year, this.model.month).iterable;
+        const existsBalanceForCurrentMonth = balanceList.filter(b => b.bal_year * 100 + b.bal_month === currentMonthIterable).length > 0;
+        if (!existsBalanceForCurrentMonth) {
+            const existsBalanceForPreviousMonth = balanceList.filter(b => b.bal_year * 100 + b.bal_month === previousMonthIterable).length > 0;
+            if (existsBalanceForPreviousMonth) {
+                this.model.iterable = previousMonthIterable;
+                this.transfer();
+            }
+        }
     }
 };
 BalanceComponent = tslib_1.__decorate([
@@ -3195,100 +3233,41 @@ let BalanceService = class BalanceService {
         this.sync = null;
         this.entryService = null;
         this.config = {
-            storageKey: 'balance',
-            defaultUser: 'anon',
+            storageKey: "balance",
             api: {
-                list: '/api/balance'
+                list: "/api/balance"
             }
         };
-        this.apiRoot = '';
+        this.apiRoot = "";
         this.storage = storage;
         this.entryService = entryService;
         this.sync = sync;
         // get api root
-        const options = storage.getObject('Options');
-        this.apiRoot = options ? options['optServerAddress'] : '';
+        const options = storage.getObject("Options");
+        this.apiRoot = options ? options["optServerAddress"] : "";
     }
     list() {
         return this.data;
     }
-    initialData() {
-        let list = [];
-        // let newData = (
-        //     mov_id: string
-        //     , mov_date: Date
-        //     , mov_amount: number
-        //     , mov_account: number
-        //     , mov_account_to: number
-        //     , mov_ctg_type: number
-        //     , mov_budget: string
-        //     , mov_ctg_category: number
-        //     , mov_ctg_place: number
-        //     , mov_desc: string
-        //     , mov_notes: string
-        //     , mov_id_user: string
-        //     , mov_ctg_status: number
-        //     , mov_txt_type: string
-        //     , mov_txt_account: string
-        //     , mov_txt_account_to: string
-        //     , mov_txt_budget: string
-        //     , mov_txt_category: string
-        //     , mov_txt_place: string
-        //     , mov_txt_status: string
-        // ) => {
-        //     return {
-        //         mov_id
-        //         , mov_date
-        //         , mov_amount
-        //         , mov_account
-        //         , mov_account_to
-        //         , mov_ctg_type
-        //         , mov_budget
-        //         , mov_ctg_category
-        //         , mov_ctg_place
-        //         , mov_desc
-        //         , mov_notes
-        //         , mov_id_user
-        //         , mov_ctg_status
-        //         , mov_txt_type
-        //         , mov_txt_account
-        //         , mov_txt_account_to
-        //         , mov_txt_budget
-        //         , mov_txt_category
-        //         , mov_txt_place
-        //         , mov_txt_status
-        //     };
-        // };
-        // let data: Array<Entry> = [];
-        // //data.push(newData('1','Walmart'));
-        // list = data.map((d: any) => {
-        //     d.mov_id_user = this.config.defaultUser;
-        //     return new Entry(d);
-        // });
-        return list;
-    }
     getAll() {
         /*let fromStorage = this.storage.get(this.config.storageKey);
-        if (fromStorage){
-            this.data = JSON.parse(fromStorage);
-        } else {
-            this.data = this.initialData();
-        }*/
-        const sort = ((a, b) => {
-            if (a.bal_txt_account === 'Capital') {
+            if (fromStorage){
+                this.data = JSON.parse(fromStorage);
+            } else {
+                this.data = this.initialData();
+            }*/
+        const sort = (a, b) => {
+            if (a.bal_txt_account === "Capital") {
                 return 1;
             }
             return a.bal_txt_account > b.bal_txt_account ? 1 : -1;
-        });
-        return this.sync.get(`${this.apiRoot}${this.config.api.list}`).then(data => {
+        };
+        return this.sync
+            .get(`${this.apiRoot}${this.config.api.list}`)
+            .then(data => {
             this.data = data.map((d) => new Balance_1.Balance(d));
             this.data = this.data.sort(sort);
             return this.data;
-        });
-    }
-    getAllForUser(user) {
-        return this.getAll().then((list) => {
-            return list.filter((x) => x.bal_id_user === user);
         });
     }
     saveToStorage() {
@@ -3304,13 +3283,18 @@ let BalanceService = class BalanceService {
         let balance = this.list();
         // add up
         entryList.forEach((e) => {
-            let b = balance.find(b => b.bal_year === e.ent_date.getFullYear() && b.bal_month === e.ent_date.getMonth() + 1 && b.bal_id_account === e.ent_id_account && b.bal_id_user === e.ent_id_user);
-            if (b) { // exists a balance, add entry amount
+            let b = balance.find(b => b.bal_year === e.ent_date.getFullYear() &&
+                b.bal_month === e.ent_date.getMonth() + 1 &&
+                b.bal_id_account === e.ent_id_account &&
+                b.bal_id_user === e.ent_id_user);
+            if (b) {
+                // exists a balance, add entry amount
                 b.bal_charges += e.ent_ctg_type === 2 ? e.ent_amount : 0;
                 b.bal_withdrawals += e.ent_ctg_type === 1 ? e.ent_amount : 0;
                 b.bal_final += e.ent_ctg_type === 1 ? -1 * e.ent_amount : e.ent_amount;
             }
-            else { // balance does not exist, create one with amount and add it to list
+            else {
+                // balance does not exist, create one with amount and add it to list
                 b = new Balance_1.Balance();
                 b.bal_year = e.ent_date.getFullYear();
                 b.bal_month = e.ent_date.getMonth() + 1;
@@ -3327,11 +3311,12 @@ let BalanceService = class BalanceService {
         });
     }
     getAllForMonth(year, month, user) {
-        return this.list().filter((b) => b.bal_year === year && b.bal_month === month);
+        return this.list().filter(b => b.bal_year === year && b.bal_month === month);
     }
     rebuild(year, month, user) {
-        this.entryService.getAllForUser(user).then((entryList) => {
-            entryList.filter((e) => (new Date(e.ent_date)).getFullYear() === year && (new Date(e.ent_date)).getMonth() + 1 === month);
+        this.entryService.getAll().then((entryList) => {
+            entryList.filter(e => new Date(e.ent_date).getFullYear() === year &&
+                new Date(e.ent_date).getMonth() + 1 === month);
             let balance = this.getAllForMonth(year, month, user);
             balance.forEach((b) => {
                 b.bal_charges = 0;
@@ -3341,12 +3326,15 @@ let BalanceService = class BalanceService {
             // add up
             entryList.forEach((e) => {
                 let b = balance.find(b => b.bal_id_account === e.ent_id_account);
-                if (b) { // exists a balance, add entry amount
+                if (b) {
+                    // exists a balance, add entry amount
                     b.bal_charges += e.ent_ctg_type === 2 ? e.ent_amount : 0;
                     b.bal_withdrawals += e.ent_ctg_type === 1 ? e.ent_amount : 0;
-                    b.bal_final += e.ent_ctg_type === 1 ? -1 * e.ent_amount : e.ent_amount;
+                    b.bal_final +=
+                        e.ent_ctg_type === 1 ? -1 * e.ent_amount : e.ent_amount;
                 }
-                else { // balance does not exist, create one with amount and add it to list
+                else {
+                    // balance does not exist, create one with amount and add it to list
                     b = new Balance_1.Balance();
                     b.bal_year = year;
                     b.bal_month = month;
@@ -3366,7 +3354,8 @@ let BalanceService = class BalanceService {
     }
     transfer(year, month, user) {
         let currentDate = new Date();
-        if (year * 100 + month >= currentDate.getFullYear() * 100 + currentDate.getMonth() + 1) {
+        if (year * 100 + month >=
+            currentDate.getFullYear() * 100 + currentDate.getMonth() + 1) {
             // cannot transfer current month
             return;
         }
@@ -3378,7 +3367,7 @@ let BalanceService = class BalanceService {
             if (bn) {
                 bn.bal_initial = bc.bal_final;
                 bn.bal_final = bn.bal_initial + bn.bal_charges - bn.bal_withdrawals;
-                console.log('found a balance record, updated', bn);
+                console.log("found a balance record, updated", bn);
             }
             else {
                 bn = new Balance_1.Balance();
@@ -3391,7 +3380,7 @@ let BalanceService = class BalanceService {
                 bn.bal_final = bc.bal_final;
                 bn.bal_id_user = user;
                 bn.bal_txt_account = bc.bal_txt_account;
-                console.log('new balance record', bn);
+                console.log("new balance record", bn);
                 this.data.push(bn);
             }
         });
@@ -3425,7 +3414,7 @@ let BalanceService = class BalanceService {
             return {
                 year,
                 month: month + 1,
-                iterable: (year * 100) + month + 1
+                iterable: year * 100 + month + 1
             };
         }
     }
@@ -3435,13 +3424,14 @@ let BalanceService = class BalanceService {
         const monthName = DateUtility_1.DateUtils.getMonthName(month);
         return `${year} / ${monthName}`;
     }
-    monthList(user) {
+    monthList() {
         let iterable = this.list()
             .map((b) => ({
             iterable: b.bal_year * 100 + b.bal_month,
             year: b.bal_year,
             month: b.bal_month
-        })).reduce((previous, current) => {
+        }))
+            .reduce((previous, current) => {
             return previous.iterable < current.iterable ? previous : current;
         }, 999900);
         if (!iterable) {
@@ -3452,7 +3442,7 @@ let BalanceService = class BalanceService {
             };
         }
         let monthList = [];
-        let currentIterable = (new Date()).getFullYear() * 100 + ((new Date()).getMonth() + 1);
+        let currentIterable = new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
         while (iterable.iterable <= currentIterable) {
             iterable.name = this.parseMonthName(iterable.iterable);
             monthList.push(iterable);
@@ -3463,7 +3453,9 @@ let BalanceService = class BalanceService {
 };
 BalanceService = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, entry_service_1.EntryService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService,
+        entry_service_1.EntryService,
+        sync_api_1.SyncAPI])
 ], BalanceService);
 exports.BalanceService = BalanceService;
 
@@ -3497,17 +3489,18 @@ const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const authentication_service_1 = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
 let CategoryService = class CategoryService {
-    constructor(storage, sync) {
+    constructor(storage, sync, authenticationService) {
+        this.authenticationService = authenticationService;
         this.data = [];
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'categories',
-            defaultUser: 'anon',
+            storageKey: "categories",
             api: {
-                list: '/api/categories',
-                create: '/api/categories'
+                list: "/api/categories",
+                create: "/api/categories"
             }
         };
         this.storage = storage;
@@ -3516,44 +3509,26 @@ let CategoryService = class CategoryService {
     list() {
         return this.data;
     }
-    initialData() {
-        let list;
-        let newData = (mct_id, mct_name) => {
-            return { mct_id, mct_name };
-        };
-        let data = [];
-        data.push(newData('1', 'Cap'));
-        data.push(newData('2', 'Cart'));
-        list = data.map((d) => {
-            d.mct_id_user = this.config.defaultUser;
-            return new Category_1.Category(d);
-        });
-        return list;
-    }
     getAll() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             /*let fromStorage = this.storage.get(this.config.storageKey);
-            if (fromStorage){
-                this.data = JSON.parse(fromStorage);
-            } else {
-                this.data = this.initialData();
-            }*/
-            const sort = ((a, b) => {
+                if (fromStorage){
+                    this.data = JSON.parse(fromStorage);
+                } else {
+                    this.data = this.initialData();
+                }*/
+            const sort = (a, b) => {
                 return a.mct_name > b.mct_name ? 1 : -1;
-            });
-            return this.sync.get(`${this.config.api.list}`).then(data => {
+            };
+            return this.sync
+                .get(`${this.config.api.list}`)
+                .then(data => {
                 this.data = data.map((d) => new Category_1.Category(d));
                 this.data = this.data.sort(sort);
                 return this.data;
-            }).catch(err => {
+            })
+                .catch(err => {
                 return [];
-            });
-        });
-    }
-    getAllForUser(user) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.getAll().then((all) => {
-                return all.filter((x) => x.mct_id_user === user);
             });
         });
     }
@@ -3562,33 +3537,37 @@ let CategoryService = class CategoryService {
     }
     newId() {
         const m = new Category_1.Category();
-        const length = m.metadata.fields.find(f => f.dbName === 'mct_id').size;
+        const length = m.metadata.fields.find(f => f.dbName === "mct_id")
+            .size;
         return Utility_1.Utils.hashId(m.metadata.prefix, length);
     }
-    newItem(category, user) {
+    newItem(category) {
         let newId = this.newId();
         let newItem = new Category_1.Category({
             mct_id: newId,
             mct_name: category,
-            mct_id_user: user,
+            mct_id_user: this.authenticationService.currentUserValue.username,
             mct_date_add: new Date(),
             mct_date_mod: new Date(),
             mct_ctg_status: 1
         });
         //this.data.push(newItem);
         //this.saveToStorage();
-        return this.sync.post(this.config.api.create, newItem).then(response => {
+        return this.sync
+            .post(this.config.api.create, newItem)
+            .then(response => {
             if (response.processOk) {
                 this.data.push(newItem);
             }
             else {
-                newItem['sync'] = false;
+                newItem["sync"] = false;
                 this.data.push(newItem);
             }
             return newItem;
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            newItem['sync'] = false;
+            newItem["sync"] = false;
             this.data.push(newItem);
             return newItem;
         });
@@ -3596,7 +3575,9 @@ let CategoryService = class CategoryService {
 };
 CategoryService = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService,
+        sync_api_1.SyncAPI,
+        authentication_service_1.AuthenticationService])
 ], CategoryService);
 exports.CategoryService = CategoryService;
 
@@ -3624,75 +3605,19 @@ let EntryService = class EntryService {
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'entries',
-            defaultUser: 'anon'
+            storageKey: "entries"
         };
-        this.apiRoot = '';
+        this.apiRoot = "";
         this.storage = storage;
         this.sync = sync;
-        const options = storage.getObject('Options');
-        this.apiRoot = options ? options['optServerAddress'] : '';
+        const options = storage.getObject("Options");
+        this.apiRoot = options ? options["optServerAddress"] : "";
     }
     list() {
         return this.data;
     }
-    initialData() {
-        let list = [];
-        // let newData = (
-        //     mov_id: string
-        //     , mov_date: Date
-        //     , mov_amount: number
-        //     , mov_account: number
-        //     , mov_account_to: number
-        //     , mov_ctg_type: number
-        //     , mov_budget: string
-        //     , mov_ctg_category: number
-        //     , mov_ctg_place: number
-        //     , mov_desc: string
-        //     , mov_notes: string
-        //     , mov_id_user: string
-        //     , mov_ctg_status: number
-        //     , mov_txt_type: string
-        //     , mov_txt_account: string
-        //     , mov_txt_account_to: string
-        //     , mov_txt_budget: string
-        //     , mov_txt_category: string
-        //     , mov_txt_place: string
-        //     , mov_txt_status: string
-        // ) => {
-        //     return {
-        //         mov_id
-        //         , mov_date
-        //         , mov_amount
-        //         , mov_account
-        //         , mov_account_to
-        //         , mov_ctg_type
-        //         , mov_budget
-        //         , mov_ctg_category
-        //         , mov_ctg_place
-        //         , mov_desc
-        //         , mov_notes
-        //         , mov_id_user
-        //         , mov_ctg_status
-        //         , mov_txt_type
-        //         , mov_txt_account
-        //         , mov_txt_account_to
-        //         , mov_txt_budget
-        //         , mov_txt_category
-        //         , mov_txt_place
-        //         , mov_txt_status
-        //     };
-        // };
-        // let data: Array<Entry> = [];
-        // //data.push(newData('1','Walmart'));
-        // list = data.map((d: any) => {
-        //     d.mov_id_user = this.config.defaultUser;
-        //     return new Entry(d);
-        // });
-        return list;
-    }
     getAll() {
-        const sort = ((a, b) => {
+        const sort = (a, b) => {
             if (a.ent_date < b.ent_date) {
                 return -1;
             }
@@ -3702,23 +3627,18 @@ let EntryService = class EntryService {
             else {
                 return 0;
             }
-        });
+        };
         return this.sync.get(`${this.apiRoot}/api/entries`).then(data => {
             this.data = data.map((d) => new Entry_1.Entry(d));
             this.data = this.data.sort(sort);
             return this.data;
         });
     }
-    getAllForUser(user) {
-        return this.getAll().then((list) => {
-            return list.filter((x) => x.ent_id_user === user);
-        });
-    }
     saveToStorage() {
         // this.storage.set(this.config.storageKey,JSON.stringify(this.data));
     }
     newId() {
-        return this.data.length + 1 + '';
+        return this.data.length + 1 + "";
     }
     newItem(item) {
         //let newId: string = this.newId();
@@ -3770,7 +3690,6 @@ let MovementComponent = class MovementComponent {
     constructor(accountService, categoryService, placeService, movementService, entryService, balanceService, presetService, titleService) {
         this.titleService = titleService;
         this.accounts = [];
-        this.user = "anon";
         this.viewData = {
             accounts: [],
             types: [],
@@ -3865,16 +3784,14 @@ let MovementComponent = class MovementComponent {
     ngOnInit() {
         // TODO: this should be refactored the same way as categories and places
         this.retrieveAccountsAndBalance();
-        this.services.category
-            .getAllForUser(this.user)
-            .then((categories) => {
+        this.services.category.getAll().then((categories) => {
             this.viewData.categories = categories;
         });
-        this.services.place.getAllForUser(this.user).then((places) => {
+        this.services.place.getAll().then((places) => {
             this.viewData.places = places;
         });
-        this.services.entry.getAllForUser(this.user);
-        this.services.preset.getAllForUser(this.user).then((list) => {
+        this.services.entry.getAll();
+        this.services.preset.getAll().then((list) => {
             this.viewData.presets = list;
             let p = new Preset_1.Preset();
             p.pre_name = "";
@@ -3884,12 +3801,10 @@ let MovementComponent = class MovementComponent {
         this.viewData.presets = this.services.preset.list();
         this.addNewCategoryForUser = this.addNewCategoryForUser.bind(this);
         this.addNewPlaceForUser = this.addNewPlaceForUser.bind(this);
-        this.services.movement
-            .getAllForUser(this.user)
-            .then((list) => {
+        this.services.movement.getAll().then((list) => {
             this.viewData.movements = list;
             this.viewData.movements = this.viewData.movements
-                .sort((a, b) => a.mov_date >= b.mov_date ? -1 : 1)
+                .sort((a, b) => (a.mov_date >= b.mov_date ? -1 : 1))
                 .slice(0, 40);
         });
         /* analysis */
@@ -3968,7 +3883,6 @@ let MovementComponent = class MovementComponent {
             }
             p.pre_desc = form.value.fDescription;
             p.pre_notes = form.value.fNotes;
-            p.pre_id_user = this.user;
             p.pre_ctg_status = 1;
             p.pre_txt_type = this.findIn(this.viewData.types, (e) => e.ctg_ctg_value == p.pre_ctg_type, "ctg_desc");
             p.pre_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == p.pre_id_account, "acc_name");
@@ -4011,7 +3925,6 @@ let MovementComponent = class MovementComponent {
                 m.mov_id_place = "0";
             }
             m.mov_notes = form.value.fNotes;
-            m.mov_id_user = this.user;
             m.mov_ctg_status = 1;
             m.mov_txt_account = this.findIn(this.viewData.accounts, (e) => e.acc_id == m.mov_id_account, "acc_name");
             if (m.mov_id_account_to) {
@@ -4163,9 +4076,7 @@ let MovementComponent = class MovementComponent {
         }
     }
     addNewCategoryForUser(category) {
-        this.services.category
-            .newItem(category, this.user)
-            .then((item) => {
+        this.services.category.newItem(category).then((item) => {
             this.viewData.categories = this.services.category.list();
             this.model.category = item.mct_id;
         });
@@ -4242,7 +4153,7 @@ let MovementComponent = class MovementComponent {
         data.forEach((d, index, arr) => {
             let values = d.split("|");
             if (!this.findIn(this.services.category.list(), (e) => e.mct_name === values[5], "mct_id")) {
-                this.services.category.newItem(values[5], this.user);
+                this.services.category.newItem(values[5]);
             }
             if (!this.findIn(this.services.place.list(), (e) => e.mpl_name === values[6], "mpl_id")) {
                 this.services.place.newItem(new Place_1.Place({ mpl_name: values[6] }));
@@ -4302,7 +4213,7 @@ let MovementComponent = class MovementComponent {
                     m.mov_id_place = this.findIn(this.viewData.places, (e) => e.mpl_name === values[6], "mpl_id");
                 }
                 m.mov_notes = "";
-                m.mov_id_user = this.user;
+                m.mov_id_user = "anon";
                 m.mov_ctg_status = 1;
                 m.mov_date_add = new Date();
                 m.mov_date_mod = new Date();
@@ -4327,7 +4238,7 @@ let MovementComponent = class MovementComponent {
             this.generateEntriesForMovement(m);
         });
         // now apply to balance
-        this.services.balance.rebuildAndTransferRange(yearInitial, monthInitial, yearFinal, monthFinal, this.user);
+        this.services.balance.rebuildAndTransferRange(yearInitial, monthInitial, yearFinal, monthFinal, "anon");
     }
     setModelDetails(id, form, prefix) {
         let model;
@@ -4474,67 +4385,34 @@ const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const authentication_service_1 = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
 let MovementService = class MovementService {
     // ALWAYS_ON_LINE = means no local storage layer, always fetch from server and always push to server, just save to storage when an error ocurrs
     // LOCAL_FIRST = means use local storage layer, fetch from server to local storage then push to server
-    constructor(storage, sync) {
+    constructor(storage, sync, authenticationService) {
+        this.authenticationService = authenticationService;
         this.data = [];
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'movements',
-            defaultUser: 'anon',
+            storageKey: "movements",
             api: {
-                list: '/api/movements',
-                create: '/api/movements',
-                update: '/api/movements/:id',
-                batch: '/movement/batch' // not supported in NodeTS
+                list: "/api/movements",
+                create: "/api/movements",
+                update: "/api/movements/:id",
+                batch: "/movement/batch" // not supported in NodeTS
             }
         };
-        this.apiRoot = '';
-        this.usage = 'ALWAYS_ON_LINE';
+        this.apiRoot = "";
+        this.usage = "ALWAYS_ON_LINE";
         this.storage = storage;
         this.sync = sync;
         // get api root
-        const options = storage.getObject('Options');
-        this.apiRoot = options ? options['optServerAddress'] : '';
+        const options = storage.getObject("Options");
+        this.apiRoot = options ? options["optServerAddress"] : "";
     }
     list() {
         return this.data;
-    }
-    initialData() {
-        let list;
-        let newData = (mov_id, mov_date, mov_amount, mov_account, mov_account_to, mov_ctg_type, mov_budget, mov_id_category, mov_id_place, mov_desc, mov_notes, mov_id_user, mov_ctg_status, mov_txt_type, mov_txt_account, mov_txt_account_to, mov_txt_budget, mov_txt_category, mov_txt_place, mov_txt_status) => {
-            return {
-                mov_id,
-                mov_date,
-                mov_amount,
-                mov_account,
-                mov_account_to,
-                mov_ctg_type,
-                mov_budget,
-                mov_id_category,
-                mov_id_place,
-                mov_desc,
-                mov_notes,
-                mov_id_user,
-                mov_ctg_status,
-                mov_txt_type,
-                mov_txt_account,
-                mov_txt_account_to,
-                mov_txt_budget,
-                mov_txt_category,
-                mov_txt_place,
-                mov_txt_status
-            };
-        };
-        let data = [];
-        //data.push(newData('1','Walmart'));
-        list = data.map((d) => {
-            d.mov_id_user = this.config.defaultUser;
-            return new Movement_1.Movement(d);
-        });
-        return list;
     }
     /**
      * Guidance for this method objective:
@@ -4553,61 +4431,62 @@ let MovementService = class MovementService {
      */
     getAll() {
         /*let fromStorage = this.storage.get(this.config.storageKey);
-        if (fromStorage){
-            this.data = JSON.parse(fromStorage);
-        } else {
-            this.data = this.initialData();
-        }*/
+            if (fromStorage){
+                this.data = JSON.parse(fromStorage);
+            } else {
+                this.data = this.initialData();
+            }*/
         // sort data
-        return this.sync.get(`${this.apiRoot}${this.config.api.list}`).then(data => {
+        return this.sync
+            .get(`${this.apiRoot}${this.config.api.list}`)
+            .then(data => {
             this.data = data.map((d) => new Movement_1.Movement(d));
             this.data = this.data.sort(this.sort);
             return this.data;
         });
     }
     sort(a, b) {
-        if ((new Date(a.mov_date)).getTime() < (new Date(b.mov_date)).getTime()) {
+        if (new Date(a.mov_date).getTime() < new Date(b.mov_date).getTime()) {
             return -1;
         }
-        else if ((new Date(a.mov_date)).getTime() > (new Date(b.mov_date)).getTime()) {
+        else if (new Date(a.mov_date).getTime() > new Date(b.mov_date).getTime()) {
             return 1;
         }
         else {
             return 0;
         }
     }
-    getAllForUser(user) {
-        return this.getAll().then((list) => {
-            return list.filter((x) => x.mov_id_user === user);
-        });
-    }
     saveToStorage() {
         //this.storage.set(this.config.storageKey,JSON.stringify(this.data));
     }
     newId(date) {
-        return Utility_1.Utils.hashId('mov', 32, date);
+        return Utility_1.Utils.hashId("mov", 32, date);
     }
     newItem(movement, callback) {
         const newId = this.newId(new Date(movement.mov_date));
         //const newId: string = Utils.hashId('mov', 32, new Date(movement.mov_date));
         movement.mov_id = newId;
         movement.mov_ctg_currency = 1;
+        movement.mov_id_user = this.authenticationService.currentUserValue.username;
         movement.mov_date_add = new Date();
         movement.mov_date_mod = new Date();
         const newItem = new Movement_1.Movement(movement);
         //this.data.push(newItem);
         //this.saveToStorage();
-        this.sync.post(this.config.api.create, newItem).then(response => {
+        this.sync
+            .post(this.config.api.create, newItem)
+            .then(response => {
             if (response.operationOk) {
                 callback();
             }
             else {
-                newItem['sync'] = false;
+                newItem["sync"] = false;
             }
             this.data.push(newItem);
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            newItem['sync'] = false;
+            newItem["sync"] = false;
             this.data.push(newItem);
         });
         return newItem;
@@ -4622,28 +4501,33 @@ let MovementService = class MovementService {
         return movements;
     }
     sendBatchToServer(list) {
-        this.sync.post(`${this.apiRoot}${this.config.api.batch}`, list).then((response) => {
+        this.sync
+            .post(`${this.apiRoot}${this.config.api.batch}`, list)
+            .then((response) => {
             // response: { operationOk: true, details: {  } }
-            console.log('response movements batch', response);
+            console.log("response movements batch", response);
         });
     }
     edit(movement, callback) {
         movement.mov_ctg_currency = 1;
         movement.mov_date_mod = new Date();
         const item = new Movement_1.Movement(movement);
-        this.sync.post(this.config.api.update.replace(':id', movement.mov_id), item).then(response => {
+        this.sync
+            .post(this.config.api.update.replace(":id", movement.mov_id), item)
+            .then(response => {
             const index = this.data.findIndex(d => d.mov_id === item.mov_id);
             if (response.operationOk) {
                 callback();
             }
             else {
-                item['sync'] = false;
+                item["sync"] = false;
             }
             this.data[index] = item;
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
             const index = this.data.findIndex(d => d.mov_id === item.mov_id);
-            item['sync'] = false;
+            item["sync"] = false;
             this.data[index] = item;
         });
         return item;
@@ -4651,7 +4535,9 @@ let MovementService = class MovementService {
 };
 MovementService = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService,
+        sync_api_1.SyncAPI,
+        authentication_service_1.AuthenticationService])
 ], MovementService);
 exports.MovementService = MovementService;
 
@@ -4910,13 +4796,6 @@ let PlaceService = class PlaceService {
             });
         });
     }
-    getAllForUser(user) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return this.getAll().then((all) => {
-                return all.filter((x) => x.mpl_id_user === user);
-            });
-        });
-    }
     saveToStorage() {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
     }
@@ -4926,16 +4805,12 @@ let PlaceService = class PlaceService {
             .size;
         return Utility_1.Utils.hashId(m.metadata.prefix, length);
     }
-    getUser() {
-        const currentUser = this.authenticationService.currentUserValue;
-        return currentUser ? currentUser.username : null;
-    }
     newItem(baseItem) {
         const newId = Utility_1.Utils.hashIdForEntity(new Place_1.Place(), "mpl_id");
         const newItem = new Place_1.Place({
             mpl_id: newId,
             mpl_name: baseItem.mpl_name,
-            mpl_id_user: this.getUser(),
+            mpl_id_user: this.authenticationService.currentUserValue.username,
             mpl_date_add: DateUtility_1.DateUtils.newDateUpToSeconds(),
             mpl_date_mod: DateUtility_1.DateUtils.newDateUpToSeconds(),
             mpl_ctg_status: 1
@@ -5065,67 +4940,36 @@ const storage_service_1 = __webpack_require__(/*! ../common/storage.service */ "
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const authentication_service_1 = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
 let PresetService = class PresetService {
-    constructor(storage, sync) {
+    constructor(storage, sync, authenticationService) {
+        this.authenticationService = authenticationService;
         this.data = [];
         this.storage = null;
         this.sync = null;
         this.config = {
-            storageKey: 'presets',
-            defaultUser: 'anon',
+            storageKey: "presets",
+            defaultUser: "anon",
             api: {
-                list: '/api/presets',
-                create: '/api/presets',
-                update: '/api/presets/:id'
+                list: "/api/presets",
+                create: "/api/presets",
+                update: "/api/presets/:id"
             }
         };
-        this.apiRoot = '';
+        this.apiRoot = "";
         this.storage = storage;
         this.sync = sync;
         // get api root
-        const options = storage.getObject('Options');
-        this.apiRoot = options ? options['optServerAddress'] : '';
+        const options = storage.getObject("Options");
+        this.apiRoot = options ? options["optServerAddress"] : "";
     }
     list() {
         return this.data;
     }
-    initialData() {
-        let list;
-        let newData = (pre_id, pre_name, pre_date, pre_amount, pre_account, pre_account_to, pre_ctg_type, pre_budget, pre_ctg_category, pre_ctg_place, pre_desc, pre_notes, pre_id_user, pre_ctg_status, pre_txt_type, pre_txt_account, pre_txt_account_to, pre_txt_budget, pre_txt_category, pre_txt_place, pre_txt_status) => {
-            return {
-                pre_id,
-                pre_name,
-                pre_date,
-                pre_amount,
-                pre_account,
-                pre_account_to,
-                pre_ctg_type,
-                pre_budget,
-                pre_ctg_category,
-                pre_ctg_place,
-                pre_desc,
-                pre_notes,
-                pre_id_user,
-                pre_ctg_status,
-                pre_txt_type,
-                pre_txt_account,
-                pre_txt_account_to,
-                pre_txt_budget,
-                pre_txt_category,
-                pre_txt_place,
-                pre_txt_status
-            };
-        };
-        let data = [];
-        //data.push(newData('1','Walmart'));
-        list = data.map((d) => {
-            d.pre_id_user = this.config.defaultUser;
-            return new Preset_1.Preset(d);
-        });
-        return list;
-    }
     getAll() {
-        return this.sync.get(`${this.apiRoot}${this.config.api.list}`).then(data => {
+        return this.sync
+            .get(`${this.apiRoot}${this.config.api.list}`)
+            .then(data => {
             this.data = data.map((d) => new Preset_1.Preset(d));
             this.data = this.data.sort(this.sort);
             return this.data;
@@ -5142,37 +4986,36 @@ let PresetService = class PresetService {
             return 0;
         }
     }
-    getAllForUser(user) {
-        return this.getAll().then((list) => {
-            return list.filter((x) => x.pre_id_user === user);
-        });
-    }
     saveToStorage() {
         //this.storage.set(this.config.storageKey,JSON.stringify(this.data));
     }
     newId() {
-        return Utility_1.Utils.hashId('pre', 32);
+        return Utility_1.Utils.hashId("pre", 32);
     }
     newItem(preset) {
         const newId = this.newId();
         preset.pre_id = newId;
         preset.pre_ctg_currency = 1;
+        preset.pre_id_user = this.authenticationService.currentUserValue.username;
         preset.pre_date_add = new Date();
         preset.pre_date_mod = new Date();
         const newItem = new Preset_1.Preset(preset);
         //this.data.push(newItem);
         //this.saveToStorage();
-        this.sync.post(this.config.api.create, newItem).then(response => {
+        this.sync
+            .post(this.config.api.create, newItem)
+            .then(response => {
             if (response.processOk) {
                 this.data.push(newItem);
             }
             else {
-                newItem['sync'] = false;
+                newItem["sync"] = false;
                 this.data.push(newItem);
             }
-        }).catch(err => {
+        })
+            .catch(err => {
             // Append it to the listing but flag it as non-synced yet
-            newItem['sync'] = false;
+            newItem["sync"] = false;
             this.data.push(newItem);
         });
         return newItem;
@@ -5180,7 +5023,9 @@ let PresetService = class PresetService {
 };
 PresetService = tslib_1.__decorate([
     core_1.Injectable(),
-    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [storage_service_1.StorageService,
+        sync_api_1.SyncAPI,
+        authentication_service_1.AuthenticationService])
 ], PresetService);
 exports.PresetService = PresetService;
 
@@ -5486,7 +5331,7 @@ let MultimediaComponent = class MultimediaComponent {
             return !!found;
         });
         if (!id) {
-            this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter((item, index) => index < 20);
+            this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter((item, index) => index < 40);
         }
         const multimediaDetListWithGroups = [];
         const diffDates = [];

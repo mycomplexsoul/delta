@@ -18,9 +18,11 @@ export class MenuComponent implements OnInit {
   public viewData: {
     username: string;
     currentTime: Date;
+    isOpen: boolean;
   } = {
     username: "anon-default",
-    currentTime: null
+    currentTime: null,
+    isOpen: false
   };
   public services: {
     loginService: LoginService;

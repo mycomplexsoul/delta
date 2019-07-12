@@ -3,6 +3,7 @@ import { StorageService } from "../common/storage.service";
 import { Injectable } from "@angular/core";
 import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
+import { AuthenticationService } from "../common/authentication.service";
 
 @Injectable()
 export class LastTimeService {
@@ -20,7 +21,11 @@ export class LastTimeService {
   };
   private includeArchived: boolean = false;
 
-  constructor(storage: StorageService, sync: SyncAPI) {
+  constructor(
+    storage: StorageService,
+    sync: SyncAPI,
+    private authenticationService: AuthenticationService
+  ) {
     this.storage = storage;
     this.sync = sync;
   }
@@ -71,8 +76,7 @@ export class LastTimeService {
     value: string,
     validity: number,
     tags: string,
-    notes: string,
-    user: string
+    notes: string
   ): Promise<LastTime> {
     let newId: string = Utils.hashIdForEntity(new LastTime(), "lst_id");
     let newItem = new LastTime({
@@ -82,7 +86,7 @@ export class LastTimeService {
       lst_validity: validity,
       lst_tags: tags,
       lst_notes: notes,
-      lst_id_user: user,
+      lst_id_user: this.authenticationService.currentUserValue.username,
       lst_date_add: new Date(),
       lst_date_mod: new Date(),
       lst_ctg_status: 1

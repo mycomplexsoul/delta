@@ -11,8 +11,6 @@ h3 {
   font-weight: lighter;
 }
 body {
-  margin: 2em;
-  margin-top: 0;
   background-color: #eee;
   font-size: 13px;
 }
@@ -189,7 +187,7 @@ tasks .task-in-process {
 }
 
 body {
-  margin: 10px;
+  margin: 0;
   color: #333;
   font-family: monospace;
 }
@@ -329,6 +327,11 @@ menu {
   margin: 0;
   padding: 0;
   list-style: none;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #aaa;
 }
 
 .field {
@@ -499,6 +502,11 @@ combo-item .combo-item-container {
   .card-item-container {
     width: 350px;
   }
+}
+
+.app-container {
+  margin: 10px;
+  margin-top: 0;
 }
 
 /* @​media (prefers-color-scheme: dark) {

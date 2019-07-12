@@ -1,22 +1,52 @@
-.menu-container ul {
+.menu-container {
+  width: 100%;
+}
+
+.menu-header ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.menu-container ul li {
-  display: inline;
+.menu-items li {
+  border-bottom: 1px solid #888;
 }
 
-.menu-container ul li a {
+.menu-items li a,
+.menu-items li span {
+  padding: 5px;
+  display: inline-block;
+  width: 97%;
+  color: black;
+}
+
+.menu-items {
+  color: black;
+}
+
+.menu-header ul li a {
   text-decoration: none;
 }
 
-.menu-container {
+.menu-header {
   display: flex;
-  justify-content: space-between;
 }
 
-.menu-user-section {
-  flex-shrink: 0;
+.menu-icon {
+  cursor: pointer;
+}
+
+.menu-section {
+  display: block;
+  position: absolute;
+  top: 19px;
+  left: 0;
+  width: 100%;
+  background-color: #aaa;
+}
+
+@media all and (min-width: 505px) {
+  .menu-section {
+    width: 30%;
+  }
 }

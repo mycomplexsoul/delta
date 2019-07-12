@@ -39,7 +39,6 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 })
 export class MovementComponent implements OnInit {
   private accounts: Array<Account> = [];
-  private user: string = "anon";
   public viewData: {
     accounts: Array<Account>;
     types: Array<any>;
@@ -171,16 +170,14 @@ export class MovementComponent implements OnInit {
   ngOnInit() {
     // TODO: this should be refactored the same way as categories and places
     this.retrieveAccountsAndBalance();
-    this.services.category
-      .getAllForUser(this.user)
-      .then((categories: Category[]) => {
-        this.viewData.categories = categories;
-      });
-    this.services.place.getAllForUser(this.user).then((places: Place[]) => {
+    this.services.category.getAll().then((categories: Category[]) => {
+      this.viewData.categories = categories;
+    });
+    this.services.place.getAll().then((places: Place[]) => {
       this.viewData.places = places;
     });
-    this.services.entry.getAllForUser(this.user);
-    this.services.preset.getAllForUser(this.user).then((list: Preset[]) => {
+    this.services.entry.getAll();
+    this.services.preset.getAll().then((list: Preset[]) => {
       this.viewData.presets = list;
       let p = new Preset();
       p.pre_name = "";
@@ -192,17 +189,13 @@ export class MovementComponent implements OnInit {
 
     this.addNewCategoryForUser = this.addNewCategoryForUser.bind(this);
     this.addNewPlaceForUser = this.addNewPlaceForUser.bind(this);
-    this.services.movement
-      .getAllForUser(this.user)
-      .then((list: Array<Movement>) => {
-        this.viewData.movements = list;
+    this.services.movement.getAll().then((list: Array<Movement>) => {
+      this.viewData.movements = list;
 
-        this.viewData.movements = this.viewData.movements
-          .sort((a: Movement, b: Movement) =>
-            a.mov_date >= b.mov_date ? -1 : 1
-          )
-          .slice(0, 40);
-      });
+      this.viewData.movements = this.viewData.movements
+        .sort((a: Movement, b: Movement) => (a.mov_date >= b.mov_date ? -1 : 1))
+        .slice(0, 40);
+    });
     /* analysis */
     // const year = 2017;
     // const month = 6;
@@ -279,7 +272,6 @@ export class MovementComponent implements OnInit {
       }
       p.pre_desc = form.value.fDescription;
       p.pre_notes = form.value.fNotes;
-      p.pre_id_user = this.user;
       p.pre_ctg_status = 1;
 
       p.pre_txt_type = this.findIn(
@@ -340,7 +332,6 @@ export class MovementComponent implements OnInit {
         m.mov_id_place = "0";
       }
       m.mov_notes = form.value.fNotes;
-      m.mov_id_user = this.user;
       m.mov_ctg_status = 1;
 
       m.mov_txt_account = this.findIn(
@@ -568,12 +559,10 @@ export class MovementComponent implements OnInit {
   }
 
   addNewCategoryForUser(category: string) {
-    this.services.category
-      .newItem(category, this.user)
-      .then((item: Category) => {
-        this.viewData.categories = this.services.category.list();
-        this.model.category = item.mct_id;
-      });
+    this.services.category.newItem(category).then((item: Category) => {
+      this.viewData.categories = this.services.category.list();
+      this.model.category = item.mct_id;
+    });
   }
 
   addNewPlaceForUser(place: string) {
@@ -658,7 +647,7 @@ export class MovementComponent implements OnInit {
           "mct_id"
         )
       ) {
-        this.services.category.newItem(values[5], this.user);
+        this.services.category.newItem(values[5]);
       }
       if (
         !this.findIn(
@@ -750,7 +739,7 @@ export class MovementComponent implements OnInit {
           );
         }
         m.mov_notes = "";
-        m.mov_id_user = this.user;
+        m.mov_id_user = "anon";
         m.mov_ctg_status = 1;
         m.mov_date_add = new Date();
         m.mov_date_mod = new Date();
@@ -807,7 +796,7 @@ export class MovementComponent implements OnInit {
       monthInitial,
       yearFinal,
       monthFinal,
-      this.user
+      "anon"
     );
   }
 

@@ -92,7 +92,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
 * [AppTasks][new] Dark theme
 
-* [AppCommon][new][Menu] Apply styles and layout to menu items
 * [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
 * [AppLastTime][new] Reuse CSS styles and generic grid listing components
 * [AppKanban][new] Entity generation
@@ -100,18 +99,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [AppMoney][new] Add categories UI listing
 * [AppMoney][new] Add presets form to edit or add new presets
 
-- [AppMoney][new] Balance, Migrate user data to proper username and consume user authentication service
-- [AppMoney][new] Movements, Migrate user data to proper username and consume user authentication service
-- [AppMoney][new] Accounts, Migrate user data to proper username and consume user authentication service
-- [AppMoney][new] Places, Migrate user data to proper username and consume user authentication service
-- [AppMoney][new] Categories, Migrate user data to proper username and consume user authentication service
-- [AppMoney][new] Presets, Migrate user data to proper username and consume user authentication service
 - [AppTasks][new] Tasks, TimeTracking, Migrate user data to proper username and consume user authentication service
 - [AppTasks][new] Options to show/hide individual Indicators
 - [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
 - [AppMultimedia][new] View episode details in a form, to be able to edit them
 
 <hr/>
+
+## v1.9.25 (2019-06-28)
+
+- [AppCommon][new][Menu] Apply styles and layout to menu items
+- [AppMoney][new] Balance, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Movements, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Accounts, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Places, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Categories, Migrate user data to proper username and consume user authentication service
+- [AppMoney][new] Presets, Migrate user data to proper username and consume user authentication service
+- [AppLastTime][new] Migrate user data to proper username and consume user authentication service
 
 ## v1.9.24 (2019-06-21)
 

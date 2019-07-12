@@ -19,7 +19,6 @@ import { DateUtils } from "src/crosscommon/DateUtility";
   providers: [BalanceService, MovementService]
 })
 export class BalanceComponent implements OnInit {
-  private user: string = "anon";
   public viewData: {
     balance: Array<Balance>;
     movements: Array<Movement>;
@@ -137,41 +136,35 @@ export class BalanceComponent implements OnInit {
       new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
     this.parseIterable();
 
-    this.services.balance
-      .getAllForUser(this.user)
-      .then((list: Array<Balance>) => {
-        this.viewData.balance = list;
+    this.services.balance.getAll().then((list: Array<Balance>) => {
+      this.viewData.balance = list;
 
-        /*this.viewData.balance = this.viewData.balance
+      /*this.viewData.balance = this.viewData.balance
             .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
             .slice(0,10);*/
-        this.viewData.monthBalance = this.filterMonthBalance();
-        //this.viewData.monthBalance = this.services.balance.list;
-        // TODO: add list of year/months of balance for combo box
-        this.viewData.monthList = this.services.balance.monthList(this.user);
+      this.viewData.monthBalance = this.filterMonthBalance();
+      //this.viewData.monthBalance = this.services.balance.list;
+      // TODO: add list of year/months of balance for combo box
+      this.viewData.monthList = this.services.balance.monthList();
 
-        this.checkCurrentBalance(list);
+      this.checkCurrentBalance(list);
 
-        this.monthlyIncomeVsExpense();
-      });
-    this.services.movement
-      .getAllForUser(this.user)
-      .then((list: Array<Movement>) => {
-        this.state.movementList = list;
-        this.monthlyTotals();
-      });
+      this.monthlyIncomeVsExpense();
+    });
+    this.services.movement.getAll().then((list: Array<Movement>) => {
+      this.state.movementList = list;
+      this.monthlyTotals();
+    });
   }
 
   fetchBalance() {
-    this.services.balance
-      .getAllForUser(this.user)
-      .then((list: Array<Balance>) => {
-        this.viewData.balance = list;
+    this.services.balance.getAll().then((list: Array<Balance>) => {
+      this.viewData.balance = list;
 
-        this.viewData.monthBalance = this.filterMonthBalance();
-        this.viewData.monthList = this.services.balance.monthList(this.user);
-        this.monthlyIncomeVsExpense();
-      });
+      this.viewData.monthBalance = this.filterMonthBalance();
+      this.viewData.monthList = this.services.balance.monthList();
+      this.monthlyIncomeVsExpense();
+    });
   }
 
   parseIterable() {
@@ -240,30 +233,26 @@ export class BalanceComponent implements OnInit {
         })
       );
     });
-    this.services.movement
-      .getAllForUser(this.user)
-      .then((list: Array<Movement>) => {
-        let ref = balance.bal_year * 100 + balance.bal_month;
-        this.viewData.movements = list.filter(m => {
-          let movRef =
-            new Date(m.mov_date).getFullYear() * 100 +
-            (new Date(m.mov_date).getMonth() + 1);
-          return (
-            ref === movRef &&
-            (balance.bal_id_account === m.mov_id_account ||
-              balance.bal_id_account === m.mov_id_account_to)
-          );
-        });
-        this.model.selectedBalance = balance;
-        this.model.selectedMonthName = DateUtils.getMonthName(
-          balance.bal_month
-        );
-        console.log(
-          `movements fetched for balance`,
-          balance,
-          this.viewData.movements
+    this.services.movement.getAll().then((list: Array<Movement>) => {
+      let ref = balance.bal_year * 100 + balance.bal_month;
+      this.viewData.movements = list.filter(m => {
+        let movRef =
+          new Date(m.mov_date).getFullYear() * 100 +
+          (new Date(m.mov_date).getMonth() + 1);
+        return (
+          ref === movRef &&
+          (balance.bal_id_account === m.mov_id_account ||
+            balance.bal_id_account === m.mov_id_account_to)
         );
       });
+      this.model.selectedBalance = balance;
+      this.model.selectedMonthName = DateUtils.getMonthName(balance.bal_month);
+      console.log(
+        `movements fetched for balance`,
+        balance,
+        this.viewData.movements
+      );
+    });
   }
 
   toggleDailyBalance() {

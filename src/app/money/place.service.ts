@@ -50,12 +50,6 @@ export class PlaceService {
       });
   }
 
-  async getAllForUser(user: string) {
-    return this.getAll().then((all: Place[]) => {
-      return all.filter((x: Place) => x.mpl_id_user === user);
-    });
-  }
-
   saveToStorage() {
     this.storage.set(this.config.storageKey, JSON.stringify(this.data));
   }
@@ -67,17 +61,12 @@ export class PlaceService {
     return Utils.hashId(m.metadata.prefix, length);
   }
 
-  getUser() {
-    const currentUser = this.authenticationService.currentUserValue;
-    return currentUser ? currentUser.username : null;
-  }
-
   newItem(baseItem: Place): Promise<Place> {
     const newId: string = Utils.hashIdForEntity(new Place(), "mpl_id");
     const newItem = new Place({
       mpl_id: newId,
       mpl_name: baseItem.mpl_name,
-      mpl_id_user: this.getUser(),
+      mpl_id_user: this.authenticationService.currentUserValue.username,
       mpl_date_add: DateUtils.newDateUpToSeconds(),
       mpl_date_mod: DateUtils.newDateUpToSeconds(),
       mpl_ctg_status: 1
