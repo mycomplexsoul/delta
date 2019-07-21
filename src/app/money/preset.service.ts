@@ -19,7 +19,6 @@ export class PresetService {
       update: "/api/presets/:id"
     }
   };
-  private apiRoot: string = "";
 
   constructor(
     storage: StorageService,
@@ -30,7 +29,6 @@ export class PresetService {
     this.sync = sync;
     // get api root
     const options = storage.getObject("Options");
-    this.apiRoot = options ? options["optServerAddress"] : "";
   }
 
   list(): Array<Preset> {
@@ -39,7 +37,7 @@ export class PresetService {
 
   getAll() {
     return this.sync
-      .get(`${this.apiRoot}${this.config.api.list}`)
+      .get(`${this.config.api.list}`)
       .then(data => {
         this.data = data.map((d: any): Preset => new Preset(d));
         this.data = this.data.sort(this.sort);

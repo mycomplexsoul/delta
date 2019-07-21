@@ -171,7 +171,7 @@ class DateUtility {
     return undefined;
   }
 
-  dateToStringDate(date: Date) {
+  dateToStringDate(date: Date): string {
     const mm = date.getMonth() + 1;
     const dd = date.getDate();
 

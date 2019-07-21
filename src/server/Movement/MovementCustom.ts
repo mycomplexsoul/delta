@@ -18,8 +18,14 @@ import { DateUtils } from "../../crosscommon/DateUtility";
 import EmailModule from "../EmailModule";
 import { configModule } from "../ConfigModule";
 import { Preset } from "../../crosscommon/entities/Preset";
+import { ApiServer } from "../ApiServer";
 
 export class MovementCustom {
+  private api: ApiServer = new ApiServer(new Movement());
+
+  listRequestHandler = this.api.listRequestHandler;
+  list = this.api.list;
+
   findIn = <T>(
     arr: T[],
     findCriteria: (e: T) => boolean,
@@ -560,14 +566,6 @@ export class MovementCustom {
     });
   }
 
-  list = (node: iNode) => {
-    let api: ApiModule = new ApiModule(new Movement());
-
-    api.list({ q: node.request.query["q"] }).then(response => {
-      node.response.end(JSON.stringify(response));
-    });
-  };
-
   create = (node: iNode) => {
     const api: ApiModule = new ApiModule(new Movement());
     const balanceModule: BalanceModule = new BalanceModule();
@@ -580,7 +578,7 @@ export class MovementCustom {
           if (result.operationOk) {
             // generate balance
             return balanceModule
-              .applyEntriesToBalance(result.data, "anon")
+              .applyEntriesToBalance(result.data, model.mov_id_user)
               .then(res => {
                 console.log(`balance generation for movement result`, res);
                 return { message: `entries: ${result.message}` };

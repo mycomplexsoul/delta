@@ -11,6 +11,7 @@ import { BalanceService } from "./balance.service";
 import { MovementService } from "./movement.service";
 import { SyncAPI } from "../common/sync.api";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { AuthenticationService } from "../common/authentication.service";
 
 @Component({
   selector: "balance",
@@ -122,7 +123,8 @@ export class BalanceComponent implements OnInit {
     balanceService: BalanceService,
     movementService: MovementService,
     syncService: SyncAPI,
-    private titleService: Title
+    private titleService: Title,
+    private authenticationService: AuthenticationService
   ) {
     this.services.balance = balanceService;
     this.services.movement = movementService;
@@ -351,7 +353,7 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/rebuild", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: "anon"
+        user: this.authenticationService.currentUserValue.username
       })
       .then(() => {
         this.fetchBalance();
@@ -365,7 +367,7 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/transfer", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: "anon"
+        user: this.authenticationService.currentUserValue.username
       })
       .then(() => {
         this.fetchBalance();
@@ -379,7 +381,7 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/rebuild-and-transfer", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: "anon"
+        user: this.authenticationService.currentUserValue.username
       })
       .then(() => {
         this.fetchBalance();
@@ -393,7 +395,7 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/rebuild-and-transfer-range", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: "anon"
+        user: this.authenticationService.currentUserValue.username
       })
       .then(() => {
         this.fetchBalance();

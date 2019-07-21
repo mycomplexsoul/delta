@@ -12,6 +12,11 @@
   border-bottom: 1px solid #888;
 }
 
+.menu-items li:hover,
+.menu-items li:focus-within {
+  background-color: white;
+}
+
 .menu-items li a,
 .menu-items li span {
   padding: 5px;

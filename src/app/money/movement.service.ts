@@ -19,7 +19,6 @@ export class MovementService {
       batch: "/movement/batch" // not supported in NodeTS
     }
   };
-  private apiRoot: string = "";
   private usage: string = "ALWAYS_ON_LINE";
   // ALWAYS_ON_LINE = means no local storage layer, always fetch from server and always push to server, just save to storage when an error ocurrs
   // LOCAL_FIRST = means use local storage layer, fetch from server to local storage then push to server
@@ -33,7 +32,6 @@ export class MovementService {
     this.sync = sync;
     // get api root
     const options = storage.getObject("Options");
-    this.apiRoot = options ? options["optServerAddress"] : "";
   }
 
   list(): Array<Movement> {
@@ -63,13 +61,11 @@ export class MovementService {
             this.data = this.initialData();
         }*/
     // sort data
-    return this.sync
-      .get(`${this.apiRoot}${this.config.api.list}`)
-      .then(data => {
-        this.data = data.map((d: any): Movement => new Movement(d));
-        this.data = this.data.sort(this.sort);
-        return this.data;
-      });
+    return this.sync.get(`${this.config.api.list}`).then(data => {
+      this.data = data.map((d: any): Movement => new Movement(d));
+      this.data = this.data.sort(this.sort);
+      return this.data;
+    });
   }
 
   sort(a: Movement, b: Movement) {
@@ -133,12 +129,10 @@ export class MovementService {
   }
 
   sendBatchToServer(list: Array<Movement>) {
-    this.sync
-      .post(`${this.apiRoot}${this.config.api.batch}`, list)
-      .then((response: any) => {
-        // response: { operationOk: true, details: {  } }
-        console.log("response movements batch", response);
-      });
+    this.sync.post(`${this.config.api.batch}`, list).then((response: any) => {
+      // response: { operationOk: true, details: {  } }
+      console.log("response movements batch", response);
+    });
   }
 
   edit(movement: Movement, callback: Function): Movement {

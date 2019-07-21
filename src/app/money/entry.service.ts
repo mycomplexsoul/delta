@@ -11,13 +11,10 @@ export class EntryService {
   private config = {
     storageKey: "entries"
   };
-  private apiRoot: string = "";
 
   constructor(storage: StorageService, sync: SyncAPI) {
     this.storage = storage;
     this.sync = sync;
-    const options = storage.getObject("Options");
-    this.apiRoot = options ? options["optServerAddress"] : "";
   }
 
   list(): Array<Entry> {
@@ -34,7 +31,7 @@ export class EntryService {
         return 0;
       }
     };
-    return this.sync.get(`${this.apiRoot}/api/entries`).then(data => {
+    return this.sync.get(`/api/entries`).then(data => {
       this.data = data.map((d: any): Entry => new Entry(d));
       this.data = this.data.sort(sort);
       return this.data;

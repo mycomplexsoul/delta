@@ -18,7 +18,6 @@ export class BalanceService {
       list: "/api/balance"
     }
   };
-  private apiRoot: string = "";
 
   constructor(
     storage: StorageService,
@@ -28,9 +27,6 @@ export class BalanceService {
     this.storage = storage;
     this.entryService = entryService;
     this.sync = sync;
-    // get api root
-    const options = storage.getObject("Options");
-    this.apiRoot = options ? options["optServerAddress"] : "";
   }
 
   list(): Array<Balance> {
@@ -51,13 +47,11 @@ export class BalanceService {
       return a.bal_txt_account > b.bal_txt_account ? 1 : -1;
     };
 
-    return this.sync
-      .get(`${this.apiRoot}${this.config.api.list}`)
-      .then(data => {
-        this.data = data.map((d: any): Balance => new Balance(d));
-        this.data = this.data.sort(sort);
-        return this.data;
-      });
+    return this.sync.get(`${this.config.api.list}`).then(data => {
+      this.data = data.map((d: any): Balance => new Balance(d));
+      this.data = this.data.sort(sort);
+      return this.data;
+    });
   }
 
   saveToStorage() {

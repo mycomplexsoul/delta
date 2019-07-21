@@ -93,6 +93,8 @@ export class MultimediaComponent implements OnInit {
     fPlatform: number;
     fNotes: string;
     fNextEpId: string;
+    mediaUrl: string;
+    _DateViewedType: string;
   } = {
     id: null,
     epId: null,
@@ -108,7 +110,9 @@ export class MultimediaComponent implements OnInit {
     fRating: 0,
     fPlatform: 0,
     fNotes: null,
-    fNextEpId: null
+    fNextEpId: null,
+    mediaUrl: null,
+    _DateViewedType: "current"
   };
   private MEDIA_AGE = {
     old: 10,
@@ -235,6 +239,7 @@ export class MultimediaComponent implements OnInit {
     this.epModel.fRating = 3;
     this.epModel.fPlatform = this.viewData.platformList[0].ctg_sequential;
     this.epModel.isViewed = true;
+    this.epModel.mediaUrl = item.mma_url;
 
     // see if we have data for this ep in order to populate form
     const detFound = this.services.multimediaDetService
@@ -364,7 +369,9 @@ export class MultimediaComponent implements OnInit {
         this.epModel.id,
         this.epModel.epId,
         values.fSummary,
-        new Date(`${values.fDateViewed} ${values.fTimeViewed}`),
+        this.epModel._DateViewedType === "current"
+          ? new Date()
+          : new Date(`${values.fDateViewed} ${values.fTimeViewed}`),
         values.fRating,
         values.fPlatform,
         values.fNotes,
@@ -456,11 +463,18 @@ export class MultimediaComponent implements OnInit {
         diffDates.push(dayViewed);
         multimediaDetListWithGroups.push({
           date: dayViewed,
-          items: this.viewData.multimediaDetList.filter(
-            m =>
-              DateUtils.dateOnly(m["viewedDate"]).getTime() ===
-              dayViewed.getTime()
-          )
+          items: this.viewData.multimediaDetList
+            .filter(
+              m =>
+                DateUtils.dateOnly(m["viewedDate"]).getTime() ===
+                dayViewed.getTime()
+            )
+            .map(d => {
+              d["viewedInfo"] = this.viewData.multimediaViewList.find(
+                v => v.mmv_id === d.mmd_id && v.mmv_id_ep === d.mmd_id_ep
+              );
+              return d;
+            })
         });
       }
     });
@@ -513,8 +527,9 @@ export class MultimediaComponent implements OnInit {
     this.epModel.fPlatform = 0;
     this.epModel.fNotes = null;
     this.epModel.fNextEpId = null;
-
+    
     form.resetForm();
+    this.epModel._DateViewedType = "current";
   }
 
   splitEpInfo(info: string): void {

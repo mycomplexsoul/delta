@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - [AppMoney][new] Spent report for monthly/range basis
     - [AppMoney][new] Figure out how to do budget vs movements
     - [AppMoney][new] Balance new fields: comment, date_last_valid, swap charges-withdrawals legends
-    - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
     - [AppMoney][new] Balance page, optimize data consumption for slow networks, fetch dinamically as needed
   - Movement
     - [AppMoney][new] Scheduled movements (with PENDING status)
@@ -23,11 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
       - [AppMoney][new] Listing of pending movements
     - [AppMoney][new] Movement form validation server side
     - [AppMoney][new] Movement form validation client side
-    - [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
   - Account
     - [AppMoney][new] Option to display archived/cancelled accounts into listing
+    - [AppMoney][new] Cancel/Activate account with a button
   - Places
-    - [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
     - [AppMoney][new] Add a functionality to replace all uses of a place with another selected place using a button and a combo with places
     - [AppMoney][new] Add a button to delete a place, but it will be available only if the count of all uses is zero
   - Categories
@@ -39,9 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Presets
     - [AppMoney][new] Consume endpoints to finish adding or editing presets
 - Tasks
-  - [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
   - [AppTasks][new] Idle time counter (time since last time tracked record today)
-  - [AppTasks][new] Keyboard shortcuts for navigating from record list to next/previous record list and focus into first task in the list
   - [AppTasks][new] Unset schedule
   - [AppTasks][new] Unset link
   - [AppTasks][mod] Refactor updateState method to change only the needed elements via sub/pub events
@@ -71,7 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - [AppCommon][new][Install] When entering `/health-check` route, look for `cfg.json`, if present, validate database structure against entity definitions, if different, point out differences or say everything is ok
   - [AppCommon][mod][DatabaseGeneration] Add a flag so that mysql views are created using `NoSubQuery` format, and if it's not mysql use `SubQuery` format
 - Multimedia
-  - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
+  - [AppMultimedia][new] n/a
 - LastTime
   - [AppLastTime][new] Use a tag `edit-note` to just prompt for updates on notes for the items that had this tag
   - [AppLastTime][new] Add instructions section with details of `edit-note` tag usage
@@ -104,7 +100,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
 - [AppMultimedia][new] View episode details in a form, to be able to edit them
 
+- [AppLastTime][new] Edit history items
+- [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
+- [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
+- [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
+- [AppMoney][fix] Fix Presets page loading for mobile
+
+- [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
+- [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
+- [AppLinks][new] Entity Definition
+- [AppLinks][new] Entity Generation
+
+- [AppLinks][new] CRUD REST endpoints for listing, create, update
+- [AppLinks][new] Listing UI, page and routing
+- [AppLinks][new] Create Form UI
+- [AppLinks][new] Details/Edit Form UI
+
 <hr/>
+
+## v1.9.26 (2019-07-05)
+
+- [AppCommon][fix] Update dependencies to fix security warnings
+- [AppCommon][new] Added `ApiRoute` to abstract router configuration logic to a single place
+- [AppCommon][new] Added nodemon to watch for changes while running the code
+- [AppMultimedia][new] Show button to use current timestamp or a custom one for ep form
+- [AppMultimedia][new] Show Media Title as link or text in ep form instead of an input
+- [AppMultimedia][new] Show rating in ep listing
+- [AppMoney][rem] Movements, Balance and Presets pages `apiRoot` support removed
 
 ## v1.9.25 (2019-06-28)
 
