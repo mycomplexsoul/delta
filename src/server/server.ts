@@ -46,22 +46,16 @@ app.use(function(req, res) {
   const log = (msg: string) => {
     console.log(new Date(), msg);
   };
-  const files = [
-    "/runtime.js",
-    "/polyfills.js",
-    "/styles.js",
-    "/vendor.js",
-    "/main.js",
-    "/runtime.js.map",
-    "/polyfills.js.map",
-    "/styles.js.map",
-    "/vendor.js.map",
-    "/main.js.map",
-    "/favicon.ico"
-  ];
+  const files = ["/runtime", "/polyfills", "/styles", "/vendor", "/main"];
+  const expandedFiles = []
+    .concat(files.map(f => `${f}-es2015.js`))
+    .concat(files.map(f => `${f}-es2015.js.map`))
+    .concat(files.map(f => `${f}-es5.js`))
+    .concat(files.map(f => `${f}-es5.js.map`))
+    .concat(["/favicon.ico"]);
   // Use res.sendfile, as it streams instead of reading the file into memory.
   const index = path.join(__dirname, "../../dist/intranet/index.html");
-  if (files.indexOf(req.url) !== -1) {
+  if (expandedFiles.indexOf(req.url) !== -1) {
     // TODO: move this to FE build
     const file = path.join(__dirname, `../../dist/intranet${req.url}`);
     log(`Answering request with: ${file}`);

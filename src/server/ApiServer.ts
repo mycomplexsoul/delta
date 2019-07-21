@@ -10,7 +10,7 @@ export class ApiServer {
   }
 
   listRequestHandler = (node: iNode) => {
-    const { username } = node.request.userData;
+    const { username } = node.request["userData"];
     this.list({
       q: node.request.query["q"],
       username

@@ -14,7 +14,7 @@ export class LastTimeServer {
     api
       .list({
         q: node.request.query["q"],
-        username: node.request.userData.username
+        username: node.request["userData"].username
       })
       .then(response => {
         node.response.end(JSON.stringify(response));

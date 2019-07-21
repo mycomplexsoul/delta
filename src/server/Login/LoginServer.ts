@@ -107,7 +107,7 @@ export class LoginServer {
       return false;
     }
 
-    token = token.replace("Bearer ", "");
+    token = String(token).replace("Bearer ", "");
 
     jwt.verify(token, secretForToken, (err, user) => {
       if (err) {
