@@ -2,26 +2,25 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Task } from "../../crosscommon/entities/Task";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
-// import 'rxjs/add/operator/toPromise';
-import { Observable } from "rxjs";
 import { SyncAPI } from "../common/sync.api";
 import { DateCommon } from "../common/date.common";
 import { Utils } from "../../crosscommon/Utility";
+import { AuthenticationService } from "../common/authentication.service";
 
 @Injectable()
 export class TasksCore {
   pendingRequests: Array<any> = [];
   data: any = {
-    taskList: <Array<Task>>[],
-    user: "anon"
+    taskList: <Array<Task>>[]
   };
   public services: any = {};
   serverData: any = {};
   comparisonData: any = {};
-  apiRoot: string = "http://10.230.9.78:8081";
+  //apiRoot: string = "http://10.230.9.78:8081";
   private headers = new HttpHeaders({ "Content-Type": "application/json" });
 
   constructor(
+    private authenticationService: AuthenticationService,
     private http: HttpClient,
     private sync: SyncAPI,
     private dateUtils: DateCommon
@@ -54,12 +53,6 @@ export class TasksCore {
         }
       );
       return this.data.taskList;
-    });
-  }
-
-  getAllForUser(user: string) {
-    return this.getAll().then((list: Array<Task>) => {
-      return list.filter((x: Task) => x.tsk_id_user_asigned === user);
     });
   }
 
@@ -534,7 +527,8 @@ export class TasksCore {
    * @return {object} A complete task model extended with the data of the basic task model.
    */
   newTaskTemplate(task: any) {
-    let id = this.generateId();
+    const id = this.generateId();
+    const { username } = this.authenticationService.currentUserValue;
     return {
       tsk_id: id,
       tsk_id_container: "tasks",
@@ -555,8 +549,8 @@ export class TasksCore {
       tsk_schedule_history: <any>[],
       tsk_date_view_until: task.tsk_date_view_until || null,
       tsk_notifications: <any>[],
-      tsk_id_user_added: task.tsk_id_user_added || this.data.user,
-      tsk_id_user_asigned: task.tsk_id_user_asigned || this.data.user,
+      tsk_id_user_added: task.tsk_id_user_added || username,
+      tsk_id_user_asigned: task.tsk_id_user_asigned || username,
       tsk_template: task.tsk_template || "",
       tsk_template_state: task.tsk_template_state || "",
       tsk_date_due:
@@ -734,7 +728,7 @@ export class TasksCore {
     this.tasksToStorage();
   }
 
-  addTimeTracking(task: any) {
+  addTimeTracking(task: any, specifics: any = {}) {
     task.tsk_time_history.push({
       tsh_id: task.tsk_id,
       tsh_num_secuential: task.tsk_time_history.length + 1,
@@ -742,9 +736,10 @@ export class TasksCore {
       tsh_date_start: this.services.dateUtils.newDateUpToSeconds(),
       tsh_date_end: null,
       tsh_time_spent: 0,
-      tsh_id_user: "anon",
+      tsh_id_user: this.authenticationService.currentUserValue.username,
       tsh_date_add: this.services.dateUtils.newDateUpToSeconds(),
-      tsh_date_mod: this.services.dateUtils.newDateUpToSeconds()
+      tsh_date_mod: this.services.dateUtils.newDateUpToSeconds(),
+      ...specifics
     });
     this.tasksToStorage();
   }
@@ -1005,7 +1000,7 @@ export class TasksCore {
 
   getTasks() {
     //return this.http.get(`${this.apiRoot}/api/tasks`).toPromise() // => data.json()
-    return this.getAllForUser("anon")
+    return this.getAll()
       .then(data => {
         this.serverData.tasks = data;
         console.log("from BE", this.serverData.tasks);
@@ -1017,7 +1012,7 @@ export class TasksCore {
   }
 
   getTasksFromServer() {
-    return this.getAllForUser("anon")
+    return this.getAll()
       .then(data => {
         let task;
         let server = data;
@@ -1232,7 +1227,7 @@ export class TasksCore {
     );
     console.log("tasks to push", t);
     this.http
-      .post(`${this.apiRoot}/task/batch`, t, { headers: this.headers })
+      .post(`/task/batch`, t, { headers: this.headers })
       .toPromise()
       .then(response => {
         console.log("post response", response);
@@ -1271,7 +1266,7 @@ export class TasksCore {
   }
 
   computeComparisonData() {
-    return this.getAllForUser("anon").then(serverData => {
+    return this.getAll().then(serverData => {
       let clientData = this.data.taskList;
       let singleTask: any;
       let comparisonResults: Array<any> = [];
@@ -1374,8 +1369,8 @@ export class TasksCore {
     return comparison;
   }
 
-  setApiRoot(root: string) {
+  /*setApiRoot(root: string) {
     this.apiRoot = root;
     console.log("api root has changed to:", root);
-  }
+  }*/
 }

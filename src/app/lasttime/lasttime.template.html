@@ -96,8 +96,8 @@
   <checkbox-option
     label="Include archived items"
     optionId="lasttime-options-archived"
-    [(checked)]="viewData.includeArchived"
-    [onClick]="reloadItems"
+    [checked]="viewData.includeArchived"
+    (onClick)="reloadItems($event)"
   ></checkbox-option>
   <br />
   <label>Search</label>

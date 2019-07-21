@@ -59,8 +59,7 @@ export class TasksComponent implements OnInit {
     optShowFinishedToday: false,
     optShowQualifiedTasksOnly: false,
     optNewTaskStatusIsBacklog: false,
-    optShowIndicatorsTable: false,
-    optServerAddress: "http://localhost:8081"
+    optShowIndicatorsTable: false
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -93,12 +92,12 @@ export class TasksComponent implements OnInit {
       if (!this.options) {
         this.options = this.defaultOptions;
       }
-      this.services.tasksCore.setApiRoot(this.options.optServerAddress);
+      //this.services.tasksCore.setApiRoot(this.options.optServerAddress);
       //this.services.sync.setApiRoot(this.options.optServerAddress);
     }
     this.nextTasks = [];
     this.updateState();
-    this.services.tasksCore.getAllForUser("anon").then(taskList => {
+    this.services.tasksCore.getAll().then(taskList => {
       this.tasks = taskList;
       this.load = true;
       this.updateState();
@@ -530,16 +529,10 @@ export class TasksComponent implements OnInit {
       } else {
         // task with no history, implies also is not 'in progress'
         const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
-        t.tsk_time_history.push({
-          tsh_id: t.tsk_id,
-          tsh_num_secuential: 1,
-          tsh_name: t.tsk_name,
+        this.services.tasksCore.addTimeTracking(t, {
           tsh_date_start: tt,
           tsh_date_end: new Date(tt.getTime() + randomFinish * 1000),
-          tsh_time_spent: randomFinish,
-          tsh_id_user: "anon",
-          tsh_date_add: this.services.dateUtils.newDateUpToSeconds(),
-          tsh_date_mod: this.services.dateUtils.newDateUpToSeconds()
+          tsh_time_spent: randomFinish
         });
         this.services.tasksCore.updateTask(t, {
           tsk_total_time_spent: randomFinish
@@ -1831,16 +1824,22 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  toggleOptionById({ checked, optionId }) {
+    this.options[optionId] = checked;
+    this.saveOptionsToLocalStorage();
+  }
+
   toggleOption(optionName: string) {
     this.options[optionName] = !this.options[optionName];
-    if (typeof window.localStorage !== "undefined") {
-      localStorage.setItem("Options", JSON.stringify(this.options));
-    }
+    this.saveOptionsToLocalStorage();
   }
 
   saveOption(optionName: string, value: string) {
     this.options[optionName] = value;
-    //this.sync.setApiRoot(value);
+    this.saveOptionsToLocalStorage();
+  }
+
+  saveOptionsToLocalStorage() {
     if (typeof window.localStorage !== "undefined") {
       localStorage.setItem("Options", JSON.stringify(this.options));
     }
@@ -1950,9 +1949,13 @@ export class TasksComponent implements OnInit {
     let addIndicator = (
       name: string,
       values: Array<number>,
+      showIndicator: boolean = false,
       formatMethod?: (v: number) => String,
       completedCriteria?: (prev: number, current: number) => any
     ): void => {
+      if (!showIndicator) {
+        return;
+      }
       let formattedValues: Array<String> = [];
       if (formatMethod) {
         formattedValues = values.map((v: number) => formatMethod(v));
@@ -2007,6 +2010,7 @@ export class TasksComponent implements OnInit {
         days,
         this.services.taskIndicator.totalTaskCountUntil
       ),
+      this.options["optShowIndicatorOpenCountEOD"],
       null,
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
@@ -2019,6 +2023,7 @@ export class TasksComponent implements OnInit {
     addIndicator(
       "Added ETA",
       calculateForAllDays(days, this.services.taskIndicator.addedETA),
+      this.options["optShowIndicatorAddedETA"],
       (v: number) => this.formatTime(v * 60),
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
@@ -2031,6 +2036,7 @@ export class TasksComponent implements OnInit {
     addIndicator(
       "Added Count",
       calculateForAllDays(days, this.services.taskIndicator.addedTaskCount),
+      this.options["optShowIndicatorAddedCount"],
       null,
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
@@ -2043,6 +2049,7 @@ export class TasksComponent implements OnInit {
     addIndicator(
       "Closed ETA",
       calculateForAllDays(days, this.services.taskIndicator.closedETA),
+      this.options["optShowIndicatorClosedETA"],
       (v: number) => this.formatTime(v * 60)
     );
 
@@ -2055,13 +2062,15 @@ export class TasksComponent implements OnInit {
           this.services.taskIndicator.calculateTotalTimeSpent(d1, d2)
             .totalTimeSpentTodayOnClosedTasks
       ),
+      this.options["optShowIndicatorClosedSpent"],
       (v: number) => this.formatTime(v)
     );
 
     // closed count
     addIndicator(
       "Closed Count",
-      calculateForAllDays(days, this.services.taskIndicator.closedTaskCount)
+      calculateForAllDays(days, this.services.taskIndicator.closedTaskCount),
+      this.options["optShowIndicatorClosedCount"]
     );
 
     // productivity ratio
@@ -2070,7 +2079,8 @@ export class TasksComponent implements OnInit {
       calculateForAllDays(
         days,
         this.services.taskIndicator.calculateProductivityRatio
-      )
+      ),
+      this.options["optShowIndicatorProductivityRatio"]
     );
 
     // time management ratio
@@ -2079,7 +2089,8 @@ export class TasksComponent implements OnInit {
       calculateForAllDays(
         days,
         this.services.taskIndicator.calculateTimeManagementRatio
-      )
+      ),
+      this.options["optShowIndicatorTimeManagementRatio"]
     );
 
     // first time tracking entry start time stamp for the day
@@ -2092,6 +2103,7 @@ export class TasksComponent implements OnInit {
           return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
         }
       ),
+      this.options["optShowIndicatorFirstTTStamp"],
       (v: number) => this.formatTime(v)
     );
 
@@ -2105,6 +2117,7 @@ export class TasksComponent implements OnInit {
           return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
         }
       ),
+      this.options["optShowIndicatorLastTTStamp"],
       (v: number) => this.formatTime(v)
     );
 
@@ -2112,6 +2125,7 @@ export class TasksComponent implements OnInit {
     addIndicator(
       "Open ETA",
       calculateForAllDays(days, this.services.taskIndicator.openETA),
+      this.options["optShowIndicatorOpenETA"],
       (v: number) => this.formatTime(v * 60),
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
@@ -2129,6 +2143,7 @@ export class TasksComponent implements OnInit {
           this.services.taskIndicator.calculateTotalTimeSpent(d1, d2)
             .totalTimeSpentTodayOnOpenTasks
       ),
+      this.options["optShowIndicatorOpenSpent"],
       (v: number) => this.formatTime(v)
     );
 

@@ -80,31 +80,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppKanban][new] Entity definition
 
-* [AppCommon][new][Login] Login logged user identity service uses token data
-* [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
-* [AppKanban][new] Entry and table generation
+- [AppCommon][new][Login] Login logged user identity service uses token data
+- [AppCommon][new][Sync] Add UI for sync process, display queue length, progress, success/error states, retry
+- [AppKanban][new] Entry and table generation
 
-* [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
-* [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
-* [AppTasks][new] Dark theme
+- [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
+- [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
+- [AppTasks][new] Dark theme
 
-* [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
-* [AppLastTime][new] Reuse CSS styles and generic grid listing components
-* [AppKanban][new] Entity generation
+- [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
+- [AppLastTime][new] Reuse CSS styles and generic grid listing components
+- [AppKanban][new] Entity generation
 
-* [AppMoney][new] Add categories UI listing
-* [AppMoney][new] Add presets form to edit or add new presets
+- [AppMoney][new] Add categories UI listing
+- [AppMoney][new] Add presets form to edit or add new presets
 
-- [AppTasks][new] Tasks, TimeTracking, Migrate user data to proper username and consume user authentication service
-- [AppTasks][new] Options to show/hide individual Indicators
-- [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
 - [AppMultimedia][new] View episode details in a form, to be able to edit them
+
+<hr/>
 
 - [AppLastTime][new] Edit history items
 - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
 - [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
 - [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
-- [AppMoney][fix] Fix Presets page loading for mobile
 
 - [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
 - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
@@ -117,6 +115,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLinks][new] Details/Edit Form UI
 
 <hr/>
+
+## v1.10.1 (2019-07-12)
+
+- [AppTasks][new] Options to show/hide individual Indicators
+- [AppTasks][mod] All options that use a checkbox now use `checkbox-option` component, reducing code
+- [AppCommon][mod] `checkbox-option` component was improved to emit events when checkbox is clicked for improved usability
+- [AppTasks][new] Tasks, TimeTracking, Migrate user data to proper username and consume user authentication service
+- [AppCommon][new] Menu layout improvements, all items under a single container, hidden below a button
+- [AppMoney][fix] Fix Presets page loading for mobile
 
 ## v1.10.0 (2019-07-08)
 

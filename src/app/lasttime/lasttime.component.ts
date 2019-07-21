@@ -254,7 +254,7 @@ export class LastTimeComponent implements OnInit {
     window.getSelection().selectAllChildren(event["target"]);
   }
 
-  reloadItems(includeArchived: boolean) {
+  reloadItems({ checked: includeArchived }) {
     this.services.lastTime.setIncludeArchived(includeArchived);
     this.services.lastTime.getAll().then(lastTimeList => {
       this.viewData.lastTime = lastTimeList;

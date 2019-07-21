@@ -5,6 +5,7 @@ import { ApiModule } from "../ApiModule";
 import { MoSQL } from "../MoSQL";
 import ConnectionService from "../ConnectionService";
 import iConnection from "../iConnection";
+import { MoGen } from "../../crosscommon/MoGen";
 
 export class TaskCustom {
   /**
@@ -33,9 +34,11 @@ export class TaskCustom {
   };
 
   listOpenTasks = (node: iNode) => {
-    let api: ApiModule = new ApiModule(new Task());
-    const subquery: string =
-      "tsk_ctg_status < 3 or tsk_date_done >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)";
+    const api: ApiModule = new ApiModule(new Task());
+    const { username } = node.request["userData"];
+    const subquery: string = `(tsk_ctg_status < 3 or tsk_date_done >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)) and tsk_id_user_added = '${MoGen.parseApostropheForSQL(
+      username
+    )}'`;
 
     const queue = [
       {

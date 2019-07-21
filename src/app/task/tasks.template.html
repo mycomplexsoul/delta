@@ -67,78 +67,110 @@
   <button (click)="sendAllToServer()">all tasks to server</button>
   <button (click)="getTasksFromServer()">get tasks from server</button>
   <br />
-  <span class="option-item">
-    <input
-      type="checkbox"
-      name="optCheckViewElapsedDays"
-      id="optCheckViewElapsedDays"
-      ng-checked="options.optViewElapsedDays"
-      [(ngModel)]="options.optViewElapsedDays"
-      (click)="toggleOption('optViewElapsedDays')"
-    />
-    <label for="optCheckViewElapsedDays"
-      >Display days elapsed since task was added</label
-    >
-  </span>
-  <span class="option-item">
-    <input
-      type="checkbox"
-      name="optCheckShowFinishedToday"
-      id="optCheckShowFinishedToday"
-      ng-checked="options.optShowFinishedToday"
-      [(ngModel)]="options.optShowFinishedToday"
-      (click)="toggleOption('optShowFinishedToday')"
-    />
-    <label for="optCheckShowFinishedToday">Show Finished Today</label>
-  </span>
-  <span class="option-item">
-    <input
-      type="checkbox"
-      name="optCheckShowQualifiedTasksOnly"
-      id="optCheckShowQualifiedTasksOnly"
-      ng-checked="options.optShowQualifiedTasksOnly"
-      [(ngModel)]="options.optShowQualifiedTasksOnly"
-      (click)="toggleOption('optShowQualifiedTasksOnly'); updateState()"
-    />
-    <label for="optCheckShowQualifiedTasksOnly"
-      >Show only tasks that have Qualifiers</label
-    >
-  </span>
-  <span class="option-item">
-    <input
-      type="checkbox"
-      name="optCheckNewTaskStatusIsBacklog"
-      id="optCheckNewTaskStatusIsBacklog"
-      ng-checked="options.optNewTaskStatusIsBacklog"
-      [(ngModel)]="options.optNewTaskStatusIsBacklog"
-      (click)="toggleOption('optNewTaskStatusIsBacklog')"
-    />
-    <label for="optCheckNewTaskStatusIsBacklog"
-      >When a new task is added, add it to BACKLOG instead (of adding it to
-      OPEN)</label
-    >
-  </span>
-  <span class="option-item">
-    <input
-      type="checkbox"
-      name="optCheckShowIndicatorsTable"
-      id="optCheckShowIndicatorsTable"
-      ng-checked="options.optShowIndicatorsTable"
-      [(ngModel)]="options.optShowIndicatorsTable"
-      (click)="toggleOption('optShowIndicatorsTable')"
-    />
-    <label for="optCheckShowIndicatorsTable">Show Indicators Table</label>
-  </span>
-  <span class="option-item">
-    <label for="optInputServerAddress">Server Address</label>
-    <input
-      type="text"
-      id="optInputServerAddress"
-      name="optInputServerAddress"
-      [(ngModel)]="options.optServerAddress"
-      (blur)="saveOption('optServerAddress', $event.target['value'])"
-    />
-  </span>
+  <checkbox-option
+    label="Display days elapsed since task was added"
+    optionId="optViewElapsedDays"
+    [checked]="options.optViewElapsedDays"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Finished Today"
+    optionId="optShowFinishedToday"
+    [checked]="options.optShowFinishedToday"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show only tasks that have Qualifiers"
+    optionId="optShowQualifiedTasksOnly"
+    [checked]="options.optShowQualifiedTasksOnly"
+    (onClick)="toggleOptionById($event); updateState()"
+  ></checkbox-option>
+  <checkbox-option
+    label="When a new task is added, add it to BACKLOG instead (of adding it to OPEN)"
+    optionId="optNewTaskStatusIsBacklog"
+    [checked]="options.optNewTaskStatusIsBacklog"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicators Table"
+    optionId="optShowIndicatorsTable"
+    [checked]="options.optShowIndicatorsTable"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+
+  <checkbox-option
+    label="Show Indicator - Open Count EOD"
+    optionId="optShowIndicatorOpenCountEOD"
+    [checked]="options.optShowIndicatorOpenCountEOD"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Added ETA"
+    optionId="optShowIndicatorAddedETA"
+    [checked]="options.optShowIndicatorAddedETA"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Added Count"
+    optionId="optShowIndicatorAddedCount"
+    [checked]="options.optShowIndicatorAddedCount"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Closed ETA"
+    optionId="optShowIndicatorClosedETA"
+    [checked]="options.optShowIndicatorClosedETA"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Closed Spent"
+    optionId="optShowIndicatorClosedSpent"
+    [checked]="options.optShowIndicatorClosedSpent"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Closed Count"
+    optionId="optShowIndicatorClosedCount"
+    [checked]="options.optShowIndicatorClosedCount"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Productivity Ratio"
+    optionId="optShowIndicatorProductivityRatio"
+    [checked]="options.optShowIndicatorProductivityRatio"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Time Management Ratio"
+    optionId="optShowIndicatorTimeManagementRatio"
+    [checked]="options.optShowIndicatorTimeManagementRatio"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - First TimeTracking Stamp of Day"
+    optionId="optShowIndicatorFirstTTStamp"
+    [checked]="options.optShowIndicatorFirstTTStamp"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Last TimeTracking Stamp of Day"
+    optionId="optShowIndicatorLastTTStamp"
+    [checked]="options.optShowIndicatorLastTTStamp"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Open ETA"
+    optionId="optShowIndicatorOpenETA"
+    [checked]="options.optShowIndicatorOpenETA"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show Indicator - Open Spent"
+    optionId="optShowIndicatorOpenSpent"
+    [checked]="options.optShowIndicatorOpenSpent"
+    (onClick)="toggleOptionById($event); calculateIndicators()"
+  ></checkbox-option>
+
   <div id="optionsMessages"></div>
   <hr />
 </div>

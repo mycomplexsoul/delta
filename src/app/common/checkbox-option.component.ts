@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "checkbox-option",
@@ -6,16 +6,17 @@ import { Component, Input } from "@angular/core";
   providers: []
 })
 export class CheckboxOptionComponent {
-  @Input() checked: boolean;
-  @Input() onClick: Function;
+  @Input() checked: boolean = false;
   @Input() optionId: string;
   @Input() label: string = "Option";
+  @Output() onClick: EventEmitter<{
+    checked: boolean;
+    optionId: string;
+  }> = new EventEmitter<{ checked: boolean; optionId: string }>();
 
   toggleCheckbox(event: MouseEvent) {
     this.checked = event.target["checked"];
 
-    if (this.onClick) {
-      this.onClick(this.checked);
-    }
+    this.onClick.emit({ checked: this.checked, optionId: this.optionId });
   }
 }
