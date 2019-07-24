@@ -12,6 +12,7 @@ import { ChartsModule } from "ng2-charts";
 import { AppComponent } from "./app.component";
 import { TasksComponent } from "./task/tasks.component";
 import { MenuComponent } from "./common/menu.component";
+import { SyncComponent } from "./common/sync.component";
 
 import { AccountComponent } from "./money/account.component";
 import { MovementComponent } from "./money/movement.component";
@@ -64,6 +65,7 @@ import { RegisterComponent } from "./common/register.component";
     CheckboxOptionComponent,
     DrinkWaterComponent,
     MenuComponent,
+    SyncComponent,
     LoginComponent,
     CfgComponent,
     LastTimeComponent,

@@ -202,7 +202,7 @@ export class MultimediaComponent implements OnInit {
       values.fSeason,
       values.fYear,
       values.fCurrentEp,
-      values.fTotalEp,
+      values.fTotalEp || 0,
       values.fUrl,
       this.services.loginService.getUsername() || "anon"
     );

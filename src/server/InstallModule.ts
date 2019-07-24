@@ -26,6 +26,8 @@ import { Multimedia } from '../crosscommon/entities/Multimedia';
 import { MultimediaDet } from '../crosscommon/entities/MultimediaDet';
 import { MultimediaView } from '../crosscommon/entities/MultimediaView';
 
+import { Link } from '../crosscommon/entities/Link';
+
 export class InstallModule {
     install = () => {
         const connection: iConnection = ConnectionService.getConnection();
@@ -37,6 +39,7 @@ export class InstallModule {
             , new Account(), new Category(), new Place(), new Movement(), new Entry(), new Balance(), new Preset()
             , new LastTime(), new LastTimeHistory()
             , new Multimedia(), new MultimediaDet(), new MultimediaView()
+            , new Link()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {

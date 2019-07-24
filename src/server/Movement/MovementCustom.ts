@@ -734,32 +734,35 @@ export class MovementCustom {
   };
 
   accountsWithBalance = (node: iNode) => {
-    let m: iEntity = new Account();
-    let connection: iConnection = ConnectionService.getConnection();
-    let params: string = node.request.query["q"];
-    let sqlMotor: MoSQL = new MoSQL(m);
-    let sql: string = `select viaccount.*, case when bal_final is null then 0 else bal_final end as bal_final from viaccount left join balance on (bal_year * 100 + bal_month = (select max(bal_year * 100 + bal_month) from balance) and bal_id_account = acc_id)`;
-    if (params) {
-      sql += ` where ${sqlMotor.criteriaToSQL(
-        sqlMotor.parseSQLCriteria(params),
-        m
-      )}`;
-    }
-    let array: iEntity[] = [];
+    const api: ApiModule = new ApiModule(new Account());
+    const { username } = node.request["userData"];
+    let sql: string = `select viaccount.*, case when bal_final is null then 0 else bal_final end as bal_final
+      from viaccount
+      left join balance on (
+        bal_year * 100 + bal_month = (select max(bal_year * 100 + bal_month) from balance)
+        and bal_id_account = acc_id
+      )`;
 
-    return connection
-      .runSql(sql)
-      .then(response => {
-        if (!response.err) {
-          array = response.rows;
-          console.log(`api list query returned ${array.length} rows`);
-        }
-        connection.close();
-        return array;
-      })
-      .then(response => {
-        node.response.end(JSON.stringify(response));
-      });
+    // TODO: Improve this later: it is parsing query, then concatenating user id and stringifying again :-(
+    const query = JSON.parse(node.request.query["q"]);
+    query.cont.push({
+      f: "acc_id_user",
+      op: "eq",
+      val: username
+    });
+
+    const queue = [
+      {
+        sql,
+        model: new Account(),
+        name: "accounts",
+        q: JSON.stringify(query)
+      }
+    ];
+
+    api.multipleListWithSQL({ queue }).then(response => {
+      node.response.end(JSON.stringify(response));
+    });
   };
 
   averageBalance = (node: iNode) => {

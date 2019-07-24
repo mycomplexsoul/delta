@@ -63,7 +63,7 @@ export class AccountService {
     return this.sync
       .get(`${this.config.api.list}${query}`)
       .then(data => {
-        this.data = data.map(
+        this.data = data.accounts.map(
           (d: any): Account => {
             let item = new Account(d);
             item["bal_final"] = d["bal_final"];

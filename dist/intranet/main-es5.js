@@ -370,7 +370,7 @@ module.exports = "<h1>Hi {{ currentUser.firstName }}!</h1>\r\n<p>You're logged i
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\" class=\"login-form\">\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/register\" class=\"btn btn-link\">Register</a>\r\n  </div>\r\n</form>\r\n\r\n<!--\r\n<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\r\n    <div class=\"login\">\r\n        <input type=\"text\" id=\"fUsername\" name=\"fUsername\" ngModel />\r\n        <input type=\"password\" id=\"fPassword\" name=\"fPassword\" ngModel />\r\n        <input type=\"submit\" value=\"Login\" />\r\n        <div id=\"messages\" *ngIf=\"viewData.error\">{{ viewData.errorMessage }}</div>\r\n    </div>\r\n</form>\r\n-->\r\n"
+module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\" class=\"login-form\">\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      autofocus\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/register\" class=\"btn btn-link\">Register</a>\r\n  </div>\r\n</form>\r\n\r\n<!--\r\n<form #loginForm=\"ngForm\" (ngSubmit)=\"submit(loginForm)\">\r\n    <div class=\"login\">\r\n        <input type=\"text\" id=\"fUsername\" name=\"fUsername\" ngModel />\r\n        <input type=\"password\" id=\"fPassword\" name=\"fPassword\" ngModel />\r\n        <input type=\"submit\" value=\"Login\" />\r\n        <div id=\"messages\" *ngIf=\"viewData.error\">{{ viewData.errorMessage }}</div>\r\n    </div>\r\n</form>\r\n-->\r\n"
 
 /***/ }),
 
@@ -381,7 +381,7 @@ module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <div class=\"menu-header\">\r\n    <div class=\"menu-icon\">\r\n      <button (click)=\"viewData.isOpen = !viewData.isOpen\">\r\n        menu\r\n      </button>\r\n    </div>\r\n    <div class=\"menu-area\">\r\n      <drink-water></drink-water>\r\n    </div>\r\n    <div class=\"menu-section\" *ngIf=\"viewData.isOpen\">\r\n      <ul class=\"menu-items\" (keydown.esc)=\"viewData.isOpen = false\">\r\n        <li>\r\n          <a (click)=\"viewData.isOpen = false\" routerLink=\"tasks\" href=\"/tasks\"\r\n            >Tasks</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"movement\"\r\n            href=\"/movement\"\r\n            >Movements</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"balance\"\r\n            href=\"/balance\"\r\n            >Balance</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"lasttime\"\r\n            href=\"/lasttime\"\r\n            >Last Time</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"multimedia\"\r\n            href=\"/multimedia\"\r\n            >Multimedia</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"account\"\r\n            href=\"/account\"\r\n            >Accounts</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"places\"\r\n            href=\"/places\"\r\n            >Places</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"presets\"\r\n            href=\"/presets\"\r\n            >Presets</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <span>{{ viewData.username }}</span>\r\n        </li>\r\n        <li>\r\n          <a (click)=\"logout()\">logout</a>\r\n        </li>\r\n        <li>\r\n          <span>v{{ metadata.appVersion }}</span>\r\n        </li>\r\n        <li>\r\n          <span> {{ viewData.currentTime | date: \"HH:mm:ss\" }} </span>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <div class=\"menu-header\">\r\n    <div class=\"menu-icon\">\r\n      <button (click)=\"viewData.isOpen = !viewData.isOpen\">\r\n        menu\r\n      </button>\r\n    </div>\r\n    <div class=\"menu-area\">\r\n      <drink-water></drink-water>\r\n      <sync></sync>\r\n    </div>\r\n    <div class=\"menu-section\" *ngIf=\"viewData.isOpen\">\r\n      <ul class=\"menu-items\" (keydown.esc)=\"viewData.isOpen = false\">\r\n        <li>\r\n          <a (click)=\"viewData.isOpen = false\" routerLink=\"tasks\" href=\"/tasks\"\r\n            >Tasks</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"movement\"\r\n            href=\"/movement\"\r\n            >Movements</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"balance\"\r\n            href=\"/balance\"\r\n            >Balance</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"lasttime\"\r\n            href=\"/lasttime\"\r\n            >Last Time</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"multimedia\"\r\n            href=\"/multimedia\"\r\n            >Multimedia</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"account\"\r\n            href=\"/account\"\r\n            >Accounts</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"places\"\r\n            href=\"/places\"\r\n            >Places</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"presets\"\r\n            href=\"/presets\"\r\n            >Presets</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <span>{{ viewData.username }}</span>\r\n        </li>\r\n        <li>\r\n          <a (click)=\"logout()\">logout</a>\r\n        </li>\r\n        <li>\r\n          <span>v{{ metadata.appVersion }}</span>\r\n        </li>\r\n        <li>\r\n          <span> {{ viewData.currentTime | date: \"HH:mm:ss\" }} </span>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -393,6 +393,17 @@ module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <div
 /***/ (function(module, exports) {
 
 module.exports = "<h2>Register</h2>\r\n<form [formGroup]=\"registerForm\" (ngSubmit)=\"onSubmit()\">\r\n  <div class=\"form-group\">\r\n    <label for=\"firstName\">First Name</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"firstName\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.firstName.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.firstName.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.firstName.errors.required\">First Name is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"lastName\">Last Name</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"lastName\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.lastName.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.lastName.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.lastName.errors.required\">Last Name is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"username\">Username</label>\r\n    <input\r\n      type=\"text\"\r\n      formControlName=\"username\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.username.errors.required\">Username is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"password\">Password</label>\r\n    <input\r\n      type=\"password\"\r\n      formControlName=\"password\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.password.errors.required\">Password is required</div>\r\n      <div *ngIf=\"f.password.errors.minlength\">\r\n        Password must be at least 6 characters\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <label for=\"email\">Email</label>\r\n    <input\r\n      type=\"email\"\r\n      formControlName=\"email\"\r\n      class=\"form-control\"\r\n      [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\"\r\n    />\r\n    <div *ngIf=\"submitted && f.email.errors\" class=\"invalid-feedback\">\r\n      <div *ngIf=\"f.email.errors.required\">Email is required</div>\r\n    </div>\r\n  </div>\r\n  <div class=\"form-group\">\r\n    <button [disabled]=\"loading\" class=\"btn btn-primary\">Register</button>\r\n    <img\r\n      *ngIf=\"loading\"\r\n      class=\"pl-3\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\"\r\n    />\r\n    <a routerLink=\"/login\" class=\"btn btn-link\">Cancel</a>\r\n  </div>\r\n</form>\r\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/common/sync.template.html":
+/*!*********************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/common/sync.template.html ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <span>{{ viewData.queue.length }} records</span>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -592,30 +603,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _task_tasks_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./task/tasks.component */ "./src/app/task/tasks.component.ts");
 /* harmony import */ var _common_menu_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./common/menu.component */ "./src/app/common/menu.component.ts");
-/* harmony import */ var _money_account_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
-/* harmony import */ var _money_movement_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
-/* harmony import */ var _money_balance_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
-/* harmony import */ var _money_place_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
-/* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
-/* harmony import */ var _money_movementListing_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./money/movementListing.component */ "./src/app/money/movementListing.component.ts");
-/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
-/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
-/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
-/* harmony import */ var _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
-/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
-/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
-/* harmony import */ var _common_cfg_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
-/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
-/* harmony import */ var _common_alert_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
-/* harmony import */ var _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
-/* harmony import */ var _common_error_interceptor__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
-/* harmony import */ var _common_home_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
-/* harmony import */ var _common_register_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+/* harmony import */ var _common_sync_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./common/sync.component */ "./src/app/common/sync.component.ts");
+/* harmony import */ var _money_account_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
+/* harmony import */ var _money_movement_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
+/* harmony import */ var _money_balance_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
+/* harmony import */ var _money_place_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
+/* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
+/* harmony import */ var _money_movementListing_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./money/movementListing.component */ "./src/app/money/movementListing.component.ts");
+/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
+/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
+/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
+/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
+/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
+/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
+/* harmony import */ var _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
+/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
+/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
+/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
+/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
+/* harmony import */ var _common_cfg_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
+/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+/* harmony import */ var _common_alert_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
+/* harmony import */ var _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
+/* harmony import */ var _common_error_interceptor__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
+/* harmony import */ var _common_home_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
+/* harmony import */ var _common_register_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+
 
 
 
@@ -666,35 +679,36 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
                 _task_tasks_component__WEBPACK_IMPORTED_MODULE_8__["TasksComponent"],
-                _money_account_component__WEBPACK_IMPORTED_MODULE_10__["AccountComponent"],
-                _money_movement_component__WEBPACK_IMPORTED_MODULE_11__["MovementComponent"],
-                _money_balance_component__WEBPACK_IMPORTED_MODULE_12__["BalanceComponent"],
-                _money_place_component__WEBPACK_IMPORTED_MODULE_13__["PlaceComponent"],
-                _money_preset_component__WEBPACK_IMPORTED_MODULE_14__["PresetComponent"],
-                _money_movementListing_component__WEBPACK_IMPORTED_MODULE_15__["MovementListingComponent"],
-                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_21__["ComboItemComponent"],
-                _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_22__["CheckboxOptionComponent"],
-                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_23__["DrinkWaterComponent"],
+                _money_account_component__WEBPACK_IMPORTED_MODULE_11__["AccountComponent"],
+                _money_movement_component__WEBPACK_IMPORTED_MODULE_12__["MovementComponent"],
+                _money_balance_component__WEBPACK_IMPORTED_MODULE_13__["BalanceComponent"],
+                _money_place_component__WEBPACK_IMPORTED_MODULE_14__["PlaceComponent"],
+                _money_preset_component__WEBPACK_IMPORTED_MODULE_15__["PresetComponent"],
+                _money_movementListing_component__WEBPACK_IMPORTED_MODULE_16__["MovementListingComponent"],
+                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_22__["ComboItemComponent"],
+                _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_23__["CheckboxOptionComponent"],
+                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_24__["DrinkWaterComponent"],
                 _common_menu_component__WEBPACK_IMPORTED_MODULE_9__["MenuComponent"],
-                _common_login_component__WEBPACK_IMPORTED_MODULE_26__["LoginComponent"],
-                _common_cfg_component__WEBPACK_IMPORTED_MODULE_27__["CfgComponent"],
-                _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_16__["LastTimeComponent"],
-                _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_17__["MultimediaComponent"],
-                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_28__["TypeGeneratorComponent"],
-                _common_alert_component__WEBPACK_IMPORTED_MODULE_29__["AlertComponent"],
-                _common_home_component__WEBPACK_IMPORTED_MODULE_32__["HomeComponent"],
-                _common_register_component__WEBPACK_IMPORTED_MODULE_33__["RegisterComponent"]
+                _common_sync_component__WEBPACK_IMPORTED_MODULE_10__["SyncComponent"],
+                _common_login_component__WEBPACK_IMPORTED_MODULE_27__["LoginComponent"],
+                _common_cfg_component__WEBPACK_IMPORTED_MODULE_28__["CfgComponent"],
+                _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_17__["LastTimeComponent"],
+                _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_18__["MultimediaComponent"],
+                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_29__["TypeGeneratorComponent"],
+                _common_alert_component__WEBPACK_IMPORTED_MODULE_30__["AlertComponent"],
+                _common_home_component__WEBPACK_IMPORTED_MODULE_33__["HomeComponent"],
+                _common_register_component__WEBPACK_IMPORTED_MODULE_34__["RegisterComponent"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
             providers: [
-                _common_date_common__WEBPACK_IMPORTED_MODULE_20__["DateCommon"],
-                _common_storage_service__WEBPACK_IMPORTED_MODULE_18__["StorageService"],
-                _money_entry_service__WEBPACK_IMPORTED_MODULE_19__["EntryService"],
-                _common_sync_api__WEBPACK_IMPORTED_MODULE_24__["SyncAPI"],
-                _common_utils_common__WEBPACK_IMPORTED_MODULE_25__["UtilsCommon"],
+                _common_date_common__WEBPACK_IMPORTED_MODULE_21__["DateCommon"],
+                _common_storage_service__WEBPACK_IMPORTED_MODULE_19__["StorageService"],
+                _money_entry_service__WEBPACK_IMPORTED_MODULE_20__["EntryService"],
+                _common_sync_api__WEBPACK_IMPORTED_MODULE_25__["SyncAPI"],
+                _common_utils_common__WEBPACK_IMPORTED_MODULE_26__["UtilsCommon"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"],
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_30__["JwtInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_error_interceptor__WEBPACK_IMPORTED_MODULE_31__["ErrorInterceptor"], multi: true }
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_31__["JwtInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_error_interceptor__WEBPACK_IMPORTED_MODULE_32__["ErrorInterceptor"], multi: true }
             ]
         })
     ], AppModule);
@@ -2180,6 +2194,49 @@ var SyncAPI = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/common/sync.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/common/sync.component.ts ***!
+  \******************************************/
+/*! exports provided: SyncComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SyncComponent", function() { return SyncComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _sync_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sync.api */ "./src/app/common/sync.api.ts");
+
+
+
+var SyncComponent = /** @class */ (function () {
+    function SyncComponent(syncService) {
+        this.syncService = syncService;
+        this.viewData = {
+            queue: []
+        };
+    }
+    SyncComponent.prototype.ngOnInit = function () {
+        this.viewData.queue = this.syncService.queue;
+    };
+    SyncComponent.ctorParameters = function () { return [
+        { type: _sync_api__WEBPACK_IMPORTED_MODULE_2__["SyncAPI"] }
+    ]; };
+    SyncComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: "sync",
+            template: __webpack_require__(/*! raw-loader!./sync.template.html */ "./node_modules/raw-loader/index.js!./src/app/common/sync.template.html")
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_sync_api__WEBPACK_IMPORTED_MODULE_2__["SyncAPI"]])
+    ], SyncComponent);
+    return SyncComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/common/user-login.service.ts":
 /*!**********************************************!*\
   !*** ./src/app/common/user-login.service.ts ***!
@@ -3172,7 +3229,7 @@ var AccountService = /** @class */ (function () {
                 return [2 /*return*/, this.sync
                         .get("" + this.config.api.list + query)
                         .then(function (data) {
-                        _this.data = data.map(function (d) {
+                        _this.data = data.accounts.map(function (d) {
                             var item = new _crosscommon_entities_Account__WEBPACK_IMPORTED_MODULE_1__["Account"](d);
                             item["bal_final"] = d["bal_final"];
                             return item;
@@ -5742,7 +5799,7 @@ var MultimediaComponent = /** @class */ (function () {
     };
     MultimediaComponent.prototype.newItem = function (form) {
         var values = form.value;
-        var item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp, values.fUrl, this.services.loginService.getUsername() || "anon");
+        var item = this.services.multimediaService.newItem(values.fTitle, values.fMediaType, values.fSeason, values.fYear, values.fCurrentEp, values.fTotalEp || 0, values.fUrl, this.services.loginService.getUsername() || "anon");
         this.viewData.multimediaList.push(item);
         this.resetForm(form);
         this.viewData.showCreateForm = false;

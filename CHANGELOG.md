@@ -88,7 +88,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
 - [AppTasks][new] Dark theme
 
-- [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
 - [AppLastTime][new] Reuse CSS styles and generic grid listing components
 - [AppKanban][new] Entity generation
 
@@ -96,25 +95,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Add presets form to edit or add new presets
 
 - [AppMultimedia][new] View episode details in a form, to be able to edit them
-
-<hr/>
-
 - [AppLastTime][new] Edit history items
 - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
-- [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
-- [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
 
 - [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
 - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
-- [AppLinks][new] Entity Definition
-- [AppLinks][new] Entity Generation
 
-- [AppLinks][new] CRUD REST endpoints for listing, create, update
+<hr/>
+
+- [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
+- [AppMoney][new] Add a badge with the count of all uses of a place inside registered movements
+
 - [AppLinks][new] Listing UI, page and routing
 - [AppLinks][new] Create Form UI
 - [AppLinks][new] Details/Edit Form UI
 
 <hr/>
+
+## v1.10.2 (2019-07-18)
+
+- [AppLinks][new] CRUD REST endpoints for listing, create, update
+- [AppLinks][new] Entity Generation
+- [AppLinks][new] Entity Definition `Link`
+- [AppCommon][mod] Refactor accounts with balance endpoint to have an endpoint that uses a sql query as param
 
 ## v1.10.1 (2019-07-12)
 
