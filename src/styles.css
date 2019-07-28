@@ -509,6 +509,10 @@ combo-item .combo-item-container {
   margin-top: 0;
 }
 
+link {
+  display: block;
+}
+
 /* @​media (prefers-color-scheme: dark) {
 
 }*/

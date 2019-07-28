@@ -16,6 +16,7 @@ import * as LastTimeHistoryRoute from "./LastTimeHistory/LastTimeHistoryRoute";
 import * as MultimediaRoute from "./Multimedia/MultimediaRoute";
 import * as MultimediaDetRoute from "./MultimediaDet/MultimediaDetRoute";
 import * as MultimediaViewRoute from "./MultimediaView/MultimediaViewRoute";
+import * as LinkRoute from "./Link/LinkRoute";
 import * as SyncRoute from "./Sync/SyncRoute";
 
 // Other pages
@@ -43,6 +44,7 @@ const entitiesWithAuth = [
   { url: "/multimedia", handler: MultimediaRoute.router },
   { url: "/multimediadet", handler: MultimediaDetRoute.router },
   { url: "/multimediaview", handler: MultimediaViewRoute.router },
+  { url: "/links", handler: LinkRoute.router },
 
   { url: "/sync", handler: SyncRoute.router }
 ];

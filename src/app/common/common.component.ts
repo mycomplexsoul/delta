@@ -1,4 +1,6 @@
 import { NgForm } from "@angular/forms";
+import { iEntity } from "src/crosscommon/iEntity";
+import { Utils } from "src/crosscommon/Utility";
 
 export class CommonComponent<T> {
   newItem({
@@ -61,5 +63,19 @@ export class CommonComponent<T> {
   resetForm(form: NgForm, onReset: (form: NgForm) => void) {
     onReset(form);
     form.reset();
+  }
+
+  /**
+   * Another to calculate ids with generics, right now not in use because it exists Utils.hashIdForEntity()
+   * which does the same as this.
+   * @deprecated in favor of Utils.hashIdForEntity()
+   * @param type
+   * @param fieldName
+   */
+  newId<R extends iEntity>(type: { new (): R }, fieldName: string): string {
+    const m: iEntity = new type();
+    const length: number = m.metadata.fields.find(f => f.dbName === fieldName)
+      .size;
+    return Utils.hashId(m.metadata.prefix, length);
   }
 }

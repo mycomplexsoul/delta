@@ -3,7 +3,6 @@ import { NgModule } from "@angular/core";
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { RouterModule, Routes } from "@angular/router";
 
 import { routing } from "./app.routing";
 
@@ -24,6 +23,8 @@ import { MovementListingComponent } from "./money/movementListing.component";
 import { LastTimeComponent } from "./lasttime/lasttime.component";
 
 import { MultimediaComponent } from "./multimedia/multimedia.component";
+
+import { LinkComponent } from "./link/link.component";
 
 import { StorageService } from "./common/storage.service";
 import { EntryService } from "./money/entry.service";
@@ -70,6 +71,7 @@ import { RegisterComponent } from "./common/register.component";
     CfgComponent,
     LastTimeComponent,
     MultimediaComponent,
+    LinkComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

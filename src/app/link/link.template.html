@@ -1,0 +1,88 @@
+<div>
+  <strong>Links</strong>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    <div id="newItemFormSection" *ngIf="viewData.showItemForm">
+      <span class="field" *ngIf="model.id">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small">{{
+          model.id
+        }}</span>
+      </span>
+
+      <span class="field">
+        <label for="fUrl" class="label-left">Url</label>
+        <input
+          type="text"
+          name="fUrl"
+          id="fUrl"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fTitle" class="label-left">Title</label>
+        <input
+          type="text"
+          name="fTitle"
+          id="fTitle"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fTags" class="label-left">Tags</label>
+        <input
+          type="text"
+          name="fTags"
+          id="fTags"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
+      <span class="field">
+        <label for="fComment" class="label-left">Comment</label>
+        <input
+          type="text"
+          name="fComment"
+          id="fComment"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+  </form>
+
+  <div class="card-list">
+    <div
+      *ngFor="let item of viewData.linkList"
+      class="card-item-container"
+      (click)="setModelDetails(item.lnk_id, itemForm)"
+    >
+      <span class="link-url">{{ item.lnk_url }}</span>
+      <br />
+      <span>Status: {{ item.lnk_txt_status }}</span>
+
+      <span class="link-badge-new" *ngIf="item.isNew">new</span>
+      <span class="link-badge-edited" *ngIf="item.isEdited">edited</span>
+      <!--
+              <span *ngIf="item.showOptions">
+                <button (click)="archiveRecord(item)">archive</button>
+                <button (click)="editNotes(item)">edit notes</button>
+                <button (click)="viewHistory(item)">view history</button>
+            </span>    -->
+    </div>
+  </div>
+</div>

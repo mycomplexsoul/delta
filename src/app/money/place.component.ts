@@ -4,25 +4,25 @@ import { PlaceService } from "./place.service";
 import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 import { CommonComponent } from "../common/common.component";
+import { MovementService } from "./movement.service";
+import { Movement } from "../../crosscommon/entities/Movement";
 
 @Component({
   selector: "place",
   templateUrl: "./place.template.html",
-  providers: [PlaceService]
+  providers: [PlaceService, MovementService]
 })
 export class PlaceComponent implements OnInit {
   public viewData: {
     placeList: Place[];
+    movementList: Movement[];
     showItemForm: boolean;
   } = {
     placeList: [],
+    movementList: [],
     showItemForm: false
   };
-  private services: {
-    placeService: PlaceService;
-  } = {
-    placeService: null
-  };
+
   public model: {
     id: string;
   } = {
@@ -30,14 +30,26 @@ export class PlaceComponent implements OnInit {
   };
   public common: CommonComponent<Place> = null;
 
-  constructor(placeService: PlaceService) {
-    this.services.placeService = placeService;
+  constructor(
+    private placeService: PlaceService,
+    private movementService: MovementService
+  ) {
     this.common = new CommonComponent<Place>();
   }
 
   ngOnInit() {
-    this.services.placeService.getAll().then(list => {
-      this.viewData.placeList = list;
+    Promise.all([
+      this.placeService.getAll(),
+      this.movementService.getAll()
+    ]).then(([placeList, movementList]: [Place[], Movement[]]) => {
+      this.viewData.movementList = movementList;
+
+      this.viewData.placeList = placeList.map(place => {
+        place["movementList"] = movementList.filter(
+          ({ mov_id_place }) => mov_id_place === place.mpl_id
+        );
+        return place;
+      });
     });
   }
 
@@ -54,8 +66,7 @@ export class PlaceComponent implements OnInit {
           newItem.mpl_name = formValues.fName;
           return newItem;
         },
-        onUpdateItemService: item =>
-          this.services.placeService.updateItem(item),
+        onUpdateItemService: item => this.placeService.updateItem(item),
         onFinalExecution: () => {
           this.model.id = null;
         }
@@ -72,7 +83,7 @@ export class PlaceComponent implements OnInit {
           });
           return newItem;
         },
-        onNewItemService: item => this.services.placeService.newItem(item),
+        onNewItemService: item => this.placeService.newItem(item),
         onFinalExecution: () => {
           this.viewData.showItemForm = false;
         }

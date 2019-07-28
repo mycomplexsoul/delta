@@ -403,7 +403,7 @@ module.exports = "<h2>Register</h2>\r\n<form [formGroup]=\"registerForm\" (ngSub
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <span>{{ viewData.queue.length }} records</span>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <span>{{ viewData.message }}</span>\r\n  <!--<div *ngFor=\"let q of viewData.queue\">\r\n    [item] => {{ q.action }} | {{ q.entity }} | {{ q.recordNameString }} |\r\n    {{ q.status }}\r\n  </div>-->\r\n</div>\r\n"
 
 /***/ }),
 
@@ -426,6 +426,17 @@ module.exports = "<div>\r\n    <div *ngFor=\"let e of viewData.entityList\">\r\n
 /***/ (function(module, exports) {
 
 module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n  <button type=\"button\" (click)=\"handleNewItem(newForm)\">\r\n    {{ viewData.showCreateForm ? \"Hide Form\" : \"New Item\" }}\r\n  </button>\r\n\r\n  <div *ngIf=\"viewData.showCreateForm\">\r\n    <div>\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"lasttime-input-id\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input lasttime-input-name\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValue\" class=\"label-left\">Value</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fValue\"\r\n          id=\"fValue\"\r\n          class=\"field-input lasttime-input-value\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fValidity\" class=\"label-left\">Validity</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fValidity\"\r\n          id=\"fValidity\"\r\n          class=\"field-input lasttime-input-validity\"\r\n          step=\"1\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTags\"\r\n          id=\"fTags\"\r\n          class=\"field-input lasttime-input-tags\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fNotes\"\r\n          id=\"fNotes\"\r\n          class=\"field-input lasttime-input-notes\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">Save</button>\r\n    </div>\r\n  </div>\r\n</form>\r\n\r\n<div *ngIf=\"viewData.historyList.length\">\r\n  Showing history for: {{ viewData.historyMetadata.lst_name }}\r\n  <br />\r\n  <button (click)=\"hideHistory()\">\r\n    Hide History\r\n  </button>\r\n  <table>\r\n    <tr>\r\n      <td>#</td>\r\n      <td>Value</td>\r\n      <td>Notes</td>\r\n      <td>Date Mod</td>\r\n    </tr>\r\n    <tr *ngFor=\"let item of viewData.historyList\">\r\n      <td>{{ item.lth_num_sequential }}</td>\r\n      <td>{{ item.lth_value }}</td>\r\n      <td>{{ item.lth_notes }}</td>\r\n      <td>{{ item.lth_date_mod | date: \"yyyy-MM-dd HH:mm\" }}</td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n\r\n<div>\r\n  {{ viewData.lastTime.length }} items.\r\n  <br />\r\n  <checkbox-option\r\n    label=\"Include archived items\"\r\n    optionId=\"lasttime-options-archived\"\r\n    [checked]=\"viewData.includeArchived\"\r\n    (onClick)=\"reloadItems($event)\"\r\n  ></checkbox-option>\r\n  <br />\r\n  <label>Search</label>\r\n  <input (keyup)=\"filter($event)\" placeholder=\"Filter\" />\r\n</div>\r\n\r\n<div class=\"lasttime-list\">\r\n  <div *ngFor=\"let item of viewData.lastTime\" class=\"lasttime-item-container\">\r\n    <span class=\"lasttime-name\">{{ item.lst_name }}:</span>\r\n    <span\r\n      contenteditable=\"true\"\r\n      (blur)=\"editValue(item, $event)\"\r\n      (focus)=\"selectValue($event)\"\r\n      class=\"lasttime-value\"\r\n      >{{ item.lst_value }}</span\r\n    >\r\n    <br />\r\n    <span\r\n      [ngClass]=\"item.ageClass\"\r\n      class=\"lasttime-age\"\r\n      [title]=\"item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'\"\r\n    >\r\n      {{ item.ageSentence }}\r\n    </span>\r\n    <span (click)=\"item.showOptions = !item.showOptions\">\r\n      {{ item.showOptions ? \"-\" : \"+\" }}\r\n    </span>\r\n    <br />\r\n    <span class=\"lasttime-tags\"> #[{{ item.lst_tags }}] </span>\r\n    <span class=\"lasttime-notes\">\r\n      {{ item.lst_notes }}\r\n    </span>\r\n    <span class=\"lasttime-badge-archived\" *ngIf=\"item.lst_ctg_status === 3\"\r\n      >archived</span\r\n    >\r\n    <span class=\"lasttime-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n    <span class=\"lasttime-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n    <br />\r\n    <span *ngIf=\"item.showOptions\">\r\n      <button (click)=\"archiveRecord(item)\">archive</button>\r\n      <button (click)=\"editNotes(item)\">edit notes</button>\r\n      <button (click)=\"viewHistory(item)\">view history</button>\r\n    </span>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/link/link.template.html":
+/*!*******************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/link/link.template.html ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <strong>Links</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fUrl\" class=\"label-left\">Url</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fUrl\"\r\n          id=\"fUrl\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fTitle\" class=\"label-left\">Title</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTitle\"\r\n          id=\"fTitle\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTags\"\r\n          id=\"fTags\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fComment\" class=\"label-left\">Comment</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fComment\"\r\n          id=\"fComment\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.linkList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.lnk_id, itemForm)\"\r\n    >\r\n      <span class=\"link-url\">{{ item.lnk_url }}</span>\r\n      <br />\r\n      <span>Status: {{ item.lnk_txt_status }}</span>\r\n\r\n      <span class=\"link-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"link-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n              <span *ngIf=\"item.showOptions\">\r\n                <button (click)=\"archiveRecord(item)\">archive</button>\r\n                <button (click)=\"editNotes(item)\">edit notes</button>\r\n                <button (click)=\"viewHistory(item)\">view history</button>\r\n            </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -480,7 +491,7 @@ module.exports = "<div>\r\n  Use View\r\n  <select [(ngModel)]=\"selectedView\">
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <strong>Places</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.placeList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.mpl_id, itemForm)\"\r\n    >\r\n      <span class=\"place-name\">{{ item.mpl_name }}</span>\r\n      <br />\r\n      <span>Status: {{ item.mpl_txt_status }}</span>\r\n\r\n      <span class=\"place-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"place-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n            <span *ngIf=\"item.showOptions\">\r\n              <button (click)=\"archiveRecord(item)\">archive</button>\r\n              <button (click)=\"editNotes(item)\">edit notes</button>\r\n              <button (click)=\"viewHistory(item)\">view history</button>\r\n          </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <strong>Places</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.placeList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.mpl_id, itemForm)\"\r\n    >\r\n      <span class=\"place-name\">{{ item.mpl_name }}</span>\r\n      <br />\r\n      Used: {{ item.movementList.length }}\r\n      <br />\r\n      <span>Status: {{ item.mpl_txt_status }}</span>\r\n\r\n      <span class=\"place-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"place-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n            <span *ngIf=\"item.showOptions\">\r\n              <button (click)=\"archiveRecord(item)\">archive</button>\r\n              <button (click)=\"editNotes(item)\">edit notes</button>\r\n              <button (click)=\"viewHistory(item)\">view history</button>\r\n          </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -612,22 +623,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _money_movementListing_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./money/movementListing.component */ "./src/app/money/movementListing.component.ts");
 /* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
 /* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
-/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
-/* harmony import */ var _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
-/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
-/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
-/* harmony import */ var _common_cfg_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
-/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
-/* harmony import */ var _common_alert_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
-/* harmony import */ var _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
-/* harmony import */ var _common_error_interceptor__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
-/* harmony import */ var _common_home_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
-/* harmony import */ var _common_register_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+/* harmony import */ var _link_link_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
+/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
+/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
+/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
+/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
+/* harmony import */ var _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
+/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
+/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
+/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
+/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
+/* harmony import */ var _common_cfg_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
+/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+/* harmony import */ var _common_alert_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
+/* harmony import */ var _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
+/* harmony import */ var _common_error_interceptor__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
+/* harmony import */ var _common_home_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
+/* harmony import */ var _common_register_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+
 
 
 
@@ -685,30 +698,31 @@ var AppModule = /** @class */ (function () {
                 _money_place_component__WEBPACK_IMPORTED_MODULE_14__["PlaceComponent"],
                 _money_preset_component__WEBPACK_IMPORTED_MODULE_15__["PresetComponent"],
                 _money_movementListing_component__WEBPACK_IMPORTED_MODULE_16__["MovementListingComponent"],
-                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_22__["ComboItemComponent"],
-                _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_23__["CheckboxOptionComponent"],
-                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_24__["DrinkWaterComponent"],
+                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_23__["ComboItemComponent"],
+                _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_24__["CheckboxOptionComponent"],
+                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_25__["DrinkWaterComponent"],
                 _common_menu_component__WEBPACK_IMPORTED_MODULE_9__["MenuComponent"],
                 _common_sync_component__WEBPACK_IMPORTED_MODULE_10__["SyncComponent"],
-                _common_login_component__WEBPACK_IMPORTED_MODULE_27__["LoginComponent"],
-                _common_cfg_component__WEBPACK_IMPORTED_MODULE_28__["CfgComponent"],
+                _common_login_component__WEBPACK_IMPORTED_MODULE_28__["LoginComponent"],
+                _common_cfg_component__WEBPACK_IMPORTED_MODULE_29__["CfgComponent"],
                 _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_17__["LastTimeComponent"],
                 _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_18__["MultimediaComponent"],
-                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_29__["TypeGeneratorComponent"],
-                _common_alert_component__WEBPACK_IMPORTED_MODULE_30__["AlertComponent"],
-                _common_home_component__WEBPACK_IMPORTED_MODULE_33__["HomeComponent"],
-                _common_register_component__WEBPACK_IMPORTED_MODULE_34__["RegisterComponent"]
+                _link_link_component__WEBPACK_IMPORTED_MODULE_19__["LinkComponent"],
+                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_30__["TypeGeneratorComponent"],
+                _common_alert_component__WEBPACK_IMPORTED_MODULE_31__["AlertComponent"],
+                _common_home_component__WEBPACK_IMPORTED_MODULE_34__["HomeComponent"],
+                _common_register_component__WEBPACK_IMPORTED_MODULE_35__["RegisterComponent"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
             providers: [
-                _common_date_common__WEBPACK_IMPORTED_MODULE_21__["DateCommon"],
-                _common_storage_service__WEBPACK_IMPORTED_MODULE_19__["StorageService"],
-                _money_entry_service__WEBPACK_IMPORTED_MODULE_20__["EntryService"],
-                _common_sync_api__WEBPACK_IMPORTED_MODULE_25__["SyncAPI"],
-                _common_utils_common__WEBPACK_IMPORTED_MODULE_26__["UtilsCommon"],
+                _common_date_common__WEBPACK_IMPORTED_MODULE_22__["DateCommon"],
+                _common_storage_service__WEBPACK_IMPORTED_MODULE_20__["StorageService"],
+                _money_entry_service__WEBPACK_IMPORTED_MODULE_21__["EntryService"],
+                _common_sync_api__WEBPACK_IMPORTED_MODULE_26__["SyncAPI"],
+                _common_utils_common__WEBPACK_IMPORTED_MODULE_27__["UtilsCommon"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"],
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_31__["JwtInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_error_interceptor__WEBPACK_IMPORTED_MODULE_32__["ErrorInterceptor"], multi: true }
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_32__["JwtInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_error_interceptor__WEBPACK_IMPORTED_MODULE_33__["ErrorInterceptor"], multi: true }
             ]
         })
     ], AppModule);
@@ -743,7 +757,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
 /* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
 /* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
-/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+/* harmony import */ var _link_link_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
+/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+
 
 
 
@@ -811,8 +827,13 @@ var appRoutes = [
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
+        path: "links",
+        component: _link_link_component__WEBPACK_IMPORTED_MODULE_14__["LinkComponent"],
+        canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
+    },
+    {
         path: "type-generator",
-        component: _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_14__["TypeGeneratorComponent"],
+        component: _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_15__["TypeGeneratorComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
@@ -1217,6 +1238,8 @@ var ComboItemComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CommonComponent", function() { return CommonComponent; });
+/* harmony import */ var src_crosscommon_Utility__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+
 var CommonComponent = /** @class */ (function () {
     function CommonComponent() {
     }
@@ -1246,6 +1269,19 @@ var CommonComponent = /** @class */ (function () {
     CommonComponent.prototype.resetForm = function (form, onReset) {
         onReset(form);
         form.reset();
+    };
+    /**
+     * Another to calculate ids with generics, right now not in use because it exists Utils.hashIdForEntity()
+     * which does the same as this.
+     * @deprecated in favor of Utils.hashIdForEntity()
+     * @param type
+     * @param fieldName
+     */
+    CommonComponent.prototype.newId = function (type, fieldName) {
+        var m = new type();
+        var length = m.metadata.fields.find(function (f) { return f.dbName === fieldName; })
+            .size;
+        return src_crosscommon_Utility__WEBPACK_IMPORTED_MODULE_0__["Utils"].hashId(m.metadata.prefix, length);
     };
     return CommonComponent;
 }());
@@ -1964,6 +2000,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+
 
 
 
@@ -1973,19 +2011,22 @@ var SyncAPI = /** @class */ (function () {
         this.http = http;
         this.queue = [];
         //private apiRoot: string = 'http://10.230.9.78:8081';
-        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Content-Type' });
+        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type"
+        });
         this.options = { headers: this.headers };
-        this.version = 'v1.3';
+        this.version = "v1.3";
         this.logPrefix = "Sync API " + this.version + " -";
         this.currentOperation = null;
         this.lastOnlineStamp = null;
         this.http = http;
-        this.log('Starting, recovering pending queue from storage');
+        this.log("Starting, recovering pending queue from storage");
         this.queue = this.fromStorage() || [];
         this.queueStatus();
         if (this.queue.length > 0) {
             this.log("Found in storage " + this.queue.length + " requests, trying to process queue if possible");
-            this.log('Current queue', this.queue);
+            this.log("Current queue", this.queue);
             this.isOnline().then(function (online) {
                 if (online) {
                     //this.processQueue();
@@ -1993,7 +2034,11 @@ var SyncAPI = /** @class */ (function () {
                 }
             });
         }
+        this.statusSubject = new rxjs__WEBPACK_IMPORTED_MODULE_3__["BehaviorSubject"](this.queue);
     }
+    SyncAPI.prototype.statusObservableNotifier = function () {
+        return this.statusSubject;
+    };
     /**
      * Adds a single request to the queue and process it when server is reachable.
      */
@@ -2007,7 +2052,7 @@ var SyncAPI = /** @class */ (function () {
             callback: callback,
             recordName: recordName,
             matchMethod: matchMethod,
-            status: 'queue' // this is ignored
+            status: "queue" // this is ignored
         };
         this.handleRequest([queueItem]);
     };
@@ -2023,7 +2068,7 @@ var SyncAPI = /** @class */ (function () {
             callback: callback,
             recordName: recordName,
             matchMethod: matchMethod,
-            status: 'queue' // this is ignored
+            status: "queue" // this is ignored
         };
         return queueItem;
     };
@@ -2047,12 +2092,14 @@ var SyncAPI = /** @class */ (function () {
     SyncAPI.prototype.handleRequest = function (list) {
         var _this = this;
         if (this.currentOperation) {
-            this.log('Cancelling sync operation with timer id', this.currentOperation);
+            this.log("Cancelling sync operation with timer id", this.currentOperation);
             clearTimeout(this.currentOperation);
         }
         list.forEach(function (e) {
             _this.addToQueue(e);
         });
+        // notify with fictional status 'syncing', in reality it does not exists
+        this.notifyStatus(this.queue.map(function (d) { return (tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, d, { status: "syncing" })); }));
         this.isOnline().then(function (online) {
             if (online) {
                 _this.currentOperation = setTimeout(function () {
@@ -2060,7 +2107,7 @@ var SyncAPI = /** @class */ (function () {
                     _this.syncQueue();
                     _this.currentOperation = null;
                 }, 5000);
-                _this.log('Scheduled sync with timer id', _this.currentOperation);
+                _this.log("Scheduled sync with timer id", _this.currentOperation);
             }
         });
     };
@@ -2072,23 +2119,30 @@ var SyncAPI = /** @class */ (function () {
         var matchMethod = item.matchMethod, recordName = item.recordName, queueItem = tslib__WEBPACK_IMPORTED_MODULE_0__["__rest"](item, ["matchMethod", "recordName"]);
         var foundIndex = -1;
         if (matchMethod) {
-            foundIndex = this.queue.findIndex(function (val) { return matchMethod(val.model) && (val.status === 'queue' || val.status === 'error') && val.entity === queueItem.entity; });
+            foundIndex = this.queue.findIndex(function (val) {
+                return matchMethod(val.model) &&
+                    (val.status === "queue" || val.status === "error") &&
+                    val.entity === queueItem.entity;
+            });
         }
-        if (foundIndex !== -1) { // if record has a match, replace model only
+        if (foundIndex !== -1) {
+            // if record has a match, replace model only
             this.log("Recieved a request, found record with id <<" + recordName(queueItem.model) + ">> and updated it");
             this.queue[foundIndex].model = queueItem.model;
             return;
         }
         // if not found or no match method, add it
-        this.queue.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, queueItem, { status: 'queue' }));
+        this.queue.push(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"]({}, queueItem, { recordName: recordName, status: "queue" }));
         this.log("Recieved a request to " + queueItem.entity + " and added it to the queue");
     };
     SyncAPI.prototype.isOnline = function () {
         var _this = this;
-        if (!this.lastOnlineStamp || (new Date()).getTime() - this.lastOnlineStamp.getTime() > 30000) {
+        if (!this.lastOnlineStamp ||
+            new Date().getTime() - this.lastOnlineStamp.getTime() > 30000) {
             var nav_1 = navigator.onLine;
             this.log("Your navigator reports online status as: " + nav_1);
             return this.isServerReachable().then(function (data) {
+                // some request to BE
                 _this.log("Tried to contact the server, answer was", data);
                 _this.lastOnlineStamp = new Date();
                 return nav_1 && data;
@@ -2099,15 +2153,18 @@ var SyncAPI = /** @class */ (function () {
         }
     };
     SyncAPI.prototype.isServerReachable = function () {
-        return this.http.get('/status').toPromise()
+        return this.http
+            .get("/status")
+            .toPromise()
             .then(function (data) {
             return true;
-        }).catch(function (err) {
+        })
+            .catch(function (err) {
             return false;
         });
     };
     SyncAPI.prototype.queueStatus = function () {
-        console.log(this.logPrefix + " Status is " + this.queue.length + " elements in the queue, " + this.queue.filter(function (q) { return q.status === 'processed'; }).length + " processed, " + this.queue.filter(function (q) { return q.status === 'queue'; }).length + " not yet processed, " + this.queue.filter(function (q) { return q.status === 'error'; }).length + " with error");
+        console.log(this.logPrefix + " Status is " + this.queue.length + " elements in the queue, " + this.queue.filter(function (q) { return q.status === "processed"; }).length + " processed, " + this.queue.filter(function (q) { return q.status === "queue"; }).length + " not yet processed, " + this.queue.filter(function (q) { return q.status === "error"; }).length + " with error");
     };
     SyncAPI.prototype.log = function (message, data) {
         if (!data) {
@@ -2118,13 +2175,13 @@ var SyncAPI = /** @class */ (function () {
         }
     };
     SyncAPI.prototype.toStorage = function () {
-        if (typeof (window.localStorage) !== "undefined") {
-            localStorage.setItem("Sync", JSON.stringify(this.queue.filter(function (q) { return q.status !== 'processed'; })));
-            this.queue = this.queue.filter(function (q) { return q.status !== 'processed'; });
+        if (typeof window.localStorage !== "undefined") {
+            localStorage.setItem("Sync", JSON.stringify(this.queue.filter(function (q) { return q.status !== "processed"; })));
+            this.queue = this.queue.filter(function (q) { return q.status !== "processed"; });
         }
     };
     SyncAPI.prototype.fromStorage = function () {
-        if (typeof (window.localStorage) !== "undefined") {
+        if (typeof window.localStorage !== "undefined") {
             var list = JSON.parse(localStorage.getItem("Sync"));
             return list;
         }
@@ -2134,7 +2191,8 @@ var SyncAPI = /** @class */ (function () {
         var _this = this;
         var dataToSend = [];
         dataToSend = this.queue.filter(function (q) {
-            return q.status !== 'processed';
+            // process queue
+            return q.status !== "processed";
         });
         var compareObjects = function (o1, o2) {
             var keys1 = Object.keys(o1);
@@ -2145,15 +2203,19 @@ var SyncAPI = /** @class */ (function () {
             var test2 = keys2.every(function (k2) { return keys1.find(function (k1) { return k1 === k2; }) && o2[k2] === o1[k2]; });
             return test1 && test2;
         };
-        this.http.post('/api/sync', { queue: dataToSend }, this.options).toPromise()
+        this.http
+            .post("/api/sync", { queue: dataToSend }, this.options)
+            .toPromise()
             .then(function (data) {
             var response = data;
-            _this.log('Processed sync, response was', response);
+            _this.log("Processed sync, response was", response);
             // get status from response
-            response['result'].forEach(function (r) {
-                var found = _this.queue.find(function (q) { return compareObjects(q.pk, r.pk); });
+            response["result"].forEach(function (r) {
+                var found = _this.queue.find(function (q) {
+                    return compareObjects(q.pk, r.pk);
+                });
                 if (found) {
-                    found.status = r.operationOk ? 'processed' : 'error';
+                    found.status = r.operationOk ? "processed" : "error";
                     if (r.operationOk) {
                         found.callback(found.model, response);
                     }
@@ -2161,11 +2223,14 @@ var SyncAPI = /** @class */ (function () {
             });
             _this.queueStatus();
             _this.toStorage();
-        }).catch(function (err) {
-            _this.log('Error for request', err);
+            _this.notifyStatus();
+        })
+            .catch(function (err) {
+            _this.log("Error for request", err);
             //q.status = 'error';
             _this.queueStatus();
             _this.toStorage();
+            _this.notifyStatus();
         });
     };
     /**
@@ -2173,12 +2238,22 @@ var SyncAPI = /** @class */ (function () {
      * useful when you need only to make a request for batch
      */
     SyncAPI.prototype.post = function (url, payload) {
-        return this.http.post(url, payload, this.options)
-            .toPromise().then(function (data) { return data; });
+        return this.http
+            .post(url, payload, this.options)
+            .toPromise()
+            .then(function (data) { return data; });
     };
     SyncAPI.prototype.get = function (url) {
-        return this.http.get(url, this.options)
-            .toPromise().then(function (data) { return data; });
+        return this.http
+            .get(url, this.options)
+            .toPromise()
+            .then(function (data) { return data; });
+    };
+    SyncAPI.prototype.notifyStatus = function (data) {
+        if (data === void 0) { data = this.queue; }
+        if (this.statusSubject) {
+            this.statusSubject.next(data);
+        }
     };
     SyncAPI.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
@@ -2214,11 +2289,49 @@ var SyncComponent = /** @class */ (function () {
     function SyncComponent(syncService) {
         this.syncService = syncService;
         this.viewData = {
-            queue: []
+            queue: [],
+            message: null
         };
     }
     SyncComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.viewData.queue = this.syncService.queue;
+        this.syncService.statusObservableNotifier().subscribe(function (queue) {
+            _this.viewData.queue = queue.map(function (q) {
+                q["recordNameString"] = q.recordName && q.recordName(q.model);
+                return q;
+            });
+            _this.parseStatusToMessage(queue);
+        });
+    };
+    SyncComponent.prototype.parseStatusToMessage = function (queue) {
+        var message = null;
+        var filterWithStatus = function (st) {
+            return queue.filter(function (_a) {
+                var status = _a.status;
+                return status === st;
+            });
+        };
+        if (!queue.length) {
+            this.viewData.message = message;
+            return;
+        }
+        if (queue.every(function (_a) {
+            var status = _a.status;
+            return status === "processed";
+        })) {
+            message = queue.length + " items, all synced";
+        }
+        var syncingList = filterWithStatus("syncing");
+        if (syncingList.length) {
+            message = "Syncing " + syncingList.length + " items...";
+        }
+        var queueList = filterWithStatus("queue");
+        var errorList = filterWithStatus("error");
+        if (queueList.length || errorList.length) {
+            message = queueList.length + " pending, " + errorList.length + " with error";
+        }
+        this.viewData.message = message;
     };
     SyncComponent.ctorParameters = function () { return [
         { type: _sync_api__WEBPACK_IMPORTED_MODULE_2__["SyncAPI"] }
@@ -3019,6 +3132,285 @@ var LastTimeHistoryService = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"]])
     ], LastTimeHistoryService);
     return LastTimeHistoryService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/link/link.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/link/link.component.ts ***!
+  \****************************************/
+/*! exports provided: LinkComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LinkComponent", function() { return LinkComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../crosscommon/entities/Link */ "./src/crosscommon/entities/Link.ts");
+/* harmony import */ var _link_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./link.service */ "./src/app/link/link.service.ts");
+/* harmony import */ var _common_common_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/common.component */ "./src/app/common/common.component.ts");
+
+
+
+
+
+var LinkComponent = /** @class */ (function () {
+    function LinkComponent(linkService) {
+        this.linkService = linkService;
+        this.viewData = {
+            linkList: [],
+            showItemForm: false
+        };
+        this.services = {
+            linkService: null
+        };
+        this.model = {
+            id: null
+        };
+        this.common = null;
+        this.common = new _common_common_component__WEBPACK_IMPORTED_MODULE_4__["CommonComponent"]();
+    }
+    LinkComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.linkService.getAll().then(function (list) {
+            _this.viewData.linkList = list;
+        });
+    };
+    LinkComponent.prototype.newItem = function (form) {
+        var _this = this;
+        if (this.model.id) {
+            // edit item
+            this.common.updateItem({
+                form: form,
+                model: this.model,
+                listing: this.viewData.linkList,
+                onFindExpression: function (item) { return _this.findById(item, _this.model.id); },
+                onAssignForEdit: function (item, formValues) {
+                    var newItem = new _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_2__["Link"](item);
+                    newItem.lnk_url = formValues.fUrl;
+                    newItem.lnk_title = formValues.fTitle;
+                    newItem.lnk_tags = formValues.fTags;
+                    newItem.lnk_comment = formValues.fComment;
+                    return newItem;
+                },
+                onUpdateItemService: function (item) { return _this.linkService.updateItem(item); },
+                onFinalExecution: function () {
+                    _this.model.id = null;
+                }
+            });
+        }
+        else {
+            // new item
+            this.common.newItem({
+                form: form,
+                listing: this.viewData.linkList,
+                onFindExpression: function (item) { return _this.findById(item, _this.model.id); },
+                onAssignForCreate: function (formValues) {
+                    var newItem = new _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_2__["Link"]({
+                        lnk_url: formValues.fUrl,
+                        lnk_title: formValues.fTitle,
+                        lnk_tags: formValues.fTags,
+                        lnk_comment: formValues.fComment
+                    });
+                    return newItem;
+                },
+                onNewItemService: function (item) { return _this.linkService.newItem(item); },
+                onFinalExecution: function () {
+                    _this.viewData.showItemForm = false;
+                }
+            });
+        }
+        this.common.resetForm(form, function () {
+            _this.model.id = null;
+        });
+        this.viewData.showItemForm = false;
+    };
+    LinkComponent.prototype.resetForm = function (form) {
+        this.model.id = null;
+        form.reset();
+    };
+    LinkComponent.prototype.setModelDetails = function (id, form) {
+        var _this = this;
+        var model;
+        if (!this.viewData.showItemForm) {
+            this.viewData.showItemForm = !this.viewData.showItemForm;
+        }
+        model = this.viewData.linkList.find(function (item) { return _this.findById(item, id); });
+        this.model.id = model["lnk_id"]; // to tell the form that this is an edition
+        setTimeout(function () {
+            form.controls["fUrl"].setValue(model["lnk_url"]);
+            form.controls["fTitle"].setValue(model["lnk_title"]);
+            form.controls["fTags"].setValue(model["lnk_tags"]);
+            form.controls["fComment"].setValue(model["lnk_comment"]);
+        }, 0);
+    };
+    LinkComponent.prototype.findById = function (item, id) {
+        return item.lnk_id === id;
+    };
+    LinkComponent.ctorParameters = function () { return [
+        { type: _link_service__WEBPACK_IMPORTED_MODULE_3__["LinkService"] }
+    ]; };
+    LinkComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: "link",
+            template: __webpack_require__(/*! raw-loader!./link.template.html */ "./node_modules/raw-loader/index.js!./src/app/link/link.template.html"),
+            providers: [_link_service__WEBPACK_IMPORTED_MODULE_3__["LinkService"]],
+            styles: [__webpack_require__(/*! ./link.css */ "./src/app/link/link.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_link_service__WEBPACK_IMPORTED_MODULE_3__["LinkService"]])
+    ], LinkComponent);
+    return LinkComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/link/link.css":
+/*!*******************************!*\
+  !*** ./src/app/link/link.css ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xpbmsvbGluay5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/link/link.service.ts":
+/*!**************************************!*\
+  !*** ./src/app/link/link.service.ts ***!
+  \**************************************/
+/*! exports provided: LinkService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LinkService", function() { return LinkService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../crosscommon/entities/Link */ "./src/crosscommon/entities/Link.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+/* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+/* harmony import */ var src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+/* harmony import */ var _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
+
+
+
+
+
+
+
+var LinkService = /** @class */ (function () {
+    function LinkService(authenticationService, sync) {
+        this.authenticationService = authenticationService;
+        this.sync = sync;
+        this.data = [];
+        this.config = {
+            storageKey: "links",
+            api: {
+                list: "/api/links",
+                create: "/api/links",
+                update: "/api/links/:id"
+            }
+        };
+    }
+    LinkService.prototype.list = function () {
+        return this.data;
+    };
+    LinkService.prototype.getAll = function () {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var sort;
+            var _this = this;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                sort = function (a, b) {
+                    return a.lnk_date_mod.getTime() > b.lnk_date_mod.getTime() ? 1 : -1;
+                };
+                return [2 /*return*/, this.sync
+                        .get("" + this.config.api.list)
+                        .then(function (data) {
+                        _this.data = data.map(function (d) { return new _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_1__["Link"](d); });
+                        _this.data = _this.data.sort(sort);
+                        return _this.data;
+                    })
+                        .catch(function (err) {
+                        return [];
+                    })];
+            });
+        });
+    };
+    LinkService.prototype.newItem = function (baseItem) {
+        var _this = this;
+        var newId = _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].hashIdForEntity(new _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_1__["Link"](), "lnk_id");
+        var newItem = new _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_1__["Link"]({
+            lnk_id: newId,
+            lnk_url: baseItem.lnk_url,
+            lnk_title: baseItem.lnk_title,
+            lnk_tags: baseItem.lnk_tags,
+            lnk_comment: baseItem.lnk_comment,
+            lnk_id_user: this.authenticationService.currentUserValue.username,
+            lnk_date_add: src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_5__["DateUtils"].newDateUpToSeconds(),
+            lnk_date_mod: src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_5__["DateUtils"].newDateUpToSeconds(),
+            lnk_ctg_status: 1
+        });
+        return this.sync
+            .post(this.config.api.create, newItem)
+            .then(function (response) {
+            if (response.processOk) {
+                _this.data.push(newItem);
+            }
+            else {
+                newItem["sync"] = false;
+                _this.data.push(newItem);
+            }
+            return newItem;
+        })
+            .catch(function (err) {
+            // Append it to the listing but flag it as non-synced yet
+            newItem["sync"] = false;
+            _this.data.push(newItem);
+            return newItem;
+        });
+    };
+    LinkService.prototype.updateItem = function (item) {
+        var _this = this;
+        var updateLocal = function () {
+            var index = _this.data.findIndex(function (e) { return e.lnk_id === item.lnk_id; });
+            if (index !== -1) {
+                _this.data[index] = item;
+            }
+        };
+        return this.sync
+            .post(this.config.api.update.replace(":id", item.lnk_id), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_4__["Utils"].entityToRawTableFields(item))
+            .then(function (response) {
+            if (!response.operationOk) {
+                item["sync"] = false;
+            }
+            updateLocal();
+            return item;
+        })
+            .catch(function (err) {
+            // Append it to the listing but flag it as non-synced yet
+            console.log("error on update", err);
+            item["sync"] = false;
+            updateLocal();
+            return item;
+        });
+    };
+    LinkService.ctorParameters = function () { return [
+        { type: _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"] },
+        { type: _common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"] }
+    ]; };
+    LinkService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"],
+            _common_sync_api__WEBPACK_IMPORTED_MODULE_3__["SyncAPI"]])
+    ], LinkService);
+    return LinkService;
 }());
 
 
@@ -5234,31 +5626,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
 /* harmony import */ var _place_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
 /* harmony import */ var _common_common_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/common.component */ "./src/app/common/common.component.ts");
+/* harmony import */ var _movement_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
+
 
 
 
 
 
 var PlaceComponent = /** @class */ (function () {
-    function PlaceComponent(placeService) {
+    function PlaceComponent(placeService, movementService) {
+        this.placeService = placeService;
+        this.movementService = movementService;
         this.viewData = {
             placeList: [],
+            movementList: [],
             showItemForm: false
-        };
-        this.services = {
-            placeService: null
         };
         this.model = {
             id: null
         };
         this.common = null;
-        this.services.placeService = placeService;
         this.common = new _common_common_component__WEBPACK_IMPORTED_MODULE_4__["CommonComponent"]();
     }
     PlaceComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.services.placeService.getAll().then(function (list) {
-            _this.viewData.placeList = list;
+        Promise.all([
+            this.placeService.getAll(),
+            this.movementService.getAll()
+        ]).then(function (_a) {
+            var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__read"](_a, 2), placeList = _b[0], movementList = _b[1];
+            _this.viewData.movementList = movementList;
+            _this.viewData.placeList = placeList.map(function (place) {
+                place["movementList"] = movementList.filter(function (_a) {
+                    var mov_id_place = _a.mov_id_place;
+                    return mov_id_place === place.mpl_id;
+                });
+                return place;
+            });
         });
     };
     PlaceComponent.prototype.newItem = function (form) {
@@ -5275,9 +5679,7 @@ var PlaceComponent = /** @class */ (function () {
                     newItem.mpl_name = formValues.fName;
                     return newItem;
                 },
-                onUpdateItemService: function (item) {
-                    return _this.services.placeService.updateItem(item);
-                },
+                onUpdateItemService: function (item) { return _this.placeService.updateItem(item); },
                 onFinalExecution: function () {
                     _this.model.id = null;
                 }
@@ -5295,7 +5697,7 @@ var PlaceComponent = /** @class */ (function () {
                     });
                     return newItem;
                 },
-                onNewItemService: function (item) { return _this.services.placeService.newItem(item); },
+                onNewItemService: function (item) { return _this.placeService.newItem(item); },
                 onFinalExecution: function () {
                     _this.viewData.showItemForm = false;
                 }
@@ -5322,15 +5724,17 @@ var PlaceComponent = /** @class */ (function () {
         }, 0);
     };
     PlaceComponent.ctorParameters = function () { return [
-        { type: _place_service__WEBPACK_IMPORTED_MODULE_3__["PlaceService"] }
+        { type: _place_service__WEBPACK_IMPORTED_MODULE_3__["PlaceService"] },
+        { type: _movement_service__WEBPACK_IMPORTED_MODULE_5__["MovementService"] }
     ]; };
     PlaceComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: "place",
             template: __webpack_require__(/*! raw-loader!./place.template.html */ "./node_modules/raw-loader/index.js!./src/app/money/place.template.html"),
-            providers: [_place_service__WEBPACK_IMPORTED_MODULE_3__["PlaceService"]]
+            providers: [_place_service__WEBPACK_IMPORTED_MODULE_3__["PlaceService"], _movement_service__WEBPACK_IMPORTED_MODULE_5__["MovementService"]]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_place_service__WEBPACK_IMPORTED_MODULE_3__["PlaceService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_place_service__WEBPACK_IMPORTED_MODULE_3__["PlaceService"],
+            _movement_service__WEBPACK_IMPORTED_MODULE_5__["MovementService"]])
     ], PlaceComponent);
     return PlaceComponent;
 }());
@@ -7149,16 +7553,16 @@ var TasksComponent = /** @class */ (function () {
             var calcRandomFinish = function (estimated) {
                 return (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
             };
-            if (tt && t.tsk_time_history.length) {
+            if (tt && t["tsk_time_history"].length) {
                 // task with history
-                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start = tt;
+                t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_start = tt;
                 if (t.tsk_ctg_in_process == 1) {
                     // task 'in progress'
                     var randomFinish = calcRandomFinish(t.tsk_estimated_duration);
-                    t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
-                    t.tsk_time_history[t.tsk_time_history.length - 1].tsh_time_spent = randomFinish;
+                    t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
+                    t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_time_spent = randomFinish;
                     var total_1 = 0;
-                    t.tsk_time_history.forEach(function (tth) {
+                    t["tsk_time_history"].forEach(function (tth) {
                         total_1 += tth.tsh_time_spent;
                     });
                     this.services.tasksCore.updateTask(t, {
@@ -8507,7 +8911,7 @@ var TasksComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: "tasks",
             template: __webpack_require__(/*! raw-loader!./tasks.template.html */ "./node_modules/raw-loader/index.js!./src/app/task/tasks.template.html"),
-            providers: [_tasks_core__WEBPACK_IMPORTED_MODULE_3__["TasksCore"], _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"], _task_indicator_service__WEBPACK_IMPORTED_MODULE_6__["TaskIndicator"]]
+            providers: [_tasks_core__WEBPACK_IMPORTED_MODULE_3__["TasksCore"], _task_indicator_service__WEBPACK_IMPORTED_MODULE_6__["TaskIndicator"]]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_tasks_core__WEBPACK_IMPORTED_MODULE_3__["TasksCore"],
             _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"],
@@ -12810,6 +13214,383 @@ var LastTimeHistory = /** @class */ (function () {
         { type: undefined }
     ]; };
     return LastTimeHistory;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/crosscommon/entities/Link.ts":
+/*!******************************************!*\
+  !*** ./src/crosscommon/entities/Link.ts ***!
+  \******************************************/
+/*! exports provided: Link */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return Link; });
+var Link = /** @class */ (function () {
+    function Link(base) {
+        var _this = this;
+        this.metadata = {
+            name: 'Link',
+            namespace: 'Links',
+            removeMeans: 'CANCELATION',
+            authNeeded: false,
+            displayOnMenu: true,
+            prefix: 'lnk',
+            permissionsTemplate: 'permissions_all',
+            tableName: 'link',
+            viewName: 'vilink',
+            permissions: [
+                'access',
+                'add',
+                'edit',
+                'remove',
+                'report',
+                'export',
+                'import'
+            ],
+            specialFeatures: [
+                'HEADERS(Link,Links)',
+                'TABLE_NAME(LINK)',
+                'VIEW_NAME(VILINK)'
+            ],
+            fields: [
+                {
+                    templateId: 'string',
+                    dbName: 'lnk_id',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 32,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the Link',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'LinkId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'DUPLICITY_ADD'
+                    ],
+                    displayName: 'Link Id',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 0,
+                    orderOnNew: 0,
+                    orderOnDetails: 0,
+                    orderOnEdit: 0,
+                    orderOnImport: 0,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lnk_url',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4000,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Url for the Link',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Url',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Url',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 1,
+                    orderOnNew: 1,
+                    orderOnDetails: 1,
+                    orderOnEdit: 1,
+                    orderOnImport: 1,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lnk_title',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Title for the Link',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Title',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Title',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 2,
+                    orderOnNew: 2,
+                    orderOnDetails: 2,
+                    orderOnEdit: 2,
+                    orderOnImport: 2,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lnk_tags',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Tags for the Link',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Tags',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Tags',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 3,
+                    orderOnNew: 3,
+                    orderOnDetails: 3,
+                    orderOnEdit: 3,
+                    orderOnImport: 3,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lnk_comment',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4000,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Comment for the Link',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Comment',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Comment',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 4,
+                    orderOnNew: 4,
+                    orderOnDetails: 4,
+                    orderOnEdit: 4,
+                    orderOnImport: 4,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'lnk_id_user',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 50,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'User who added this link',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'User',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'User',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 5,
+                    orderOnNew: 5,
+                    orderOnDetails: 5,
+                    orderOnEdit: 5,
+                    orderOnImport: 5,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'creationDate',
+                    dbName: 'lnk_date_add',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Creation date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'CreationDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW'
+                    ],
+                    displayName: 'Creation Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 6,
+                    orderOnNew: 6,
+                    orderOnDetails: 6,
+                    orderOnEdit: 6,
+                    orderOnImport: 6,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'modificationDate',
+                    dbName: 'lnk_date_mod',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Last modification date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ModDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW',
+                        'SAVE_DATE_AT_EDIT'
+                    ],
+                    displayName: 'Last Modification Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 7,
+                    orderOnNew: 7,
+                    orderOnDetails: 7,
+                    orderOnEdit: 7,
+                    orderOnImport: 7,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'status',
+                    dbName: 'lnk_ctg_status',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: '',
+                    entName: 'Status',
+                    formControl: 'Combobox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 8,
+                    orderOnNew: 8,
+                    orderOnDetails: 8,
+                    orderOnEdit: 8,
+                    orderOnImport: 8,
+                    globalOrder: undefined,
+                    value: null
+                }, {
+                    templateId: 'catalog',
+                    dbName: 'lnk_txt_status',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: 'lnk_ctg_status',
+                    entName: 'TextStatus',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 9,
+                    orderOnNew: 9,
+                    orderOnDetails: 9,
+                    orderOnEdit: 9,
+                    orderOnImport: 9,
+                    globalOrder: 0,
+                    value: null
+                }
+            ],
+            view: []
+        };
+        this.recordName = function () {
+            return _this.metadata.fields.filter(function (f) { return f.isRecordName; }).map(function (f) {
+                return f.dbName + " = " + _this[f.dbName];
+            }).join(', ');
+        };
+        if (base !== undefined) {
+            this.lnk_id = base.lnk_id;
+            this.lnk_url = base.lnk_url;
+            this.lnk_title = base.lnk_title;
+            this.lnk_tags = base.lnk_tags;
+            this.lnk_comment = base.lnk_comment;
+            this.lnk_id_user = base.lnk_id_user;
+            this.lnk_date_add = (base.lnk_date_add !== null) ? new Date(base.lnk_date_add) : null;
+            this.lnk_date_mod = (base.lnk_date_mod !== null) ? new Date(base.lnk_date_mod) : null;
+            this.lnk_ctg_status = base.lnk_ctg_status;
+            this.lnk_txt_status = base.lnk_txt_status;
+        }
+    }
+    Link.ctorParameters = function () { return [
+        { type: undefined }
+    ]; };
+    return Link;
 }());
 
 

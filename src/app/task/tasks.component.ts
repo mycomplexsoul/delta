@@ -2,7 +2,8 @@ import { Component, OnInit, Renderer } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { TasksCore } from "./tasks.core";
 import { SyncAPI } from "../common/sync.api";
-import { Task, TaskStatus } from "./task.type";
+import { Task } from "../../crosscommon/entities/Task";
+import { TaskStatus } from "./task.type";
 import { TaskIndicator } from "./task.indicator.service";
 import { DateCommon } from "../common/date.common";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
@@ -11,7 +12,7 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 @Component({
   selector: "tasks",
   templateUrl: "./tasks.template.html",
-  providers: [TasksCore, SyncAPI, TaskIndicator]
+  providers: [TasksCore, TaskIndicator]
 })
 export class TasksComponent implements OnInit {
   public item: any;
@@ -501,20 +502,22 @@ export class TasksComponent implements OnInit {
       }
       const calcRandomFinish = estimated =>
         (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
-      if (tt && t.tsk_time_history.length) {
+      if (tt && t["tsk_time_history"].length) {
         // task with history
-        t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start = tt;
+        t["tsk_time_history"][
+          t["tsk_time_history"].length - 1
+        ].tsh_date_start = tt;
         if (t.tsk_ctg_in_process == 1) {
           // task 'in progress'
           const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
-          t.tsk_time_history[
-            t.tsk_time_history.length - 1
+          t["tsk_time_history"][
+            t["tsk_time_history"].length - 1
           ].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
-          t.tsk_time_history[
-            t.tsk_time_history.length - 1
+          t["tsk_time_history"][
+            t["tsk_time_history"].length - 1
           ].tsh_time_spent = randomFinish;
           let total: number = 0;
-          t.tsk_time_history.forEach((tth: any) => {
+          t["tsk_time_history"].forEach((tth: any) => {
             total += tth.tsh_time_spent;
           });
           this.services.tasksCore.updateTask(t, {

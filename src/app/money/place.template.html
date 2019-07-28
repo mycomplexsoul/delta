@@ -40,6 +40,8 @@
     >
       <span class="place-name">{{ item.mpl_name }}</span>
       <br />
+      Used: {{ item.movementList.length }}
+      <br />
       <span>Status: {{ item.mpl_txt_status }}</span>
 
       <span class="place-badge-new" *ngIf="item.isNew">new</span>

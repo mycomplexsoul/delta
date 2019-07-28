@@ -18,6 +18,8 @@ import { LastTimeComponent } from "./lasttime/lasttime.component";
 
 import { MultimediaComponent } from "./multimedia/multimedia.component";
 
+import { LinkComponent } from "./link/link.component";
+
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 
 const appRoutes: Routes = [
@@ -69,6 +71,11 @@ const appRoutes: Routes = [
   {
     path: "multimedia",
     component: MultimediaComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "links",
+    component: LinkComponent,
     canActivate: [AuthGuard]
   },
   {
