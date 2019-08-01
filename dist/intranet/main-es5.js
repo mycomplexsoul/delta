@@ -381,7 +381,7 @@ module.exports = "<h2>Login</h2>\r\n<form [formGroup]=\"loginForm\" (ngSubmit)=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <div class=\"menu-header\">\r\n    <div class=\"menu-icon\">\r\n      <button (click)=\"viewData.isOpen = !viewData.isOpen\">\r\n        menu\r\n      </button>\r\n    </div>\r\n    <div class=\"menu-area\">\r\n      <drink-water></drink-water>\r\n      <sync></sync>\r\n    </div>\r\n    <div class=\"menu-section\" *ngIf=\"viewData.isOpen\">\r\n      <ul class=\"menu-items\" (keydown.esc)=\"viewData.isOpen = false\">\r\n        <li>\r\n          <a (click)=\"viewData.isOpen = false\" routerLink=\"tasks\" href=\"/tasks\"\r\n            >Tasks</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"movement\"\r\n            href=\"/movement\"\r\n            >Movements</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"balance\"\r\n            href=\"/balance\"\r\n            >Balance</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"lasttime\"\r\n            href=\"/lasttime\"\r\n            >Last Time</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"multimedia\"\r\n            href=\"/multimedia\"\r\n            >Multimedia</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"account\"\r\n            href=\"/account\"\r\n            >Accounts</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"places\"\r\n            href=\"/places\"\r\n            >Places</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"presets\"\r\n            href=\"/presets\"\r\n            >Presets</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <span>{{ viewData.username }}</span>\r\n        </li>\r\n        <li>\r\n          <a (click)=\"logout()\">logout</a>\r\n        </li>\r\n        <li>\r\n          <span>v{{ metadata.appVersion }}</span>\r\n        </li>\r\n        <li>\r\n          <span> {{ viewData.currentTime | date: \"HH:mm:ss\" }} </span>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"menu-container\" *ngIf=\"currentUser\">\r\n  <div class=\"menu-header\">\r\n    <div class=\"menu-icon\">\r\n      <button (click)=\"viewData.isOpen = !viewData.isOpen\">\r\n        menu\r\n      </button>\r\n    </div>\r\n    <div class=\"menu-area\">\r\n      <span class=\"menu-clock\">\r\n        {{ viewData.currentTime | date: \"HH:mm:ss\" }}\r\n      </span>\r\n      <drink-water></drink-water>\r\n      <sync></sync>\r\n    </div>\r\n    <div class=\"menu-section\" *ngIf=\"viewData.isOpen\">\r\n      <ul class=\"menu-items\" (keydown.esc)=\"viewData.isOpen = false\">\r\n        <li>\r\n          <a (click)=\"viewData.isOpen = false\" routerLink=\"tasks\" href=\"/tasks\"\r\n            >Tasks</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"movement\"\r\n            href=\"/movement\"\r\n            >Movements</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"balance\"\r\n            href=\"/balance\"\r\n            >Balance</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"lasttime\"\r\n            href=\"/lasttime\"\r\n            >Last Time</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"multimedia\"\r\n            href=\"/multimedia\"\r\n            >Multimedia</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"account\"\r\n            href=\"/account\"\r\n            >Accounts</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"categories\"\r\n            href=\"/categories\"\r\n            >Categories</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"places\"\r\n            href=\"/places\"\r\n            >Places</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a\r\n            (click)=\"viewData.isOpen = false\"\r\n            routerLink=\"presets\"\r\n            href=\"/presets\"\r\n            >Presets</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <a (click)=\"viewData.isOpen = false\" routerLink=\"links\" href=\"/links\"\r\n            >Links</a\r\n          >\r\n        </li>\r\n        <li>\r\n          <span>{{ viewData.username }}</span>\r\n        </li>\r\n        <li>\r\n          <a (click)=\"logout()\">logout</a>\r\n        </li>\r\n        <li>\r\n          <span>v{{ metadata.appVersion }}</span>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -403,7 +403,7 @@ module.exports = "<h2>Register</h2>\r\n<form [formGroup]=\"registerForm\" (ngSub
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <span>{{ viewData.message }}</span>\r\n  <!--<div *ngFor=\"let q of viewData.queue\">\r\n    [item] => {{ q.action }} | {{ q.entity }} | {{ q.recordNameString }} |\r\n    {{ q.status }}\r\n  </div>-->\r\n</div>\r\n"
+module.exports = "<span>\r\n  <span *ngIf=\"viewData.showCheckIcon\">&#10003;</span>\r\n  <span>{{ viewData.message }}</span>\r\n  <!--<div *ngFor=\"let q of viewData.queue\">\r\n    [item] => {{ q.action }} | {{ q.entity }} | {{ q.recordNameString }} |\r\n    {{ q.status }}\r\n  </div>-->\r\n</span>\r\n"
 
 /***/ }),
 
@@ -462,6 +462,17 @@ module.exports = "<div>\r\n  <button (click)=\"viewData.showOptions = !viewData.
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/money/category.template.html":
+/*!************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/money/category.template.html ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <strong>Categories</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.categoryList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.mct_id, itemForm)\"\r\n    >\r\n      <span class=\"category-name\">{{ item.mct_name }}</span>\r\n      <br />\r\n      Used: {{ item.movementList.length }}\r\n      <br />\r\n      <span>Status: {{ item.mct_txt_status }}</span>\r\n\r\n      <span class=\"category-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"category-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n                  <span *ngIf=\"item.showOptions\">\r\n                    <button (click)=\"archiveRecord(item)\">archive</button>\r\n                    <button (click)=\"editNotes(item)\">edit notes</button>\r\n                    <button (click)=\"viewHistory(item)\">view history</button>\r\n                </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/money/movement.template.html":
 /*!************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/money/movement.template.html ***!
@@ -502,7 +513,7 @@ module.exports = "<div>\r\n  <strong>Places</strong>\r\n\r\n  <form #itemForm=\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <strong>Presets</strong>\r\n  <button (click)=\"showNewPresetForm()\">New Preset</button>\r\n\r\n  <div id=\"newPresetFormSection\" hidden>\r\n    <form name=\"presetForm\">\r\n      <label for=\"presetName\">Preset Name</label>\r\n      <input type=\"text\" name=\"presetName\" />\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"card-list\">\r\n    <div *ngFor=\"let item of viewData.presetList\" class=\"card-item-container\">\r\n      <span class=\"preset-name\">{{ item.mpl_name }}</span>\r\n      <br />\r\n      <span\r\n        [ngClass]=\"{\r\n          'movement-amount-income': item.pre_ctg_type === 2,\r\n          'movement-amount-expense': item.pre_ctg_type === 1,\r\n          'movement-amount-transfer': item.pre_ctg_type === 3\r\n        }\"\r\n      >\r\n        <span *ngIf=\"item.pre_txt_type === 'EXPENSE'\">-</span>\r\n        <span *ngIf=\"item.pre_txt_type === 'INCOME'\">+</span>\r\n        <span>{{\r\n          item.pre_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}</span>\r\n      </span>\r\n      <span class=\"movement-account\">[{{ item.pre_txt_account }}]</span>\r\n      <span class=\"movement-account\" *ngIf=\"item.pre_txt_account_to\">\r\n        -> [{{ item.pre_txt_account_to }}]</span\r\n      ><br />\r\n      <span class=\"movement-date\"\r\n        >[{{ item.pre_date | date: \"yyyy-MM-dd\" }}]</span\r\n      >\r\n      <span class=\"movement-description\">{{ item.pre_desc }}</span>\r\n      <br />\r\n      <span class=\"movement-category\" *ngIf=\"item.pre_txt_category\">{{\r\n        item.pre_txt_category\r\n      }}</span>\r\n      <span class=\"movement-place\" *ngIf=\"item.pre_txt_place\">\r\n        | {{ item.pre_txt_place }}</span\r\n      >\r\n      <span class=\"movement-budget\" *ngIf=\"item.pre_budget\">\r\n        | #[{{ item.pre_budget }}]</span\r\n      >\r\n      <br *ngIf=\"item.pre_ctg_type === 1 || item.pre_ctg_type === 2\" />\r\n      <span class=\"movement-notes\">{{ item.pre_notes }}</span>\r\n      <span class=\"movement-status\" *ngIf=\"false\">{{\r\n        item.pre_txt_status\r\n      }}</span>\r\n      <span class=\"movement-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"movement-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n              <span *ngIf=\"item.showOptions\">\r\n                <button (click)=\"archiveRecord(item)\">archive</button>\r\n                <button (click)=\"editNotes(item)\">edit notes</button>\r\n                <button (click)=\"viewHistory(item)\">view history</button>\r\n            </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div>\r\n  <strong>Presets</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button\r\n      type=\"button\"\r\n      (click)=\"viewData.showItemForm = !viewData.showItemForm\"\r\n    >\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\">{{\r\n          model.id\r\n        }}</span>\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <input\r\n        type=\"radio\"\r\n        name=\"fMovementFlowType\"\r\n        id=\"fMovementFlowTypeCustom\"\r\n        [(ngModel)]=\"_movementFlowType\"\r\n        (click)=\"movementFlowType('custom')\"\r\n        value=\"custom\"\r\n      />\r\n      <label for=\"fMovementFlowTypeCustom\">Custom</label>\r\n      <input\r\n        type=\"radio\"\r\n        name=\"fMovementFlowType\"\r\n        id=\"fMovementFlowTypeTransfer\"\r\n        [(ngModel)]=\"_movementFlowType\"\r\n        (click)=\"movementFlowType('transfer')\"\r\n        value=\"transfer\"\r\n      />\r\n      <label for=\"fMovementFlowTypeTransfer\">Transfer</label>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fDescription\" class=\"label-left\">Description</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fDescription\"\r\n          id=\"fDescription\"\r\n          class=\"field-input movement-input-description\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fAmount\" class=\"label-left\">Amount</label>\r\n        <input\r\n          type=\"number\"\r\n          name=\"fAmount\"\r\n          id=\"fAmount\"\r\n          class=\"field-input\"\r\n          step=\"0.01\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fAccount\" class=\"label-left\">Account</label>\r\n        <select name=\"fAccount\" id=\"fAccount\" class=\"field-select\" ngModel>\r\n          <option\r\n            *ngFor=\"let opt of viewData.accountList\"\r\n            value=\"{{ opt.acc_id }}\"\r\n            >{{ opt.acc_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n      <span class=\"field\" *ngIf=\"isTransfer\">\r\n        <label for=\"fAccountTo\" class=\"label-left\">Account To</label>\r\n        <select name=\"fAccountTo\" id=\"fAccountTo\" class=\"field-select\" ngModel>\r\n          <option\r\n            *ngFor=\"let opt of viewData.accountList\"\r\n            value=\"{{ opt.acc_id }}\"\r\n            >{{ opt.acc_name }}</option\r\n          >\r\n        </select>\r\n      </span>\r\n      <span class=\"field\" *ngIf=\"!isTransfer\">\r\n        <input\r\n          type=\"radio\"\r\n          [value]=\"1\"\r\n          name=\"fMovementType\"\r\n          id=\"fMovementType_1\"\r\n          [(ngModel)]=\"model.type\"\r\n        />\r\n        <label for=\"fMovementType_1\" class=\"label-radio\">Expense</label>\r\n\r\n        <input\r\n          type=\"radio\"\r\n          [value]=\"2\"\r\n          name=\"fMovementType\"\r\n          id=\"fMovementType_2\"\r\n          [(ngModel)]=\"model.type\"\r\n        />\r\n        <label for=\"fMovementType_2\" class=\"label-radio\">Income</label>\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fDate\" class=\"label-left\">Movement Date</label>\r\n        <input type=\"date\" name=\"fDate\" [(ngModel)]=\"model.date\" />\r\n      </span>\r\n      <span class=\"field\" *ngIf=\"!isTransfer\">\r\n        <label for=\"fPlace\" class=\"label-left\">Place</label>\r\n        <select\r\n          name=\"fPlace\"\r\n          id=\"fPlace\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.place\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.placeList\"\r\n            [value]=\"opt.mpl_id\"\r\n            [selected]=\"opt.mpl_id === itemForm.value.fPlace\"\r\n            >{{ opt.mpl_name }}</option\r\n          >\r\n        </select>\r\n        <combo-item\r\n          [name]=\"place\"\r\n          [addNewItem]=\"addNewPlaceForUser\"\r\n        ></combo-item>\r\n      </span>\r\n      <span class=\"field\" *ngIf=\"!isTransfer\">\r\n        <label for=\"fCategory\" class=\"label-left\">Category</label>\r\n        <select\r\n          name=\"fCategory\"\r\n          id=\"fCategory\"\r\n          class=\"field-select\"\r\n          [(ngModel)]=\"model.category\"\r\n        >\r\n          <option\r\n            *ngFor=\"let opt of viewData.categoryList\"\r\n            [value]=\"opt.mct_id\"\r\n            [selected]=\"opt.mct_id === itemForm.value.fCategory\"\r\n            >{{ opt.mct_name }}</option\r\n          >\r\n        </select>\r\n        <combo-item\r\n          [name]=\"category\"\r\n          [addNewItem]=\"addNewCategoryForUser\"\r\n        ></combo-item>\r\n      </span>\r\n      <span class=\"field\" *ngIf=\"!isTransfer\">\r\n        <label for=\"fBudget\" class=\"field-input label-left\">Budget</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fBudget\"\r\n          id=\"fBudget\"\r\n          class=\"field-input movement-input-budget\"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <span class=\"field\">\r\n        <label for=\"fNotes\" class=\"label-left\">Notes</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fNotes\"\r\n          id=\"fNotes\"\r\n          class=\"field-input movement-input-notes\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.presetList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.pre_id, itemForm)\"\r\n    >\r\n      <span class=\"preset-name\">{{ item.pre_name }}</span>\r\n      <br />\r\n      <span\r\n        [ngClass]=\"{\r\n          'movement-amount-income': item.pre_ctg_type === 2,\r\n          'movement-amount-expense': item.pre_ctg_type === 1,\r\n          'movement-amount-transfer': item.pre_ctg_type === 3\r\n        }\"\r\n      >\r\n        <span *ngIf=\"item.pre_txt_type === 'EXPENSE'\">-</span>\r\n        <span *ngIf=\"item.pre_txt_type === 'INCOME'\">+</span>\r\n        <span>{{\r\n          item.pre_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"\r\n        }}</span>\r\n      </span>\r\n      <span class=\"movement-account\">[{{ item.pre_txt_account }}]</span>\r\n      <span class=\"movement-account\" *ngIf=\"item.pre_txt_account_to\">\r\n        -> [{{ item.pre_txt_account_to }}]</span\r\n      ><br />\r\n      <span class=\"movement-date\"\r\n        >[{{ item.pre_date | date: \"yyyy-MM-dd\" }}]</span\r\n      >\r\n      <span class=\"movement-description\">{{ item.pre_desc }}</span>\r\n      <br />\r\n      <span class=\"movement-category\" *ngIf=\"item.pre_txt_category\">{{\r\n        item.pre_txt_category\r\n      }}</span>\r\n      <span class=\"movement-place\" *ngIf=\"item.pre_txt_place\">\r\n        | {{ item.pre_txt_place }}</span\r\n      >\r\n      <span class=\"movement-budget\" *ngIf=\"item.pre_budget\">\r\n        | #[{{ item.pre_budget }}]</span\r\n      >\r\n      <br *ngIf=\"item.pre_ctg_type === 1 || item.pre_ctg_type === 2\" />\r\n      <span class=\"movement-notes\">{{ item.pre_notes }}</span>\r\n      <span class=\"movement-status\" *ngIf=\"false\">{{\r\n        item.pre_txt_status\r\n      }}</span>\r\n      <span class=\"movement-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"movement-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n              <span *ngIf=\"item.showOptions\">\r\n                <button (click)=\"archiveRecord(item)\">archive</button>\r\n                <button (click)=\"editNotes(item)\">edit notes</button>\r\n                <button (click)=\"viewHistory(item)\">view history</button>\r\n            </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -524,7 +535,7 @@ module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #tasksForm=\"ngForm\">\r\n  <input\r\n    type=\"text\"\r\n    name=\"tsk_name\"\r\n    placeholder=\"Write a task...\"\r\n    class=\"task\"\r\n    autocomplete=\"off\"\r\n    autofocus=\"true\"\r\n    *ngIf=\"!showBatchAdd\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_name\"\r\n  />\r\n  <textarea\r\n    name=\"tsk_multiple_name\"\r\n    placeholder=\"Write a task per line...\"\r\n    class=\"task-multiple\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_multiple_name\"\r\n    *ngIf=\"showBatchAdd\"\r\n    spellcheck=\"false\"\r\n  ></textarea>\r\n  <button type=\"submit\" (click)=\"addTask(tasksForm)\" id=\"btnAddTask\">\r\n    Add task\r\n  </button>\r\n  <button (click)=\"showButtonSection = !showButtonSection\">\r\n    {{ showButtonSection ? \"hide\" : \"show\" }} actions\r\n  </button>\r\n  <span id=\"buttonSection\" *ngIf=\"showButtonSection\">\r\n    <button (click)=\"toggleViewBacklog()\">\r\n      {{ viewBacklog ? \"hide\" : \"show\" }} backlog\r\n    </button>\r\n    <button (click)=\"toggleViewAll()\">\r\n      {{ viewAll ? \"hide\" : \"show\" }} all\r\n    </button>\r\n    <button (click)=\"toggleViewPostponed()\" *ngIf=\"state.postponedTasksCount\">\r\n      {{ viewPostponed ? \"hide\" : \"show\" }} postponed\r\n    </button>\r\n    <button (click)=\"toggleViewReportsWeek()\">\r\n      {{ viewReportsWeek ? \"hide\" : \"show\" }} reports week\r\n    </button>\r\n    <button (click)=\"toggleViewReportsDayDistribution()\">\r\n      {{ viewReportsDayDistribution ? \"hide\" : \"show\" }} reports day\r\n      distribution\r\n    </button>\r\n    <button (click)=\"toggleView('viewQualifierTotals')\">\r\n      {{ viewQualifierTotals ? \"hide\" : \"show\" }} reports qualifier totals\r\n    </button>\r\n    <button (click)=\"toggleViewOptions()\">\r\n      {{ viewOptions ? \"hide\" : \"show\" }} options\r\n    </button>\r\n  </span>\r\n  <div *ngIf=\"viewETABeforeAdd\">\r\n    <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>\r\n    <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>\r\n    <span *ngFor=\"let r of state.beforeAddETA\">\r\n      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }}]\r\n    </span>\r\n  </div>\r\n</form>\r\n<div *ngIf=\"viewOptions\">\r\n  <button (click)=\"deleteTasks()\">delete all tasks</button>\r\n  <input type=\"text\" name=\"optionsInput\" [(ngModel)]=\"optionsInput\" />\r\n  <button (click)=\"backup()\">backup</button>\r\n  <button (click)=\"backupDoneOnly()\">backup done only</button>\r\n  <button (click)=\"import()\">import</button>\r\n  <button (click)=\"purgeDoneTasks()\">purge done tasks</button>\r\n  <button (click)=\"sendAllToServer()\">all tasks to server</button>\r\n  <button (click)=\"getTasksFromServer()\">get tasks from server</button>\r\n  <br />\r\n  <checkbox-option\r\n    label=\"Display days elapsed since task was added\"\r\n    optionId=\"optViewElapsedDays\"\r\n    [checked]=\"options.optViewElapsedDays\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Finished Today\"\r\n    optionId=\"optShowFinishedToday\"\r\n    [checked]=\"options.optShowFinishedToday\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show only tasks that have Qualifiers\"\r\n    optionId=\"optShowQualifiedTasksOnly\"\r\n    [checked]=\"options.optShowQualifiedTasksOnly\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"When a new task is added, add it to BACKLOG instead (of adding it to OPEN)\"\r\n    optionId=\"optNewTaskStatusIsBacklog\"\r\n    [checked]=\"options.optNewTaskStatusIsBacklog\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicators Table\"\r\n    optionId=\"optShowIndicatorsTable\"\r\n    [checked]=\"options.optShowIndicatorsTable\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Count EOD\"\r\n    optionId=\"optShowIndicatorOpenCountEOD\"\r\n    [checked]=\"options.optShowIndicatorOpenCountEOD\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added ETA\"\r\n    optionId=\"optShowIndicatorAddedETA\"\r\n    [checked]=\"options.optShowIndicatorAddedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added Count\"\r\n    optionId=\"optShowIndicatorAddedCount\"\r\n    [checked]=\"options.optShowIndicatorAddedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed ETA\"\r\n    optionId=\"optShowIndicatorClosedETA\"\r\n    [checked]=\"options.optShowIndicatorClosedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Spent\"\r\n    optionId=\"optShowIndicatorClosedSpent\"\r\n    [checked]=\"options.optShowIndicatorClosedSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Count\"\r\n    optionId=\"optShowIndicatorClosedCount\"\r\n    [checked]=\"options.optShowIndicatorClosedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Productivity Ratio\"\r\n    optionId=\"optShowIndicatorProductivityRatio\"\r\n    [checked]=\"options.optShowIndicatorProductivityRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Time Management Ratio\"\r\n    optionId=\"optShowIndicatorTimeManagementRatio\"\r\n    [checked]=\"options.optShowIndicatorTimeManagementRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - First TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorFirstTTStamp\"\r\n    [checked]=\"options.optShowIndicatorFirstTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Last TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorLastTTStamp\"\r\n    [checked]=\"options.optShowIndicatorLastTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open ETA\"\r\n    optionId=\"optShowIndicatorOpenETA\"\r\n    [checked]=\"options.optShowIndicatorOpenETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Spent\"\r\n    optionId=\"optShowIndicatorOpenSpent\"\r\n    [checked]=\"options.optShowIndicatorOpenSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n\r\n  <div id=\"optionsMessages\"></div>\r\n  <hr />\r\n</div>\r\n<div id=\"backlogTaskList\" *ngIf=\"viewBacklog\">\r\n  <strong>Backlog</strong>\r\n  <div *ngFor=\"let item of state.backlogTasks\">\r\n    <div>\r\n      <strong>{{ item.header }}</strong>\r\n      ({{ formatTime(item.estimatedDuration * 60) }})\r\n    </div>\r\n    <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n      -\r\n      <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n        >[{{ t.tsk_time_history.length }}/{{\r\n          formatTime(t.tsk_total_time_spent)\r\n        }}]</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (keyup)=\"taskEdit(t, $event)\"\r\n        [ngClass]=\"{\r\n          'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n          'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n          'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n        }\"\r\n        class=\"editable\"\r\n        >{{ t.tsk_name }}</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n        [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n        class=\"task-eta\"\r\n        >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n      >\r\n      <span *ngIf=\"t.tsk_schedule_date_start\"\r\n        >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n      >\r\n      <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n      <button (click)=\"setOpen(t)\">Move to open</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"postponedTaskList\" *ngIf=\"viewPostponed\">\r\n  <strong>Postponed Tasks</strong>\r\n  <div *ngFor=\"let t of state.postponedTasks\">\r\n    -\r\n    <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n      >[{{ t.tsk_time_history.length }}/{{\r\n        formatTime(t.tsk_total_time_spent)\r\n      }}]</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"taskEdit(t, $event)\"\r\n      [ngClass]=\"{\r\n        'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n        'task-in-process': t.tsk_ctg_in_process === 2,\r\n        'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n        'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n        'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n      }\"\r\n      (blur)=\"commandOnTask(t, $event)\"\r\n      class=\"editable\"\r\n      >{{ t.tsk_name }}</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n      [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n      class=\"task-eta\"\r\n      >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n    >\r\n    <span *ngIf=\"t.tsk_schedule_date_start\"\r\n      >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n    >\r\n    <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n    <span\r\n      >(postponed until\r\n      {{ t.tsk_date_view_until | date: \"yyyy-MM-dd HH:mm:ss\" }})</span\r\n    >\r\n    <button (click)=\"setSelected(t)\">details</button>\r\n    <button (click)=\"setUnpostpone(t)\">see it now</button>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"openTaskList\">\r\n  <div *ngIf=\"!state.openTasks.length\">\r\n    <strong\r\n      >No tasks open! Congratulations! Consider reviewing the backlog or add new\r\n      tasks to do.</strong\r\n    >\r\n    <hr />\r\n  </div>\r\n  <div\r\n    [ngClass]=\"{\r\n      'task-open-task-list-container': true,\r\n      'task-open-task-list-container--grid': layout === 'grid',\r\n      'task-open-task-list-container--float': layout === 'float'\r\n    }\"\r\n  >\r\n    <div *ngFor=\"let item of state.openTasks\" class=\"task-record\">\r\n      <div>\r\n        <strong>{{ item.header }}</strong>\r\n        / {{ item.tasks.length }} tasks ({{\r\n          formatTime(item.estimatedDuration * 60)\r\n        }})\r\n      </div>\r\n      <div\r\n        *ngFor=\"let t of item.tasks\"\r\n        data-id=\"{{ t.tsk_id }}\"\r\n        [ngStyle]=\"{ 'font-size-2': ageFontSizeNormalization(t) + 'px' }\"\r\n      >\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span class=\"mobile-only\">\r\n          <span\r\n            class=\"play-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9654;</span\r\n          >\r\n          <span\r\n            class=\"stop-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9724;</span\r\n          >\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n            formatTime(t.tsk_total_time_spent)\r\n          }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1]\r\n                  .tsh_date_start | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n                  | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{\r\n              t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n                | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          (focus)=\"setFocus(t, $event)\"\r\n          (keydown)=\"taskKeyDown($event)\"\r\n          tabindex=\"0\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span class=\"task-link\" *ngIf=\"t.tsk_url\"\r\n          ><a href=\"{{ t.tsk_url }}\" title=\"{{ t.tsk_url }}\" target=\"_blank\"\r\n            >link</a\r\n          ></span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          (keydown)=\"etaKeyDown($event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{\r\n          taskAge(t)\r\n        }}</span>\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div id=\"Info\">\r\n    Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }}\r\n    <span *ngIf=\"state.postponedTasksCount\">\r\n      | Postponed: {{ state.postponedTasksCount }}\r\n    </span>\r\n    <br />Karma Score:\r\n    <span\r\n      >{{ state.karmaScore }} ({{ state.karmaCount }} /\r\n      {{ state.closedTodayTasks.length }})</span\r\n    >\r\n    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong>{{\r\n      isOnline() ? \"\" : \"You are OFFLINE\"\r\n    }}</strong>\r\n    <div\r\n      *ngIf=\"options.optShowIndicatorsTable\"\r\n      class=\"task-indicators-container\"\r\n    >\r\n      <strong>Indicators</strong>\r\n      <table class=\"indicators-table\">\r\n        <tr>\r\n          <td>Indicator</td>\r\n          <td *ngFor=\"let c of state.indicatorLabels\">{{ c }}</td>\r\n          <td>Completed?</td>\r\n        </tr>\r\n        <tr *ngFor=\"let indicator of state.indicators\">\r\n          <td>{{ indicator.name }}</td>\r\n          <td *ngFor=\"let v of indicator.values\">{{ v }}</td>\r\n          <td>\r\n            {{ indicator.isCompleted ? \"SI\" : \"NO\" }} /\r\n            {{ indicator.percentageCompleted }}\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"nextToDoTodayList\" *ngIf=\"nextTasks[0].tasks.length\">\r\n  <div class=\"task-open-task-list-container\">\r\n    <div *ngFor=\"let item of nextTasks\" class=\"task-record\">\r\n      <div>\r\n        <strong>Next To Do Today</strong>\r\n        / {{ item.tasks.length }} tasks ({{\r\n          formatTime(item.estimatedDuration * 60)\r\n        }})\r\n      </div>\r\n      <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span class=\"mobile-only\">\r\n          <span\r\n            class=\"play-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9654;</span\r\n          >\r\n          <span\r\n            class=\"stop-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9724;</span\r\n          >\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n            formatTime(t.tsk_total_time_spent)\r\n          }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1]\r\n                  .tsh_date_start | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n                  | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{\r\n              t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n                | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{\r\n          taskAge(t)\r\n        }}</span>\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div id=\"tagInfo\" *ngIf=\"tagInfo.display === true\">\r\n  <button (click)=\"tagInfo.display = false\">hide</button>\r\n  <strong>Tag Information</strong>\r\n  <br />Closed Tasks | Estimated:\r\n  {{ formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent:\r\n  {{ formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated:\r\n  {{ formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent:\r\n  {{ formatTime(tagInfo.tasksOpenTotalSpent) }}\r\n  <div *ngIf=\"tagInfo.tasks.length > 0\">\r\n    <table>\r\n      <tr>\r\n        <td>Name</td>\r\n        <td>Estimated</td>\r\n        <td>Spent</td>\r\n        <td>Status</td>\r\n        <td>Actions</td>\r\n      </tr>\r\n      <tr *ngFor=\"let e of tagInfo.tasks\">\r\n        <td>{{ e.tsk_name }}</td>\r\n        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>\r\n        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>\r\n        <td>{{ statusText(e.tsk_ctg_status) }}</td>\r\n        <td><button (click)=\"setSelected(e)\">details</button></td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"taskDetails\" *ngIf=\"state.selected\">\r\n  <button (click)=\"state.selected = null\">hide</button>\r\n  <br />\r\n  <strong>Task Details</strong>\r\n  <div>Id: {{ state.selected.tsk_id }}</div>\r\n  <div>Container: {{ state.selected.tsk_id_container }}</div>\r\n  <div>Record: {{ state.selected.tsk_id_record }}</div>\r\n  <div>Name: {{ state.selected.tsk_name }}</div>\r\n  <div>\r\n    Notes:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"setTaskNotes(state.selected, $event)\"\r\n      >{{ state.selected.tsk_notes ? state.selected.tsk_notes : \"-\" }}</span\r\n    >\r\n  </div>\r\n  <div>Parent: {{ state.selected.tsk_parent }}</div>\r\n  <div>Order: {{ state.selected.tsk_order }}</div>\r\n  <div>\r\n    Date Done:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"editDateDone(state.selected, $event)\"\r\n      >{{ state.selected.tsk_date_done | date: format }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}\r\n  </div>\r\n  <div>\r\n    <fieldset *ngIf=\"state.selected.tsk_time_history.length\">\r\n      <legend>Time History</legend>\r\n      <table>\r\n        <tr>\r\n          <td>Sequential</td>\r\n          <td>Name</td>\r\n          <td>Date Start</td>\r\n          <td>Date End</td>\r\n          <td>Time Spent</td>\r\n          <td>User</td>\r\n          <td>Date Add</td>\r\n          <td>Date Mod</td>\r\n          <td>Actions</td>\r\n        </tr>\r\n        <tr *ngFor=\"let h of state.selected.tsk_time_history\">\r\n          <td>{{ h.tsh_num_secuential }}</td>\r\n          <td>{{ h.tsh_name }}</td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 1, $event)\"\r\n              >{{ h.tsh_date_start | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 2, $event)\"\r\n              >{{ h.tsh_date_end | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>{{ formatTime(h.tsh_time_spent) }}</td>\r\n          <td>{{ h.tsh_id_user }}</td>\r\n          <td>{{ h.tsh_date_add | date: format }}</td>\r\n          <td>{{ h.tsh_date_mod | date: format }}</td>\r\n          <td>\r\n            <button\r\n              *ngIf=\"h.tsh_date_end\"\r\n              (click)=\"deleteTimeTracking(state.selected, h)\"\r\n            >\r\n              delete\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </fieldset>\r\n  </div>\r\n  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>\r\n  <div>\r\n    Qualifiers:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskQualifiersEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_qualifiers }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Tags:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskTagsEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_tags }}</span\r\n    >\r\n  </div>\r\n  <div>Estimated Duration: {{ state.selected.tsk_estimated_duration }}</div>\r\n  <div>\r\n    Schedule Date Start:\r\n    {{ state.selected.tsk_schedule_date_start | date: format }}\r\n  </div>\r\n  <div>\r\n    Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format }}\r\n  </div>\r\n  <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>\r\n  <div>User Added: {{ state.selected.tsk_id_user_added }}</div>\r\n  <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>\r\n  <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>\r\n  <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>\r\n  <div>Status: {{ state.selected.tsk_ctg_status }}</div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"options.optShowFinishedToday\">\r\n  <strong>Finished Today / {{ state.closedTodayTasks.length }} tasks</strong>\r\n  <div *ngFor=\"let item of state.closedTodayTasks; let i = index\">\r\n    <div *ngIf=\"i < 3 || viewAllFinishedToday\">\r\n      <input\r\n        type=\"checkbox\"\r\n        id=\"{{ item.tsk_id }}\"\r\n        checked\r\n        (click)=\"taskCheckboxHandler(item, $event)\"\r\n      />\r\n      <span\r\n        *ngIf=\"item.tsk_total_time_spent !== 0\"\r\n        [ngClass]=\"{\r\n          'task-open-with-tt':\r\n            item.tsk_ctg_status === this.taskStatus.OPEN &&\r\n            item.tsk_time_history.length > 0\r\n        }\"\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n          formatTime(item.tsk_total_time_spent)\r\n        }}]\r\n        <span *ngIf=\"item.tsk_ctg_in_process !== 2\">\r\n          [<span\r\n            class=\"tt-start\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'start')\"\r\n            >{{\r\n              item.tsk_time_history[item.tsk_time_history.length - 1]\r\n                .tsh_date_start | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >\r\n          -\r\n          <span\r\n            class=\"tt-end\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'end')\"\r\n            >{{\r\n              item.tsk_time_history[item.tsk_time_history.length - 1]\r\n                .tsh_date_end | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >]\r\n        </span>\r\n      </span>\r\n      <span\r\n        >(Done at:\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"editDateDone(item, $event)\"\r\n        >\r\n          {{ item.tsk_date_done | date: format }}\r\n        </span>\r\n        )</span\r\n      >\r\n      <span\r\n        [ngClass]=\"{\r\n          'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED\r\n        }\"\r\n        >{{ item.tsk_name }}</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <span *ngIf=\"item.not_sync\">(Not in sync)</span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <button\r\n    (click)=\"toggleView('viewAllFinishedToday')\"\r\n    *ngIf=\"state.closedTodayTasks.length > 3\"\r\n  >\r\n    {{ viewAllFinishedToday ? \"Do not show all\" : \"Show all\" }}\r\n  </button>\r\n  <hr />\r\n</div>\r\n<div id=\"closedTaskList\" *ngIf=\"viewAll\">\r\n  <strong>Closed Tasks</strong>\r\n  <div *ngFor=\"let group of state.closedTasks\">\r\n    <div>\r\n      <strong>{{ group.header | date: \"yyyy-MM-dd\" }}</strong>\r\n      <span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>\r\n    </div>\r\n    <div *ngFor=\"let item of group.tasks\">\r\n      -\r\n      <span\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n          formatTime(item.tsk_total_time_spent)\r\n        }}]</span\r\n      >\r\n      <span>[{{ item.tsk_id_record }}]</span>\r\n      <span>{{ item.tsk_name }}</span>\r\n      <span\r\n        >(done at {{ item.tsk_date_done | date: \"yyyy-MM-dd HH:mm:ss\" }})</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewReportsWeek\">\r\n  <div *ngFor=\"let s of reports.week\">\r\n    date: {{ s.date | date: \"yyyy-MM-dd\" }} tasks done:\r\n    {{ s.tasksDone }} estimated: {{ formatTime(s.estimated * 60) }} spent:\r\n    {{ formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time\r\n    Elapsed: {{ formatTime(s.realTimeElapsed) }}\r\n  </div>\r\n</div>\r\n<div *ngIf=\"viewReportsDayDistribution\">\r\n  <strong>Reports Day Distribution</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Record</td>\r\n      <td>Total ETA</td>\r\n      <td>Total Real</td>\r\n      <td>Percentage ETA</td>\r\n      <td>Percentage Real</td>\r\n    </tr>\r\n    <tr *ngFor=\"let r of reports.dayDistribution\">\r\n      <td>{{ r.record }}</td>\r\n      <td>{{ formatTime(r.eta * 60) }}</td>\r\n      <td>{{ formatTime(r.real) }}</td>\r\n      <td>{{ r.percentageEta }}</td>\r\n      <td>{{ r.percentageReal }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewQualifierTotals\">\r\n  <strong>Qualifier Totals</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Qualifier</td>\r\n      <td>Task Count</td>\r\n      <td>Total ETA</td>\r\n    </tr>\r\n    <tr *ngFor=\"let q of reports.qualifierTotals\">\r\n      <td>{{ q.qualifier }}</td>\r\n      <td>{{ q.taskCount }}</td>\r\n      <td>{{ formatTime(q.totalETA * 60) }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n\r\n<div *ngIf=\"comparisonData\">\r\n  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task\r\n  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count:\r\n  {{ comparisonData.results.length }}\r\n  <table>\r\n    <tr *ngFor=\"let c of comparisonData.results\">\r\n      <td *ngFor=\"let f of c\">\r\n        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison:\r\n        {{ f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}\r\n        <button (click)=\"sendFEToBE(c)\">Send FE data to BE</button>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n"
+module.exports = "<form #tasksForm=\"ngForm\">\r\n  <input\r\n    type=\"text\"\r\n    name=\"tsk_name\"\r\n    placeholder=\"Write a task...\"\r\n    class=\"task\"\r\n    autocomplete=\"off\"\r\n    autofocus=\"true\"\r\n    *ngIf=\"!showBatchAdd\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_name\"\r\n  />\r\n  <textarea\r\n    name=\"tsk_multiple_name\"\r\n    placeholder=\"Write a task per line...\"\r\n    class=\"task-multiple\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_multiple_name\"\r\n    *ngIf=\"showBatchAdd\"\r\n    spellcheck=\"false\"\r\n  ></textarea>\r\n  <button type=\"submit\" (click)=\"addTask(tasksForm)\" id=\"btnAddTask\">\r\n    Add task\r\n  </button>\r\n  <button (click)=\"showButtonSection = !showButtonSection\">\r\n    {{ showButtonSection ? \"hide\" : \"show\" }} actions\r\n  </button>\r\n  <span id=\"buttonSection\" *ngIf=\"showButtonSection\">\r\n    <button (click)=\"toggleViewBacklog()\">\r\n      {{ viewBacklog ? \"hide\" : \"show\" }} backlog\r\n    </button>\r\n    <button (click)=\"toggleViewAll()\">\r\n      {{ viewAll ? \"hide\" : \"show\" }} all\r\n    </button>\r\n    <button (click)=\"toggleViewPostponed()\" *ngIf=\"state.postponedTasksCount\">\r\n      {{ viewPostponed ? \"hide\" : \"show\" }} postponed\r\n    </button>\r\n    <button (click)=\"toggleViewReportsWeek()\">\r\n      {{ viewReportsWeek ? \"hide\" : \"show\" }} reports week\r\n    </button>\r\n    <button (click)=\"toggleViewReportsDayDistribution()\">\r\n      {{ viewReportsDayDistribution ? \"hide\" : \"show\" }} reports day\r\n      distribution\r\n    </button>\r\n    <button (click)=\"toggleView('viewQualifierTotals')\">\r\n      {{ viewQualifierTotals ? \"hide\" : \"show\" }} reports qualifier totals\r\n    </button>\r\n    <button (click)=\"toggleViewOptions()\">\r\n      {{ viewOptions ? \"hide\" : \"show\" }} options\r\n    </button>\r\n  </span>\r\n  <div *ngIf=\"viewETABeforeAdd\">\r\n    <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>\r\n    <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>\r\n    <span *ngFor=\"let r of state.beforeAddETA\">\r\n      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }}]\r\n    </span>\r\n  </div>\r\n</form>\r\n<div *ngIf=\"viewOptions\">\r\n  <button (click)=\"deleteTasks()\">delete all tasks</button>\r\n  <input type=\"text\" name=\"optionsInput\" [(ngModel)]=\"optionsInput\" />\r\n  <button (click)=\"backup()\">backup</button>\r\n  <button (click)=\"backupDoneOnly()\">backup done only</button>\r\n  <button (click)=\"import()\">import</button>\r\n  <button (click)=\"purgeDoneTasks()\">purge done tasks</button>\r\n  <button (click)=\"sendAllToServer()\">all tasks to server</button>\r\n  <button (click)=\"getTasksFromServer()\">get tasks from server</button>\r\n  <br />\r\n  <checkbox-option\r\n    label=\"Display days elapsed since task was added\"\r\n    optionId=\"optViewElapsedDays\"\r\n    [checked]=\"options.optViewElapsedDays\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Finished Today\"\r\n    optionId=\"optShowFinishedToday\"\r\n    [checked]=\"options.optShowFinishedToday\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show only tasks that have Qualifiers\"\r\n    optionId=\"optShowQualifiedTasksOnly\"\r\n    [checked]=\"options.optShowQualifiedTasksOnly\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"When a new task is added, add it to BACKLOG instead (of adding it to OPEN)\"\r\n    optionId=\"optNewTaskStatusIsBacklog\"\r\n    [checked]=\"options.optNewTaskStatusIsBacklog\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicators Table\"\r\n    optionId=\"optShowIndicatorsTable\"\r\n    [checked]=\"options.optShowIndicatorsTable\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Count EOD\"\r\n    optionId=\"optShowIndicatorOpenCountEOD\"\r\n    [checked]=\"options.optShowIndicatorOpenCountEOD\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added ETA\"\r\n    optionId=\"optShowIndicatorAddedETA\"\r\n    [checked]=\"options.optShowIndicatorAddedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added Count\"\r\n    optionId=\"optShowIndicatorAddedCount\"\r\n    [checked]=\"options.optShowIndicatorAddedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed ETA\"\r\n    optionId=\"optShowIndicatorClosedETA\"\r\n    [checked]=\"options.optShowIndicatorClosedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Spent\"\r\n    optionId=\"optShowIndicatorClosedSpent\"\r\n    [checked]=\"options.optShowIndicatorClosedSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Count\"\r\n    optionId=\"optShowIndicatorClosedCount\"\r\n    [checked]=\"options.optShowIndicatorClosedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Productivity Ratio\"\r\n    optionId=\"optShowIndicatorProductivityRatio\"\r\n    [checked]=\"options.optShowIndicatorProductivityRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Time Management Ratio\"\r\n    optionId=\"optShowIndicatorTimeManagementRatio\"\r\n    [checked]=\"options.optShowIndicatorTimeManagementRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - First TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorFirstTTStamp\"\r\n    [checked]=\"options.optShowIndicatorFirstTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Last TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorLastTTStamp\"\r\n    [checked]=\"options.optShowIndicatorLastTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open ETA\"\r\n    optionId=\"optShowIndicatorOpenETA\"\r\n    [checked]=\"options.optShowIndicatorOpenETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Spent\"\r\n    optionId=\"optShowIndicatorOpenSpent\"\r\n    [checked]=\"options.optShowIndicatorOpenSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show first 3 tasks per record\"\r\n    optionId=\"optShowLimitedTasksPerRecord\"\r\n    [checked]=\"options.optShowLimitedTasksPerRecord\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n\r\n  <div id=\"optionsMessages\"></div>\r\n  <hr />\r\n</div>\r\n<div id=\"backlogTaskList\" *ngIf=\"viewBacklog\">\r\n  <strong>Backlog</strong>\r\n  <div *ngFor=\"let item of state.backlogTasks\">\r\n    <div>\r\n      <strong>{{ item.header }}</strong>\r\n      ({{ formatTime(item.estimatedDuration * 60) }})\r\n    </div>\r\n    <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n      -\r\n      <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n        >[{{ t.tsk_time_history.length }}/{{\r\n          formatTime(t.tsk_total_time_spent)\r\n        }}]</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (keyup)=\"taskEdit(t, $event)\"\r\n        [ngClass]=\"{\r\n          'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n          'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n          'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n        }\"\r\n        class=\"editable\"\r\n        >{{ t.tsk_name }}</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n        [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n        class=\"task-eta\"\r\n        >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n      >\r\n      <span *ngIf=\"t.tsk_schedule_date_start\"\r\n        >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n      >\r\n      <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n      <button (click)=\"setOpen(t)\">Move to open</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"postponedTaskList\" *ngIf=\"viewPostponed\">\r\n  <strong>Postponed Tasks</strong>\r\n  <div *ngFor=\"let t of state.postponedTasks\">\r\n    -\r\n    <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n      >[{{ t.tsk_time_history.length }}/{{\r\n        formatTime(t.tsk_total_time_spent)\r\n      }}]</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"taskEdit(t, $event)\"\r\n      [ngClass]=\"{\r\n        'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n        'task-in-process': t.tsk_ctg_in_process === 2,\r\n        'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n        'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n        'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n      }\"\r\n      (blur)=\"commandOnTask(t, $event)\"\r\n      class=\"editable\"\r\n      >{{ t.tsk_name }}</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n      [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n      class=\"task-eta\"\r\n      >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n    >\r\n    <span *ngIf=\"t.tsk_schedule_date_start\"\r\n      >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n    >\r\n    <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n    <span\r\n      >(postponed until\r\n      {{ t.tsk_date_view_until | date: \"yyyy-MM-dd HH:mm:ss\" }})</span\r\n    >\r\n    <button (click)=\"setSelected(t)\">details</button>\r\n    <button (click)=\"setUnpostpone(t)\">see it now</button>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"openTaskList\">\r\n  <div *ngIf=\"!state.openTasks.length\">\r\n    <strong\r\n      >No tasks open! Congratulations! Consider reviewing the backlog or add new\r\n      tasks to do.</strong\r\n    >\r\n    <hr />\r\n  </div>\r\n  <div\r\n    [ngClass]=\"{\r\n      'task-open-task-list-container': true,\r\n      'task-open-task-list-container--grid': layout === 'grid',\r\n      'task-open-task-list-container--float': layout === 'float'\r\n    }\"\r\n  >\r\n    <div *ngFor=\"let item of state.openTasks\" class=\"task-record\">\r\n      <div>\r\n        <strong>{{ item.header }}</strong>\r\n        / {{ item.tasks.length }} tasks ({{\r\n          formatTime(item.estimatedDuration * 60)\r\n        }})\r\n      </div>\r\n      <div\r\n        *ngFor=\"let t of item.tasks; let i = index\"\r\n        data-id=\"{{ t.tsk_id }}\"\r\n        [ngStyle]=\"{ 'font-size-2': ageFontSizeNormalization(t) + 'px' }\"\r\n        [ngClass]=\"{ hidden: options.optShowLimitedTasksPerRecord && i >= 3 }\"\r\n      >\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span class=\"mobile-only\">\r\n          <span\r\n            class=\"play-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9654;</span\r\n          >\r\n          <span\r\n            class=\"stop-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9724;</span\r\n          >\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n            formatTime(t.tsk_total_time_spent)\r\n          }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1]\r\n                  .tsh_date_start | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n                  | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{\r\n              t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n                | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          (focus)=\"setFocus(t, $event)\"\r\n          (keydown)=\"taskKeyDown($event)\"\r\n          tabindex=\"0\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span class=\"task-link\" *ngIf=\"t.tsk_url\"\r\n          ><a href=\"{{ t.tsk_url }}\" title=\"{{ t.tsk_url }}\" target=\"_blank\"\r\n            >link</a\r\n          ></span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          (keydown)=\"etaKeyDown($event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{\r\n          taskAge(t)\r\n        }}</span>\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div id=\"Info\">\r\n    Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }}\r\n    <span *ngIf=\"state.postponedTasksCount\">\r\n      | Postponed: {{ state.postponedTasksCount }}\r\n    </span>\r\n    <br />Karma Score:\r\n    <span\r\n      >{{ state.karmaScore }} ({{ state.karmaCount }} /\r\n      {{ state.closedTodayTasks.length }})</span\r\n    >\r\n    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong>{{\r\n      isOnline() ? \"\" : \"You are OFFLINE\"\r\n    }}</strong>\r\n    <div\r\n      *ngIf=\"options.optShowIndicatorsTable\"\r\n      class=\"task-indicators-container\"\r\n    >\r\n      <strong>Indicators</strong>\r\n      <table class=\"indicators-table\">\r\n        <tr>\r\n          <td>Indicator</td>\r\n          <td *ngFor=\"let c of state.indicatorLabels\">{{ c }}</td>\r\n          <td>Completed?</td>\r\n        </tr>\r\n        <tr *ngFor=\"let indicator of state.indicators\">\r\n          <td>{{ indicator.name }}</td>\r\n          <td *ngFor=\"let v of indicator.values\">{{ v }}</td>\r\n          <td>\r\n            {{ indicator.isCompleted ? \"SI\" : \"NO\" }} /\r\n            {{ indicator.percentageCompleted }}\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"nextToDoTodayList\" *ngIf=\"nextTasks[0].tasks.length\">\r\n  <div class=\"task-open-task-list-container\">\r\n    <div *ngFor=\"let item of nextTasks\" class=\"task-record\">\r\n      <div>\r\n        <strong>Next To Do Today</strong>\r\n        / {{ item.tasks.length }} tasks ({{\r\n          formatTime(item.estimatedDuration * 60)\r\n        }})\r\n      </div>\r\n      <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span class=\"mobile-only\">\r\n          <span\r\n            class=\"play-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9654;</span\r\n          >\r\n          <span\r\n            class=\"stop-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9724;</span\r\n          >\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n            formatTime(t.tsk_total_time_spent)\r\n          }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1]\r\n                  .tsh_date_start | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{\r\n                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n                  | date: \"HH:mm:ss\"\r\n              }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{\r\n              t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n                | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\">{{\r\n          taskAge(t)\r\n        }}</span>\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div id=\"tagInfo\" *ngIf=\"tagInfo.display === true\">\r\n  <button (click)=\"tagInfo.display = false\">hide</button>\r\n  <strong>Tag Information</strong>\r\n  <br />Closed Tasks | Estimated:\r\n  {{ formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent:\r\n  {{ formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated:\r\n  {{ formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent:\r\n  {{ formatTime(tagInfo.tasksOpenTotalSpent) }}\r\n  <div *ngIf=\"tagInfo.tasks.length > 0\">\r\n    <table>\r\n      <tr>\r\n        <td>Name</td>\r\n        <td>Estimated</td>\r\n        <td>Spent</td>\r\n        <td>Status</td>\r\n        <td>Actions</td>\r\n      </tr>\r\n      <tr *ngFor=\"let e of tagInfo.tasks\">\r\n        <td>{{ e.tsk_name }}</td>\r\n        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>\r\n        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>\r\n        <td>{{ statusText(e.tsk_ctg_status) }}</td>\r\n        <td><button (click)=\"setSelected(e)\">details</button></td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"taskDetails\" *ngIf=\"state.selected\">\r\n  <button (click)=\"state.selected = null\">hide</button>\r\n  <br />\r\n  <strong>Task Details</strong>\r\n  <div>Id: {{ state.selected.tsk_id }}</div>\r\n  <div>Container: {{ state.selected.tsk_id_container }}</div>\r\n  <div>Record: {{ state.selected.tsk_id_record }}</div>\r\n  <div>Name: {{ state.selected.tsk_name }}</div>\r\n  <div>\r\n    Notes:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"setTaskNotes(state.selected, $event)\"\r\n      >{{ state.selected.tsk_notes ? state.selected.tsk_notes : \"-\" }}</span\r\n    >\r\n  </div>\r\n  <div>Parent: {{ state.selected.tsk_parent }}</div>\r\n  <div>Order: {{ state.selected.tsk_order }}</div>\r\n  <div>\r\n    Date Done:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"editDateDone(state.selected, $event)\"\r\n      >{{ state.selected.tsk_date_done | date: format }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}\r\n  </div>\r\n  <div>\r\n    <fieldset *ngIf=\"state.selected.tsk_time_history.length\">\r\n      <legend>Time History</legend>\r\n      <table>\r\n        <tr>\r\n          <td>Sequential</td>\r\n          <td>Name</td>\r\n          <td>Date Start</td>\r\n          <td>Date End</td>\r\n          <td>Time Spent</td>\r\n          <td>User</td>\r\n          <td>Date Add</td>\r\n          <td>Date Mod</td>\r\n          <td>Actions</td>\r\n        </tr>\r\n        <tr *ngFor=\"let h of state.selected.tsk_time_history\">\r\n          <td>{{ h.tsh_num_secuential }}</td>\r\n          <td>{{ h.tsh_name }}</td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 1, $event)\"\r\n              >{{ h.tsh_date_start | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 2, $event)\"\r\n              >{{ h.tsh_date_end | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>{{ formatTime(h.tsh_time_spent) }}</td>\r\n          <td>{{ h.tsh_id_user }}</td>\r\n          <td>{{ h.tsh_date_add | date: format }}</td>\r\n          <td>{{ h.tsh_date_mod | date: format }}</td>\r\n          <td>\r\n            <button\r\n              *ngIf=\"h.tsh_date_end\"\r\n              (click)=\"deleteTimeTracking(state.selected, h)\"\r\n            >\r\n              delete\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </fieldset>\r\n  </div>\r\n  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>\r\n  <div>\r\n    Qualifiers:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskQualifiersEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_qualifiers }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Tags:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskTagsEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_tags }}</span\r\n    >\r\n  </div>\r\n  <div>Estimated Duration: {{ state.selected.tsk_estimated_duration }}</div>\r\n  <div>\r\n    Schedule Date Start:\r\n    {{ state.selected.tsk_schedule_date_start | date: format }}\r\n  </div>\r\n  <div>\r\n    Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format }}\r\n  </div>\r\n  <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>\r\n  <div>User Added: {{ state.selected.tsk_id_user_added }}</div>\r\n  <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>\r\n  <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>\r\n  <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>\r\n  <div>Status: {{ state.selected.tsk_ctg_status }}</div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"options.optShowFinishedToday\">\r\n  <strong>Finished Today / {{ state.closedTodayTasks.length }} tasks</strong>\r\n  <div *ngFor=\"let item of state.closedTodayTasks; let i = index\">\r\n    <div *ngIf=\"i < 3 || viewAllFinishedToday\">\r\n      <input\r\n        type=\"checkbox\"\r\n        id=\"{{ item.tsk_id }}\"\r\n        checked\r\n        (click)=\"taskCheckboxHandler(item, $event)\"\r\n      />\r\n      <span\r\n        *ngIf=\"item.tsk_total_time_spent !== 0\"\r\n        [ngClass]=\"{\r\n          'task-open-with-tt':\r\n            item.tsk_ctg_status === this.taskStatus.OPEN &&\r\n            item.tsk_time_history.length > 0\r\n        }\"\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n          formatTime(item.tsk_total_time_spent)\r\n        }}]\r\n        <span *ngIf=\"item.tsk_ctg_in_process !== 2\">\r\n          [<span\r\n            class=\"tt-start\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'start')\"\r\n            >{{\r\n              item.tsk_time_history[item.tsk_time_history.length - 1]\r\n                .tsh_date_start | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >\r\n          -\r\n          <span\r\n            class=\"tt-end\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'end')\"\r\n            >{{\r\n              item.tsk_time_history[item.tsk_time_history.length - 1]\r\n                .tsh_date_end | date: \"HH:mm:ss\"\r\n            }}</span\r\n          >]\r\n        </span>\r\n      </span>\r\n      <span\r\n        >(Done at:\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"editDateDone(item, $event)\"\r\n        >\r\n          {{ item.tsk_date_done | date: format }}\r\n        </span>\r\n        )</span\r\n      >\r\n      <span\r\n        [ngClass]=\"{\r\n          'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED\r\n        }\"\r\n        >{{ item.tsk_name }}</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <span *ngIf=\"item.not_sync\">(Not in sync)</span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <button\r\n    (click)=\"toggleView('viewAllFinishedToday')\"\r\n    *ngIf=\"state.closedTodayTasks.length > 3\"\r\n  >\r\n    {{ viewAllFinishedToday ? \"Do not show all\" : \"Show all\" }}\r\n  </button>\r\n  <hr />\r\n</div>\r\n<div id=\"closedTaskList\" *ngIf=\"viewAll\">\r\n  <strong>Closed Tasks</strong>\r\n  <div *ngFor=\"let group of state.closedTasks\">\r\n    <div>\r\n      <strong>{{ group.header | date: \"yyyy-MM-dd\" }}</strong>\r\n      <span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>\r\n    </div>\r\n    <div *ngFor=\"let item of group.tasks\">\r\n      -\r\n      <span\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n          formatTime(item.tsk_total_time_spent)\r\n        }}]</span\r\n      >\r\n      <span>[{{ item.tsk_id_record }}]</span>\r\n      <span>{{ item.tsk_name }}</span>\r\n      <span\r\n        >(done at {{ item.tsk_date_done | date: \"yyyy-MM-dd HH:mm:ss\" }})</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewReportsWeek\">\r\n  <div *ngFor=\"let s of reports.week\">\r\n    date: {{ s.date | date: \"yyyy-MM-dd\" }} tasks done:\r\n    {{ s.tasksDone }} estimated: {{ formatTime(s.estimated * 60) }} spent:\r\n    {{ formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time\r\n    Elapsed: {{ formatTime(s.realTimeElapsed) }}\r\n  </div>\r\n</div>\r\n<div *ngIf=\"viewReportsDayDistribution\">\r\n  <strong>Reports Day Distribution</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Record</td>\r\n      <td>Total ETA</td>\r\n      <td>Total Real</td>\r\n      <td>Percentage ETA</td>\r\n      <td>Percentage Real</td>\r\n    </tr>\r\n    <tr *ngFor=\"let r of reports.dayDistribution\">\r\n      <td>{{ r.record }}</td>\r\n      <td>{{ formatTime(r.eta * 60) }}</td>\r\n      <td>{{ formatTime(r.real) }}</td>\r\n      <td>{{ r.percentageEta }}</td>\r\n      <td>{{ r.percentageReal }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewQualifierTotals\">\r\n  <strong>Qualifier Totals</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Qualifier</td>\r\n      <td>Task Count</td>\r\n      <td>Total ETA</td>\r\n    </tr>\r\n    <tr *ngFor=\"let q of reports.qualifierTotals\">\r\n      <td>{{ q.qualifier }}</td>\r\n      <td>{{ q.taskCount }}</td>\r\n      <td>{{ formatTime(q.totalETA * 60) }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n\r\n<div *ngIf=\"comparisonData\">\r\n  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task\r\n  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count:\r\n  {{ comparisonData.results.length }}\r\n  <table>\r\n    <tr *ngFor=\"let c of comparisonData.results\">\r\n      <td *ngFor=\"let f of c\">\r\n        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison:\r\n        {{ f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}\r\n        <button (click)=\"sendFEToBE(c)\">Send FE data to BE</button>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -618,28 +629,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _money_account_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
 /* harmony import */ var _money_movement_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
 /* harmony import */ var _money_balance_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
-/* harmony import */ var _money_place_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
-/* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
-/* harmony import */ var _money_movementListing_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./money/movementListing.component */ "./src/app/money/movementListing.component.ts");
-/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
-/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
-/* harmony import */ var _link_link_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
-/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
-/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
-/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
-/* harmony import */ var _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
-/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
-/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
-/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
-/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
-/* harmony import */ var _common_cfg_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
-/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
-/* harmony import */ var _common_alert_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
-/* harmony import */ var _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
-/* harmony import */ var _common_error_interceptor__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
-/* harmony import */ var _common_home_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
-/* harmony import */ var _common_register_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+/* harmony import */ var _money_category_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./money/category.component */ "./src/app/money/category.component.ts");
+/* harmony import */ var _money_place_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
+/* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
+/* harmony import */ var _money_movementListing_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./money/movementListing.component */ "./src/app/money/movementListing.component.ts");
+/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
+/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
+/* harmony import */ var _link_link_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
+/* harmony import */ var _common_storage_service__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
+/* harmony import */ var _money_entry_service__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
+/* harmony import */ var _common_date_common__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
+/* harmony import */ var _common_comboItem_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./common/comboItem.component */ "./src/app/common/comboItem.component.ts");
+/* harmony import */ var _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./common/checkbox-option.component */ "./src/app/common/checkbox-option.component.ts");
+/* harmony import */ var _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./common/drinkwater.component */ "./src/app/common/drinkwater.component.ts");
+/* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./common/sync.api */ "./src/app/common/sync.api.ts");
+/* harmony import */ var _common_utils_common__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./common/utils.common */ "./src/app/common/utils.common.ts");
+/* harmony import */ var _common_login_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./common/login.component */ "./src/app/common/login.component.ts");
+/* harmony import */ var _common_cfg_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./common/cfg.component */ "./src/app/common/cfg.component.ts");
+/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+/* harmony import */ var _common_alert_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
+/* harmony import */ var _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
+/* harmony import */ var _common_error_interceptor__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
+/* harmony import */ var _common_home_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./common/home.component */ "./src/app/common/home.component.ts");
+/* harmony import */ var _common_register_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./common/register.component */ "./src/app/common/register.component.ts");
+
 
 
 
@@ -695,34 +708,35 @@ var AppModule = /** @class */ (function () {
                 _money_account_component__WEBPACK_IMPORTED_MODULE_11__["AccountComponent"],
                 _money_movement_component__WEBPACK_IMPORTED_MODULE_12__["MovementComponent"],
                 _money_balance_component__WEBPACK_IMPORTED_MODULE_13__["BalanceComponent"],
-                _money_place_component__WEBPACK_IMPORTED_MODULE_14__["PlaceComponent"],
-                _money_preset_component__WEBPACK_IMPORTED_MODULE_15__["PresetComponent"],
-                _money_movementListing_component__WEBPACK_IMPORTED_MODULE_16__["MovementListingComponent"],
-                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_23__["ComboItemComponent"],
-                _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_24__["CheckboxOptionComponent"],
-                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_25__["DrinkWaterComponent"],
+                _money_category_component__WEBPACK_IMPORTED_MODULE_14__["CategoryComponent"],
+                _money_place_component__WEBPACK_IMPORTED_MODULE_15__["PlaceComponent"],
+                _money_preset_component__WEBPACK_IMPORTED_MODULE_16__["PresetComponent"],
+                _money_movementListing_component__WEBPACK_IMPORTED_MODULE_17__["MovementListingComponent"],
+                _common_comboItem_component__WEBPACK_IMPORTED_MODULE_24__["ComboItemComponent"],
+                _common_checkbox_option_component__WEBPACK_IMPORTED_MODULE_25__["CheckboxOptionComponent"],
+                _common_drinkwater_component__WEBPACK_IMPORTED_MODULE_26__["DrinkWaterComponent"],
                 _common_menu_component__WEBPACK_IMPORTED_MODULE_9__["MenuComponent"],
                 _common_sync_component__WEBPACK_IMPORTED_MODULE_10__["SyncComponent"],
-                _common_login_component__WEBPACK_IMPORTED_MODULE_28__["LoginComponent"],
-                _common_cfg_component__WEBPACK_IMPORTED_MODULE_29__["CfgComponent"],
-                _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_17__["LastTimeComponent"],
-                _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_18__["MultimediaComponent"],
-                _link_link_component__WEBPACK_IMPORTED_MODULE_19__["LinkComponent"],
-                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_30__["TypeGeneratorComponent"],
-                _common_alert_component__WEBPACK_IMPORTED_MODULE_31__["AlertComponent"],
-                _common_home_component__WEBPACK_IMPORTED_MODULE_34__["HomeComponent"],
-                _common_register_component__WEBPACK_IMPORTED_MODULE_35__["RegisterComponent"]
+                _common_login_component__WEBPACK_IMPORTED_MODULE_29__["LoginComponent"],
+                _common_cfg_component__WEBPACK_IMPORTED_MODULE_30__["CfgComponent"],
+                _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_18__["LastTimeComponent"],
+                _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_19__["MultimediaComponent"],
+                _link_link_component__WEBPACK_IMPORTED_MODULE_20__["LinkComponent"],
+                _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_31__["TypeGeneratorComponent"],
+                _common_alert_component__WEBPACK_IMPORTED_MODULE_32__["AlertComponent"],
+                _common_home_component__WEBPACK_IMPORTED_MODULE_35__["HomeComponent"],
+                _common_register_component__WEBPACK_IMPORTED_MODULE_36__["RegisterComponent"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
             providers: [
-                _common_date_common__WEBPACK_IMPORTED_MODULE_22__["DateCommon"],
-                _common_storage_service__WEBPACK_IMPORTED_MODULE_20__["StorageService"],
-                _money_entry_service__WEBPACK_IMPORTED_MODULE_21__["EntryService"],
-                _common_sync_api__WEBPACK_IMPORTED_MODULE_26__["SyncAPI"],
-                _common_utils_common__WEBPACK_IMPORTED_MODULE_27__["UtilsCommon"],
+                _common_date_common__WEBPACK_IMPORTED_MODULE_23__["DateCommon"],
+                _common_storage_service__WEBPACK_IMPORTED_MODULE_21__["StorageService"],
+                _money_entry_service__WEBPACK_IMPORTED_MODULE_22__["EntryService"],
+                _common_sync_api__WEBPACK_IMPORTED_MODULE_27__["SyncAPI"],
+                _common_utils_common__WEBPACK_IMPORTED_MODULE_28__["UtilsCommon"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"],
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_32__["JwtInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_error_interceptor__WEBPACK_IMPORTED_MODULE_33__["ErrorInterceptor"], multi: true }
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_jwt_interceptor__WEBPACK_IMPORTED_MODULE_33__["JwtInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HTTP_INTERCEPTORS"], useClass: _common_error_interceptor__WEBPACK_IMPORTED_MODULE_34__["ErrorInterceptor"], multi: true }
             ]
         })
     ], AppModule);
@@ -753,12 +767,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _money_account_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./money/account.component */ "./src/app/money/account.component.ts");
 /* harmony import */ var _money_movement_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./money/movement.component */ "./src/app/money/movement.component.ts");
 /* harmony import */ var _money_balance_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./money/balance.component */ "./src/app/money/balance.component.ts");
-/* harmony import */ var _money_place_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
-/* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
-/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
-/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
-/* harmony import */ var _link_link_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
-/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+/* harmony import */ var _money_category_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./money/category.component */ "./src/app/money/category.component.ts");
+/* harmony import */ var _money_place_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./money/place.component */ "./src/app/money/place.component.ts");
+/* harmony import */ var _money_preset_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./money/preset.component */ "./src/app/money/preset.component.ts");
+/* harmony import */ var _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
+/* harmony import */ var _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
+/* harmony import */ var _link_link_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
+/* harmony import */ var _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
+
 
 
 
@@ -799,13 +815,18 @@ var appRoutes = [
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
+        path: "categories",
+        component: _money_category_component__WEBPACK_IMPORTED_MODULE_10__["CategoryComponent"],
+        canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
+    },
+    {
         path: "places",
-        component: _money_place_component__WEBPACK_IMPORTED_MODULE_10__["PlaceComponent"],
+        component: _money_place_component__WEBPACK_IMPORTED_MODULE_11__["PlaceComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
         path: "presets",
-        component: _money_preset_component__WEBPACK_IMPORTED_MODULE_11__["PresetComponent"],
+        component: _money_preset_component__WEBPACK_IMPORTED_MODULE_12__["PresetComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
@@ -818,22 +839,22 @@ var appRoutes = [
     },
     {
         path: "lasttime",
-        component: _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_12__["LastTimeComponent"],
+        component: _lasttime_lasttime_component__WEBPACK_IMPORTED_MODULE_13__["LastTimeComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
         path: "multimedia",
-        component: _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_13__["MultimediaComponent"],
+        component: _multimedia_multimedia_component__WEBPACK_IMPORTED_MODULE_14__["MultimediaComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
         path: "links",
-        component: _link_link_component__WEBPACK_IMPORTED_MODULE_14__["LinkComponent"],
+        component: _link_link_component__WEBPACK_IMPORTED_MODULE_15__["LinkComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
         path: "type-generator",
-        component: _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_15__["TypeGeneratorComponent"],
+        component: _internal_type_generator_component__WEBPACK_IMPORTED_MODULE_16__["TypeGeneratorComponent"],
         canActivate: [_common_auth_guard__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]]
     },
     {
@@ -1249,7 +1270,7 @@ var CommonComponent = /** @class */ (function () {
         // new item
         var item = onAssignForCreate(formValues);
         onNewItemService(item).then(function (item) {
-            var listItem = listing.find(onFindExpression);
+            var listItem = listing.find(function (e) { return onFindExpression(e, item); });
             listItem["isNew"] = true;
         });
         onFinalExecution(item);
@@ -1846,7 +1867,7 @@ var MenuComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".menu-container {\r\n  width: 100%;\r\n}\r\n\r\n.menu-header ul {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.menu-items li {\r\n  border-bottom: 1px solid #888;\r\n}\r\n\r\n.menu-items li:hover,\r\n.menu-items li:focus-within {\r\n  background-color: white;\r\n}\r\n\r\n.menu-items li a,\r\n.menu-items li span {\r\n  padding: 5px;\r\n  display: inline-block;\r\n  width: 97%;\r\n  color: black;\r\n}\r\n\r\n.menu-items {\r\n  color: black;\r\n}\r\n\r\n.menu-header ul li a {\r\n  text-decoration: none;\r\n}\r\n\r\n.menu-header {\r\n  display: -webkit-box;\r\n  display: flex;\r\n}\r\n\r\n.menu-icon {\r\n  cursor: pointer;\r\n}\r\n\r\n.menu-section {\r\n  display: block;\r\n  position: absolute;\r\n  top: 19px;\r\n  left: 0;\r\n  width: 100%;\r\n  background-color: #aaa;\r\n}\r\n\r\n@media all and (min-width: 505px) {\r\n  .menu-section {\r\n    width: 30%;\r\n  }\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL21lbnUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztBQUNiOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFNBQVM7RUFDVCxVQUFVO0FBQ1o7O0FBRUE7RUFDRSw2QkFBNkI7QUFDL0I7O0FBRUE7O0VBRUUsdUJBQXVCO0FBQ3pCOztBQUVBOztFQUVFLFlBQVk7RUFDWixxQkFBcUI7RUFDckIsVUFBVTtFQUNWLFlBQVk7QUFDZDs7QUFFQTtFQUNFLFlBQVk7QUFDZDs7QUFFQTtFQUNFLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLG9CQUFhO0VBQWIsYUFBYTtBQUNmOztBQUVBO0VBQ0UsZUFBZTtBQUNqQjs7QUFFQTtFQUNFLGNBQWM7RUFDZCxrQkFBa0I7RUFDbEIsU0FBUztFQUNULE9BQU87RUFDUCxXQUFXO0VBQ1gsc0JBQXNCO0FBQ3hCOztBQUVBO0VBQ0U7SUFDRSxVQUFVO0VBQ1o7QUFDRiIsImZpbGUiOiJzcmMvYXBwL2NvbW1vbi9tZW51LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tZW51LWNvbnRhaW5lciB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbn1cclxuXHJcbi5tZW51LWhlYWRlciB1bCB7XHJcbiAgbGlzdC1zdHlsZTogbm9uZTtcclxuICBtYXJnaW46IDA7XHJcbiAgcGFkZGluZzogMDtcclxufVxyXG5cclxuLm1lbnUtaXRlbXMgbGkge1xyXG4gIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjODg4O1xyXG59XHJcblxyXG4ubWVudS1pdGVtcyBsaTpob3ZlcixcclxuLm1lbnUtaXRlbXMgbGk6Zm9jdXMtd2l0aGluIHtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcclxufVxyXG5cclxuLm1lbnUtaXRlbXMgbGkgYSxcclxuLm1lbnUtaXRlbXMgbGkgc3BhbiB7XHJcbiAgcGFkZGluZzogNXB4O1xyXG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxuICB3aWR0aDogOTclO1xyXG4gIGNvbG9yOiBibGFjaztcclxufVxyXG5cclxuLm1lbnUtaXRlbXMge1xyXG4gIGNvbG9yOiBibGFjaztcclxufVxyXG5cclxuLm1lbnUtaGVhZGVyIHVsIGxpIGEge1xyXG4gIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcclxufVxyXG5cclxuLm1lbnUtaGVhZGVyIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG59XHJcblxyXG4ubWVudS1pY29uIHtcclxuICBjdXJzb3I6IHBvaW50ZXI7XHJcbn1cclxuXHJcbi5tZW51LXNlY3Rpb24ge1xyXG4gIGRpc3BsYXk6IGJsb2NrO1xyXG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICB0b3A6IDE5cHg7XHJcbiAgbGVmdDogMDtcclxuICB3aWR0aDogMTAwJTtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjYWFhO1xyXG59XHJcblxyXG5AbWVkaWEgYWxsIGFuZCAobWluLXdpZHRoOiA1MDVweCkge1xyXG4gIC5tZW51LXNlY3Rpb24ge1xyXG4gICAgd2lkdGg6IDMwJTtcclxuICB9XHJcbn1cclxuIl19 */"
+module.exports = ".menu-container {\r\n  width: 100%;\r\n}\r\n\r\n.menu-header ul {\r\n  list-style: none;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\n.menu-items li {\r\n  border-bottom: 1px solid #888;\r\n}\r\n\r\n.menu-items li:hover,\r\n.menu-items li:focus-within {\r\n  background-color: white;\r\n}\r\n\r\n.menu-items li a,\r\n.menu-items li span {\r\n  padding: 5px;\r\n  display: inline-block;\r\n  width: 97%;\r\n  color: black;\r\n}\r\n\r\n.menu-items {\r\n  color: black;\r\n}\r\n\r\n.menu-header ul li a {\r\n  text-decoration: none;\r\n}\r\n\r\n.menu-header {\r\n  display: -webkit-box;\r\n  display: flex;\r\n}\r\n\r\n.menu-icon {\r\n  cursor: pointer;\r\n}\r\n\r\n.menu-section {\r\n  display: block;\r\n  position: absolute;\r\n  top: 19px;\r\n  left: 0;\r\n  width: 100%;\r\n  background-color: #aaa;\r\n}\r\n\r\n.menu-area * {\r\n  margin: 0 5px;\r\n}\r\n\r\n@media all and (min-width: 505px) {\r\n  .menu-section {\r\n    width: 30%;\r\n  }\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL21lbnUuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztBQUNiOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFNBQVM7RUFDVCxVQUFVO0FBQ1o7O0FBRUE7RUFDRSw2QkFBNkI7QUFDL0I7O0FBRUE7O0VBRUUsdUJBQXVCO0FBQ3pCOztBQUVBOztFQUVFLFlBQVk7RUFDWixxQkFBcUI7RUFDckIsVUFBVTtFQUNWLFlBQVk7QUFDZDs7QUFFQTtFQUNFLFlBQVk7QUFDZDs7QUFFQTtFQUNFLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLG9CQUFhO0VBQWIsYUFBYTtBQUNmOztBQUVBO0VBQ0UsZUFBZTtBQUNqQjs7QUFFQTtFQUNFLGNBQWM7RUFDZCxrQkFBa0I7RUFDbEIsU0FBUztFQUNULE9BQU87RUFDUCxXQUFXO0VBQ1gsc0JBQXNCO0FBQ3hCOztBQUVBO0VBQ0UsYUFBYTtBQUNmOztBQUVBO0VBQ0U7SUFDRSxVQUFVO0VBQ1o7QUFDRiIsImZpbGUiOiJzcmMvYXBwL2NvbW1vbi9tZW51LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tZW51LWNvbnRhaW5lciB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbn1cclxuXHJcbi5tZW51LWhlYWRlciB1bCB7XHJcbiAgbGlzdC1zdHlsZTogbm9uZTtcclxuICBtYXJnaW46IDA7XHJcbiAgcGFkZGluZzogMDtcclxufVxyXG5cclxuLm1lbnUtaXRlbXMgbGkge1xyXG4gIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAjODg4O1xyXG59XHJcblxyXG4ubWVudS1pdGVtcyBsaTpob3ZlcixcclxuLm1lbnUtaXRlbXMgbGk6Zm9jdXMtd2l0aGluIHtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcclxufVxyXG5cclxuLm1lbnUtaXRlbXMgbGkgYSxcclxuLm1lbnUtaXRlbXMgbGkgc3BhbiB7XHJcbiAgcGFkZGluZzogNXB4O1xyXG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxuICB3aWR0aDogOTclO1xyXG4gIGNvbG9yOiBibGFjaztcclxufVxyXG5cclxuLm1lbnUtaXRlbXMge1xyXG4gIGNvbG9yOiBibGFjaztcclxufVxyXG5cclxuLm1lbnUtaGVhZGVyIHVsIGxpIGEge1xyXG4gIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcclxufVxyXG5cclxuLm1lbnUtaGVhZGVyIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG59XHJcblxyXG4ubWVudS1pY29uIHtcclxuICBjdXJzb3I6IHBvaW50ZXI7XHJcbn1cclxuXHJcbi5tZW51LXNlY3Rpb24ge1xyXG4gIGRpc3BsYXk6IGJsb2NrO1xyXG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcclxuICB0b3A6IDE5cHg7XHJcbiAgbGVmdDogMDtcclxuICB3aWR0aDogMTAwJTtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiAjYWFhO1xyXG59XHJcblxyXG4ubWVudS1hcmVhICoge1xyXG4gIG1hcmdpbjogMCA1cHg7XHJcbn1cclxuXHJcbkBtZWRpYSBhbGwgYW5kIChtaW4td2lkdGg6IDUwNXB4KSB7XHJcbiAgLm1lbnUtc2VjdGlvbiB7XHJcbiAgICB3aWR0aDogMzAlO1xyXG4gIH1cclxufVxyXG4iXX0= */"
 
 /***/ }),
 
@@ -2290,7 +2311,8 @@ var SyncComponent = /** @class */ (function () {
         this.syncService = syncService;
         this.viewData = {
             queue: [],
-            message: null
+            message: null,
+            showCheckIcon: false
         };
     }
     SyncComponent.prototype.ngOnInit = function () {
@@ -2305,7 +2327,7 @@ var SyncComponent = /** @class */ (function () {
         });
     };
     SyncComponent.prototype.parseStatusToMessage = function (queue) {
-        var message = null;
+        var _this = this;
         var filterWithStatus = function (st) {
             return queue.filter(function (_a) {
                 var status = _a.status;
@@ -2313,25 +2335,24 @@ var SyncComponent = /** @class */ (function () {
             });
         };
         if (!queue.length) {
-            this.viewData.message = message;
+            this.viewData.message = "All items synced";
+            this.viewData.showCheckIcon = true;
+            setTimeout(function () {
+                _this.viewData.message = null;
+                _this.viewData.showCheckIcon = false;
+            }, 3000);
             return;
-        }
-        if (queue.every(function (_a) {
-            var status = _a.status;
-            return status === "processed";
-        })) {
-            message = queue.length + " items, all synced";
         }
         var syncingList = filterWithStatus("syncing");
         if (syncingList.length) {
-            message = "Syncing " + syncingList.length + " items...";
+            this.viewData.message = "Syncing " + syncingList.length + " " + (syncingList.length === 1 ? "item" : "items") + "...";
+            return;
         }
         var queueList = filterWithStatus("queue");
         var errorList = filterWithStatus("error");
         if (queueList.length || errorList.length) {
-            message = queueList.length + " pending, " + errorList.length + " with error";
+            this.viewData.message = queueList.length + " pending, " + errorList.length + " with error";
         }
-        this.viewData.message = message;
     };
     SyncComponent.ctorParameters = function () { return [
         { type: _sync_api__WEBPACK_IMPORTED_MODULE_2__["SyncAPI"] }
@@ -3165,9 +3186,6 @@ var LinkComponent = /** @class */ (function () {
             linkList: [],
             showItemForm: false
         };
-        this.services = {
-            linkService: null
-        };
         this.model = {
             id: null
         };
@@ -3208,7 +3226,9 @@ var LinkComponent = /** @class */ (function () {
             this.common.newItem({
                 form: form,
                 listing: this.viewData.linkList,
-                onFindExpression: function (item) { return _this.findById(item, _this.model.id); },
+                onFindExpression: function (item, newItem) {
+                    return _this.findById(item, newItem.lnk_id);
+                },
                 onAssignForCreate: function (formValues) {
                     var newItem = new _crosscommon_entities_Link__WEBPACK_IMPORTED_MODULE_2__["Link"]({
                         lnk_url: formValues.fUrl,
@@ -4396,6 +4416,138 @@ var BalanceService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/money/category.component.ts":
+/*!*********************************************!*\
+  !*** ./src/app/money/category.component.ts ***!
+  \*********************************************/
+/*! exports provided: CategoryComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CategoryComponent", function() { return CategoryComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../crosscommon/entities/Category */ "./src/crosscommon/entities/Category.ts");
+/* harmony import */ var _category_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./category.service */ "./src/app/money/category.service.ts");
+/* harmony import */ var _common_common_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/common.component */ "./src/app/common/common.component.ts");
+/* harmony import */ var _movement_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
+
+
+
+
+
+
+var CategoryComponent = /** @class */ (function () {
+    function CategoryComponent(categoryService, movementService) {
+        this.categoryService = categoryService;
+        this.movementService = movementService;
+        this.viewData = {
+            categoryList: [],
+            movementList: [],
+            showItemForm: false
+        };
+        this.model = {
+            id: null
+        };
+        this.common = null;
+        this.common = new _common_common_component__WEBPACK_IMPORTED_MODULE_4__["CommonComponent"]();
+    }
+    CategoryComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        Promise.all([
+            this.categoryService.getAll(),
+            this.movementService.getAll()
+        ]).then(function (_a) {
+            var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__read"](_a, 2), categoryList = _b[0], movementList = _b[1];
+            _this.viewData.movementList = movementList;
+            _this.viewData.categoryList = categoryList.map(function (category) {
+                category["movementList"] = movementList.filter(function (_a) {
+                    var mov_id_category = _a.mov_id_category;
+                    return mov_id_category === category.mct_id;
+                });
+                return category;
+            });
+        });
+    };
+    CategoryComponent.prototype.newItem = function (form) {
+        var _this = this;
+        if (this.model.id) {
+            // edit item
+            this.common.updateItem({
+                form: form,
+                model: this.model,
+                listing: this.viewData.categoryList,
+                onFindExpression: function (item) { return item.mct_id === _this.model.id; },
+                onAssignForEdit: function (item, formValues) {
+                    var newItem = new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_2__["Category"](item);
+                    newItem.mct_name = formValues.fName;
+                    return newItem;
+                },
+                onUpdateItemService: function (item) { return _this.categoryService.updateItem(item); },
+                onFinalExecution: function () {
+                    _this.model.id = null;
+                }
+            });
+        }
+        else {
+            // new item
+            this.common.newItem({
+                form: form,
+                listing: this.viewData.categoryList,
+                onFindExpression: function (item, newItem) { return item.mct_id === newItem.mct_id; },
+                onAssignForCreate: function (formValues) {
+                    var newItem = new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_2__["Category"]({
+                        mct_name: formValues.fName
+                    });
+                    return newItem;
+                },
+                onNewItemService: function (item) { return _this.categoryService.newItem(item); },
+                onFinalExecution: function () {
+                    _this.viewData.showItemForm = false;
+                }
+            });
+        }
+        this.common.resetForm(form, function () {
+            _this.model.id = null;
+        });
+        this.viewData.showItemForm = false;
+    };
+    CategoryComponent.prototype.resetForm = function (form) {
+        this.model.id = null;
+        form.reset();
+    };
+    CategoryComponent.prototype.setModelDetails = function (id, form) {
+        var model;
+        if (!this.viewData.showItemForm) {
+            this.viewData.showItemForm = !this.viewData.showItemForm;
+        }
+        model = this.viewData.categoryList.find(function (e) { return e.mct_id === id; });
+        this.model.id = model["mct_id"]; // to tell the form that this is an edition
+        setTimeout(function () {
+            form.controls["fName"].setValue(model["mct_name"]);
+        }, 0);
+    };
+    CategoryComponent.ctorParameters = function () { return [
+        { type: _category_service__WEBPACK_IMPORTED_MODULE_3__["CategoryService"] },
+        { type: _movement_service__WEBPACK_IMPORTED_MODULE_5__["MovementService"] }
+    ]; };
+    CategoryComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: "category",
+            template: __webpack_require__(/*! raw-loader!./category.template.html */ "./node_modules/raw-loader/index.js!./src/app/money/category.template.html"),
+            providers: [_category_service__WEBPACK_IMPORTED_MODULE_3__["CategoryService"], _movement_service__WEBPACK_IMPORTED_MODULE_5__["MovementService"]]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_category_service__WEBPACK_IMPORTED_MODULE_3__["CategoryService"],
+            _movement_service__WEBPACK_IMPORTED_MODULE_5__["MovementService"]])
+    ], CategoryComponent);
+    return CategoryComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/money/category.service.ts":
 /*!*******************************************!*\
   !*** ./src/app/money/category.service.ts ***!
@@ -4413,6 +4565,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_sync_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 /* harmony import */ var _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
 /* harmony import */ var _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
+/* harmony import */ var src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+
 
 
 
@@ -4421,7 +4575,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var CategoryService = /** @class */ (function () {
-    function CategoryService(storage, sync, authenticationService) {
+    function CategoryService(authenticationService, storage, sync) {
         this.authenticationService = authenticationService;
         this.data = [];
         this.storage = null;
@@ -4430,7 +4584,8 @@ var CategoryService = /** @class */ (function () {
             storageKey: "categories",
             api: {
                 list: "/api/categories",
-                create: "/api/categories"
+                create: "/api/categories",
+                update: "/api/categories/:id"
             }
         };
         this.storage = storage;
@@ -4463,25 +4618,17 @@ var CategoryService = /** @class */ (function () {
     CategoryService.prototype.saveToStorage = function () {
         this.storage.set(this.config.storageKey, JSON.stringify(this.data));
     };
-    CategoryService.prototype.newId = function () {
-        var m = new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"]();
-        var length = m.metadata.fields.find(function (f) { return f.dbName === "mct_id"; })
-            .size;
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashId(m.metadata.prefix, length);
-    };
-    CategoryService.prototype.newItem = function (category) {
+    CategoryService.prototype.newItem = function (baseItem) {
         var _this = this;
-        var newId = this.newId();
+        var newId = _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashIdForEntity(new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"](), "mct_id");
         var newItem = new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_1__["Category"]({
             mct_id: newId,
-            mct_name: category,
+            mct_name: baseItem.mct_name,
             mct_id_user: this.authenticationService.currentUserValue.username,
-            mct_date_add: new Date(),
-            mct_date_mod: new Date(),
+            mct_date_add: src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__["DateUtils"].newDateUpToSeconds(),
+            mct_date_mod: src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_7__["DateUtils"].newDateUpToSeconds(),
             mct_ctg_status: 1
         });
-        //this.data.push(newItem);
-        //this.saveToStorage();
         return this.sync
             .post(this.config.api.create, newItem)
             .then(function (response) {
@@ -4501,16 +4648,41 @@ var CategoryService = /** @class */ (function () {
             return newItem;
         });
     };
+    CategoryService.prototype.updateItem = function (item) {
+        var _this = this;
+        var updateLocal = function () {
+            var index = _this.data.findIndex(function (e) { return e.mct_id === item.mct_id; });
+            if (index !== -1) {
+                _this.data[index] = item;
+            }
+        };
+        return this.sync
+            .post(this.config.api.update.replace(":id", item.mct_id), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].entityToRawTableFields(item))
+            .then(function (response) {
+            if (!response.operationOk) {
+                item["sync"] = false;
+            }
+            updateLocal();
+            return item;
+        })
+            .catch(function (err) {
+            // Append it to the listing but flag it as non-synced yet
+            console.log("error on update", err);
+            item["sync"] = false;
+            updateLocal();
+            return item;
+        });
+    };
     CategoryService.ctorParameters = function () { return [
+        { type: _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"] },
         { type: _common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"] },
-        { type: _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"] },
-        { type: _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"] }
+        { type: _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"] }
     ]; };
     CategoryService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"],
-            _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"],
-            _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"],
+            _common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"],
+            _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"]])
     ], CategoryService);
     return CategoryService;
 }());
@@ -4615,23 +4787,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../crosscommon/entities/Movement */ "./src/crosscommon/entities/Movement.ts");
-/* harmony import */ var _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
-/* harmony import */ var _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
-/* harmony import */ var _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
-/* harmony import */ var _account_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
-/* harmony import */ var _category_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./category.service */ "./src/app/money/category.service.ts");
-/* harmony import */ var _place_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
-/* harmony import */ var _movement_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
-/* harmony import */ var _entry_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
-/* harmony import */ var _balance_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
-/* harmony import */ var _preset_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+/* harmony import */ var _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../crosscommon/entities/Category */ "./src/crosscommon/entities/Category.ts");
+/* harmony import */ var _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../crosscommon/entities/Place */ "./src/crosscommon/entities/Place.ts");
+/* harmony import */ var _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../crosscommon/entities/Entry */ "./src/crosscommon/entities/Entry.ts");
+/* harmony import */ var _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
+/* harmony import */ var _account_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
+/* harmony import */ var _category_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./category.service */ "./src/app/money/category.service.ts");
+/* harmony import */ var _place_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
+/* harmony import */ var _movement_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./movement.service */ "./src/app/money/movement.service.ts");
+/* harmony import */ var _entry_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./entry.service */ "./src/app/money/entry.service.ts");
+/* harmony import */ var _balance_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./balance.service */ "./src/app/money/balance.service.ts");
+/* harmony import */ var _preset_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 
 
 
 //import { CurrencyPipe } from '@angular/common';
 // types
+
 
 
 
@@ -4732,7 +4906,7 @@ var MovementComponent = /** @class */ (function () {
             "Mom",
             "Health"
         ];
-        this.model.date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].dateToStringDate(new Date());
+        this.model.date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].dateToStringDate(new Date());
     }
     MovementComponent.prototype.retrieveAccountsAndBalance = function () {
         var _this = this;
@@ -4754,7 +4928,7 @@ var MovementComponent = /** @class */ (function () {
         this.services.entry.getAll();
         this.services.preset.getAll().then(function (list) {
             _this.viewData.presets = list;
-            var p = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_6__["Preset"]();
+            var p = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_7__["Preset"]();
             p.pre_name = "";
             _this.viewData.presets.unshift(p);
         });
@@ -4819,11 +4993,11 @@ var MovementComponent = /** @class */ (function () {
         var _this = this;
         console.log("as preset?", form.value.fAsPreset);
         if (form.value.fAsPreset) {
-            var p_1 = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_6__["Preset"]();
+            var p_1 = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_7__["Preset"]();
             // TODO: hash generator for IDs
             p_1.pre_id = this.services.preset.newId();
             p_1.pre_name = form.value.fName;
-            p_1.pre_date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].stringDateToDate(form.value.fDate);
+            p_1.pre_date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].stringDateToDate(form.value.fDate);
             p_1.pre_amount = form.value.fAmount;
             p_1.pre_id_account = form.value.fAccount;
             if (this.isTransfer) {
@@ -4858,7 +5032,7 @@ var MovementComponent = /** @class */ (function () {
         }
         else {
             var m_1 = new _crosscommon_entities_Movement__WEBPACK_IMPORTED_MODULE_3__["Movement"]();
-            m_1.mov_date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].stringDateToDate(form.value.fDate);
+            m_1.mov_date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].stringDateToDate(form.value.fDate);
             if (this.model.id) {
                 // we are editing instead of creating a new movement
                 m_1.mov_id = this.model.id;
@@ -4949,7 +5123,7 @@ var MovementComponent = /** @class */ (function () {
             reimburseType = REIMBURSE_50;
             newAmount = base.mov_amount * 0.5;
             descPrefix = "Half for: ";
-            descSufix = ", original amount: " + Object(_angular_common__WEBPACK_IMPORTED_MODULE_14__["formatCurrency"])(base.mov_amount, "en", "$");
+            descSufix = ", original amount: " + Object(_angular_common__WEBPACK_IMPORTED_MODULE_15__["formatCurrency"])(base.mov_amount, "en", "$");
         }
         if (budget.includes(REIMBURSE_100)) {
             reimburseType = REIMBURSE_100;
@@ -4992,7 +5166,7 @@ var MovementComponent = /** @class */ (function () {
     MovementComponent.prototype.generateEntriesForMovement = function (m) {
         var localEntries = [];
         // TODO: Entry creation should be inside entry.service, just pass the movement as argument
-        var e = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_5__["Entry"]();
+        var e = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_6__["Entry"]();
         e.ent_id = m.mov_id;
         e.ent_sequential = 1;
         e.ent_desc = m.mov_desc;
@@ -5013,7 +5187,7 @@ var MovementComponent = /** @class */ (function () {
         e.ent_txt_place = m.mov_txt_place;
         e.ent_txt_status = m.mov_txt_status;
         localEntries.push(this.services.entry.newItem(e));
-        e = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_5__["Entry"]();
+        e = new _crosscommon_entities_Entry__WEBPACK_IMPORTED_MODULE_6__["Entry"]();
         e.ent_id = m.mov_id;
         e.ent_sequential = 2;
         e.ent_desc = m.mov_desc;
@@ -5048,7 +5222,9 @@ var MovementComponent = /** @class */ (function () {
     };
     MovementComponent.prototype.addNewCategoryForUser = function (category) {
         var _this = this;
-        this.services.category.newItem(category).then(function (item) {
+        this.services.category
+            .newItem(new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_4__["Category"]({ mct_name: category }))
+            .then(function (item) {
             _this.viewData.categories = _this.services.category.list();
             _this.model.category = item.mct_id;
         });
@@ -5056,7 +5232,7 @@ var MovementComponent = /** @class */ (function () {
     MovementComponent.prototype.addNewPlaceForUser = function (place) {
         var _this = this;
         this.services.place
-            .newItem(new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_4__["Place"]({ mpl_name: place }))
+            .newItem(new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_5__["Place"]({ mpl_name: place }))
             .then(function (item) {
             _this.viewData.places = _this.services.place.list();
             _this.model.place = item.mpl_id;
@@ -5127,10 +5303,10 @@ var MovementComponent = /** @class */ (function () {
         data.forEach(function (d, index, arr) {
             var values = d.split("|");
             if (!_this.findIn(_this.services.category.list(), function (e) { return e.mct_name === values[5]; }, "mct_id")) {
-                _this.services.category.newItem(values[5]);
+                _this.services.category.newItem(new _crosscommon_entities_Category__WEBPACK_IMPORTED_MODULE_4__["Category"]({ mct_name: values[5] }));
             }
             if (!_this.findIn(_this.services.place.list(), function (e) { return e.mpl_name === values[6]; }, "mpl_id")) {
-                _this.services.place.newItem(new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_4__["Place"]({ mpl_name: values[6] }));
+                _this.services.place.newItem(new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_5__["Place"]({ mpl_name: values[6] }));
             }
         });
         this.viewData.categories = this.services.category.list();
@@ -5152,7 +5328,7 @@ var MovementComponent = /** @class */ (function () {
                 else {
                     console.log("account not found", values_1[1], d);
                 }
-                m.mov_date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].stringDateToDate(values_1[0]);
+                m.mov_date = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].stringDateToDate(values_1[0]);
                 if (yearInitial * 100 + monthInitial >
                     m.mov_date.getFullYear() * 100 + (m.mov_date.getMonth() + 1)) {
                     yearInitial = m.mov_date.getFullYear();
@@ -5281,10 +5457,10 @@ var MovementComponent = /** @class */ (function () {
                     var valueToSet = null;
                     if (f.value === "_date") {
                         if (value !== null) {
-                            valueToSet = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].dateToStringDate(new Date(value));
+                            valueToSet = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].dateToStringDate(new Date(value));
                         }
                         else {
-                            valueToSet = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].dateToStringDate(new Date());
+                            valueToSet = src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].dateToStringDate(new Date());
                         }
                     }
                     else {
@@ -5312,16 +5488,16 @@ var MovementComponent = /** @class */ (function () {
         if (form.controls["fMovementType"]) {
             form.controls["fMovementType"].setValue(1);
         }
-        form.controls["fDate"].setValue(src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_15__["DateUtils"].dateToStringDate(new Date()));
+        form.controls["fDate"].setValue(src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_16__["DateUtils"].dateToStringDate(new Date()));
     };
     MovementComponent.ctorParameters = function () { return [
-        { type: _account_service__WEBPACK_IMPORTED_MODULE_7__["AccountService"] },
-        { type: _category_service__WEBPACK_IMPORTED_MODULE_8__["CategoryService"] },
-        { type: _place_service__WEBPACK_IMPORTED_MODULE_9__["PlaceService"] },
-        { type: _movement_service__WEBPACK_IMPORTED_MODULE_10__["MovementService"] },
-        { type: _entry_service__WEBPACK_IMPORTED_MODULE_11__["EntryService"] },
-        { type: _balance_service__WEBPACK_IMPORTED_MODULE_12__["BalanceService"] },
-        { type: _preset_service__WEBPACK_IMPORTED_MODULE_13__["PresetService"] },
+        { type: _account_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"] },
+        { type: _category_service__WEBPACK_IMPORTED_MODULE_9__["CategoryService"] },
+        { type: _place_service__WEBPACK_IMPORTED_MODULE_10__["PlaceService"] },
+        { type: _movement_service__WEBPACK_IMPORTED_MODULE_11__["MovementService"] },
+        { type: _entry_service__WEBPACK_IMPORTED_MODULE_12__["EntryService"] },
+        { type: _balance_service__WEBPACK_IMPORTED_MODULE_13__["BalanceService"] },
+        { type: _preset_service__WEBPACK_IMPORTED_MODULE_14__["PresetService"] },
         { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"] }
     ]; };
     MovementComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -5329,22 +5505,22 @@ var MovementComponent = /** @class */ (function () {
             selector: "movement",
             template: __webpack_require__(/*! raw-loader!./movement.template.html */ "./node_modules/raw-loader/index.js!./src/app/money/movement.template.html"),
             providers: [
-                _account_service__WEBPACK_IMPORTED_MODULE_7__["AccountService"],
-                _category_service__WEBPACK_IMPORTED_MODULE_8__["CategoryService"],
-                _place_service__WEBPACK_IMPORTED_MODULE_9__["PlaceService"],
-                _movement_service__WEBPACK_IMPORTED_MODULE_10__["MovementService"],
-                _entry_service__WEBPACK_IMPORTED_MODULE_11__["EntryService"],
-                _balance_service__WEBPACK_IMPORTED_MODULE_12__["BalanceService"],
-                _preset_service__WEBPACK_IMPORTED_MODULE_13__["PresetService"]
+                _account_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"],
+                _category_service__WEBPACK_IMPORTED_MODULE_9__["CategoryService"],
+                _place_service__WEBPACK_IMPORTED_MODULE_10__["PlaceService"],
+                _movement_service__WEBPACK_IMPORTED_MODULE_11__["MovementService"],
+                _entry_service__WEBPACK_IMPORTED_MODULE_12__["EntryService"],
+                _balance_service__WEBPACK_IMPORTED_MODULE_13__["BalanceService"],
+                _preset_service__WEBPACK_IMPORTED_MODULE_14__["PresetService"]
             ]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_account_service__WEBPACK_IMPORTED_MODULE_7__["AccountService"],
-            _category_service__WEBPACK_IMPORTED_MODULE_8__["CategoryService"],
-            _place_service__WEBPACK_IMPORTED_MODULE_9__["PlaceService"],
-            _movement_service__WEBPACK_IMPORTED_MODULE_10__["MovementService"],
-            _entry_service__WEBPACK_IMPORTED_MODULE_11__["EntryService"],
-            _balance_service__WEBPACK_IMPORTED_MODULE_12__["BalanceService"],
-            _preset_service__WEBPACK_IMPORTED_MODULE_13__["PresetService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_account_service__WEBPACK_IMPORTED_MODULE_8__["AccountService"],
+            _category_service__WEBPACK_IMPORTED_MODULE_9__["CategoryService"],
+            _place_service__WEBPACK_IMPORTED_MODULE_10__["PlaceService"],
+            _movement_service__WEBPACK_IMPORTED_MODULE_11__["MovementService"],
+            _entry_service__WEBPACK_IMPORTED_MODULE_12__["EntryService"],
+            _balance_service__WEBPACK_IMPORTED_MODULE_13__["BalanceService"],
+            _preset_service__WEBPACK_IMPORTED_MODULE_14__["PresetService"],
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])
     ], MovementComponent);
     return MovementComponent;
@@ -5690,7 +5866,7 @@ var PlaceComponent = /** @class */ (function () {
             this.common.newItem({
                 form: form,
                 listing: this.viewData.placeList,
-                onFindExpression: function (item) { return item.mpl_id === _this.model.id; },
+                onFindExpression: function (item, newItem) { return item.mpl_id === newItem.mpl_id; },
                 onAssignForCreate: function (formValues) {
                     var newItem = new _crosscommon_entities_Place__WEBPACK_IMPORTED_MODULE_2__["Place"]({
                         mpl_name: formValues.fName
@@ -5905,37 +6081,245 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PresetComponent", function() { return PresetComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _preset_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
+/* harmony import */ var _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../crosscommon/entities/Preset */ "./src/crosscommon/entities/Preset.ts");
+/* harmony import */ var _preset_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./preset.service */ "./src/app/money/preset.service.ts");
+/* harmony import */ var _common_common_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/common.component */ "./src/app/common/common.component.ts");
+/* harmony import */ var src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+/* harmony import */ var _account_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
+/* harmony import */ var _category_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./category.service */ "./src/app/money/category.service.ts");
+/* harmony import */ var _place_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./place.service */ "./src/app/money/place.service.ts");
+
+
+
+
+
+
 
 
 
 var PresetComponent = /** @class */ (function () {
-    function PresetComponent(presetService) {
+    function PresetComponent(presetService, accountService, categoryService, placeService) {
+        this.presetService = presetService;
+        this.accountService = accountService;
+        this.categoryService = categoryService;
+        this.placeService = placeService;
         this.viewData = {
-            presetList: []
+            presetList: [],
+            accountList: [],
+            categoryList: [],
+            placeList: [],
+            showItemForm: false
         };
-        this.services = {
-            presetService: null
+        this.model = {
+            id: null
         };
-        this.services.presetService = presetService;
+        this.common = null;
+        this._movementFlowType = "custom";
+        this.isTransfer = false;
+        this.isCustom = true;
+        this.common = new _common_common_component__WEBPACK_IMPORTED_MODULE_4__["CommonComponent"]();
     }
     PresetComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.services.presetService.getAll().then(function (list) {
-            _this.viewData.presetList = list;
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var _a, _b, _c;
+            var _this = this;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        this.presetService.getAll().then(function (list) {
+                            _this.viewData.presetList = list;
+                        });
+                        _a = this.viewData;
+                        return [4 /*yield*/, this.accountService
+                                .getAll()
+                                .catch(function () { return []; })];
+                    case 1:
+                        _a.accountList = _d.sent();
+                        _b = this.viewData;
+                        return [4 /*yield*/, this.categoryService
+                                .getAll()
+                                .catch(function () { return []; })];
+                    case 2:
+                        _b.categoryList = _d.sent();
+                        _c = this.viewData;
+                        return [4 /*yield*/, this.placeService.getAll().catch(function () { return []; })];
+                    case 3:
+                        _c.placeList = _d.sent();
+                        return [2 /*return*/];
+                }
+            });
         });
     };
-    PresetComponent.prototype.showNewPresetForm = function () { };
+    PresetComponent.prototype.newItem = function (form) {
+        var _this = this;
+        if (this.model.id) {
+            // edit item
+            this.common.updateItem({
+                form: form,
+                model: this.model,
+                listing: this.viewData.presetList,
+                onFindExpression: function (item) { return _this.findById(item, _this.model.id); },
+                onAssignForEdit: function (item, formValues) {
+                    var newItem = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_2__["Preset"](item);
+                    newItem.pre_name = formValues.fName;
+                    newItem.pre_date = formValues.fDate
+                        ? src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_5__["DateUtils"].stringDateToDate(formValues.fDate)
+                        : null;
+                    newItem.pre_amount = formValues.fAmount;
+                    newItem.pre_id_account = formValues.fAccount;
+                    if (_this.isTransfer) {
+                        newItem.pre_id_account_to = formValues.fAccountTo;
+                        newItem.pre_ctg_type = 3;
+                    }
+                    else {
+                        newItem.pre_ctg_type = formValues.fMovementType;
+                    }
+                    if (!_this.isTransfer) {
+                        newItem.pre_budget = formValues.fBudget || null;
+                        newItem.pre_id_category = formValues.fCategory;
+                        newItem.pre_id_place = formValues.fPlace;
+                    }
+                    else {
+                        newItem.pre_budget = null;
+                        newItem.pre_id_category = "0";
+                        newItem.pre_id_place = "0";
+                    }
+                    newItem.pre_desc = formValues.fDescription;
+                    newItem.pre_notes = formValues.fNotes;
+                    newItem.pre_ctg_status = 1;
+                    return newItem;
+                },
+                onUpdateItemService: function (item) { return _this.presetService.updateItem(item); },
+                onFinalExecution: function () {
+                    _this.model.id = null;
+                }
+            });
+        }
+        else {
+            // new item
+            this.common.newItem({
+                form: form,
+                listing: this.viewData.presetList,
+                onFindExpression: function (item, newItem) {
+                    return _this.findById(item, newItem.pre_id);
+                },
+                onAssignForCreate: function (formValues) {
+                    var newItem = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_2__["Preset"]();
+                    newItem.pre_name = formValues.fName;
+                    newItem.pre_date = formValues.fDate
+                        ? src_crosscommon_DateUtility__WEBPACK_IMPORTED_MODULE_5__["DateUtils"].stringDateToDate(formValues.fDate)
+                        : null;
+                    newItem.pre_amount = formValues.fAmount;
+                    newItem.pre_id_account = formValues.fAccount;
+                    if (_this.isTransfer) {
+                        newItem.pre_id_account_to = formValues.fAccountTo;
+                        newItem.pre_ctg_type = 3;
+                    }
+                    else {
+                        newItem.pre_ctg_type = formValues.fMovementType;
+                    }
+                    if (!_this.isTransfer) {
+                        newItem.pre_budget = formValues.fBudget || null;
+                        newItem.pre_id_category = formValues.fCategory;
+                        newItem.pre_id_place = formValues.fPlace;
+                    }
+                    else {
+                        newItem.pre_budget = null;
+                        newItem.pre_id_category = "0";
+                        newItem.pre_id_place = "0";
+                    }
+                    newItem.pre_desc = formValues.fDescription;
+                    newItem.pre_notes = formValues.fNotes;
+                    newItem.pre_ctg_status = 1;
+                    return newItem;
+                },
+                onNewItemService: function (item) { return _this.presetService.newItem(item); },
+                onFinalExecution: function () {
+                    _this.viewData.showItemForm = false;
+                }
+            });
+        }
+        this.common.resetForm(form, function () {
+            _this.model.id = null;
+        });
+        this.viewData.showItemForm = false;
+    };
+    PresetComponent.prototype.resetForm = function (form) {
+        this.model.id = null;
+        form.reset();
+    };
+    PresetComponent.prototype.setModelDetails = function (id, form) {
+        var _this = this;
+        var model;
+        if (!this.viewData.showItemForm) {
+            this.viewData.showItemForm = !this.viewData.showItemForm;
+        }
+        this.resetForm(form);
+        model = this.viewData.presetList.find(function (item) { return _this.findById(item, id); });
+        this.model.id = model["pre_id"]; // to tell the form that this is an edition
+        setTimeout(function () {
+            form.controls["fName"].setValue(model["pre_name"]);
+            form.controls["fDescription"].setValue(model["pre_desc"]);
+            form.controls["fAmount"].setValue(model["pre_amount"]);
+            form.controls["fDate"].setValue(model["pre_date"]);
+            form.controls["fAccount"].setValue(model["pre_id_account"]);
+            form.controls["fNotes"].setValue(model["pre_notes"]);
+            if (model["pre_id_account_to"]) {
+                _this.movementFlowType("transfer");
+                setTimeout(function () {
+                    form.controls["fAccountTo"].setValue(model["pre_id_account_to"]);
+                }, 50);
+            }
+            else {
+                _this.movementFlowType("custom");
+                setTimeout(function () {
+                    form.controls["fMovementType"].setValue(model["pre_ctg_type"]);
+                    form.controls["fPlace"].setValue(model["pre_id_place"]);
+                    form.controls["fCategory"].setValue(model["pre_id_category"]);
+                    form.controls["fBudget"].setValue(model["pre_budget"]);
+                }, 50);
+            }
+        }, 0);
+    };
+    PresetComponent.prototype.findById = function (item, id) {
+        return item.pre_id === id;
+    };
+    PresetComponent.prototype.movementFlowType = function (value) {
+        if (!value) {
+            return this._movementFlowType;
+        }
+        this._movementFlowType = value;
+        this.isTransfer = false;
+        this.isCustom = false;
+        switch (value) {
+            case "custom": {
+                this.isCustom = true;
+                break;
+            }
+            case "transfer": {
+                this.isTransfer = true;
+                break;
+            }
+            default: {
+            }
+        }
+    };
     PresetComponent.ctorParameters = function () { return [
-        { type: _preset_service__WEBPACK_IMPORTED_MODULE_2__["PresetService"] }
+        { type: _preset_service__WEBPACK_IMPORTED_MODULE_3__["PresetService"] },
+        { type: _account_service__WEBPACK_IMPORTED_MODULE_6__["AccountService"] },
+        { type: _category_service__WEBPACK_IMPORTED_MODULE_7__["CategoryService"] },
+        { type: _place_service__WEBPACK_IMPORTED_MODULE_8__["PlaceService"] }
     ]; };
     PresetComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: "preset",
             template: __webpack_require__(/*! raw-loader!./preset.template.html */ "./node_modules/raw-loader/index.js!./src/app/money/preset.template.html"),
-            providers: [_preset_service__WEBPACK_IMPORTED_MODULE_2__["PresetService"]]
+            providers: [_preset_service__WEBPACK_IMPORTED_MODULE_3__["PresetService"], _account_service__WEBPACK_IMPORTED_MODULE_6__["AccountService"], _category_service__WEBPACK_IMPORTED_MODULE_7__["CategoryService"], _place_service__WEBPACK_IMPORTED_MODULE_8__["PlaceService"]]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_preset_service__WEBPACK_IMPORTED_MODULE_2__["PresetService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_preset_service__WEBPACK_IMPORTED_MODULE_3__["PresetService"],
+            _account_service__WEBPACK_IMPORTED_MODULE_6__["AccountService"],
+            _category_service__WEBPACK_IMPORTED_MODULE_7__["CategoryService"],
+            _place_service__WEBPACK_IMPORTED_MODULE_8__["PlaceService"]])
     ], PresetComponent);
     return PresetComponent;
 }());
@@ -5969,24 +6353,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var PresetService = /** @class */ (function () {
-    function PresetService(storage, sync, authenticationService) {
+    function PresetService(authenticationService, sync, storage) {
         this.authenticationService = authenticationService;
+        this.sync = sync;
         this.data = [];
-        this.storage = null;
-        this.sync = null;
         this.config = {
             storageKey: "presets",
-            defaultUser: "anon",
             api: {
                 list: "/api/presets",
                 create: "/api/presets",
                 update: "/api/presets/:id"
             }
         };
-        this.storage = storage;
-        this.sync = sync;
-        // get api root
-        var options = storage.getObject("Options");
     }
     PresetService.prototype.list = function () {
         return this.data;
@@ -5999,6 +6377,9 @@ var PresetService = /** @class */ (function () {
             _this.data = data.map(function (d) { return new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](d); });
             _this.data = _this.data.sort(_this.sort);
             return _this.data;
+        })
+            .catch(function (err) {
+            return [];
         });
     };
     PresetService.prototype.sort = function (a, b) {
@@ -6016,20 +6397,18 @@ var PresetService = /** @class */ (function () {
         //this.storage.set(this.config.storageKey,JSON.stringify(this.data));
     };
     PresetService.prototype.newId = function () {
-        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashId("pre", 32);
+        return _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].hashIdForEntity(new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](), "pre_id");
     };
-    PresetService.prototype.newItem = function (preset) {
+    PresetService.prototype.newItem = function (baseItem) {
         var _this = this;
         var newId = this.newId();
-        preset.pre_id = newId;
-        preset.pre_ctg_currency = 1;
-        preset.pre_id_user = this.authenticationService.currentUserValue.username;
-        preset.pre_date_add = new Date();
-        preset.pre_date_mod = new Date();
-        var newItem = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](preset);
-        //this.data.push(newItem);
-        //this.saveToStorage();
-        this.sync
+        baseItem.pre_id = newId;
+        baseItem.pre_ctg_currency = 1;
+        baseItem.pre_id_user = this.authenticationService.currentUserValue.username;
+        baseItem.pre_date_add = new Date();
+        baseItem.pre_date_mod = new Date();
+        var newItem = new _crosscommon_entities_Preset__WEBPACK_IMPORTED_MODULE_1__["Preset"](baseItem);
+        return this.sync
             .post(this.config.api.create, newItem)
             .then(function (response) {
             if (response.processOk) {
@@ -6039,24 +6418,50 @@ var PresetService = /** @class */ (function () {
                 newItem["sync"] = false;
                 _this.data.push(newItem);
             }
+            return newItem;
         })
             .catch(function (err) {
             // Append it to the listing but flag it as non-synced yet
             newItem["sync"] = false;
             _this.data.push(newItem);
+            return newItem;
         });
-        return newItem;
+    };
+    PresetService.prototype.updateItem = function (item) {
+        var _this = this;
+        var updateLocal = function () {
+            var index = _this.data.findIndex(function (e) { return e.pre_id === item.pre_id; });
+            if (index !== -1) {
+                _this.data[index] = item;
+            }
+        };
+        return this.sync
+            .post(this.config.api.update.replace(":id", item.pre_id), _crosscommon_Utility__WEBPACK_IMPORTED_MODULE_5__["Utils"].entityToRawTableFields(item))
+            .then(function (response) {
+            if (!response.operationOk) {
+                item["sync"] = false;
+            }
+            updateLocal();
+            return item;
+        })
+            .catch(function (err) {
+            // Append it to the listing but flag it as non-synced yet
+            console.log("error on update", err);
+            item["sync"] = false;
+            updateLocal();
+            return item;
+        });
     };
     PresetService.ctorParameters = function () { return [
-        { type: _common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"] },
+        { type: _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"] },
         { type: _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"] },
-        { type: _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"] }
+        { type: _common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"] }
     ]; };
     PresetService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"],
             _common_sync_api__WEBPACK_IMPORTED_MODULE_4__["SyncAPI"],
-            _common_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"]])
+            _common_storage_service__WEBPACK_IMPORTED_MODULE_2__["StorageService"]])
     ], PresetService);
     return PresetService;
 }());

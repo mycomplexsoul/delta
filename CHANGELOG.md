@@ -18,8 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
 - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
-- [AppMoney][new] Add categories UI listing
-- [AppMoney][new] Add presets form to edit or add new presets
 - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
 - [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
 
@@ -33,6 +31,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
 
 <hr/>
+
+## v1.10.4 (2019-08-01)
+
+- [AppLinks][new] Dedicated endpoint for external access on saving links under POST `/api/external/links`
+- [AppLinks][new] Added `cors` dependency to allow cross domain requests coming from bookmarklets
+- [AppMoney][new] Integration to add/edit presets to the backend
+- [AppMoney][new] Add presets form to edit or add new presets
+- [AppTasks][new] Option to limit the number of tasks being displayed by record to the first 3
+- [AppMoney][new] Add categories UI listing
 
 ## v1.10.3 (2019-07-25)
 

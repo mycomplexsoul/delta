@@ -50,6 +50,10 @@
   background-color: #aaa;
 }
 
+.menu-area * {
+  margin: 0 5px;
+}
+
 @media all and (min-width: 505px) {
   .menu-section {
     width: 30%;

@@ -5,8 +5,8 @@ import { Title } from "@angular/platform-browser";
 // types
 import { Movement } from "../../crosscommon/entities/Movement";
 import { Account } from "../../crosscommon/entities/Account";
-import { Catalog } from "../common/catalog.type";
-import { Category } from "./category.type";
+import { Catalog } from "../../crosscommon/entities/Catalog";
+import { Category } from "../../crosscommon/entities/Category";
 import { Place } from "../../crosscommon/entities/Place";
 import { Entry } from "../../crosscommon/entities/Entry";
 import { Preset } from "../../crosscommon/entities/Preset";
@@ -559,10 +559,12 @@ export class MovementComponent implements OnInit {
   }
 
   addNewCategoryForUser(category: string) {
-    this.services.category.newItem(category).then((item: Category) => {
-      this.viewData.categories = this.services.category.list();
-      this.model.category = item.mct_id;
-    });
+    this.services.category
+      .newItem(new Category({ mct_name: category }))
+      .then((item: Category) => {
+        this.viewData.categories = this.services.category.list();
+        this.model.category = item.mct_id;
+      });
   }
 
   addNewPlaceForUser(place: string) {
@@ -647,7 +649,7 @@ export class MovementComponent implements OnInit {
           "mct_id"
         )
       ) {
-        this.services.category.newItem(values[5]);
+        this.services.category.newItem(new Category({ mct_name: values[5] }));
       }
       if (
         !this.findIn(

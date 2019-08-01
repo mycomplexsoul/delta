@@ -13,7 +13,7 @@ export class CommonComponent<T> {
   }: {
     form: NgForm;
     listing: T[];
-    onFindExpression: (item: T) => boolean;
+    onFindExpression: (item: T, newItem: T) => boolean;
     onAssignForCreate: (formValues: any) => T;
     onNewItemService: (item: T) => Promise<T>;
     onFinalExecution: (item: T) => void;
@@ -23,7 +23,7 @@ export class CommonComponent<T> {
     // new item
     const item: T = onAssignForCreate(formValues);
     onNewItemService(item).then(item => {
-      const listItem = listing.find(onFindExpression);
+      const listItem = listing.find(e => onFindExpression(e, item));
       listItem["isNew"] = true;
     });
 

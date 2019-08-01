@@ -11,6 +11,7 @@ import { TasksComponent } from "./task/tasks.component";
 import { AccountComponent } from "./money/account.component";
 import { MovementComponent } from "./money/movement.component";
 import { BalanceComponent } from "./money/balance.component";
+import { CategoryComponent } from "./money/category.component";
 import { PlaceComponent } from "./money/place.component";
 import { PresetComponent } from "./money/preset.component";
 
@@ -43,6 +44,11 @@ const appRoutes: Routes = [
   {
     path: "balance",
     component: BalanceComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "categories",
+    component: CategoryComponent,
     canActivate: [AuthGuard]
   },
   {

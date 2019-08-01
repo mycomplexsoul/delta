@@ -1,17 +1,187 @@
 <div>
   <strong>Presets</strong>
-  <button (click)="showNewPresetForm()">New Preset</button>
 
-  <div id="newPresetFormSection" hidden>
-    <form name="presetForm">
-      <label for="presetName">Preset Name</label>
-      <input type="text" name="presetName" />
-    </form>
-  </div>
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    <div id="newItemFormSection" *ngIf="viewData.showItemForm">
+      <span class="field" *ngIf="model.id">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small">{{
+          model.id
+        }}</span>
+      </span>
+
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
+      <input
+        type="radio"
+        name="fMovementFlowType"
+        id="fMovementFlowTypeCustom"
+        [(ngModel)]="_movementFlowType"
+        (click)="movementFlowType('custom')"
+        value="custom"
+      />
+      <label for="fMovementFlowTypeCustom">Custom</label>
+      <input
+        type="radio"
+        name="fMovementFlowType"
+        id="fMovementFlowTypeTransfer"
+        [(ngModel)]="_movementFlowType"
+        (click)="movementFlowType('transfer')"
+        value="transfer"
+      />
+      <label for="fMovementFlowTypeTransfer">Transfer</label>
+
+      <span class="field">
+        <label for="fDescription" class="label-left">Description</label>
+        <input
+          type="text"
+          name="fDescription"
+          id="fDescription"
+          class="field-input movement-input-description"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fAmount" class="label-left">Amount</label>
+        <input
+          type="number"
+          name="fAmount"
+          id="fAmount"
+          class="field-input"
+          step="0.01"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fAccount" class="label-left">Account</label>
+        <select name="fAccount" id="fAccount" class="field-select" ngModel>
+          <option
+            *ngFor="let opt of viewData.accountList"
+            value="{{ opt.acc_id }}"
+            >{{ opt.acc_name }}</option
+          >
+        </select>
+      </span>
+      <span class="field" *ngIf="isTransfer">
+        <label for="fAccountTo" class="label-left">Account To</label>
+        <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
+          <option
+            *ngFor="let opt of viewData.accountList"
+            value="{{ opt.acc_id }}"
+            >{{ opt.acc_name }}</option
+          >
+        </select>
+      </span>
+      <span class="field" *ngIf="!isTransfer">
+        <input
+          type="radio"
+          [value]="1"
+          name="fMovementType"
+          id="fMovementType_1"
+          [(ngModel)]="model.type"
+        />
+        <label for="fMovementType_1" class="label-radio">Expense</label>
+
+        <input
+          type="radio"
+          [value]="2"
+          name="fMovementType"
+          id="fMovementType_2"
+          [(ngModel)]="model.type"
+        />
+        <label for="fMovementType_2" class="label-radio">Income</label>
+      </span>
+      <span class="field">
+        <label for="fDate" class="label-left">Movement Date</label>
+        <input type="date" name="fDate" [(ngModel)]="model.date" />
+      </span>
+      <span class="field" *ngIf="!isTransfer">
+        <label for="fPlace" class="label-left">Place</label>
+        <select
+          name="fPlace"
+          id="fPlace"
+          class="field-select"
+          [(ngModel)]="model.place"
+        >
+          <option
+            *ngFor="let opt of viewData.placeList"
+            [value]="opt.mpl_id"
+            [selected]="opt.mpl_id === itemForm.value.fPlace"
+            >{{ opt.mpl_name }}</option
+          >
+        </select>
+        <combo-item
+          [name]="place"
+          [addNewItem]="addNewPlaceForUser"
+        ></combo-item>
+      </span>
+      <span class="field" *ngIf="!isTransfer">
+        <label for="fCategory" class="label-left">Category</label>
+        <select
+          name="fCategory"
+          id="fCategory"
+          class="field-select"
+          [(ngModel)]="model.category"
+        >
+          <option
+            *ngFor="let opt of viewData.categoryList"
+            [value]="opt.mct_id"
+            [selected]="opt.mct_id === itemForm.value.fCategory"
+            >{{ opt.mct_name }}</option
+          >
+        </select>
+        <combo-item
+          [name]="category"
+          [addNewItem]="addNewCategoryForUser"
+        ></combo-item>
+      </span>
+      <span class="field" *ngIf="!isTransfer">
+        <label for="fBudget" class="field-input label-left">Budget</label>
+        <input
+          type="text"
+          name="fBudget"
+          id="fBudget"
+          class="field-input movement-input-budget"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fNotes" class="label-left">Notes</label>
+        <input
+          type="text"
+          name="fNotes"
+          id="fNotes"
+          class="field-input movement-input-notes"
+          ngModel
+        />
+      </span>
+
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+  </form>
 
   <div class="card-list">
-    <div *ngFor="let item of viewData.presetList" class="card-item-container">
-      <span class="preset-name">{{ item.mpl_name }}</span>
+    <div
+      *ngFor="let item of viewData.presetList"
+      class="card-item-container"
+      (click)="setModelDetails(item.pre_id, itemForm)"
+    >
+      <span class="preset-name">{{ item.pre_name }}</span>
       <br />
       <span
         [ngClass]="{

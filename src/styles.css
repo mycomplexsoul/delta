@@ -513,6 +513,10 @@ link {
   display: block;
 }
 
+.hidden {
+  display: none;
+}
+
 /* @​media (prefers-color-scheme: dark) {
 
 }*/

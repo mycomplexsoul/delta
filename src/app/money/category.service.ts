@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
 import { AuthenticationService } from "../common/authentication.service";
+import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Injectable()
 export class CategoryService {
@@ -14,14 +15,15 @@ export class CategoryService {
     storageKey: "categories",
     api: {
       list: "/api/categories",
-      create: "/api/categories"
+      create: "/api/categories",
+      update: "/api/categories/:id"
     }
   };
 
   constructor(
+    private authenticationService: AuthenticationService,
     storage: StorageService,
-    sync: SyncAPI,
-    private authenticationService: AuthenticationService
+    sync: SyncAPI
   ) {
     this.storage = storage;
     this.sync = sync;
@@ -32,12 +34,6 @@ export class CategoryService {
   }
 
   async getAll() {
-    /*let fromStorage = this.storage.get(this.config.storageKey);
-        if (fromStorage){
-            this.data = JSON.parse(fromStorage);
-        } else {
-            this.data = this.initialData();
-        }*/
     const sort = (a: Category, b: Category) => {
       return a.mct_name > b.mct_name ? 1 : -1;
     };
@@ -57,25 +53,17 @@ export class CategoryService {
     this.storage.set(this.config.storageKey, JSON.stringify(this.data));
   }
 
-  newId() {
-    const m: Category = new Category();
-    const length: number = m.metadata.fields.find(f => f.dbName === "mct_id")
-      .size;
-    return Utils.hashId(m.metadata.prefix, length);
-  }
-
-  newItem(category: string): Promise<Category> {
-    let newId: string = this.newId();
+  newItem(baseItem: Category): Promise<Category> {
+    let newId: string = Utils.hashIdForEntity(new Category(), "mct_id");
     let newItem = new Category({
       mct_id: newId,
-      mct_name: category,
+      mct_name: baseItem.mct_name,
       mct_id_user: this.authenticationService.currentUserValue.username,
-      mct_date_add: new Date(),
-      mct_date_mod: new Date(),
+      mct_date_add: DateUtils.newDateUpToSeconds(),
+      mct_date_mod: DateUtils.newDateUpToSeconds(),
       mct_ctg_status: 1
     });
-    //this.data.push(newItem);
-    //this.saveToStorage();
+
     return this.sync
       .post(this.config.api.create, newItem)
       .then(response => {
@@ -92,6 +80,35 @@ export class CategoryService {
         newItem["sync"] = false;
         this.data.push(newItem);
         return newItem;
+      });
+  }
+
+  updateItem(item: Category): Promise<Category> {
+    const updateLocal = () => {
+      const index = this.data.findIndex(e => e.mct_id === item.mct_id);
+      if (index !== -1) {
+        this.data[index] = item;
+      }
+    };
+
+    return this.sync
+      .post(
+        this.config.api.update.replace(":id", item.mct_id),
+        Utils.entityToRawTableFields(item)
+      )
+      .then(response => {
+        if (!response.operationOk) {
+          item["sync"] = false;
+        }
+        updateLocal();
+        return item;
+      })
+      .catch(err => {
+        // Append it to the listing but flag it as non-synced yet
+        console.log("error on update", err);
+        item["sync"] = false;
+        updateLocal();
+        return item;
       });
   }
 }

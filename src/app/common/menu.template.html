@@ -6,6 +6,9 @@
       </button>
     </div>
     <div class="menu-area">
+      <span class="menu-clock">
+        {{ viewData.currentTime | date: "HH:mm:ss" }}
+      </span>
       <drink-water></drink-water>
       <sync></sync>
     </div>
@@ -59,6 +62,14 @@
         <li>
           <a
             (click)="viewData.isOpen = false"
+            routerLink="categories"
+            href="/categories"
+            >Categories</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="viewData.isOpen = false"
             routerLink="places"
             href="/places"
             >Places</a
@@ -73,6 +84,11 @@
           >
         </li>
         <li>
+          <a (click)="viewData.isOpen = false" routerLink="links" href="/links"
+            >Links</a
+          >
+        </li>
+        <li>
           <span>{{ viewData.username }}</span>
         </li>
         <li>
@@ -80,9 +96,6 @@
         </li>
         <li>
           <span>v{{ metadata.appVersion }}</span>
-        </li>
-        <li>
-          <span> {{ viewData.currentTime | date: "HH:mm:ss" }} </span>
         </li>
       </ul>
     </div>

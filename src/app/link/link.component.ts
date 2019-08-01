@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Link } from "../../crosscommon/entities/Link";
 import { LinkService } from "./link.service";
 import { NgForm } from "@angular/forms";
@@ -19,11 +19,7 @@ export class LinkComponent implements OnInit {
     linkList: [],
     showItemForm: false
   };
-  private services: {
-    linkService: LinkService;
-  } = {
-    linkService: null
-  };
+
   public model: {
     id: string;
   } = {
@@ -68,7 +64,8 @@ export class LinkComponent implements OnInit {
       this.common.newItem({
         form,
         listing: this.viewData.linkList,
-        onFindExpression: item => this.findById(item, this.model.id),
+        onFindExpression: (item, newItem) =>
+          this.findById(item, newItem.lnk_id),
         onAssignForCreate: formValues => {
           const newItem = new Link({
             lnk_url: formValues.fUrl,

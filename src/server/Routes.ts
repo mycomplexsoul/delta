@@ -44,7 +44,10 @@ const entitiesWithAuth = [
   { url: "/multimedia", handler: MultimediaRoute.router },
   { url: "/multimediadet", handler: MultimediaDetRoute.router },
   { url: "/multimediaview", handler: MultimediaViewRoute.router },
-  { url: "/links", handler: LinkRoute.router },
+  {
+    url: "/links",
+    handler: LinkRoute.router
+  },
 
   { url: "/sync", handler: SyncRoute.router }
 ];
@@ -82,6 +85,7 @@ entitiesWithAuth.forEach(({ url, handler }) => {
 
 // Routing for other pages
 router.use("/login", LoginRoute.router);
+router.use("/external/links", LinkRoute.nonprivate);
 
 // Routing for internals
 router.use("/type-generator", TypeGenerator.router);

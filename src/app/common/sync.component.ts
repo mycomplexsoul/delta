@@ -10,9 +10,11 @@ export class SyncComponent implements OnInit {
   public viewData: {
     queue: SyncQueue[];
     message: string;
+    showCheckIcon: boolean;
   } = {
     queue: [],
-    message: null
+    message: null,
+    showCheckIcon: false
   };
 
   constructor(private syncService: SyncAPI) {}
@@ -29,32 +31,35 @@ export class SyncComponent implements OnInit {
   }
 
   parseStatusToMessage(queue: SyncQueue[]) {
-    let message = null;
     const filterWithStatus = (st: string) =>
       queue.filter(({ status }) => status === st);
 
     if (!queue.length) {
-      this.viewData.message = message;
+      this.viewData.message = "All items synced";
+      this.viewData.showCheckIcon = true;
+      setTimeout(() => {
+        this.viewData.message = null;
+        this.viewData.showCheckIcon = false;
+      }, 3000);
       return;
-    }
-
-    if (queue.every(({ status }) => status === "processed")) {
-      message = `${queue.length} items, all synced`;
     }
 
     const syncingList = filterWithStatus("syncing");
 
     if (syncingList.length) {
-      message = `Syncing ${syncingList.length} items...`;
+      this.viewData.message = `Syncing ${syncingList.length} ${
+        syncingList.length === 1 ? `item` : `items`
+      }...`;
+      return;
     }
 
     const queueList = filterWithStatus("queue");
     const errorList = filterWithStatus("error");
 
     if (queueList.length || errorList.length) {
-      message = `${queueList.length} pending, ${errorList.length} with error`;
+      this.viewData.message = `${queueList.length} pending, ${
+        errorList.length
+      } with error`;
     }
-
-    this.viewData.message = message;
   }
 }

@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as express from "express";
 import * as Routes from "./Routes";
+import * as cors from "cors";
 import { existsSync } from "fs";
 
 const app = express();
@@ -39,6 +40,8 @@ app.get("/metadata", (req, res) => {
     })
   );
 });
+
+app.options("/api/external/links", cors());
 
 app.use("/api", Routes.router);
 

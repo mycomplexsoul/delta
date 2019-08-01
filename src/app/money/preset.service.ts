@@ -8,11 +8,8 @@ import { AuthenticationService } from "../common/authentication.service";
 @Injectable()
 export class PresetService {
   private data: Array<Preset> = [];
-  private storage: StorageService = null;
-  private sync: SyncAPI = null;
   private config = {
     storageKey: "presets",
-    defaultUser: "anon",
     api: {
       list: "/api/presets",
       create: "/api/presets",
@@ -21,15 +18,10 @@ export class PresetService {
   };
 
   constructor(
-    storage: StorageService,
-    sync: SyncAPI,
-    private authenticationService: AuthenticationService
-  ) {
-    this.storage = storage;
-    this.sync = sync;
-    // get api root
-    const options = storage.getObject("Options");
-  }
+    private authenticationService: AuthenticationService,
+    private sync: SyncAPI,
+    storage: StorageService
+  ) {}
 
   list(): Array<Preset> {
     return this.data;
@@ -42,6 +34,9 @@ export class PresetService {
         this.data = data.map((d: any): Preset => new Preset(d));
         this.data = this.data.sort(this.sort);
         return this.data;
+      })
+      .catch(err => {
+        return [];
       });
   }
 
@@ -60,20 +55,19 @@ export class PresetService {
   }
 
   newId() {
-    return Utils.hashId("pre", 32);
+    return Utils.hashIdForEntity(new Preset(), "pre_id");
   }
 
-  newItem(preset: Preset): Preset {
+  newItem(baseItem: Preset): Promise<Preset> {
     const newId: string = this.newId();
-    preset.pre_id = newId;
-    preset.pre_ctg_currency = 1;
-    preset.pre_id_user = this.authenticationService.currentUserValue.username;
-    preset.pre_date_add = new Date();
-    preset.pre_date_mod = new Date();
-    const newItem = new Preset(preset);
-    //this.data.push(newItem);
-    //this.saveToStorage();
-    this.sync
+    baseItem.pre_id = newId;
+    baseItem.pre_ctg_currency = 1;
+    baseItem.pre_id_user = this.authenticationService.currentUserValue.username;
+    baseItem.pre_date_add = new Date();
+    baseItem.pre_date_mod = new Date();
+    const newItem = new Preset(baseItem);
+
+    return this.sync
       .post(this.config.api.create, newItem)
       .then(response => {
         if (response.processOk) {
@@ -82,13 +76,42 @@ export class PresetService {
           newItem["sync"] = false;
           this.data.push(newItem);
         }
+        return newItem;
       })
       .catch(err => {
         // Append it to the listing but flag it as non-synced yet
         newItem["sync"] = false;
         this.data.push(newItem);
+        return newItem;
       });
+  }
 
-    return newItem;
+  updateItem(item: Preset): Promise<Preset> {
+    const updateLocal = () => {
+      const index = this.data.findIndex(e => e.pre_id === item.pre_id);
+      if (index !== -1) {
+        this.data[index] = item;
+      }
+    };
+
+    return this.sync
+      .post(
+        this.config.api.update.replace(":id", item.pre_id),
+        Utils.entityToRawTableFields(item)
+      )
+      .then(response => {
+        if (!response.operationOk) {
+          item["sync"] = false;
+        }
+        updateLocal();
+        return item;
+      })
+      .catch(err => {
+        // Append it to the listing but flag it as non-synced yet
+        console.log("error on update", err);
+        item["sync"] = false;
+        updateLocal();
+        return item;
+      });
   }
 }
