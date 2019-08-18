@@ -301,7 +301,7 @@
           id="{{ t.tsk_id }}"
           (click)="taskCheckboxHandler(t, $event)"
         />
-        <span class="mobile-only">
+        <span class="task-toolbar hidden" [id]="'toolbar-' + t.tsk_id">
           <span
             class="play-button clickable"
             *ngIf="t.tsk_ctg_in_process === 1"
@@ -313,6 +313,11 @@
             *ngIf="t.tsk_ctg_in_process === 2"
             (click)="toggleTimeTracking(t, $event)"
             >&#9724;</span
+          >
+          <span
+            class="adjust-timetracking-button clickable"
+            (click)="adjustTimeTracking(t)"
+            >&#8676;</span
           >
         </span>
         <span
@@ -381,8 +386,8 @@
             'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
             'task-call': t.tsk_qualifiers.indexOf('call') !== -1
           }"
-          (blur)="commandOnTask(t, $event)"
-          (focus)="setFocus(t, $event)"
+          (blur)="commandOnTask(t, $event); toggleTaskToolbar(t.tsk_id, false)"
+          (focus)="setFocus(t, $event); toggleTaskToolbar(t.tsk_id, true)"
           (keydown)="taskKeyDown($event)"
           tabindex="0"
           class="editable task-text"

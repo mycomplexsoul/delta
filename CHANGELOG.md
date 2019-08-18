@@ -22,15 +22,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMoney][new] Movement page, optimize data consumption for slow networks, fetch dinamically as needed
 
 - [AppTasks][new] Dark theme
-- [AppTasks][new] Add button (to mobile only) to adjust time tracking to estimated (as Alt + t shortcut does)
 
 - [AppLastTime][new] Reuse CSS styles and generic grid listing components
 - [AppLastTime][new] Edit history items
 
 - [AppMultimedia][new] View episode details in a form, to be able to edit them
-- [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
 
 <hr/>
+
+## v1.10.5 (2019-08-08)
+
+- [AppTasks][new] Add button to task toolbar to adjust time tracking to estimated (as Alt + t shortcut does)
+- [AppLastTime][mod] When editing value, if item contains tag `edit-notes`, ask for changes in notes, otherwise don't ask
+- [AppCommon][fix] Fixed coverage report which was reporting 0% coverage
+- [AppMoney][fix] Fixed email movements per account for mandatory token requirement, added an external route to access on `/api/external/movement/...`
+- [AppMultimedia][new] Migrate user data to proper username and consume user authentication service
 
 ## v1.10.4 (2019-08-01)
 

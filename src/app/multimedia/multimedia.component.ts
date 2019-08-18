@@ -1,17 +1,16 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 // types
 import { Multimedia } from "../../crosscommon/entities/Multimedia";
+import { MultimediaView } from "../../crosscommon/entities/MultimediaView";
+import { MultimediaDet } from "../../crosscommon/entities/MultimediaDet";
 
 // services
 import { MultimediaService } from "./multimedia.service";
 import { MultimediaDetService } from "./multimediadet.service";
 import { MultimediaViewService } from "./multimediaview.service";
-import { LoginService } from "../common/login.service";
 import { SyncAPI } from "../common/sync.api";
 import { Catalog } from "../../crosscommon/entities/Catalog";
-import { MultimediaView } from "../../crosscommon/entities/MultimediaView";
-import { MultimediaDet } from "../../crosscommon/entities/MultimediaDet";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { SyncQueue } from "../common/SyncQueue";
 
@@ -23,11 +22,10 @@ import { SyncQueue } from "../common/SyncQueue";
     MultimediaService,
     MultimediaDetService,
     MultimediaViewService,
-    LoginService,
     SyncAPI
   ]
 })
-export class MultimediaComponent implements OnInit {
+export class MultimediaComponent {
   public viewData: {
     multimediaList: Multimedia[];
     multimediaDetList: MultimediaDet[];
@@ -51,19 +49,7 @@ export class MultimediaComponent implements OnInit {
     detListTitle: null,
     multimediaDetListWithGroups: []
   };
-  public services: {
-    multimediaService: MultimediaService;
-    multimediaDetService: MultimediaDetService;
-    multimediaViewService: MultimediaViewService;
-    loginService: LoginService;
-    syncService: SyncAPI;
-  } = {
-    multimediaService: null,
-    multimediaDetService: null,
-    multimediaViewService: null,
-    loginService: null,
-    syncService: null
-  };
+
   public model: {
     id: string;
     fMediaType: number;
@@ -122,29 +108,16 @@ export class MultimediaComponent implements OnInit {
   };
 
   constructor(
-    multimediaService: MultimediaService,
-    multimediaDetService: MultimediaDetService,
-    multimediaViewService: MultimediaViewService,
-    loginService: LoginService,
-    syncService: SyncAPI
+    private multimediaService: MultimediaService,
+    private multimediaDetService: MultimediaDetService,
+    private multimediaViewService: MultimediaViewService,
+    private syncService: SyncAPI
   ) {
-    this.services.multimediaService = multimediaService;
-    this.services.multimediaDetService = multimediaDetService;
-    this.services.multimediaViewService = multimediaViewService;
-    this.services.loginService = loginService;
-    this.services.syncService = syncService;
-
-    this.services.multimediaService
-      .getAllForUser(this.services.loginService.getUsername() || "anon")
-      .then(data => {
-        this.viewData.multimediaList = this.calculateAge(data);
-      });
-    const det = this.services.multimediaDetService.getAllForUser(
-      this.services.loginService.getUsername() || "anon"
-    );
-    const view = this.services.multimediaViewService.getAllForUser(
-      this.services.loginService.getUsername() || "anon"
-    );
+    this.multimediaService.getAll().then(data => {
+      this.viewData.multimediaList = this.calculateAge(data);
+    });
+    const det = this.multimediaDetService.getAll();
+    const view = this.multimediaViewService.getAll();
 
     Promise.all([det, view]).then(values => {
       this.viewData.multimediaViewList = values[1];
@@ -160,7 +133,7 @@ export class MultimediaComponent implements OnInit {
         }
       ]
     });
-    this.services.syncService
+    this.syncService
       .get(`/api/sync?entity=Catalog&q=${mediaTypes}`)
       .then(data => {
         this.viewData.mediaTypeList = data.list;
@@ -176,17 +149,11 @@ export class MultimediaComponent implements OnInit {
         }
       ]
     });
-    this.services.syncService
+    this.syncService
       .get(`/api/sync?entity=Catalog&q=${platformQuery}`)
       .then(data => {
         this.viewData.platformList = data.list;
       });
-  }
-
-  ngOnInit() {
-    if (!this.services.loginService.isLoggedIn()) {
-      console.log("User is not logged in");
-    }
   }
 
   handleNewItem() {
@@ -196,15 +163,14 @@ export class MultimediaComponent implements OnInit {
   newItem(form: NgForm) {
     let values = form.value;
 
-    const item: Multimedia = this.services.multimediaService.newItem(
+    const item: Multimedia = this.multimediaService.newItem(
       values.fTitle,
       values.fMediaType,
       values.fSeason,
       values.fYear,
       values.fCurrentEp,
       values.fTotalEp || 0,
-      values.fUrl,
-      this.services.loginService.getUsername() || "anon"
+      values.fUrl
     );
 
     this.viewData.multimediaList.push(item);
@@ -220,11 +186,6 @@ export class MultimediaComponent implements OnInit {
     this.model.fSeason = 1;
     this.model.fYear = new Date().getFullYear();
     this.model.fCurrentEp = "1";
-
-    /*form.controls["fMediaType"].setValue(this.model.fMediaType);
-    form.controls["fSeason"].setValue(this.model.fSeason);
-    form.controls["fYear"].setValue(this.model.fYear);
-    form.controls["fCurrentEp"].setValue(this.model.fCurrentEp);*/
   }
 
   showNewEpForm(item: Multimedia) {
@@ -242,7 +203,7 @@ export class MultimediaComponent implements OnInit {
     this.epModel.mediaUrl = item.mma_url;
 
     // see if we have data for this ep in order to populate form
-    const detFound = this.services.multimediaDetService
+    const detFound = this.multimediaDetService
       .list()
       .find(
         e => e.mmd_id === item.mma_id && e.mmd_id_ep === item.mma_current_ep
@@ -254,7 +215,7 @@ export class MultimediaComponent implements OnInit {
       this.epModel.fUrl = detFound.mmd_url;
     }
 
-    const viewFound = this.services.multimediaViewService
+    const viewFound = this.multimediaViewService
       .list()
       .find(
         e => e.mmv_id === item.mma_id && e.mmv_id_ep === item.mma_current_ep
@@ -275,7 +236,7 @@ export class MultimediaComponent implements OnInit {
 
     // if year is not set, try to peek into previous ep and use that
     if (this.epModel.fYear === 0) {
-      const previousEpisodes = this.services.multimediaDetService
+      const previousEpisodes = this.multimediaDetService
         .list()
         .filter(e => e.mmd_id === item.mma_id)
         .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
@@ -293,7 +254,7 @@ export class MultimediaComponent implements OnInit {
     // if next ep is beyond last ep, set it as the last ep
     const numericNextEpId: number = Number.parseFloat(this.epModel.fNextEpId);
     const numericLastEpId: number = Number.parseFloat(
-      this.services.multimediaService.list().find(e => e.mma_id === item.mma_id)
+      this.multimediaService.list().find(e => e.mma_id === item.mma_id)
         .mma_total_ep
     );
     if (numericLastEpId !== 0 && numericNextEpId > numericLastEpId) {
@@ -314,7 +275,7 @@ export class MultimediaComponent implements OnInit {
     const queue: SyncQueue[] = [];
 
     // Peek if this Det item is already created
-    const detList = this.services.multimediaDetService.list();
+    const detList = this.multimediaDetService.list();
     const existingDetItem = detList.find(
       e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
     );
@@ -322,15 +283,13 @@ export class MultimediaComponent implements OnInit {
     if (existingDetItem) {
       // Update
       // Create Det Item / push to update as sync queue
-      const item: MultimediaDet = this.services.multimediaDetService.newItem(
+      const item: MultimediaDet = this.multimediaDetService.newItem(
         this.epModel.id,
         this.epModel.epId,
         values.fEpTitle,
         values.fAltEpTitle,
         values.fYear,
-        values.fUrl,
-        this.services.loginService.getUsername() || "anon",
-        DateUtils.newDateUpToSeconds()
+        values.fUrl
       );
 
       // Update viewData
@@ -340,19 +299,16 @@ export class MultimediaComponent implements OnInit {
         )
       ] = item;
       // Add it to sync queue for update
-      queue.push(this.services.multimediaDetService.asUpdateSyncQueue(item));
+      queue.push(this.multimediaDetService.asUpdateSyncQueue(item));
     } else {
       // Create Det item
-      const item: MultimediaDet = this.services.multimediaDetService.newItem(
+      const item: MultimediaDet = this.multimediaDetService.newItem(
         this.epModel.id,
         this.epModel.epId,
         values.fEpTitle,
         values.fAltEpTitle,
         values.fYear,
-        values.fUrl,
-        this.services.loginService.getUsername() || "anon",
-        DateUtils.newDateUpToSeconds(),
-        DateUtils.newDateUpToSeconds()
+        values.fUrl
       );
 
       item.mmd_txt_title = this.epModel.fTitle;
@@ -360,12 +316,12 @@ export class MultimediaComponent implements OnInit {
       this.viewData.multimediaDetList = this.viewData.multimediaDetList.sort(
         this.sortMultimediaDet
       );
-      queue.push(this.services.multimediaDetService.asSyncQueue(item));
+      queue.push(this.multimediaDetService.asSyncQueue(item));
     }
 
     if (values.fIsViewed) {
       // Create View item
-      const item2: MultimediaView = this.services.multimediaViewService.newItem(
+      const item2: MultimediaView = this.multimediaViewService.newItem(
         this.epModel.id,
         this.epModel.epId,
         values.fSummary,
@@ -374,12 +330,11 @@ export class MultimediaComponent implements OnInit {
           : new Date(`${values.fDateViewed} ${values.fTimeViewed}`),
         values.fRating,
         values.fPlatform,
-        values.fNotes,
-        this.services.loginService.getUsername() || "anon"
+        values.fNotes
       );
 
       this.viewData.multimediaViewList.push(item2);
-      queue.push(this.services.multimediaViewService.asSyncQueue(item2));
+      queue.push(this.multimediaViewService.asSyncQueue(item2));
 
       // Updates Media item
       const media = this.viewData.multimediaList.find(
@@ -397,10 +352,10 @@ export class MultimediaComponent implements OnInit {
       ).sort((a: Multimedia, b: Multimedia) => {
         return a.mma_date_mod.getTime() > b.mma_date_mod.getTime() ? 1 : -1;
       });
-      queue.push(this.services.multimediaService.asUpdateSyncQueue(media));
+      queue.push(this.multimediaService.asUpdateSyncQueue(media));
     }
 
-    this.services.syncService.multipleRequest(queue);
+    this.syncService.multipleRequest(queue);
     this.resetEpForm(form);
     this.viewData.showCreateEpForm = false;
     this.renderDetListing(this.viewData.multimediaDetList, null);
@@ -482,7 +437,7 @@ export class MultimediaComponent implements OnInit {
   }
 
   showDetListing(id: string) {
-    this.services.multimediaDetService.getAllForUser("anon").then(data => {
+    this.multimediaDetService.getAll().then(data => {
       this.renderDetListing(data, id);
     });
   }
@@ -527,7 +482,7 @@ export class MultimediaComponent implements OnInit {
     this.epModel.fPlatform = 0;
     this.epModel.fNotes = null;
     this.epModel.fNextEpId = null;
-    
+
     form.resetForm();
     this.epModel._DateViewedType = "current";
   }

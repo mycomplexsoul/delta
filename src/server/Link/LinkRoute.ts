@@ -3,7 +3,6 @@ import { iNode } from "../iNode";
 import { LinkServer } from "./LinkServer";
 
 const router = express.Router();
-const nonprivate = express.Router();
 
 router.get("/", (req, res) => {
   let server: LinkServer = new LinkServer();
@@ -32,13 +31,4 @@ router.post("/:lnk_id", (req, res) => {
   server.updateRequestHandler(node);
 });
 
-nonprivate.post("/", (req, res) => {
-  let server: LinkServer = new LinkServer();
-  let node: iNode = {
-    request: req,
-    response: res
-  };
-  server.externalCreateRequestHandler(node);
-});
-
-export { router, nonprivate };
+export { router };

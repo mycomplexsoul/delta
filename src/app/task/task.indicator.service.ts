@@ -212,7 +212,8 @@ export class TaskIndicator {
     this.tasks
       .filter(
         (t: Task) =>
-          t.tsk_ctg_status === TaskStatus.OPEN &&
+          (t.tsk_ctg_status === TaskStatus.OPEN ||
+            new Date(t.tsk_date_done).getTime() > finalDate.getTime()) &&
           new Date(t.tsk_date_add).getTime() <= finalDate.getTime()
       )
       .forEach((t: Task) => {

@@ -2,29 +2,22 @@ import { MultimediaDet } from "../../crosscommon/entities/MultimediaDet";
 import { Injectable } from "@angular/core";
 import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
-import { LoginService } from "../common/login.service";
+import { AuthenticationService } from "../common/authentication.service";
+import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Injectable()
 export class MultimediaDetService {
   private data: Array<MultimediaDet> = [];
-  private sync: SyncAPI = null;
-  private loginService: LoginService = null;
   private config = {
     api: {
       list: "/api/multimediadet"
     }
   };
 
-  constructor(sync: SyncAPI, loginService: LoginService) {
-    this.sync = sync;
-    this.loginService = loginService;
-  }
-
-  ngOnInit() {
-    if (!this.loginService.isLoggedIn()) {
-      console.log("User is not logged in");
-    }
-  }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private sync: SyncAPI
+  ) {}
 
   list(): Array<MultimediaDet> {
     return this.data;
@@ -38,11 +31,6 @@ export class MultimediaDetService {
           f: "mmd_ctg_status",
           op: "eq",
           val: 1
-        },
-        {
-          f: "mmd_id_user",
-          op: "eq",
-          val: this.loginService.getUsername() || "anon"
         }
       ]
     };
@@ -63,22 +51,13 @@ export class MultimediaDetService {
       });
   }
 
-  async getAllForUser(user: string) {
-    return this.getAll().then((all: MultimediaDet[]) => {
-      return all.filter((x: MultimediaDet) => x.mmd_id_user === user);
-    });
-  }
-
   newItem(
     id: string,
     epId: string,
     title: string,
     altTitle: string,
     year: number,
-    url: string,
-    user: string,
-    dateMod: Date,
-    dateAdd: Date = undefined
+    url: string
   ): MultimediaDet {
     let newItem = new MultimediaDet({
       mmd_id: id,
@@ -87,9 +66,9 @@ export class MultimediaDetService {
       mmd_ep_alt_title: altTitle,
       mmd_year: year,
       mmd_url: url,
-      mmd_id_user: user,
-      mmd_date_add: dateAdd,
-      mmd_date_mod: dateMod,
+      mmd_id_user: this.authenticationService.currentUserValue.username,
+      mmd_date_add: DateUtils.newDateUpToSeconds(),
+      mmd_date_mod: DateUtils.newDateUpToSeconds(),
       mmd_ctg_status: 1
     });
 

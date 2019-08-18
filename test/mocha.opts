@@ -4,4 +4,3 @@
 --full-trace
 --bail
 src/server/**/*.test.ts
---exit

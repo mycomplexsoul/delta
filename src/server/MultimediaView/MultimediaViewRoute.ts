@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     request: req,
     response: res
   };
-  server.list(node);
+  server.listRequestHandler(node);
 });
 
 router.post("/", (req, res) => {
@@ -19,7 +19,7 @@ router.post("/", (req, res) => {
     request: req,
     response: res
   };
-  server.create(node);
+  server.createRequestHandler(node);
 });
 
 export { router };

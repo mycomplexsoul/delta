@@ -6,6 +6,7 @@ import { secretForToken } from "./SecretForToken";
 import * as CategoryRoute from "./Category/CategoryRoute";
 import * as BalanceRoute from "./Balance/BalanceRoute";
 import * as MovementRoute from "./Movement/MovementRoute";
+import * as MovementRouteExternal from "./Movement/MovementRouteExternal";
 import * as EntryRoute from "./Entry/EntryRoute";
 import * as AccountRoute from "./Account/AccountRoute";
 import * as PlaceRoute from "./Place/PlaceRoute";
@@ -17,6 +18,7 @@ import * as MultimediaRoute from "./Multimedia/MultimediaRoute";
 import * as MultimediaDetRoute from "./MultimediaDet/MultimediaDetRoute";
 import * as MultimediaViewRoute from "./MultimediaView/MultimediaViewRoute";
 import * as LinkRoute from "./Link/LinkRoute";
+import * as LinkRouteExternal from "./Link/LinkRouteExternal";
 import * as SyncRoute from "./Sync/SyncRoute";
 
 // Other pages
@@ -44,10 +46,7 @@ const entitiesWithAuth = [
   { url: "/multimedia", handler: MultimediaRoute.router },
   { url: "/multimediadet", handler: MultimediaDetRoute.router },
   { url: "/multimediaview", handler: MultimediaViewRoute.router },
-  {
-    url: "/links",
-    handler: LinkRoute.router
-  },
+  { url: "/links", handler: LinkRoute.router },
 
   { url: "/sync", handler: SyncRoute.router }
 ];
@@ -85,7 +84,8 @@ entitiesWithAuth.forEach(({ url, handler }) => {
 
 // Routing for other pages
 router.use("/login", LoginRoute.router);
-router.use("/external/links", LinkRoute.nonprivate);
+router.use("/external/links", LinkRouteExternal.router);
+router.use("/external/movement", MovementRouteExternal.router);
 
 // Routing for internals
 router.use("/type-generator", TypeGenerator.router);

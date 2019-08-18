@@ -174,7 +174,7 @@ export class LastTimeComponent implements OnInit {
       item.lst_date_mod = DateUtils.newDateUpToSeconds();
       item["isEdited"] = true;
 
-      if (item.lst_notes) {
+      if (item.lst_notes && item.lst_tags.indexOf("edit-notes") !== -1) {
         const newNotes: string = prompt("Notes for this item", item.lst_notes);
 
         if (item.lst_notes !== newNotes) {

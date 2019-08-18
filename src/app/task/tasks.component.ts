@@ -489,59 +489,7 @@ export class TasksComponent implements OnInit {
     }
     if (event.altKey && event.keyCode == 84) {
       // detect 't'
-      let tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(new Date())
-      );
-      if (!tt) {
-        // no task today, try yesterday
-        tt = this.lastTTEntryFromDay(
-          this.services.dateUtils.dateOnly(
-            this.services.dateUtils.addDays(new Date(), -1)
-          )
-        );
-      }
-      const calcRandomFinish = estimated =>
-        (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
-      if (tt && t["tsk_time_history"].length) {
-        // task with history
-        t["tsk_time_history"][
-          t["tsk_time_history"].length - 1
-        ].tsh_date_start = tt;
-        if (t.tsk_ctg_in_process == 1) {
-          // task 'in progress'
-          const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
-          t["tsk_time_history"][
-            t["tsk_time_history"].length - 1
-          ].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
-          t["tsk_time_history"][
-            t["tsk_time_history"].length - 1
-          ].tsh_time_spent = randomFinish;
-          let total: number = 0;
-          t["tsk_time_history"].forEach((tth: any) => {
-            total += tth.tsh_time_spent;
-          });
-          this.services.tasksCore.updateTask(t, {
-            tsk_total_time_spent: total
-          });
-          t.tsk_total_time_spent = total;
-        }
-        //this.updateTaskTimeTracking(t.tsk_id,t.tsk_time_history.length,data);
-        this.services.tasksCore.tasksToStorage(); // TODO: move this sentence to tasksCore
-        // TODO: update time tracking history on server
-        this.updateState();
-      } else {
-        // task with no history, implies also is not 'in progress'
-        const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
-        this.services.tasksCore.addTimeTracking(t, {
-          tsh_date_start: tt,
-          tsh_date_end: new Date(tt.getTime() + randomFinish * 1000),
-          tsh_time_spent: randomFinish
-        });
-        this.services.tasksCore.updateTask(t, {
-          tsk_total_time_spent: randomFinish
-        });
-        t.tsk_total_time_spent = randomFinish;
-      }
+      this.adjustTimeTracking(t);
     }
     if (event.shiftKey && event.keyCode == 113) {
       // detect "Shift + F2" = find time tracking task, stop it, close the task and start the focused one
@@ -2223,6 +2171,72 @@ export class TasksComponent implements OnInit {
     } else {
       // Date is not today, show date and time
       return DateUtils.formatDate(date, "yyyy-MM-dd HH:mm");
+    }
+  }
+
+  adjustTimeTracking(t: Task) {
+    let tt = this.lastTTEntryFromDay(
+      this.services.dateUtils.dateOnly(new Date())
+    );
+    if (!tt) {
+      // no task today, try yesterday
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(
+          this.services.dateUtils.addDays(new Date(), -1)
+        )
+      );
+    }
+    const calcRandomFinish = estimated =>
+      (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
+    if (tt && t["tsk_time_history"].length) {
+      // task with history
+      t["tsk_time_history"][
+        t["tsk_time_history"].length - 1
+      ].tsh_date_start = tt;
+      if (t.tsk_ctg_in_process == 1) {
+        // task 'in progress'
+        const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
+        t["tsk_time_history"][
+          t["tsk_time_history"].length - 1
+        ].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
+        t["tsk_time_history"][
+          t["tsk_time_history"].length - 1
+        ].tsh_time_spent = randomFinish;
+        let total: number = 0;
+        t["tsk_time_history"].forEach((tth: any) => {
+          total += tth.tsh_time_spent;
+        });
+        this.services.tasksCore.updateTask(t, {
+          tsk_total_time_spent: total
+        });
+        t.tsk_total_time_spent = total;
+      }
+      //this.updateTaskTimeTracking(t.tsk_id,t.tsk_time_history.length,data);
+      this.services.tasksCore.tasksToStorage(); // TODO: move this sentence to tasksCore
+      // TODO: update time tracking history on server
+      this.updateState();
+    } else {
+      // task with no history, implies also is not 'in progress'
+      const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
+      this.services.tasksCore.addTimeTracking(t, {
+        tsh_date_start: tt,
+        tsh_date_end: new Date(tt.getTime() + randomFinish * 1000),
+        tsh_time_spent: randomFinish
+      });
+      this.services.tasksCore.updateTask(t, {
+        tsk_total_time_spent: randomFinish
+      });
+      t.tsk_total_time_spent = randomFinish;
+    }
+  }
+
+  toggleTaskToolbar(id: string, visible: boolean) {
+    const toolbarId: string = `toolbar-${id}`;
+    const classes = document.getElementById(toolbarId).classList;
+    if (visible) {
+      classes.remove("hidden");
+    } else {
+      setTimeout(() => classes.add("hidden"), 200);
     }
   }
 }
