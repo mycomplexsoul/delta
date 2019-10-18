@@ -313,6 +313,29 @@ textarea.task-multiple {
   overflow-x: auto;
 }
 
+.task-item-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #eee;
+  width: 100%;
+  height: auto;
+  border-top: 1px solid black;
+}
+
+.task-item-toolbar-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 200%;
+}
+
+@media (min-width: 505px) {
+  .task-item-toolbar {
+    display: none;
+  }
+}
+
 .option-item {
   display: block;
 }

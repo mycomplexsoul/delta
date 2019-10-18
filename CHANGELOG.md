@@ -30,6 +30,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.6 (2019-08-15)
+
+- [AppMoney][fix] Prevent movement duplication on capturing a new movement by disabling submit button on click
+- [AppMoney][new] Add support to cancel movements on movement details form with a button
+- [AppMoney][new] Cancel/Activate account with a button
+- [AppLastTime][new] Edit record
+- [AppTasks][new] Add actions toolbar to selected task on mobile
+
 ## v1.10.5 (2019-08-08)
 
 - [AppTasks][new] Add button to task toolbar to adjust time tracking to estimated (as Alt + t shortcut does)

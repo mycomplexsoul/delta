@@ -40,6 +40,15 @@ router.post("/:mov_id", (req, res) => {
   mov.update(node);
 });
 
+router.delete("/:mov_id", (req, res) => {
+  const mov: MovementCustom = new MovementCustom();
+  const node: iNode = {
+    request: req,
+    response: res
+  };
+  mov.delete(node);
+});
+
 router.get("/generate-entries", (req, res) => {
   const mov: MovementCustom = new MovementCustom();
   const node: iNode = {

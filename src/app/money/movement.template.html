@@ -199,7 +199,7 @@
           ngModel
         />
       </span>
-      <button type="submit">
+      <button type="submit" id="newFormSubmitButton">
         {{
           model.asPreset
             ? "Save as Preset"
@@ -207,6 +207,13 @@
             ? "Update Movement"
             : "Save Movement"
         }}
+      </button>
+      <button
+        type="button"
+        *ngIf="model.id !== null"
+        (click)="cancel(model.id)"
+      >
+        Cancel
       </button>
     </div>
   </div>

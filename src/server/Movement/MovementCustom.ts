@@ -632,6 +632,43 @@ export class MovementCustom {
       });
   };
 
+  delete = (node: iNode) => {
+    let api: ApiModule = new ApiModule(new Movement());
+    const balanceModule: BalanceModule = new BalanceModule();
+
+    const hooks: any = {
+      afterDeleteOK: (response: any, model: Movement) => {
+        // generate entities
+        return this.deleteEntries([model]).then(result => {
+          console.log(`entries deleted for movement result`, result);
+          if (result.operationOk) {
+            // rebuild balance
+            const date: Date = new Date(model.mov_date);
+            const initialYear = date.getFullYear();
+            const initialMonth = date.getMonth() + 1;
+            const finalYear = new Date().getFullYear();
+            const finalMonth = new Date().getMonth() + 1;
+            return balanceModule
+              .rebuildAndTransferRange(
+                initialYear,
+                initialMonth,
+                finalYear,
+                finalMonth,
+                "anon"
+              )
+              .then(res => {
+                return { message: `delete entries: ${result.message}` };
+              });
+          }
+        });
+      }
+    };
+
+    api.delete({ pk: node.request.params }, hooks).then(response => {
+      node.response.end(JSON.stringify(response));
+    });
+  };
+
   updateEntries = (movementList: Movement[]): Promise<any> => {
     const connection: iConnection = ConnectionService.getConnection();
     const sqlMotor: MoSQL = new MoSQL();
@@ -728,6 +765,58 @@ export class MovementCustom {
           .catch(reason => {
             // some failed
             console.log("err on updating entries", reason);
+            return { operationOk: false, message: `error ${reason}` };
+          });
+      });
+  };
+
+  deleteEntries = (movementList: Movement[]): Promise<any> => {
+    const connection: iConnection = ConnectionService.getConnection();
+    const sqlMotor: MoSQL = new MoSQL();
+    console.log("movements to delete on entries", movementList.length);
+
+    const entryModel: Entry = new Entry();
+    let entryOriginList: Entry[] = [];
+    return connection
+      .runSql(
+        sqlMotor.toSelectSQL(
+          JSON.stringify({
+            gc: "AND",
+            cont: [
+              {
+                f: "ent_id",
+                op: "in",
+                val: movementList.map(m => `'${m.mov_id}'`).join(", ")
+              }
+            ]
+          }),
+          entryModel
+        )
+      )
+      .then(entryResponse => {
+        entryOriginList = entryResponse.rows.map((r: any) => new Entry(r));
+
+        // delete entries
+        const responsesPromises = entryOriginList.map(e =>
+          sqlMotor.toDeleteSQL(e)
+        );
+
+        return Promise.all(connection.runSqlArray(responsesPromises))
+          .then(values => {
+            // all deleted ok
+            connection.close();
+            console.log(
+              `Batch finished, deleted ok: ${entryOriginList.length}`
+            );
+            return {
+              operationOk: true,
+              message: `Batch finished, deleted ok: ${entryOriginList.length}`,
+              data: entryOriginList
+            };
+          })
+          .catch(reason => {
+            // some failed
+            console.log("err on deleting entries", reason);
             return { operationOk: false, message: `error ${reason}` };
           });
       });

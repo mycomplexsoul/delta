@@ -96,25 +96,48 @@ export class LastTimeComponent implements OnInit {
     this.viewData.lastTime = list;
   }
 
-  newItem(form: NgForm) {
+  async newItem(form: NgForm) {
     let values = form.value;
 
-    this.services.lastTime
-      .newItem(
-        values.fName,
-        values.fValue,
-        values.fValidity,
-        values.fTags,
-        values.fNotes
-      )
-      .then(item => {
-        this.viewData.lastTime = this.services.lastTime.list();
-        const listItem = this.viewData.lastTime.find(
-          elem => elem.lst_id === item.lst_id
-        );
-        listItem["isNew"] = true;
-        this.calculateValidityForAll();
+    if (this.model.id) {
+      // edit
+      const existingIndex: number = this.viewData.lastTime.findIndex(
+        e => e.lst_id === this.model.id
+      );
+      const item: LastTime = this.viewData.lastTime[existingIndex];
+
+      item.lst_name = values.fName;
+      item.lst_value = values.fValue;
+      item.lst_validity = values.fValidity;
+      item.lst_tags = values.fTags;
+      item.lst_notes = values.fNotes;
+
+      await this.services.lastTime.updateItem(item, {
+        noHistory: true
       });
+
+      item["isEdited"] = true; // flag to render as edited on UI
+      this.viewData.lastTime[existingIndex] = item;
+      this.model.id = null;
+    } else {
+      // new item
+      this.services.lastTime
+        .newItem(
+          values.fName,
+          values.fValue,
+          values.fValidity,
+          values.fTags,
+          values.fNotes
+        )
+        .then(item => {
+          this.viewData.lastTime = this.services.lastTime.list();
+          const listItem = this.viewData.lastTime.find(
+            elem => elem.lst_id === item.lst_id
+          );
+          listItem["isNew"] = true;
+          this.calculateValidityForAll();
+        });
+    }
   }
 
   ageSentence(baseDate: Date) {
@@ -174,7 +197,7 @@ export class LastTimeComponent implements OnInit {
       item.lst_date_mod = DateUtils.newDateUpToSeconds();
       item["isEdited"] = true;
 
-      if (item.lst_notes && item.lst_tags.indexOf("edit-notes") !== -1) {
+      if (item.lst_tags.indexOf("edit-notes") !== -1) {
         const newNotes: string = prompt("Notes for this item", item.lst_notes);
 
         if (item.lst_notes !== newNotes) {
@@ -261,5 +284,21 @@ export class LastTimeComponent implements OnInit {
 
       this.calculateValidityForAll();
     });
+  }
+
+  setModelDetails(model: LastTime, form: NgForm) {
+    if (!this.viewData.showCreateForm) {
+      this.viewData.showCreateForm = !this.viewData.showCreateForm;
+    }
+
+    this.model.id = model.lst_id; // to tell the form that this is an edition
+
+    setTimeout(() => {
+      form.controls["fName"].setValue(model.lst_name);
+      form.controls["fValue"].setValue(model.lst_value);
+      form.controls["fValidity"].setValue(model.lst_validity);
+      form.controls["fTags"].setValue(model.lst_tags);
+      form.controls["fNotes"].setValue(model.lst_notes);
+    }, 0);
   }
 }

@@ -34,7 +34,7 @@ export class AccountService {
     return this.data;
   }
 
-  async getAll() {
+  async getAll(activeOnly: boolean = false) {
     /*let fromStorage = this.storage.get(this.config.storageKey);
         if (fromStorage){
             this.data = JSON.parse(fromStorage);
@@ -48,17 +48,19 @@ export class AccountService {
       gc: "AND",
       cont: [
         {
-          f: "acc_ctg_status",
-          op: "eq",
-          val: "1"
-        },
-        {
           f: "acc_ctg_type",
           op: "ne",
           val: "4"
         }
       ]
     };
+    if (activeOnly) {
+      filter.cont.unshift({
+        f: "acc_ctg_status",
+        op: "eq",
+        val: "1"
+      });
+    }
     const query = `?q=${JSON.stringify(filter)}`;
     return this.sync
       .get(`${this.config.api.list}${query}`)

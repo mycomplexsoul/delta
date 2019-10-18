@@ -77,7 +77,9 @@
       >
       <br *ngIf="m.mov_ctg_type === 1 || m.mov_ctg_type === 2" />
       <span class="movement-notes">{{ m.mov_notes }}</span>
-      <span class="movement-status" *ngIf="false">{{ m.mov_txt_status }}</span>
+      <span class="movement-status" *ngIf="m.mov_ctg_status !== 1">{{
+        m.mov_txt_status
+      }}</span>
       <span class="movement-badge-new" *ngIf="m.isNew">new</span>
       <span class="movement-badge-edited" *ngIf="m.isEdited">edited</span>
     </div>

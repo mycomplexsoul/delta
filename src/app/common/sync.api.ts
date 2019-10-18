@@ -317,6 +317,16 @@ export class SyncAPI {
       .then(data => data);
   }
 
+  delete(url: string, payload: any): Promise<any> {
+    return this.http
+      .delete(url, {
+        ...this.options,
+        params: payload
+      })
+      .toPromise()
+      .then(data => data);
+  }
+
   get(url: string): Promise<any> {
     return this.http
       .get(url, this.options)

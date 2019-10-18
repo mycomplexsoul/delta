@@ -161,7 +161,7 @@ export class MovementComponent implements OnInit {
   }
 
   retrieveAccountsAndBalance() {
-    this.services.account.getAll().then((accounts: Account[]) => {
+    this.services.account.getAll(true).then((accounts: Account[]) => {
       this.accounts = accounts;
       this.viewData.accounts = this.accounts;
     });
@@ -247,6 +247,11 @@ export class MovementComponent implements OnInit {
 
   newMovement(form: NgForm) {
     console.log("as preset?", form.value.fAsPreset);
+    const submitButton: HTMLButtonElement = document.getElementById(
+      "newFormSubmitButton"
+    ) as HTMLButtonElement;
+    submitButton.disabled = true;
+
     if (form.value.fAsPreset) {
       let p = new Preset();
       // TODO: hash generator for IDs
@@ -410,6 +415,8 @@ export class MovementComponent implements OnInit {
         this.createReimburseMovement(m);
       }
       this.resetForm(form);
+      submitButton.disabled = false;
+
       return false;
     }
   }
@@ -904,5 +911,23 @@ export class MovementComponent implements OnInit {
       form.controls["fMovementType"].setValue(1);
     }
     form.controls["fDate"].setValue(DateUtils.dateToStringDate(new Date()));
+  }
+
+  cancel(id: string, form: NgForm) {
+    const m = this.viewData.movements.find(m => m.mov_id === id);
+    const existingIndex = this.viewData.movements.findIndex(
+      m => m.mov_id === id
+    );
+
+    // updates status for cancellation
+    m.mov_ctg_status = 2;
+
+    this.services.movement.edit(m, () => {
+      this.retrieveAccountsAndBalance();
+    });
+    m["isEdited"] = true; // flag to render as edited on UI
+    this.viewData.movements[existingIndex] = m;
+    this.model.id = null;
+    this.resetForm(form);
   }
 }

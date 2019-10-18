@@ -25,6 +25,12 @@
   <button (click)="showButtonSection = !showButtonSection">
     {{ showButtonSection ? "hide" : "show" }} actions
   </button>
+  <button
+    (click)="options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord"
+    *ngIf="options.optShowLimitedTasksPerRecord"
+  >
+    {{ options.optLimitTasksPerRecord ? "remove" : "apply" }} limit view
+  </button>
   <span id="buttonSection" *ngIf="showButtonSection">
     <button (click)="toggleViewBacklog()">
       {{ viewBacklog ? "hide" : "show" }} backlog
@@ -294,32 +300,19 @@
         *ngFor="let t of item.tasks; let i = index"
         data-id="{{ t.tsk_id }}"
         [ngStyle]="{ 'font-size-2': ageFontSizeNormalization(t) + 'px' }"
-        [ngClass]="{ hidden: options.optShowLimitedTasksPerRecord && i >= 3 }"
+        [ngClass]="{
+          hidden:
+            options.optShowLimitedTasksPerRecord &&
+            options.optLimitTasksPerRecord &&
+            i >= 3 &&
+            t.tsk_time_history.length === 0
+        }"
       >
         <input
           type="checkbox"
           id="{{ t.tsk_id }}"
           (click)="taskCheckboxHandler(t, $event)"
         />
-        <span class="task-toolbar hidden" [id]="'toolbar-' + t.tsk_id">
-          <span
-            class="play-button clickable"
-            *ngIf="t.tsk_ctg_in_process === 1"
-            (click)="toggleTimeTracking(t, $event)"
-            >&#9654;</span
-          >
-          <span
-            class="stop-button clickable"
-            *ngIf="t.tsk_ctg_in_process === 2"
-            (click)="toggleTimeTracking(t, $event)"
-            >&#9724;</span
-          >
-          <span
-            class="adjust-timetracking-button clickable"
-            (click)="adjustTimeTracking(t)"
-            >&#8676;</span
-          >
-        </span>
         <span
           *ngIf="t.tsk_total_time_spent !== 0"
           [ngClass]="{
@@ -386,8 +379,8 @@
             'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
             'task-call': t.tsk_qualifiers.indexOf('call') !== -1
           }"
-          (blur)="commandOnTask(t, $event); toggleTaskToolbar(t.tsk_id, false)"
-          (focus)="setFocus(t, $event); toggleTaskToolbar(t.tsk_id, true)"
+          (blur)="commandOnTask(t, $event)"
+          (focus)="setFocus(t, $event); setTaskSelected(t)"
           (keydown)="taskKeyDown($event)"
           tabindex="0"
           class="editable task-text"
@@ -913,4 +906,27 @@
       </td>
     </tr>
   </table>
+</div>
+
+<div class="task-item-toolbar" *ngIf="selectedTask">
+  <div>{{ selectedTask.tsk_name }}</div>
+  <div class="task-item-toolbar-content">
+    <span
+      class="play-button clickable"
+      *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"
+      (click)="toggleTimeTracking(selectedTask, $event)"
+      >&#9654;</span
+    >
+    <span
+      class="stop-button clickable"
+      *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"
+      (click)="toggleTimeTracking(selectedTask, $event)"
+      >&#9724;</span
+    >
+    <span
+      class="adjust-timetracking-button clickable"
+      (click)="adjustTimeTracking(selectedTask)"
+      >&#8676;</span
+    >
+  </div>
 </div>

@@ -16,6 +16,7 @@ export class MovementService {
       list: "/api/movements",
       create: "/api/movements",
       update: "/api/movements/:id",
+      delete: "/api/movements/:id",
       batch: "/movement/batch" // not supported in NodeTS
     }
   };

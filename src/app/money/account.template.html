@@ -111,20 +111,16 @@
   </form>
 
   <div class="card-list">
-    <div
-      *ngFor="let item of viewData.accountList"
-      class="card-item-container"
-      (click)="setModelDetails(item.acc_id, itemForm)"
-    >
+    <div *ngFor="let item of viewData.accountList" class="card-item-container">
       <span class="account-name">{{ item.acc_name }}</span>
       <br />
       <span class="account-type">{{ item.acc_txt_type }}</span>
+      <span (click)="item.showOptions = !item.showOptions">
+        {{ item.showOptions ? "-" : "+" }}
+      </span>
       <br />
       <span> Check day: {{ item.acc_check_day }} </span>
       <span *ngIf="item.acc_comment"> | Comment: {{ item.acc_comment }}</span>
-      <!--<span (click)="item.showOptions = !item.showOptions">
-        {{ item.showOptions ? "-" : "+" }}
-    </span>-->
       <br />
       <span *ngIf="item.acc_average_min_balance != 0">
         Average min balance:
@@ -140,12 +136,14 @@
       <span class="general-badge-new" *ngIf="item.isNew">new</span>
       <span class="general-badge-edited" *ngIf="item.isEdited">edited</span>
       <br />
-      <!--
-          <span *ngIf="item.showOptions">
-            <button (click)="archiveRecord(item)">archive</button>
-            <button (click)="editNotes(item)">edit notes</button>
-            <button (click)="viewHistory(item)">view history</button>
-        </span>    -->
+      <span *ngIf="item.showOptions">
+        <button (click)="setModelDetails(item.acc_id, itemForm)">
+          Edit
+        </button>
+        <button (click)="toggleStatus(item)">
+          {{ item.acc_ctg_status === 1 ? "Disable" : "Enable" }}
+        </button>
+      </span>
     </div>
   </div>
 </div>

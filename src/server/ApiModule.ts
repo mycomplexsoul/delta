@@ -225,6 +225,91 @@ export class ApiModule {
     }
   };
 
+  delete = (data: any, hooks: any, model?: iEntity): Promise<any> => {
+    let m: iEntity = model ? model : this.model;
+    const arePKProvided = (pk: string[], values: string[]): boolean => {
+      return pk.every(f => values.indexOf(f) !== -1);
+    };
+    const pkInRequest = arePKProvided(
+      m.metadata.fields.filter(f => f.isPK).map(f => f.dbName),
+      Object.keys(data.pk)
+    );
+    if (pkInRequest) {
+      let sql: string = "";
+      const connection: iConnection = ConnectionService.getConnection();
+
+      // Assign data from request
+      m.metadata.fields
+        .filter(f => f.isPK)
+        .forEach(f => {
+          m[f.dbName] = data.pk[f.dbName];
+        });
+      const sqlMotor: MoSQL = new MoSQL(m);
+      const recordName: string = m.recordName();
+
+      return connection.runSql(sqlMotor.toSelectPKSQL()).then(response => {
+        if (response.err) {
+          console.log(
+            `There was an error trying to look for the record with id: ${recordName}`
+          );
+
+          return {
+            operationOk: false,
+            message: "Deletion found an error looking for the record."
+          };
+        }
+
+        if (!response.err && response.rows.length > 0) {
+          sql = sqlMotor.toDeleteSQL(m);
+
+          return connection.runSql(sql).then(responseDelete => {
+            connection.close();
+            if (responseDelete.err) {
+              return {
+                operationOk: false,
+                message: `Error on ${
+                  m.metadata.tableName
+                } record deletion. id: ${recordName}`
+              };
+            } else {
+              if (hooks && hooks.afterDeleteOK) {
+                return hooks
+                  .afterDeleteOK(responseDelete, m)
+                  .then((resultAfterDeleteOk: any) => {
+                    return {
+                      operationOk: true,
+                      message: `${
+                        m.metadata.tableName
+                      } deleted correctly. id: ${recordName}${
+                        resultAfterDeleteOk
+                          ? `, afterDeleteOk: ${resultAfterDeleteOk.message}`
+                          : ""
+                      }`
+                    };
+                  });
+              }
+              return {
+                operationOk: true,
+                message: `${
+                  m.metadata.tableName
+                } deleted correctly. id: ${recordName}`
+              };
+            }
+          });
+        } else {
+          console.log(
+            `You try an delete a record that does not exist in the server. id: ${recordName}`
+          );
+
+          return {
+            operationOk: true,
+            message: "Deletion did not find a record to delete."
+          };
+        }
+      });
+    }
+  };
+
   listWithSQL = (data: any, model?: iEntity): Promise<iEntity[]> => {
     let m: iEntity = model ? model : this.model;
     let connection: iConnection = ConnectionService.getConnection();

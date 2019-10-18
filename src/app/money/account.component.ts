@@ -136,4 +136,16 @@ export class AccountComponent implements OnInit {
       form.controls["fPaymentDay"].setValue(model["acc_payment_day"]);
     }, 0);
   }
+
+  toggleStatus(item: Account) {
+    item.acc_ctg_status = item.acc_ctg_status === 1 ? 2 : 1;
+
+    this.services.accountService
+      .updateItem(item)
+      .then((updatedItem: Account) => {
+        updatedItem["isEdited"] = true;
+        item.acc_txt_status =
+          item.acc_ctg_status === 1 ? "ACTIVE" : "CANCELLED";
+      });
+  }
 }

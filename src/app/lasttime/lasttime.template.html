@@ -63,7 +63,7 @@
         />
       </span>
 
-      <button type="submit">Save</button>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
   </div>
 </form>
@@ -137,6 +137,7 @@
     <span class="lasttime-badge-edited" *ngIf="item.isEdited">edited</span>
     <br />
     <span *ngIf="item.showOptions">
+      <button (click)="setModelDetails(item, newForm)">details</button>
       <button (click)="archiveRecord(item)">archive</button>
       <button (click)="editNotes(item)">edit notes</button>
       <button (click)="viewHistory(item)">view history</button>

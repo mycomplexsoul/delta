@@ -53,7 +53,8 @@ export class BalanceModule {
         let monthEntryList: Entry[] = entryList.filter(
           e =>
             e.ent_date.getFullYear() === year &&
-            e.ent_date.getMonth() + 1 === month
+            e.ent_date.getMonth() + 1 === month &&
+            e.ent_ctg_status === 1
         );
         let balance: Array<Balance> = [
           ...this.getAllForMonth(balanceList, year, month)

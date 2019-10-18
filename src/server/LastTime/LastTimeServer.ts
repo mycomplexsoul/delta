@@ -44,7 +44,7 @@ export class LastTimeServer {
 
     const hooks: any = {
       afterUpdateOK: (response: any, model: LastTime) => {
-        if (model.lst_ctg_status === 1) {
+        if (model.lst_ctg_status === 1 && !node.request.body["noHistory"]) {
           return this.generateHistory([model])
             .then(result => {
               if (result.operationOk) {

@@ -111,7 +111,10 @@ export class LastTimeService {
       });
   }
 
-  updateItem(item: LastTime): Promise<LastTime> {
+  updateItem(item: LastTime, specialData: any = {}): Promise<LastTime> {
+    item.lst_id_user = this.authenticationService.currentUserValue.username;
+    item.lst_date_mod = new Date();
+
     const updateLocal = () => {
       const index = this.data.findIndex(e => e.lst_id === item.lst_id);
       if (index !== -1) {
@@ -120,10 +123,10 @@ export class LastTimeService {
     };
 
     return this.sync
-      .post(
-        this.config.api.update.replace(":id", item.lst_id),
-        Utils.entityToRawTableFields(item)
-      )
+      .post(this.config.api.update.replace(":id", item.lst_id), {
+        ...Utils.entityToRawTableFields(item),
+        ...specialData
+      })
       .then(response => {
         if (!response.operationOk) {
           item["sync"] = false;

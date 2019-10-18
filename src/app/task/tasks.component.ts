@@ -74,6 +74,7 @@ export class TasksComponent implements OnInit {
   };
   public events: any[] = [];
   public layout: string = "float"; // possible values: grid, float
+  private selectedTask: Task = null;
 
   constructor(
     tasksCore: TasksCore,
@@ -2230,13 +2231,7 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  toggleTaskToolbar(id: string, visible: boolean) {
-    const toolbarId: string = `toolbar-${id}`;
-    const classes = document.getElementById(toolbarId).classList;
-    if (visible) {
-      classes.remove("hidden");
-    } else {
-      setTimeout(() => classes.add("hidden"), 200);
-    }
+  setTaskSelected(task: Task) {
+    this.selectedTask = task;
   }
 }
