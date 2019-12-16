@@ -296,6 +296,9 @@ textarea.task-multiple {
   padding: 5px;
   border: 1px solid lightgray;
 }
+.task-record-no-task-done {
+  border: 1px dashed #dd0000;
+}
 @media (min-width: 505px) {
   .task-open-task-list-container--grid .task-record {
     flex: 0 0 31%;

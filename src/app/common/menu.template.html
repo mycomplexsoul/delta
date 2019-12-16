@@ -12,92 +12,104 @@
       <drink-water></drink-water>
       <sync></sync>
     </div>
-    <div class="menu-section" *ngIf="viewData.isOpen">
-      <ul class="menu-items" (keydown.esc)="viewData.isOpen = false">
-        <li>
-          <a (click)="viewData.isOpen = false" routerLink="tasks" href="/tasks"
-            >Tasks</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="movement"
-            href="/movement"
-            >Movements</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="balance"
-            href="/balance"
-            >Balance</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="lasttime"
-            href="/lasttime"
-            >Last Time</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="multimedia"
-            href="/multimedia"
-            >Multimedia</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="account"
-            href="/account"
-            >Accounts</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="categories"
-            href="/categories"
-            >Categories</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="places"
-            href="/places"
-            >Places</a
-          >
-        </li>
-        <li>
-          <a
-            (click)="viewData.isOpen = false"
-            routerLink="presets"
-            href="/presets"
-            >Presets</a
-          >
-        </li>
-        <li>
-          <a (click)="viewData.isOpen = false" routerLink="links" href="/links"
-            >Links</a
-          >
-        </li>
-        <li>
-          <span>{{ viewData.username }}</span>
-        </li>
-        <li>
-          <a (click)="logout()">logout</a>
-        </li>
-        <li>
-          <span>v{{ metadata.appVersion }}</span>
-        </li>
-      </ul>
+    <div
+      class="menu-overlay"
+      *ngIf="viewData.isOpen"
+      (click)="viewData.isOpen = false"
+    >
+      <div class="menu-section">
+        <ul class="menu-items" (keydown.esc)="viewData.isOpen = false">
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="tasks"
+              href="/tasks"
+              >Tasks</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="movement"
+              href="/movement"
+              >Movements</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="balance"
+              href="/balance"
+              >Balance</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="lasttime"
+              href="/lasttime"
+              >Last Time</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="multimedia"
+              href="/multimedia"
+              >Multimedia</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="account"
+              href="/account"
+              >Accounts</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="categories"
+              href="/categories"
+              >Categories</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="places"
+              href="/places"
+              >Places</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="presets"
+              href="/presets"
+              >Presets</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="viewData.isOpen = false"
+              routerLink="links"
+              href="/links"
+              >Links</a
+            >
+          </li>
+          <li>
+            <span>{{ viewData.username }}</span>
+          </li>
+          <li>
+            <a (click)="logout()">logout</a>
+          </li>
+          <li>
+            <span>v{{ metadata.appVersion }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

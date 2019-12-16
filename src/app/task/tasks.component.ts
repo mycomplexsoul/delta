@@ -2234,4 +2234,9 @@ export class TasksComponent implements OnInit {
   setTaskSelected(task: Task) {
     this.selectedTask = task;
   }
+
+  countTasksDone(record: string) {
+    return this.state.closedTodayTasks.filter(i => i.tsk_id_record === record)
+      .length;
+  }
 }

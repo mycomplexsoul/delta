@@ -30,6 +30,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.7 (2019-08-22)
+
+- [AppTasks][new] Style record listing that has not done tasks today
+- [AppTasks][new] Add count of finished tasks to record listing
+- [AppCommon][new] Click outside of menu closes menu
+- [AppCommon][new] Add menu overlay with opacity
+
 ## v1.10.6 (2019-08-15)
 
 - [AppMoney][fix] Prevent movement duplication on capturing a new movement by disabling submit button on click

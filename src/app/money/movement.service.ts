@@ -139,6 +139,7 @@ export class MovementService {
   edit(movement: Movement, callback: Function): Movement {
     movement.mov_ctg_currency = 1;
     movement.mov_date_mod = new Date();
+    movement.mov_id_user = this.authenticationService.currentUserValue.username;
     const item: Movement = new Movement(movement);
 
     this.sync

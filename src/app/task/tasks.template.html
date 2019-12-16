@@ -182,6 +182,12 @@
     [checked]="options.optShowLimitedTasksPerRecord"
     (onClick)="toggleOptionById($event); updateState()"
   ></checkbox-option>
+  <checkbox-option
+    label="Colorize record listing without finished tasks today"
+    optionId="optColorizeRecordWithoutDoneTasks"
+    [checked]="options.optColorizeRecordWithoutDoneTasks"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
 
   <div id="optionsMessages"></div>
   <hr />
@@ -289,12 +295,27 @@
       'task-open-task-list-container--float': layout === 'float'
     }"
   >
-    <div *ngFor="let item of state.openTasks" class="task-record">
+    <div
+      *ngFor="let item of state.openTasks"
+      class="task-record"
+      [ngClass]="{
+        'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0
+      }"
+    >
       <div>
         <strong>{{ item.header }}</strong>
-        / {{ item.tasks.length }} tasks ({{
+        | {{ item.tasks.length }} open ({{
           formatTime(item.estimatedDuration * 60)
         }})
+        <span *ngIf="countTasksDone(item.header) > 0">
+          |
+          <span
+            class="task-done"
+            title="tasks done today from this record list"
+          >
+            {{ countTasksDone(item.header) }}
+          </span>
+        </span>
       </div>
       <div
         *ngFor="let t of item.tasks; let i = index"
