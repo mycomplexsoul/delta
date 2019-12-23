@@ -30,7 +30,12 @@ let ConnectionService = (function() {
       }); // process asynchronous requests in the meantime.
       // If you're also serving http, display a 503 error.
       connection.on("error", function(err: any) {
-        console.log(new Date().toISOString() + " - db error", err);
+        console.log(
+          new Date().toISOString() +
+            " - db error, connection id: " +
+            connection.threadId,
+          err
+        );
         if (err.code === "PROTOCOL_CONNECTION_LOST") {
           // Connection to the MySQL server is usually
           handleDisconnect(); // lost due to either server restart, or a
@@ -50,6 +55,7 @@ let ConnectionService = (function() {
         }, connection ${connection}`
       );
       connection.end();
+      connection = null;
     };
     const runSql = (sql: string): Promise<any> => {
       return new Promise<any>((resolve, reject) => {

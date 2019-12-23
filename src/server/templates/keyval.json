@@ -1,0 +1,60 @@
+{
+    "name": "Keyval"
+    , "namespace": "common"
+    , "removeMeans": "DELETION"
+    , "authNeeded": false
+    , "displayOnMenu": false
+    , "prefix": "key"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Key value,Key values)"
+        , "TABLE_NAME(KEYVAL)"
+        , "VIEW_NAME(VIKEYVAL)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "key_id"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the key value pair"
+            , "entName": "KeyId"
+            , "captureRequired": true
+            , "displayName": "Key Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "key_name"
+            , "isPK": true
+            , "size": 100
+            , "minLength": 1
+            , "dbComment": "Key name"
+            , "entName": "Name"
+            , "captureRequired": true
+            , "displayName": "Name"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "key_value"
+            , "size": 250
+            , "allowNull": true
+            , "dbComment": "Value for the key"
+            , "entName": "Value"
+            , "displayName": "Name"
+            , "isRecordName": true
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        }
+    ]
+    , "view": [
+    ]
+}

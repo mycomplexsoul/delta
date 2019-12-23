@@ -3,6 +3,11 @@ import { EntityParser } from './EntityParser';
 import { EntityDefinition } from '../crosscommon/EntityDefinition';
 import { FieldDefinition } from '../crosscommon/FieldDefinition';
 import { ViewJoinDefinition } from '../crosscommon/ViewJoinDefinition';
+import { iEntity } from '../crosscommon/iEntity';
+import { MoSQL } from './MoSQL';
+import iConnection from './iConnection';
+import InstantiateModule from './InstantiateModule';
+import { configModule } from './ConfigModule';
 
 export class MoBasicGenerator {
     entity: EntityDefinition;
@@ -189,5 +194,68 @@ export class MoBasicGenerator {
         }
 
         return str;
+    }
+
+    checkEntityDefinitionAgainstDatabase = async (connection: iConnection): Promise<string> => {
+        let str: string = '';
+        let queryResult;
+        const model: iEntity = InstantiateModule.instantiateFromString(this.entity.name);
+        const sqlMotor: MoSQL = new MoSQL(model);
+
+        // Verify table exists
+        queryResult = await connection.runSql(`select * from ${this.entity.tableName}`)
+            .catch(() => false);
+        
+        if (!queryResult) {
+            str += `[Error] Table ${this.entity.tableName} does not exist in database`;
+        }
+        
+        // Verify view exists
+        queryResult = await connection.runSql(sqlMotor.toSelectSQL())
+            .catch(() => false);
+        
+        if (!queryResult) {
+            str += `[Error] View ${this.entity.viewName} does not exist in database`;
+        }
+
+        // Verify fields
+        queryResult = await this.getSchemaTableInformation(connection);
+        if (queryResult) {
+            // name | type - precision | default | nullable | comment
+            const dbFields = queryResult.rows;
+            const entityFields = model.metadata.fields.filter(f => f.isTableField);
+
+            entityFields.forEach(e => {
+                const dbField = dbFields.find(db => db['column_name'] === e.dbName);
+                
+                // Field does not exist
+                if (!dbField) {
+                    str += `[Error] Field ${e.dbName} do not exist in table ${this.entity.tableName}`;
+                    return;
+                }
+                
+                // Field is not of the same data type
+                // Field is not of the same size, precision
+                // Field default is not the expected one
+                if (dbField['column_default'] === e.default) {
+                    str += `[Error] Field ${e.dbName} does not match default value in table ${this.entity.tableName}. (entity) ${e.default} || (db) ${dbField['column_default']}`;
+                }
+                // Field comment is not the expected one
+            });
+        }
+
+        return str;
+    }
+
+    getSchemaTableInformation = async (connection: iConnection) => {
+        const sql = `SELECT table_schema, table_name, column_name, ordinal_position, data_type, numeric_precision, column_type, column_default, is_nullable, column_comment
+            FROM information_schema.columns
+            WHERE (
+                table_schema =  '${configModule.getConfigValue('db.0.database')}'
+                AND table_name =  '${this.entity.tableName}'
+            )
+            ORDER BY ordinal_position;`;
+
+        return await connection.runSql(sql);
     }
 }

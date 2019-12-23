@@ -51,7 +51,7 @@ export class LoginServer {
     );
 
     if (hashPassword !== userDB.usr_pwd) {
-      node.response.end(
+      return node.response.end(
         JSON.stringify({
           operationResult: false,
           message: "Authentication failed."

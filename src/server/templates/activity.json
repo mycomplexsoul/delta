@@ -1,0 +1,94 @@
+{
+    "name": "Activity"
+    , "namespace": "common"
+    , "removeMeans": "CANCELATION"
+    , "authNeeded": true
+    , "displayOnMenu": true
+    , "prefix": "act"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Activity,Activities)"
+        , "TABLE_NAME(ACTIVITY)"
+        , "VIEW_NAME(VIACTIVITY)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "act_id"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the activity"
+            , "entName": "ActivityId"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD"
+            ]
+            , "displayName": "Activity Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "act_id_project"
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Project Id"
+            , "entName": "ProjectId"
+            , "captureRequired": true
+            , "displayName": "Project Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "act_name"
+            , "size": 500
+            , "minLength": 1
+            , "dbComment": "Activity name"
+            , "entName": "Name"
+            , "captureRequired": true
+            , "displayName": "Name"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "act_description"
+            , "size": 4000
+            , "allowNull": true
+            , "dbComment": "Details of the activity item"
+            , "entName": "Description"
+            , "displayName": "Description"
+        },{
+            "templateId": "string"
+            , "dbName": "act_tags"
+            , "size": 500
+            , "allowNull": true
+            , "dbComment": "Activity tags"
+            , "entName": "Tags"
+            , "displayName": "Tags"
+        },{
+            "templateId": "string"
+            , "dbName": "act_close_comment"
+            , "size": 4000
+            , "allowNull": true
+            , "dbComment": "Final comment once activity is done"
+            , "entName": "CloseComment"
+            , "displayName": "Close Comment"
+        },{
+            "templateId": "string"
+            , "dbName": "act_id_user"
+            , "size": 50
+            , "dbComment": "User who this activity belongs to"
+            , "entName": "User"
+            , "displayName": "User"
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        }
+    ]
+    , "view": [
+    ]
+}

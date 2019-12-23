@@ -31,10 +31,12 @@ export class AuthenticationService {
       .pipe(
         map(user => {
           // login successful if there's a jwt token in the response
-          if (user && user.identity.token) {
+          if (user && user.operationResult && user.identity.token) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem("currentUser", JSON.stringify(user.identity));
             this.currentUserSubject.next(user.identity);
+          } else {
+            throw new Error('User and/or password are not valid');
           }
 
           return user;

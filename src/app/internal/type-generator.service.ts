@@ -1,36 +1,41 @@
-import { Injectable } from '@angular/core';
-import { SyncAPI } from '../common/sync.api';
+import { Injectable } from "@angular/core";
+import { SyncAPI } from "../common/sync.api";
 
 @Injectable()
 export class TypeGeneratorService {
-    private data: any = {};
-    private sync: SyncAPI = null;
-    private config = {
-        storageKey: 'type-generator'
-        , defaultUser: 'anon'
-        , api: {
-            config: '/api/type-generator/config',
-            create: '/api/type-generator/create',
-            check: '/api/type-generator/check'
-        }
-    };
-
-    constructor(sync: SyncAPI){
-        this.sync = sync;
+  private data: any = {};
+  private sync: SyncAPI = null;
+  private config = {
+    storageKey: "type-generator",
+    defaultUser: "anon",
+    api: {
+      config: "/api/type-generator/config",
+      create: "/api/type-generator/create",
+      check: "/api/type-generator/check",
+      checkDatabase: "/api/type-generator/check-database"
     }
+  };
 
-    getAll(): Promise<any>{
-        return this.sync.get(`${this.config.api.config}`).then(data => {
-            this.data = data;
-            return this.data;
-        });
-    }
+  constructor(sync: SyncAPI) {
+    this.sync = sync;
+  }
 
-    create(item: any): Promise<any>{
-        return this.sync.post(`${this.config.api.create}`, item);
-    }
+  getAll(): Promise<any> {
+    return this.sync.get(`${this.config.api.config}`).then(data => {
+      this.data = data;
+      return this.data;
+    });
+  }
 
-    check(item: any): Promise<any>{
-        return this.sync.post(`${this.config.api.check}`, item);
-    }
+  create(item: any): Promise<any> {
+    return this.sync.post(`${this.config.api.create}`, item);
+  }
+
+  check(item: any): Promise<any> {
+    return this.sync.post(`${this.config.api.check}`, item);
+  }
+
+  checkDatabase(item: any): Promise<any> {
+    return this.sync.post(`${this.config.api.checkDatabase}`, item);
+  }
 }

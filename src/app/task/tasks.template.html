@@ -202,8 +202,7 @@
     <div *ngFor="let t of item.tasks" data-id="{{ t.tsk_id }}">
       -
       <span *ngIf="t.tsk_total_time_spent !== 0"
-        >[{{ t.tsk_time_history.length }}/{{
-          formatTime(t.tsk_total_time_spent)
+        >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)
         }}]</span
       >
       <span
@@ -240,8 +239,7 @@
   <div *ngFor="let t of state.postponedTasks">
     -
     <span *ngIf="t.tsk_total_time_spent !== 0"
-      >[{{ t.tsk_time_history.length }}/{{
-        formatTime(t.tsk_total_time_spent)
+      >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)
       }}]</span
     >
     <span
@@ -272,8 +270,8 @@
     >
     <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
     <span
-      >(postponed until
-      {{ t.tsk_date_view_until | date: "yyyy-MM-dd HH:mm:ss" }})</span
+      >(postponed until {{ t.tsk_date_view_until | date: "yyyy-MM-dd HH:mm:ss"
+      }})</span
     >
     <button (click)="setSelected(t)">details</button>
     <button (click)="setUnpostpone(t)">see it now</button>
@@ -304,9 +302,8 @@
     >
       <div>
         <strong>{{ item.header }}</strong>
-        | {{ item.tasks.length }} open ({{
-          formatTime(item.estimatedDuration * 60)
-        }})
+        | {{ item.tasks.length }} open ({{ formatTime(item.estimatedDuration *
+        60) }})
         <span *ngIf="countTasksDone(item.header) > 0">
           |
           <span
@@ -342,18 +339,15 @@
               t.tsk_time_history.length > 0
           }"
           >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent)
-          }}]
+          formatTime(t.tsk_total_time_spent) }}]
           <span *ngIf="t.tsk_ctg_in_process !== 2">
             [<span
               class="tt-start"
               contenteditable="true"
               spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{
-                t.tsk_time_history[t.tsk_time_history.length - 1]
-                  .tsh_date_start | date: "HH:mm:ss"
-              }}</span
+              >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
+              .tsh_date_start | date: "HH:mm:ss" }}</span
             >
             -
             <span
@@ -361,10 +355,8 @@
               contenteditable="true"
               spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-              >{{
-                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
-                  | date: "HH:mm:ss"
-              }}</span
+              >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
+              | date: "HH:mm:ss" }}</span
             >]
           </span>
         </span>
@@ -373,10 +365,8 @@
             contenteditable="true"
             spellcheck="false"
             (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-            >{{
-              t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start
-                | date: "HH:mm:ss"
-            }}</span
+            >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start
+            | date: "HH:mm:ss" }}</span
           >]
         </span>
         <span
@@ -435,9 +425,9 @@
             >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong
           ></span
         >
-        <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays">{{
-          taskAge(t)
-        }}</span>
+        <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays"
+          >{{ taskAge(t) }}</span
+        >
         <span *ngIf="t.not_sync">(Not in sync)</span>
       </div>
     </div>
@@ -449,12 +439,12 @@
     </span>
     <br />Karma Score:
     <span
-      >{{ state.karmaScore }} ({{ state.karmaCount }} /
-      {{ state.closedTodayTasks.length }})</span
+      >{{ state.karmaScore }} ({{ state.karmaCount }} / {{
+      state.closedTodayTasks.length }})</span
     >
-    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong>{{
-      isOnline() ? "" : "You are OFFLINE"
-    }}</strong>
+    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong
+      >{{ isOnline() ? "" : "You are OFFLINE" }}</strong
+    >
     <div
       *ngIf="options.optShowIndicatorsTable"
       class="task-indicators-container"
@@ -470,8 +460,8 @@
           <td>{{ indicator.name }}</td>
           <td *ngFor="let v of indicator.values">{{ v }}</td>
           <td>
-            {{ indicator.isCompleted ? "SI" : "NO" }} /
-            {{ indicator.percentageCompleted }}
+            {{ indicator.isCompleted ? "SI" : "NO" }} / {{
+            indicator.percentageCompleted }}
           </td>
         </tr>
       </table>
@@ -484,9 +474,8 @@
     <div *ngFor="let item of nextTasks" class="task-record">
       <div>
         <strong>Next To Do Today</strong>
-        / {{ item.tasks.length }} tasks ({{
-          formatTime(item.estimatedDuration * 60)
-        }})
+        | {{ item.tasks.length }} tasks ({{ formatTime(item.estimatedDuration *
+        60) }})
       </div>
       <div *ngFor="let t of item.tasks" data-id="{{ t.tsk_id }}">
         <input
@@ -516,18 +505,15 @@
               t.tsk_time_history.length > 0
           }"
           >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent)
-          }}]
+          formatTime(t.tsk_total_time_spent) }}]
           <span *ngIf="t.tsk_ctg_in_process !== 2">
             [<span
               class="tt-start"
               contenteditable="true"
               spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{
-                t.tsk_time_history[t.tsk_time_history.length - 1]
-                  .tsh_date_start | date: "HH:mm:ss"
-              }}</span
+              >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
+              .tsh_date_start | date: "HH:mm:ss" }}</span
             >
             -
             <span
@@ -535,10 +521,8 @@
               contenteditable="true"
               spellcheck="false"
               (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-              >{{
-                t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
-                  | date: "HH:mm:ss"
-              }}</span
+              >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
+              | date: "HH:mm:ss" }}</span
             >]
           </span>
         </span>
@@ -547,10 +531,8 @@
             contenteditable="true"
             spellcheck="false"
             (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-            >{{
-              t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start
-                | date: "HH:mm:ss"
-            }}</span
+            >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start
+            | date: "HH:mm:ss" }}</span
           >]
         </span>
         <span
@@ -564,6 +546,7 @@
           contenteditable="true"
           spellcheck="false"
           (keyup)="taskEdit(t, $event)"
+          (keydown)="nextTaskKeyDown($event)"
           [ngClass]="{
             'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
             'task-in-process': t.tsk_ctg_in_process === 2,
@@ -600,9 +583,9 @@
             >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong
           ></span
         >
-        <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays">{{
-          taskAge(t)
-        }}</span>
+        <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays"
+          >{{ taskAge(t) }}</span
+        >
         <span *ngIf="t.not_sync">(Not in sync)</span>
       </div>
     </div>
@@ -611,11 +594,11 @@
 <div id="tagInfo" *ngIf="tagInfo.display === true">
   <button (click)="tagInfo.display = false">hide</button>
   <strong>Tag Information</strong>
-  <br />Closed Tasks | Estimated:
-  {{ formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent:
-  {{ formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated:
-  {{ formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent:
-  {{ formatTime(tagInfo.tasksOpenTotalSpent) }}
+  <br />Closed Tasks | Estimated: {{
+  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{
+  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{
+  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{
+  formatTime(tagInfo.tasksOpenTotalSpent) }}
   <div *ngIf="tagInfo.tasks.length > 0">
     <table>
       <tr>
@@ -738,8 +721,8 @@
   </div>
   <div>Estimated Duration: {{ state.selected.tsk_estimated_duration }}</div>
   <div>
-    Schedule Date Start:
-    {{ state.selected.tsk_schedule_date_start | date: format }}
+    Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:
+    format }}
   </div>
   <div>
     Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format }}
@@ -770,18 +753,15 @@
             item.tsk_time_history.length > 0
         }"
         >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent)
-        }}]
+        formatTime(item.tsk_total_time_spent) }}]
         <span *ngIf="item.tsk_ctg_in_process !== 2">
           [<span
             class="tt-start"
             contenteditable="true"
             spellcheck="false"
             (keyup)="timeTrackingQuickEdit(item, $event, 'start')"
-            >{{
-              item.tsk_time_history[item.tsk_time_history.length - 1]
-                .tsh_date_start | date: "HH:mm:ss"
-            }}</span
+            >{{ item.tsk_time_history[item.tsk_time_history.length - 1]
+            .tsh_date_start | date: "HH:mm:ss" }}</span
           >
           -
           <span
@@ -789,10 +769,8 @@
             contenteditable="true"
             spellcheck="false"
             (keyup)="timeTrackingQuickEdit(item, $event, 'end')"
-            >{{
-              item.tsk_time_history[item.tsk_time_history.length - 1]
-                .tsh_date_end | date: "HH:mm:ss"
-            }}</span
+            >{{ item.tsk_time_history[item.tsk_time_history.length - 1]
+            .tsh_date_end | date: "HH:mm:ss" }}</span
           >]
         </span>
       </span>
@@ -845,8 +823,7 @@
       -
       <span
         >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent)
-        }}]</span
+        formatTime(item.tsk_total_time_spent) }}]</span
       >
       <span>[{{ item.tsk_id_record }}]</span>
       <span>{{ item.tsk_name }}</span>
@@ -869,9 +846,9 @@
 </div>
 <div *ngIf="viewReportsWeek">
   <div *ngFor="let s of reports.week">
-    date: {{ s.date | date: "yyyy-MM-dd" }} tasks done:
-    {{ s.tasksDone }} estimated: {{ formatTime(s.estimated * 60) }} spent:
-    {{ formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time
+    date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}
+    estimated: {{ formatTime(s.estimated * 60) }} spent: {{
+    formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time
     Elapsed: {{ formatTime(s.realTimeElapsed) }}
   </div>
 </div>
@@ -916,13 +893,13 @@
 
 <div *ngIf="comparisonData">
   Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task
-  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count:
-  {{ comparisonData.results.length }}
+  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{
+  comparisonData.results.length }}
   <table>
     <tr *ngFor="let c of comparisonData.results">
       <td *ngFor="let f of c">
-        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison:
-        {{ f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}
+        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{
+        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}
         <button (click)="sendFEToBE(c)">Send FE data to BE</button>
       </td>
     </tr>

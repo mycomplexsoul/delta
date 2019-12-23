@@ -1,6 +1,7 @@
 # Intranet
 
 ## Dev
+
 To bundle for dist, use npm run launch.
 
 ## Database connection
@@ -8,15 +9,18 @@ To bundle for dist, use npm run launch.
 Create a file named `cfg.json` in the root of the project and add the proper configuration:
 
 ```javascript
-[
-    {
-        "name"     : "default",
-        "host"     : "localhost",
-        "user"     : "some_user",
-        "password" : "some_password",
-        "database" : "some_db"
-    }
-]
+{
+    "db": [
+        {
+            "label"    : "default",
+            "host"     : "localhost",
+            "user"     : "some_user",
+            "password" : "some_password",
+            "database" : "some_db"
+        }
+    ],
+    "secretForToken": "your custom secret salt used for token generation"
+}
 ```
 
 With this, you can connnect to a MySQL database.

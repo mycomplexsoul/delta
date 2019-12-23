@@ -288,23 +288,26 @@ export class TasksComponent implements OnInit {
         estimatedDuration: 0,
         tasks: []
       });
-      if (typeof window.localStorage !== "undefined") {
-        let nextTasksIds = JSON.parse(localStorage.getItem("NextTasks"));
-        if (nextTasksIds) {
-          nextTasksIds.forEach((id: string) => {
-            let nt = this.tasks.find(
-              (e: any) =>
-                e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
-            );
-            if (nt) {
-              this.nextTasks[0].tasks.push(nt);
-            }
-          });
-          localStorage.setItem(
-            "NextTasks",
-            JSON.stringify(this.nextTasks[0].tasks.map((e: any) => e.tsk_id))
+    } else {
+      this.nextTasks[0].tasks = [];
+    }
+    if (this.tasks.length && typeof window.localStorage !== "undefined") {
+      let nextTasksIds = JSON.parse(localStorage.getItem("NextTasks"));
+      if (nextTasksIds) {
+        nextTasksIds.forEach((id: string) => {
+          let nt = this.tasks.find(
+            (e: any) =>
+              e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
           );
-        }
+          if (nt) {
+            this.nextTasks[0].tasks.push(nt);
+          }
+        });
+        // We set them again to filter out done tasks
+        localStorage.setItem(
+          "NextTasks",
+          JSON.stringify(this.nextTasks[0].tasks.map((e: any) => e.tsk_id))
+        );
       }
     }
     this.nextTasks[0].estimatedDuration = 0;
@@ -316,18 +319,8 @@ export class TasksComponent implements OnInit {
           (e: any) => e.tsk_id === t.tsk_id
         );
         this.nextTasks[0].tasks.splice(index, 1);
-        localStorage.setItem(
-          "NextTasks",
-          JSON.stringify(this.nextTasks[0].tasks.map((e: any) => e.tsk_id))
-        );
       }
     });
-    // sort next tasks by order field
-    let sortByOrder = (a: any, b: any) => {
-      let res = a.tsk_order > b.tsk_order;
-      return res ? 1 : -1;
-    };
-    this.nextTasks[0].tasks = this.nextTasks[0].tasks.sort(sortByOrder);
 
     if (this.focusedTask.task) {
       if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
@@ -418,20 +411,7 @@ export class TasksComponent implements OnInit {
 
   taskEdit(t: Task, event: KeyboardEvent) {
     let parent = event.target["parentNode"];
-    if (event.altKey && event.keyCode == 38) {
-      // detect move up
-      this.taskMoveUp(parent);
-    }
-    if (event.altKey && event.keyCode == 40) {
-      // detect move down
-      this.taskMoveDown(parent);
-    }
-    /* if (!event.altKey && event.keyCode==38){ // detect jump up
-            this.taskJumpUp(parent,"span.task-text[contenteditable=true]");
-        }
-        if (!event.altKey && event.keyCode==40){ // detect jump down
-            this.taskJumpDown(parent,"span.task-text[contenteditable=true]");
-        } */
+
     if (!event.shiftKey && event.keyCode == 113) {
       // detect "F2" = start/stop time tracking
       this.taskToggleTimeTracking(t, parent);
@@ -515,9 +495,22 @@ export class TasksComponent implements OnInit {
     // return false;
   }
 
+  /**
+   * Jumps cursor up and below the current task.
+   * Also jumps from record listing to the previous/next one.
+   * @param event keyboard event to handle
+   */
   taskKeyDown(event: KeyboardEvent) {
     const parent = event.target["parentNode"];
 
+    if (event.altKey && event.keyCode == 38) {
+      // detect move up
+      this.taskMoveUp(parent, this.interchangeTaskOrder.bind(this));
+    }
+    if (event.altKey && event.keyCode == 40) {
+      // detect move down
+      this.taskMoveDown(parent, this.interchangeTaskOrder.bind(this));
+    }
     if (!event.altKey && event.keyCode == 38) {
       // detect jump up
       this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
@@ -533,6 +526,32 @@ export class TasksComponent implements OnInit {
     if (event.ctrlKey && event.keyCode == 40) {
       // detect jump down
       this.taskRecordJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+  }
+
+  /**
+   * Jumps cursor up and below the current task in the next task listing
+   * modifying order based in localStorage saved next tasks.
+   * @param event keyboard event to handle
+   */
+  nextTaskKeyDown(event: KeyboardEvent) {
+    const parent = event.target["parentNode"];
+
+    if (event.altKey && event.keyCode == 38) {
+      // detect move up
+      this.taskMoveUp(parent, this.interchangeNextTaskOrder);
+    }
+    if (event.altKey && event.keyCode == 40) {
+      // detect move down
+      this.taskMoveDown(parent, this.interchangeNextTaskOrder);
+    }
+    if (!event.altKey && event.keyCode == 38) {
+      // detect jump up
+      this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (!event.altKey && event.keyCode == 40) {
+      // detect jump down
+      this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
     }
   }
 
@@ -580,11 +599,14 @@ export class TasksComponent implements OnInit {
     this.services.tasksCore.updateTask(model, newData);
   }
 
-  taskMoveUp(current: HTMLElement) {
+  taskMoveUp(
+    current: HTMLElement,
+    orderHandler: (tsk_id1: string, tsk_id2: string) => void
+  ) {
     // previous <- current | next
     // current | previous | next
     if (current.previousElementSibling && current.previousElementSibling.id) {
-      this.interchangeTaskOrder(current.id, current.previousElementSibling.id);
+      orderHandler(current.id, current.previousElementSibling.id);
       current.parentNode.insertBefore(
         current.previousSibling,
         current.nextSibling
@@ -592,11 +614,14 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  taskMoveDown(current: HTMLElement) {
+  taskMoveDown(
+    current: HTMLElement,
+    orderHandler: (tsk_id1: string, tsk_id2: string) => void
+  ) {
     // previous | current -> next
     // previous | next | current
     if (current.nextElementSibling && current.nextElementSibling.id) {
-      this.interchangeTaskOrder(current.id, current.nextElementSibling.id);
+      orderHandler(current.id, current.nextElementSibling.id);
       current.parentNode.insertBefore(current.nextSibling, current);
     }
   }
@@ -606,6 +631,26 @@ export class TasksComponent implements OnInit {
     let t2 = this.tasks.find(e => e.tsk_id === tsk_id2).tsk_order;
     this.updateTask(tsk_id1, { tsk_order: t2 });
     this.updateTask(tsk_id2, { tsk_order: t1 });
+  }
+
+  /**
+   * Interchanges tasks order and updates it in the next tasks listing.
+   * @param tsk_id1 task id to be interchanged
+   * @param tsk_id2 task id to be interchanged
+   */
+  interchangeNextTaskOrder(tsk_id1: string, tsk_id2: string) {
+    let currentNextTasks =
+      localStorage && JSON.parse(localStorage.getItem("NextTasks"));
+
+    let index1 = currentNextTasks.findIndex(e => e === tsk_id1);
+    let index2 = currentNextTasks.findIndex(e => e === tsk_id2);
+    // swap
+    [currentNextTasks[index1], currentNextTasks[index2]] = [
+      currentNextTasks[index2],
+      currentNextTasks[index1]
+    ];
+    // update localStorage
+    localStorage.setItem("NextTasks", JSON.stringify(currentNextTasks));
   }
 
   taskJumpUp(current: any, selector: string) {

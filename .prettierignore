@@ -1,1 +1,3 @@
 src/server/InstallModule.ts
+MoBasicGenerator.ts
+src/server/templates/*

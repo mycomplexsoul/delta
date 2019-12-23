@@ -1,5 +1,6 @@
 import { iNode } from "../iNode";
 import * as Generator from "../MoBasicGenerator";
+import ConnectionService from "../ConnectionService";
 
 export class TypeGeneratorServer {
   entities: string[] = [
@@ -26,7 +27,10 @@ export class TypeGeneratorServer {
     "MultimediaDet",
     "MultimediaView",
     // Links
-    "Link"
+    "Link",
+    // Activities
+    "Activity",
+    "Keyval"
   ];
 
   config = (node: iNode) => {
@@ -68,6 +72,26 @@ export class TypeGeneratorServer {
         message += "<br/>" + msg;
       }
     });
+    node.response.end(JSON.stringify({ operationOK: true, message }));
+  };
+
+  checkDatabase = async (node: iNode) => {
+    let gen: Generator.MoBasicGenerator;
+    const entities = node.request.body.entities || this.entities;
+
+    const entitiesStr: string = entities.join(", ");
+    let message = `Checked the following entities: ${entitiesStr}`;
+
+    const connection = ConnectionService.getConnection();
+
+    for await (let entity of entities) {
+      gen = new Generator.MoBasicGenerator(entity);
+      const msg = await gen.checkEntityDefinitionAgainstDatabase(connection);
+      if (msg) {
+        message += "<br/>" + msg;
+      }
+    }
+
     node.response.end(JSON.stringify({ operationOK: true, message }));
   };
 }

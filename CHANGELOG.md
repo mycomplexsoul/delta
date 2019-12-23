@@ -30,6 +30,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.8 (2019-08-29)
+
+- [AppTasks][new] Save Next tasks listing in local storage and be able to order them
+- [AppCommon][new] Add CFG structure updated documentation
+- [AppCommon][new] Add button and process to check Entity definition against current connected database to identify discrepancies
+- [AppKanban][new] Entity Definition for `Activity` and `Keyval`
+- [AppKanban][new] Entity Generation for `Activity` and `Keyval`
+
 ## v1.10.7 (2019-08-22)
 
 - [AppTasks][new] Style record listing that has not done tasks today
