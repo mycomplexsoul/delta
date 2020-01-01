@@ -19,6 +19,8 @@ import * as MultimediaDetRoute from "./MultimediaDet/MultimediaDetRoute";
 import * as MultimediaViewRoute from "./MultimediaView/MultimediaViewRoute";
 import * as LinkRoute from "./Link/LinkRoute";
 import * as LinkRouteExternal from "./Link/LinkRouteExternal";
+import * as ActivityRoute from "./Activity/ActivityRoute";
+
 import * as SyncRoute from "./Sync/SyncRoute";
 
 // Other pages
@@ -47,6 +49,7 @@ const entitiesWithAuth = [
   { url: "/multimediadet", handler: MultimediaDetRoute.router },
   { url: "/multimediaview", handler: MultimediaViewRoute.router },
   { url: "/links", handler: LinkRoute.router },
+  { url: "/activities", handler: ActivityRoute.router },
 
   { url: "/sync", handler: SyncRoute.router }
 ];

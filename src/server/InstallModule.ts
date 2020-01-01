@@ -28,9 +28,12 @@ import { MultimediaView } from '../crosscommon/entities/MultimediaView';
 
 import { Link } from '../crosscommon/entities/Link';
 
+import { Activity } from '../crosscommon/entities/Activity';
+import { Keyval } from '../crosscommon/entities/Keyval';
+
 export class InstallModule {
     install = () => {
-        const connection: iConnection = ConnectionService.getConnection();
+        const connection: iConnection = ConnectionService.getConnection('default');
         const models: iEntity[] = [
             new Catalog()
             , new User()
@@ -40,6 +43,7 @@ export class InstallModule {
             , new LastTime(), new LastTimeHistory()
             , new Multimedia(), new MultimediaDet(), new MultimediaView()
             , new Link()
+            , new Activity(), new Keyval()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {

@@ -30,6 +30,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.9 (2019-08-29)
+
+- [AppTasks][new] Unset links and schedule in task with command [-LINK] and [-SCHEDULE]
+- [AppTasks][new] Remove tags and qualifiers in task with command [-TAGS] and [-QUALIFIERS]
+- [AppCommon][new] Add `Activity` and `Keyval` to install module
+- [AppKanban][new] Add Kanban component based on Activity entity with basic CRUD
+
 ## v1.10.8 (2019-08-29)
 
 - [AppTasks][new] Save Next tasks listing in local storage and be able to order them

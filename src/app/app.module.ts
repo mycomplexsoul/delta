@@ -27,6 +27,8 @@ import { MultimediaComponent } from "./multimedia/multimedia.component";
 
 import { LinkComponent } from "./link/link.component";
 
+import { ActivityComponent } from "./activities/activity.component";
+
 import { StorageService } from "./common/storage.service";
 import { EntryService } from "./money/entry.service";
 import { DateCommon } from "./common/date.common";
@@ -74,6 +76,7 @@ import { RegisterComponent } from "./common/register.component";
     LastTimeComponent,
     MultimediaComponent,
     LinkComponent,
+    ActivityComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

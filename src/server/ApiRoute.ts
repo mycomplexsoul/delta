@@ -10,4 +10,14 @@ const get = (
   });
 };
 
-export default { get };
+const post = (
+  router: Router,
+  route: string,
+  handler: ({ request, response }) => any | void
+) => {
+  router.post(route, (request, response) => {
+    handler({ request, response });
+  });
+};
+
+export default { get, post };

@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 // types
 import { Multimedia } from "../../crosscommon/entities/Multimedia";
 import { MultimediaView } from "../../crosscommon/entities/MultimediaView";
@@ -111,18 +112,22 @@ export class MultimediaComponent {
     private multimediaService: MultimediaService,
     private multimediaDetService: MultimediaDetService,
     private multimediaViewService: MultimediaViewService,
-    private syncService: SyncAPI
+    private syncService: SyncAPI,
+    private titleService: Title
   ) {
+    this.titleService.setTitle("Multimedia");
     this.multimediaService.getAll().then(data => {
       this.viewData.multimediaList = this.calculateAge(data);
     });
     const det = this.multimediaDetService.getAll();
     const view = this.multimediaViewService.getAll();
 
-    Promise.all([det, view]).then(values => {
-      this.viewData.multimediaViewList = values[1];
-      this.renderDetListing(values[0], null);
-    });
+    Promise.all([det, view]).then(
+      (values: [MultimediaDet[], MultimediaView[]]) => {
+        this.viewData.multimediaViewList = values[1];
+        this.renderDetListing(values[0], null);
+      }
+    );
     const mediaTypes: string = JSON.stringify({
       gc: "AND",
       cont: [

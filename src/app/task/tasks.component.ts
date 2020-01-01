@@ -1254,6 +1254,47 @@ export class TasksComponent implements OnInit {
         "https://"
       );
     }
+
+    // token to look up and method that returns the changes to apply
+    // * important: remember these tokens apply just one at a time
+    // and it should be the last thing in the task name to work properly
+    const tokens = {
+      "[-LINK]": (t: Task) => ({
+        // remove url link
+        tsk_name: t.tsk_name,
+        tsk_url: null
+      }),
+      "[-SCHEDULE]": (t: Task) => ({
+        // remove schedule
+        tsk_name: t.tsk_name,
+        tsk_schedule_date_start: null,
+        tsk_schedule_date_end: null
+      }),
+      "[-TAGS]": (t: Task) => ({
+        // remove tags
+        tsk_name: t.tsk_name,
+        tsk_tags: ""
+      }),
+      "[-QUALIFIERS]": (t: Task) => ({
+        // remove qualifiers
+        tsk_name: t.tsk_name,
+        tsk_qualifiers: ""
+      })
+    };
+
+    // Iterate tokens and apply changes
+    Object.keys(tokens).forEach(token => {
+      if (command.indexOf(token) !== -1) {
+        this.services.tasksCore.doThisWithAToken(
+          t,
+          (t: Task, expression: string) => {
+            this.updateTask(t.tsk_id, tokens[token](t));
+            this.updateState();
+          },
+          token
+        );
+      }
+    });
   }
 
   notification(data: any) {

@@ -21,6 +21,8 @@ import { MultimediaComponent } from "./multimedia/multimedia.component";
 
 import { LinkComponent } from "./link/link.component";
 
+import { ActivityComponent } from "./activities/activity.component";
+
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 
 const appRoutes: Routes = [
@@ -82,6 +84,11 @@ const appRoutes: Routes = [
   {
     path: "links",
     component: LinkComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "activities",
+    component: ActivityComponent,
     canActivate: [AuthGuard]
   },
   {

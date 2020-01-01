@@ -286,6 +286,17 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/activities/activity.template.html":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/activities/activity.template.html ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <strong>Activity</strong>\r\n\r\n  <form #itemForm=\"ngForm\" (ngSubmit)=\"newItem(itemForm)\">\r\n    <button type=\"button\" (click)=\"toggleShowItemForm()\">\r\n      {{ viewData.showItemForm ? \"Hide Form\" : \"New Item\" }}\r\n    </button>\r\n\r\n    <div id=\"newItemFormSection\" *ngIf=\"viewData.showItemForm\">\r\n      <span class=\"field\" *ngIf=\"model.id\">\r\n        <label for=\"id\" class=\"label-left\">Id</label>\r\n        <span type=\"text\" name=\"id\" id=\"id\" class=\"field-input-small\"\r\n          >{{ model.id }}</span\r\n        >\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fName\" class=\"label-left\">Name</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fName\"\r\n          id=\"fName\"\r\n          class=\"field-input field-input-large\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <span class=\"field\">\r\n        <label for=\"fTags\" class=\"label-left\">Tags</label>\r\n        <input\r\n          type=\"text\"\r\n          name=\"fTags\"\r\n          id=\"fTags\"\r\n          class=\"field-input field-input-medium\"\r\n          ngModel\r\n        />\r\n      </span>\r\n\r\n      <button type=\"submit\">{{ model.id === null ? \"Save\" : \"Update\" }}</button>\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"card-list\">\r\n    <div\r\n      *ngFor=\"let item of viewData.activityList\"\r\n      class=\"card-item-container\"\r\n      (click)=\"setModelDetails(item.act_id, itemForm)\"\r\n    >\r\n      <span class=\"activity-name\">{{ item.act_name }}</span>\r\n      <br />\r\n      <span>Tags: {{ item.act_tags }}</span>\r\n\r\n      <span class=\"activity-badge-new\" *ngIf=\"item.isNew\">new</span>\r\n      <span class=\"activity-badge-edited\" *ngIf=\"item.isEdited\">edited</span>\r\n      <!--\r\n                <span *ngIf=\"item.showOptions\">\r\n                  <button (click)=\"archiveRecord(item)\">archive</button>\r\n                  <button (click)=\"editNotes(item)\">edit notes</button>\r\n                  <button (click)=\"viewHistory(item)\">view history</button>\r\n              </span>    -->\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/app.component.html":
 /*!**************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/app.component.html ***!
@@ -562,6 +573,273 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
+/***/ "./src/app/activities/activity.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/activities/activity.component.ts ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const Activity_1 = __webpack_require__(/*! ../../crosscommon/entities/Activity */ "./src/crosscommon/entities/Activity.ts");
+const activity_service_1 = __webpack_require__(/*! ./activity.service */ "./src/app/activities/activity.service.ts");
+const common_component_1 = __webpack_require__(/*! ../common/common.component */ "./src/app/common/common.component.ts");
+let ActivityComponent = class ActivityComponent {
+    constructor(activityService) {
+        this.activityService = activityService;
+        this.viewData = {
+            activityList: [],
+            showItemForm: false
+        };
+        this.model = {
+            id: null
+        };
+        this.common = null;
+        this.common = new common_component_1.CommonComponent();
+    }
+    ngOnInit() {
+        this.activityService.getAll().then(list => {
+            this.viewData.activityList = list;
+        });
+    }
+    toggleShowItemForm() {
+        if (this.viewData.showItemForm) {
+            this.model.id = null;
+        }
+        this.viewData.showItemForm = !this.viewData.showItemForm;
+    }
+    newItem(form) {
+        if (this.model.id) {
+            // edit item
+            this.common.updateItem({
+                form,
+                model: this.model,
+                listing: this.viewData.activityList,
+                onFindExpression: item => this.findById(item, this.model.id),
+                onAssignForEdit: (item, formValues) => {
+                    const newItem = new Activity_1.Activity(item);
+                    // newItem.act_id_project = formValues.fProjectId;
+                    newItem.act_name = formValues.fName;
+                    // newItem.act_description = formValues.fDescription;
+                    newItem.act_tags = formValues.fTags;
+                    // newItem.act_close_comment = formValues.fCloseComment;
+                    // newItem.act_ctg_status = formValues.fCtgStatus;
+                    return newItem;
+                },
+                onUpdateItemService: item => this.activityService.updateItem(item),
+                onFinalExecution: () => {
+                    this.model.id = null;
+                }
+            });
+        }
+        else {
+            // new item
+            this.common.newItem({
+                form,
+                listing: this.viewData.activityList,
+                onFindExpression: (item, newItem) => this.findById(item, newItem.act_id),
+                onAssignForCreate: formValues => {
+                    const newItem = new Activity_1.Activity({
+                        act_id_project: formValues.fProjectId || "0",
+                        act_name: formValues.fName,
+                        act_description: formValues.fDescription,
+                        act_tags: formValues.fTags,
+                        act_close_comment: formValues.fCloseComment,
+                        act_ctg_status: formValues.fCtgStatus || "1"
+                    });
+                    return newItem;
+                },
+                onNewItemService: item => this.activityService.newItem(item),
+                onFinalExecution: () => {
+                    this.viewData.showItemForm = false;
+                    this.model.id = null;
+                }
+            });
+        }
+        this.common.resetForm(form, () => {
+            this.model.id = null;
+        });
+        this.viewData.showItemForm = false;
+    }
+    resetForm(form) {
+        this.model.id = null;
+        form.reset();
+    }
+    setModelDetails(id, form) {
+        let model;
+        if (!this.viewData.showItemForm) {
+            this.viewData.showItemForm = !this.viewData.showItemForm;
+        }
+        model = this.viewData.activityList.find(item => this.findById(item, id));
+        this.model.id = model["act_id"]; // to tell the form that this is an edition
+        setTimeout(() => {
+            // form.controls["fProjectId"].setValue(model["act_id_project"]);
+            form.controls["fName"].setValue(model["act_name"]);
+            // form.controls["fDescription"].setValue(model["act_description"]);
+            form.controls["fTags"].setValue(model["act_tags"]);
+            // form.controls["fCloseComment"].setValue(model["act_close_comment"]);
+            // form.controls["fCtgStatus"].setValue(model["act_ctg_status"]);
+        }, 0);
+    }
+    findById(item, id) {
+        return item.act_id === id;
+    }
+};
+ActivityComponent.ctorParameters = () => [
+    { type: activity_service_1.ActivityService }
+];
+ActivityComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "activity",
+        template: __webpack_require__(/*! raw-loader!./activity.template.html */ "./node_modules/raw-loader/index.js!./src/app/activities/activity.template.html"),
+        providers: [activity_service_1.ActivityService],
+        styles: [__webpack_require__(/*! ./activity.css */ "./src/app/activities/activity.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [activity_service_1.ActivityService])
+], ActivityComponent);
+exports.ActivityComponent = ActivityComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/activities/activity.css":
+/*!*****************************************!*\
+  !*** ./src/app/activities/activity.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FjdGl2aXRpZXMvYWN0aXZpdHkuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/activities/activity.service.ts":
+/*!************************************************!*\
+  !*** ./src/app/activities/activity.service.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const Activity_1 = __webpack_require__(/*! ../../crosscommon/entities/Activity */ "./src/crosscommon/entities/Activity.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const Utility_1 = __webpack_require__(/*! ../../crosscommon/Utility */ "./src/crosscommon/Utility.ts");
+const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+const authentication_service_1 = __webpack_require__(/*! ../common/authentication.service */ "./src/app/common/authentication.service.ts");
+let ActivityService = class ActivityService {
+    constructor(authenticationService, sync) {
+        this.authenticationService = authenticationService;
+        this.sync = sync;
+        this.data = [];
+        this.config = {
+            storageKey: "activities",
+            api: {
+                list: "/api/activities",
+                create: "/api/activities",
+                update: "/api/activities/:id"
+            }
+        };
+    }
+    list() {
+        return this.data;
+    }
+    getAll() {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const sort = (a, b) => {
+                return a.act_date_mod.getTime() > b.act_date_mod.getTime() ? 1 : -1;
+            };
+            return this.sync
+                .get(`${this.config.api.list}`)
+                .then(data => {
+                this.data = data.map((d) => new Activity_1.Activity(d));
+                this.data = this.data.sort(sort);
+                return this.data;
+            })
+                .catch(err => {
+                return [];
+            });
+        });
+    }
+    newItem(baseItem) {
+        const newId = Utility_1.Utils.hashIdForEntity(new Activity_1.Activity(), "act_id");
+        const newItem = new Activity_1.Activity({
+            act_id: newId,
+            act_id_project: "0",
+            act_name: baseItem.act_name,
+            act_description: null,
+            act_tags: baseItem.act_tags || null,
+            act_close_comment: null,
+            act_id_user: this.authenticationService.currentUserValue.username,
+            act_date_add: DateUtility_1.DateUtils.newDateUpToSeconds(),
+            act_date_mod: DateUtility_1.DateUtils.newDateUpToSeconds(),
+            act_ctg_status: 1
+        });
+        return this.sync
+            .post(this.config.api.create, newItem)
+            .then(response => {
+            if (response.processOk) {
+                this.data.push(newItem);
+            }
+            else {
+                newItem["sync"] = false;
+                this.data.push(newItem);
+            }
+            return newItem;
+        })
+            .catch(err => {
+            // Append it to the listing but flag it as non-synced yet
+            newItem["sync"] = false;
+            this.data.push(newItem);
+            return newItem;
+        });
+    }
+    updateItem(item) {
+        const updateLocal = () => {
+            const index = this.data.findIndex(e => e.act_id === item.act_id);
+            if (index !== -1) {
+                this.data[index] = item;
+            }
+        };
+        return this.sync
+            .post(this.config.api.update.replace(":id", item.act_id), Utility_1.Utils.entityToRawTableFields(item))
+            .then(response => {
+            if (!response.operationOk) {
+                item["sync"] = false;
+            }
+            updateLocal();
+            return item;
+        })
+            .catch(err => {
+            // Append it to the listing but flag it as non-synced yet
+            console.log("error on update", err);
+            item["sync"] = false;
+            updateLocal();
+            return item;
+        });
+    }
+};
+ActivityService.ctorParameters = () => [
+    { type: authentication_service_1.AuthenticationService },
+    { type: sync_api_1.SyncAPI }
+];
+ActivityService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [authentication_service_1.AuthenticationService,
+        sync_api_1.SyncAPI])
+], ActivityService);
+exports.ActivityService = ActivityService;
+
+
+/***/ }),
+
 /***/ "./src/app/app.component.css":
 /*!***********************************!*\
   !*** ./src/app/app.component.css ***!
@@ -633,6 +911,7 @@ const movementListing_component_1 = __webpack_require__(/*! ./money/movementList
 const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
 const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
 const link_component_1 = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
+const activity_component_1 = __webpack_require__(/*! ./activities/activity.component */ "./src/app/activities/activity.component.ts");
 const storage_service_1 = __webpack_require__(/*! ./common/storage.service */ "./src/app/common/storage.service.ts");
 const entry_service_1 = __webpack_require__(/*! ./money/entry.service */ "./src/app/money/entry.service.ts");
 const date_common_1 = __webpack_require__(/*! ./common/date.common */ "./src/app/common/date.common.ts");
@@ -681,6 +960,7 @@ AppModule = tslib_1.__decorate([
             lasttime_component_1.LastTimeComponent,
             multimedia_component_1.MultimediaComponent,
             link_component_1.LinkComponent,
+            activity_component_1.ActivityComponent,
             type_generator_component_1.TypeGeneratorComponent,
             alert_component_1.AlertComponent,
             home_component_1.HomeComponent,
@@ -730,6 +1010,7 @@ const preset_component_1 = __webpack_require__(/*! ./money/preset.component */ "
 const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.component */ "./src/app/lasttime/lasttime.component.ts");
 const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
 const link_component_1 = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
+const activity_component_1 = __webpack_require__(/*! ./activities/activity.component */ "./src/app/activities/activity.component.ts");
 const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
 const appRoutes = [
     // { path: 'crisis-center', component: CrisisListComponent },
@@ -790,6 +1071,11 @@ const appRoutes = [
     {
         path: "links",
         component: link_component_1.LinkComponent,
+        canActivate: [auth_guard_1.AuthGuard]
+    },
+    {
+        path: "activities",
+        component: activity_component_1.ActivityComponent,
         canActivate: [auth_guard_1.AuthGuard]
     },
     {
@@ -3204,10 +3490,12 @@ exports.LinkService = LinkService;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 const account_service_1 = __webpack_require__(/*! ./account.service */ "./src/app/money/account.service.ts");
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 let AccountComponent = class AccountComponent {
-    constructor(accountService, syncService) {
+    constructor(accountService, syncService, titleService) {
+        this.titleService = titleService;
         this.accountList = [];
         this.viewData = {
             accountList: [],
@@ -3221,6 +3509,7 @@ let AccountComponent = class AccountComponent {
         this.model = {
             id: null
         };
+        this.titleService.setTitle("Accounts");
         this.services.accountService = accountService;
         this.services.syncService = syncService;
         this.getCatalogTypes();
@@ -3310,7 +3599,8 @@ let AccountComponent = class AccountComponent {
 };
 AccountComponent.ctorParameters = () => [
     { type: account_service_1.AccountService },
-    { type: sync_api_1.SyncAPI }
+    { type: sync_api_1.SyncAPI },
+    { type: platform_browser_1.Title }
 ];
 AccountComponent = tslib_1.__decorate([
     core_1.Component({
@@ -3318,7 +3608,9 @@ AccountComponent = tslib_1.__decorate([
         template: __webpack_require__(/*! raw-loader!./account.template.html */ "./node_modules/raw-loader/index.js!./src/app/money/account.template.html"),
         providers: [account_service_1.AccountService]
     }),
-    tslib_1.__metadata("design:paramtypes", [account_service_1.AccountService, sync_api_1.SyncAPI])
+    tslib_1.__metadata("design:paramtypes", [account_service_1.AccountService,
+        sync_api_1.SyncAPI,
+        platform_browser_1.Title])
 ], AccountComponent);
 exports.AccountComponent = AccountComponent;
 
@@ -6054,6 +6346,7 @@ exports.PresetService = PresetService;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 // services
 const multimedia_service_1 = __webpack_require__(/*! ./multimedia.service */ "./src/app/multimedia/multimedia.service.ts");
 const multimediadet_service_1 = __webpack_require__(/*! ./multimediadet.service */ "./src/app/multimedia/multimediadet.service.ts");
@@ -6061,11 +6354,12 @@ const multimediaview_service_1 = __webpack_require__(/*! ./multimediaview.servic
 const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
 const DateUtility_1 = __webpack_require__(/*! ../../crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 let MultimediaComponent = class MultimediaComponent {
-    constructor(multimediaService, multimediaDetService, multimediaViewService, syncService) {
+    constructor(multimediaService, multimediaDetService, multimediaViewService, syncService, titleService) {
         this.multimediaService = multimediaService;
         this.multimediaDetService = multimediaDetService;
         this.multimediaViewService = multimediaViewService;
         this.syncService = syncService;
+        this.titleService = titleService;
         this.viewData = {
             multimediaList: [],
             multimediaDetList: [],
@@ -6110,12 +6404,13 @@ let MultimediaComponent = class MultimediaComponent {
             recent: 1,
             today: 0
         };
+        this.titleService.setTitle("Multimedia");
         this.multimediaService.getAll().then(data => {
             this.viewData.multimediaList = this.calculateAge(data);
         });
         const det = this.multimediaDetService.getAll();
         const view = this.multimediaViewService.getAll();
-        Promise.all([det, view]).then(values => {
+        Promise.all([det, view]).then((values) => {
             this.viewData.multimediaViewList = values[1];
             this.renderDetListing(values[0], null);
         });
@@ -6397,7 +6692,8 @@ MultimediaComponent.ctorParameters = () => [
     { type: multimedia_service_1.MultimediaService },
     { type: multimediadet_service_1.MultimediaDetService },
     { type: multimediaview_service_1.MultimediaViewService },
-    { type: sync_api_1.SyncAPI }
+    { type: sync_api_1.SyncAPI },
+    { type: platform_browser_1.Title }
 ];
 MultimediaComponent = tslib_1.__decorate([
     core_1.Component({
@@ -6414,7 +6710,8 @@ MultimediaComponent = tslib_1.__decorate([
     tslib_1.__metadata("design:paramtypes", [multimedia_service_1.MultimediaService,
         multimediadet_service_1.MultimediaDetService,
         multimediaview_service_1.MultimediaViewService,
-        sync_api_1.SyncAPI])
+        sync_api_1.SyncAPI,
+        platform_browser_1.Title])
 ], MultimediaComponent);
 exports.MultimediaComponent = MultimediaComponent;
 
@@ -8005,6 +8302,41 @@ let TasksComponent = class TasksComponent {
                 this.updateState();
             }, "https://");
         }
+        // token to look up and method that returns the changes to apply
+        // * important: remember these tokens apply just one at a time
+        // and it should be the last thing in the task name to work properly
+        const tokens = {
+            "[-LINK]": (t) => ({
+                // remove url link
+                tsk_name: t.tsk_name,
+                tsk_url: null
+            }),
+            "[-SCHEDULE]": (t) => ({
+                // remove schedule
+                tsk_name: t.tsk_name,
+                tsk_schedule_date_start: null,
+                tsk_schedule_date_end: null
+            }),
+            "[-TAGS]": (t) => ({
+                // remove tags
+                tsk_name: t.tsk_name,
+                tsk_tags: ""
+            }),
+            "[-QUALIFIERS]": (t) => ({
+                // remove qualifiers
+                tsk_name: t.tsk_name,
+                tsk_qualifiers: ""
+            })
+        };
+        // Iterate tokens and apply changes
+        Object.keys(tokens).forEach(token => {
+            if (command.indexOf(token) !== -1) {
+                this.services.tasksCore.doThisWithAToken(t, (t, expression) => {
+                    this.updateTask(t.tsk_id, tokens[token](t));
+                    this.updateState();
+                }, token);
+            }
+        });
     }
     notification(data) {
         let not = window["Notification"];
@@ -10568,6 +10900,420 @@ Account.ctorParameters = () => [
     { type: undefined }
 ];
 exports.Account = Account;
+
+
+/***/ }),
+
+/***/ "./src/crosscommon/entities/Activity.ts":
+/*!**********************************************!*\
+  !*** ./src/crosscommon/entities/Activity.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class Activity {
+    constructor(base) {
+        this.metadata = {
+            name: "Activity",
+            namespace: "common",
+            removeMeans: "CANCELATION",
+            authNeeded: true,
+            displayOnMenu: true,
+            prefix: "act",
+            permissionsTemplate: "permissions_all",
+            tableName: "activity",
+            viewName: "viactivity",
+            permissions: [
+                "access",
+                "add",
+                "edit",
+                "remove",
+                "report",
+                "export",
+                "import"
+            ],
+            specialFeatures: [
+                "HEADERS(Activity,Activities)",
+                "TABLE_NAME(ACTIVITY)",
+                "VIEW_NAME(VIACTIVITY)"
+            ],
+            fields: [
+                {
+                    templateId: "string",
+                    dbName: "act_id",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "Id for the activity",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "ActivityId",
+                    formControl: "Textbox",
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: ["DUPLICITY_ADD"],
+                    displayName: "Activity Id",
+                    tooltip: "",
+                    isRecordName: true,
+                    gridOrder: 0,
+                    orderOnNew: 0,
+                    orderOnDetails: 0,
+                    orderOnEdit: 0,
+                    orderOnImport: 0,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "string",
+                    dbName: "act_id_project",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: false,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "Project Id",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "ProjectId",
+                    formControl: "Textbox",
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Project Id",
+                    tooltip: "",
+                    isRecordName: true,
+                    gridOrder: 1,
+                    orderOnNew: 1,
+                    orderOnDetails: 1,
+                    orderOnEdit: 1,
+                    orderOnImport: 1,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "string",
+                    dbName: "act_name",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "Activity name",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "Name",
+                    formControl: "Textbox",
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Name",
+                    tooltip: "",
+                    isRecordName: true,
+                    gridOrder: 2,
+                    orderOnNew: 2,
+                    orderOnDetails: 2,
+                    orderOnEdit: 2,
+                    orderOnImport: 2,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "string",
+                    dbName: "act_description",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: false,
+                    size: 4000,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: "",
+                    dbComment: "Details of the activity item",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "Description",
+                    formControl: "Textbox",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Description",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 3,
+                    orderOnNew: 3,
+                    orderOnDetails: 3,
+                    orderOnEdit: 3,
+                    orderOnImport: 3,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "string",
+                    dbName: "act_tags",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: "",
+                    dbComment: "Activity tags",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "Tags",
+                    formControl: "Textbox",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Tags",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 4,
+                    orderOnNew: 4,
+                    orderOnDetails: 4,
+                    orderOnEdit: 4,
+                    orderOnImport: 4,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "string",
+                    dbName: "act_close_comment",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: false,
+                    size: 4000,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: "",
+                    dbComment: "Final comment once activity is done",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "CloseComment",
+                    formControl: "Textbox",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Close Comment",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 5,
+                    orderOnNew: 5,
+                    orderOnDetails: 5,
+                    orderOnEdit: 5,
+                    orderOnImport: 5,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "string",
+                    dbName: "act_id_user",
+                    dbType: "string",
+                    isTableField: true,
+                    isPK: false,
+                    size: 50,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "User who this activity belongs to",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "User",
+                    formControl: "Textbox",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "User",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 6,
+                    orderOnNew: 6,
+                    orderOnDetails: 6,
+                    orderOnEdit: 6,
+                    orderOnImport: 6,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "creationDate",
+                    dbName: "act_date_add",
+                    dbType: "datetime",
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "Creation date of record in table",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "CreationDate",
+                    formControl: "Datetime",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: ["SAVE_DATE_AT_NEW"],
+                    displayName: "Creation Date",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 7,
+                    orderOnNew: 7,
+                    orderOnDetails: 7,
+                    orderOnEdit: 7,
+                    orderOnImport: 7,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "modificationDate",
+                    dbName: "act_date_mod",
+                    dbType: "datetime",
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "Last modification date of record in table",
+                    catalogId: "",
+                    originTable: "",
+                    linkedField: "",
+                    entName: "ModDate",
+                    formControl: "Datetime",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: ["SAVE_DATE_AT_NEW", "SAVE_DATE_AT_EDIT"],
+                    displayName: "Last Modification Date",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 8,
+                    orderOnNew: 8,
+                    orderOnDetails: 8,
+                    orderOnEdit: 8,
+                    orderOnImport: 8,
+                    globalOrder: 0,
+                    value: null
+                },
+                {
+                    templateId: "status",
+                    dbName: "act_ctg_status",
+                    dbType: "integer",
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: "",
+                    dbComment: "Record status in table",
+                    catalogId: "RECORD_STATUS",
+                    originTable: "CATALOG",
+                    linkedField: "",
+                    entName: "Status",
+                    formControl: "Combobox",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Status",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 9,
+                    orderOnNew: 9,
+                    orderOnDetails: 9,
+                    orderOnEdit: 9,
+                    orderOnImport: 9,
+                    globalOrder: undefined,
+                    value: null
+                },
+                {
+                    templateId: "catalog",
+                    dbName: "act_txt_status",
+                    dbType: "string",
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: "",
+                    dbComment: "Record status in table",
+                    catalogId: "RECORD_STATUS",
+                    originTable: "CATALOG",
+                    linkedField: "act_ctg_status",
+                    entName: "TextStatus",
+                    formControl: "Textbox",
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: "Status",
+                    tooltip: "",
+                    isRecordName: false,
+                    gridOrder: 10,
+                    orderOnNew: 10,
+                    orderOnDetails: 10,
+                    orderOnEdit: 10,
+                    orderOnImport: 10,
+                    globalOrder: 0,
+                    value: null
+                }
+            ],
+            view: []
+        };
+        this.recordName = () => {
+            return this.metadata.fields
+                .filter(f => f.isRecordName)
+                .map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
+            })
+                .join(", ");
+        };
+        if (base !== undefined) {
+            this.act_id = base.act_id;
+            this.act_id_project = base.act_id_project;
+            this.act_name = base.act_name;
+            this.act_description = base.act_description;
+            this.act_tags = base.act_tags;
+            this.act_close_comment = base.act_close_comment;
+            this.act_id_user = base.act_id_user;
+            this.act_date_add =
+                base.act_date_add !== null ? new Date(base.act_date_add) : null;
+            this.act_date_mod =
+                base.act_date_mod !== null ? new Date(base.act_date_mod) : null;
+            this.act_ctg_status = base.act_ctg_status;
+            this.act_txt_status = base.act_txt_status;
+        }
+    }
+}
+Activity.ctorParameters = () => [
+    { type: undefined }
+];
+exports.Activity = Activity;
 
 
 /***/ }),

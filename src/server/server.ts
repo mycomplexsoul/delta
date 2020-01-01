@@ -15,7 +15,7 @@ app.use(
 
 app.use(function(req, res, next) {
   console.log("----------------------------");
-  console.log(`incoming request: ${req.url}`);
+  console.log(`incoming request ${req.method}: ${req.url}`);
   next();
 });
 

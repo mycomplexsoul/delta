@@ -8,6 +8,7 @@ let ConnectionService = (function() {
     const config = configModule
       .getConfigValue("db")
       .find((item: any) => item.label === label);
+
     let connection: mysql.Connection; // = mysql.createConnection(config[0]);
 
     function handleDisconnect() {
@@ -18,14 +19,14 @@ let ConnectionService = (function() {
         // The server is either down
         if (err) {
           // or restarting (takes a while sometimes).
-          console.log("error when connecting to db:", err);
+          console.log(`error when connecting to db <${config.label}>:`, err);
           setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
         } // to avoid a hot loop, and to allow our node script to
         console.log(
           "connected to <" +
             config.database +
             "> with id " +
-            connection.threadId
+            (connection && connection.threadId)
         );
       }); // process asynchronous requests in the meantime.
       // If you're also serving http, display a 503 error.
@@ -33,7 +34,7 @@ let ConnectionService = (function() {
         console.log(
           new Date().toISOString() +
             " - db error, connection id: " +
-            connection.threadId,
+            (connection && connection.threadId),
           err
         );
         if (err.code === "PROTOCOL_CONNECTION_LOST") {
@@ -50,9 +51,9 @@ let ConnectionService = (function() {
 
     const close = () => {
       console.log(
-        `ending connection with id ${
-          connection.threadId
-        }, connection ${connection}`
+        `ending connection with id ${connection.threadId}, connection ${
+          connection.database
+        }`
       );
       connection.end();
       connection = null;
