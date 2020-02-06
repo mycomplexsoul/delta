@@ -657,15 +657,15 @@ export class TasksComponent implements OnInit {
     if (current.previousElementSibling.querySelector(selector)) {
       current.previousElementSibling.querySelector(selector).focus();
     } else {
-      if (
-        current.previousElementSibling.parentNode.previousElementSibling &&
-        current.previousElementSibling.parentNode.previousElementSibling.lastElementChild.querySelector(
-          selector
-        )
-      ) {
-        current.previousElementSibling.parentNode.previousElementSibling.lastElementChild
-          .querySelector(selector)
-          .focus();
+      // pivot if there's hidden elements until there's not a hidden element
+      let pivot =
+        current.previousElementSibling.parentNode.previousElementSibling
+          .lastElementChild;
+      while (pivot && pivot.classList.contains("hidden")) {
+        pivot = pivot.previousElementSibling;
+      }
+      if (pivot && pivot.querySelector(selector)) {
+        pivot.querySelector(selector).focus();
       } else {
         if (this.showBatchAdd) {
           this.focusElement("textarea[name=tsk_multiple_name]");
@@ -702,6 +702,7 @@ export class TasksComponent implements OnInit {
   taskJumpDown(current: any, selector: string) {
     if (
       current.nextElementSibling &&
+      !current.nextElementSibling.classList.contains("hidden") && // skips hidden ones
       current.nextElementSibling.querySelector(selector)
     ) {
       current.nextElementSibling.querySelector(selector).focus();

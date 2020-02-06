@@ -295,6 +295,8 @@ textarea.task-multiple {
   margin: 5px;
   padding: 5px;
   border: 1px solid lightgray;
+  overflow-y: auto;
+  max-height: 390px;
 }
 .task-record-no-task-done {
   border: 1px dashed #dd0000;

@@ -569,6 +569,9 @@
           class="task-eta"
           >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
         >
+        <span>
+          [{{t.tsk_id_record}}]
+        </span>
         <span *ngIf="t.tsk_tags" class="task-tags">
           <span
             *ngFor="let tag of t.tsk_tags.split(' ')"

@@ -1,25 +1,12 @@
 import * as express from "express";
-import { iNode } from "../iNode";
 import { MultimediaCustom } from "./MultimediaCustom";
+import ApiRoute from "../ApiRoute";
 
 const router = express.Router();
+const server: MultimediaCustom = new MultimediaCustom();
 
-router.get("/", (req, res) => {
-  let server: MultimediaCustom = new MultimediaCustom();
-  let node: iNode = {
-    request: req,
-    response: res
-  };
-  server.listRequestHandler(node);
-});
-
-router.post("/", (req, res) => {
-  let server: MultimediaCustom = new MultimediaCustom();
-  let node: iNode = {
-    request: req,
-    response: res
-  };
-  server.createRequestHandler(node);
-});
+ApiRoute.get(router, "/", server.listRequestHandler);
+ApiRoute.post(router, "/", server.createRequestHandler);
+ApiRoute.post(router, "/:mma_id", server.updateRequestHandler);
 
 export { router };

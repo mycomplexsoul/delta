@@ -25,16 +25,16 @@ export class ApiServer {
     return api.list(query);
   };
 
-  createRequestHandler = (node: iNode) => {
-    this.create(node.request.body).then(response => {
+  createRequestHandler = (node: iNode, hooks: any = {}) => {
+    this.create(node.request.body, hooks).then(response => {
       node.response.end(JSON.stringify(response));
     });
   };
 
-  create = (body: any): Promise<any> => {
+  create = (body: any, hooks: any = {}): Promise<any> => {
     const api: ApiModule = new ApiModule(this.model);
 
-    return api.create({ body }, {});
+    return api.create({ body }, hooks);
   };
 
   updateRequestHandler = (node: iNode) => {

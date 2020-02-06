@@ -12,10 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppCommon][new][Login] Login logged user identity service uses token data
 
-- [AppKanban][new] Entity definition
-- [AppKanban][new] Entry and table generation
-- [AppKanban][new] Entity generation
-
 - [AppMoney][new] Add income vs expenses vs final balance bar chart for selected month in balance page
 - [AppMoney][new] Apply theme to movement page/list https://dribbble.com/tags/bank_app
 - [AppMoney][new] Average balance: if avg-balance is below minimum and it's current month, show option/form to tell how much to deposit in order to have the required minimum at the end of the period
@@ -29,6 +25,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMultimedia][new] View episode details in a form, to be able to edit them
 
 <hr/>
+
+## v1.10.11 (2019-09-12)
+
+- [AppMultimedia][fix] Refactor new and update methods to follow common component logic
+- [AppMultimedia][new] Add media details in form and details button to be able to display them
+- [AppMultimedia][new] Edit media details
+
+## v1.10.10 (2019-09-05)
+
+- [AppKanban][new] Insert keyval info on item creation
+- [AppTasks][fix] Fix arrow navigation in tasks when limit view is enabled
+- [AppMoney][fix] Use user in Balance listing page and graphs
 
 ## v1.10.9 (2019-08-29)
 

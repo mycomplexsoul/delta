@@ -4,6 +4,7 @@ import { ActivityService } from "./activity.service";
 import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 import { CommonComponent } from "../common/common.component";
+import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
   selector: "activity",
@@ -80,14 +81,23 @@ export class ActivityComponent implements OnInit {
           const newItem = new Activity({
             act_id_project: formValues.fProjectId || "0",
             act_name: formValues.fName,
-            act_description: formValues.fDescription,
-            act_tags: formValues.fTags,
-            act_close_comment: formValues.fCloseComment,
+            act_description: formValues.fDescription || null,
+            act_tags: formValues.fTags || null,
+            act_close_comment: formValues.fCloseComment || null,
             act_ctg_status: formValues.fCtgStatus || "1"
           });
           return newItem;
         },
-        onNewItemService: item => this.activityService.newItem(item),
+        onNewItemService: item => {
+          // augment with Keyval info
+          item["keyvalItems"] = {
+            ACT_DATE_REQUESTED: DateUtils.formatDate(
+              DateUtils.newDateUpToSeconds()
+            )
+          };
+
+          return this.activityService.newItem(item);
+        },
         onFinalExecution: () => {
           this.viewData.showItemForm = false;
           this.model.id = null;

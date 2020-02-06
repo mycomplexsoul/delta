@@ -14,6 +14,8 @@ import { SyncAPI } from "../common/sync.api";
 import { Catalog } from "../../crosscommon/entities/Catalog";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { SyncQueue } from "../common/SyncQueue";
+import { CommonComponent } from "../common/common.component";
+import { iEntity } from "src/crosscommon/iEntity";
 
 @Component({
   selector: "multimedia",
@@ -108,6 +110,8 @@ export class MultimediaComponent {
     today: 0
   };
 
+  public common: CommonComponent<Multimedia> = null;
+
   constructor(
     private multimediaService: MultimediaService,
     private multimediaDetService: MultimediaDetService,
@@ -116,6 +120,7 @@ export class MultimediaComponent {
     private titleService: Title
   ) {
     this.titleService.setTitle("Multimedia");
+    this.common = new CommonComponent<Multimedia>();
     this.multimediaService.getAll().then(data => {
       this.viewData.multimediaList = this.calculateAge(data);
     });
@@ -161,25 +166,76 @@ export class MultimediaComponent {
       });
   }
 
-  handleNewItem() {
+  toggleShowItemForm() {
+    if (this.viewData.showCreateForm) {
+      this.model.id = null;
+    }
     this.viewData.showCreateForm = !this.viewData.showCreateForm;
   }
 
+  findById(item: Multimedia, id: string) {
+    return item.mma_id === id;
+  }
+
   newItem(form: NgForm) {
-    let values = form.value;
+    if (this.model.id) {
+      // edit item
+      this.common.updateItem({
+        form,
+        model: this.model,
+        listing: this.viewData.multimediaList,
+        onFindExpression: item => this.findById(item, this.model.id),
+        onAssignForEdit: (item, formValues) => {
+          const newItem = new Multimedia(item);
 
-    const item: Multimedia = this.multimediaService.newItem(
-      values.fTitle,
-      values.fMediaType,
-      values.fSeason,
-      values.fYear,
-      values.fCurrentEp,
-      values.fTotalEp || 0,
-      values.fUrl
-    );
+          newItem.mma_title = formValues.fTitle;
+          newItem.mma_ctg_media_type = formValues.fMediaType;
+          newItem.mma_season = formValues.fSeason;
+          newItem.mma_year = formValues.fYear;
+          newItem.mma_current_ep = formValues.fCurrentEp;
+          newItem.mma_total_ep = formValues.fTotalEp;
+          newItem.mma_url = formValues.fUrl;
 
-    this.viewData.multimediaList.push(item);
-    this.resetForm(form);
+          return newItem;
+        },
+        onUpdateItemService: item => this.multimediaService.updateItem(item),
+        onFinalExecution: () => {
+          this.model.id = null;
+        }
+      });
+    } else {
+      // new item
+      this.common.newItem({
+        form,
+        listing: this.viewData.multimediaList,
+        onFindExpression: (item, newItem) =>
+          this.findById(item, newItem.mma_id),
+        onAssignForCreate: formValues => {
+          const newItem = new Multimedia({
+            mma_title: formValues.fTitle,
+            mma_ctg_media_type: formValues.fMediaType,
+            mma_season: formValues.fSeason,
+            mma_year: formValues.fYear,
+            mma_current_ep: formValues.fCurrentEp,
+            mma_total_ep: formValues.fTotalEp || 0,
+            mma_url: formValues.fUrl,
+            mma_ctg_status: formValues.fCtgStatus || 1
+          });
+          return newItem;
+        },
+        onNewItemService: item => {
+          return this.multimediaService.newItem(item);
+        },
+        onFinalExecution: () => {
+          this.viewData.showCreateForm = false;
+          this.model.id = null;
+        }
+      });
+    }
+
+    this.common.resetForm(form, () => {
+      this.resetForm(form);
+    });
     this.viewData.showCreateForm = false;
   }
 
@@ -191,6 +247,26 @@ export class MultimediaComponent {
     this.model.fSeason = 1;
     this.model.fYear = new Date().getFullYear();
     this.model.fCurrentEp = "1";
+  }
+
+  setModelDetails(id: string, form: NgForm) {
+    let model: Multimedia;
+    if (!this.viewData.showCreateForm) {
+      this.viewData.showCreateForm = !this.viewData.showCreateForm;
+    }
+
+    model = this.viewData.multimediaList.find(item => this.findById(item, id));
+    this.model.id = model.mma_id; // to tell the form that this is an edition
+
+    setTimeout(() => {
+      form.controls["fTitle"].setValue(model.mma_title);
+      form.controls["fMediaType"].setValue(model.mma_ctg_media_type);
+      form.controls["fSeason"].setValue(model.mma_season);
+      form.controls["fYear"].setValue(model.mma_year);
+      form.controls["fCurrentEp"].setValue(model.mma_current_ep);
+      form.controls["fTotalEp"].setValue(model.mma_total_ep);
+      form.controls["fUrl"].setValue(model.mma_url);
+    }, 0);
   }
 
   showNewEpForm(item: Multimedia) {

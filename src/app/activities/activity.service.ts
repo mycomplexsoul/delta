@@ -44,35 +44,28 @@ export class ActivityService {
 
   newItem(baseItem: Activity): Promise<Activity> {
     const newId: string = Utils.hashIdForEntity(new Activity(), "act_id");
-    const newItem = new Activity({
-      act_id: newId,
-      act_id_project: "0",
-      act_name: baseItem.act_name,
-      act_description: null,
-      act_tags: baseItem.act_tags || null,
-      act_close_comment: null,
-      act_id_user: this.authenticationService.currentUserValue.username,
-      act_date_add: DateUtils.newDateUpToSeconds(),
-      act_date_mod: DateUtils.newDateUpToSeconds(),
-      act_ctg_status: 1
-    });
+    // complete all fields for item creation
+    baseItem.act_id = newId;
+    baseItem.act_id_user = this.authenticationService.currentUserValue.username;
+    baseItem.act_date_add = DateUtils.newDateUpToSeconds();
+    baseItem.act_date_mod = DateUtils.newDateUpToSeconds();
 
     return this.sync
-      .post(this.config.api.create, newItem)
+      .post(this.config.api.create, Utils.removeMetadataFromEntity(baseItem))
       .then(response => {
         if (response.processOk) {
-          this.data.push(newItem);
+          this.data.push(baseItem);
         } else {
-          newItem["sync"] = false;
-          this.data.push(newItem);
+          baseItem["sync"] = false;
+          this.data.push(baseItem);
         }
-        return newItem;
+        return baseItem;
       })
       .catch(err => {
         // Append it to the listing but flag it as non-synced yet
-        newItem["sync"] = false;
-        this.data.push(newItem);
-        return newItem;
+        baseItem["sync"] = false;
+        this.data.push(baseItem);
+        return baseItem;
       });
   }
 

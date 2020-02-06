@@ -1,5 +1,5 @@
 <form #newForm="ngForm" (ngSubmit)="newItem(newForm)">
-  <button type="button" (click)="handleNewItem(newForm)">
+  <button type="button" (click)="toggleShowItemForm(newForm)">
     {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}
   </button>
 
@@ -7,9 +7,9 @@
     <div>
       <span class="field" *ngIf="model.id">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="multimedia-input-id">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="multimedia-input-id"
+          >{{ model.id }}</span
+        >
       </span>
       <span class="field">
         <label for="fTitle" class="label-left">Title</label>
@@ -148,6 +148,9 @@
         >
           list episodes
         </button>
+        <button type="button" (click)="setModelDetails(item.mma_id, newForm)">
+          details
+        </button>
       </span>
     </td>
     <td class="padding-left-5 padding-right-5 text-align-right">
@@ -197,9 +200,9 @@
         <span class="multimedia-input-id" *ngIf="epModel.mediaUrl">
           <a [href]="epModel.mediaUrl" target="_blank">{{ epModel.fTitle }}</a>
         </span>
-        <span class="multimedia-input-id" *ngIf="!epModel.mediaUrl">{{
-          epModel.fTitle
-        }}</span>
+        <span class="multimedia-input-id" *ngIf="!epModel.mediaUrl"
+          >{{ epModel.fTitle }}</span
+        >
       </span>
       <span class="field">
         <label for="id" class="label-left">Id</label>
@@ -398,16 +401,9 @@
     <div class="multimedia-listing-row" *ngFor="let item of group.items">
       <span class="padding-left-5 padding-right-5">
         <span>
-          -
-          {{
-            !viewData.showDetList && item.mmd_txt_title
-              ? item.mmd_txt_title +
-                " | " +
-                item.mmd_id_ep +
-                " - " +
-                item.mmd_ep_title
-              : item.mmd_id_ep + " - " + item.mmd_ep_title
-          }}
+          - {{ !viewData.showDetList && item.mmd_txt_title ? item.mmd_txt_title
+          + " | " + item.mmd_id_ep + " - " + item.mmd_ep_title : item.mmd_id_ep
+          + " - " + item.mmd_ep_title }}
         </span>
         <span *ngIf="item.mmd_year">
           <a [href]="item.mmd_url" target="_blank" *ngIf="item.mmd_url">

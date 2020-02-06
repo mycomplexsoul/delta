@@ -2,15 +2,13 @@ import { ApiModule } from "../ApiModule";
 import { iNode } from "../iNode";
 import { Balance } from "../../crosscommon/entities/Balance";
 import { BalanceModule } from "../BalanceModule";
+import { ApiServer } from "../ApiServer";
 
 export class BalanceServer {
-  list = (node: iNode) => {
-    let api: ApiModule = new ApiModule(new Balance());
+  private api: ApiServer = new ApiServer(new Balance());
 
-    api.list({ q: node.request.query["q"] }).then(response => {
-      node.response.end(JSON.stringify(response));
-    });
-  };
+  listRequestHandler = this.api.listRequestHandler;
+  list = this.api.list;
 
   rebuild = async (req: any, res: any) => {
     const balanceModule: BalanceModule = new BalanceModule();

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
 import { AuthenticationService } from "../common/authentication.service";
+import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Injectable()
 export class MultimediaService {
@@ -10,8 +11,8 @@ export class MultimediaService {
   private config = {
     api: {
       list: "/api/multimedia",
-      create: "create",
-      update: "update"
+      create: "/api/multimedia",
+      update: "/api/multimedia/:id"
     }
   };
 
@@ -59,44 +60,60 @@ export class MultimediaService {
     return Utils.hashId(m.metadata.prefix, length);
   }
 
-  newItem(
-    title: string,
-    media_type: number,
-    season: number,
-    year: number,
-    current_ep: string,
-    total_ep: string,
-    url: string
-  ): Multimedia {
-    let newId: string = this.newId();
-    let newItem = new Multimedia({
-      mma_id: newId,
-      mma_title: title,
-      mma_ctg_media_type: media_type,
-      mma_season: season,
-      mma_year: year,
-      mma_current_ep: current_ep,
-      mma_total_ep: total_ep,
-      mma_url: url,
-      mma_id_user: this.authenticationService.currentUserValue.username,
-      mma_date_add: new Date(),
-      mma_date_mod: new Date(),
-      mma_ctg_status: 1
-    });
+  newItem(baseItem: Multimedia): Promise<Multimedia> {
+    const newId: string = Utils.hashIdForEntity(new Multimedia(), "mma_id");
+    // complete all fields for item creation
+    baseItem.mma_id = newId;
+    baseItem.mma_id_user = this.authenticationService.currentUserValue.username;
+    baseItem.mma_date_add = DateUtils.newDateUpToSeconds();
+    baseItem.mma_date_mod = DateUtils.newDateUpToSeconds();
 
-    this.sync.request(
-      "create",
-      Utils.entityToRawTableFields(newItem),
-      Utils.getPKFromEntity(newItem),
-      "Multimedia",
-      () => {
-        newItem["not_sync"] = false; // means it's synced
-      },
-      newItem.recordName,
-      item => item.mma_id === newItem.mma_id
-    );
+    return this.sync
+      .post(this.config.api.create, Utils.removeMetadataFromEntity(baseItem))
+      .then(response => {
+        if (response.processOk) {
+          this.data.push(baseItem);
+        } else {
+          baseItem["sync"] = false;
+          this.data.push(baseItem);
+        }
+        return baseItem;
+      })
+      .catch(err => {
+        // Append it to the listing but flag it as non-synced yet
+        baseItem["sync"] = false;
+        this.data.push(baseItem);
+        return baseItem;
+      });
+  }
 
-    return newItem;
+  updateItem(item: Multimedia): Promise<Multimedia> {
+    const updateLocal = () => {
+      const index = this.data.findIndex(e => e.mma_id === item.mma_id);
+      if (index !== -1) {
+        this.data[index] = item;
+      }
+    };
+
+    return this.sync
+      .post(
+        this.config.api.update.replace(":id", item.mma_id),
+        Utils.entityToRawTableFields(item)
+      )
+      .then(response => {
+        if (!response.operationOk) {
+          item["sync"] = false;
+        }
+        updateLocal();
+        return item;
+      })
+      .catch(err => {
+        // Append it to the listing but flag it as non-synced yet
+        console.log("error on update", err);
+        item["sync"] = false;
+        updateLocal();
+        return item;
+      });
   }
 
   asUpdateSyncQueue(item: Multimedia) {
