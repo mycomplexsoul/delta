@@ -23,6 +23,7 @@ import { BalanceService } from "./balance.service";
 import { PresetService } from "./preset.service";
 import { formatCurrency } from "@angular/common";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { reduce } from "rxjs/operators";
 
 @Component({
   selector: "movement",
@@ -192,9 +193,9 @@ export class MovementComponent implements OnInit {
     this.services.movement.getAll().then((list: Array<Movement>) => {
       this.viewData.movements = list;
 
-      this.viewData.movements = this.viewData.movements
-        .sort((a: Movement, b: Movement) => (a.mov_date >= b.mov_date ? -1 : 1))
-        .slice(0, 50);
+      this.viewData.movements = this.getLastestMovements(
+        this.viewData.movements
+      );
     });
     /* analysis */
     // const year = 2017;
@@ -217,6 +218,12 @@ export class MovementComponent implements OnInit {
     // });
     // console.log('entries for Mosho Cartera Income',mon.filter((e: Entry) => e.ent_id_account === account && e.ent_ctg_type == 2));
     // console.log('entries for Mosho Cartera Expense',mon.filter((e: Entry) => e.ent_id_account === account && e.ent_ctg_type == 1));
+  }
+
+  getLastestMovements(movementList: Movement[]) {
+    return movementList
+      .sort((a: Movement, b: Movement) => (a.mov_date >= b.mov_date ? -1 : 1))
+      .slice(0, 50);
   }
 
   movementFlowType(value: string) {
@@ -583,51 +590,6 @@ export class MovementComponent implements OnInit {
       });
   }
 
-  /*selectPreset(presetId: string, form: any){
-        this.services.preset.getAll().then((list: Preset[]) => {
-            let preset: Preset = list.find((p: Preset) => p.pre_id === presetId);
-            let fields: Array<any> = [
-                {
-                    'control': 'fDescription'
-                    , 'value': 'pre_desc'
-                },{
-                    'control': 'fAmount'
-                    , 'value': 'pre_amount'
-                },{
-                    'control': 'fAccount'
-                    , 'value': 'pre_id_account'
-                },{
-                    'control': 'fAccountTo'
-                    , 'value': 'pre_id_account_to'
-                },{
-                    'control': 'fMovementType'
-                    , 'value': 'pre_ctg_type'
-                },{
-                    'control': 'fDate'
-                    , 'value': 'pre_date'
-                },{
-                    'control': 'fBudget'
-                    , 'value': 'pre_budget'
-                },{
-                    'control': 'fCategory'
-                    , 'value': 'pre_id_category'
-                },{
-                    'control': 'fPlace'
-                    , 'value': 'pre_id_place'
-                },{
-                    'control': 'fNotes'
-                    , 'value': 'pre_notes'
-                }
-            ];
-    
-            fields.forEach((f: any) => {
-                if (form.controls[f.control] && preset[f.value]){
-                    form.controls[f.control].setValue(preset[f.value]);
-                }
-            });
-        });
-    }*/
-
   cancelMovement() {
     // TODO: upon cancellation, change status, modify other movement references to filter active movements, rebuild and transfer
   }
@@ -929,5 +891,81 @@ export class MovementComponent implements OnInit {
     this.viewData.movements[existingIndex] = m;
     this.model.id = null;
     this.resetForm(form);
+  }
+
+  /**
+   * Given a provided place id and a movement listing, it will look into the
+   * movement listing and return the related category used in one of those
+   * movements representing the associated category for the place to help
+   * reducing capture in movement form.
+   * @param place Provided place whose category will be looked up
+   * @param movementList Universe of movements to search into
+   */
+  suggestCategoryByPlace(place: string, movementList: Movement[]): string {
+    const usage = movementList
+      .filter(({ mov_id_place }) => mov_id_place === place)
+      .reduce((collection, { mov_id_category }) => {
+        if (collection[mov_id_category]) {
+          collection[mov_id_category] += 1;
+        } else {
+          collection[mov_id_category] = 1;
+        }
+        return collection;
+      }, {});
+
+    const max = Object.keys(usage).reduce(
+      ({ category, usageCount }, categoryId) => {
+        if (usageCount < usage[categoryId]) {
+          return {
+            category: categoryId,
+            usageCount: usage[categoryId]
+          };
+        }
+        return { category, usageCount };
+      },
+      { category: "", usageCount: 0 }
+    );
+
+    return max.category;
+  }
+
+  onChangePlace(selectedPlace: string) {
+    const suggestedCategory: string = this.suggestCategoryByPlace(
+      selectedPlace,
+      this.services.movement.list()
+    );
+
+    if (suggestedCategory) {
+      this.model.category = suggestedCategory;
+    }
+  }
+
+  onSearch(searchTerm) {
+    const fields = [
+      // fields considered for the search
+      "mov_desc",
+      "mov_txt_category",
+      "mov_txt_place",
+      "mov_amount"
+    ];
+
+    if (searchTerm) {
+      this.viewData.movements = this.services.movement.list().filter((
+        movement // if one field string comparison ignoring case returns true, then use the movement
+      ) =>
+        fields.some(
+          field =>
+            movement[field] &&
+            movement[field]
+              .toString()
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+        )
+      );
+    } else {
+      this.viewData.movements = this.getLastestMovements(
+        this.services.movement.list()
+      );
+    }
   }
 }

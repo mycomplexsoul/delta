@@ -22,9 +22,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] Reuse CSS styles and generic grid listing components
 - [AppLastTime][new] Edit history items
 
-- [AppMultimedia][new] View episode details in a form, to be able to edit them
-
 <hr/>
+
+## v1.10.12 (2019-09-19)
+
+- [AppMultimedia][new] Add next ep title/url in new ep form
+- [AppMoney][new] Category prediction based in movement place history
+- [AppMoney][new] Be able to search on all movements
 
 ## v1.10.11 (2019-09-12)
 

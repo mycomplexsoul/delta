@@ -5,6 +5,20 @@
     <option value="compact">Compact</option>
     <option value="grid">Grid</option>
   </select>
+  Showing {{movementList.length}} items.
+</div>
+
+<div *ngIf="showSearch">
+  <label for="fSearch" class="label-left">Search term</label>
+  <input
+    type="text"
+    name="fSearch"
+    id="fSearch"
+    class="field-input"
+    [(ngModel)]="searchTerm"
+    (keyup.enter)="handleSearch()"
+  />
+  <button (click)="handleSearch()">Search</button>
 </div>
 
 <table *ngIf="movementList.length && selectedView === 'grid'">
@@ -55,9 +69,9 @@
       >
         <span *ngIf="m.mov_txt_type === 'EXPENSE'">-</span>
         <span *ngIf="m.mov_txt_type === 'INCOME'">+</span>
-        <span>{{
-          m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"
-        }}</span>
+        <span
+          >{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span
+        >
       </span>
       <span class="movement-account">[{{ m.mov_txt_account }}]</span>
       <span class="movement-account" *ngIf="m.mov_txt_account_to">
@@ -66,9 +80,9 @@
       <span class="movement-date">[{{ m.mov_date | date: "yyyy-MM-dd" }}]</span>
       <span class="movement-description">{{ m.mov_desc }}</span>
       <br />
-      <span class="movement-category" *ngIf="m.mov_txt_category">{{
-        m.mov_txt_category
-      }}</span>
+      <span class="movement-category" *ngIf="m.mov_txt_category"
+        >{{ m.mov_txt_category }}</span
+      >
       <span class="movement-place" *ngIf="m.mov_txt_place">
         | {{ m.mov_txt_place }}</span
       >
@@ -77,9 +91,9 @@
       >
       <br *ngIf="m.mov_ctg_type === 1 || m.mov_ctg_type === 2" />
       <span class="movement-notes">{{ m.mov_notes }}</span>
-      <span class="movement-status" *ngIf="m.mov_ctg_status !== 1">{{
-        m.mov_txt_status
-      }}</span>
+      <span class="movement-status" *ngIf="m.mov_ctg_status !== 1"
+        >{{ m.mov_txt_status }}</span
+      >
       <span class="movement-badge-new" *ngIf="m.isNew">new</span>
       <span class="movement-badge-edited" *ngIf="m.isEdited">edited</span>
     </div>
@@ -97,9 +111,10 @@
     <tr class="movements-listing-row" *ngIf="selectedBalance">
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
-        <strong>{{
-          selectedBalance.bal_initial | currency: "USD":"symbol-narrow":"1.2-2"
-        }}</strong>
+        <strong
+          >{{ selectedBalance.bal_initial | currency:
+          "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
       </td>
       <td class="padding-all-5"></td>
       <td class="padding-all-5"><strong>INITIAL BALANCE</strong></td>
@@ -107,19 +122,13 @@
     <tr class="movements-listing-row" *ngFor="let m of movementList">
       <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
       <td class="padding-all-5 text-align-right" *ngIf="selectedBalance">
-        {{
-          (m.mov_ctg_type === 1 ||
-          (m.mov_ctg_type === 3 &&
-            m.mov_id_account === selectedBalance.bal_id_account)
-            ? -1 * m.mov_amount
-            : m.mov_amount) | currency: "USD":"symbol-narrow":"1.2-2"
-        }}
+        {{ (m.mov_ctg_type === 1 || (m.mov_ctg_type === 3 && m.mov_id_account
+        === selectedBalance.bal_id_account) ? -1 * m.mov_amount : m.mov_amount)
+        | currency: "USD":"symbol-narrow":"1.2-2" }}
       </td>
       <td class="padding-all-5 text-align-right" *ngIf="!selectedBalance">
-        {{
-          (m.mov_ctg_type === 1 ? -1 * m.mov_amount : m.mov_amount)
-            | currency: "USD":"symbol-narrow":"1.2-2"
-        }}
+        {{ (m.mov_ctg_type === 1 ? -1 * m.mov_amount : m.mov_amount) | currency:
+        "USD":"symbol-narrow":"1.2-2" }}
       </td>
       <td class="padding-all-5">
         {{ m.mov_ctg_type === 3 ? "TRANSFER" : m.mov_txt_place }}
@@ -129,9 +138,10 @@
     <tr class="movements-listing-row" *ngIf="selectedBalance">
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
-        <strong>{{
-          selectedBalance.bal_final | currency: "USD":"symbol-narrow":"1.2-2"
-        }}</strong>
+        <strong
+          >{{ selectedBalance.bal_final | currency:
+          "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
       </td>
       <td class="padding-all-5"></td>
       <td class="padding-all-5"><strong>FINAL BALANCE</strong></td>

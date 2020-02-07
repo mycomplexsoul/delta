@@ -15,10 +15,19 @@ export class MovementListingComponent {
   @Input() movementList: Movement[] = [];
   @Input() selectedBalance: Balance = null;
   @Output() onItemClick: EventEmitter<any> = new EventEmitter();
+  @Input() showSearch: boolean;
+  @Input() searchTerm: string;
+  @Output() onSearch: EventEmitter<any> = new EventEmitter();
 
   handleClick(id: string) {
     if (this.onItemClick) {
       this.onItemClick.emit(id);
+    }
+  }
+
+  handleSearch() {
+    if (this.onSearch) {
+      this.onSearch.emit(this.searchTerm);
     }
   }
 }

@@ -1099,7 +1099,7 @@ export class MovementCustom {
     );
     const sqlMovements: string = `select * from vimovement where (mov_id_account = '${account}' or mov_id_account_to = '${account}') and mov_date >= '${DateUtils.formatDate(
       initialDate
-    )}' and mov_date <= '${DateUtils.formatDate(finalDate)}'`;
+    )}' and mov_date <= '${DateUtils.formatDate(finalDate)}' order by mov_date asc`;
     const { rows: MovementList } = await connection.runSql(sqlMovements);
     const movements: Movement[] = MovementList.map((m: any) => new Movement(m));
 

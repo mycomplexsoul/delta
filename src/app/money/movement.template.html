@@ -41,9 +41,7 @@
             setModelDetails(model.selectedPreset, newMovementForm, 'pre')
           "
         >
-          <option
-            *ngFor="let opt of viewData.presets"
-            value="{{ opt.pre_id }}"
+          <option *ngFor="let opt of viewData.presets" value="{{ opt.pre_id }}"
             >{{ opt.pre_name }}</option
           >
         </select>
@@ -78,10 +76,8 @@
         <label for="fAccount" class="label-left">Account</label>
         <select name="fAccount" id="fAccount" class="field-select" ngModel>
           <option *ngFor="let opt of viewData.accounts" value="{{ opt.acc_id }}"
-            >{{ opt.acc_name }} /
-            {{
-              opt.bal_final | currency: "USD":"symbol-narrow":"1.2-2"
-            }}</option
+            >{{ opt.acc_name }} / {{ opt.bal_final | currency:
+            "USD":"symbol-narrow":"1.2-2" }}</option
           >
         </select>
       </span>
@@ -89,10 +85,8 @@
         <label for="fAccountTo" class="label-left">Account To</label>
         <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
           <option *ngFor="let opt of viewData.accounts" value="{{ opt.acc_id }}"
-            >{{ opt.acc_name }} /
-            {{
-              opt.bal_final | currency: "USD":"symbol-narrow":"1.2-2"
-            }}</option
+            >{{ opt.acc_name }} / {{ opt.bal_final | currency:
+            "USD":"symbol-narrow":"1.2-2" }}</option
           >
         </select>
       </span>
@@ -126,6 +120,7 @@
           id="fPlace"
           class="field-select"
           [(ngModel)]="model.place"
+          (change)="onChangePlace(model.place)"
         >
           <option
             *ngFor="let opt of viewData.places"
@@ -200,13 +195,8 @@
         />
       </span>
       <button type="submit" id="newFormSubmitButton">
-        {{
-          model.asPreset
-            ? "Save as Preset"
-            : model.id !== null
-            ? "Update Movement"
-            : "Save Movement"
-        }}
+        {{ model.asPreset ? "Save as Preset" : model.id !== null ? "Update
+        Movement" : "Save Movement" }}
       </button>
       <button
         type="button"
@@ -223,4 +213,6 @@
   [movementList]="viewData.movements"
   selectedView="cards"
   (onItemClick)="setModelDetails($event, newMovementForm, 'mov')"
+  showSearch="true"
+  (onSearch)="onSearch($event)"
 ></movement-listing>

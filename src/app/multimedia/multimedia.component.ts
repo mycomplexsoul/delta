@@ -393,7 +393,7 @@ export class MultimediaComponent {
       );
 
       item.mmd_txt_title = this.epModel.fTitle;
-      this.viewData.multimediaDetList.push(item);
+      this.viewData.multimediaDetList.unshift(item);
       this.viewData.multimediaDetList = this.viewData.multimediaDetList.sort(
         this.sortMultimediaDet
       );
@@ -434,6 +434,25 @@ export class MultimediaComponent {
         return a.mma_date_mod.getTime() > b.mma_date_mod.getTime() ? 1 : -1;
       });
       queue.push(this.multimediaService.asUpdateSyncQueue(media));
+
+      // if title or url were provided, we push a new ep to the queue
+      if (values.fNextEpTitle || values.fNextEpUrl) {
+        const itemNext: MultimediaDet = this.multimediaDetService.newItem(
+          this.epModel.id,
+          values.fNextEpId,
+          values.fNextEpTitle || null,
+          null,
+          values.fYear,
+          values.fNextEpUrl || null
+        );
+
+        itemNext.mmd_txt_title = this.epModel.fTitle;
+        this.viewData.multimediaDetList.unshift(itemNext);
+        this.viewData.multimediaDetList = this.viewData.multimediaDetList.sort(
+          this.sortMultimediaDet
+        );
+        queue.push(this.multimediaDetService.asSyncQueue(itemNext));
+      }
     }
 
     this.syncService.multipleRequest(queue);

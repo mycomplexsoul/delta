@@ -369,6 +369,31 @@
             [(ngModel)]="epModel.fNextEpId"
           />
         </span>
+
+        <span class="field" *ngIf="newEpForm.value.fEpId !== epModel.fNextEpId">
+          <label for="fNextEpTitle" class="label-left"
+            >Next Episode Title</label
+          >
+          <input
+            type="text"
+            name="fNextEpTitle"
+            id="fNextEpTitle"
+            class="field-input multimedia-input-nexteptitle"
+            [(ngModel)]="epModel.fNextEpTitle"
+          />
+        </span>
+
+        <span class="field" *ngIf="newEpForm.value.fEpId !== epModel.fNextEpId">
+          <br />
+          <label for="fNextEpUrl" class="label-left">Next Episode Url</label>
+          <input
+            type="text"
+            name="fNextEpUrl"
+            id="fNextEpUrl"
+            class="field-input multimedia-input-nextepurl"
+            [(ngModel)]="epModel.fNextEpUrl"
+          />
+        </span>
         <span class="field" *ngIf="newEpForm.value.fEpId === epModel.fNextEpId">
           This is the last episode :-D
         </span>

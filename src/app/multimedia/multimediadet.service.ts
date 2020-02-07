@@ -72,6 +72,7 @@ export class MultimediaDetService {
       mmd_ctg_status: 1
     });
 
+    this.data.push(newItem);
     return newItem;
   }
 
@@ -85,7 +86,8 @@ export class MultimediaDetService {
         item["not_sync"] = false; // means it's synced
       },
       item.recordName,
-      item => item.mmd_id === item.mmd_id && item.mmd_id_ep === item.mmd_id_ep
+      item2 =>
+        item.mmd_id === item2.mmd_id && item.mmd_id_ep === item2.mmd_id_ep
     );
   }
 

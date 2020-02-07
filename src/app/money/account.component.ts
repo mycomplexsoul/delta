@@ -1,4 +1,5 @@
 import { Component, OnInit, Renderer } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { Account } from "../../crosscommon/entities/Account";
 import { AccountService } from "./account.service";
 import { SyncAPI } from "../common/sync.api";
@@ -35,7 +36,12 @@ export class AccountComponent implements OnInit {
     id: null
   };
 
-  constructor(accountService: AccountService, syncService: SyncAPI) {
+  constructor(
+    accountService: AccountService,
+    syncService: SyncAPI,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle("Accounts");
     this.services.accountService = accountService;
     this.services.syncService = syncService;
 
