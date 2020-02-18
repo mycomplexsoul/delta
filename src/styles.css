@@ -295,13 +295,15 @@ textarea.task-multiple {
   margin: 5px;
   padding: 5px;
   border: 1px solid lightgray;
-  overflow-y: auto;
-  max-height: 390px;
 }
 .task-record-no-task-done {
   border: 1px dashed #dd0000;
 }
 @media (min-width: 505px) {
+  .task-record {
+    overflow-y: auto;
+    max-height: 390px;
+  }
   .task-open-task-list-container--grid .task-record {
     flex: 0 0 31%;
   }

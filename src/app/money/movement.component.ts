@@ -893,6 +893,21 @@ export class MovementComponent implements OnInit {
     this.resetForm(form);
   }
 
+  deleteMovement(id: string, form: NgForm) {
+    const m = this.viewData.movements.find(m => m.mov_id === id);
+    const existingIndex = this.viewData.movements.findIndex(
+      m => m.mov_id === id
+    );
+
+    this.services.movement.delete(m, () => {
+      this.retrieveAccountsAndBalance();
+    });
+    m["isEdited"] = true; // flag to render as edited on UI
+    this.viewData.movements.splice(existingIndex, 1);
+    this.model.id = null;
+    this.resetForm(form);
+  }
+
   /**
    * Given a provided place id and a movement listing, it will look into the
    * movement listing and return the related category used in one of those

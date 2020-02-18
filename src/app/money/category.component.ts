@@ -45,12 +45,19 @@ export class CategoryComponent implements OnInit {
       this.viewData.movementList = movementList;
 
       this.viewData.categoryList = categoryList.map(category => {
-        category["movementList"] = movementList.filter(
-          ({ mov_id_category }) => mov_id_category === category.mct_id
+        category["movementList"] = this.addAdditionalDataToItem(
+          category,
+          movementList
         );
         return category;
       });
     });
+  }
+
+  addAdditionalDataToItem(item: Category, movementList: Movement[]) {
+    return movementList.filter(
+      ({ mov_id_category }) => mov_id_category === item.mct_id
+    );
   }
 
   newItem(form: NgForm) {
@@ -66,7 +73,14 @@ export class CategoryComponent implements OnInit {
           newItem.mct_name = formValues.fName;
           return newItem;
         },
-        onUpdateItemService: item => this.categoryService.updateItem(item),
+        onUpdateItemService: item =>
+          this.categoryService.updateItem(item).then(item => {
+            item["movementList"] = this.addAdditionalDataToItem(
+              item,
+              this.viewData.movementList
+            );
+            return item;
+          }),
         onFinalExecution: () => {
           this.model.id = null;
         }

@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.13 (2019-09-26)
+
+- [AppMoney][fix] Show usage movement count in category listing
+- [AppMultimedia][fix] MultimediaDet listing item added properly if update with viewed information
+- [AppMoney] Delete movement from detail view
+
 ## v1.10.12 (2019-09-19)
 
 - [AppMultimedia][new] Add next ep title/url in new ep form

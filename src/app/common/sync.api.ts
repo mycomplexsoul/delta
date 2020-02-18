@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { SyncQueue } from "./SyncQueue";
 import { BehaviorSubject } from "rxjs";
+import { Utils } from "src/crosscommon/Utility";
 
 @Injectable()
 export class SyncAPI {
@@ -318,11 +319,13 @@ export class SyncAPI {
   }
 
   delete(url: string, payload: any): Promise<any> {
+    const options = {
+      ...this.options,
+      params: Utils.getPKFromEntity(payload),
+      body: Utils.removeMetadataFromEntity(payload)
+    };
     return this.http
-      .delete(url, {
-        ...this.options,
-        params: payload
-      })
+      .delete(url, options)
       .toPromise()
       .then(data => data);
   }

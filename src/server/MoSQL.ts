@@ -268,10 +268,13 @@ export class MoSQL {
     const c = { ...this.constants };
 
     this.getPK(m).forEach(f => {
-      sql = this.concatAnd(sql, this.formatValueForSQL(f.dbType, m[f.dbName]));
+      sql = this.concatAnd(
+        sql,
+        this.formatValueForSQL(f.dbType, m[f.dbName], f.dbName)
+      );
     });
 
-    sql = `delete from ${m.metadata.tableName} where (${sql})`;
+    sql = `delete from ${m.metadata.tableName}${sql ? ` where ${sql}` : ""}`;
     return sql;
   }
 

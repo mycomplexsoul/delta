@@ -374,11 +374,15 @@ export class MultimediaComponent {
       );
 
       // Update viewData
-      this.viewData.multimediaDetList[
-        this.viewData.multimediaDetList.findIndex(
-          e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
-        )
-      ] = item;
+      const index = this.viewData.multimediaDetList.findIndex(
+        e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
+      );
+      if (index === -1) {
+        this.viewData.multimediaDetList.push(item);
+      } else {
+        this.viewData.multimediaDetList[index] = item;
+      }
+      item.mmd_txt_title = this.epModel.fTitle;
       // Add it to sync queue for update
       queue.push(this.multimediaDetService.asUpdateSyncQueue(item));
     } else {

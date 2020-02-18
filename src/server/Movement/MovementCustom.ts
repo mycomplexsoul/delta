@@ -664,9 +664,15 @@ export class MovementCustom {
       }
     };
 
-    api.delete({ pk: node.request.params }, hooks).then(response => {
-      node.response.end(JSON.stringify(response));
-    });
+    api
+      .delete(
+        { body: node.request.body, pk: node.request.params },
+        hooks,
+        new Movement() // just to have metadata
+      )
+      .then(response => {
+        node.response.end(JSON.stringify(response));
+      });
   };
 
   updateEntries = (movementList: Movement[]): Promise<any> => {
@@ -1099,7 +1105,9 @@ export class MovementCustom {
     );
     const sqlMovements: string = `select * from vimovement where (mov_id_account = '${account}' or mov_id_account_to = '${account}') and mov_date >= '${DateUtils.formatDate(
       initialDate
-    )}' and mov_date <= '${DateUtils.formatDate(finalDate)}' order by mov_date asc`;
+    )}' and mov_date <= '${DateUtils.formatDate(
+      finalDate
+    )}' order by mov_date asc`;
     const { rows: MovementList } = await connection.runSql(sqlMovements);
     const movements: Movement[] = MovementList.map((m: any) => new Movement(m));
 

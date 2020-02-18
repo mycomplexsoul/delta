@@ -202,8 +202,17 @@
         type="button"
         *ngIf="model.id !== null"
         (click)="cancel(model.id)"
+        title="Sets status to Cancelled"
       >
         Cancel
+      </button>
+      <button
+        type="button"
+        *ngIf="model.id !== null"
+        (click)="deleteMovement(model.id)"
+        title="Deletes this movement"
+      >
+        Delete
       </button>
     </div>
   </div>

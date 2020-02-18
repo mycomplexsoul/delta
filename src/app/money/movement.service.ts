@@ -162,4 +162,26 @@ export class MovementService {
 
     return item;
   }
+
+  delete(movement: Movement, callback: Function): Movement {
+    this.sync
+      .delete(this.config.api.delete.replace(":id", movement.mov_id), movement)
+      .then(response => {
+        const index = this.data.findIndex(d => d.mov_id === movement.mov_id);
+        if (response.operationOk) {
+          callback();
+        } else {
+          movement["sync"] = false;
+        }
+        this.data.splice(index, 1);
+      })
+      .catch(err => {
+        // Append it to the listing but flag it as non-synced yet
+        const index = this.data.findIndex(d => d.mov_id === movement.mov_id);
+        movement["sync"] = false;
+        this.data.splice(index, 1);
+      });
+
+    return movement;
+  }
 }
