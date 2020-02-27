@@ -226,6 +226,9 @@ textarea.task-multiple {
 .task-no-eta {
   color: red;
 }
+.task-text {
+  line-height: 1.3rem;
+}
 .task-age-1 {
   color: gray;
 }
@@ -550,3 +553,11 @@ link {
 /* @​media (prefers-color-scheme: dark) {
 
 }*/
+
+.color-green {
+  color: green;
+}
+
+.color-red {
+  color: red;
+}

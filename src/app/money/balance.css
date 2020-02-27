@@ -1,7 +1,11 @@
 .balance-row:nth-child(even) {
-    background-color: lightgrey;
+  background-color: lightgrey;
 }
 
 .balance-row:hover {
-    background-color: lightblue;
+  background-color: lightblue;
+}
+
+.balance-listing-container {
+  overflow-x: auto;
 }

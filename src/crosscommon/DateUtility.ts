@@ -201,6 +201,82 @@ class DateUtility {
     )}`;
     return str;
   }
+
+  /**
+   * Format as a timestamp a positive number being interpreted as elapsed time
+   * with a provided format.
+   * @param elapsed Positive number interpreted as elapsed time
+   * @param format Format to use, example: [HH]:[mm]:[ss]
+   */
+  formatTime(elapsed: number, format: String = undefined): String {
+    // time in seconds
+    let days: number = Math.floor(elapsed / (60 * 60 * 24));
+    let hour: number = Math.floor((elapsed - days * 60 * 60 * 24) / (60 * 60));
+    let min: number = Math.floor(
+      (elapsed - days * 60 * 60 * 24 - hour * 60 * 60) / 60
+    );
+    let sec: number = Math.round(
+      elapsed - days * 60 * 60 * 24 - hour * 60 * 60 - min * 60
+    );
+    const zero: string = "0";
+
+    if (!format.includes("d")) {
+      hour = Math.floor(elapsed / (60 * 60));
+    }
+
+    const str: string = format
+      .replace("[dd]", this.fillString(days, 2, -1, zero))
+      .replace("[d]", String(days))
+      .replace("0d", "")
+      .replace("[HH]", this.fillString(hour, 2, -1, zero))
+      .replace("[H]", String(hour))
+      .replace("[mm]", this.fillString(min, 2, -1, zero))
+      .replace("[m]", String(min))
+      .replace("[ss]", this.fillString(sec, 2, -1, zero))
+      .replace("[s]", String(sec))
+      .replace("m0s", "m")
+      .replace("h0m", "h");
+
+    return str === "0h" ? "0" : str;
+  }
+
+  /**
+   * Returns formated date as specified in format or default if not provided.
+   * If a number is provided, it will be assumed to be number of seconds.
+   * Allows to extract either a date or a timestamp in any formatted string form:
+   * examples: yyyy-MM-dd | 23h30m | MM-dd
+   */
+  formatTimestamp(
+    date: Date | string | number,
+    format: string = "[yyyy]-[MM]-[dd] [HH]:[mm]:[ss]"
+  ) {
+    if (date === null) {
+      return null;
+    }
+    console.log("provided date is of type", typeof date);
+    if (typeof date === "number") {
+      return this.formatTime(date, format);
+    }
+    if (!(date instanceof Date)) {
+      date = new Date(date);
+    }
+    const day: number = date.getDate();
+    const month: number = date.getMonth();
+    const year: number = date.getFullYear();
+    const hour: number = date.getHours();
+    const min: number = date.getMinutes();
+    const sec: number = date.getSeconds();
+    const zero: string = "0";
+
+    const str: string = format
+      .replace("[yyyy]", String(year))
+      .replace("[MM]", this.fillString(month + 1, 2, -1, zero))
+      .replace("[dd]", this.fillString(day, 2, -1, zero))
+      .replace("[HH]", this.fillString(hour, 2, -1, zero))
+      .replace("[mm]", this.fillString(min, 2, -1, zero))
+      .replace("[ss]", this.fillString(sec, 2, -1, zero));
+    return str;
+  }
 }
 
 export let DateUtils = new DateUtility();

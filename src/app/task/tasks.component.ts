@@ -313,7 +313,7 @@ export class TasksComponent implements OnInit {
     this.nextTasks[0].estimatedDuration = 0;
     this.nextTasks[0].tasks.forEach((t: any) => {
       if (t.tsk_ctg_status === this.taskStatus.OPEN) {
-        this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration;
+        this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
       } else {
         let index = this.nextTasks[0].tasks.findIndex(
           (e: any) => e.tsk_id === t.tsk_id
@@ -1987,6 +1987,7 @@ export class TasksComponent implements OnInit {
 
     let addIndicator = (
       name: string,
+      metric: string,
       values: Array<number>,
       showIndicator: boolean = false,
       formatMethod?: (v: number) => String,
@@ -2020,7 +2021,9 @@ export class TasksComponent implements OnInit {
 
       this.state.indicators.push({
         name,
-        values: formattedValues,
+        metric,
+        values,
+        formattedValues,
         isCompleted: completed.isCompleted,
         percentageCompleted: completed.percentageCompleted
       });
@@ -2042,9 +2045,21 @@ export class TasksComponent implements OnInit {
       return calculatedValues;
     };
 
+    const LESS_IS_BETTER = "LESS_IS_BETTER";
+    const MORE_IS_BETTER = "MORE_IS_BETTER";
+
+    const TIMESTAMP_FORMAT = "[H]h[m]m";
+    const formatTimestamp = (v: number) =>
+      DateUtils.formatTimestamp(v, TIMESTAMP_FORMAT);
+    const formatTimestampMinutes = (v: number) =>
+      DateUtils.formatTimestamp(v * 60, TIMESTAMP_FORMAT);
+    const formatTimestampDays = (v: number) =>
+      DateUtils.formatTimestamp(v * 60, "[d]d[H]h");
+
     // total task count overall
     addIndicator(
       "Open Count EOD",
+      LESS_IS_BETTER,
       calculateForAllDays(
         days,
         this.services.taskIndicator.totalTaskCountUntil
@@ -2061,9 +2076,10 @@ export class TasksComponent implements OnInit {
     // added ETA
     addIndicator(
       "Added ETA",
+      LESS_IS_BETTER,
       calculateForAllDays(days, this.services.taskIndicator.addedETA),
       this.options["optShowIndicatorAddedETA"],
-      (v: number) => this.formatTime(v * 60),
+      formatTimestampMinutes,
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
@@ -2074,6 +2090,7 @@ export class TasksComponent implements OnInit {
     // added count
     addIndicator(
       "Added Count",
+      LESS_IS_BETTER,
       calculateForAllDays(days, this.services.taskIndicator.addedTaskCount),
       this.options["optShowIndicatorAddedCount"],
       null,
@@ -2087,14 +2104,16 @@ export class TasksComponent implements OnInit {
     // closed ETA
     addIndicator(
       "Closed ETA",
+      MORE_IS_BETTER,
       calculateForAllDays(days, this.services.taskIndicator.closedETA),
       this.options["optShowIndicatorClosedETA"],
-      (v: number) => this.formatTime(v * 60)
+      formatTimestampMinutes
     );
 
     // spent
     addIndicator(
       "Closed Spent",
+      MORE_IS_BETTER,
       calculateForAllDays(
         days,
         (d1: Date, d2: Date): number =>
@@ -2102,12 +2121,13 @@ export class TasksComponent implements OnInit {
             .totalTimeSpentTodayOnClosedTasks
       ),
       this.options["optShowIndicatorClosedSpent"],
-      (v: number) => this.formatTime(v)
+      formatTimestamp
     );
 
     // closed count
     addIndicator(
       "Closed Count",
+      MORE_IS_BETTER,
       calculateForAllDays(days, this.services.taskIndicator.closedTaskCount),
       this.options["optShowIndicatorClosedCount"]
     );
@@ -2115,6 +2135,7 @@ export class TasksComponent implements OnInit {
     // productivity ratio
     addIndicator(
       "Productivity Ratio",
+      MORE_IS_BETTER,
       calculateForAllDays(
         days,
         this.services.taskIndicator.calculateProductivityRatio
@@ -2125,6 +2146,7 @@ export class TasksComponent implements OnInit {
     // time management ratio
     addIndicator(
       "Time Management Ratio",
+      MORE_IS_BETTER,
       calculateForAllDays(
         days,
         this.services.taskIndicator.calculateTimeManagementRatio
@@ -2135,6 +2157,7 @@ export class TasksComponent implements OnInit {
     // first time tracking entry start time stamp for the day
     addIndicator(
       "First TT stamp",
+      LESS_IS_BETTER,
       calculateForAllDays(
         days,
         (d1: Date, d2: Date): number => {
@@ -2143,12 +2166,13 @@ export class TasksComponent implements OnInit {
         }
       ),
       this.options["optShowIndicatorFirstTTStamp"],
-      (v: number) => this.formatTime(v)
+      formatTimestamp
     );
 
     // last time tracking entry end time stamp for the day
     addIndicator(
       "Last TT stamp",
+      MORE_IS_BETTER,
       calculateForAllDays(
         days,
         (d1: Date, d2: Date): number => {
@@ -2157,15 +2181,16 @@ export class TasksComponent implements OnInit {
         }
       ),
       this.options["optShowIndicatorLastTTStamp"],
-      (v: number) => this.formatTime(v)
+      formatTimestamp
     );
 
     // Open ETA
     addIndicator(
       "Open ETA",
+      LESS_IS_BETTER,
       calculateForAllDays(days, this.services.taskIndicator.openETA),
       this.options["optShowIndicatorOpenETA"],
-      (v: number) => this.formatTime(v * 60),
+      formatTimestampDays,
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
@@ -2176,6 +2201,7 @@ export class TasksComponent implements OnInit {
     // Spent on Open Tasks
     addIndicator(
       "Open Spent",
+      LESS_IS_BETTER,
       calculateForAllDays(
         days,
         (d1: Date, d2: Date): number =>
@@ -2183,7 +2209,7 @@ export class TasksComponent implements OnInit {
             .totalTimeSpentTodayOnOpenTasks
       ),
       this.options["optShowIndicatorOpenSpent"],
-      (v: number) => this.formatTime(v)
+      formatTimestampMinutes
     );
 
     // karma
@@ -2195,12 +2221,12 @@ export class TasksComponent implements OnInit {
     if (add) {
       if (index === -1) {
         p.push(t);
-        this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration;
+        this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
       }
     } else {
       if (index !== -1) {
         p.splice(index, 1);
-        this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration;
+        this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
       }
     }
     localStorage.setItem(
@@ -2325,5 +2351,9 @@ export class TasksComponent implements OnInit {
   countTasksDone(record: string) {
     return this.state.closedTodayTasks.filter(i => i.tsk_id_record === record)
       .length;
+  }
+
+  formatTimestamp(stamp: number, format: string = "[H]h[m]m") {
+    return DateUtils.formatTimestamp(stamp, format);
   }
 }

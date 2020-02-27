@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.14 (2019-10-03)
+
+- [AppTasks][new] Create `TimeFormat` component to render date and/or time values with a given format `<time-format value="DATE|DATE_STRING|NUMBER_OF_SECONDS" format="[yyyy]-[MM]-[dd] [HH]:[mm]:[ss]"`
+- [AppTasks][new] Use `TimeFormat` component in indicators table and record headers
+- [AppTasks][new] Add metrics to indicators to show visual aid when metrics are good (green color) and when are bad (red color), also show the type of metric (more is better or less is better) with up/down arrows
+
 ## v1.10.13 (2019-09-26)
 
 - [AppMoney][fix] Show usage movement count in category listing

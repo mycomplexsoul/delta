@@ -302,7 +302,7 @@
     >
       <div>
         <strong>{{ item.header }}</strong>
-        | {{ item.tasks.length }} open ({{ formatTime(item.estimatedDuration *
+        | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
         60) }})
         <span *ngIf="countTasksDone(item.header) > 0">
           |
@@ -457,8 +457,27 @@
           <td>Completed?</td>
         </tr>
         <tr *ngFor="let indicator of state.indicators">
-          <td>{{ indicator.name }}</td>
-          <td *ngFor="let v of indicator.values">{{ v }}</td>
+          <td>
+            <span>
+              {{ indicator.name }}
+            </span>
+            <span *ngIf="indicator.metric === 'MORE_IS_BETTER'">
+              &uarr;
+            </span>
+            <span *ngIf="indicator.metric === 'LESS_IS_BETTER'">
+              &darr;
+            </span>
+          </td>
+          <td
+            *ngFor="let v of indicator.formattedValues; let currIndex = index"
+          >
+            <span
+              [ngClass]="{'color-green': currIndex > 0 && (indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER'),
+            'color-red': currIndex > 0 && (indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER')}"
+            >
+              {{ v }}
+            </span>
+          </td>
           <td>
             {{ indicator.isCompleted ? "SI" : "NO" }} / {{
             indicator.percentageCompleted }}
@@ -474,8 +493,11 @@
     <div *ngFor="let item of nextTasks" class="task-record">
       <div>
         <strong>Next To Do Today</strong>
-        | {{ item.tasks.length }} tasks ({{ formatTime(item.estimatedDuration *
-        60) }})
+        | {{ item.tasks.length }}
+        <time-format
+          format="([H]h[m]m)"
+          [value]="item.estimatedDuration"
+        ></time-format>
       </div>
       <div *ngFor="let t of item.tasks" data-id="{{ t.tsk_id }}">
         <input

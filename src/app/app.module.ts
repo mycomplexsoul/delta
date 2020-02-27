@@ -40,6 +40,7 @@ import { UtilsCommon } from "./common/utils.common";
 import { LoginComponent } from "./common/login.component";
 import { CfgComponent } from "./common/cfg.component";
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
+import { TimeFormatComponent } from "./task/time-format.component";
 
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
@@ -69,6 +70,7 @@ import { RegisterComponent } from "./common/register.component";
     ComboItemComponent,
     CheckboxOptionComponent,
     DrinkWaterComponent,
+    TimeFormatComponent,
     MenuComponent,
     SyncComponent,
     LoginComponent,
