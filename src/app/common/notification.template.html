@@ -1,0 +1,28 @@
+<div class="notification-area">
+  <div class="notification-item" *ngFor="let item of notificationList">
+    <div class="notification-head" *ngIf="item.showHeader">
+      <span>{{item.title}}</span>
+      <time-format
+        class="notification-date"
+        [value]="item.date"
+        format="[HH]:[mm]"
+      ></time-format>
+    </div>
+    <div class="notification-body">
+      <span>
+        {{item.message}}
+      </span>
+    </div>
+    <div class="notification-footer">
+      <button
+        class="notification-close-button"
+        (click)="item.showHeader = !item.showHeader"
+      >
+        {{item.showHeader ? 'hide details' : 'details'}}
+      </button>
+      <button class="notification-close-button" (click)="onClose(item)">
+        close
+      </button>
+    </div>
+  </div>
+</div>

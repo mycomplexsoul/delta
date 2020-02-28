@@ -126,12 +126,10 @@
       >
         {{ item.mma_title + " T" + item.mma_season }}
       </span>
-      <span *ngIf="item.mma_year">
-        <a [href]="item.mma_url" target="_blank" *ngIf="item.mma_url">
-          [{{ item.mma_year }}]
-        </a>
-        <span *ngIf="!item.mma_url">[{{ item.mma_year }}]</span>
-      </span>
+      <a [href]="item.mma_url" target="_blank" *ngIf="item.mma_url">
+        [{{ item.mma_year }}]
+      </a>
+      <span *ngIf="!item.mma_url">[{{ item.mma_year }}]</span>
       <br />
       <span *ngIf="item.showOptions">
         <button

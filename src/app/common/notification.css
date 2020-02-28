@@ -1,0 +1,31 @@
+.notification-area {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+
+@media (min-width: 505px) {
+  .notification-area {
+    width: 30%;
+  }
+}
+
+.notification-item {
+  border: 1px solid gray;
+  padding: 10px;
+  border-radius: 10px 10px;
+  background-color: antiquewhite;
+  margin-bottom: 10px;
+}
+
+.notification-head {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.notification-footer {
+  display: flex;
+  justify-content: flex-end;
+}

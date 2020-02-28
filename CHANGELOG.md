@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.15 (2019-10-10)
+
+- [AppTasks][new] Close button in mobile task bar
+- [AppTasks][new] Option to use end timetracking stamp as completion task date if datetime is a future date
+- [AppCommon][new] Create Notification component
+
 ## v1.10.14 (2019-10-03)
 
 - [AppTasks][new] Create `TimeFormat` component to render date and/or time values with a given format `<time-format value="DATE|DATE_STRING|NUMBER_OF_SECONDS" format="[yyyy]-[MM]-[dd] [HH]:[mm]:[ss]"`

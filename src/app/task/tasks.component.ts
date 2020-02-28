@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { TasksCore } from "./tasks.core";
 import { SyncAPI } from "../common/sync.api";
@@ -8,6 +8,7 @@ import { TaskIndicator } from "./task.indicator.service";
 import { DateCommon } from "../common/date.common";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { NotificationService } from "../common/notification.service";
 
 @Component({
   selector: "tasks",
@@ -81,6 +82,7 @@ export class TasksComponent implements OnInit {
     private sync: SyncAPI,
     private taskIndicator: TaskIndicator,
     private dateUtils: DateCommon,
+    private notificationService: NotificationService,
     private titleService: Title
   ) {
     titleService.setTitle("Tasks");
@@ -94,8 +96,6 @@ export class TasksComponent implements OnInit {
       if (!this.options) {
         this.options = this.defaultOptions;
       }
-      //this.services.tasksCore.setApiRoot(this.options.optServerAddress);
-      //this.services.sync.setApiRoot(this.options.optServerAddress);
     }
     this.nextTasks = [];
     this.updateState();
@@ -430,7 +430,7 @@ export class TasksComponent implements OnInit {
     }
     if (event.altKey && (event.keyCode == 106 || event.keyCode == 49)) {
       // detect '*' || '1'
-      this.markTaskAsDone(t, true, event["shiftKey"]);
+      this.markTaskAsDone(t, true, this.shouldUseTimeTrackingEndDate(t, event));
     }
     if (event.altKey && (event.keyCode == 73 || event.keyCode == 50)) {
       // detect 'i' || '2'
@@ -590,8 +590,26 @@ export class TasksComponent implements OnInit {
     }, this.delayOnUpdateState);
   }
 
-  taskCheckboxHandler(t: any, event: Event) {
-    this.markTaskAsDone(t, event["target"]["checked"], event["shiftKey"]);
+  shouldUseTimeTrackingEndDate(t: Task, event: Event): boolean {
+    const useTimeTrackingDate: boolean =
+      event["shiftKey"] ||
+      (!!this.options.optUseEndTTDateAsDoneDate &&
+        t &&
+        t["tsk_time_history"] &&
+        t["tsk_time_history"][t["tsk_time_history"].length - 1] &&
+        t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_end &&
+        new Date(
+          t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_end
+        ).getTime() > new Date().getTime());
+    return useTimeTrackingDate;
+  }
+
+  taskCheckboxHandler(t: Task, event: Event) {
+    this.markTaskAsDone(
+      t,
+      event["target"]["checked"],
+      this.shouldUseTimeTrackingEndDate(t, event)
+    );
   }
 
   updateTask(tsk_id: string, newData: any) {
@@ -1309,6 +1327,8 @@ export class TasksComponent implements OnInit {
         });
       });
     }
+    // send in-window notification
+    this.notificationService.notify(data.body, "Tasks", 0);
   }
 
   setUnpostpone(t: any) {

@@ -253,7 +253,7 @@ class DateUtility {
     if (date === null) {
       return null;
     }
-    console.log("provided date is of type", typeof date);
+
     if (typeof date === "number") {
       return this.formatTime(date, format);
     }

@@ -188,6 +188,12 @@
     [checked]="options.optColorizeRecordWithoutDoneTasks"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
+  <checkbox-option
+    label="Use end datetime of task timetracking as task done date when marking a task as done if this datetime is a future datetime"
+    optionId="optUseEndTTDateAsDoneDate"
+    [checked]="options.optUseEndTTDateAsDoneDate"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
 
   <div id="optionsMessages"></div>
   <hr />
@@ -950,6 +956,9 @@
       class="adjust-timetracking-button clickable"
       (click)="adjustTimeTracking(selectedTask)"
       >&#8676;</span
+    >
+    <span class="close-button clickable" (click)="selectedTask = null"
+      >&times;</span
     >
   </div>
 </div>
