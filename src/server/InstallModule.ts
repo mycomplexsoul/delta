@@ -31,6 +31,10 @@ import { Link } from '../crosscommon/entities/Link';
 import { Activity } from '../crosscommon/entities/Activity';
 import { Keyval } from '../crosscommon/entities/Keyval';
 
+import { CarteraProvision } from '../crosscommon/entities/CarteraProvision';
+import { CarteraPayment } from '../crosscommon/entities/CarteraPayment';
+import { CarteraPayDet } from '../crosscommon/entities/CarteraPayDet';
+
 export class InstallModule {
     install = () => {
         const connection: iConnection = ConnectionService.getConnection('default');
@@ -44,6 +48,7 @@ export class InstallModule {
             , new Multimedia(), new MultimediaDet(), new MultimediaView()
             , new Link()
             , new Activity(), new Keyval()
+            , new CarteraProvision(), new CarteraPayment(), new CarteraPayDet()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {

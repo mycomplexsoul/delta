@@ -428,7 +428,7 @@ export class BalanceComponent implements OnInit {
             m =>
               capitalBalanceMonthly.find(
                 b => b.bal_year === m.year && b.bal_month === m.month
-              ).bal_charges
+              ).bal_withdrawals
           )
         },
         {
@@ -439,7 +439,7 @@ export class BalanceComponent implements OnInit {
             m =>
               capitalBalanceMonthly.find(
                 b => b.bal_year === m.year && b.bal_month === m.month
-              ).bal_withdrawals
+              ).bal_charges
           )
         },
         {
@@ -450,7 +450,7 @@ export class BalanceComponent implements OnInit {
             m =>
               capitalBalanceMonthly.find(
                 b => b.bal_year === m.year && b.bal_month === m.month
-              ).bal_final
+              ).bal_final * -1
           )
         }
       ],

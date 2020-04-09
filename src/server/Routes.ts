@@ -20,6 +20,7 @@ import * as MultimediaViewRoute from "./MultimediaView/MultimediaViewRoute";
 import * as LinkRoute from "./Link/LinkRoute";
 import * as LinkRouteExternal from "./Link/LinkRouteExternal";
 import * as ActivityRoute from "./Activity/ActivityRoute";
+import * as CarteraRoute from "./Cartera/CarteraRoute";
 
 import * as SyncRoute from "./Sync/SyncRoute";
 
@@ -50,6 +51,7 @@ const entitiesWithAuth = [
   { url: "/multimediaview", handler: MultimediaViewRoute.router },
   { url: "/links", handler: LinkRoute.router },
   { url: "/activities", handler: ActivityRoute.router },
+  // { url: "/cartera", handler: CarteraRoute.router },
 
   { url: "/sync", handler: SyncRoute.router }
 ];
@@ -89,6 +91,8 @@ entitiesWithAuth.forEach(({ url, handler }) => {
 router.use("/login", LoginRoute.router);
 router.use("/external/links", LinkRouteExternal.router);
 router.use("/external/movement", MovementRouteExternal.router);
+router.use("/external/cartera", CarteraRoute.router);
+router.use("/external/cartera-ext", CarteraRoute.router);
 
 // Routing for internals
 router.use("/type-generator", TypeGenerator.router);

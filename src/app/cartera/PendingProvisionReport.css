@@ -1,0 +1,23 @@
+@import "./CarteraReportsCommon.css";
+
+@media screen, print {
+  * {
+    font-family: sans-serif;
+  }
+
+  .provision-payed-row {
+    background-color: #b7e4b2;
+  }
+
+  .provision-added-row {
+    background-color: #f5d498;
+  }
+
+  .provision-legend-box {
+    width: 50px;
+    height: 12px;
+    display: inline-block;
+    border: 1px solid black;
+    vertical-align: middle;
+  }
+}

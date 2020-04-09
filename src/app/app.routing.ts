@@ -23,6 +23,9 @@ import { LinkComponent } from "./link/link.component";
 
 import { ActivityComponent } from "./activities/activity.component";
 
+import { PendingProvisionReportComponent } from "./cartera/PendingProvisionReportComponent";
+import { UnitStatusReportComponent } from "./cartera/UnitStatusReportComponent";
+
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 
 const appRoutes: Routes = [
@@ -90,6 +93,14 @@ const appRoutes: Routes = [
     path: "activities",
     component: ActivityComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: "cartera-pending-payments",
+    component: PendingProvisionReportComponent
+  },
+  {
+    path: "cartera-unit-status",
+    component: UnitStatusReportComponent
   },
   {
     path: "type-generator",

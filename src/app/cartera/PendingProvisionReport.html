@@ -1,0 +1,313 @@
+<h1 class="page-title text-align-center">
+  Relación de cobranza {{viewData.displayYearMonth}} FFJ78
+</h1>
+
+<div class="text-align-center width-100-pct print-only">Página 1 de 2</div>
+
+<h2 class="pending-provision-subtitle margin-all-0">Detalle de adeudos</h2>
+
+<table class="pending-provision-listing desktop-only width-100-pct-print-only">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Unidad</th>
+      <th>Concepto</th>
+      <th>Monto</th>
+      <th>Recaudado</th>
+      <th>Adeudo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let provision of viewData.pendingProvisionList; let counter = index"
+      class="pending-provision-listing-row"
+      [ngClass]="{
+        'provision-payed-row': provision.cpr_remaining === 0,
+        'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+      }"
+    >
+      <td class="padding-all-3 text-align-center">
+        {{counter + 1}}
+      </td>
+      <td class="padding-all-3 text-align-center">
+        {{provision.cpr_id_unit}}
+      </td>
+      <td class="padding-all-3">{{provision.cpr_concept}}</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3">Totales</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalAmount | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalRemaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<table class="pending-provision-listing mobile-only width-100-pct-mobile-only">
+  <thead>
+    <tr>
+      <th># - Unidad - Concepto</th>
+      <th>Monto</th>
+      <th>Recaudado</th>
+      <th>Adeudo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let provision of viewData.pendingProvisionList; let counter = index"
+      class="pending-provision-listing-row"
+      [ngClass]="{
+        'provision-payed-row': provision.cpr_remaining === 0,
+        'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+      }"
+    >
+      <td class="padding-all-3">
+        #{{counter + 1}} - {{provision.cpr_id_unit}} - {{provision.cpr_concept}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3">Totales</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalAmount | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalRemaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="pending-provision-color-legend page-break-after">
+  <span>Leyenda sobre los colores</span>
+
+  <div class="margin-top-3">
+    <span class="provision-added-row provision-legend-box"></span>
+    <span>
+      = Cuota no cubierta en este mes (agregada en este mes)
+    </span>
+  </div>
+
+  <div class="margin-top-3">
+    <span class="provision-payed-row provision-legend-box"></span>
+    <span>
+      = Cuota cubierta en este mes (se retira fila para el siguiente mes)
+    </span>
+  </div>
+</div>
+
+<h1 class="page-title text-align-center page-top print-only">
+  Relación de cobranza {{viewData.displayYearMonth}} FFJ78
+</h1>
+
+<div class="text-align-center width-100-pct print-only">Página 2 de 2</div>
+
+<h2 class="pending-provision-subtitle">Resumen de adeudos</h2>
+
+<table class="pending-provision-summary width-100-pct-mobile-only">
+  <thead>
+    <tr>
+      <th>Unidad</th>
+      <th>Adeudo</th>
+      <th>Principales adeudos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let provision of viewData.pendingTotals"
+      class="pending-provision-listing-row"
+    >
+      <td class="padding-all-3 text-align-center">
+        {{provision.unit}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3">
+        <span *ngIf="provision.normalProvisionCount > 1">
+          {{provision.normalProvisionCount}} cuotas ordinarias
+        </span>
+        <span *ngIf="provision.normalProvisionCount === 1">
+          {{provision.normalProvisionCount}} cuota ordinaria
+        </span>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3">Total</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.totalRemainingFromPendingTotals | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
+
+<h2 class="pending-provision-subtitle">Saldos a favor</h2>
+
+<table class="pending-provision-future desktop-only">
+  <thead>
+    <tr>
+      <th>Unidad</th>
+      <th>Concepto</th>
+      <th>Monto</th>
+      <th>Recaudado</th>
+      <th>Adeudo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let provision of viewData.futureProvisionList"
+      class="pending-provision-listing-row"
+    >
+      <td class="padding-all-3 text-align-center">
+        {{provision.cpr_id_unit}}
+      </td>
+      <td class="padding-all-3">{{provision.cpr_concept}}</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3">Totales</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.futureTotalAmount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.futureTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.futureTotalRemaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<table class="pending-provision-future mobile-only width-100-pct-mobile-only">
+  <thead>
+    <tr>
+      <th>Unidad - Concepto</th>
+      <th>Monto</th>
+      <th>Recaudado</th>
+      <th>Adeudo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let provision of viewData.futureProvisionList"
+      class="pending-provision-listing-row"
+    >
+      <td class="padding-all-3">
+        {{provision.cpr_id_unit}} - {{provision.cpr_concept}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3">Totales</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.futureTotalAmount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.futureTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.futureTotalRemaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<h2 class="pending-provision-subtitle">Depósitos pendientes de identificar</h2>
+
+<table class="non-identified-payments width-100-pct-mobile-only">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Descripción</th>
+      <th>Monto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let provision of viewData.nonIdentifiedPaymentList"
+      class="pending-provision-listing-row"
+    >
+      <td class="padding-all-3 text-align-center width-80">
+        {{provision.cpy_date | date: "yyyy-MM-dd"}}
+      </td>
+      <td class="padding-all-3">Depósito sin identificar</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{provision.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3">Total</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.nonIdentifiedTotalAmount | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>

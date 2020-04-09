@@ -43,6 +43,9 @@ import { TypeGeneratorComponent } from "./internal/type-generator.component";
 import { TimeFormatComponent } from "./task/time-format.component";
 import { NotificationComponent } from "./common/notification.component";
 
+import { PendingProvisionReportComponent } from "./cartera/PendingProvisionReportComponent";
+import { UnitStatusReportComponent } from "./cartera/UnitStatusReportComponent";
+
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
 import { ErrorInterceptor } from "./common/error.interceptor";
@@ -81,6 +84,8 @@ import { RegisterComponent } from "./common/register.component";
     MultimediaComponent,
     LinkComponent,
     ActivityComponent,
+    PendingProvisionReportComponent,
+    UnitStatusReportComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

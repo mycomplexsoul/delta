@@ -308,6 +308,28 @@ module.exports = "<menu></menu>\n<div class=\"app-container\">\n  <router-outlet
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/cartera/PendingProvisionReport.html":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/cartera/PendingProvisionReport.html ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h1 class=\"page-title text-align-center\">\r\n  Relación de cobranza {{viewData.displayYearMonth}} FFJ78\r\n</h1>\r\n\r\n<div class=\"text-align-center width-100-pct print-only\">Página 1 de 2</div>\r\n\r\n<h2 class=\"pending-provision-subtitle margin-all-0\">Detalle de adeudos</h2>\r\n\r\n<table class=\"pending-provision-listing desktop-only width-100-pct-print-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>#</th>\r\n      <th>Unidad</th>\r\n      <th>Concepto</th>\r\n      <th>Monto</th>\r\n      <th>Recaudado</th>\r\n      <th>Adeudo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let provision of viewData.pendingProvisionList; let counter = index\"\r\n      class=\"pending-provision-listing-row\"\r\n      [ngClass]=\"{\r\n        'provision-payed-row': provision.cpr_remaining === 0,\r\n        'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)\r\n      }\"\r\n    >\r\n      <td class=\"padding-all-3 text-align-center\">\r\n        {{counter + 1}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-center\">\r\n        {{provision.cpr_id_unit}}\r\n      </td>\r\n      <td class=\"padding-all-3\">{{provision.cpr_concept}}</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_payed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_remaining | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\">Totales</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalAmount | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalPayed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalRemaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<table class=\"pending-provision-listing mobile-only width-100-pct-mobile-only\">\r\n  <thead>\r\n    <tr>\r\n      <th># - Unidad - Concepto</th>\r\n      <th>Monto</th>\r\n      <th>Recaudado</th>\r\n      <th>Adeudo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let provision of viewData.pendingProvisionList; let counter = index\"\r\n      class=\"pending-provision-listing-row\"\r\n      [ngClass]=\"{\r\n        'provision-payed-row': provision.cpr_remaining === 0,\r\n        'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)\r\n      }\"\r\n    >\r\n      <td class=\"padding-all-3\">\r\n        #{{counter + 1}} - {{provision.cpr_id_unit}} - {{provision.cpr_concept}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_payed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_remaining | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\">Totales</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalAmount | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalPayed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalRemaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<div class=\"pending-provision-color-legend page-break-after\">\r\n  <span>Leyenda sobre los colores</span>\r\n\r\n  <div class=\"margin-top-3\">\r\n    <span class=\"provision-added-row provision-legend-box\"></span>\r\n    <span>\r\n      = Cuota no cubierta en este mes (agregada en este mes)\r\n    </span>\r\n  </div>\r\n\r\n  <div class=\"margin-top-3\">\r\n    <span class=\"provision-payed-row provision-legend-box\"></span>\r\n    <span>\r\n      = Cuota cubierta en este mes (se retira fila para el siguiente mes)\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n<h1 class=\"page-title text-align-center page-top print-only\">\r\n  Relación de cobranza {{viewData.displayYearMonth}} FFJ78\r\n</h1>\r\n\r\n<div class=\"text-align-center width-100-pct print-only\">Página 2 de 2</div>\r\n\r\n<h2 class=\"pending-provision-subtitle\">Resumen de adeudos</h2>\r\n\r\n<table class=\"pending-provision-summary width-100-pct-mobile-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>Unidad</th>\r\n      <th>Adeudo</th>\r\n      <th>Principales adeudos</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let provision of viewData.pendingTotals\"\r\n      class=\"pending-provision-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 text-align-center\">\r\n        {{provision.unit}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.remaining | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3\">\r\n        <span *ngIf=\"provision.normalProvisionCount > 1\">\r\n          {{provision.normalProvisionCount}} cuotas ordinarias\r\n        </span>\r\n        <span *ngIf=\"provision.normalProvisionCount === 1\">\r\n          {{provision.normalProvisionCount}} cuota ordinaria\r\n        </span>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\">Total</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.totalRemainingFromPendingTotals | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td></td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<h2 class=\"pending-provision-subtitle\">Saldos a favor</h2>\r\n\r\n<table class=\"pending-provision-future desktop-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>Unidad</th>\r\n      <th>Concepto</th>\r\n      <th>Monto</th>\r\n      <th>Recaudado</th>\r\n      <th>Adeudo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let provision of viewData.futureProvisionList\"\r\n      class=\"pending-provision-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 text-align-center\">\r\n        {{provision.cpr_id_unit}}\r\n      </td>\r\n      <td class=\"padding-all-3\">{{provision.cpr_concept}}</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_payed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_remaining | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\">Totales</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.futureTotalAmount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.futureTotalPayed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.futureTotalRemaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<table class=\"pending-provision-future mobile-only width-100-pct-mobile-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>Unidad - Concepto</th>\r\n      <th>Monto</th>\r\n      <th>Recaudado</th>\r\n      <th>Adeudo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let provision of viewData.futureProvisionList\"\r\n      class=\"pending-provision-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3\">\r\n        {{provision.cpr_id_unit}} - {{provision.cpr_concept}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_payed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpr_remaining | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\">Totales</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.futureTotalAmount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.futureTotalPayed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.futureTotalRemaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<h2 class=\"pending-provision-subtitle\">Depósitos pendientes de identificar</h2>\r\n\r\n<table class=\"non-identified-payments width-100-pct-mobile-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>Fecha</th>\r\n      <th>Descripción</th>\r\n      <th>Monto</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let provision of viewData.nonIdentifiedPaymentList\"\r\n      class=\"pending-provision-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 text-align-center width-80\">\r\n        {{provision.cpy_date | date: \"yyyy-MM-dd\"}}\r\n      </td>\r\n      <td class=\"padding-all-3\">Depósito sin identificar</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{provision.cpy_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\">Total</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.nonIdentifiedTotalAmount | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/cartera/UnitStatusReport.html":
+/*!*************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/cartera/UnitStatusReport.html ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h1 class=\"page-title text-align-center\">\r\n  {{viewData.title}}\r\n</h1>\r\n\r\n<div class=\"text-align-center width-100-pct print-only\">Página 1 de 2</div>\r\n\r\n<h2 class=\"pending-provision-subtitle\">Historial de movimientos</h2>\r\n\r\n<table class=\"unit-status-listing width-100-pct-print-only desktop-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>#</th>\r\n      <th>Fecha</th>\r\n      <th>Concepto</th>\r\n      <th>Adeudo (-)</th>\r\n      <th>Recaudado (+)</th>\r\n      <th>Saldo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let item of viewData.movementList; let counter = index\"\r\n      class=\"unit-status-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 text-align-center vertical-align-top\">\r\n        {{counter + 1}}\r\n      </td>\r\n      <td class=\"padding-all-3 width-80\">\r\n        {{item.date | date: \"yyyy-MM-dd\"}}\r\n      </td>\r\n      <td class=\"padding-all-3\">\r\n        {{item.concept}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        <span *ngIf=\"item.type === 'PROVISION'\">\r\n          {{item.amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </span>\r\n        <span *ngIf=\"item.type !== 'PROVISION'\"></span>\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        <span *ngIf=\"item.type === 'PAYMENT'\"\r\n          >{{item.amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}</span\r\n        >\r\n        <span *ngIf=\"item.type !== 'PAYMENT'\"></span>\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        {{item.balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\">Saldo Final</td>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.finalBalance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<table class=\"unit-status-listing width-100-pct mobile-only\">\r\n  <thead>\r\n    <tr>\r\n      <th># - Fecha - Concepto</th>\r\n      <th>Monto</th>\r\n      <th>Saldo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let item of viewData.movementList; let counter = index\"\r\n      class=\"unit-status-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 vertical-align-top\">\r\n        <span *ngIf=\"item.type === 'PAYMENT'\">\r\n          #{{counter + 1}} {{item.concept}} con fecha {{item.date | date:\r\n          \"yyyy-MM-dd\"}}\r\n        </span>\r\n        <span *ngIf=\"item.type === 'PROVISION'\">\r\n          #{{counter + 1}} {{item.concept}}\r\n        </span>\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        <span *ngIf=\"item.type === 'PROVISION'\">\r\n          {{-1 * item.amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </span>\r\n        <span *ngIf=\"item.type === 'PAYMENT'\" class=\"display-inline\"\r\n          >+{{item.amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}</span\r\n        >\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        {{item.balance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\">Saldo Final</td>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.finalBalance | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<div\r\n  *ngIf=\"viewData.futureProvisionList.length > 0\"\r\n  class=\"width-100-pct-print-only\"\r\n>\r\n  <h2 class=\"pending-provision-subtitle\">Aplicación de saldos a favor</h2>\r\n\r\n  <table class=\"pending-provision-future\">\r\n    <thead>\r\n      <tr>\r\n        <th>Concepto</th>\r\n        <th>Monto</th>\r\n        <th>Recaudado</th>\r\n        <th>Adeudo</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr\r\n        *ngFor=\"let provision of viewData.futureProvisionList\"\r\n        class=\"pending-provision-listing-row\"\r\n      >\r\n        <td class=\"padding-all-3\">{{provision.cpr_concept}}</td>\r\n        <td class=\"padding-all-3 text-align-right width-80\">\r\n          {{provision.cpr_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </td>\r\n        <td class=\"padding-all-3 text-align-right width-80\">\r\n          {{provision.cpr_payed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </td>\r\n        <td class=\"padding-all-3 text-align-right width-80\">\r\n          {{provision.cpr_remaining | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td class=\"padding-all-3\">Totales</td>\r\n        <td class=\"padding-all-3 text-align-right width-80\">\r\n          {{viewData.futureTotalAmount | currency:\r\n          \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </td>\r\n        <td class=\"padding-all-3 text-align-right width-80\">\r\n          {{viewData.futureTotalPayed | currency:\r\n          \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </td>\r\n        <td class=\"padding-all-3 text-align-right width-80\">\r\n          {{viewData.futureTotalRemaining | currency:\r\n          \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table>\r\n</div>\r\n\r\n<h1 class=\"page-title text-align-center print-only page-top page-break-before\">\r\n  {{viewData.title}}\r\n</h1>\r\n\r\n<div class=\"text-align-center width-100-pct print-only\">Página 2 de 2</div>\r\n\r\n<h2 class=\"pending-provision-subtitle\">\r\n  Detalle de aplicación de la recaudación\r\n</h2>\r\n\r\n<table class=\"unit-status-listing width-100-pct-print-only desktop-only\">\r\n  <thead>\r\n    <tr>\r\n      <th>#</th>\r\n      <th>Concepto</th>\r\n      <th>Monto</th>\r\n      <th>Recaudado</th>\r\n      <th>Adeudo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let item of viewData.provisionList; let counter = index\"\r\n      class=\"unit-status-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 text-align-center vertical-align-top\">\r\n        {{counter + 1}}\r\n      </td>\r\n      <td class=\"padding-all-3\">\r\n        <div>\r\n          {{item.provision.cpr_concept}}\r\n        </div>\r\n        <div>\r\n          <div *ngFor=\"let payDet of item.payDetList\">\r\n            - Recaudado {{payDet.cpd_amount | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\"}} a partir del pago #{{\r\n            getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{\r\n            getPayment(payDet.cpd_id_payment).cpy_amount | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n          </div>\r\n        </div>\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        {{item.provision.cpr_amount | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        <div *ngIf=\"item.payDetList.length > 1\">\r\n          <div>\r\n            {{item.provision.cpr_payed | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\"}} =\r\n          </div>\r\n          <div *ngFor=\"let payDet of item.payDetList; let c = index\">\r\n            {{c === 0 ? '' : '+'}} {{payDet.cpd_amount | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n          </div>\r\n        </div>\r\n        <div *ngIf=\"item.payDetList.length === 1\">\r\n          {{item.provision.cpr_payed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </div>\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        {{item.provision.cpr_remaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3\"></td>\r\n      <td class=\"padding-all-3\">Totales</td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalAmount | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalPayed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80\">\r\n        {{viewData.pendingTotalRemaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n\r\n<table class=\"unit-status-listing width-100-pct mobile-only\">\r\n  <thead>\r\n    <tr>\r\n      <th># - Concepto</th>\r\n      <th>Monto / Recaudado / Adeudo</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr\r\n      *ngFor=\"let item of viewData.provisionList; let counter = index\"\r\n      class=\"unit-status-listing-row\"\r\n    >\r\n      <td class=\"padding-all-3 vertical-align-top\">\r\n        #{{counter + 1}} - {{item.provision.cpr_concept}}\r\n        <div>\r\n          <div *ngFor=\"let payDet of item.payDetList\">\r\n            - Recaudado {{payDet.cpd_amount | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\"}} a partir del pago #{{\r\n            getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{\r\n            getPayment(payDet.cpd_id_payment).cpy_amount | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\" }}\r\n          </div>\r\n        </div>\r\n      </td>\r\n      <td class=\"padding-all-3 text-align-right width-80 vertical-align-top\">\r\n        <span *ngIf=\"item.provision.cpr_payed !== 0\">\r\n          Monto {{item.provision.cpr_amount | currency:\r\n          \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </span>\r\n        <div *ngIf=\"item.payDetList.length > 1\">\r\n          Recaudado\r\n          <div>\r\n            {{item.provision.cpr_payed | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\"}} =\r\n          </div>\r\n          <div *ngFor=\"let payDet of item.payDetList; let c = index\">\r\n            {{c === 0 ? '' : '+'}}{{payDet.cpd_amount | currency:\r\n            \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n          </div>\r\n        </div>\r\n        <div *ngIf=\"item.payDetList.length === 1\">\r\n          Recaudado {{item.provision.cpr_payed | currency:\r\n          \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        </div>\r\n        Adeudo {{item.provision.cpr_remaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n  <tfoot>\r\n    <tr>\r\n      <td class=\"padding-all-3 vertical-align-top\">\r\n        Totales\r\n      </td>\r\n      <td class=\"padding-all-3\">\r\n        Monto: {{viewData.pendingTotalAmount | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}} <br />Recaudado:\r\n        {{viewData.pendingTotalPayed | currency: \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n        <br />Adeudo: {{viewData.pendingTotalRemaining | currency:\r\n        \"USD\":\"symbol-narrow\":\"1.2-2\"}}\r\n      </td>\r\n    </tr>\r\n  </tfoot>\r\n</table>\r\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/common/alert.template.html":
 /*!**********************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/common/alert.template.html ***!
@@ -557,7 +579,7 @@ module.exports = "<form #newForm=\"ngForm\" (ngSubmit)=\"newItem(newForm)\">\r\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form #tasksForm=\"ngForm\">\r\n  <input\r\n    type=\"text\"\r\n    name=\"tsk_name\"\r\n    placeholder=\"Write a task...\"\r\n    class=\"task\"\r\n    autocomplete=\"off\"\r\n    autofocus=\"true\"\r\n    *ngIf=\"!showBatchAdd\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_name\"\r\n  />\r\n  <textarea\r\n    name=\"tsk_multiple_name\"\r\n    placeholder=\"Write a task per line...\"\r\n    class=\"task-multiple\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_multiple_name\"\r\n    *ngIf=\"showBatchAdd\"\r\n    spellcheck=\"false\"\r\n  ></textarea>\r\n  <button type=\"submit\" (click)=\"addTask(tasksForm)\" id=\"btnAddTask\">\r\n    Add task\r\n  </button>\r\n  <button (click)=\"showButtonSection = !showButtonSection\">\r\n    {{ showButtonSection ? \"hide\" : \"show\" }} actions\r\n  </button>\r\n  <button\r\n    (click)=\"options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord\"\r\n    *ngIf=\"options.optShowLimitedTasksPerRecord\"\r\n  >\r\n    {{ options.optLimitTasksPerRecord ? \"remove\" : \"apply\" }} limit view\r\n  </button>\r\n  <span id=\"buttonSection\" *ngIf=\"showButtonSection\">\r\n    <button (click)=\"toggleViewBacklog()\">\r\n      {{ viewBacklog ? \"hide\" : \"show\" }} backlog\r\n    </button>\r\n    <button (click)=\"toggleViewAll()\">\r\n      {{ viewAll ? \"hide\" : \"show\" }} all\r\n    </button>\r\n    <button (click)=\"toggleViewPostponed()\" *ngIf=\"state.postponedTasksCount\">\r\n      {{ viewPostponed ? \"hide\" : \"show\" }} postponed\r\n    </button>\r\n    <button (click)=\"toggleViewReportsWeek()\">\r\n      {{ viewReportsWeek ? \"hide\" : \"show\" }} reports week\r\n    </button>\r\n    <button (click)=\"toggleViewReportsDayDistribution()\">\r\n      {{ viewReportsDayDistribution ? \"hide\" : \"show\" }} reports day\r\n      distribution\r\n    </button>\r\n    <button (click)=\"toggleView('viewQualifierTotals')\">\r\n      {{ viewQualifierTotals ? \"hide\" : \"show\" }} reports qualifier totals\r\n    </button>\r\n    <button (click)=\"toggleViewOptions()\">\r\n      {{ viewOptions ? \"hide\" : \"show\" }} options\r\n    </button>\r\n  </span>\r\n  <div *ngIf=\"viewETABeforeAdd\">\r\n    <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>\r\n    <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>\r\n    <span *ngFor=\"let r of state.beforeAddETA\">\r\n      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }}]\r\n    </span>\r\n  </div>\r\n</form>\r\n<div *ngIf=\"viewOptions\">\r\n  <button (click)=\"deleteTasks()\">delete all tasks</button>\r\n  <input type=\"text\" name=\"optionsInput\" [(ngModel)]=\"optionsInput\" />\r\n  <button (click)=\"backup()\">backup</button>\r\n  <button (click)=\"backupDoneOnly()\">backup done only</button>\r\n  <button (click)=\"import()\">import</button>\r\n  <button (click)=\"purgeDoneTasks()\">purge done tasks</button>\r\n  <button (click)=\"sendAllToServer()\">all tasks to server</button>\r\n  <button (click)=\"getTasksFromServer()\">get tasks from server</button>\r\n  <br />\r\n  <checkbox-option\r\n    label=\"Display days elapsed since task was added\"\r\n    optionId=\"optViewElapsedDays\"\r\n    [checked]=\"options.optViewElapsedDays\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Finished Today\"\r\n    optionId=\"optShowFinishedToday\"\r\n    [checked]=\"options.optShowFinishedToday\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show only tasks that have Qualifiers\"\r\n    optionId=\"optShowQualifiedTasksOnly\"\r\n    [checked]=\"options.optShowQualifiedTasksOnly\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"When a new task is added, add it to BACKLOG instead (of adding it to OPEN)\"\r\n    optionId=\"optNewTaskStatusIsBacklog\"\r\n    [checked]=\"options.optNewTaskStatusIsBacklog\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicators Table\"\r\n    optionId=\"optShowIndicatorsTable\"\r\n    [checked]=\"options.optShowIndicatorsTable\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Count EOD\"\r\n    optionId=\"optShowIndicatorOpenCountEOD\"\r\n    [checked]=\"options.optShowIndicatorOpenCountEOD\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added ETA\"\r\n    optionId=\"optShowIndicatorAddedETA\"\r\n    [checked]=\"options.optShowIndicatorAddedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added Count\"\r\n    optionId=\"optShowIndicatorAddedCount\"\r\n    [checked]=\"options.optShowIndicatorAddedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed ETA\"\r\n    optionId=\"optShowIndicatorClosedETA\"\r\n    [checked]=\"options.optShowIndicatorClosedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Spent\"\r\n    optionId=\"optShowIndicatorClosedSpent\"\r\n    [checked]=\"options.optShowIndicatorClosedSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Count\"\r\n    optionId=\"optShowIndicatorClosedCount\"\r\n    [checked]=\"options.optShowIndicatorClosedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Productivity Ratio\"\r\n    optionId=\"optShowIndicatorProductivityRatio\"\r\n    [checked]=\"options.optShowIndicatorProductivityRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Time Management Ratio\"\r\n    optionId=\"optShowIndicatorTimeManagementRatio\"\r\n    [checked]=\"options.optShowIndicatorTimeManagementRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - First TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorFirstTTStamp\"\r\n    [checked]=\"options.optShowIndicatorFirstTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Last TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorLastTTStamp\"\r\n    [checked]=\"options.optShowIndicatorLastTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open ETA\"\r\n    optionId=\"optShowIndicatorOpenETA\"\r\n    [checked]=\"options.optShowIndicatorOpenETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Spent\"\r\n    optionId=\"optShowIndicatorOpenSpent\"\r\n    [checked]=\"options.optShowIndicatorOpenSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show first 3 tasks per record\"\r\n    optionId=\"optShowLimitedTasksPerRecord\"\r\n    [checked]=\"options.optShowLimitedTasksPerRecord\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Colorize record listing without finished tasks today\"\r\n    optionId=\"optColorizeRecordWithoutDoneTasks\"\r\n    [checked]=\"options.optColorizeRecordWithoutDoneTasks\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Use end datetime of task timetracking as task done date when marking a task as done if this datetime is a future datetime\"\r\n    optionId=\"optUseEndTTDateAsDoneDate\"\r\n    [checked]=\"options.optUseEndTTDateAsDoneDate\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n\r\n  <div id=\"optionsMessages\"></div>\r\n  <hr />\r\n</div>\r\n<div id=\"backlogTaskList\" *ngIf=\"viewBacklog\">\r\n  <strong>Backlog</strong>\r\n  <div *ngFor=\"let item of state.backlogTasks\">\r\n    <div>\r\n      <strong>{{ item.header }}</strong>\r\n      ({{ formatTime(item.estimatedDuration * 60) }})\r\n    </div>\r\n    <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n      -\r\n      <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n        >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)\r\n        }}]</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (keyup)=\"taskEdit(t, $event)\"\r\n        [ngClass]=\"{\r\n          'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n          'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n          'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n        }\"\r\n        class=\"editable\"\r\n        >{{ t.tsk_name }}</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n        [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n        class=\"task-eta\"\r\n        >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n      >\r\n      <span *ngIf=\"t.tsk_schedule_date_start\"\r\n        >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n      >\r\n      <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n      <button (click)=\"setOpen(t)\">Move to open</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"postponedTaskList\" *ngIf=\"viewPostponed\">\r\n  <strong>Postponed Tasks</strong>\r\n  <div *ngFor=\"let t of state.postponedTasks\">\r\n    -\r\n    <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n      >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)\r\n      }}]</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"taskEdit(t, $event)\"\r\n      [ngClass]=\"{\r\n        'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n        'task-in-process': t.tsk_ctg_in_process === 2,\r\n        'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n        'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n        'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n      }\"\r\n      (blur)=\"commandOnTask(t, $event)\"\r\n      class=\"editable\"\r\n      >{{ t.tsk_name }}</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n      [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n      class=\"task-eta\"\r\n      >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n    >\r\n    <span *ngIf=\"t.tsk_schedule_date_start\"\r\n      >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n    >\r\n    <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n    <span\r\n      >(postponed until {{ t.tsk_date_view_until | date: \"yyyy-MM-dd HH:mm:ss\"\r\n      }})</span\r\n    >\r\n    <button (click)=\"setSelected(t)\">details</button>\r\n    <button (click)=\"setUnpostpone(t)\">see it now</button>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"openTaskList\">\r\n  <div *ngIf=\"!state.openTasks.length\">\r\n    <strong\r\n      >No tasks open! Congratulations! Consider reviewing the backlog or add new\r\n      tasks to do.</strong\r\n    >\r\n    <hr />\r\n  </div>\r\n  <div\r\n    [ngClass]=\"{\r\n      'task-open-task-list-container': true,\r\n      'task-open-task-list-container--grid': layout === 'grid',\r\n      'task-open-task-list-container--float': layout === 'float'\r\n    }\"\r\n  >\r\n    <div\r\n      *ngFor=\"let item of state.openTasks\"\r\n      class=\"task-record\"\r\n      [ngClass]=\"{\r\n        'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0\r\n      }\"\r\n    >\r\n      <div>\r\n        <strong>{{ item.header }}</strong>\r\n        | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *\r\n        60) }})\r\n        <span *ngIf=\"countTasksDone(item.header) > 0\">\r\n          |\r\n          <span\r\n            class=\"task-done\"\r\n            title=\"tasks done today from this record list\"\r\n          >\r\n            {{ countTasksDone(item.header) }}\r\n          </span>\r\n        </span>\r\n      </div>\r\n      <div\r\n        *ngFor=\"let t of item.tasks; let i = index\"\r\n        data-id=\"{{ t.tsk_id }}\"\r\n        [ngStyle]=\"{ 'font-size-2': ageFontSizeNormalization(t) + 'px' }\"\r\n        [ngClass]=\"{\r\n          hidden:\r\n            options.optShowLimitedTasksPerRecord &&\r\n            options.optLimitTasksPerRecord &&\r\n            i >= 3 &&\r\n            t.tsk_time_history.length === 0\r\n        }\"\r\n      >\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n          formatTime(t.tsk_total_time_spent) }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r\n              .tsh_date_start | date: \"HH:mm:ss\" }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n              | date: \"HH:mm:ss\" }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n            | date: \"HH:mm:ss\" }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          (focus)=\"setFocus(t, $event); setTaskSelected(t)\"\r\n          (keydown)=\"taskKeyDown($event)\"\r\n          tabindex=\"0\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span class=\"task-link\" *ngIf=\"t.tsk_url\"\r\n          ><a href=\"{{ t.tsk_url }}\" title=\"{{ t.tsk_url }}\" target=\"_blank\"\r\n            >link</a\r\n          ></span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          (keydown)=\"etaKeyDown($event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\"\r\n          >{{ taskAge(t) }}</span\r\n        >\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div id=\"Info\">\r\n    Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }}\r\n    <span *ngIf=\"state.postponedTasksCount\">\r\n      | Postponed: {{ state.postponedTasksCount }}\r\n    </span>\r\n    <br />Karma Score:\r\n    <span\r\n      >{{ state.karmaScore }} ({{ state.karmaCount }} / {{\r\n      state.closedTodayTasks.length }})</span\r\n    >\r\n    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong\r\n      >{{ isOnline() ? \"\" : \"You are OFFLINE\" }}</strong\r\n    >\r\n    <div\r\n      *ngIf=\"options.optShowIndicatorsTable\"\r\n      class=\"task-indicators-container\"\r\n    >\r\n      <strong>Indicators</strong>\r\n      <table class=\"indicators-table\">\r\n        <tr>\r\n          <td>Indicator</td>\r\n          <td *ngFor=\"let c of state.indicatorLabels\">{{ c }}</td>\r\n          <td>Completed?</td>\r\n        </tr>\r\n        <tr *ngFor=\"let indicator of state.indicators\">\r\n          <td>\r\n            <span>\r\n              {{ indicator.name }}\r\n            </span>\r\n            <span *ngIf=\"indicator.metric === 'MORE_IS_BETTER'\">\r\n              &uarr;\r\n            </span>\r\n            <span *ngIf=\"indicator.metric === 'LESS_IS_BETTER'\">\r\n              &darr;\r\n            </span>\r\n          </td>\r\n          <td\r\n            *ngFor=\"let v of indicator.formattedValues; let currIndex = index\"\r\n          >\r\n            <span\r\n              [ngClass]=\"{'color-green': currIndex > 0 && (indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER'),\r\n            'color-red': currIndex > 0 && (indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER')}\"\r\n            >\r\n              {{ v }}\r\n            </span>\r\n          </td>\r\n          <td>\r\n            {{ indicator.isCompleted ? \"SI\" : \"NO\" }} / {{\r\n            indicator.percentageCompleted }}\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"nextToDoTodayList\" *ngIf=\"nextTasks[0].tasks.length\">\r\n  <div class=\"task-open-task-list-container\">\r\n    <div *ngFor=\"let item of nextTasks\" class=\"task-record\">\r\n      <div>\r\n        <strong>Next To Do Today</strong>\r\n        | {{ item.tasks.length }}\r\n        <time-format\r\n          format=\"([H]h[m]m)\"\r\n          [value]=\"item.estimatedDuration\"\r\n        ></time-format>\r\n      </div>\r\n      <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span class=\"mobile-only\">\r\n          <span\r\n            class=\"play-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9654;</span\r\n          >\r\n          <span\r\n            class=\"stop-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9724;</span\r\n          >\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n          formatTime(t.tsk_total_time_spent) }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r\n              .tsh_date_start | date: \"HH:mm:ss\" }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n              | date: \"HH:mm:ss\" }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n            | date: \"HH:mm:ss\" }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          (keydown)=\"nextTaskKeyDown($event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span>\r\n          [{{t.tsk_id_record}}]\r\n        </span>\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\"\r\n          >{{ taskAge(t) }}</span\r\n        >\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div id=\"tagInfo\" *ngIf=\"tagInfo.display === true\">\r\n  <button (click)=\"tagInfo.display = false\">hide</button>\r\n  <strong>Tag Information</strong>\r\n  <br />Closed Tasks | Estimated: {{\r\n  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{\r\n  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{\r\n  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{\r\n  formatTime(tagInfo.tasksOpenTotalSpent) }}\r\n  <div *ngIf=\"tagInfo.tasks.length > 0\">\r\n    <table>\r\n      <tr>\r\n        <td>Name</td>\r\n        <td>Estimated</td>\r\n        <td>Spent</td>\r\n        <td>Status</td>\r\n        <td>Actions</td>\r\n      </tr>\r\n      <tr *ngFor=\"let e of tagInfo.tasks\">\r\n        <td>{{ e.tsk_name }}</td>\r\n        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>\r\n        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>\r\n        <td>{{ statusText(e.tsk_ctg_status) }}</td>\r\n        <td><button (click)=\"setSelected(e)\">details</button></td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"taskDetails\" *ngIf=\"state.selected\">\r\n  <button (click)=\"state.selected = null\">hide</button>\r\n  <br />\r\n  <strong>Task Details</strong>\r\n  <div>Id: {{ state.selected.tsk_id }}</div>\r\n  <div>Container: {{ state.selected.tsk_id_container }}</div>\r\n  <div>Record: {{ state.selected.tsk_id_record }}</div>\r\n  <div>Name: {{ state.selected.tsk_name }}</div>\r\n  <div>\r\n    Notes:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"setTaskNotes(state.selected, $event)\"\r\n      >{{ state.selected.tsk_notes ? state.selected.tsk_notes : \"-\" }}</span\r\n    >\r\n  </div>\r\n  <div>Parent: {{ state.selected.tsk_parent }}</div>\r\n  <div>Order: {{ state.selected.tsk_order }}</div>\r\n  <div>\r\n    Date Done:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"editDateDone(state.selected, $event)\"\r\n      >{{ state.selected.tsk_date_done | date: format }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}\r\n  </div>\r\n  <div>\r\n    <fieldset *ngIf=\"state.selected.tsk_time_history.length\">\r\n      <legend>Time History</legend>\r\n      <table>\r\n        <tr>\r\n          <td>Sequential</td>\r\n          <td>Name</td>\r\n          <td>Date Start</td>\r\n          <td>Date End</td>\r\n          <td>Time Spent</td>\r\n          <td>User</td>\r\n          <td>Date Add</td>\r\n          <td>Date Mod</td>\r\n          <td>Actions</td>\r\n        </tr>\r\n        <tr *ngFor=\"let h of state.selected.tsk_time_history\">\r\n          <td>{{ h.tsh_num_secuential }}</td>\r\n          <td>{{ h.tsh_name }}</td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 1, $event)\"\r\n              >{{ h.tsh_date_start | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 2, $event)\"\r\n              >{{ h.tsh_date_end | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>{{ formatTime(h.tsh_time_spent) }}</td>\r\n          <td>{{ h.tsh_id_user }}</td>\r\n          <td>{{ h.tsh_date_add | date: format }}</td>\r\n          <td>{{ h.tsh_date_mod | date: format }}</td>\r\n          <td>\r\n            <button\r\n              *ngIf=\"h.tsh_date_end\"\r\n              (click)=\"deleteTimeTracking(state.selected, h)\"\r\n            >\r\n              delete\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </fieldset>\r\n  </div>\r\n  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>\r\n  <div>\r\n    Qualifiers:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskQualifiersEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_qualifiers }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Tags:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskTagsEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_tags }}</span\r\n    >\r\n  </div>\r\n  <div>Estimated Duration: {{ state.selected.tsk_estimated_duration }}</div>\r\n  <div>\r\n    Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:\r\n    format }}\r\n  </div>\r\n  <div>\r\n    Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format }}\r\n  </div>\r\n  <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>\r\n  <div>User Added: {{ state.selected.tsk_id_user_added }}</div>\r\n  <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>\r\n  <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>\r\n  <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>\r\n  <div>Status: {{ state.selected.tsk_ctg_status }}</div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"options.optShowFinishedToday\">\r\n  <strong>Finished Today / {{ state.closedTodayTasks.length }} tasks</strong>\r\n  <div *ngFor=\"let item of state.closedTodayTasks; let i = index\">\r\n    <div *ngIf=\"i < 3 || viewAllFinishedToday\">\r\n      <input\r\n        type=\"checkbox\"\r\n        id=\"{{ item.tsk_id }}\"\r\n        checked\r\n        (click)=\"taskCheckboxHandler(item, $event)\"\r\n      />\r\n      <span\r\n        *ngIf=\"item.tsk_total_time_spent !== 0\"\r\n        [ngClass]=\"{\r\n          'task-open-with-tt':\r\n            item.tsk_ctg_status === this.taskStatus.OPEN &&\r\n            item.tsk_time_history.length > 0\r\n        }\"\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n        formatTime(item.tsk_total_time_spent) }}]\r\n        <span *ngIf=\"item.tsk_ctg_in_process !== 2\">\r\n          [<span\r\n            class=\"tt-start\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'start')\"\r\n            >{{ item.tsk_time_history[item.tsk_time_history.length - 1]\r\n            .tsh_date_start | date: \"HH:mm:ss\" }}</span\r\n          >\r\n          -\r\n          <span\r\n            class=\"tt-end\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'end')\"\r\n            >{{ item.tsk_time_history[item.tsk_time_history.length - 1]\r\n            .tsh_date_end | date: \"HH:mm:ss\" }}</span\r\n          >]\r\n        </span>\r\n      </span>\r\n      <span\r\n        >(Done at:\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"editDateDone(item, $event)\"\r\n        >\r\n          {{ item.tsk_date_done | date: format }}\r\n        </span>\r\n        )</span\r\n      >\r\n      <span\r\n        [ngClass]=\"{\r\n          'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED\r\n        }\"\r\n        >{{ item.tsk_name }}</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <span *ngIf=\"item.not_sync\">(Not in sync)</span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <button\r\n    (click)=\"toggleView('viewAllFinishedToday')\"\r\n    *ngIf=\"state.closedTodayTasks.length > 3\"\r\n  >\r\n    {{ viewAllFinishedToday ? \"Do not show all\" : \"Show all\" }}\r\n  </button>\r\n  <hr />\r\n</div>\r\n<div id=\"closedTaskList\" *ngIf=\"viewAll\">\r\n  <strong>Closed Tasks</strong>\r\n  <div *ngFor=\"let group of state.closedTasks\">\r\n    <div>\r\n      <strong>{{ group.header | date: \"yyyy-MM-dd\" }}</strong>\r\n      <span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>\r\n    </div>\r\n    <div *ngFor=\"let item of group.tasks\">\r\n      -\r\n      <span\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n        formatTime(item.tsk_total_time_spent) }}]</span\r\n      >\r\n      <span>[{{ item.tsk_id_record }}]</span>\r\n      <span>{{ item.tsk_name }}</span>\r\n      <span\r\n        >(done at {{ item.tsk_date_done | date: \"yyyy-MM-dd HH:mm:ss\" }})</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewReportsWeek\">\r\n  <div *ngFor=\"let s of reports.week\">\r\n    date: {{ s.date | date: \"yyyy-MM-dd\" }} tasks done: {{ s.tasksDone }}\r\n    estimated: {{ formatTime(s.estimated * 60) }} spent: {{\r\n    formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time\r\n    Elapsed: {{ formatTime(s.realTimeElapsed) }}\r\n  </div>\r\n</div>\r\n<div *ngIf=\"viewReportsDayDistribution\">\r\n  <strong>Reports Day Distribution</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Record</td>\r\n      <td>Total ETA</td>\r\n      <td>Total Real</td>\r\n      <td>Percentage ETA</td>\r\n      <td>Percentage Real</td>\r\n    </tr>\r\n    <tr *ngFor=\"let r of reports.dayDistribution\">\r\n      <td>{{ r.record }}</td>\r\n      <td>{{ formatTime(r.eta * 60) }}</td>\r\n      <td>{{ formatTime(r.real) }}</td>\r\n      <td>{{ r.percentageEta }}</td>\r\n      <td>{{ r.percentageReal }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewQualifierTotals\">\r\n  <strong>Qualifier Totals</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Qualifier</td>\r\n      <td>Task Count</td>\r\n      <td>Total ETA</td>\r\n    </tr>\r\n    <tr *ngFor=\"let q of reports.qualifierTotals\">\r\n      <td>{{ q.qualifier }}</td>\r\n      <td>{{ q.taskCount }}</td>\r\n      <td>{{ formatTime(q.totalETA * 60) }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n\r\n<div *ngIf=\"comparisonData\">\r\n  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task\r\n  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{\r\n  comparisonData.results.length }}\r\n  <table>\r\n    <tr *ngFor=\"let c of comparisonData.results\">\r\n      <td *ngFor=\"let f of c\">\r\n        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{\r\n        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}\r\n        <button (click)=\"sendFEToBE(c)\">Send FE data to BE</button>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n\r\n<div class=\"task-item-toolbar\" *ngIf=\"selectedTask\">\r\n  <div>{{ selectedTask.tsk_name }}</div>\r\n  <div class=\"task-item-toolbar-content\">\r\n    <span\r\n      class=\"play-button clickable\"\r\n      *ngIf=\"selectedTask && selectedTask.tsk_ctg_in_process === 1\"\r\n      (click)=\"toggleTimeTracking(selectedTask, $event)\"\r\n      >&#9654;</span\r\n    >\r\n    <span\r\n      class=\"stop-button clickable\"\r\n      *ngIf=\"selectedTask && selectedTask.tsk_ctg_in_process === 2\"\r\n      (click)=\"toggleTimeTracking(selectedTask, $event)\"\r\n      >&#9724;</span\r\n    >\r\n    <span\r\n      class=\"adjust-timetracking-button clickable\"\r\n      (click)=\"adjustTimeTracking(selectedTask)\"\r\n      >&#8676;</span\r\n    >\r\n    <span class=\"close-button clickable\" (click)=\"selectedTask = null\"\r\n      >&times;</span\r\n    >\r\n  </div>\r\n</div>\r\n"
+module.exports = "<form #tasksForm=\"ngForm\">\r\n  <input\r\n    type=\"text\"\r\n    name=\"tsk_name\"\r\n    placeholder=\"Write a task...\"\r\n    class=\"task\"\r\n    autocomplete=\"off\"\r\n    autofocus=\"true\"\r\n    *ngIf=\"!showBatchAdd\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_name\"\r\n  />\r\n  <textarea\r\n    name=\"tsk_multiple_name\"\r\n    placeholder=\"Write a task per line...\"\r\n    class=\"task-multiple\"\r\n    (keyup)=\"inputKeyUpHandler($event)\"\r\n    [(ngModel)]=\"tsk_multiple_name\"\r\n    *ngIf=\"showBatchAdd\"\r\n    spellcheck=\"false\"\r\n  ></textarea>\r\n  <button type=\"submit\" (click)=\"addTask(tasksForm)\" id=\"btnAddTask\">\r\n    Add task\r\n  </button>\r\n  <button (click)=\"showButtonSection = !showButtonSection\">\r\n    {{ showButtonSection ? \"hide\" : \"show\" }} actions\r\n  </button>\r\n  <button\r\n    (click)=\"options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord\"\r\n    *ngIf=\"options.optShowLimitedTasksPerRecord\"\r\n  >\r\n    {{ options.optLimitTasksPerRecord ? \"remove\" : \"apply\" }} limit view\r\n  </button>\r\n  <span id=\"buttonSection\" *ngIf=\"showButtonSection\">\r\n    <button (click)=\"toggleViewBacklog()\">\r\n      {{ viewBacklog ? \"hide\" : \"show\" }} backlog\r\n    </button>\r\n    <button (click)=\"toggleViewAll()\">\r\n      {{ viewAll ? \"hide\" : \"show\" }} all\r\n    </button>\r\n    <button (click)=\"toggleViewPostponed()\" *ngIf=\"state.postponedTasksCount\">\r\n      {{ viewPostponed ? \"hide\" : \"show\" }} postponed\r\n    </button>\r\n    <button (click)=\"toggleViewReportsWeek()\">\r\n      {{ viewReportsWeek ? \"hide\" : \"show\" }} reports week\r\n    </button>\r\n    <button (click)=\"toggleViewReportsDayDistribution()\">\r\n      {{ viewReportsDayDistribution ? \"hide\" : \"show\" }} reports day\r\n      distribution\r\n    </button>\r\n    <button (click)=\"toggleView('viewQualifierTotals')\">\r\n      {{ viewQualifierTotals ? \"hide\" : \"show\" }} reports qualifier totals\r\n    </button>\r\n    <button (click)=\"toggleViewOptions()\">\r\n      {{ viewOptions ? \"hide\" : \"show\" }} options\r\n    </button>\r\n  </span>\r\n  <div *ngIf=\"viewETABeforeAdd\">\r\n    <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>\r\n    <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>\r\n    <span *ngFor=\"let r of state.beforeAddETA\">\r\n      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }}]\r\n    </span>\r\n  </div>\r\n</form>\r\n<div *ngIf=\"viewOptions\">\r\n  <button (click)=\"deleteTasks()\">delete all tasks</button>\r\n  <input type=\"text\" name=\"optionsInput\" [(ngModel)]=\"optionsInput\" />\r\n  <button (click)=\"backup()\">backup</button>\r\n  <button (click)=\"backupDoneOnly()\">backup done only</button>\r\n  <button (click)=\"import()\">import</button>\r\n  <button (click)=\"purgeDoneTasks()\">purge done tasks</button>\r\n  <button (click)=\"sendAllToServer()\">all tasks to server</button>\r\n  <button (click)=\"getTasksFromServer()\">get tasks from server</button>\r\n  <br />\r\n  <checkbox-option\r\n    label=\"Display days elapsed since task was added\"\r\n    optionId=\"optViewElapsedDays\"\r\n    [checked]=\"options.optViewElapsedDays\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Finished Today\"\r\n    optionId=\"optShowFinishedToday\"\r\n    [checked]=\"options.optShowFinishedToday\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show only tasks that have Qualifiers\"\r\n    optionId=\"optShowQualifiedTasksOnly\"\r\n    [checked]=\"options.optShowQualifiedTasksOnly\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"When a new task is added, add it to BACKLOG instead (of adding it to OPEN)\"\r\n    optionId=\"optNewTaskStatusIsBacklog\"\r\n    [checked]=\"options.optNewTaskStatusIsBacklog\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicators Table\"\r\n    optionId=\"optShowIndicatorsTable\"\r\n    [checked]=\"options.optShowIndicatorsTable\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Count EOD\"\r\n    optionId=\"optShowIndicatorOpenCountEOD\"\r\n    [checked]=\"options.optShowIndicatorOpenCountEOD\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added ETA\"\r\n    optionId=\"optShowIndicatorAddedETA\"\r\n    [checked]=\"options.optShowIndicatorAddedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Added Count\"\r\n    optionId=\"optShowIndicatorAddedCount\"\r\n    [checked]=\"options.optShowIndicatorAddedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed ETA\"\r\n    optionId=\"optShowIndicatorClosedETA\"\r\n    [checked]=\"options.optShowIndicatorClosedETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Spent\"\r\n    optionId=\"optShowIndicatorClosedSpent\"\r\n    [checked]=\"options.optShowIndicatorClosedSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Closed Count\"\r\n    optionId=\"optShowIndicatorClosedCount\"\r\n    [checked]=\"options.optShowIndicatorClosedCount\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Productivity Ratio\"\r\n    optionId=\"optShowIndicatorProductivityRatio\"\r\n    [checked]=\"options.optShowIndicatorProductivityRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Time Management Ratio\"\r\n    optionId=\"optShowIndicatorTimeManagementRatio\"\r\n    [checked]=\"options.optShowIndicatorTimeManagementRatio\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - First TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorFirstTTStamp\"\r\n    [checked]=\"options.optShowIndicatorFirstTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Last TimeTracking Stamp of Day\"\r\n    optionId=\"optShowIndicatorLastTTStamp\"\r\n    [checked]=\"options.optShowIndicatorLastTTStamp\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open ETA\"\r\n    optionId=\"optShowIndicatorOpenETA\"\r\n    [checked]=\"options.optShowIndicatorOpenETA\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show Indicator - Open Spent\"\r\n    optionId=\"optShowIndicatorOpenSpent\"\r\n    [checked]=\"options.optShowIndicatorOpenSpent\"\r\n    (onClick)=\"toggleOptionById($event); calculateIndicators()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Show first 3 tasks per record\"\r\n    optionId=\"optShowLimitedTasksPerRecord\"\r\n    [checked]=\"options.optShowLimitedTasksPerRecord\"\r\n    (onClick)=\"toggleOptionById($event); updateState()\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Colorize record listing without finished tasks today\"\r\n    optionId=\"optColorizeRecordWithoutDoneTasks\"\r\n    [checked]=\"options.optColorizeRecordWithoutDoneTasks\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n  <checkbox-option\r\n    label=\"Use end datetime of task timetracking as task done date when this one is a future datetime\"\r\n    optionId=\"optUseEndTTDateAsDoneDate\"\r\n    [checked]=\"options.optUseEndTTDateAsDoneDate\"\r\n    (onClick)=\"toggleOptionById($event)\"\r\n  ></checkbox-option>\r\n\r\n  <div id=\"optionsMessages\"></div>\r\n  <hr />\r\n</div>\r\n<div id=\"backlogTaskList\" *ngIf=\"viewBacklog\">\r\n  <strong>Backlog</strong>\r\n  <div *ngFor=\"let item of state.backlogTasks\">\r\n    <div>\r\n      <strong>{{ item.header }}</strong>\r\n      ({{ formatTime(item.estimatedDuration * 60) }})\r\n    </div>\r\n    <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n      -\r\n      <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n        >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)\r\n        }}]</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (keyup)=\"taskEdit(t, $event)\"\r\n        [ngClass]=\"{\r\n          'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n          'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n          'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n        }\"\r\n        class=\"editable\"\r\n        >{{ t.tsk_name }}</span\r\n      >\r\n      <span\r\n        contenteditable=\"true\"\r\n        spellcheck=\"false\"\r\n        (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n        [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n        class=\"task-eta\"\r\n        >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n      >\r\n      <span *ngIf=\"t.tsk_schedule_date_start\"\r\n        >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n      >\r\n      <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n      <button (click)=\"setOpen(t)\">Move to open</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"postponedTaskList\" *ngIf=\"viewPostponed\">\r\n  <strong>Postponed Tasks</strong>\r\n  <div *ngFor=\"let t of state.postponedTasks\">\r\n    -\r\n    <span *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n      >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)\r\n      }}]</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"taskEdit(t, $event)\"\r\n      [ngClass]=\"{\r\n        'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n        'task-in-process': t.tsk_ctg_in_process === 2,\r\n        'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n        'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n        'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r\n      }\"\r\n      (blur)=\"commandOnTask(t, $event)\"\r\n      class=\"editable\"\r\n      >{{ t.tsk_name }}</span\r\n    >\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n      [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n      class=\"task-eta\"\r\n      >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n    >\r\n    <span *ngIf=\"t.tsk_schedule_date_start\"\r\n      >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span\r\n    >\r\n    <span [ngClass]=\"taskAgeClass(t)\">{{ taskAge(t) }}</span>\r\n    <span\r\n      >(postponed until {{ t.tsk_date_view_until | date: \"yyyy-MM-dd HH:mm:ss\"\r\n      }})</span\r\n    >\r\n    <button (click)=\"setSelected(t)\">details</button>\r\n    <button (click)=\"setUnpostpone(t)\">see it now</button>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"openTaskList\">\r\n  <div *ngIf=\"!state.openTasks.length\">\r\n    <strong\r\n      >No tasks open! Congratulations! Consider reviewing the backlog or add new\r\n      tasks to do.</strong\r\n    >\r\n    <hr />\r\n  </div>\r\n  <div\r\n    [ngClass]=\"{\r\n      'task-open-task-list-container': true,\r\n      'task-open-task-list-container--grid': layout === 'grid',\r\n      'task-open-task-list-container--float': layout === 'float'\r\n    }\"\r\n  >\r\n    <div\r\n      *ngFor=\"let item of state.openTasks\"\r\n      class=\"task-record\"\r\n      [ngClass]=\"{\r\n        'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0\r\n      }\"\r\n    >\r\n      <div>\r\n        <strong>{{ item.header }}</strong>\r\n        | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *\r\n        60) }})\r\n        <span *ngIf=\"countTasksDone(item.header) > 0\">\r\n          |\r\n          <span\r\n            class=\"task-done\"\r\n            title=\"tasks done today from this record list\"\r\n          >\r\n            {{ countTasksDone(item.header) }}\r\n          </span>\r\n        </span>\r\n      </div>\r\n      <div\r\n        *ngFor=\"let t of item.tasks; let i = index\"\r\n        data-id=\"{{ t.tsk_id }}\"\r\n        [ngStyle]=\"{ 'font-size-2': ageFontSizeNormalization(t) + 'px' }\"\r\n        [ngClass]=\"{\r\n          hidden:\r\n            options.optShowLimitedTasksPerRecord &&\r\n            options.optLimitTasksPerRecord &&\r\n            i >= 3 &&\r\n            t.tsk_time_history.length === 0\r\n        }\"\r\n      >\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n          formatTime(t.tsk_total_time_spent) }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r\n              .tsh_date_start | date: \"HH:mm:ss\" }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n              | date: \"HH:mm:ss\" }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n          >[<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n            | date: \"HH:mm:ss\" }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          (focus)=\"setFocus(t, $event); setTaskSelected(t)\"\r\n          (keydown)=\"taskKeyDown($event)\"\r\n          tabindex=\"0\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span class=\"task-link\" *ngIf=\"t.tsk_url\"\r\n          ><a href=\"{{ t.tsk_url }}\" title=\"{{ t.tsk_url }}\" target=\"_blank\"\r\n            >link</a\r\n          ></span\r\n        >&nbsp;<span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          (keydown)=\"etaKeyDown($event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >&nbsp;<span\r\n          [ngClass]=\"taskAgeClass(t)\"\r\n          *ngIf=\"options.optViewElapsedDays\"\r\n          >{{ taskAge(t) }}</span\r\n        >\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div id=\"Info\">\r\n    Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }}\r\n    <span *ngIf=\"state.postponedTasksCount\">\r\n      | Postponed: {{ state.postponedTasksCount }}\r\n    </span>\r\n    <br />Karma Score:\r\n    <span\r\n      >{{ state.karmaScore }} ({{ state.karmaCount }} / {{\r\n      state.closedTodayTasks.length }})</span\r\n    >\r\n    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong\r\n      >{{ isOnline() ? \"\" : \"You are OFFLINE\" }}</strong\r\n    >\r\n    <div\r\n      *ngIf=\"options.optShowIndicatorsTable\"\r\n      class=\"task-indicators-container\"\r\n    >\r\n      <strong>Indicators</strong>\r\n      <table class=\"indicators-table\">\r\n        <tr>\r\n          <td>Indicator</td>\r\n          <td *ngFor=\"let c of state.indicatorLabels\">{{ c }}</td>\r\n          <td>Completed?</td>\r\n        </tr>\r\n        <tr *ngFor=\"let indicator of state.indicators\">\r\n          <td>\r\n            <span>\r\n              {{ indicator.name }}\r\n            </span>\r\n            <span *ngIf=\"indicator.metric === 'MORE_IS_BETTER'\">\r\n              &uarr;\r\n            </span>\r\n            <span *ngIf=\"indicator.metric === 'LESS_IS_BETTER'\">\r\n              &darr;\r\n            </span>\r\n          </td>\r\n          <td\r\n            *ngFor=\"let v of indicator.formattedValues; let currIndex = index\"\r\n          >\r\n            <span\r\n              [ngClass]=\"{'color-green': currIndex > 0 && (indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER'),\r\n            'color-red': currIndex > 0 && (indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER')}\"\r\n            >\r\n              {{ v }}\r\n            </span>\r\n          </td>\r\n          <td>\r\n            {{ indicator.isCompleted ? \"SI\" : \"NO\" }} / {{\r\n            indicator.percentageCompleted }}\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"nextToDoTodayList\" *ngIf=\"nextTasks[0].tasks.length\">\r\n  <div class=\"task-open-task-list-container\">\r\n    <div *ngFor=\"let item of nextTasks\" class=\"task-record\">\r\n      <div>\r\n        <strong>Next To Do Today</strong>\r\n        | {{ item.tasks.length }}\r\n        <time-format\r\n          format=\"([H]h[m]m)\"\r\n          [value]=\"item.estimatedDuration\"\r\n        ></time-format>\r\n      </div>\r\n      <div *ngFor=\"let t of item.tasks\" data-id=\"{{ t.tsk_id }}\">\r\n        <input\r\n          type=\"checkbox\"\r\n          id=\"{{ t.tsk_id }}\"\r\n          (click)=\"taskCheckboxHandler(t, $event)\"\r\n        />\r\n        <span class=\"mobile-only\">\r\n          <span\r\n            class=\"play-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 1\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9654;</span\r\n          >\r\n          <span\r\n            class=\"stop-button clickable\"\r\n            *ngIf=\"t.tsk_ctg_in_process === 2\"\r\n            (click)=\"toggleTimeTracking(t, $event)\"\r\n            >&#9724;</span\r\n          >\r\n        </span>\r\n        <span>\r\n          &lt;{{t['projectedDate'] | date: \"HH:mm\"}}&gt;\r\n        </span>\r\n        <span\r\n          *ngIf=\"t.tsk_total_time_spent !== 0\"\r\n          [ngClass]=\"{\r\n            'task-open-with-tt':\r\n              t.tsk_ctg_status === this.taskStatus.OPEN &&\r\n              t.tsk_time_history.length > 0\r\n          }\"\r\n          >[{{ t.tsk_time_history.length }}/{{\r\n          formatTime(t.tsk_total_time_spent) }}]\r\n          <span *ngIf=\"t.tsk_ctg_in_process !== 2\">\r\n            [<span\r\n              class=\"tt-start\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r\n              .tsh_date_start | date: \"HH:mm:ss\" }}</span\r\n            >\r\n            -\r\n            <span\r\n              class=\"tt-end\"\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"timeTrackingQuickEdit(t, $event, 'end')\"\r\n              >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end\r\n              | date: \"HH:mm:ss\" }}</span\r\n            >]\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_ctg_in_process === 2\">\r\n          [<span\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(t, $event, 'start')\"\r\n            >{{ t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_start\r\n            | date: \"HH:mm:ss\" }}</span\r\n          >]\r\n        </span>\r\n        <span\r\n          (click)=\"toggleTimeMode()\"\r\n          class=\"clickable\"\r\n          title=\"click to toggle timer mode\"\r\n        >\r\n          {{ timers[t.tsk_id] ? \"[\" + timers[t.tsk_id].timerString + \"]\" : \"\" }}\r\n        </span>\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"taskEdit(t, $event)\"\r\n          (keydown)=\"nextTaskKeyDown($event)\"\r\n          [ngClass]=\"{\r\n            'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r\n            'task-in-process': t.tsk_ctg_in_process === 2,\r\n            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r\n            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r\n            'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r\n            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r\n            'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r\n            'task-call': t.tsk_qualifiers.indexOf('call') !== -1\r\n          }\"\r\n          (blur)=\"commandOnTask(t, $event)\"\r\n          class=\"editable task-text\"\r\n          >{{ t.tsk_name }}</span\r\n        >\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (blur)=\"taskEstimatedDurationEdit(t, $event)\"\r\n          [ngClass]=\"{ 'task-no-eta': t.tsk_estimated_duration === 0 }\"\r\n          class=\"task-eta\"\r\n          >{{ formatTime(t.tsk_estimated_duration * 60, \"#h#m\") }}</span\r\n        >\r\n        <span>\r\n          [{{t.tsk_id_record}}]\r\n        </span>\r\n        <span *ngIf=\"t.tsk_tags\" class=\"task-tags\">\r\n          <span\r\n            *ngFor=\"let tag of t.tsk_tags.split(' ')\"\r\n            (click)=\"showTagStats(tag)\"\r\n            class=\"tag\"\r\n          >\r\n            #{{ tag }}\r\n          </span>\r\n        </span>\r\n        <span *ngIf=\"t.tsk_schedule_date_start\"\r\n          ><strong\r\n            >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong\r\n          ></span\r\n        >\r\n        <span [ngClass]=\"taskAgeClass(t)\" *ngIf=\"options.optViewElapsedDays\"\r\n          >{{ taskAge(t) }}</span\r\n        >\r\n        <span *ngIf=\"t.not_sync\">(Not in sync)</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div id=\"tagInfo\" *ngIf=\"tagInfo.display === true\">\r\n  <button (click)=\"tagInfo.display = false\">hide</button>\r\n  <strong>Tag Information</strong>\r\n  <br />Closed Tasks | Estimated: {{\r\n  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{\r\n  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{\r\n  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{\r\n  formatTime(tagInfo.tasksOpenTotalSpent) }}\r\n  <div *ngIf=\"tagInfo.tasks.length > 0\">\r\n    <table>\r\n      <tr>\r\n        <td>Name</td>\r\n        <td>Estimated</td>\r\n        <td>Spent</td>\r\n        <td>Status</td>\r\n        <td>Actions</td>\r\n      </tr>\r\n      <tr *ngFor=\"let e of tagInfo.tasks\">\r\n        <td>{{ e.tsk_name }}</td>\r\n        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>\r\n        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>\r\n        <td>{{ statusText(e.tsk_ctg_status) }}</td>\r\n        <td><button (click)=\"setSelected(e)\">details</button></td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div id=\"taskDetails\" *ngIf=\"state.selected\">\r\n  <button (click)=\"state.selected = null\">hide</button>\r\n  <br />\r\n  <strong>Task Details</strong>\r\n  <div>Id: {{ state.selected.tsk_id }}</div>\r\n  <div>Container: {{ state.selected.tsk_id_container }}</div>\r\n  <div>Record: {{ state.selected.tsk_id_record }}</div>\r\n  <div>Name: {{ state.selected.tsk_name }}</div>\r\n  <div>\r\n    Notes:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"setTaskNotes(state.selected, $event)\"\r\n      >{{ state.selected.tsk_notes ? state.selected.tsk_notes : \"-\" }}</span\r\n    >\r\n  </div>\r\n  <div>Parent: {{ state.selected.tsk_parent }}</div>\r\n  <div>Order: {{ state.selected.tsk_order }}</div>\r\n  <div>\r\n    Date Done:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (keyup)=\"editDateDone(state.selected, $event)\"\r\n      >{{ state.selected.tsk_date_done | date: format }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}\r\n  </div>\r\n  <div>\r\n    <fieldset *ngIf=\"state.selected.tsk_time_history.length\">\r\n      <legend>Time History</legend>\r\n      <table>\r\n        <tr>\r\n          <td>Sequential</td>\r\n          <td>Name</td>\r\n          <td>Date Start</td>\r\n          <td>Date End</td>\r\n          <td>Time Spent</td>\r\n          <td>User</td>\r\n          <td>Date Add</td>\r\n          <td>Date Mod</td>\r\n          <td>Actions</td>\r\n        </tr>\r\n        <tr *ngFor=\"let h of state.selected.tsk_time_history\">\r\n          <td>{{ h.tsh_num_secuential }}</td>\r\n          <td>{{ h.tsh_name }}</td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 1, $event)\"\r\n              >{{ h.tsh_date_start | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>\r\n            <span\r\n              contenteditable=\"true\"\r\n              spellcheck=\"false\"\r\n              (keyup)=\"editTimeTracking(h, 2, $event)\"\r\n              >{{ h.tsh_date_end | date: format }}</span\r\n            >\r\n          </td>\r\n          <td>{{ formatTime(h.tsh_time_spent) }}</td>\r\n          <td>{{ h.tsh_id_user }}</td>\r\n          <td>{{ h.tsh_date_add | date: format }}</td>\r\n          <td>{{ h.tsh_date_mod | date: format }}</td>\r\n          <td>\r\n            <button\r\n              *ngIf=\"h.tsh_date_end\"\r\n              (click)=\"deleteTimeTracking(state.selected, h)\"\r\n            >\r\n              delete\r\n            </button>\r\n          </td>\r\n        </tr>\r\n      </table>\r\n    </fieldset>\r\n  </div>\r\n  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>\r\n  <div>\r\n    Qualifiers:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskQualifiersEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_qualifiers }}</span\r\n    >\r\n  </div>\r\n  <div>\r\n    Tags:\r\n    <span\r\n      contenteditable=\"true\"\r\n      spellcheck=\"false\"\r\n      (blur)=\"taskTagsEdit(state.selected, $event)\"\r\n      >{{ state.selected.tsk_tags }}</span\r\n    >\r\n  </div>\r\n  <div>Estimated Duration: {{ state.selected.tsk_estimated_duration }}</div>\r\n  <div>\r\n    Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:\r\n    format }}\r\n  </div>\r\n  <div>\r\n    Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format }}\r\n  </div>\r\n  <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>\r\n  <div>User Added: {{ state.selected.tsk_id_user_added }}</div>\r\n  <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>\r\n  <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>\r\n  <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>\r\n  <div>Status: {{ state.selected.tsk_ctg_status }}</div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"options.optShowFinishedToday\">\r\n  <strong>Finished Today / {{ state.closedTodayTasks.length }} tasks</strong>\r\n  <div *ngFor=\"let item of state.closedTodayTasks; let i = index\">\r\n    <div *ngIf=\"i < 3 || viewAllFinishedToday\">\r\n      <input\r\n        type=\"checkbox\"\r\n        id=\"{{ item.tsk_id }}\"\r\n        checked\r\n        (click)=\"taskCheckboxHandler(item, $event)\"\r\n      />\r\n      <span\r\n        *ngIf=\"item.tsk_total_time_spent !== 0\"\r\n        [ngClass]=\"{\r\n          'task-open-with-tt':\r\n            item.tsk_ctg_status === this.taskStatus.OPEN &&\r\n            item.tsk_time_history.length > 0\r\n        }\"\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n        formatTime(item.tsk_total_time_spent) }}]\r\n        <span *ngIf=\"item.tsk_ctg_in_process !== 2\">\r\n          [<span\r\n            class=\"tt-start\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'start')\"\r\n            >{{ item.tsk_time_history[item.tsk_time_history.length - 1]\r\n            .tsh_date_start | date: \"HH:mm:ss\" }}</span\r\n          >\r\n          -\r\n          <span\r\n            class=\"tt-end\"\r\n            contenteditable=\"true\"\r\n            spellcheck=\"false\"\r\n            (keyup)=\"timeTrackingQuickEdit(item, $event, 'end')\"\r\n            >{{ item.tsk_time_history[item.tsk_time_history.length - 1]\r\n            .tsh_date_end | date: \"HH:mm:ss\" }}</span\r\n          >]\r\n        </span>\r\n      </span>\r\n      <span\r\n        >(Done at:\r\n        <span\r\n          contenteditable=\"true\"\r\n          spellcheck=\"false\"\r\n          (keyup)=\"editDateDone(item, $event)\"\r\n        >\r\n          {{ item.tsk_date_done | date: format }}\r\n        </span>\r\n        )</span\r\n      >\r\n      <span\r\n        [ngClass]=\"{\r\n          'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED\r\n        }\"\r\n        >{{ item.tsk_name }}</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <span *ngIf=\"item.not_sync\">(Not in sync)</span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <button\r\n    (click)=\"toggleView('viewAllFinishedToday')\"\r\n    *ngIf=\"state.closedTodayTasks.length > 3\"\r\n  >\r\n    {{ viewAllFinishedToday ? \"Do not show all\" : \"Show all\" }}\r\n  </button>\r\n  <hr />\r\n</div>\r\n<div id=\"closedTaskList\" *ngIf=\"viewAll\">\r\n  <strong>Closed Tasks</strong>\r\n  <div *ngFor=\"let group of state.closedTasks\">\r\n    <div>\r\n      <strong>{{ group.header | date: \"yyyy-MM-dd\" }}</strong>\r\n      <span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>\r\n    </div>\r\n    <div *ngFor=\"let item of group.tasks\">\r\n      -\r\n      <span\r\n        >[{{ item.tsk_time_history.length }}/{{\r\n        formatTime(item.tsk_total_time_spent) }}]</span\r\n      >\r\n      <span>[{{ item.tsk_id_record }}]</span>\r\n      <span>{{ item.tsk_name }}</span>\r\n      <span\r\n        >(done at {{ item.tsk_date_done | date: \"yyyy-MM-dd HH:mm:ss\" }})</span\r\n      >\r\n      <span *ngIf=\"item.tsk_tags\" class=\"task-tags\">\r\n        <span\r\n          *ngFor=\"let tag of item.tsk_tags.split(' ')\"\r\n          (click)=\"showTagStats(tag)\"\r\n          class=\"tag\"\r\n        >\r\n          #{{ tag }}\r\n        </span>\r\n      </span>\r\n      <button (click)=\"setSelected(item)\">details</button>\r\n    </div>\r\n  </div>\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewReportsWeek\">\r\n  <div *ngFor=\"let s of reports.week\">\r\n    date: {{ s.date | date: \"yyyy-MM-dd\" }} tasks done: {{ s.tasksDone }}\r\n    estimated: {{ formatTime(s.estimated * 60) }} spent: {{\r\n    formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time\r\n    Elapsed: {{ formatTime(s.realTimeElapsed) }}\r\n  </div>\r\n</div>\r\n<div *ngIf=\"viewReportsDayDistribution\">\r\n  <strong>Reports Day Distribution</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Record</td>\r\n      <td>Total ETA</td>\r\n      <td>Total Real</td>\r\n      <td>Percentage ETA</td>\r\n      <td>Percentage Real</td>\r\n    </tr>\r\n    <tr *ngFor=\"let r of reports.dayDistribution\">\r\n      <td>{{ r.record }}</td>\r\n      <td>{{ formatTime(r.eta * 60) }}</td>\r\n      <td>{{ formatTime(r.real) }}</td>\r\n      <td>{{ r.percentageEta }}</td>\r\n      <td>{{ r.percentageReal }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n<div *ngIf=\"viewQualifierTotals\">\r\n  <strong>Qualifier Totals</strong>\r\n  <table>\r\n    <tr>\r\n      <td>Qualifier</td>\r\n      <td>Task Count</td>\r\n      <td>Total ETA</td>\r\n    </tr>\r\n    <tr *ngFor=\"let q of reports.qualifierTotals\">\r\n      <td>{{ q.qualifier }}</td>\r\n      <td>{{ q.taskCount }}</td>\r\n      <td>{{ formatTime(q.totalETA * 60) }}</td>\r\n    </tr>\r\n  </table>\r\n\r\n  <hr />\r\n</div>\r\n\r\n<div *ngIf=\"comparisonData\">\r\n  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task\r\n  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{\r\n  comparisonData.results.length }}\r\n  <table>\r\n    <tr *ngFor=\"let c of comparisonData.results\">\r\n      <td *ngFor=\"let f of c\">\r\n        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{\r\n        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}\r\n        <button (click)=\"sendFEToBE(c)\">Send FE data to BE</button>\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</div>\r\n\r\n<div class=\"task-item-toolbar\" *ngIf=\"selectedTask\">\r\n  <div>{{ selectedTask.tsk_name }}</div>\r\n  <div class=\"task-item-toolbar-content\">\r\n    <span\r\n      class=\"play-button clickable\"\r\n      *ngIf=\"selectedTask && selectedTask.tsk_ctg_in_process === 1\"\r\n      (click)=\"toggleTimeTracking(selectedTask, $event)\"\r\n      >&#9654;</span\r\n    >\r\n    <span\r\n      class=\"stop-button clickable\"\r\n      *ngIf=\"selectedTask && selectedTask.tsk_ctg_in_process === 2\"\r\n      (click)=\"toggleTimeTracking(selectedTask, $event)\"\r\n      >&#9724;</span\r\n    >\r\n    <span\r\n      class=\"adjust-timetracking-button clickable\"\r\n      (click)=\"adjustTimeTracking(selectedTask)\"\r\n      >&#8676;</span\r\n    >\r\n    <span\r\n      class=\"adjust-timetracking-button clickable\"\r\n      (click)=\"setSelected(selectedTask)\"\r\n      >&#9998;</span\r\n    >\r\n    <span class=\"close-button clickable\" (click)=\"selectedTask = null\"\r\n      >&times;</span\r\n    >\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -568,7 +590,7 @@ module.exports = "<form #tasksForm=\"ngForm\">\r\n  <input\r\n    type=\"text\"\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<span>\r\n  {{result}}\r\n</span>\r\n"
+module.exports = "<span>\r\n  {{formatValue()}}\r\n</span>\r\n"
 
 /***/ }),
 
@@ -947,6 +969,8 @@ const cfg_component_1 = __webpack_require__(/*! ./common/cfg.component */ "./src
 const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
 const time_format_component_1 = __webpack_require__(/*! ./task/time-format.component */ "./src/app/task/time-format.component.ts");
 const notification_component_1 = __webpack_require__(/*! ./common/notification.component */ "./src/app/common/notification.component.ts");
+const PendingProvisionReportComponent_1 = __webpack_require__(/*! ./cartera/PendingProvisionReportComponent */ "./src/app/cartera/PendingProvisionReportComponent.ts");
+const UnitStatusReportComponent_1 = __webpack_require__(/*! ./cartera/UnitStatusReportComponent */ "./src/app/cartera/UnitStatusReportComponent.ts");
 const alert_component_1 = __webpack_require__(/*! ./common/alert.component */ "./src/app/common/alert.component.ts");
 const jwt_interceptor_1 = __webpack_require__(/*! ./common/jwt.interceptor */ "./src/app/common/jwt.interceptor.ts");
 const error_interceptor_1 = __webpack_require__(/*! ./common/error.interceptor */ "./src/app/common/error.interceptor.ts");
@@ -987,6 +1011,8 @@ AppModule = tslib_1.__decorate([
             multimedia_component_1.MultimediaComponent,
             link_component_1.LinkComponent,
             activity_component_1.ActivityComponent,
+            PendingProvisionReportComponent_1.PendingProvisionReportComponent,
+            UnitStatusReportComponent_1.UnitStatusReportComponent,
             type_generator_component_1.TypeGeneratorComponent,
             alert_component_1.AlertComponent,
             home_component_1.HomeComponent,
@@ -1037,6 +1063,8 @@ const lasttime_component_1 = __webpack_require__(/*! ./lasttime/lasttime.compone
 const multimedia_component_1 = __webpack_require__(/*! ./multimedia/multimedia.component */ "./src/app/multimedia/multimedia.component.ts");
 const link_component_1 = __webpack_require__(/*! ./link/link.component */ "./src/app/link/link.component.ts");
 const activity_component_1 = __webpack_require__(/*! ./activities/activity.component */ "./src/app/activities/activity.component.ts");
+const PendingProvisionReportComponent_1 = __webpack_require__(/*! ./cartera/PendingProvisionReportComponent */ "./src/app/cartera/PendingProvisionReportComponent.ts");
+const UnitStatusReportComponent_1 = __webpack_require__(/*! ./cartera/UnitStatusReportComponent */ "./src/app/cartera/UnitStatusReportComponent.ts");
 const type_generator_component_1 = __webpack_require__(/*! ./internal/type-generator.component */ "./src/app/internal/type-generator.component.ts");
 const appRoutes = [
     // { path: 'crisis-center', component: CrisisListComponent },
@@ -1105,6 +1133,14 @@ const appRoutes = [
         canActivate: [auth_guard_1.AuthGuard]
     },
     {
+        path: "cartera-pending-payments",
+        component: PendingProvisionReportComponent_1.PendingProvisionReportComponent
+    },
+    {
+        path: "cartera-unit-status",
+        component: UnitStatusReportComponent_1.UnitStatusReportComponent
+    },
+    {
         path: "type-generator",
         component: type_generator_component_1.TypeGeneratorComponent,
         canActivate: [auth_guard_1.AuthGuard]
@@ -1119,6 +1155,447 @@ const appRoutes = [
     // { path: '**', component: PageNotFoundComponent }
 ];
 exports.routing = router_1.RouterModule.forRoot(appRoutes);
+
+
+/***/ }),
+
+/***/ "./src/app/cartera/PendingProvisionReport.css":
+/*!****************************************************!*\
+  !*** ./src/app/cartera/PendingProvisionReport.css ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "@media screen, print {\r\n  thead tr th,\r\n  tfoot tr td {\r\n    background-color: #d0e4f5;\r\n    font-weight: bold;\r\n  }\r\n\r\n  tfoot tr td {\r\n    border-top: 1px solid black;\r\n  }\r\n\r\n  table {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    border-spacing: 0;\r\n  }\r\n\r\n  tbody tr {\r\n    border-top: 1px solid black;\r\n  }\r\n}\r\n\r\n@media print {\r\n  body {\r\n    font-size: 5pt;\r\n  }\r\n\r\n  .padding-all-3 {\r\n    padding: 0px 3px;\r\n  }\r\n\r\n  .page-title {\r\n    margin: 0;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media screen, print {\r\n  * {\r\n    font-family: sans-serif;\r\n  }\r\n\r\n  .provision-payed-row {\r\n    background-color: #b7e4b2;\r\n  }\r\n\r\n  .provision-added-row {\r\n    background-color: #f5d498;\r\n  }\r\n\r\n  .provision-legend-box {\r\n    width: 50px;\r\n    height: 12px;\r\n    display: inline-block;\r\n    border: 1px solid black;\r\n    vertical-align: middle;\r\n  }\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY2FydGVyYS9DYXJ0ZXJhUmVwb3J0c0NvbW1vbi5jc3MiLCJzcmMvYXBwL2NhcnRlcmEvUGVuZGluZ1Byb3Zpc2lvblJlcG9ydC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTs7SUFFRSx5QkFBeUI7SUFDekIsaUJBQWlCO0VBQ25COztFQUVBO0lBQ0UsMkJBQTJCO0VBQzdCOztFQUVBO0lBQ0UsdUJBQXVCO0lBQ3ZCLHlCQUF5QjtJQUN6QixpQkFBaUI7RUFDbkI7O0VBRUE7SUFDRSwyQkFBMkI7RUFDN0I7QUFDRjs7QUFFQTtFQUNFO0lBQ0UsY0FBYztFQUNoQjs7RUFFQTtJQUNFLGdCQUFnQjtFQUNsQjs7RUFFQTtJQUNFLFNBQVM7SUFDVCxjQUFjO0VBQ2hCO0FBQ0Y7O0FDakNBO0VBQ0U7SUFDRSx1QkFBdUI7RUFDekI7O0VBRUE7SUFDRSx5QkFBeUI7RUFDM0I7O0VBRUE7SUFDRSx5QkFBeUI7RUFDM0I7O0VBRUE7SUFDRSxXQUFXO0lBQ1gsWUFBWTtJQUNaLHFCQUFxQjtJQUNyQix1QkFBdUI7SUFDdkIsc0JBQXNCO0VBQ3hCO0FBQ0YiLCJmaWxlIjoic3JjL2FwcC9jYXJ0ZXJhL1BlbmRpbmdQcm92aXNpb25SZXBvcnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiQG1lZGlhIHNjcmVlbiwgcHJpbnQge1xyXG4gIHRoZWFkIHRyIHRoLFxyXG4gIHRmb290IHRyIHRkIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNkMGU0ZjU7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICB9XHJcblxyXG4gIHRmb290IHRyIHRkIHtcclxuICAgIGJvcmRlci10b3A6IDFweCBzb2xpZCBibGFjaztcclxuICB9XHJcblxyXG4gIHRhYmxlIHtcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkIGJsYWNrO1xyXG4gICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcclxuICAgIGJvcmRlci1zcGFjaW5nOiAwO1xyXG4gIH1cclxuXHJcbiAgdGJvZHkgdHIge1xyXG4gICAgYm9yZGVyLXRvcDogMXB4IHNvbGlkIGJsYWNrO1xyXG4gIH1cclxufVxyXG5cclxuQG1lZGlhIHByaW50IHtcclxuICBib2R5IHtcclxuICAgIGZvbnQtc2l6ZTogNXB0O1xyXG4gIH1cclxuXHJcbiAgLnBhZGRpbmctYWxsLTMge1xyXG4gICAgcGFkZGluZzogMHB4IDNweDtcclxuICB9XHJcblxyXG4gIC5wYWdlLXRpdGxlIHtcclxuICAgIG1hcmdpbjogMDtcclxuICAgIGRpc3BsYXk6IGJsb2NrO1xyXG4gIH1cclxufVxyXG4iLCJAaW1wb3J0IFwiLi9DYXJ0ZXJhUmVwb3J0c0NvbW1vbi5jc3NcIjtcclxuXHJcbkBtZWRpYSBzY3JlZW4sIHByaW50IHtcclxuICAqIHtcclxuICAgIGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmO1xyXG4gIH1cclxuXHJcbiAgLnByb3Zpc2lvbi1wYXllZC1yb3cge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2I3ZTRiMjtcclxuICB9XHJcblxyXG4gIC5wcm92aXNpb24tYWRkZWQtcm93IHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNmNWQ0OTg7XHJcbiAgfVxyXG5cclxuICAucHJvdmlzaW9uLWxlZ2VuZC1ib3gge1xyXG4gICAgd2lkdGg6IDUwcHg7XHJcbiAgICBoZWlnaHQ6IDEycHg7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCBibGFjaztcclxuICAgIHZlcnRpY2FsLWFsaWduOiBtaWRkbGU7XHJcbiAgfVxyXG59XHJcbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/cartera/PendingProvisionReportComponent.ts":
+/*!************************************************************!*\
+  !*** ./src/app/cartera/PendingProvisionReportComponent.ts ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const PendingProvisionService_1 = __webpack_require__(/*! ./PendingProvisionService */ "./src/app/cartera/PendingProvisionService.ts");
+const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const CUOTA_NORMAL = "cuota-normal";
+const PROVISION_AMOUNT = 1480;
+let PendingProvisionReportComponent = class PendingProvisionReportComponent {
+    constructor(pendingProvisionService, titleService) {
+        this.pendingProvisionService = pendingProvisionService;
+        this.titleService = titleService;
+        this.viewData = {
+            pendingProvisionList: [],
+            futureProvisionList: [],
+            pendingTotalAmount: 0,
+            pendingTotalPayed: 0,
+            pendingTotalRemaining: 0,
+            pendingTotals: [],
+            totalRemainingFromPendingTotals: 0,
+            futureTotalAmount: 0,
+            futureTotalPayed: 0,
+            futureTotalRemaining: 0,
+            year: 0,
+            month: 0,
+            nonIdentifiedPaymentList: [],
+            nonIdentifiedTotalAmount: 0,
+            displayYearMonth: null
+        };
+        this.parseQueryString();
+        titleService.setTitle(`Relación de Cobranza ${this.viewData.displayYearMonth} FFJ78`);
+    }
+    parseQueryString() {
+        const query = this.pendingProvisionService.getQueryStringParameters();
+        this.viewData.year = parseInt(query.get("year"), 10);
+        this.viewData.month = parseInt(query.get("month"), 10);
+        this.viewData.displayYearMonth = `${DateUtility_1.DateUtils.getMonthNameSpanish(this.viewData.month)} ${this.viewData.year}`;
+    }
+    ngOnInit() {
+        this.deriveState();
+    }
+    sumByField(list, fieldName) {
+        return list.reduce((previous, current) => previous + current[fieldName], 0);
+    }
+    deriveState() {
+        this.pendingProvisionService
+            .getPendingProvisionForMonth(this.viewData.year, this.viewData.month)
+            .then(response => {
+            const { pendingProvisionList, futureProvisionList, nonIdentifiedPaymentList } = response;
+            this.viewData.pendingProvisionList = pendingProvisionList;
+            this.viewData.futureProvisionList = futureProvisionList;
+            this.viewData.nonIdentifiedPaymentList = nonIdentifiedPaymentList;
+            // calculate totals
+            this.viewData.pendingTotalAmount = this.sumByField(pendingProvisionList, "cpr_amount");
+            this.viewData.pendingTotalPayed = this.sumByField(pendingProvisionList, "cpr_payed");
+            this.viewData.pendingTotalRemaining = this.sumByField(pendingProvisionList, "cpr_remaining");
+            this.viewData.futureTotalAmount = this.sumByField(futureProvisionList, "cpr_amount");
+            this.viewData.futureTotalPayed = this.sumByField(futureProvisionList, "cpr_payed");
+            this.viewData.futureTotalRemaining = this.sumByField(futureProvisionList, "cpr_remaining");
+            // totals per unit
+            this.viewData.pendingTotals = this.viewData.pendingProvisionList.reduce((previous, current) => {
+                const found = previous.find(e => e.unit === current.cpr_id_unit);
+                // the ones that are normal provisions and that doesn't have any payments
+                const isNormalProvision = current.cpr_code_reference.split("|")[0] === CUOTA_NORMAL &&
+                    current.cpr_remaining === PROVISION_AMOUNT;
+                if (found) {
+                    found.remaining += current.cpr_remaining;
+                    found.normalProvisionCount += isNormalProvision ? 1 : 0;
+                }
+                else {
+                    previous.push({
+                        unit: current.cpr_id_unit,
+                        remaining: current.cpr_remaining,
+                        normalProvisionCount: isNormalProvision ? 1 : 0
+                    });
+                }
+                return previous;
+            }, []);
+            // total from pendingTotals
+            this.viewData.totalRemainingFromPendingTotals = this.sumByField(this.viewData.pendingTotals, "remaining");
+            // total from nonIdentified
+            this.viewData.nonIdentifiedTotalAmount = this.sumByField(nonIdentifiedPaymentList, "cpy_amount");
+        });
+    }
+    getProvisionYearMonth(provision) {
+        return provision.cpr_code_reference
+            .split("|")[1]
+            .split("-")
+            .map(n => parseInt(n, 10));
+    }
+    isProvisionForCurrentRenderedMonth(provision, year, month) {
+        return (this.getProvisionYearMonth(provision).reduce((previous, current) => previous * 100 + current, 0) ===
+            year * 100 + month);
+    }
+};
+PendingProvisionReportComponent.ctorParameters = () => [
+    { type: PendingProvisionService_1.PendingProvisionService },
+    { type: platform_browser_1.Title }
+];
+PendingProvisionReportComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "pending-payments-report",
+        template: __webpack_require__(/*! raw-loader!./PendingProvisionReport.html */ "./node_modules/raw-loader/index.js!./src/app/cartera/PendingProvisionReport.html"),
+        providers: [PendingProvisionService_1.PendingProvisionService],
+        styles: [__webpack_require__(/*! ./PendingProvisionReport.css */ "./src/app/cartera/PendingProvisionReport.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [PendingProvisionService_1.PendingProvisionService,
+        platform_browser_1.Title])
+], PendingProvisionReportComponent);
+exports.PendingProvisionReportComponent = PendingProvisionReportComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/cartera/PendingProvisionService.ts":
+/*!****************************************************!*\
+  !*** ./src/app/cartera/PendingProvisionService.ts ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const CarteraProvision_1 = __webpack_require__(/*! ../../crosscommon/entities/CarteraProvision */ "./src/crosscommon/entities/CarteraProvision.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const CarteraPayment_1 = __webpack_require__(/*! src/crosscommon/entities/CarteraPayment */ "./src/crosscommon/entities/CarteraPayment.ts");
+let PendingProvisionService = class PendingProvisionService {
+    constructor(sync) {
+        this.sync = sync;
+        this.data = {
+            pendingProvisionList: [],
+            futureProvisionList: [],
+            nonIdentifiedPaymentList: []
+        };
+        this.config = {
+            api: {
+                list: "/api/external/cartera-ext/rebuild-pending-payments-month"
+            }
+        };
+    }
+    list() {
+        return this.data;
+    }
+    getQueryStringParameters() {
+        return new URL(window.location.href).searchParams;
+    }
+    getPendingProvisionForMonth(year, month) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const defaultData = {
+                pendingProvisionList: [],
+                futureProvisionList: [],
+                nonIdentifiedPaymentList: []
+            };
+            return this.sync
+                .get(`${this.config.api.list}?year=${year}&month=${month}`)
+                .then(data => {
+                this.data = {
+                    pendingProvisionList: data.pendingProvisionList.map((d) => new CarteraProvision_1.CarteraProvision(d)),
+                    futureProvisionList: data.futureProvisionList.map((d) => new CarteraProvision_1.CarteraProvision(d)),
+                    nonIdentifiedPaymentList: data.nonIdentifiedPaymentList.map((d) => new CarteraPayment_1.CarteraPayment(d))
+                };
+                return this.data;
+            })
+                .catch(err => {
+                return defaultData;
+            });
+        });
+    }
+};
+PendingProvisionService.ctorParameters = () => [
+    { type: sync_api_1.SyncAPI }
+];
+PendingProvisionService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI])
+], PendingProvisionService);
+exports.PendingProvisionService = PendingProvisionService;
+
+
+/***/ }),
+
+/***/ "./src/app/cartera/UnitStatusReport.css":
+/*!**********************************************!*\
+  !*** ./src/app/cartera/UnitStatusReport.css ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "@media screen, print {\r\n  thead tr th,\r\n  tfoot tr td {\r\n    background-color: #d0e4f5;\r\n    font-weight: bold;\r\n  }\r\n\r\n  tfoot tr td {\r\n    border-top: 1px solid black;\r\n  }\r\n\r\n  table {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    border-spacing: 0;\r\n  }\r\n\r\n  tbody tr {\r\n    border-top: 1px solid black;\r\n  }\r\n}\r\n\r\n@media print {\r\n  body {\r\n    font-size: 5pt;\r\n  }\r\n\r\n  .padding-all-3 {\r\n    padding: 0px 3px;\r\n  }\r\n\r\n  .page-title {\r\n    margin: 0;\r\n    display: block;\r\n  }\r\n}\r\n\r\n@media screen, print {\r\n  * {\r\n    font-family: sans-serif;\r\n  }\r\n\r\n  .unit-status-listing-row:nth-child(even) {\r\n    background-color: #e0e0e0;\r\n  }\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY2FydGVyYS9DYXJ0ZXJhUmVwb3J0c0NvbW1vbi5jc3MiLCJzcmMvYXBwL2NhcnRlcmEvVW5pdFN0YXR1c1JlcG9ydC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTs7SUFFRSx5QkFBeUI7SUFDekIsaUJBQWlCO0VBQ25COztFQUVBO0lBQ0UsMkJBQTJCO0VBQzdCOztFQUVBO0lBQ0UsdUJBQXVCO0lBQ3ZCLHlCQUF5QjtJQUN6QixpQkFBaUI7RUFDbkI7O0VBRUE7SUFDRSwyQkFBMkI7RUFDN0I7QUFDRjs7QUFFQTtFQUNFO0lBQ0UsY0FBYztFQUNoQjs7RUFFQTtJQUNFLGdCQUFnQjtFQUNsQjs7RUFFQTtJQUNFLFNBQVM7SUFDVCxjQUFjO0VBQ2hCO0FBQ0Y7O0FDakNBO0VBQ0U7SUFDRSx1QkFBdUI7RUFDekI7O0VBRUE7SUFDRSx5QkFBeUI7RUFDM0I7QUFDRiIsImZpbGUiOiJzcmMvYXBwL2NhcnRlcmEvVW5pdFN0YXR1c1JlcG9ydC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAbWVkaWEgc2NyZWVuLCBwcmludCB7XHJcbiAgdGhlYWQgdHIgdGgsXHJcbiAgdGZvb3QgdHIgdGQge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2QwZTRmNTtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG4gIH1cclxuXHJcbiAgdGZvb3QgdHIgdGQge1xyXG4gICAgYm9yZGVyLXRvcDogMXB4IHNvbGlkIGJsYWNrO1xyXG4gIH1cclxuXHJcbiAgdGFibGUge1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgYmxhY2s7XHJcbiAgICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlO1xyXG4gICAgYm9yZGVyLXNwYWNpbmc6IDA7XHJcbiAgfVxyXG5cclxuICB0Ym9keSB0ciB7XHJcbiAgICBib3JkZXItdG9wOiAxcHggc29saWQgYmxhY2s7XHJcbiAgfVxyXG59XHJcblxyXG5AbWVkaWEgcHJpbnQge1xyXG4gIGJvZHkge1xyXG4gICAgZm9udC1zaXplOiA1cHQ7XHJcbiAgfVxyXG5cclxuICAucGFkZGluZy1hbGwtMyB7XHJcbiAgICBwYWRkaW5nOiAwcHggM3B4O1xyXG4gIH1cclxuXHJcbiAgLnBhZ2UtdGl0bGUge1xyXG4gICAgbWFyZ2luOiAwO1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgfVxyXG59XHJcbiIsIkBpbXBvcnQgXCIuL0NhcnRlcmFSZXBvcnRzQ29tbW9uLmNzc1wiO1xyXG5cclxuQG1lZGlhIHNjcmVlbiwgcHJpbnQge1xyXG4gICoge1xyXG4gICAgZm9udC1mYW1pbHk6IHNhbnMtc2VyaWY7XHJcbiAgfVxyXG5cclxuICAudW5pdC1zdGF0dXMtbGlzdGluZy1yb3c6bnRoLWNoaWxkKGV2ZW4pIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6ICNlMGUwZTA7XHJcbiAgfVxyXG59XHJcbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/cartera/UnitStatusReportComponent.ts":
+/*!******************************************************!*\
+  !*** ./src/app/cartera/UnitStatusReportComponent.ts ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const UnitStatusService_1 = __webpack_require__(/*! ./UnitStatusService */ "./src/app/cartera/UnitStatusService.ts");
+const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
+const platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+const UNIT_LABEL = "Departamento";
+let UnitStatusReportComponent = class UnitStatusReportComponent {
+    constructor(UnitStatusService, titleService) {
+        this.UnitStatusService = UnitStatusService;
+        this.titleService = titleService;
+        this.viewData = {
+            provisionList: [],
+            paymentList: [],
+            title: null,
+            movementList: [],
+            finalBalance: 0,
+            pendingTotalAmount: 0,
+            pendingTotalPayed: 0,
+            pendingTotalRemaining: 0,
+            futureProvisionList: [],
+            futureTotalAmount: 0,
+            futureTotalPayed: 0,
+            futureTotalRemaining: 0,
+            year: 0,
+            month: 0,
+            unit: null,
+            displayYearMonth: null
+        };
+        this.parseQueryString();
+        this.viewData.title = `Estado de Cuenta ${UNIT_LABEL} ${this.viewData.unit} ${this.viewData.displayYearMonth} FFJ78`;
+        titleService.setTitle(this.viewData.title);
+    }
+    parseQueryString() {
+        const query = this.UnitStatusService.getQueryStringParameters();
+        this.viewData.year = parseInt(query.get("year"), 10);
+        this.viewData.month = parseInt(query.get("month"), 10);
+        this.viewData.unit = query.get("unit");
+        this.viewData.displayYearMonth = `${DateUtility_1.DateUtils.getMonthNameSpanish(this.viewData.month)} ${this.viewData.year}`;
+    }
+    ngOnInit() {
+        this.deriveState();
+    }
+    sumByField(list, fieldName) {
+        return list.reduce((previous, current) => previous + current[fieldName], 0);
+    }
+    deriveState() {
+        this.UnitStatusService.getUnitStatusForMonth(this.viewData.year, this.viewData.month, this.viewData.unit).then(response => {
+            const { provisionList, paymentList } = response;
+            this.viewData.provisionList = provisionList;
+            this.viewData.paymentList = paymentList;
+            // calculate pending totals
+            this.viewData.pendingTotalAmount = this.sumByField(this.viewData.provisionList.map(e => e.provision), "cpr_amount");
+            this.viewData.pendingTotalPayed = this.sumByField(this.viewData.provisionList.map(e => e.provision), "cpr_payed");
+            this.viewData.pendingTotalRemaining = this.sumByField(this.viewData.provisionList.map(e => e.provision), "cpr_remaining");
+            const limitDate = new Date(this.viewData.year, this.viewData.month, 1); // next month
+            // create unified movement list
+            this.viewData.provisionList
+                .filter(p => p.provision.cpr_date.getTime() < limitDate.getTime())
+                .forEach(({ provision }, index) => {
+                this.viewData.movementList.push({
+                    concept: provision.cpr_concept,
+                    type: "PROVISION",
+                    amount: provision.cpr_amount,
+                    date: provision.cpr_date,
+                    balance: 0,
+                    comment: null,
+                    orderIndex: index
+                });
+            });
+            this.viewData.paymentList.forEach((payment, index) => {
+                this.viewData.movementList.push({
+                    concept: `Pago #${index + 1}`,
+                    type: "PAYMENT",
+                    amount: payment.cpy_amount,
+                    date: payment.cpy_date,
+                    balance: 0,
+                    comment: null,
+                    orderIndex: index
+                });
+            });
+            // order movements
+            this.viewData.movementList = this.viewData.movementList.sort((a, b) => {
+                if (a.date.getTime() === b.date.getTime()) {
+                    const order = { PROVISION: 1, PAYMENT: 2 };
+                    if (order[a.type] === order[b.type]) {
+                        return a.orderIndex > b.orderIndex ? 1 : -1;
+                    }
+                    return order[a.type] < order[b.type] ? 1 : -1;
+                }
+                return a.date.getTime() > b.date.getTime() ? 1 : -1;
+            });
+            // calculate each movement's balance
+            this.viewData.movementList.forEach((mov, index, arr) => {
+                mov.balance =
+                    (index === 0 ? 0 : arr[index - 1].balance) +
+                        (mov.type === "PROVISION" ? -1 * mov.amount : mov.amount);
+            });
+            this.viewData.finalBalance = this.viewData.movementList[this.viewData.movementList.length - 1].balance;
+            // set future provisions
+            this.viewData.futureProvisionList = this.viewData.provisionList
+                .filter(p => p.provision.cpr_date.getTime() >= limitDate.getTime())
+                .map(item => item.provision)
+                .sort((a, b) => {
+                if (a.cpr_date.getTime() === b.cpr_date.getTime()) {
+                    return a.cpr_concept > b.cpr_concept ? 1 : -1;
+                }
+                return a.cpr_date.getTime() > b.cpr_date.getTime() ? 1 : -1;
+            });
+            // calculate future totals
+            this.viewData.futureTotalAmount = this.sumByField(this.viewData.futureProvisionList, "cpr_amount");
+            this.viewData.futureTotalPayed = this.sumByField(this.viewData.futureProvisionList, "cpr_payed");
+            this.viewData.futureTotalRemaining = this.sumByField(this.viewData.futureProvisionList, "cpr_remaining");
+        });
+    }
+    getPayment(id) {
+        return this.viewData.paymentList.find(e => e.cpy_id === id);
+    }
+    getPaymentIndex(id) {
+        return this.viewData.paymentList.findIndex(e => e.cpy_id === id);
+    }
+};
+UnitStatusReportComponent.ctorParameters = () => [
+    { type: UnitStatusService_1.UnitStatusService },
+    { type: platform_browser_1.Title }
+];
+UnitStatusReportComponent = tslib_1.__decorate([
+    core_1.Component({
+        selector: "unit-status-report",
+        template: __webpack_require__(/*! raw-loader!./UnitStatusReport.html */ "./node_modules/raw-loader/index.js!./src/app/cartera/UnitStatusReport.html"),
+        providers: [UnitStatusService_1.UnitStatusService],
+        styles: [__webpack_require__(/*! ./UnitStatusReport.css */ "./src/app/cartera/UnitStatusReport.css")]
+    }),
+    tslib_1.__metadata("design:paramtypes", [UnitStatusService_1.UnitStatusService,
+        platform_browser_1.Title])
+], UnitStatusReportComponent);
+exports.UnitStatusReportComponent = UnitStatusReportComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/cartera/UnitStatusService.ts":
+/*!**********************************************!*\
+  !*** ./src/app/cartera/UnitStatusService.ts ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+const CarteraProvision_1 = __webpack_require__(/*! ../../crosscommon/entities/CarteraProvision */ "./src/crosscommon/entities/CarteraProvision.ts");
+const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const sync_api_1 = __webpack_require__(/*! ../common/sync.api */ "./src/app/common/sync.api.ts");
+const CarteraPayment_1 = __webpack_require__(/*! src/crosscommon/entities/CarteraPayment */ "./src/crosscommon/entities/CarteraPayment.ts");
+const CarteraPayDet_1 = __webpack_require__(/*! src/crosscommon/entities/CarteraPayDet */ "./src/crosscommon/entities/CarteraPayDet.ts");
+let UnitStatusService = class UnitStatusService {
+    constructor(sync) {
+        this.sync = sync;
+        this.data = {
+            provisionList: [
+                {
+                    provision: null,
+                    payDetList: []
+                }
+            ],
+            paymentList: []
+        };
+        this.config = {
+            api: {
+                list: "/api/external/cartera-ext/unit-status-for-month"
+            }
+        };
+    }
+    list() {
+        return this.data;
+    }
+    getQueryStringParameters() {
+        return new URL(window.location.href).searchParams;
+    }
+    getUnitStatusForMonth(year, month, unit) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const defaultData = {
+                provisionList: [],
+                paymentList: []
+            };
+            return this.sync
+                .get(`${this.config.api.list}?year=${year}&month=${month}&unit=${unit}`)
+                .then(data => {
+                this.data = {
+                    provisionList: data.provisionList.map((d) => ({
+                        provision: new CarteraProvision_1.CarteraProvision(d.provision),
+                        payDetList: d.payDetList.map((e) => new CarteraPayDet_1.CarteraPayDet(e))
+                    })),
+                    paymentList: data.paymentList.map((d) => new CarteraPayment_1.CarteraPayment(d))
+                };
+                return this.data;
+            })
+                .catch(err => {
+                return defaultData;
+            });
+        });
+    }
+};
+UnitStatusService.ctorParameters = () => [
+    { type: sync_api_1.SyncAPI }
+];
+UnitStatusService = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [sync_api_1.SyncAPI])
+], UnitStatusService);
+exports.UnitStatusService = UnitStatusService;
 
 
 /***/ }),
@@ -1574,51 +2051,80 @@ exports.DateCommon = DateCommon;
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 const core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+const notification_service_1 = __webpack_require__(/*! ./notification.service */ "./src/app/common/notification.service.ts");
+const DateUtility_1 = __webpack_require__(/*! src/crosscommon/DateUtility */ "./src/crosscommon/DateUtility.ts");
 let DrinkWaterComponent = class DrinkWaterComponent {
-    constructor() {
+    constructor(notificationService) {
+        this.notificationService = notificationService;
         this.count = 0;
         this.intervalRef = 0;
+        this.timeoutRef = 0;
         this.notifyEnabled = false;
+        this.MESSAGE = "Hey! drink some water";
         this.startNotification();
     }
     notification(data) {
         let not = window["Notification"];
         if (not && not.permission !== "denied") {
             not.requestPermission(function (status) {
-                var n = new not(data.title || 'Tasks', {
+                // status is "granted", if accepted by user
+                var n = new not(data.title || "Tasks", {
                     body: data.body,
-                    icon: data.icon || 'favicon.ico' // optional
+                    icon: data.icon || "favicon.ico" // optional
                 });
             });
         }
+        this.notificationService.notify(data.body, data.title, 0);
     }
     addOne() {
         this.count++;
     }
     stopNotification() {
+        window.clearTimeout(this.timeoutRef);
         window.clearInterval(this.intervalRef);
+        this.timeoutRef = 0;
         this.intervalRef = 0;
         this.notifyEnabled = false;
     }
     startNotification() {
         const min = 30;
-        const notify = this.notification;
         this.notifyEnabled = true;
-        this.intervalRef = window.setInterval(() => {
-            notify({
-                title: 'Drink Water',
-                body: 'Hey! drink some water man'
-            });
-        }, min * 60 * 1000);
+        // adjust next notification to show within the next 00 or 30 minutes of the hour
+        let currDate = new Date();
+        if (currDate.getMinutes() > 30) {
+            currDate = DateUtility_1.DateUtils.addMinutes(currDate, 60 - currDate.getMinutes());
+            currDate.setSeconds(0);
+        }
+        else {
+            currDate = DateUtility_1.DateUtils.addMinutes(currDate, 30 - currDate.getMinutes());
+            currDate.setSeconds(0);
+        }
+        const scheduleIn = currDate.getTime() - new Date().getTime();
+        const self = this;
+        console.log(`Schedule to start Drink Water notification in ${scheduleIn /
+            (1000 * 60)} minutes`);
+        const notification = () => self.notification({
+            title: "Drink Water",
+            body: self.MESSAGE
+        });
+        this.timeoutRef = window.setTimeout(() => {
+            notification();
+            self.intervalRef = window.setInterval(() => {
+                notification();
+            }, min * 60 * 1000);
+        }, scheduleIn);
     }
 };
+DrinkWaterComponent.ctorParameters = () => [
+    { type: notification_service_1.NotificationService }
+];
 DrinkWaterComponent = tslib_1.__decorate([
     core_1.Component({
-        selector: 'drink-water',
+        selector: "drink-water",
         template: __webpack_require__(/*! raw-loader!./drinkwater.template.html */ "./node_modules/raw-loader/index.js!./src/app/common/drinkwater.template.html"),
         providers: []
     }),
-    tslib_1.__metadata("design:paramtypes", [])
+    tslib_1.__metadata("design:paramtypes", [notification_service_1.NotificationService])
 ], DrinkWaterComponent);
 exports.DrinkWaterComponent = DrinkWaterComponent;
 
@@ -2084,7 +2590,7 @@ exports.NotificationComponent = NotificationComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".notification-area {\r\n  position: fixed;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 100%;\r\n}\r\n\r\n@media (min-width: 505px) {\r\n  .notification-area {\r\n    width: 30%;\r\n  }\r\n}\r\n\r\n.notification-item {\r\n  border: 1px solid gray;\r\n  padding: 10px;\r\n  border-radius: 10px 10px;\r\n  background-color: antiquewhite;\r\n  margin-bottom: 10px;\r\n}\r\n\r\n.notification-head {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n          justify-content: space-between;\r\n  align-content: center;\r\n}\r\n\r\n.notification-footer {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: end;\r\n          justify-content: flex-end;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL25vdGlmaWNhdGlvbi5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsU0FBUztFQUNULFFBQVE7RUFDUixXQUFXO0FBQ2I7O0FBRUE7RUFDRTtJQUNFLFVBQVU7RUFDWjtBQUNGOztBQUVBO0VBQ0Usc0JBQXNCO0VBQ3RCLGFBQWE7RUFDYix3QkFBd0I7RUFDeEIsOEJBQThCO0VBQzlCLG1CQUFtQjtBQUNyQjs7QUFFQTtFQUNFLG9CQUFhO0VBQWIsYUFBYTtFQUNiLHlCQUE4QjtVQUE5Qiw4QkFBOEI7RUFDOUIscUJBQXFCO0FBQ3ZCOztBQUVBO0VBQ0Usb0JBQWE7RUFBYixhQUFhO0VBQ2IscUJBQXlCO1VBQXpCLHlCQUF5QjtBQUMzQiIsImZpbGUiOiJzcmMvYXBwL2NvbW1vbi9ub3RpZmljYXRpb24uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm5vdGlmaWNhdGlvbi1hcmVhIHtcclxuICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgYm90dG9tOiAwO1xyXG4gIHJpZ2h0OiAwO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG59XHJcblxyXG5AbWVkaWEgKG1pbi13aWR0aDogNTA1cHgpIHtcclxuICAubm90aWZpY2F0aW9uLWFyZWEge1xyXG4gICAgd2lkdGg6IDMwJTtcclxuICB9XHJcbn1cclxuXHJcbi5ub3RpZmljYXRpb24taXRlbSB7XHJcbiAgYm9yZGVyOiAxcHggc29saWQgZ3JheTtcclxuICBwYWRkaW5nOiAxMHB4O1xyXG4gIGJvcmRlci1yYWRpdXM6IDEwcHggMTBweDtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiBhbnRpcXVld2hpdGU7XHJcbiAgbWFyZ2luLWJvdHRvbTogMTBweDtcclxufVxyXG5cclxuLm5vdGlmaWNhdGlvbi1oZWFkIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcclxuICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5ub3RpZmljYXRpb24tZm9vdGVyIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XHJcbn1cclxuIl19 */"
+module.exports = ".notification-area {\r\n  position: fixed;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 100%;\r\n}\r\n\r\n@media (min-width: 505px) {\r\n  .notification-area {\r\n    width: 30%;\r\n  }\r\n}\r\n\r\n.notification-item {\r\n  border: 1px solid gray;\r\n  padding: 10px;\r\n  border-radius: 10px 10px;\r\n  background-color: antiquewhite;\r\n  margin-bottom: 10px;\r\n  margin-left: 10px;\r\n  margin-right: 10px;\r\n}\r\n\r\n.notification-head {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n          justify-content: space-between;\r\n  align-content: center;\r\n}\r\n\r\n.notification-footer {\r\n  display: -webkit-box;\r\n  display: flex;\r\n  -webkit-box-pack: end;\r\n          justify-content: flex-end;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tbW9uL25vdGlmaWNhdGlvbi5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsU0FBUztFQUNULFFBQVE7RUFDUixXQUFXO0FBQ2I7O0FBRUE7RUFDRTtJQUNFLFVBQVU7RUFDWjtBQUNGOztBQUVBO0VBQ0Usc0JBQXNCO0VBQ3RCLGFBQWE7RUFDYix3QkFBd0I7RUFDeEIsOEJBQThCO0VBQzlCLG1CQUFtQjtFQUNuQixpQkFBaUI7RUFDakIsa0JBQWtCO0FBQ3BCOztBQUVBO0VBQ0Usb0JBQWE7RUFBYixhQUFhO0VBQ2IseUJBQThCO1VBQTlCLDhCQUE4QjtFQUM5QixxQkFBcUI7QUFDdkI7O0FBRUE7RUFDRSxvQkFBYTtFQUFiLGFBQWE7RUFDYixxQkFBeUI7VUFBekIseUJBQXlCO0FBQzNCIiwiZmlsZSI6InNyYy9hcHAvY29tbW9uL25vdGlmaWNhdGlvbi5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubm90aWZpY2F0aW9uLWFyZWEge1xyXG4gIHBvc2l0aW9uOiBmaXhlZDtcclxuICBib3R0b206IDA7XHJcbiAgcmlnaHQ6IDA7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbn1cclxuXHJcbkBtZWRpYSAobWluLXdpZHRoOiA1MDVweCkge1xyXG4gIC5ub3RpZmljYXRpb24tYXJlYSB7XHJcbiAgICB3aWR0aDogMzAlO1xyXG4gIH1cclxufVxyXG5cclxuLm5vdGlmaWNhdGlvbi1pdGVtIHtcclxuICBib3JkZXI6IDFweCBzb2xpZCBncmF5O1xyXG4gIHBhZGRpbmc6IDEwcHg7XHJcbiAgYm9yZGVyLXJhZGl1czogMTBweCAxMHB4O1xyXG4gIGJhY2tncm91bmQtY29sb3I6IGFudGlxdWV3aGl0ZTtcclxuICBtYXJnaW4tYm90dG9tOiAxMHB4O1xyXG4gIG1hcmdpbi1sZWZ0OiAxMHB4O1xyXG4gIG1hcmdpbi1yaWdodDogMTBweDtcclxufVxyXG5cclxuLm5vdGlmaWNhdGlvbi1oZWFkIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcclxuICBhbGlnbi1jb250ZW50OiBjZW50ZXI7XHJcbn1cclxuXHJcbi5ub3RpZmljYXRpb24tZm9vdGVyIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGp1c3RpZnktY29udGVudDogZmxleC1lbmQ7XHJcbn1cclxuIl19 */"
 
 /***/ }),
 
@@ -2411,6 +2917,7 @@ let SyncAPI = class SyncAPI {
             });
         }
         else {
+            this.log("Recently it was checked for online status so we assume you're still online");
             return Promise.resolve(true);
         }
     }
@@ -4226,19 +4733,19 @@ let BalanceComponent = class BalanceComponent {
                     label: `Income`,
                     backgroundColor: "rgb(54, 162, 235)",
                     borderColor: "rgb(54, 162, 235)",
-                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_charges)
+                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_withdrawals)
                 },
                 {
                     label: `Expenses`,
                     backgroundColor: "rgb(255, 99, 132)",
                     borderColor: "rgb(255, 99, 132)",
-                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_withdrawals)
+                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_charges)
                 },
                 {
                     label: `Final`,
                     backgroundColor: "rgb(75, 192, 192)",
                     borderColor: "rgb(75, 192, 192)",
-                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_final)
+                    data: monthList.map(m => capitalBalanceMonthly.find(b => b.bal_year === m.year && b.bal_month === m.month).bal_final * -1)
                 }
             ],
             chartType: "pie"
@@ -5594,7 +6101,8 @@ let MovementComponent = class MovementComponent {
             "mov_desc",
             "mov_txt_category",
             "mov_txt_place",
-            "mov_amount"
+            "mov_amount",
+            "mov_budget"
         ];
         if (searchTerm) {
             this.viewData.movements = this.services.movement.list().filter((movement // if one field string comparison ignoring case returns true, then use the movement
@@ -7850,6 +8358,7 @@ let TasksComponent = class TasksComponent {
                 this.nextTasks[0].tasks.splice(index, 1);
             }
         });
+        this.projectNextTasksDates();
         if (this.focusedTask.task) {
             if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
                 // console.log('trying to set focus for task',this.focusedTask);
@@ -8044,11 +8553,19 @@ let TasksComponent = class TasksComponent {
         const parent = event.target["parentNode"];
         if (event.altKey && event.keyCode == 38) {
             // detect move up
-            this.taskMoveUp(parent, this.interchangeNextTaskOrder);
+            this.taskMoveUp(parent, (t1, t2) => this.interchangeNextTaskOrder(t1, t2));
+            if (parent.previousElementSibling && parent.previousElementSibling.id) {
+                setTimeout(() => {
+                    this.focusElement(`#nextToDoTodayList #${parent.id} span.task-text[contenteditable=true]`);
+                }, 100);
+            }
         }
         if (event.altKey && event.keyCode == 40) {
             // detect move down
-            this.taskMoveDown(parent, this.interchangeNextTaskOrder);
+            this.taskMoveDown(parent, (t1, t2) => this.interchangeNextTaskOrder(t1, t2));
+            if (parent.nextElementSibling && parent.nextElementSibling.id) {
+                this.focusElement(`#nextToDoTodayList #${parent.id} span.task-text[contenteditable=true]`);
+            }
         }
         if (!event.altKey && event.keyCode == 38) {
             // detect jump up
@@ -8137,13 +8654,19 @@ let TasksComponent = class TasksComponent {
         let currentNextTasks = localStorage && JSON.parse(localStorage.getItem("NextTasks"));
         let index1 = currentNextTasks.findIndex(e => e === tsk_id1);
         let index2 = currentNextTasks.findIndex(e => e === tsk_id2);
-        // swap
+        // swap localStorage array
         [currentNextTasks[index1], currentNextTasks[index2]] = [
             currentNextTasks[index2],
             currentNextTasks[index1]
         ];
+        // swap memory array
+        [this.nextTasks[0].tasks[index1], this.nextTasks[0].tasks[index2]] = [
+            this.nextTasks[0].tasks[index2],
+            this.nextTasks[0].tasks[index1]
+        ];
         // update localStorage
         localStorage.setItem("NextTasks", JSON.stringify(currentNextTasks));
+        this.projectNextTasksDates();
     }
     taskJumpUp(current, selector) {
         if (current.previousElementSibling.querySelector(selector)) {
@@ -8151,8 +8674,9 @@ let TasksComponent = class TasksComponent {
         }
         else {
             // pivot if there's hidden elements until there's not a hidden element
-            let pivot = current.previousElementSibling.parentNode.previousElementSibling
-                .lastElementChild;
+            let pivot = current.previousElementSibling.parentNode.previousElementSibling &&
+                current.previousElementSibling.parentNode.previousElementSibling
+                    .lastElementChild;
             while (pivot && pivot.classList.contains("hidden")) {
                 pivot = pivot.previousElementSibling;
             }
@@ -9329,12 +9853,14 @@ let TasksComponent = class TasksComponent {
             if (index === -1) {
                 p.push(t);
                 this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+                this.projectNextTasksDates();
             }
         }
         else {
             if (index !== -1) {
                 p.splice(index, 1);
                 this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
+                this.projectNextTasksDates();
             }
         }
         localStorage.setItem("NextTasks", JSON.stringify(p.map((e) => e.tsk_id)));
@@ -9436,6 +9962,14 @@ let TasksComponent = class TasksComponent {
     }
     formatTimestamp(stamp, format = "[H]h[m]m") {
         return DateUtility_1.DateUtils.formatTimestamp(stamp, format);
+    }
+    projectNextTasksDates() {
+        // start of projection is either current date or last TT end date
+        let projectionDate = this.lastTTEntryFromDay(new Date()) || new Date();
+        this.nextTasks[0].tasks.forEach((t) => {
+            t.projectedDate = new Date(projectionDate);
+            projectionDate = new Date(projectionDate.getTime() + t.tsk_estimated_duration * 60 * 1000);
+        });
     }
 };
 TasksComponent.ctorParameters = () => [
@@ -10573,12 +11107,12 @@ let TimeFormatComponent = class TimeFormatComponent {
     constructor() {
         this.format = "[HH]:[mm]:[ss]";
     }
-    ngOnInit() {
+    formatValue() {
         let timestamp = this.value;
         if (!(this.value instanceof Date)) {
             timestamp = Number.parseInt(this.value + "", 10);
         }
-        this.result = DateUtility_1.DateUtils.formatTimestamp(timestamp, this.format);
+        return DateUtility_1.DateUtils.formatTimestamp(timestamp, this.format);
     }
 };
 tslib_1.__decorate([
@@ -10691,6 +11225,10 @@ class DateUtility {
         newDate.setMonth(newDate.getMonth() + months);
         return newDate;
     }
+    addMinutes(date, minutes) {
+        const newDate = new Date(date.getTime() + minutes * 60 * 1000);
+        return newDate;
+    }
     isDate(date) {
         const format = /\d{4}-\d{2}-\d{2}/;
         return date.length === 10 && format.test(date);
@@ -10709,6 +11247,23 @@ class DateUtility {
             "October",
             "November",
             "December"
+        ];
+        return months[month - 1];
+    }
+    getMonthNameSpanish(month) {
+        const months = [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre"
         ];
         return months[month - 1];
     }
@@ -12336,6 +12891,1538 @@ Balance.ctorParameters = () => [
     { type: undefined }
 ];
 exports.Balance = Balance;
+
+
+/***/ }),
+
+/***/ "./src/crosscommon/entities/CarteraPayDet.ts":
+/*!***************************************************!*\
+  !*** ./src/crosscommon/entities/CarteraPayDet.ts ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class CarteraPayDet {
+    constructor(base) {
+        this.metadata = {
+            name: 'CarteraPayDet',
+            namespace: 'common',
+            removeMeans: 'DELETION',
+            authNeeded: false,
+            displayOnMenu: false,
+            prefix: 'cpd',
+            permissionsTemplate: 'permissions_all',
+            tableName: 'carterapaydet',
+            viewName: 'vicarterapaydet',
+            permissions: [
+                'access',
+                'add',
+                'edit',
+                'remove',
+                'report',
+                'export',
+                'import'
+            ],
+            specialFeatures: [
+                'HEADERS(Payment Detail,Details of Payments)',
+                'TABLE_NAME(CARTERAPAYDET)',
+                'VIEW_NAME(VICARTERAPAYDET)'
+            ],
+            fields: [
+                {
+                    templateId: 'string',
+                    dbName: 'cpd_id',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the Payment Detail match',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'MatchId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Match Id',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 0,
+                    orderOnNew: 0,
+                    orderOnDetails: 0,
+                    orderOnEdit: 0,
+                    orderOnImport: 0,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpd_id_provision',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the Provision',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ProvisionId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Provision Id',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 1,
+                    orderOnNew: 1,
+                    orderOnDetails: 1,
+                    orderOnEdit: 1,
+                    orderOnImport: 1,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpd_id_payment',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the Payment',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'PaymentId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Payment Id',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 2,
+                    orderOnNew: 2,
+                    orderOnDetails: 2,
+                    orderOnEdit: 2,
+                    orderOnImport: 2,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'double',
+                    dbName: 'cpd_amount',
+                    dbType: 'double',
+                    isTableField: true,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Amount of the Payment for this Provision',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Amount',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Amount',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 3,
+                    orderOnNew: 3,
+                    orderOnDetails: 3,
+                    orderOnEdit: 3,
+                    orderOnImport: 3,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpd_id_user',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 50,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'User who matched this Payment to this Provision',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'User',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'User',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 4,
+                    orderOnNew: 4,
+                    orderOnDetails: 4,
+                    orderOnEdit: 4,
+                    orderOnImport: 4,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'creationDate',
+                    dbName: 'cpd_date_add',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Creation date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'CreationDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW'
+                    ],
+                    displayName: 'Creation Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 5,
+                    orderOnNew: 5,
+                    orderOnDetails: 5,
+                    orderOnEdit: 5,
+                    orderOnImport: 5,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'modificationDate',
+                    dbName: 'cpd_date_mod',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Last modification date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ModDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW',
+                        'SAVE_DATE_AT_EDIT'
+                    ],
+                    displayName: 'Last Modification Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 6,
+                    orderOnNew: 6,
+                    orderOnDetails: 6,
+                    orderOnEdit: 6,
+                    orderOnImport: 6,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'status',
+                    dbName: 'cpd_ctg_status',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: '',
+                    entName: 'Status',
+                    formControl: 'Combobox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 7,
+                    orderOnNew: 7,
+                    orderOnDetails: 7,
+                    orderOnEdit: 7,
+                    orderOnImport: 7,
+                    globalOrder: undefined,
+                    value: null
+                }, {
+                    templateId: 'catalog',
+                    dbName: 'cpd_txt_status',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: 'cpd_ctg_status',
+                    entName: 'TextStatus',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 8,
+                    orderOnNew: 8,
+                    orderOnDetails: 8,
+                    orderOnEdit: 8,
+                    orderOnImport: 8,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_id_unit',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 3,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_id_unit',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 9,
+                    orderOnNew: 9,
+                    orderOnDetails: 9,
+                    orderOnEdit: 9,
+                    orderOnImport: 9,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_date',
+                    dbType: 'datetime',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_date',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 10,
+                    orderOnNew: 10,
+                    orderOnDetails: 10,
+                    orderOnEdit: 10,
+                    orderOnImport: 10,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_concept',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_concept',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 11,
+                    orderOnNew: 11,
+                    orderOnDetails: 11,
+                    orderOnEdit: 11,
+                    orderOnImport: 11,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_code_reference',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 100,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_code_reference',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 12,
+                    orderOnNew: 12,
+                    orderOnDetails: 12,
+                    orderOnEdit: 12,
+                    orderOnImport: 12,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_amount_provision',
+                    dbType: 'double',
+                    isTableField: false,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_amount',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 13,
+                    orderOnNew: 13,
+                    orderOnDetails: 13,
+                    orderOnEdit: 13,
+                    orderOnImport: 13,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_total_payed_provision',
+                    dbType: 'double',
+                    isTableField: false,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_payed',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 14,
+                    orderOnNew: 14,
+                    orderOnDetails: 14,
+                    orderOnEdit: 14,
+                    orderOnImport: 14,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_remaining_provision',
+                    dbType: 'double',
+                    isTableField: false,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPROVISION',
+                    linkedField: 'cpr_remaining',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 15,
+                    orderOnNew: 15,
+                    orderOnDetails: 15,
+                    orderOnEdit: 15,
+                    orderOnImport: 15,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_date_payment',
+                    dbType: 'datetime',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPAYMENT',
+                    linkedField: 'cpy_date',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 16,
+                    orderOnNew: 16,
+                    orderOnDetails: 16,
+                    orderOnEdit: 16,
+                    orderOnImport: 16,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_amount_payment',
+                    dbType: 'double',
+                    isTableField: false,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPAYMENT',
+                    linkedField: 'cpy_amount',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 17,
+                    orderOnNew: 17,
+                    orderOnDetails: 17,
+                    orderOnEdit: 17,
+                    orderOnImport: 17,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_description',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 2000,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPAYMENT',
+                    linkedField: 'cpy_description',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 18,
+                    orderOnNew: 18,
+                    orderOnDetails: 18,
+                    orderOnEdit: 18,
+                    orderOnImport: 18,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'table',
+                    dbName: 'cpd_match_hint',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 200,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: '',
+                    catalogId: '',
+                    originTable: 'CARTERAPAYMENT',
+                    linkedField: 'cpy_match_hint',
+                    entName: '',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: '',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 19,
+                    orderOnNew: 19,
+                    orderOnDetails: 19,
+                    orderOnEdit: 19,
+                    orderOnImport: 19,
+                    globalOrder: 0,
+                    value: null
+                }
+            ],
+            view: [
+                {
+                    joinType: 'INNER',
+                    joinTable: 'CARTERAPROVISION',
+                    joinStatement: 'cpd_id_provision = cpr_id'
+                }, {
+                    joinType: 'INNER',
+                    joinTable: 'CARTERAPAYMENT',
+                    joinStatement: 'cpd_id_payment = cpy_id'
+                }
+            ]
+        };
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
+            }).join(', ');
+        };
+        if (base !== undefined) {
+            this.cpd_id = base.cpd_id;
+            this.cpd_id_provision = base.cpd_id_provision;
+            this.cpd_id_payment = base.cpd_id_payment;
+            this.cpd_amount = base.cpd_amount;
+            this.cpd_id_user = base.cpd_id_user;
+            this.cpd_date_add = (base.cpd_date_add !== null) ? new Date(base.cpd_date_add) : null;
+            this.cpd_date_mod = (base.cpd_date_mod !== null) ? new Date(base.cpd_date_mod) : null;
+            this.cpd_ctg_status = base.cpd_ctg_status;
+            this.cpd_txt_status = base.cpd_txt_status;
+            this.cpd_id_unit = base.cpd_id_unit;
+            this.cpd_date = (base.cpd_date !== null) ? new Date(base.cpd_date) : null;
+            this.cpd_concept = base.cpd_concept;
+            this.cpd_code_reference = base.cpd_code_reference;
+            this.cpd_amount_provision = base.cpd_amount_provision;
+            this.cpd_total_payed_provision = base.cpd_total_payed_provision;
+            this.cpd_remaining_provision = base.cpd_remaining_provision;
+            this.cpd_date_payment = (base.cpd_date_payment !== null) ? new Date(base.cpd_date_payment) : null;
+            this.cpd_amount_payment = base.cpd_amount_payment;
+            this.cpd_description = base.cpd_description;
+            this.cpd_match_hint = base.cpd_match_hint;
+        }
+    }
+}
+CarteraPayDet.ctorParameters = () => [
+    { type: undefined }
+];
+exports.CarteraPayDet = CarteraPayDet;
+
+
+/***/ }),
+
+/***/ "./src/crosscommon/entities/CarteraPayment.ts":
+/*!****************************************************!*\
+  !*** ./src/crosscommon/entities/CarteraPayment.ts ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class CarteraPayment {
+    constructor(base) {
+        this.metadata = {
+            name: 'CarteraPayment',
+            namespace: 'common',
+            removeMeans: 'DELETION',
+            authNeeded: false,
+            displayOnMenu: true,
+            prefix: 'cpy',
+            permissionsTemplate: 'permissions_all',
+            tableName: 'carterapayment',
+            viewName: 'vicarterapayment',
+            permissions: [
+                'access',
+                'add',
+                'edit',
+                'remove',
+                'report',
+                'export',
+                'import'
+            ],
+            specialFeatures: [
+                'HEADERS(Payment,Payments)',
+                'TABLE_NAME(CARTERAPAYMENT)',
+                'VIEW_NAME(VICARTERAPAYMENT)'
+            ],
+            fields: [
+                {
+                    templateId: 'string',
+                    dbName: 'cpy_id',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the Payment',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'PaymentId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Payment Id',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 0,
+                    orderOnNew: 0,
+                    orderOnDetails: 0,
+                    orderOnEdit: 0,
+                    orderOnImport: 0,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'datetime',
+                    dbName: 'cpy_date',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 16,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Payment Date',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'PaymentDate',
+                    formControl: 'datetime',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Payment Date',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 1,
+                    orderOnNew: 1,
+                    orderOnDetails: 1,
+                    orderOnEdit: 1,
+                    orderOnImport: 1,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'double',
+                    dbName: 'cpy_amount',
+                    dbType: 'double',
+                    isTableField: true,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Amount of the Payment',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Amount',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Amount',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 2,
+                    orderOnNew: 2,
+                    orderOnDetails: 2,
+                    orderOnEdit: 2,
+                    orderOnImport: 2,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpy_description',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 2000,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Description of the Payment',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Description',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Description',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 3,
+                    orderOnNew: 3,
+                    orderOnDetails: 3,
+                    orderOnEdit: 3,
+                    orderOnImport: 3,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpy_match_hint',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 200,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Reference used to identify the Payment in a programatic way and possible matches',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'MatchHint',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Match Hint',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 4,
+                    orderOnNew: 4,
+                    orderOnDetails: 4,
+                    orderOnEdit: 4,
+                    orderOnImport: 4,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpy_id_user',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 50,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'User who created this payment',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'User',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'User',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 5,
+                    orderOnNew: 5,
+                    orderOnDetails: 5,
+                    orderOnEdit: 5,
+                    orderOnImport: 5,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'creationDate',
+                    dbName: 'cpy_date_add',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Creation date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'CreationDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW'
+                    ],
+                    displayName: 'Creation Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 6,
+                    orderOnNew: 6,
+                    orderOnDetails: 6,
+                    orderOnEdit: 6,
+                    orderOnImport: 6,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'modificationDate',
+                    dbName: 'cpy_date_mod',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Last modification date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ModDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW',
+                        'SAVE_DATE_AT_EDIT'
+                    ],
+                    displayName: 'Last Modification Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 7,
+                    orderOnNew: 7,
+                    orderOnDetails: 7,
+                    orderOnEdit: 7,
+                    orderOnImport: 7,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'status',
+                    dbName: 'cpy_ctg_status',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: '',
+                    entName: 'Status',
+                    formControl: 'Combobox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 8,
+                    orderOnNew: 8,
+                    orderOnDetails: 8,
+                    orderOnEdit: 8,
+                    orderOnImport: 8,
+                    globalOrder: undefined,
+                    value: null
+                }, {
+                    templateId: 'catalog',
+                    dbName: 'cpy_txt_status',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: 'cpy_ctg_status',
+                    entName: 'TextStatus',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 9,
+                    orderOnNew: 9,
+                    orderOnDetails: 9,
+                    orderOnEdit: 9,
+                    orderOnImport: 9,
+                    globalOrder: 0,
+                    value: null
+                }
+            ],
+            view: []
+        };
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
+            }).join(', ');
+        };
+        if (base !== undefined) {
+            this.cpy_id = base.cpy_id;
+            this.cpy_date = (base.cpy_date !== null) ? new Date(base.cpy_date) : null;
+            this.cpy_amount = base.cpy_amount;
+            this.cpy_description = base.cpy_description;
+            this.cpy_match_hint = base.cpy_match_hint;
+            this.cpy_id_user = base.cpy_id_user;
+            this.cpy_date_add = (base.cpy_date_add !== null) ? new Date(base.cpy_date_add) : null;
+            this.cpy_date_mod = (base.cpy_date_mod !== null) ? new Date(base.cpy_date_mod) : null;
+            this.cpy_ctg_status = base.cpy_ctg_status;
+            this.cpy_txt_status = base.cpy_txt_status;
+        }
+    }
+}
+CarteraPayment.ctorParameters = () => [
+    { type: undefined }
+];
+exports.CarteraPayment = CarteraPayment;
+
+
+/***/ }),
+
+/***/ "./src/crosscommon/entities/CarteraProvision.ts":
+/*!******************************************************!*\
+  !*** ./src/crosscommon/entities/CarteraProvision.ts ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+class CarteraProvision {
+    constructor(base) {
+        this.metadata = {
+            name: 'CarteraProvision',
+            namespace: 'common',
+            removeMeans: 'DELETION',
+            authNeeded: false,
+            displayOnMenu: true,
+            prefix: 'cpr',
+            permissionsTemplate: 'permissions_all',
+            tableName: 'carteraprovision',
+            viewName: 'vicarteraprovision',
+            permissions: [
+                'access',
+                'add',
+                'edit',
+                'remove',
+                'report',
+                'export',
+                'import'
+            ],
+            specialFeatures: [
+                'HEADERS(Provision,Provisions)',
+                'TABLE_NAME(CARTERAPROVISION)',
+                'VIEW_NAME(VICARTERAPROVISION)'
+            ],
+            fields: [
+                {
+                    templateId: 'string',
+                    dbName: 'cpr_id',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 32,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Id for the Provision record',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ProvisionId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Provision Id',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 0,
+                    orderOnNew: 0,
+                    orderOnDetails: 0,
+                    orderOnEdit: 0,
+                    orderOnImport: 0,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpr_id_unit',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: true,
+                    size: 3,
+                    decimal: 0,
+                    minLength: 3,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Identifier or number of unit',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'UnitId',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'UnitId',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 1,
+                    orderOnNew: 1,
+                    orderOnDetails: 1,
+                    orderOnEdit: 1,
+                    orderOnImport: 1,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'datetime',
+                    dbName: 'cpr_date',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 16,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Provision Date',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ProvisionDate',
+                    formControl: 'datetime',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Provision Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 2,
+                    orderOnNew: 2,
+                    orderOnDetails: 2,
+                    orderOnEdit: 2,
+                    orderOnImport: 2,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpr_concept',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 500,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Concept used in reports',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Concept',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Concept',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 3,
+                    orderOnNew: 3,
+                    orderOnDetails: 3,
+                    orderOnEdit: 3,
+                    orderOnImport: 3,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpr_code_reference',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 100,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Code reference used to identify the Provision in a programatic way',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'CodeReference',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Code Reference',
+                    tooltip: '',
+                    isRecordName: true,
+                    gridOrder: 4,
+                    orderOnNew: 4,
+                    orderOnDetails: 4,
+                    orderOnEdit: 4,
+                    orderOnImport: 4,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'double',
+                    dbName: 'cpr_amount',
+                    dbType: 'double',
+                    isTableField: true,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Amount of the Provision',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Amount',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Amount',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 5,
+                    orderOnNew: 5,
+                    orderOnDetails: 5,
+                    orderOnEdit: 5,
+                    orderOnImport: 5,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'double',
+                    dbName: 'cpr_payed',
+                    dbType: 'double',
+                    isTableField: true,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Total amount payed',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Payed',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Payed',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 6,
+                    orderOnNew: 6,
+                    orderOnDetails: 6,
+                    orderOnEdit: 6,
+                    orderOnImport: 6,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'double',
+                    dbName: 'cpr_remaining',
+                    dbType: 'double',
+                    isTableField: true,
+                    isPK: false,
+                    size: 19,
+                    decimal: 2,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Remaining amount to be payed',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'Remaining',
+                    formControl: 'Textbox',
+                    captureRequired: true,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Remaining',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 7,
+                    orderOnNew: 7,
+                    orderOnDetails: 7,
+                    orderOnEdit: 7,
+                    orderOnImport: 7,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'string',
+                    dbName: 'cpr_id_user',
+                    dbType: 'string',
+                    isTableField: true,
+                    isPK: false,
+                    size: 50,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'User who created this provision',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'User',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'User',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 8,
+                    orderOnNew: 8,
+                    orderOnDetails: 8,
+                    orderOnEdit: 8,
+                    orderOnImport: 8,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'creationDate',
+                    dbName: 'cpr_date_add',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Creation date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'CreationDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW'
+                    ],
+                    displayName: 'Creation Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 9,
+                    orderOnNew: 9,
+                    orderOnDetails: 9,
+                    orderOnEdit: 9,
+                    orderOnImport: 9,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'modificationDate',
+                    dbName: 'cpr_date_mod',
+                    dbType: 'datetime',
+                    isTableField: true,
+                    isPK: false,
+                    size: 0,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Last modification date of record in table',
+                    catalogId: '',
+                    originTable: '',
+                    linkedField: '',
+                    entName: 'ModDate',
+                    formControl: 'Datetime',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [
+                        'SAVE_DATE_AT_NEW',
+                        'SAVE_DATE_AT_EDIT'
+                    ],
+                    displayName: 'Last Modification Date',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 10,
+                    orderOnNew: 10,
+                    orderOnDetails: 10,
+                    orderOnEdit: 10,
+                    orderOnImport: 10,
+                    globalOrder: 0,
+                    value: null
+                }, {
+                    templateId: 'status',
+                    dbName: 'cpr_ctg_status',
+                    dbType: 'integer',
+                    isTableField: true,
+                    isPK: false,
+                    size: 4,
+                    decimal: 0,
+                    minLength: 1,
+                    allowNull: false,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: '',
+                    entName: 'Status',
+                    formControl: 'Combobox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 11,
+                    orderOnNew: 11,
+                    orderOnDetails: 11,
+                    orderOnEdit: 11,
+                    orderOnImport: 11,
+                    globalOrder: undefined,
+                    value: null
+                }, {
+                    templateId: 'catalog',
+                    dbName: 'cpr_txt_status',
+                    dbType: 'string',
+                    isTableField: false,
+                    isPK: false,
+                    size: 250,
+                    decimal: 0,
+                    minLength: 0,
+                    allowNull: true,
+                    default: '',
+                    dbComment: 'Record status in table',
+                    catalogId: 'RECORD_STATUS',
+                    originTable: 'CATALOG',
+                    linkedField: 'cpr_ctg_status',
+                    entName: 'TextStatus',
+                    formControl: 'Textbox',
+                    captureRequired: false,
+                    appearsByDefaultOnGrid: true,
+                    specialRules: [],
+                    displayName: 'Status',
+                    tooltip: '',
+                    isRecordName: false,
+                    gridOrder: 12,
+                    orderOnNew: 12,
+                    orderOnDetails: 12,
+                    orderOnEdit: 12,
+                    orderOnImport: 12,
+                    globalOrder: 0,
+                    value: null
+                }
+            ],
+            view: []
+        };
+        this.recordName = () => {
+            return this.metadata.fields.filter(f => f.isRecordName).map(f => {
+                return `${f.dbName} = ${this[f.dbName]}`;
+            }).join(', ');
+        };
+        if (base !== undefined) {
+            this.cpr_id = base.cpr_id;
+            this.cpr_id_unit = base.cpr_id_unit;
+            this.cpr_date = (base.cpr_date !== null) ? new Date(base.cpr_date) : null;
+            this.cpr_concept = base.cpr_concept;
+            this.cpr_code_reference = base.cpr_code_reference;
+            this.cpr_amount = base.cpr_amount;
+            this.cpr_payed = base.cpr_payed;
+            this.cpr_remaining = base.cpr_remaining;
+            this.cpr_id_user = base.cpr_id_user;
+            this.cpr_date_add = (base.cpr_date_add !== null) ? new Date(base.cpr_date_add) : null;
+            this.cpr_date_mod = (base.cpr_date_mod !== null) ? new Date(base.cpr_date_mod) : null;
+            this.cpr_ctg_status = base.cpr_ctg_status;
+            this.cpr_txt_status = base.cpr_txt_status;
+        }
+    }
+}
+CarteraProvision.ctorParameters = () => [
+    { type: undefined }
+];
+exports.CarteraProvision = CarteraProvision;
 
 
 /***/ }),

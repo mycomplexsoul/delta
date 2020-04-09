@@ -30,7 +30,11 @@ export class TypeGeneratorServer {
     "Link",
     // Activities
     "Activity",
-    "Keyval"
+    "Keyval",
+    // Cartera
+    "CarteraProvision",
+    "CarteraPayment",
+    "CarteraPayDet"
   ];
 
   config = (node: iNode) => {

@@ -382,9 +382,12 @@ export class MovementCustom {
     return true;
   };
 
-  generateEntries = (movementList: Movement[]): Promise<any> => {
+  generateEntries = async (movementList: Movement[]): Promise<any> => {
     const connection: iConnection = ConnectionService.getConnection();
     const sqlMotor: MoSQL = new MoSQL();
+    const capitalAccount: Account = await this.getCapitalAccount(
+      movementList[0].mov_id_user
+    );
     console.log("movements to process", movementList.length);
 
     // iterate movements
@@ -420,8 +423,9 @@ export class MovementCustom {
           ent_desc: m.mov_desc,
           ent_ctg_currency: 1,
           ent_amount: m.mov_amount,
-          ent_id_account: m.mov_ctg_type === 3 ? m.mov_id_account_to : "1", // TODO: Fix capital account per user
-          ent_ctg_type: m.mov_ctg_type === 3 ? 2 : m.mov_ctg_type,
+          ent_id_account:
+            m.mov_ctg_type === 3 ? m.mov_id_account_to : capitalAccount.acc_id,
+          ent_ctg_type: m.mov_ctg_type === 3 ? 2 : m.mov_ctg_type === 1 ? 2 : 1,
           ent_budget: m.mov_budget,
           ent_id_category: m.mov_id_category,
           ent_id_place: m.mov_id_place,
@@ -566,7 +570,7 @@ export class MovementCustom {
     });
   }
 
-  create = (node: iNode) => {
+  create = ({ body }) => {
     const api: ApiModule = new ApiModule(new Movement());
     const balanceModule: BalanceModule = new BalanceModule();
 
@@ -588,7 +592,13 @@ export class MovementCustom {
       }
     };
 
-    api.create({ body: node.request.body }, hooks).then(response => {
+    return api.create({ body }, hooks);
+  };
+
+  createHandler = (node: iNode) => {
+    const { body } = node.request;
+
+    this.create({ body }).then(response => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -675,9 +685,12 @@ export class MovementCustom {
       });
   };
 
-  updateEntries = (movementList: Movement[]): Promise<any> => {
+  updateEntries = async (movementList: Movement[]): Promise<any> => {
     const connection: iConnection = ConnectionService.getConnection();
     const sqlMotor: MoSQL = new MoSQL();
+    const capitalAccount: Account = await this.getCapitalAccount(
+      movementList[0].mov_id_user
+    );
     console.log("movements to update", movementList.length);
 
     const entryModel: Entry = new Entry();
@@ -734,8 +747,12 @@ export class MovementCustom {
               ent_desc: m.mov_desc,
               ent_ctg_currency: 1,
               ent_amount: m.mov_amount,
-              ent_id_account: m.mov_ctg_type === 3 ? m.mov_id_account_to : "1", // TODO: Fix capital account per user
-              ent_ctg_type: m.mov_ctg_type === 3 ? 2 : m.mov_ctg_type,
+              ent_id_account:
+                m.mov_ctg_type === 3
+                  ? m.mov_id_account_to
+                  : capitalAccount.acc_id,
+              ent_ctg_type:
+                m.mov_ctg_type === 3 ? 2 : m.mov_ctg_type === 1 ? 2 : 1,
               ent_budget: m.mov_budget,
               ent_id_category: m.mov_id_category,
               ent_id_place: m.mov_id_place,
@@ -1233,5 +1250,35 @@ export class MovementCustom {
     );
 
     return [deleteResponse, insertResponse];
+  }
+
+  getCapitalAccount(user: string): Promise<Account> {
+    const apiModule: ApiModule = new ApiModule(new Account());
+
+    return apiModule
+      .list({
+        q: JSON.stringify({
+          gc: "AND",
+          cont: [
+            {
+              f: "acc_ctg_type",
+              op: "eq",
+              val: "4"
+            },
+            {
+              f: "acc_name",
+              op: "eq",
+              val: "Capital"
+            },
+            {
+              f: "acc_id_user",
+              op: "eq",
+              val: user
+            }
+          ]
+        })
+      })
+      .then(response => response.map(e => new Account(e)))
+      .then(accountList => (accountList.length > 0 ? accountList[0] : null));
   }
 }

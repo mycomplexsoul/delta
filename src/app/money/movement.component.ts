@@ -961,7 +961,8 @@ export class MovementComponent implements OnInit {
       "mov_desc",
       "mov_txt_category",
       "mov_txt_place",
-      "mov_amount"
+      "mov_amount",
+      "mov_budget"
     ];
 
     if (searchTerm) {

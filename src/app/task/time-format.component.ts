@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
@@ -6,16 +6,15 @@ import { DateUtils } from "src/crosscommon/DateUtility";
   templateUrl: "./time-format.template.html",
   providers: []
 })
-export class TimeFormatComponent implements OnInit {
-  public result: String;
+export class TimeFormatComponent {
   @Input() value: Date | number;
   @Input() format: string = "[HH]:[mm]:[ss]";
 
-  ngOnInit() {
+  formatValue() {
     let timestamp = this.value;
     if (!(this.value instanceof Date)) {
       timestamp = Number.parseInt(this.value + "", 10);
     }
-    this.result = DateUtils.formatTimestamp(timestamp, this.format);
+    return DateUtils.formatTimestamp(timestamp, this.format);
   }
 }

@@ -1,0 +1,36 @@
+@media screen, print {
+  thead tr th,
+  tfoot tr td {
+    background-color: #d0e4f5;
+    font-weight: bold;
+  }
+
+  tfoot tr td {
+    border-top: 1px solid black;
+  }
+
+  table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  tbody tr {
+    border-top: 1px solid black;
+  }
+}
+
+@media print {
+  body {
+    font-size: 5pt;
+  }
+
+  .padding-all-3 {
+    padding: 0px 3px;
+  }
+
+  .page-title {
+    margin: 0;
+    display: block;
+  }
+}

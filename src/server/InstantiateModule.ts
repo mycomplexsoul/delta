@@ -21,6 +21,9 @@ import { MultimediaView } from "../crosscommon/entities/MultimediaView";
 import { Link } from "../crosscommon/entities/Link";
 import { Activity } from "../crosscommon/entities/Activity";
 import { Keyval } from "../crosscommon/entities/Keyval";
+import { CarteraProvision } from "../crosscommon/entities/CarteraProvision";
+import { CarteraPayment } from "../crosscommon/entities/CarteraPayment";
+import { CarteraPayDet } from "../crosscommon/entities/CarteraPayDet";
 
 const entityNameModelMap = {
   Catalog: () => new Catalog(),
@@ -49,7 +52,11 @@ const entityNameModelMap = {
   Link: () => new Link(),
   // Activities
   Activity: () => new Activity(),
-  Keyval: () => new Keyval()
+  Keyval: () => new Keyval(),
+  // Cartera
+  CarteraProvision: () => new CarteraProvision(),
+  CarteraPayment: () => new CarteraPayment(),
+  CarteraPayDet: () => new CarteraPayDet()
 };
 
 const instantiateFromString = (entityName: string): iEntity =>

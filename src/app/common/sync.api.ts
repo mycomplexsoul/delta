@@ -195,6 +195,9 @@ export class SyncAPI {
         return nav && data;
       });
     } else {
+      this.log(
+        "Recently it was checked for online status so we assume you're still online"
+      );
       return Promise.resolve(true);
     }
   }

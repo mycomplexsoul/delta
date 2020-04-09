@@ -109,6 +109,11 @@ class DateUtility {
     return newDate;
   }
 
+  addMinutes(date: Date, minutes: number): Date {
+    const newDate = new Date(date.getTime() + minutes * 60 * 1000);
+    return newDate;
+  }
+
   isDate(date: string): boolean {
     const format = /\d{4}-\d{2}-\d{2}/;
     return date.length === 10 && format.test(date);
@@ -128,6 +133,24 @@ class DateUtility {
       "October",
       "November",
       "December"
+    ];
+    return months[month - 1];
+  }
+
+  getMonthNameSpanish(month: number) {
+    const months: string[] = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
     ];
     return months[month - 1];
   }

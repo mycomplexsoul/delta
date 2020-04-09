@@ -24,6 +24,84 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.28 (2020-01-09)
+
+- [AppTasks][new] Add set-selected button to task bar in mobile in order to see task details section
+- [AppTasks][new] Add to next task listing a projection of timestamps until completion
+- [AppCommon][new] Add type generator support for Cartera entities
+
+## v1.10.27 (2020-01-02)
+
+- [AppMoney][fix] Parametrize user Capital account used in movements to support multiple users
+- [AppTasks][new] `TimeFormat` component to display time stamps in several formats
+- [AppTasks][fix] Fix spacing issues in task render
+
+## v1.10.26 (2019-12-26)
+
+- [AppMoney][fix] Fix capital account acumulation by fixing entry type on insertion and update
+- [AppMoney][mod] Add budget/tags to movement search
+- [AppCommon][mod] Add connectionInstance support to `ApiModule.update()` to support batch calls
+
+## v1.10.25 (2019-12-19)
+
+- [AppCartera][new] Refactor UI tables and styles for mobile view for Unit Status Report
+- [AppCartera][new] Refactor UI tables and styles for mobile view for Pending Provisions Report
+- [AppCartera][new] Refactor general styles
+
+## v1.10.24 (2019-12-12)
+
+- [AppCartera][new] Refactor movements table for Unit Status Report
+- [AppCartera][new] Add future provisions table for Unit Status Report
+- [AppCartera][new] Add payment application details table for Unit Status Report
+
+## v1.10.23 (2019-12-05)
+
+- [AppCartera][mod] Add non identified payments table to Pending Provisions Report
+- [AppCartera][mod] Add styles for print to Pending Provisions Report
+- [AppCartera][new] Unit Status Report ui page under `/cartera-unit-status`
+
+## v1.10.22 (2019-11-28)
+
+- [AppCartera][new] Pending Provisions Report ui page under `/cartera-pending-payments`
+- [AppCartera][mod] Add total debts table to Pending Provisions Report
+- [AppCartera][mod] Add future provisions table to Pending Provisions Report
+
+## v1.10.21 (2019-11-21)
+
+- [AppCartera][new] Status of the unit debts until the given month, endpoint `/unit-status-for-month`
+- [AppCartera][new] Changes all of the provisions' text concept to use spanish naming for months and a specific format, endpoint `/change-concept-to-spanish`
+- [AppCartera][new] Creates movements from payment details to reflect all income into the account's balance, endpoint `/register-monthly-income`
+
+## v1.10.20 (2019-11-14)
+
+- [AppCartera][new] Rebuilds status for a given month by reseting payments on provisions and then applying payments until the required month, endpoint `/rebuild-pending-payments-month`
+- [AppCartera][new] Add future provisions with payments to endpoint `/rebuild-pending-payments-month`
+- [AppCartera][new] Add non-identified payments up to the given month to endpoint `/rebuild-pending-payments-month`
+
+## v1.10.19 (2019-11-07)
+
+- [AppCartera][new] Generate penalization for a single unit for a single month endpoint `/generate-penalization-unit`
+- [AppCartera][new] Assign a certain amount of a payment to a provision, endpoint `/assign-payment`
+- [AppCartera][new] List of payments having each payment their respective payed provisions, endpoint `/payment-listing`
+
+## v1.10.18 (2019-10-31)
+
+- [AppCartera][new] Batch payments load endpoint `/batch-payment`
+- [AppCartera][new] Existing provisions load endpoint `/initial-provision-batch`
+- [AppCartera][new] Generate penalization for missing payment for all units endpoint `/generate-penalization-missing-payment`
+
+## v1.10.17 (2019-10-24)
+
+- [AppCartera][new] CarteraPayment entity definition
+- [AppCartera][new] CarteraPayDet entity definition
+- [AppCartera][new] Provision generation endpoint `/generate-provisions`
+
+## v1.10.16 (2019-10-17)
+
+- [AppTasks][new] Provide time projection in Next tasks section based on last timetracking and Next tasks order
+- [AppCommon][mod] Drink Water: Snap timer to 30min spans and add Notification component with non-auto-dismissable messages
+- [AppCartera][new] CarteraProvision entity definition
+
 ## v1.10.15 (2019-10-10)
 
 - [AppTasks][new] Close button in mobile task bar

@@ -1,0 +1,161 @@
+{
+    "name": "CarteraPayDet"
+    , "namespace": "common"
+    , "removeMeans": "DELETION"
+    , "authNeeded": false
+    , "displayOnMenu": false
+    , "prefix": "cpd"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Payment Detail,Details of Payments)"
+        , "TABLE_NAME(CARTERAPAYDET)"
+        , "VIEW_NAME(VICARTERAPAYDET)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "cpd_id"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the Payment Detail match"
+            , "entName": "MatchId"
+            , "captureRequired": true
+            , "displayName": "Match Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "cpd_id_provision"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the Provision"
+            , "entName": "ProvisionId"
+            , "captureRequired": true
+            , "displayName": "Provision Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "cpd_id_payment"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the Payment"
+            , "entName": "PaymentId"
+            , "captureRequired": true
+            , "displayName": "Payment Id"
+            , "isRecordName": true
+        },{
+            "templateId": "double"
+            , "dbName": "cpd_amount"
+            , "dbComment": "Amount of the Payment for this Provision"
+            , "entName": "Amount"
+            , "captureRequired": true
+            , "displayName": "Amount"
+        },{
+            "templateId": "string"
+            , "dbName": "cpd_id_user"
+            , "size": 50
+            , "dbComment": "User who matched this Payment to this Provision"
+            , "entName": "User"
+            , "displayName": "User"
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_id_unit"
+            , "size": 3
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_id_unit"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_date"
+            , "dbType": "datetime"
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_date"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_concept"
+            , "size": 500
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_concept"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_code_reference"
+            , "size": 100
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_code_reference"
+            , "isRecordName": true
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_amount_provision"
+            , "dbType": "double"
+            , "size": 19
+            , "decimal": 2
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_amount"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_total_payed_provision"
+            , "dbType": "double"
+            , "size": 19
+            , "decimal": 2
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_payed"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_remaining_provision"
+            , "dbType": "double"
+            , "size": 19
+            , "decimal": 2
+            , "originTable": "CARTERAPROVISION"
+            , "linkedField": "cpr_remaining"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_date_payment"
+            , "dbType": "datetime"
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_date"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_amount_payment"
+            , "dbType": "double"
+            , "size": 19
+            , "decimal": 2
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_amount"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_description"
+            , "size": 2000
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_description"
+            , "isRecordName": true
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_match_hint"
+            , "size": 200
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_match_hint"
+        }
+    ]
+    , "view": [
+        {
+            "joinType": "INNER"
+            , "joinTable": "CARTERAPROVISION"
+            , "joinStatement": "cpd_id_provision = cpr_id"
+        },{
+            "joinType": "INNER"
+            , "joinTable": "CARTERAPAYMENT"
+            , "joinStatement": "cpd_id_payment = cpy_id"
+        }
+    ]
+}

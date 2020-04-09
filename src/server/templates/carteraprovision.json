@@ -1,0 +1,101 @@
+{
+    "name": "CarteraProvision"
+    , "namespace": "common"
+    , "removeMeans": "DELETION"
+    , "authNeeded": false
+    , "displayOnMenu": true
+    , "prefix": "cpr"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Provision,Provisions)"
+        , "TABLE_NAME(CARTERAPROVISION)"
+        , "VIEW_NAME(VICARTERAPROVISION)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "cpr_id"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the Provision record"
+            , "entName": "ProvisionId"
+            , "captureRequired": true
+            , "displayName": "Provision Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "cpr_id_unit"
+            , "isPK": true
+            , "size": 3
+            , "minLength": 3
+            , "dbComment": "Identifier or number of unit"
+            , "entName": "UnitId"
+            , "captureRequired": true
+            , "displayName": "UnitId"
+            , "isRecordName": true
+        },{
+            "templateId": "datetime"
+            , "dbName": "cpr_date"
+            , "dbComment": "Provision Date"
+            , "entName": "ProvisionDate"
+            , "captureRequired": true
+            , "displayName": "Provision Date"
+        },{
+            "templateId": "string"
+            , "dbName": "cpr_concept"
+            , "size": 500
+            , "dbComment": "Concept used in reports"
+            , "entName": "Concept"
+            , "displayName": "Concept"
+        },{
+            "templateId": "string"
+            , "dbName": "cpr_code_reference"
+            , "size": 100
+            , "dbComment": "Code reference used to identify the Provision in a programatic way"
+            , "entName": "CodeReference"
+            , "displayName": "Code Reference"
+            , "isRecordName": true
+        },{
+            "templateId": "double"
+            , "dbName": "cpr_amount"
+            , "dbComment": "Amount of the Provision"
+            , "entName": "Amount"
+            , "captureRequired": true
+            , "displayName": "Amount"
+        },{
+            "templateId": "double"
+            , "dbName": "cpr_payed"
+            , "dbComment": "Total amount payed"
+            , "entName": "Payed"
+            , "captureRequired": true
+            , "displayName": "Payed"
+        },{
+            "templateId": "double"
+            , "dbName": "cpr_remaining"
+            , "dbComment": "Remaining amount to be payed"
+            , "entName": "Remaining"
+            , "captureRequired": true
+            , "displayName": "Remaining"
+        },{
+            "templateId": "string"
+            , "dbName": "cpr_id_user"
+            , "size": 50
+            , "dbComment": "User who created this provision"
+            , "entName": "User"
+            , "displayName": "User"
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        }
+    ]
+    , "view": [
+    ]
+}

@@ -310,6 +310,7 @@ export class TasksComponent implements OnInit {
         );
       }
     }
+
     this.nextTasks[0].estimatedDuration = 0;
     this.nextTasks[0].tasks.forEach((t: any) => {
       if (t.tsk_ctg_status === this.taskStatus.OPEN) {
@@ -321,6 +322,7 @@ export class TasksComponent implements OnInit {
         this.nextTasks[0].tasks.splice(index, 1);
       }
     });
+    this.projectNextTasksDates();
 
     if (this.focusedTask.task) {
       if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
@@ -539,11 +541,31 @@ export class TasksComponent implements OnInit {
 
     if (event.altKey && event.keyCode == 38) {
       // detect move up
-      this.taskMoveUp(parent, this.interchangeNextTaskOrder);
+      this.taskMoveUp(parent, (t1, t2) =>
+        this.interchangeNextTaskOrder(t1, t2)
+      );
+      if (parent.previousElementSibling && parent.previousElementSibling.id) {
+        setTimeout(() => {
+          this.focusElement(
+            `#nextToDoTodayList #${
+              parent.id
+            } span.task-text[contenteditable=true]`
+          );
+        }, 100);
+      }
     }
     if (event.altKey && event.keyCode == 40) {
       // detect move down
-      this.taskMoveDown(parent, this.interchangeNextTaskOrder);
+      this.taskMoveDown(parent, (t1, t2) =>
+        this.interchangeNextTaskOrder(t1, t2)
+      );
+      if (parent.nextElementSibling && parent.nextElementSibling.id) {
+        this.focusElement(
+          `#nextToDoTodayList #${
+            parent.id
+          } span.task-text[contenteditable=true]`
+        );
+      }
     }
     if (!event.altKey && event.keyCode == 38) {
       // detect jump up
@@ -662,13 +684,20 @@ export class TasksComponent implements OnInit {
 
     let index1 = currentNextTasks.findIndex(e => e === tsk_id1);
     let index2 = currentNextTasks.findIndex(e => e === tsk_id2);
-    // swap
+    // swap localStorage array
     [currentNextTasks[index1], currentNextTasks[index2]] = [
       currentNextTasks[index2],
       currentNextTasks[index1]
     ];
+    // swap memory array
+    [this.nextTasks[0].tasks[index1], this.nextTasks[0].tasks[index2]] = [
+      this.nextTasks[0].tasks[index2],
+      this.nextTasks[0].tasks[index1]
+    ];
+
     // update localStorage
     localStorage.setItem("NextTasks", JSON.stringify(currentNextTasks));
+    this.projectNextTasksDates();
   }
 
   taskJumpUp(current: any, selector: string) {
@@ -677,6 +706,7 @@ export class TasksComponent implements OnInit {
     } else {
       // pivot if there's hidden elements until there's not a hidden element
       let pivot =
+        current.previousElementSibling.parentNode.previousElementSibling &&
         current.previousElementSibling.parentNode.previousElementSibling
           .lastElementChild;
       while (pivot && pivot.classList.contains("hidden")) {
@@ -2242,11 +2272,13 @@ export class TasksComponent implements OnInit {
       if (index === -1) {
         p.push(t);
         this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+        this.projectNextTasksDates();
       }
     } else {
       if (index !== -1) {
         p.splice(index, 1);
         this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
+        this.projectNextTasksDates();
       }
     }
     localStorage.setItem(
@@ -2375,5 +2407,18 @@ export class TasksComponent implements OnInit {
 
   formatTimestamp(stamp: number, format: string = "[H]h[m]m") {
     return DateUtils.formatTimestamp(stamp, format);
+  }
+
+  projectNextTasksDates() {
+    // start of projection is either current date or last TT end date
+    let projectionDate: Date =
+      this.lastTTEntryFromDay(new Date()) || new Date();
+
+    this.nextTasks[0].tasks.forEach((t: any) => {
+      t.projectedDate = new Date(projectionDate);
+      projectionDate = new Date(
+        projectionDate.getTime() + t.tsk_estimated_duration * 60 * 1000
+      );
+    });
   }
 }

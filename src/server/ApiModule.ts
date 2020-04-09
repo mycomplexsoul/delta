@@ -114,7 +114,12 @@ export class ApiModule {
     }
   };
 
-  update = (data: any, hooks: any, model?: iEntity): Promise<any> => {
+  update = (
+    data: any,
+    hooks: any,
+    model?: iEntity,
+    connectionInstance?: iConnection
+  ): Promise<any> => {
     let m: iEntity = model ? model : this.model;
     const arePKProvided = (pk: string[], values: string[]): boolean => {
       return pk.every(f => values.indexOf(f) !== -1);
@@ -125,7 +130,9 @@ export class ApiModule {
     );
     if (data.body && pkInRequest) {
       let sql: string = "";
-      const connection: iConnection = ConnectionService.getConnection();
+      const connection: iConnection = connectionInstance
+        ? connectionInstance
+        : ConnectionService.getConnection();
       const baseModel: iEntity = { ...m };
       // Assign data from request
       m.metadata.fields
@@ -163,7 +170,9 @@ export class ApiModule {
         if (sqlMotor.toChangesObject(m, baseModel).length > 0) {
           sql = sqlMotor.toUpdateSQL(m, baseModel);
           return connection.runSql(sql).then(responseUpdate => {
-            connection.close();
+            if (!connectionInstance) {
+              connection.close();
+            }
             if (responseUpdate.err) {
               return {
                 operationOk: false,

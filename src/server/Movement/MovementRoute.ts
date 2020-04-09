@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
     request: req,
     response: res
   };
-  mov.create(node);
+  mov.createHandler(node);
 });
 
 router.post("/:mov_id", (req, res) => {
