@@ -9,6 +9,7 @@ import iConnection from "../iConnection";
 import ConnectionService from "../ConnectionService";
 import { Movement } from "../../crosscommon/entities/Movement";
 import { MovementCustom } from "../Movement/MovementCustom";
+import { Balance } from "../../crosscommon/entities/Balance";
 
 // configuration
 const CODE_NORMAL = "cuota-normal";
@@ -177,9 +178,9 @@ export class CarteraServer {
 
     this.savePayments(paymentList).then(async payList => {
       // Payments are saved, now peek into payments date to generate penalization provisions
-      paymentList.forEach(p => {
+      /* paymentList.forEach(p => {
         this.generatePenalizationProvisionForLatePayment(p);
-      });
+      });*/
 
       // Now match those payments to provisions
       const paymentsApplied = await this.matchPaymentsWithProvisions(
@@ -1374,5 +1375,149 @@ export class CarteraServer {
       year: result[0],
       month: result[1]
     };
+  }
+
+  resultsForMonthHandler(node: iNode) {
+    const { year, month } = node.request.query;
+
+    this.resultsForMonth(year, month).then(async response => {
+      node.response.end(
+        JSON.stringify({
+          operationOk: true,
+          initialBalance: await this.getInitialBalanceForMonth(
+            year,
+            month,
+            "acc2020040520302"
+          ),
+          movementList: response
+        })
+      );
+    });
+  }
+
+  async resultsForMonth(
+    year: number,
+    month: number
+  ): Promise<
+    Array<{
+      concept: string;
+      amount: number;
+      type: string;
+    }>
+  > {
+    const apiModule: ApiModule = new ApiModule(null);
+    const initialDate: Date = new Date(year, month - 1, 1, 0, 0, 0);
+    const finalDate: Date = new Date(year, month, 1, 0, 0, 0);
+
+    const config = {
+      dateFilter: `mov_date >= '${DateUtils.formatDate(
+        initialDate,
+        "yyyy-MM-dd"
+      )}'
+      and mov_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'`,
+      account_id: "acc2020040520302"
+    };
+    const mapCodeWithDescription = {
+      [CODE_NORMAL]: "Cuotas de Mantenimiento",
+      [CODE_PENALIZATION]: "Penalizaciones",
+      [CODE_EXTRA]: "Cuotas Extraordinarias",
+      [CODE_EXTRA_PENALIZATION]: "Penalizaciones de Cuotas Extraordinarias",
+      [CODE_NONE]: "Cuotas pendientes de identificar"
+    };
+
+    const movementList: Array<{
+      concept: string;
+      amount: number;
+      type: string;
+    }> = await apiModule
+      .listWithSQL({
+        // Get total income from payments, total income for non-identified payments
+        // income from other movements and expenses
+        sql: `SELECT 
+        SUBSTR(mov_notes, 1, INSTR(mov_notes, '|')-1) as concept,
+        sum(mov_amount) as amount,
+        'code-income' as type
+        FROM movement
+        WHERE 
+        ${config.dateFilter}
+        and mov_id_account = '${config.account_id}'
+        and mov_ctg_type = 2
+        and SUBSTR(mov_notes, -3) != '000'
+        group by SUBSTR(mov_notes, 1, INSTR(mov_notes, '|')-1)
+        
+        UNION ALL
+        
+        SELECT 
+        'none' as concept,
+        sum(mov_amount) as amount,
+        'none-income' as type
+        FROM movement
+        WHERE 
+        ${config.dateFilter}
+        and mov_id_account = '${config.account_id}'
+        and mov_ctg_type = 2
+        and SUBSTR(mov_notes, -3) = '000'
+        group by SUBSTR(mov_notes, -3) = '000'
+        
+        UNION ALL
+        
+        SELECT 
+        mov_desc as concept,
+        mov_amount as amount,
+        'income' as type
+        FROM movement
+        WHERE 
+        ${config.dateFilter}
+        and mov_id_account = '${config.account_id}'
+        and mov_ctg_type = 2
+        and mov_notes is null
+        
+        UNION ALL
+        
+        SELECT 
+        mov_desc as concept,
+        mov_amount as amount,
+        'expense' as type
+        FROM movement
+        WHERE 
+        ${config.dateFilter}
+        and mov_id_account = '${config.account_id}'
+        and mov_ctg_type = 1`
+      })
+      .then(response =>
+        response.map(e => ({
+          concept: e["type"].includes("-")
+            ? mapCodeWithDescription[e["concept"]]
+            : e["concept"],
+          amount: e["amount"],
+          type: e["type"]
+        }))
+      );
+
+    return Promise.resolve(movementList);
+  }
+
+  async getInitialBalanceForMonth(
+    year: number,
+    month: number,
+    account_id: string
+  ): Promise<number> {
+    const apiModule: ApiModule = new ApiModule(new Balance());
+
+    const balanceList = await apiModule
+      .listWithSQL({
+        sql: `select * from balance
+       where bal_id_account = '${account_id}'
+       and bal_year = ${year}
+       and bal_month = ${month}`
+      })
+      .then(response => response.map(e => new Balance(e)));
+
+    return Promise.resolve(
+      balanceList.reduce(
+        (previous: number, current: Balance) => current.bal_initial,
+        0
+      )
+    );
   }
 }

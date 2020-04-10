@@ -24,6 +24,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.30 (2020-01-23)
+
+- [AppCartera][new] Create Results Report UI page under `/cartera-results`
+- [AppCartera][new] Add styles to Results Report for screen and print
+- [AppCartera][new] Add mobile view/styles to Results Report
+
+## v1.10.29 (2020-01-16)
+
+- [AppCartera][new] Add text indicator for color legend when printed with black ink for Pending Payments Report
+- [AppCartera][new] Add `layout` query parameter to Unit Status Report to opt-in for printing in a single page or in two pages
+- [AppCartera][new] Create Results monthly enpoint `/results-for-month`
+
 ## v1.10.28 (2020-01-09)
 
 - [AppTasks][new] Add set-selected button to task bar in mobile in order to see task details section

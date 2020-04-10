@@ -161,12 +161,20 @@ nav a.router-link-active {
   min-width: 80px;
 }
 
+.width-80-strict {
+  width: 80px;
+}
+
 .width-100 {
   min-width: 100px;
 }
 
 .width-100-pct {
   min-width: 100%;
+}
+
+.width-120 {
+  width: 120px;
 }
 
 @media print {

@@ -1,0 +1,46 @@
+@media screen, print {
+  * {
+    font-family: sans-serif;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  .results-header-row,
+  .results-total-row {
+    font-weight: bold;
+  }
+
+  .results-header-row:first-child {
+    border-bottom: 1px solid black;
+  }
+
+  .results-total-row:last-child {
+    border-top: 1px solid black;
+  }
+
+  .results-summary {
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 504px) {
+  .results-summary table {
+    width: 50%;
+  }
+}
+
+@media (max-width: 504px), print {
+  .results-summary {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media print {
+  .results-top-block,
+  .results-movements {
+    margin-top: 50px;
+  }
+}

@@ -150,4 +150,16 @@ router.post("/register-monthly-income", (req, res) => {
   server.registerMonthlyIncomeHandler(node);
 });
 
+/**
+ * Gets the movement list to render account status for a given month
+ */
+router.get("/results-for-month", (req, res) => {
+  let server: CarteraServer = new CarteraServer();
+  let node: iNode = {
+    request: req,
+    response: res
+  };
+  server.resultsForMonthHandler(node);
+});
+
 export { router };

@@ -43,6 +43,7 @@ export class UnitStatusReportComponent implements OnInit {
     month: number;
     unit: string;
     displayYearMonth: string;
+    layout: string;
   } = {
     provisionList: [],
     paymentList: [],
@@ -59,7 +60,8 @@ export class UnitStatusReportComponent implements OnInit {
     year: 0,
     month: 0,
     unit: null,
-    displayYearMonth: null
+    displayYearMonth: null,
+    layout: "1-page"
   };
 
   parseQueryString() {
@@ -68,6 +70,9 @@ export class UnitStatusReportComponent implements OnInit {
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
     this.viewData.unit = query.get("unit");
+    if (query.get("layout")) {
+      this.viewData.layout = query.get("layout");
+    }
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month
     )} ${this.viewData.year}`;

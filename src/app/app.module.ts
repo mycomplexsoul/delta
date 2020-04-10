@@ -45,6 +45,7 @@ import { NotificationComponent } from "./common/notification.component";
 
 import { PendingProvisionReportComponent } from "./cartera/PendingProvisionReportComponent";
 import { UnitStatusReportComponent } from "./cartera/UnitStatusReportComponent";
+import { ResultsReportComponent } from "./cartera/ResultsReportComponent";
 
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
@@ -86,6 +87,7 @@ import { RegisterComponent } from "./common/register.component";
     ActivityComponent,
     PendingProvisionReportComponent,
     UnitStatusReportComponent,
+    ResultsReportComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

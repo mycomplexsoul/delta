@@ -32,7 +32,21 @@
       <td class="padding-all-3 text-align-center">
         {{provision.cpr_id_unit}}
       </td>
-      <td class="padding-all-3">{{provision.cpr_concept}}</td>
+      <td class="padding-all-3">
+        <span>
+          {{provision.cpr_concept}}
+        </span>
+        <span *ngIf="provision.cpr_remaining === 0">
+          <!-- payed row -->
+          [R]
+        </span>
+        <span
+          *ngIf="isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)"
+        >
+          <!-- added row -->
+          [A]
+        </span>
+      </td>
       <td class="padding-all-3 text-align-right width-80">
         {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
       </td>
@@ -115,17 +129,18 @@
 </table>
 
 <div class="pending-provision-color-legend page-break-after">
+  <br />
   <span>Leyenda sobre los colores</span>
 
   <div class="margin-top-3">
-    <span class="provision-added-row provision-legend-box"></span>
+    <span class="provision-added-row provision-legend-box">[A]</span>
     <span>
       = Cuota no cubierta en este mes (agregada en este mes)
     </span>
   </div>
 
   <div class="margin-top-3">
-    <span class="provision-payed-row provision-legend-box"></span>
+    <span class="provision-payed-row provision-legend-box">[R]</span>
     <span>
       = Cuota cubierta en este mes (se retira fila para el siguiente mes)
     </span>
