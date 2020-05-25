@@ -5,20 +5,26 @@ import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 import { CommonComponent } from "../common/common.component";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { TimelineService } from "../common/TimelineService";
+import { Timeline } from "src/crosscommon/entities/Timeline";
 
 @Component({
   selector: "activity",
   templateUrl: "./activity.template.html",
   styleUrls: ["./activity.css"],
-  providers: [ActivityService]
+  providers: [ActivityService, TimelineService]
 })
 export class ActivityComponent implements OnInit {
   public viewData: {
     activityList: Activity[];
     showItemForm: boolean;
+    timelineList: Timeline[];
+    timelineKey: string;
   } = {
     activityList: [],
-    showItemForm: false
+    showItemForm: false,
+    timelineList: [],
+    timelineKey: "activity|"
   };
 
   public model: {
@@ -28,7 +34,10 @@ export class ActivityComponent implements OnInit {
   };
   public common: CommonComponent<Activity> = null;
 
-  constructor(private activityService: ActivityService) {
+  constructor(
+    private activityService: ActivityService,
+    private timelineService: TimelineService
+  ) {
     this.common = new CommonComponent<Activity>();
   }
 
@@ -124,6 +133,12 @@ export class ActivityComponent implements OnInit {
 
     model = this.viewData.activityList.find(item => this.findById(item, id));
     this.model.id = model["act_id"]; // to tell the form that this is an edition
+
+    this.timelineService
+      .getTimeline(this.viewData.timelineKey + this.model.id)
+      .then(({ timeline }) => {
+        this.viewData.timelineList = timeline;
+      });
 
     setTimeout(() => {
       // form.controls["fProjectId"].setValue(model["act_id_project"]);

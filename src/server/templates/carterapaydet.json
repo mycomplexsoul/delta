@@ -126,6 +126,16 @@
             , "linkedField": "cpy_date"
         },{
             "templateId": "table"
+            , "dbName": "cpd_ctg_type"
+            , "dbType": "integer"
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_ctg_type"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_type"
+            , "catalogId": "CARTERA_PAY_TYPE"
+        },{
+            "templateId": "table"
             , "dbName": "cpd_amount_payment"
             , "dbType": "double"
             , "size": 19
@@ -145,6 +155,22 @@
             , "size": 200
             , "originTable": "CARTERAPAYMENT"
             , "linkedField": "cpy_match_hint"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_ctg_non_identified"
+            , "dbType": "integer"
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_ctg_non_identified"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_non_identified"
+            , "catalogId": "BOOLEAN"
+        },{
+            "templateId": "table"
+            , "dbName": "cpd_date_identification"
+            , "dbType": "datetime"
+            , "originTable": "CARTERAPAYMENT"
+            , "linkedField": "cpy_date_identification"
         }
     ]
     , "view": [

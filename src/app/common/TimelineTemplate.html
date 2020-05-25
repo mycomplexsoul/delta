@@ -1,0 +1,53 @@
+<div class="hide-on-print">
+  <form #newItemForm="ngForm" (ngSubmit)="handleNewItem(newItemForm)">
+    <button type="button" (click)="viewData.showForm = !viewData.showForm">
+      {{ viewData.showForm ? "Hide timeline form" : "Add timeline comment" }}
+    </button>
+
+    <div *ngIf="viewData.showForm">
+      <span class="field" *ngIf="model.id">
+        <label for="id" class="label-left">Id</label>
+        <span class="general-input-id">{{ model.id }}</span>
+      </span>
+
+      <span class="field">
+        <label for="fDescription" class="label-left vertical-align-top"
+          >Description</label
+        >
+        <textarea
+          name="fDescription"
+          id="fDescription"
+          class="field-input general-input-description vertical-align-top timeline-input-description"
+          [(ngModel)]="model.fDescription"
+        ></textarea>
+        <span *ngIf="model.fDescription">
+          {{ model.fDescription.length }} / 4000 characters
+        </span>
+      </span>
+
+      <span class="field">
+        <label for="fDate" class="label-left">Date</label>
+        <input type="date" name="fDate" [(ngModel)]="model.date" />
+        <input type="time" name="fTime" [(ngModel)]="model.time" />
+      </span>
+
+      <span class="field">
+        <label for="fTags" class="label-left">Tags</label>
+        <input
+          type="text"
+          name="fTags"
+          id="fTags"
+          class="field-input general-input-tags"
+          ngModel
+        />
+        <span *ngIf="model.fTags">
+          {{ model.fTags.length }} / 1000 characters
+        </span>
+      </span>
+
+      <button type="submit" id="newItemFormSubmitButton">
+        Save comment
+      </button>
+    </div>
+  </form>
+</div>

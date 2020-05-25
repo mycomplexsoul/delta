@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SyncAPI } from "../common/sync.api";
+import { Timeline } from "../../crosscommon/entities/Timeline";
 
 @Injectable()
 export class ResultsReportService {
@@ -10,9 +11,11 @@ export class ResultsReportService {
       type: string;
     }>;
     initialBalance: number;
+    timeline: Timeline[];
   } = {
     movementList: [],
-    initialBalance: 0
+    initialBalance: 0,
+    timeline: []
   };
   private config = {
     api: {
@@ -34,9 +37,11 @@ export class ResultsReportService {
         type: string;
       }>;
       initialBalance: number;
+      timeline: Timeline[];
     } = {
       movementList: [],
-      initialBalance: 0
+      initialBalance: 0,
+      timeline: []
     };
 
     return this.sync

@@ -35,6 +35,8 @@ import { CarteraProvision } from '../crosscommon/entities/CarteraProvision';
 import { CarteraPayment } from '../crosscommon/entities/CarteraPayment';
 import { CarteraPayDet } from '../crosscommon/entities/CarteraPayDet';
 
+import { Timeline } from '../crosscommon/entities/Timeline';
+
 export class InstallModule {
     install = () => {
         const connection: iConnection = ConnectionService.getConnection('default');
@@ -49,6 +51,7 @@ export class InstallModule {
             , new Link()
             , new Activity(), new Keyval()
             , new CarteraProvision(), new CarteraPayment(), new CarteraPayDet()
+            , new Timeline()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {
@@ -112,13 +115,9 @@ export class InstallModule {
         };
 
         addCatalog("CATALOGS",1,"LIST OF ALL CATALOGS","A LIST OF ALL CATALOGS, EACH CATALOG SHOULD BE LISTED HERE FOR PERMISSION CONFIGURATION",1,new Date(),new Date(),1);
+        //#region 2 - CATALOG_PERMISSIONS
         addCatalog("CATALOGS",2,"CATALOG_PERMISSIONS","PERMISSIONS ON CATALOG AND PERMISSIONS ON RECORD",4,new Date(),new Date(),1);
-        addCatalog('CATALOGS',3,'RECORD_STATUS','STATUS FOR RECORD ITEM',4,new Date(),new Date(),1);
-        addCatalog('CATALOGS',4,'BOOLEAN','A YES/NO PARSE',4,new Date(),new Date(),1);
-        addCatalog('CATALOGS',5,'USER_TYPES','USER TYPES FOR USER CLASSIFICATION',4,new Date(),new Date(),1);
-        addCatalog('CATALOGS',6,'ACCOUNT_TYPES','ACCOUNT TYPES FOR ACCOUNT CLASIFICATION',4,new Date(),new Date(),1);
-        addCatalog('CATALOGS',7,'MOVEMENT_TYPES','MOVEMENT TYPES FOR HANDLING MONEY',4,new Date(),new Date(),1);
-        //#region CATALOG_PERMISSIONS
+        
         addCatalog("CATALOG_PERMISSIONS",1,"ADD AND EDIT RECORDS","USERS CAN ADD RECORDS AND CAN EDIT RECORDS ON THIS CATALOG",8,new Date(),new Date(),1);
         addCatalog("CATALOG_PERMISSIONS",2,"ADD AND NOT EDIT RECORDS","USERS CAN ADD RECORDS AND CAN NOT EDIT RECORDS ON THIS CATALOG",8,new Date(),new Date(),1);
         addCatalog("CATALOG_PERMISSIONS",3,"NOT ADD AND EDIT RECORDS","USERS CAN NOT ADD RECORDS AND CAN EDIT RECORDS ON THIS CATALOG",8,new Date(),new Date(),1);
@@ -128,23 +127,41 @@ export class InstallModule {
         addCatalog('CATALOG_PERMISSIONS',7,'NOT EDIT AND DELETE THIS RECORD','USERS CAN NOT EDIT AND CAN DELETE THIS RECORD',8,new Date(),new Date(),1);
         addCatalog('CATALOG_PERMISSIONS',8,'NOT EDIT AND NOT DELETE THIS RECORD','USERS CAN NOT EDIT AND CAN NOT DELETE THIS RECORD',8,new Date(),new Date(),1);
         //#endregion
+        //#region 3 - RECORD_STATUS
+        addCatalog('CATALOGS',3,'RECORD_STATUS','STATUS FOR RECORD ITEM',4,new Date(),new Date(),1);
+        
         addCatalog('RECORD_STATUS',1,'ACTIVE','THE RECORD IS ACTIVE AND CAN BE USED IN THE APPLICATION',8,new Date(),new Date(),1);
         addCatalog('RECORD_STATUS',2,'CANCELLED','THE RECORD IS CANCELLED AND IT CAN NOT BE USED BY THE APPLICATION',8,new Date(),new Date(),1);
-
+        //#endregion
+        //#region 4 - BOOLEAN
+        addCatalog('CATALOGS',4,'BOOLEAN','A YES/NO PARSE',4,new Date(),new Date(),1);
+        
         addCatalog('BOOLEAN',1,'NO','NO, MEANING IT DOES NOT APPLY THE PROPERTY OR DESCRIPTION',8,new Date(),new Date(),1);
         addCatalog('BOOLEAN',2,'YES','YES, MEANING IT APPLIES THE DESCRIPTION RELATED',8,new Date(),new Date(),1);
-        
+        //#endregion
+        //#region 5 - USER_TYPES
+        addCatalog('CATALOGS',5,'USER_TYPES','USER TYPES FOR USER CLASSIFICATION',4,new Date(),new Date(),1);
+
         addCatalog('USER_TYPES',1,'END USER','THE END USER OF THE APPLICATION',8,new Date(),new Date(),1);
         addCatalog('USER_TYPES',2,'ADMINISTRATOR','AN ADMINISTRATOR OF THE APPLICATION',8,new Date(),new Date(),1);
-
+        //#endregion
+        //#region 6 - ACCOUNT_TYPES
+        addCatalog('CATALOGS',6,'ACCOUNT_TYPES','ACCOUNT TYPES FOR ACCOUNT CLASIFICATION',4,new Date(),new Date(),1);
+        
         addCatalog('ACCOUNT_TYPES',1,'DEBIT','ACCOUNT WITH DEBIT BALANCE ONLY',8,new Date(),new Date(),1);
         addCatalog('ACCOUNT_TYPES',2,'CREDIT','ACCOUNT WITH CREDIT BALANCE',8,new Date(),new Date(),1);
         addCatalog('ACCOUNT_TYPES',3,'LOAN','ACCOUNT TO KEEP BALANCE OF A LOAN',8,new Date(),new Date(),1);
         addCatalog('ACCOUNT_TYPES',4,'OTHER','SPECIAL ACCOUNT',8,new Date(),new Date(),1);
-
+        //#endregion
+        //#region 7 - MOVEMENT_TYPES
+        addCatalog('CATALOGS',7,'MOVEMENT_TYPES','MOVEMENT TYPES FOR HANDLING MONEY',4,new Date(),new Date(),1);
+        
         addCatalog('MOVEMENT_TYPES',1,'EXPENSE','INDICATES THIS IS AN EXPENSE MOVEMENT',8,new Date(),new Date(),1);
         addCatalog('MOVEMENT_TYPES',2,'INCOME','INDICATES THIS IS AN INCOME MOVEMENT',8,new Date(),new Date(),1);
-        //#region TASK_REPETITION_TYPE
+        //#endregion
+        //#region 8 - TASK_REPETITION_TYPE
+        addCatalog('CATALOGS',8,'TASK_REPETITION_TYPE','REPETITION FOR ITEM PERIOD OF TIME',4,new Date(),new Date(),1);
+        
         addCatalog('TASK_REPETITION_TYPE',1,'DAILY','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_TYPE',2,'WEEKLY','INDICATES THIS TASK REPEATS ONCE A WEEK',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_TYPE',3,'BI-WEEKLY','INDICATES THIS TASK REPEATS ONCE EACH TWO WEEKS',8,new Date(),new Date(),1);
@@ -154,29 +171,44 @@ export class InstallModule {
         addCatalog('TASK_REPETITION_TYPE',7,'SOME DAYS OF THE WEEK','INDICATES THIS TASK REPEATS SOME DAYS OF THE WEEK',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_TYPE',8,'A DAY OF EACH MONTH','INDICATES THIS TASK REPEATS ONCE EACH MONTH WITH A SPECIAL RULE',8,new Date(),new Date(),1);
         //#endregion
+        //#region 9 - TASK_REPETITION_END_AT
         addCatalog('TASK_REPETITION_END_AT',1,'FOREVER','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_END_AT',2,'END ON DATE','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_END_AT',3,'END AFTER N REPETITIONS','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
-
+        //#endregion
+        
+        //#region 10 - TASK_REPETITION_FREQUENCY
         addCatalog('TASK_REPETITION_FREQUENCY',1,'DAYS','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_FREQUENCY',2,'WEEKS','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_FREQUENCY',3,'MONTHS','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
         addCatalog('TASK_REPETITION_FREQUENCY',4,'YEARS','INDICATES THIS TASK REPEATS ON A DAILY BASIS',8,new Date(),new Date(),1);
+        //#endregion
         
+        //#region 11 - CURRENCIES
         addCatalog('CURRENCIES',1,'MXN','MEXICAN PESO',8,new Date(),new Date(),1);
+        //#endregion
         
+        //#region 12 - MULTIMEDIA_MEDIA_TYPE
         addCatalog('MULTIMEDIA_MEDIA_TYPE',1,'MOVIES','MOVIES',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_MEDIA_TYPE',2,'TV SERIES','TV SERIES',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_MEDIA_TYPE',3,'ANIME','ANIME',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_MEDIA_TYPE',4,'BOOK','BOOK',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_MEDIA_TYPE',5,'MANGA','MANGA',8,new Date(),new Date(),1);
-
+        //#endregion
+        
+        //#region 13 - MULTIMEDIA_PLATFORM
         addCatalog('MULTIMEDIA_PLATFORM',1,'PC','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',2,'NETFLIX','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',3,'YOUTUBE','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',4,'PRIME VIDEO','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',5,'TV','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
         addCatalog('MULTIMEDIA_PLATFORM',6,'CINEMA','PLATFORM OF MEDIA USED',8,new Date(),new Date(),1);
+        //#endregion
+
+        //#region 14 - CARTERA_PAY_TYPE
+        addCatalog('CARTERA_PAY_TYPE',1,'PAGO','PAYMENT TYPE',8,new Date(),new Date(),1);
+        addCatalog('CARTERA_PAY_TYPE',2,'CONDONACION','PAYMENT TYPE',8,new Date(),new Date(),1);
+        //#endregion
 
         inserts.forEach(i => {
             connection.runSyncSql(i,(err) => {

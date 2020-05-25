@@ -184,4 +184,25 @@ export class MovementService {
 
     return movement;
   }
+
+  async getMovementList(filter: string): Promise<{ movementList: Movement[] }> {
+    const defaultData: {
+      movementList: Movement[];
+    } = {
+      movementList: []
+    };
+
+    return this.sync
+      .get(`${this.config.api.list}?q=${filter}`)
+      .then(data => {
+        return {
+          movementList: data
+            .map((d: any): Movement => new Movement(d))
+            .sort(this.sort)
+        };
+      })
+      .catch(err => {
+        return defaultData;
+      });
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ResultsReportService } from "./ResultsReportService";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { Title } from "@angular/platform-browser";
+import { Timeline } from "../../crosscommon/entities/Timeline";
 
 @Component({
   selector: "results-report",
@@ -29,6 +30,8 @@ export class ResultsReportComponent implements OnInit {
     year: number;
     month: number;
     displayYearMonth: string;
+    timelineList: Timeline[];
+    showSigns: boolean;
   } = {
     movementList: [],
     renderList: [],
@@ -39,7 +42,9 @@ export class ResultsReportComponent implements OnInit {
     finalBalance: 0,
     year: 0,
     month: 0,
-    displayYearMonth: null
+    displayYearMonth: null,
+    timelineList: [],
+    showSigns: false
   };
 
   parseQueryString() {
@@ -47,6 +52,7 @@ export class ResultsReportComponent implements OnInit {
 
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
+    this.viewData.showSigns = parseInt(query.get("signs"), 10) === 1;
 
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month
@@ -80,9 +86,10 @@ export class ResultsReportComponent implements OnInit {
       this.viewData.year,
       this.viewData.month
     ).then(response => {
-      const { movementList, initialBalance } = response;
+      const { movementList, initialBalance, timeline } = response;
 
       this.viewData.movementList = movementList;
+      this.viewData.timelineList = timeline.map(this.parseNewline);
 
       // calculate pending totals
       this.viewData.initialBalance = initialBalance;
@@ -159,5 +166,14 @@ export class ResultsReportComponent implements OnInit {
     });
 
     this.viewData.renderList = renderList;
+  }
+
+  handleNewTimeline({ timeline }) {
+    this.viewData.timelineList.push(this.parseNewline(timeline));
+  }
+
+  parseNewline(timeline: Timeline): Timeline {
+    timeline.tim_description = timeline.tim_description.replace(/\n/gi, "<br>");
+    return timeline;
   }
 }

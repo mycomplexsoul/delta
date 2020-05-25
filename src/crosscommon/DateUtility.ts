@@ -260,7 +260,7 @@ class DateUtility {
       .replace("m0s", "m")
       .replace("h0m", "h");
 
-    return str === "0h" ? "0" : str;
+    return ["0h", "0h0", "0h0m"].indexOf(str) !== -1 ? "0" : str;
   }
 
   /**

@@ -10,6 +10,9 @@
 
 .menu-items li {
   border-bottom: 1px solid #888;
+  height: 2rem;
+  display: flex;
+  align-items: center;
 }
 
 .menu-items li:hover,
@@ -44,10 +47,16 @@
 .menu-section {
   display: block;
   position: absolute;
-  top: 19px;
+  top: 28px;
   left: 0;
   width: 100%;
   background-color: #aaa;
+}
+
+@media (min-width: 504px) {
+  .menu-section {
+    top: 19px;
+  }
 }
 
 .menu-area * {

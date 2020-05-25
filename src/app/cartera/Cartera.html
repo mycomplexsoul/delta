@@ -1,0 +1,302 @@
+<form #newItemForm="ngForm" (ngSubmit)="newItem(newItemForm)">
+  <button
+    type="button"
+    (click)="viewData.showItemForm = !viewData.showItemForm"
+  >
+    {{ viewData.showItemForm ? "Hide Payment Form" : "New Payment" }}
+  </button>
+
+  <div *ngIf="viewData.showItemForm">
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeNormal"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'normal'"
+      value="normal"
+    />
+    <label for="fPaymentTypeNormal">Pago identificado</label>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeNonIdentified"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'nonidentified'; model.unitId = '000'"
+      value="nonidentified"
+    />
+    <label for="fPaymentTypeNonIdentified">Pago no identificado</label>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeCondonation"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'condonation'"
+      value="condonation"
+    />
+    <label for="fPaymentTypeCondonation">Condonación</label>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeIdentification"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'identification'"
+      value="identification"
+    />
+    <label for="fPaymentTypeIdentification">Identificación de pago</label>
+
+    <div>
+      <h4 *ngIf="model._paymentType === 'normal'">Pago identificado</h4>
+      <h4 *ngIf="model._paymentType === 'nonidentified'">
+        Pago no identificado
+      </h4>
+      <h4 *ngIf="model._paymentType === 'condonation'">Condonación</h4>
+      <h4 *ngIf="model._paymentType === 'identification'">
+        Identificación de pago
+      </h4>
+
+      <span class="field" *ngIf="model._paymentType === 'identification'">
+        <label for="fPayment" class="label-left">Pago sin identificar</label>
+        <select
+          name="fPayment"
+          id="fPayment"
+          class="field-select"
+          [(ngModel)]="model.paymentId"
+          (change)="setPaymentDetailsInForm(newItemForm, model.paymentId)"
+        >
+          <option
+            *ngFor="let opt of viewData.nonIdentifiedPaymentList"
+            value="{{ opt.cpy_id }}"
+            >{{ opt.cpy_date | date: "yyyy-MM-dd" }} {{ opt.cpy_amount |
+            currency: "USD":"symbol-narrow":"1.2-2"}}</option
+          >
+        </select>
+      </span>
+
+      <span class="field">
+        <label
+          for="fDate"
+          class="label-left"
+          *ngIf="model._paymentType !== 'identification'"
+          >Fecha</label
+        >
+        <label
+          for="fDate"
+          class="label-left"
+          *ngIf="model._paymentType === 'identification'"
+          >Fecha de Identificación</label
+        >
+        <input
+          type="radio"
+          name="fDateType"
+          id="fDateTypeCurrent"
+          [(ngModel)]="model._dateType"
+          value="current"
+        />
+        <label for="fDateTypeCurrent">Fecha actual</label>
+        <input
+          type="radio"
+          name="fDateType"
+          id="fDateTypeCustom"
+          [(ngModel)]="model._dateType"
+          value="custom"
+        />
+        <label for="fDateTypeCustom">Otra fecha</label>
+        <input
+          type="date"
+          name="fDate"
+          [(ngModel)]="model.fDate"
+          *ngIf="model._dateType !== 'current'"
+        />
+      </span>
+
+      <span class="field">
+        <label for="fAmount" class="label-left">Amount</label>
+        <input
+          type="number"
+          name="fAmount"
+          id="fAmount"
+          class="field-input"
+          step="0.01"
+          [(ngModel)]="model.fAmount"
+          [disabled]="viewData.showPayDetList || model._paymentType === 'nonidentified' || model._paymentType === 'identification'"
+        />&nbsp;<button (click)="model.fAmount = 1480" *ngIf="!model.fAmount">
+          $1,480
+        </button>
+      </span>
+
+      <span class="field">
+        <label for="fUnit" class="label-left">Unidad</label>
+        <select
+          name="fUnit"
+          id="fUnit"
+          class="field-select"
+          [(ngModel)]="model.unitId"
+          [disabled]="model._paymentType === 'nonidentified' || viewData.showPayDetList"
+          (change)="setDescription(model.fAmount, model.fDate)"
+        >
+          <option *ngFor="let opt of viewData.unitList" value="{{ opt }}"
+            >{{ opt }}</option
+          >
+        </select>
+      </span>
+
+      <span class="field">
+        <label for="fDescription" class="label-left">Description</label>
+        <input
+          type="text"
+          name="fDescription"
+          id="fDescription"
+          class="field-input movement-input-description"
+          [(ngModel)]="model.fDescription"
+        />
+      </span>
+
+      <button
+        type="button"
+        id="detailButton"
+        (click)="setUnitProvisionList(model.unitId)"
+        [disabled]="!model.fAmount || !model.unitId"
+        [ngClass]="{
+          'hidden': model._paymentType === 'nonidentified'
+        }"
+        *ngIf="!viewData.showPayDetList"
+      >
+        Desglose de pago &gt;
+      </button>
+
+      <button
+        type="button"
+        id="detailBackButton"
+        (click)="viewData.showPayDetList = !viewData.showPayDetList"
+        *ngIf="viewData.showPayDetList"
+      >
+        &lt; Modificar pago
+      </button>
+
+      <button
+        type="button"
+        id="showMoreProvisionsButton"
+        (click)="showFutureProvisions(model.unitId)"
+      >
+        Ver Provisiones futuras
+      </button>
+
+      <div *ngIf="viewData.showPayDetList">
+        <table
+          class="pending-provision-listing desktop-only width-100-pct-print-only"
+        >
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Unidad</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Recaudado</th>
+              <th>Adeudo</th>
+              <th>Pago</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let provision of viewData.unitPendingProvisionList; let counter = index"
+              class="pending-provision-listing-row"
+              [ngClass]="{
+                'provision-payed-row': provision.cpr_remaining === 0,
+                'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+              }"
+            >
+              <td class="padding-all-3 text-align-center">
+                {{counter + 1}}
+              </td>
+              <td class="padding-all-3 text-align-center">
+                {{provision.cpr_id_unit}}
+              </td>
+              <td class="padding-all-3">
+                <span>
+                  {{provision.cpr_concept}}
+                </span>
+                <span *ngIf="provision.cpr_remaining === 0">
+                  <!-- payed row -->
+                  [R]
+                </span>
+                <span
+                  *ngIf="isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)"
+                >
+                  <!-- added row -->
+                  [A]
+                </span>
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{provision.cpr_amount | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{provision.cpr_payed | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                <a
+                  href="#"
+                  tabindex="0"
+                  (click)="setPayDetAmount(provision); validatePayDetTotal(model.fAmount); $event.preventDefault();"
+                >
+                  {{provision.cpr_remaining | currency:
+                  "USD":"symbol-narrow":"1.2-2"}}
+                </a>
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                <input
+                  [name]="provision.cpr_id"
+                  type="number"
+                  class="field-input width-80"
+                  step="0.01"
+                  [(ngModel)]="payDetModel[provision.cpr_id]"
+                  (change)="validatePayDetTotal(model.fAmount)"
+                  [ngClass]="{
+                    'input-invalid': viewData.payDetCaptureStatus === 'invalid' && payDetModel[provision.cpr_id]
+                  }"
+                  [disabled]="(viewData.payDetCaptureStatus === 'invalid' && !payDetModel[provision.cpr_id]) || (viewData.payDetCaptureStatus === 'valid' && !payDetModel[provision.cpr_id])"
+                  min="0"
+                  [max]="provision.cpr_remaining"
+                />
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="padding-all-3"></td>
+              <td class="padding-all-3"></td>
+              <td class="padding-all-3">Totales</td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.pendingTotalAmount | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.pendingTotalPayed | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.pendingTotalRemaining | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.payDetCaptureTotal | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+                <br />rem {{model.fAmount - viewData.payDetCaptureTotal |
+                currency: "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <button
+        type="submit"
+        id="newFormSubmitButton"
+        [disabled]="viewData.payDetCaptureStatus !== 'valid'"
+      >
+        {{ model.id !== null ? "Update Payment" : "Save Payment" }}
+      </button>
+    </div>
+  </div>
+</form>

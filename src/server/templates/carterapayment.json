@@ -23,6 +23,13 @@
             , "captureRequired": true
             , "displayName": "Payment Id"
         },{
+            "templateId": "integer"
+            , "dbName": "cpy_ctg_type"
+            , "dbComment": "Indicates if this is a payment or a condonation"
+            , "entName": "Payment Type"
+            , "displayName": "Payment Type"
+            , "catalogId": "CARTERA_PAY_TYPE"
+        },{
             "templateId": "datetime"
             , "dbName": "cpy_date"
             , "dbComment": "Payment Date"
@@ -53,6 +60,20 @@
             , "displayName": "Match Hint"
             , "isRecordName": true
         },{
+            "templateId": "integer"
+            , "dbName": "cpy_ctg_non_identified"
+            , "dbComment": "Indicates if this was originally a non identified payment"
+            , "entName": "NonIdentifiedPayment"
+            , "displayName": "Non Identified Payment"
+            , "catalogId": "BOOLEAN"
+        },{
+            "templateId": "datetime"
+            , "dbName": "cpy_date_identification"
+            , "dbComment": "Identification Date"
+            , "entName": "IdentificationDate"
+            , "allowNull": true
+            , "displayName": "Identification Date"
+        },{
             "templateId": "string"
             , "dbName": "cpy_id_user"
             , "size": 50
@@ -69,6 +90,12 @@
         },{
             "templateId": "catalog"
             , "linkedField": "_ctg_status"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_type"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_non_identified"
         }
     ]
     , "view": [

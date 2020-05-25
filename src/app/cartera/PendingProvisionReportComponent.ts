@@ -4,6 +4,7 @@ import { PendingProvisionService } from "./PendingProvisionService";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { Title } from "@angular/platform-browser";
+import { Timeline } from "../../crosscommon/entities/Timeline";
 
 const CUOTA_NORMAL = "cuota-normal";
 const PROVISION_AMOUNT = 1480;
@@ -31,6 +32,7 @@ export class PendingProvisionReportComponent implements OnInit {
     nonIdentifiedPaymentList: CarteraPayment[];
     nonIdentifiedTotalAmount: number;
     displayYearMonth: string;
+    timelineList: Timeline[];
   } = {
     pendingProvisionList: [],
     futureProvisionList: [],
@@ -46,7 +48,8 @@ export class PendingProvisionReportComponent implements OnInit {
     month: 0,
     nonIdentifiedPaymentList: [],
     nonIdentifiedTotalAmount: 0,
-    displayYearMonth: null
+    displayYearMonth: null,
+    timelineList: []
   };
 
   parseQueryString() {
@@ -87,12 +90,14 @@ export class PendingProvisionReportComponent implements OnInit {
         const {
           pendingProvisionList,
           futureProvisionList,
-          nonIdentifiedPaymentList
+          nonIdentifiedPaymentList,
+          timelineList
         } = response;
 
         this.viewData.pendingProvisionList = pendingProvisionList;
         this.viewData.futureProvisionList = futureProvisionList;
         this.viewData.nonIdentifiedPaymentList = nonIdentifiedPaymentList;
+        this.viewData.timelineList = timelineList.map(this.parseNewline);
 
         // calculate totals
         this.viewData.pendingTotalAmount = this.sumByField(
@@ -122,8 +127,8 @@ export class PendingProvisionReportComponent implements OnInit {
         );
 
         // totals per unit
-        this.viewData.pendingTotals = this.viewData.pendingProvisionList.reduce(
-          (previous, current) => {
+        this.viewData.pendingTotals = this.viewData.pendingProvisionList
+          .reduce((previous, current) => {
             const found = previous.find(e => e.unit === current.cpr_id_unit);
             // the ones that are normal provisions and that doesn't have any payments
             const isNormalProvision =
@@ -141,9 +146,8 @@ export class PendingProvisionReportComponent implements OnInit {
               });
             }
             return previous;
-          },
-          []
-        );
+          }, [])
+          .filter(r => r.remaining >= 0.01);
         // total from pendingTotals
         this.viewData.totalRemainingFromPendingTotals = this.sumByField(
           this.viewData.pendingTotals,
@@ -177,5 +181,14 @@ export class PendingProvisionReportComponent implements OnInit {
       ) ===
       year * 100 + month
     );
+  }
+
+  handleNewTimeline({ timeline }) {
+    this.viewData.timelineList.push(this.parseNewline(timeline));
+  }
+
+  parseNewline(timeline: Timeline): Timeline {
+    timeline.tim_description = timeline.tim_description.replace(/\n/gi, "<br>");
+    return timeline;
   }
 }

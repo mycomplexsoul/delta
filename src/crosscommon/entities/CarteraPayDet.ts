@@ -21,9 +21,14 @@ export class CarteraPayDet implements iEntity {
 	public cpd_total_payed_provision: number;
 	public cpd_remaining_provision: number;
 	public cpd_date_payment: Date;
+	public cpd_ctg_type: number;
+	public cpd_txt_type: string;
 	public cpd_amount_payment: number;
 	public cpd_description: string;
 	public cpd_match_hint: string;
+	public cpd_ctg_non_identified: number;
+	public cpd_txt_non_identified: string;
+	public cpd_date_identification: Date;
 
 	public metadata: {
 		name: string
@@ -596,6 +601,68 @@ export class CarteraPayDet implements iEntity {
 				, value: null
 			}, {
 				templateId: 'table'
+				, dbName: 'cpd_ctg_type'
+				, dbType: 'integer'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: ''
+				, originTable: 'CARTERAPAYMENT'
+				, linkedField: 'cpy_ctg_type'
+				, entName: ''
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 17
+				, orderOnNew: 17
+				, orderOnDetails: 17
+				, orderOnEdit: 17
+				, orderOnImport: 17
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'catalog'
+				, dbName: 'cpd_txt_type'
+				, dbType: 'string'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: 'CARTERA_PAY_TYPE'
+				, originTable: 'CATALOG'
+				, linkedField: 'cpd_ctg_type'
+				, entName: 'Text'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 18
+				, orderOnNew: 18
+				, orderOnDetails: 18
+				, orderOnEdit: 18
+				, orderOnImport: 18
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'table'
 				, dbName: 'cpd_amount_payment'
 				, dbType: 'double'
 				, isTableField: false
@@ -618,11 +685,11 @@ export class CarteraPayDet implements iEntity {
 				, displayName: ''
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 17
-				, orderOnNew: 17
-				, orderOnDetails: 17
-				, orderOnEdit: 17
-				, orderOnImport: 17
+				, gridOrder: 19
+				, orderOnNew: 19
+				, orderOnDetails: 19
+				, orderOnEdit: 19
+				, orderOnImport: 19
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -649,11 +716,11 @@ export class CarteraPayDet implements iEntity {
 				, displayName: ''
 				, tooltip: ''
 				, isRecordName: true
-				, gridOrder: 18
-				, orderOnNew: 18
-				, orderOnDetails: 18
-				, orderOnEdit: 18
-				, orderOnImport: 18
+				, gridOrder: 20
+				, orderOnNew: 20
+				, orderOnDetails: 20
+				, orderOnEdit: 20
+				, orderOnImport: 20
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -680,11 +747,104 @@ export class CarteraPayDet implements iEntity {
 				, displayName: ''
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 19
-				, orderOnNew: 19
-				, orderOnDetails: 19
-				, orderOnEdit: 19
-				, orderOnImport: 19
+				, gridOrder: 21
+				, orderOnNew: 21
+				, orderOnDetails: 21
+				, orderOnEdit: 21
+				, orderOnImport: 21
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'table'
+				, dbName: 'cpd_ctg_non_identified'
+				, dbType: 'integer'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: ''
+				, originTable: 'CARTERAPAYMENT'
+				, linkedField: 'cpy_ctg_non_identified'
+				, entName: ''
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 22
+				, orderOnNew: 22
+				, orderOnDetails: 22
+				, orderOnEdit: 22
+				, orderOnImport: 22
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'catalog'
+				, dbName: 'cpd_txt_non_identified'
+				, dbType: 'string'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: 'BOOLEAN'
+				, originTable: 'CATALOG'
+				, linkedField: 'cpd_ctg_non_identified'
+				, entName: 'Text'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 23
+				, orderOnNew: 23
+				, orderOnDetails: 23
+				, orderOnEdit: 23
+				, orderOnImport: 23
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'table'
+				, dbName: 'cpd_date_identification'
+				, dbType: 'datetime'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: ''
+				, originTable: 'CARTERAPAYMENT'
+				, linkedField: 'cpy_date_identification'
+				, entName: ''
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 24
+				, orderOnNew: 24
+				, orderOnDetails: 24
+				, orderOnEdit: 24
+				, orderOnImport: 24
 				, globalOrder: 0
 				, value: null
 			}
@@ -722,9 +882,14 @@ export class CarteraPayDet implements iEntity {
 			this.cpd_total_payed_provision = base.cpd_total_payed_provision;
 			this.cpd_remaining_provision = base.cpd_remaining_provision;
 			this.cpd_date_payment = (base.cpd_date_payment !== null) ? new Date(base.cpd_date_payment) : null;
+			this.cpd_ctg_type = base.cpd_ctg_type;
+			this.cpd_txt_type = base.cpd_txt_type;
 			this.cpd_amount_payment = base.cpd_amount_payment;
 			this.cpd_description = base.cpd_description;
 			this.cpd_match_hint = base.cpd_match_hint;
+			this.cpd_ctg_non_identified = base.cpd_ctg_non_identified;
+			this.cpd_txt_non_identified = base.cpd_txt_non_identified;
+			this.cpd_date_identification = (base.cpd_date_identification !== null) ? new Date(base.cpd_date_identification) : null;
 		}
 	}
 

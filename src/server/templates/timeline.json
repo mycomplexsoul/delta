@@ -1,0 +1,82 @@
+{
+    "name": "Timeline"
+    , "namespace": "common"
+    , "removeMeans": "DELETION"
+    , "authNeeded": false
+    , "displayOnMenu": false
+    , "prefix": "tim"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Timeline,Timeline)"
+        , "TABLE_NAME(TIMELINE)"
+        , "VIEW_NAME(VITIMELINE)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "tim_id"
+            , "isPK": true
+            , "size": 32
+            , "minLength": 1
+            , "dbComment": "Id for the timeline record"
+            , "entName": "Id"
+            , "captureRequired": true
+            , "displayName": "Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "tim_id_record"
+            , "size": 250
+            , "minLength": 1
+            , "dbComment": "Id for the asociated record"
+            , "entName": "RecordId"
+            , "captureRequired": true
+            , "displayName": "Record Id"
+            , "isRecordName": true
+        },{
+            "templateId": "datetime"
+            , "dbName": "tim_date"
+            , "dbComment": "Date for the timeline record"
+            , "entName": "Date"
+            , "captureRequired": true
+            , "displayName": "Date"
+        },{
+            "templateId": "string"
+            , "dbName": "tim_description"
+            , "size": 4000
+            , "minLength": 1
+            , "dbComment": "Description of the timeline event"
+            , "entName": "Description"
+            , "displayName": "Description"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "tim_tags"
+            , "size": 1000
+            , "minLength": 1
+            , "dbComment": "Tags related to the timeline event"
+            , "entName": "Tags"
+            , "displayName": "Tags"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "tim_id_user"
+            , "size": 50
+            , "dbComment": "User who created this timeline record"
+            , "entName": "User"
+            , "displayName": "User"
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        }
+    ]
+    , "view": [
+    ]
+}

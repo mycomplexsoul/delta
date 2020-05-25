@@ -233,7 +233,13 @@ button {
   padding: 1px 5px;
   border: 1px solid #2f93f7;
   background-color: #e6ecff;
-  border-radius: 0;
+  border-radius: 10%;
+}
+
+@media (max-width: 504px) {
+  button {
+    height: 28px;
+  }
 }
 
 input.task {
@@ -632,6 +638,10 @@ link {
   page-break-before: always;
 }
 
+.hide-on-print {
+  display: block;
+}
+
 @media print {
   @page {
     margin: 0;
@@ -653,4 +663,25 @@ link {
   .print-only {
     display: block;
   }
+
+  .hide-on-print {
+    display: none;
+  }
+}
+
+.input-invalid {
+  border: 1px solid red;
+}
+
+.task-next-time-ahead {
+  background-color: #afff94;
+}
+
+.task-next-time-behind {
+  background-color: #ffa7a7;
+}
+
+#nextToDoTodayList .task-record {
+  max-width: 100%;
+  max-height: none;
 }

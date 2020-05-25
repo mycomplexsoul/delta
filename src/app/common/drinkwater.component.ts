@@ -15,7 +15,7 @@ export class DrinkWaterComponent {
   private MESSAGE: string = "Hey! drink some water";
 
   constructor(private notificationService: NotificationService) {
-    this.startNotification();
+    // this.startNotification();
   }
 
   notification(data: any) {

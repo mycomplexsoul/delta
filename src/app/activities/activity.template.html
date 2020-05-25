@@ -40,6 +40,21 @@
     </div>
   </form>
 
+  <div class="activity-details" *ngIf="model.id">
+    <span>
+      Timeline
+    </span>
+
+    <div *ngFor="let t of viewData.timelineList">
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
+    </div>
+
+    <timeline
+      [recordId]="viewData.timelineKey + model.id"
+      (onNewItem)="handleNewTimeline($event)"
+    ></timeline>
+  </div>
+
   <div class="card-list">
     <div
       *ngFor="let item of viewData.activityList"

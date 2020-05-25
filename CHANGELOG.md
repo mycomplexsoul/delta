@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.31 (2020-01-30)
+
+- [AppCartera][new] Create Movements Report UI page under `/cartera-movements`
+- [AppCartera][new] Add styles/mobile view to Movements Report
+
 ## v1.10.30 (2020-01-23)
 
 - [AppCartera][new] Create Results Report UI page under `/cartera-results`

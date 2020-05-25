@@ -502,7 +502,7 @@ export class MultimediaComponent {
         const found: MultimediaView = this.viewData.multimediaViewList.find(
           e => e.mmv_id === item.mmd_id && e.mmv_id_ep === item.mmd_id_ep
         );
-        ref["viewedDate"] = found ? found.mmv_date_mod : null;
+        ref["viewedDate"] = found ? found.mmv_date_viewed : null;
         return !!found;
       }
     );

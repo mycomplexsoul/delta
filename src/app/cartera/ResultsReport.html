@@ -82,7 +82,37 @@
   </tbody>
 </table>
 
-<div class="results-summary width-100-pct-mobile-only">
+<div
+  [ngClass]="{
+  'results-top-block-50': viewData.timelineList.length > 0
+}"
+>
+  <div class="results-timeline-list" *ngIf="viewData.timelineList.length > 0">
+    <div>
+      <strong>
+        Observaciones
+      </strong>
+    </div>
+    <br />
+    <div
+      *ngFor="let t of viewData.timelineList"
+      [innerHTML]="t.tim_description"
+    ></div>
+  </div>
+
+  <br />
+  <timeline
+    [recordId]="'cartera-results|' + viewData.year + '-' + viewData.month"
+    (onNewItem)="handleNewTimeline($event)"
+  ></timeline>
+</div>
+
+<div
+  class="results-summary width-100-pct-mobile-only"
+  [ngClass]="{
+  'results-top-block-50': viewData.timelineList.length > 0
+}"
+>
   <table class="text-align-right">
     <tbody>
       <tr class="results-total-row">
@@ -127,5 +157,13 @@
         </td>
       </tr>
     </tbody>
+  </table>
+</div>
+
+<div class="results-sign-list" *ngIf="viewData.showSigns">
+  <table>
+    <tr>
+      <td>Comité de Vigilancia</td>
+    </tr>
   </table>
 </div>

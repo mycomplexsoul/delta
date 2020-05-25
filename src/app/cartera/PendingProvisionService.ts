@@ -4,6 +4,7 @@ import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
+import { Timeline } from "src/crosscommon/entities/Timeline";
 
 @Injectable()
 export class PendingProvisionService {
@@ -11,10 +12,12 @@ export class PendingProvisionService {
     pendingProvisionList: CarteraProvision[];
     futureProvisionList: CarteraProvision[];
     nonIdentifiedPaymentList: CarteraPayment[];
+    timelineList: Timeline[];
   } = {
     pendingProvisionList: [],
     futureProvisionList: [],
-    nonIdentifiedPaymentList: []
+    nonIdentifiedPaymentList: [],
+    timelineList: []
   };
   private config = {
     api: {
@@ -37,10 +40,16 @@ export class PendingProvisionService {
   }
 
   async getPendingProvisionForMonth(year: number, month: number) {
-    const defaultData = {
+    const defaultData: {
+      pendingProvisionList: CarteraProvision[];
+      futureProvisionList: CarteraProvision[];
+      nonIdentifiedPaymentList: CarteraPayment[];
+      timelineList: Timeline[];
+    } = {
       pendingProvisionList: [],
       futureProvisionList: [],
-      nonIdentifiedPaymentList: []
+      nonIdentifiedPaymentList: [],
+      timelineList: []
     };
 
     return this.sync
@@ -55,6 +64,9 @@ export class PendingProvisionService {
           ),
           nonIdentifiedPaymentList: data.nonIdentifiedPaymentList.map(
             (d: any): CarteraPayment => new CarteraPayment(d)
+          ),
+          timelineList: data.timelineList.map(
+            (d: any): Timeline => new Timeline(d)
           )
         };
         return this.data;

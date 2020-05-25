@@ -147,7 +147,10 @@ export class UnitStatusReportComponent implements OnInit {
 
       this.viewData.paymentList.forEach((payment, index) => {
         this.viewData.movementList.push({
-          concept: `Pago #${index + 1}`,
+          concept:
+            payment.cpy_ctg_type === 1
+              ? `Pago #${index + 1}`
+              : `Condonación/Ajuste #${index + 1}`,
           type: "PAYMENT",
           amount: payment.cpy_amount,
           date: payment.cpy_date,
@@ -164,7 +167,7 @@ export class UnitStatusReportComponent implements OnInit {
           if (order[a.type] === order[b.type]) {
             return a.orderIndex > b.orderIndex ? 1 : -1;
           }
-          return order[a.type] < order[b.type] ? 1 : -1;
+          return order[a.type] > order[b.type] ? 1 : -1;
         }
         return a.date.getTime() > b.date.getTime() ? 1 : -1;
       });

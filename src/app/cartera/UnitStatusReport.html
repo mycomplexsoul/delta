@@ -213,11 +213,22 @@
         </div>
         <div>
           <div *ngFor="let payDet of item.payDetList">
-            - Recaudado {{payDet.cpd_amount | currency:
-            "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
-            getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
-            getPayment(payDet.cpd_id_payment).cpy_amount | currency:
-            "USD":"symbol-narrow":"1.2-2" }}
+            <span *ngIf="payDet.cpd_ctg_type === 2">
+              - Ajuste {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonación/Ajuste
+              #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </span>
+            <span *ngIf="payDet.cpd_ctg_type === 1">
+              - Recaudado {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
+              getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }} fecha
+              {{getPayment(payDet.cpd_id_payment).cpy_date | date:
+              "yyyy-MM-dd"}}
+            </span>
           </div>
         </div>
       </td>
@@ -280,11 +291,22 @@
         #{{counter + 1}} - {{item.provision.cpr_concept}}
         <div>
           <div *ngFor="let payDet of item.payDetList">
-            - Recaudado {{payDet.cpd_amount | currency:
-            "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
-            getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
-            getPayment(payDet.cpd_id_payment).cpy_amount | currency:
-            "USD":"symbol-narrow":"1.2-2" }}
+            <span *ngIf="payDet.cpd_ctg_type === 2">
+              - Ajuste {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonación/Ajuste
+              #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </span>
+            <span *ngIf="payDet.cpd_ctg_type === 1">
+              - Recaudado {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
+              getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }} fecha
+              {{getPayment(payDet.cpd_id_payment).cpy_date | date:
+              "yyyy-MM-dd"}}
+            </span>
           </div>
         </div>
       </td>

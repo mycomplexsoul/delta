@@ -67,7 +67,7 @@ class Utility {
       return entity;
     }
     entity.metadata.fields
-      .filter(f => f.isTableField)
+      //.filter(f => f.isTableField)
       .forEach(f => {
         obj[f.dbName] = entity[f.dbName];
       });
@@ -95,6 +95,25 @@ class Utility {
     const { metadata, ...fields } = entity;
 
     return fields;
+  }
+
+  buildFilter(fieldName: string, value: any, op: string = "eq") {
+    const filter = {
+      gc: "AND",
+      cont: [
+        {
+          f: fieldName,
+          op,
+          val: value
+        }
+      ]
+    };
+
+    return filter;
+  }
+
+  buildFilterStringified(fieldName: string, value: any, op: string = "eq") {
+    return JSON.stringify(this.buildFilter(fieldName, value, op));
   }
 }
 

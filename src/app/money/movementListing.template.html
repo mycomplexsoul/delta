@@ -104,11 +104,14 @@
   <table>
     <tr>
       <th class="padding-all-5 width-80">Date</th>
-      <th class="padding-all-5 width-100">Amount</th>
+      <th class="padding-all-5 width-80">Amount</th>
       <th class="padding-all-5">Place</th>
       <th class="padding-all-5">Description</th>
     </tr>
-    <tr class="movements-listing-row" *ngIf="selectedBalance">
+    <tr
+      class="movements-listing-row vertical-align-top"
+      *ngIf="selectedBalance"
+    >
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
         <strong
@@ -119,7 +122,10 @@
       <td class="padding-all-5"></td>
       <td class="padding-all-5"><strong>INITIAL BALANCE</strong></td>
     </tr>
-    <tr class="movements-listing-row" *ngFor="let m of movementList">
+    <tr
+      class="movements-listing-row vertical-align-top"
+      *ngFor="let m of movementList"
+    >
       <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
       <td class="padding-all-5 text-align-right" *ngIf="selectedBalance">
         {{ (m.mov_ctg_type === 1 || (m.mov_ctg_type === 3 && m.mov_id_account
@@ -135,7 +141,10 @@
       </td>
       <td class="padding-all-5">{{ m.mov_desc }}</td>
     </tr>
-    <tr class="movements-listing-row" *ngIf="selectedBalance">
+    <tr
+      class="movements-listing-row vertical-align-top"
+      *ngIf="selectedBalance"
+    >
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
         <strong

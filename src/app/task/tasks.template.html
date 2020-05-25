@@ -194,6 +194,12 @@
     [checked]="options.optUseEndTTDateAsDoneDate"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
+  <checkbox-option
+    label="Allow to edit ETA in tasks"
+    optionId="optAllowToEditETA"
+    [checked]="options.optAllowToEditETA"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
 
   <div id="optionsMessages"></div>
   <hr />
@@ -409,7 +415,7 @@
             >link</a
           ></span
         >&nbsp;<span
-          contenteditable="true"
+          [attr.contenteditable]="options.optAllowToEditETA"
           spellcheck="false"
           (blur)="taskEstimatedDurationEdit(t, $event)"
           (keydown)="etaKeyDown($event)"
@@ -506,7 +512,13 @@
           [value]="item.estimatedDuration"
         ></time-format>
       </div>
-      <div *ngFor="let t of item.tasks" data-id="{{ t.tsk_id }}">
+      <div
+        *ngFor="let t of item.tasks; let count = index"
+        data-id="{{ t.tsk_id }}"
+      >
+        <hr
+          *ngIf="t['projectedDate'].getHours() < 2 && count > 0 && item.tasks[count-1]['projectedDate'].getHours() >= 23"
+        />
         <input
           type="checkbox"
           id="{{ t.tsk_id }}"
@@ -526,8 +538,12 @@
             >&#9724;</span
           >
         </span>
-        <span>
-          &lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
+        <span
+          [ngClass]="{
+          'task-next-time-ahead': count === 0 && t['projectedDate'].getTime() >= getDate().getTime(),
+          'task-next-time-behind': count === 0 && getDate().getTime() > t['projectedDate'].getTime()
+        }"
+          >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
         </span>
         <span
           *ngIf="t.tsk_total_time_spent !== 0"
@@ -592,16 +608,14 @@
           (blur)="commandOnTask(t, $event)"
           class="editable task-text"
           >{{ t.tsk_name }}</span
-        >
-        <span
-          contenteditable="true"
+        >&nbsp;<span
+          [attr.contenteditable]="options.optAllowToEditETA"
           spellcheck="false"
           (blur)="taskEstimatedDurationEdit(t, $event)"
           [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
           class="task-eta"
           >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-        >
-        <span>
+        ><span>
           [{{t.tsk_id_record}}]
         </span>
         <span *ngIf="t.tsk_tags" class="task-tags">
@@ -962,9 +976,14 @@
       >&#8676;</span
     >
     <span
-      class="adjust-timetracking-button clickable"
+      class="set-selected-button clickable"
       (click)="setSelected(selectedTask)"
       >&#9998;</span
+    >
+    <span
+      class="remove-qualifiers-button clickable"
+      (click)="removeQualifiersFromTask(selectedTask)"
+      >&#9746;</span
     >
     <span class="close-button clickable" (click)="selectedTask = null"
       >&times;</span

@@ -162,4 +162,16 @@ router.get("/results-for-month", (req, res) => {
   server.resultsForMonthHandler(node);
 });
 
+/**
+ * Registers a new payment along with payment details if applicable
+ */
+router.post("/payment", (req, res) => {
+  let server: CarteraServer = new CarteraServer();
+  let node: iNode = {
+    request: req,
+    response: res
+  };
+  server.savePaymentAndPayDetHandler(node);
+});
+
 export { router };

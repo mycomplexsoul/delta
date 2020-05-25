@@ -24,7 +24,11 @@ export class CommonComponent<T> {
     const item: T = onAssignForCreate(formValues);
     onNewItemService(item).then(item => {
       const listItem = listing.find(e => onFindExpression(e, item));
-      listItem["isNew"] = true;
+      if (listItem) {
+        listItem["isNew"] = true;
+      } else {
+        listing.push(item);
+      }
     });
 
     onFinalExecution(item);

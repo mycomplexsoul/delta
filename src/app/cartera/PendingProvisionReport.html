@@ -303,15 +303,29 @@
   </thead>
   <tbody>
     <tr
-      *ngFor="let provision of viewData.nonIdentifiedPaymentList"
-      class="pending-provision-listing-row"
+      *ngFor="let payment of viewData.nonIdentifiedPaymentList"
+      class="pending-payment-listing-row"
+      [ngClass]="{
+        'provision-payed-row': payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month
+      }"
     >
       <td class="padding-all-3 text-align-center width-80">
-        {{provision.cpy_date | date: "yyyy-MM-dd"}}
+        {{payment.cpy_date | date: "yyyy-MM-dd"}}
       </td>
-      <td class="padding-all-3">Depósito sin identificar</td>
+      <td class="padding-all-3">
+        <span
+          *ngIf="!payment.cpy_date_identification || payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 > viewData.year * 100 + viewData.month"
+          >Depósito sin identificar</span
+        >
+        <span
+          *ngIf="payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month"
+          >Aplicado a {{
+          payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)
+          }}</span
+        >
+      </td>
       <td class="padding-all-3 text-align-right width-80">
-        {{provision.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        {{payment.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
       </td>
     </tr>
   </tbody>
@@ -326,3 +340,31 @@
     </tr>
   </tfoot>
 </table>
+
+<div
+  [ngClass]="{
+  'pending-provision-top-block-30': viewData.timelineList.length > 0
+}"
+>
+  <div
+    class="pending-provision-timeline-list"
+    *ngIf="viewData.timelineList.length > 0"
+  >
+    <div>
+      <strong>
+        Observaciones
+      </strong>
+    </div>
+    <br />
+    <div
+      *ngFor="let t of viewData.timelineList"
+      [innerHTML]="t.tim_description"
+    ></div>
+  </div>
+
+  <br />
+  <timeline
+    [recordId]="'cartera-pending-provision|' + viewData.year + '-' + viewData.month"
+    (onNewItem)="handleNewTimeline($event)"
+  ></timeline>
+</div>

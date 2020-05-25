@@ -61,7 +61,8 @@ export class TasksComponent implements OnInit {
     optShowFinishedToday: false,
     optShowQualifiedTasksOnly: false,
     optNewTaskStatusIsBacklog: false,
-    optShowIndicatorsTable: false
+    optShowIndicatorsTable: false,
+    optAllowToEditETA: false
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -544,15 +545,13 @@ export class TasksComponent implements OnInit {
       this.taskMoveUp(parent, (t1, t2) =>
         this.interchangeNextTaskOrder(t1, t2)
       );
-      if (parent.previousElementSibling && parent.previousElementSibling.id) {
-        setTimeout(() => {
-          this.focusElement(
-            `#nextToDoTodayList #${
-              parent.id
-            } span.task-text[contenteditable=true]`
-          );
-        }, 100);
-      }
+      setTimeout(() => {
+        this.focusElement(
+          `#nextToDoTodayList #${
+            parent.id
+          } span.task-text[contenteditable=true]`
+        );
+      }, 100);
     }
     if (event.altKey && event.keyCode == 40) {
       // detect move down
@@ -1951,7 +1950,9 @@ export class TasksComponent implements OnInit {
         .filter((q: any) => q.status !== "processed")
         .forEach((q: any) => {
           let task = this.tasks.find((t: Task) => t.tsk_id === q.model.tsk_id);
-          task.not_sync = true;
+          if (task) {
+            task.not_sync = true;
+          }
         });
     }
   }
@@ -2420,5 +2421,16 @@ export class TasksComponent implements OnInit {
         projectionDate.getTime() + t.tsk_estimated_duration * 60 * 1000
       );
     });
+  }
+
+  removeQualifiersFromTask(t: Task) {
+    t.tsk_qualifiers = "";
+    this.services.tasksCore.updateTask(t, {
+      tsk_qualifiers: ""
+    });
+  }
+
+  getDate() {
+    return DateUtils.newDateUpToSeconds();
   }
 }

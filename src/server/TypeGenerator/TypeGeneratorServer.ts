@@ -34,7 +34,9 @@ export class TypeGeneratorServer {
     // Cartera
     "CarteraProvision",
     "CarteraPayment",
-    "CarteraPayDet"
+    "CarteraPayDet",
+    // Timeline
+    "Timeline"
   ];
 
   config = (node: iNode) => {

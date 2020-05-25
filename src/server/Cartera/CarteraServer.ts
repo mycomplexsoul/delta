@@ -10,6 +10,8 @@ import ConnectionService from "../ConnectionService";
 import { Movement } from "../../crosscommon/entities/Movement";
 import { MovementCustom } from "../Movement/MovementCustom";
 import { Balance } from "../../crosscommon/entities/Balance";
+import { MoSQL } from "../MoSQL";
+import { Timeline } from "../../crosscommon/entities/Timeline";
 
 // configuration
 const CODE_NORMAL = "cuota-normal";
@@ -40,6 +42,9 @@ const mapCodeWithDescription = {
   [CODE_EXTRA_PENALIZATION]: mapConceptWithDescription["PenaExtra"],
   [CODE_NONE]: mapConceptWithDescription["None"]
 };
+
+const PROVISION_AMOUNT = 1480;
+const PENALIZATION_AMOUNT = 148;
 
 export class CarteraServer {
   generateAllProvisionsForMonthHandler(node: iNode) {
@@ -963,13 +968,14 @@ export class CarteraServer {
   }
 
   rebuildPendingPaymentsForMonthHandler(node: iNode) {
-    const { year, month, unit } = node.request.query;
+    const { year, month, unit, future } = node.request.query;
 
     this.rebuildPendingPaymentsForMonth(
       parseInt(year, 10),
       parseInt(month, 10),
-      unit
-    ).then(list => {
+      unit,
+      future == 1
+    ).then(async list => {
       node.response.end(
         JSON.stringify({
           operationOk: true,
@@ -981,7 +987,10 @@ export class CarteraServer {
           ),
           nonIdentifiedPaymentList: list.nonIdentifiedPaymentList.map(
             Utils.entityToRawTableFields
-          )
+          ),
+          timelineList: await this.getTimeline(
+            `cartera-pending-provision|${year}-${month}`
+          ).then(list => list.map(Utils.entityToRawTableFields))
         })
       );
     });
@@ -990,7 +999,8 @@ export class CarteraServer {
   async rebuildPendingPaymentsForMonth(
     year: number,
     month: number,
-    unit: string = null
+    unit: string = null,
+    includeAllProvisionsForFuture: boolean = false
   ): Promise<{
     pendingProvisionList: CarteraProvision[];
     futureProvisionList: CarteraProvision[];
@@ -1017,23 +1027,32 @@ export class CarteraServer {
       return p;
     });
 
-    allPayDet.forEach(paydet => {
-      const prov = provisionList.find(
-        p => p.cpr_id === paydet.cpd_id_provision
-      );
-
-      if (prov) {
-        prov.cpr_payed += paydet.cpd_amount;
-        prov.cpr_remaining -= paydet.cpd_amount;
-      } else {
-        // should not happen, report error
-        console.error(
-          `Provision with id ${
-            paydet.cpd_id_provision
-          } not found for paydet with id ${paydet.cpd_id}`
+    allPayDet
+      .filter(pd =>
+        pd.cpd_ctg_non_identified === 2
+          ? year * 100 + month >=
+            pd.cpd_date_identification.getFullYear() * 100 +
+              pd.cpd_date_identification.getMonth() +
+              1
+          : true
+      )
+      .forEach(paydet => {
+        const prov = provisionList.find(
+          p => p.cpr_id === paydet.cpd_id_provision
         );
-      }
-    });
+
+        if (prov) {
+          prov.cpr_payed += paydet.cpd_amount;
+          prov.cpr_remaining -= paydet.cpd_amount;
+        } else {
+          // should not happen, report error
+          console.error(
+            `Provision with id ${
+              paydet.cpd_id_provision
+            } not found for paydet with id ${paydet.cpd_id}`
+          );
+        }
+      });
 
     const pendingProvisionList = provisionList
       .filter(
@@ -1046,13 +1065,24 @@ export class CarteraServer {
               ) !==
                 year * 100 + month &&
               allPayDet.filter(
+                // payment from this month
                 det =>
                   det.cpd_id_provision === p.cpr_id &&
                   det.cpd_date_payment.getFullYear() * 100 +
                     det.cpd_date_payment.getMonth() +
                     1 ===
                     year * 100 + month
-              ).length > 0)) &&
+              ).length > 0) ||
+            // provisions identified in this month
+            allPayDet.filter(
+              det =>
+                det.cpd_id_provision === p.cpr_id &&
+                det.cpd_ctg_non_identified === 2 &&
+                det.cpd_date_identification.getFullYear() * 100 +
+                  det.cpd_date_identification.getMonth() +
+                  1 ===
+                  year * 100 + month
+            ).length > 0) &&
           p.cpr_date.getTime() < limitDate.getTime() // provisions from this month and previous months
       )
       .sort((a, b) => {
@@ -1064,7 +1094,9 @@ export class CarteraServer {
 
     const futureProvisionList = provisionList
       .filter(
-        p => p.cpr_payed !== 0 && p.cpr_date.getTime() >= limitDate.getTime() // provisions with payments // provisions from next month and future months
+        p =>
+          (p.cpr_payed !== 0 || includeAllProvisionsForFuture) &&
+          p.cpr_date.getTime() >= limitDate.getTime() // provisions with payments // provisions from next month and future months
       )
       .sort((a, b) => {
         if (a.cpr_id_unit === b.cpr_id_unit) {
@@ -1091,9 +1123,15 @@ export class CarteraServer {
   ): Promise<CarteraPayment[]> {
     const limitDate: Date = new Date(year, month, 1); // next month
     const paymentList: CarteraPayment[] = (await this.getPayments()).filter(
-      payment =>
-        payment.cpy_match_hint.includes("|000") &&
-        payment.cpy_date.getTime() < limitDate.getTime()
+      p =>
+        p.cpy_ctg_non_identified === 2 &&
+        p.cpy_date.getTime() < limitDate.getTime() &&
+        (p.cpy_date_identification // if it is identified then only show it up until the month it was identified
+          ? p.cpy_date_identification.getFullYear() * 100 +
+              p.cpy_date_identification.getMonth() +
+              1 >=
+            year * 100 + month
+          : true)
     );
 
     return Promise.resolve(paymentList);
@@ -1163,24 +1201,853 @@ export class CarteraServer {
       }, paydet: ${allPayDet.length}`
     );
 
-    result.provisionList = allProvisions.map(p => ({
-      provision: p,
-      payDetList: allPayDet
-        .filter(
-          det =>
-            det.cpd_id_unit === p.cpr_id_unit &&
-            det.cpd_id_provision === p.cpr_id
-        )
-        .sort((a, b) => (a.cpd_date.getTime() > b.cpd_date.getTime() ? 1 : -1))
-    }));
+    // add up provisions and payments
+    /* this.addSpecificProvisionsAndPayments(
+      allProvisions,
+      allPayments,
+      allPayDet
+    ); */
+    this.addSpecificProvisionsAndPayments402PropietaryDesiredApplication(
+      allProvisions,
+      allPayments,
+      allPayDet
+    );
+
+    console.log(
+      `provisions: ${allProvisions.length}, payments: ${
+        allPayments.length
+      }, paydet: ${allPayDet.length}`
+    );
+
+    result.provisionList = allProvisions
+      .sort((a, b) => (a.cpr_date.getTime() > b.cpr_date.getTime() ? 1 : -1))
+      .map(p => ({
+        provision: p,
+        payDetList: allPayDet
+          .filter(
+            det =>
+              det.cpd_id_unit == p.cpr_id_unit &&
+              det.cpd_id_provision === p.cpr_id
+          )
+          .sort((a, b) =>
+            a.cpd_date.getTime() > b.cpd_date.getTime() ? 1 : -1
+          )
+      }));
 
     // validate detpay sumed up pays up assigned provision
     // validate payment has all detpay sums correctly
 
-    result.paymentList = allPayments;
+    result.paymentList = allPayments.sort((a, b) =>
+      a.cpy_date.getTime() > b.cpy_date.getTime() ? 1 : -1
+    );
 
     return Promise.resolve(result);
   }
+
+  newCarteraProvision(
+    date: Date,
+    amount: number = PROVISION_AMOUNT,
+    unit: string | number,
+    user: string,
+    payed: number = 0
+  ) {
+    return new CarteraProvision({
+      cpr_id: Utils.hashIdForEntity(new CarteraProvision(), "cpr_id"),
+      cpr_id_unit: unit,
+      cpr_date: date,
+      cpr_concept:
+        amount === 1480
+          ? `Cuota de Mantenimiento ${DateUtils.getMonthNameSpanish(
+              date.getMonth() + 1
+            )} ${date.getFullYear()}`
+          : `Penalización ${DateUtils.getMonthNameSpanish(
+              date.getMonth() + 1
+            )} ${date.getFullYear()}`,
+      cpr_code_reference: `${CODE_NORMAL}|${date.getFullYear()}-${Utils.pad(
+        date.getMonth() + 1,
+        "0",
+        2,
+        -1
+      )}`,
+      cpr_amount: amount,
+      cpr_payed: payed,
+      cpr_remaining: amount - payed,
+      cpr_id_user: user,
+      cpr_date_add: DateUtils.newDateUpToSeconds(),
+      cpr_date_mod: DateUtils.newDateUpToSeconds(),
+      cpr_ctg_status: 1
+    });
+  }
+
+  newCarteraPayment(
+    date: Date,
+    amount: number,
+    unit: string | number,
+    user: string
+  ) {
+    return new CarteraPayment({
+      cpy_id: Utils.hashIdForEntity(new CarteraPayment(), "cpy_id"),
+      cpy_ctg_type: 1,
+      cpy_date: date,
+      cpy_amount: amount,
+      cpy_description: "Pago",
+      cpy_match_hint: `cuota-normal|${date.getFullYear()}-${Utils.pad(
+        date.getMonth() + 1,
+        "0",
+        2,
+        -1
+      )}|${unit}`,
+      cpy_ctg_non_identified: 1,
+      cpy_date_identification: null,
+      cpy_id_user: user,
+      cpy_date_add: DateUtils.newDateUpToSeconds(),
+      cpy_date_mod: DateUtils.newDateUpToSeconds(),
+      cpy_ctg_status: 1
+    });
+  }
+
+  newCarteraPayDet(
+    unit: string | number,
+    amount: number,
+    date: Date,
+    provisionId: string,
+    paymentId: string,
+    user: string
+  ) {
+    return new CarteraPayDet({
+      cpd_id: Utils.hashIdForEntity(new CarteraPayDet(), "cpd_id"),
+      cpd_id_provision: provisionId,
+      cpd_id_payment: paymentId,
+      cpd_amount: amount,
+      cpd_id_user: user,
+      cpd_date_add: DateUtils.newDateUpToSeconds(),
+      cpd_date_mod: DateUtils.newDateUpToSeconds(),
+      cpd_ctg_status: 1,
+      cpd_id_unit: unit,
+      cpd_ctg_type: 1,
+      cpd_date: date
+    });
+  }
+
+  buildProvisions({
+    provisionAmount = PROVISION_AMOUNT,
+    unit,
+    user,
+    from,
+    to,
+    includePenalization = false,
+    penalizationAmount = PENALIZATION_AMOUNT,
+    exclusions = [],
+    penalizationExclusions = []
+  }: {
+    provisionAmount?: number;
+    unit: string | number;
+    user: string;
+    from: string;
+    to: string;
+    includePenalization?: boolean;
+    penalizationAmount?: number;
+    exclusions?: string[];
+    penalizationExclusions?: string[];
+  }): CarteraProvision[] {
+    const provisionList: CarteraProvision[] = [];
+
+    const parseDateReference = (value: string) =>
+      parseInt(value.replace("-", "")); // 2020-05 -> 202005
+
+    let currentPeriod: number = parseDateReference(from);
+    while (currentPeriod <= parseDateReference(to)) {
+      const year: number = Math.floor(currentPeriod / 100);
+      const month: number =
+        currentPeriod - Math.floor(currentPeriod / 100) * 100;
+
+      if (!exclusions.some(e => parseDateReference(e) === currentPeriod)) {
+        provisionList.push(
+          this.newCarteraProvision(
+            new Date(year, month - 1, 1),
+            provisionAmount,
+            unit,
+            user
+          )
+        );
+      }
+
+      // include penalization
+      if (includePenalization) {
+        if (
+          !penalizationExclusions.some(
+            e => parseDateReference(e) === currentPeriod
+          )
+        ) {
+          provisionList.push(
+            this.newCarteraProvision(
+              new Date(year, month - 1, 16),
+              penalizationAmount,
+              unit,
+              user
+            )
+          );
+        }
+      }
+
+      // move to next period
+      currentPeriod = month === 12 ? (year + 1) * 100 + 1 : currentPeriod + 1;
+    }
+
+    return provisionList;
+  }
+
+  buildPayments({
+    unit,
+    user,
+    paymentData,
+    provisionList,
+    paymentList,
+    payDetList
+  }: {
+    unit: string | number;
+    user: string;
+    paymentData: Array<{
+      date: string;
+      amount?: number;
+      applyTo: Array<{
+        dateReference?: string;
+        amount?: number;
+        type?: string;
+      }>;
+    }>;
+    provisionList: CarteraProvision[];
+    paymentList: CarteraPayment[];
+    payDetList: CarteraPayDet[];
+  }): { paymentList: CarteraPayment[]; payDetList: CarteraPayDet[] } {
+    const result: {
+      paymentList: CarteraPayment[];
+      payDetList: CarteraPayDet[];
+    } = {
+      paymentList: [],
+      payDetList: []
+    };
+
+    const getProvisionFromDateReference = (
+      dateReference: string,
+      provisions: CarteraProvision[],
+      type: string = "normal"
+    ) => {
+      const year: number = parseInt(dateReference.substr(0, 4));
+      const month: number = parseInt(dateReference.substr(5, 2));
+      const date: Date = new Date(year, month - 1, type === "normal" ? 1 : 16);
+
+      return provisions.find(
+        e =>
+          e.cpr_date.getTime() === date.getTime() &&
+          (type === "normal"
+            ? e.cpr_amount === PROVISION_AMOUNT
+            : e.cpr_amount === PENALIZATION_AMOUNT)
+      );
+    };
+
+    paymentData.forEach(
+      ({
+        date: dateString,
+        amount: paymentAmount = PROVISION_AMOUNT,
+        applyTo = []
+      }) => {
+        const payDate: Date = DateUtils.stringDateToDate(dateString);
+
+        // look for existing payment and remove it
+        if (
+          paymentList.some(
+            e =>
+              e.cpy_date.getTime() === payDate.getTime() &&
+              e.cpy_amount === paymentAmount
+          )
+        ) {
+          const pay = paymentList.find(
+            e =>
+              e.cpy_date.getTime() === payDate.getTime() &&
+              e.cpy_amount === paymentAmount
+          );
+          payDetList
+            .filter(e => e.cpd_id_payment === pay.cpy_id)
+            .forEach(e => {
+              const prov = provisionList.find(
+                i => i.cpr_id === e.cpd_id_provision
+              );
+
+              if (prov) {
+                prov.cpr_payed -= e.cpd_amount;
+                prov.cpr_remaining += e.cpd_amount;
+              }
+
+              payDetList.splice(
+                payDetList.findIndex(i => i.cpd_id === e.cpd_id),
+                1
+              );
+            });
+          paymentList.splice(
+            paymentList.findIndex(
+              e =>
+                e.cpy_date.getTime() === payDate.getTime() &&
+                e.cpy_amount === paymentAmount
+            ),
+            1
+          );
+        }
+
+        const newPayment = this.newCarteraPayment(
+          payDate,
+          paymentAmount,
+          unit,
+          user
+        );
+        result.paymentList.push(newPayment);
+
+        if (applyTo.length) {
+          applyTo.forEach(
+            ({
+              dateReference,
+              amount: payDetAmount = paymentAmount,
+              type = "normal"
+            }) => {
+              const provision: CarteraProvision = getProvisionFromDateReference(
+                dateReference || dateString,
+                provisionList,
+                type
+              );
+
+              if (!provision) {
+                const msg = `No provision found for dateReference ${dateReference}, unit ${unit}`;
+                console.error(msg);
+                // throw new Error(msg);
+              } else {
+                result.payDetList.push(
+                  this.newCarteraPayDet(
+                    unit,
+                    payDetAmount,
+                    payDate,
+                    provision && provision.cpr_id,
+                    newPayment.cpy_id,
+                    user
+                  )
+                );
+
+                provision.cpr_payed += payDetAmount;
+                provision.cpr_remaining -= payDetAmount;
+
+                // if payment date is for same date-month and prior to day 15, remove penalization
+                if (
+                  payDate.getFullYear() * 100 + payDate.getMonth() + 1 ===
+                    provision.cpr_date.getFullYear() * 100 +
+                      provision.cpr_date.getMonth() +
+                      1 &&
+                  payDate.getDate() <= 15 &&
+                  provision.cpr_remaining < 0.01
+                ) {
+                  const penalization = getProvisionFromDateReference(
+                    dateReference || dateString,
+                    provisionList,
+                    "penalization"
+                  );
+                  if (penalization) {
+                    provisionList.splice(
+                      provisionList.findIndex(
+                        e => e.cpr_id === penalization.cpr_id
+                      ),
+                      1
+                    );
+                  }
+                }
+              }
+            }
+          );
+        }
+      }
+    );
+
+    return result;
+  }
+
+  addSpecificProvisionsAndPayments402CurrentDBApplication(
+    provisionList: CarteraProvision[],
+    paymentList: CarteraPayment[],
+    payDetList: CarteraPayDet[]
+  ) {
+    const config = {
+      unit: 402,
+      user: "mycomplexsoul"
+    };
+
+    const newProvisionList = this.buildProvisions({
+      from: "2019-01",
+      to: "2019-10",
+      includePenalization: true,
+      unit: config.unit,
+      user: config.user,
+      exclusions: ["2019-04"],
+      penalizationExclusions: ["2019-02", "2019-04", "2019-08"]
+    });
+
+    const payments = [
+      {
+        date: "2019-01-15",
+        applyTo: [{}]
+      },
+      {
+        date: "2019-03-11",
+        applyTo: [{ dateReference: "2019-02" }]
+      },
+      {
+        date: "2019-03-11",
+        applyTo: [{}]
+      },
+      {
+        date: "2019-05-14",
+        applyTo: [{ dateReference: "2019-05" }] // current application
+      },
+      {
+        date: "2019-06-10",
+        applyTo: [{ dateReference: "2019-06" }] // current application
+      },
+      {
+        date: "2019-07-11",
+        applyTo: [{ dateReference: "2019-07" }] // current application
+      },
+      {
+        date: "2019-08-27",
+        applyTo: [{ dateReference: "2019-08" }] // current application
+      },
+      {
+        date: "2019-09-10",
+        applyTo: [{ dateReference: "2019-09" }] // current application
+      },
+      {
+        date: "2019-10-15",
+        applyTo: [{ dateReference: "2019-10" }] // current application
+      }
+      /*{
+        date: "2019-11-08",
+        applyTo: [{ dateReference: '2019-11' }] // current application
+      },
+      {
+        date: "2019-11-27",
+        applyTo: [{ dateReference: '2019-12' }] // current application
+      },
+      {
+        date: "2019-12-11",
+        applyTo: [{ dateReference: '2020-01' }] // current application
+      },*/
+    ];
+    newProvisionList.forEach(e => provisionList.push(e));
+
+    const newPaymentList = this.buildPayments({
+      unit: config.unit,
+      user: config.user,
+      paymentData: payments,
+      provisionList,
+      paymentList,
+      payDetList
+    });
+
+    newPaymentList.paymentList.forEach(e => paymentList.push(e));
+    newPaymentList.payDetList.forEach(e => payDetList.push(e));
+  }
+
+  addSpecificProvisionsAndPayments402PropietaryDesiredApplication(
+    provisionList: CarteraProvision[],
+    paymentList: CarteraPayment[],
+    payDetList: CarteraPayDet[]
+  ) {
+    const config = {
+      unit: 402,
+      user: "mycomplexsoul"
+    };
+
+    const newProvisionList = this.buildProvisions({
+      from: "2019-01",
+      to: "2019-10",
+      includePenalization: true,
+      unit: config.unit,
+      user: config.user,
+      exclusions: ["2019-04"],
+      penalizationExclusions: ["2019-02", "2019-04", "2019-08"]
+    });
+    newProvisionList.push(
+      this.newCarteraProvision(
+        new Date(2020, 1, 16),
+        PENALIZATION_AMOUNT,
+        config.unit,
+        config.user
+      )
+    );
+    newProvisionList.push(
+      this.newCarteraProvision(
+        new Date(2020, 2, 16),
+        PENALIZATION_AMOUNT,
+        config.unit,
+        config.user
+      )
+    );
+
+    const payments = [
+      {
+        date: "2019-01-15",
+        applyTo: [{}]
+      },
+      {
+        date: "2019-03-11",
+        applyTo: [{ dateReference: "2019-02" }]
+      },
+      {
+        date: "2019-03-11",
+        applyTo: [{}]
+      },
+      {
+        date: "2019-05-14",
+        applyTo: [{ dateReference: "2019-05" }] // current application
+      },
+      {
+        date: "2019-06-10",
+        applyTo: [{ dateReference: "2019-04" }] // changed
+      },
+      {
+        date: "2019-07-11",
+        applyTo: [{ dateReference: "2019-06" }] // changed
+      },
+      {
+        date: "2019-08-27",
+        applyTo: [{ dateReference: "2019-07" }] // changed
+      },
+      {
+        date: "2019-09-10",
+        applyTo: [{ dateReference: "2019-09" }] // current application
+      },
+      {
+        date: "2019-10-15",
+        applyTo: [{ dateReference: "2019-10" }] // current application
+      },
+      {
+        date: "2019-11-08",
+        applyTo: [{ dateReference: "2019-11" }] // current application
+      },
+      {
+        date: "2019-11-27",
+        applyTo: [{ dateReference: "2019-08" }] // changed
+      },
+      {
+        date: "2019-12-11",
+        applyTo: [{ dateReference: "2019-12" }] // changed
+      },
+      {
+        date: "2020-01-15",
+        applyTo: [{ dateReference: "2020-01" }] // changed
+      },
+      {
+        date: "2020-02-18",
+        applyTo: [{ dateReference: "2020-02" }] // changed
+      }
+    ];
+    newProvisionList.forEach(e => provisionList.push(e));
+
+    const newPaymentList = this.buildPayments({
+      unit: config.unit,
+      user: config.user,
+      paymentData: payments,
+      provisionList,
+      paymentList,
+      payDetList
+    });
+
+    newPaymentList.paymentList.forEach(e => paymentList.push(e));
+    newPaymentList.payDetList.forEach(e => payDetList.push(e));
+  }
+
+  addSpecificProvisionsAndPayments(
+    provisionList: CarteraProvision[],
+    paymentList: CarteraPayment[],
+    payDetList: CarteraPayDet[]
+  ) {
+    // unit 301
+    const newProvision = (
+      unit: string,
+      date: Date,
+      amount: number,
+      payed: number,
+      user: string = "mycomplexsoul"
+    ) =>
+      new CarteraProvision({
+        cpr_id: Utils.hashIdForEntity(new CarteraProvision(), "cpr_id"),
+        cpr_id_unit: unit,
+        cpr_date: date,
+        cpr_concept:
+          amount === 1480
+            ? `Cuota de Mantenimiento ${DateUtils.getMonthNameSpanish(
+                date.getMonth() + 1
+              )} ${date.getFullYear()}`
+            : `Penalización ${DateUtils.getMonthNameSpanish(
+                date.getMonth() + 1
+              )} ${date.getFullYear()}`,
+        cpr_code_reference: `${CODE_NORMAL}|${date.getFullYear()}-${Utils.pad(
+          date.getMonth() + 1,
+          "0",
+          2,
+          -1
+        )}`,
+        cpr_amount: amount,
+        cpr_payed: payed,
+        cpr_remaining: amount - payed,
+        cpr_id_user: user,
+        cpr_date_add: DateUtils.newDateUpToSeconds(),
+        cpr_date_mod: DateUtils.newDateUpToSeconds(),
+        cpr_ctg_status: 1
+      });
+
+    const newPayment = (
+      unit: string,
+      date: Date,
+      amount: number,
+      user: string = "mycomplexsoul"
+    ) =>
+      new CarteraPayment({
+        cpy_id: Utils.hashIdForEntity(new CarteraPayment(), "cpy_id"),
+        cpy_ctg_type: 1,
+        cpy_date: date,
+        cpy_amount: amount,
+        cpy_description: "Pago",
+        cpy_match_hint: `cuota-normal|${date.getFullYear()}-${Utils.pad(
+          date.getMonth() + 1,
+          "0",
+          2,
+          -1
+        )}|${unit}`,
+        cpy_ctg_non_identified: 1,
+        cpy_date_identification: null,
+        cpy_id_user: user,
+        cpy_date_add: DateUtils.newDateUpToSeconds(),
+        cpy_date_mod: DateUtils.newDateUpToSeconds(),
+        cpy_ctg_status: 1
+      });
+
+    const newPayDet = (
+      unit: string,
+      amount: number,
+      provisionId: string,
+      paymentId: string,
+      user: string = "mycomplexsoul"
+    ) =>
+      new CarteraPayDet({
+        cpd_id: Utils.hashIdForEntity(new CarteraPayDet(), "cpd_id"),
+        cpd_id_provision: provisionId,
+        cpd_id_payment: paymentId,
+        cpd_amount: amount,
+        cpd_id_user: user,
+        cpd_date_add: DateUtils.newDateUpToSeconds(),
+        cpd_date_mod: DateUtils.newDateUpToSeconds(),
+        cpd_ctg_status: 1,
+        cpd_id_unit: unit,
+        cpd_ctg_type: 1
+      });
+
+    const unit = "301";
+    const QUOTA = 1480;
+    const PENA = 148;
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-01-01"), QUOTA, QUOTA)
+    );
+    const provEne = provisionList[provisionList.length - 1].cpr_id;
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-01-16"), PENA, PENA)
+    );
+    const provEnePena = provisionList[provisionList.length - 1].cpr_id;
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-02-01"), QUOTA, QUOTA)
+    );
+    const provFeb = provisionList[provisionList.length - 1].cpr_id;
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-02-16"), PENA, PENA)
+    );
+    const provFebPena = provisionList[provisionList.length - 1].cpr_id;
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-02-19"), 2760)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provEne,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+    payDetList.push(
+      newPayDet(
+        unit,
+        PENA,
+        provEnePena,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+    payDetList.push(
+      newPayDet(unit, 1132, provFeb, paymentList[paymentList.length - 1].cpy_id)
+    );
+
+    const provMar = provisionList.find(
+      p =>
+        p.cpr_id_unit === unit &&
+        p.cpr_date.getTime() ===
+          DateUtils.stringDateToDate("2019-03-01").getTime()
+    );
+    provMar.cpr_payed = QUOTA - provMar.cpr_remaining;
+    provMar.cpr_amount = QUOTA;
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-03-19"), 1628)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        PENA,
+        provFebPena,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+    payDetList.push(
+      newPayDet(unit, 348, provFeb, paymentList[paymentList.length - 1].cpy_id)
+    );
+    payDetList.push(
+      newPayDet(
+        unit,
+        1132,
+        provMar.cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-04-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-04-04"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-05-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-05-09"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-06-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-06-04"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-07-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-07-03"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-08-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-08-01"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-09-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-09-04"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+
+    provisionList.push(
+      newProvision(unit, DateUtils.stringDateToDate("2019-10-01"), QUOTA, QUOTA)
+    );
+
+    paymentList.push(
+      newPayment(unit, DateUtils.stringDateToDate("2019-10-09"), QUOTA)
+    );
+
+    payDetList.push(
+      newPayDet(
+        unit,
+        QUOTA,
+        provisionList[provisionList.length - 1].cpr_id,
+        paymentList[paymentList.length - 1].cpy_id
+      )
+    );
+  }
+
   /**
    * @deprecated This was used once, should delete
    */
@@ -1273,38 +2140,53 @@ export class CarteraServer {
       concept: string;
       date: Date;
       amount: number;
+      payId: string;
     }> = await apiModule
       .listWithSQL({
         // Get payDet info which is already assigned by type
         // Also gets non-identified payments
         sql: `SELECT cpd_id_unit as unit,
-        cpd_code_reference as concept,
-        cpd_date_payment as date,
-        cpd_amount as amount
-      FROM vicarterapaydet
-      WHERE
-      cpd_date_payment >= '${DateUtils.formatDate(initialDate, "yyyy-MM-dd")}'
-      and cpd_date_payment < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'
-      
-      UNION ALL
-      
-      SELECT '${CODE_NONE}' as unit,
-      cpy_match_hint as concept,
-      cpy_date as date,
-      cpy_amount as amount
-      FROM carterapayment
-      WHERE
-      cpy_date >= '${DateUtils.formatDate(initialDate, "yyyy-MM-dd")}'
-      and cpy_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'
-      and SUBSTR(cpy_match_hint, -3) = '000'
-      order by date, unit`
+          cpd_code_reference as concept,
+          cpd_date_payment as date,
+          cpd_amount as amount,
+          cpd_id as payid
+        FROM vicarterapaydet
+        LEFT JOIN movement on (mov_budget = cpd_id)
+        WHERE
+          cpd_ctg_type = 1
+          and mov_id is null
+          and cpd_date_payment >= '${DateUtils.formatDate(
+            initialDate,
+            "yyyy-MM-dd"
+          )}'
+          and cpd_date_payment < '${DateUtils.formatDate(
+            finalDate,
+            "yyyy-MM-dd"
+          )}'
+        
+        UNION ALL
+        
+        SELECT '${CODE_NONE}' as unit,
+          cpy_match_hint as concept,
+          cpy_date as date,
+          cpy_amount as amount,
+          cpy_id as payid
+        FROM carterapayment
+        LEFT JOIN movement on (mov_budget = cpy_id)
+        WHERE
+          cpy_date >= '${DateUtils.formatDate(initialDate, "yyyy-MM-dd")}'
+          and cpy_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'
+          and SUBSTR(cpy_match_hint, -3) = '000'
+          and mov_id is null
+        order by date, unit`
       })
       .then(response =>
         response.map(e => ({
           unit: e["unit"],
           concept: e["concept"],
           date: new Date(e["date"]),
-          amount: e["amount"]
+          amount: e["amount"],
+          payId: e["payid"]
         }))
       );
 
@@ -1316,7 +2198,7 @@ export class CarteraServer {
 
     // create an income movement for each sum item
     const movementList: Movement[] = sumPaymentList.map(
-      ({ unit, concept, date, amount }) =>
+      ({ unit, concept, date, amount, payId }) =>
         new Movement({
           mov_id: Utils.hashIdForEntity(new Movement(), "mov_id"),
           mov_date: date,
@@ -1325,7 +2207,7 @@ export class CarteraServer {
           mov_id_account: params.account_id,
           mov_id_account_to: null,
           mov_ctg_type: 2, // income
-          mov_budget: null,
+          mov_budget: payId,
           mov_id_category: params.category_id,
           mov_id_place: params.place_id,
           mov_desc:
@@ -1389,7 +2271,10 @@ export class CarteraServer {
             month,
             "acc2020040520302"
           ),
-          movementList: response
+          movementList: response,
+          timeline: await this.getTimeline(
+            `cartera-results|${year}-${month}`
+          ).then(list => list.map(Utils.entityToRawTableFields))
         })
       );
     });
@@ -1519,5 +2404,195 @@ export class CarteraServer {
         0
       )
     );
+  }
+
+  getTimeline(
+    recordId: string,
+    connectionInstance?: iConnection
+  ): Promise<Timeline[]> {
+    const sqlMotor: MoSQL = new MoSQL(new Timeline());
+    const connection: iConnection = connectionInstance
+      ? connectionInstance
+      : ConnectionService.getConnection();
+
+    const filter = {
+      gc: "AND",
+      cont: [
+        {
+          f: "tim_id_record",
+          op: "eq",
+          val: recordId
+        }
+      ]
+    };
+
+    return connection
+      .runSql(sqlMotor.toSelectSQL(JSON.stringify(filter)))
+      .then(response => {
+        return (response.rows && response.rows.map(e => new Timeline(e))) || [];
+      });
+  }
+
+  savePaymentAndPayDetHandler(node: iNode) {
+    // payDetList: [{ "<provision_id>": <payment_amount> }, ...]
+    const { payment, payDetList } = node.request.body;
+
+    this.savePaymentAndPayDet(payment, payDetList).then(data => {
+      node.response.end(
+        JSON.stringify({
+          operationOk: true,
+          payment: Utils.entityToRawTableFields(data.payment),
+          payDetList: data.payDetList.map(Utils.entityToRawTableFields)
+        })
+      );
+    });
+  }
+
+  buildMatchHint(date: Date | string, unit: string | number): string {
+    const match_hint = `cuota-normal|${new Date(
+      date
+    ).getFullYear()}-${Utils.pad(
+      new Date(date).getMonth() + 1,
+      "0",
+      2,
+      -1
+    )}|${unit}`;
+    return match_hint;
+  }
+
+  async savePaymentAndPayDet(
+    { paymentType, date, amount, unit, description, user, paymentId },
+    payDetList: any
+  ): Promise<{
+    payment: CarteraPayment;
+    payDetList: CarteraPayDet[];
+  }> {
+    const connectionInstance: iConnection = ConnectionService.getConnection();
+    let paymentInstance: CarteraPayment;
+
+    if (paymentType === "identification") {
+      // we should update the payment
+      paymentInstance = await connectionInstance
+        .runSql(
+          new MoSQL(new CarteraPayment({ cpy_id: paymentId })).toSelectPKSQL()
+        )
+        .then(response => response.rows.map(r => new CarteraPayment(r)))
+        .then(list => (list.length ? list[0] : null));
+
+      // add identification details
+      paymentInstance.cpy_description = description;
+      paymentInstance.cpy_match_hint = this.buildMatchHint(
+        paymentInstance.cpy_date,
+        unit
+      );
+      paymentInstance.cpy_date_identification = DateUtils.stringDateToDate(
+        date
+      );
+      paymentInstance.cpy_date_mod = DateUtils.newDateUpToSeconds();
+    } else {
+      // create payment
+      paymentInstance = new CarteraPayment({
+        cpy_id: Utils.hashIdForEntity(new CarteraPayment(), "cpy_id"),
+        cpy_ctg_type: paymentType === "condonation" ? 2 : 1,
+        cpy_date: DateUtils.stringDateToDate(date),
+        cpy_amount: amount,
+        cpy_description: description,
+        cpy_match_hint: this.buildMatchHint(date, unit),
+        cpy_ctg_non_identified: 1,
+        cpy_date_identification: DateUtils.stringDateToDate(date),
+        cpy_id_user: user,
+        cpy_date_add: DateUtils.newDateUpToSeconds(),
+        cpy_date_mod: DateUtils.newDateUpToSeconds(),
+        cpy_ctg_status: 1
+      });
+    }
+
+    const payDetListInstance: CarteraPayDet[] = Object.keys(payDetList).map(
+      id =>
+        new CarteraPayDet({
+          cpd_id: Utils.hashIdForEntity(new CarteraPayDet(), "cpd_id"),
+          cpd_id_provision: id,
+          cpd_id_payment: paymentInstance.cpy_id,
+          cpd_amount: payDetList[id],
+          cpd_id_user: user,
+          cpd_date_add: DateUtils.newDateUpToSeconds(),
+          cpd_date_mod: DateUtils.newDateUpToSeconds(),
+          cpd_ctg_status: 1
+        })
+    );
+
+    // save to DB
+    const apiModule: ApiModule = new ApiModule(paymentInstance);
+    const provisionList: CarteraProvision[] =
+      payDetListInstance.length > 0
+        ? await apiModule
+            .listWithSQL({
+              sql: `select * from vicarteraprovision
+      where cpr_id in (${Object.keys(payDetList).reduce(
+        (prev, curr) => `${prev ? `${prev}, ` : ""}'${curr}'`,
+        null
+      )})`
+            })
+            .then(list => list.map(d => new CarteraProvision(d)))
+        : [];
+
+    const afterInsertOK = (responseCreate, model: CarteraPayment) => {
+      return Promise.all(
+        payDetListInstance.map(d =>
+          apiModule.create(
+            { body: d },
+            {
+              afterInsertOK: (responseDet, detModel: CarteraPayDet) => {
+                const provision: CarteraProvision = provisionList.find(
+                  p => p.cpr_id === d.cpd_id_provision
+                );
+                return apiModule.update(
+                  {
+                    body: {
+                      ...provision,
+                      cpr_payed: d.cpd_amount,
+                      cpr_remaining: provision.cpr_amount - d.cpd_amount,
+                      cpr_date_mod: DateUtils.newDateUpToSeconds()
+                    },
+                    pk: {
+                      ...Utils.getPKFromEntity(provision)
+                    }
+                  },
+                  {},
+                  provision
+                );
+              }
+            },
+            d
+          )
+        )
+      );
+    };
+
+    const method =
+      paymentType === "identification" ? apiModule.update : apiModule.create;
+
+    return method(
+      {
+        body: paymentInstance,
+        pk:
+          paymentType === "identification"
+            ? {
+                cpy_id: paymentId
+              }
+            : undefined
+      },
+      {
+        afterInsertOK,
+        afterUpdateOK: afterInsertOK
+      },
+      paymentInstance
+    ).then(response => {
+      return Promise.resolve({
+        payment: paymentInstance,
+        payDetList: payDetListInstance,
+        provisionList
+      });
+    });
   }
 }

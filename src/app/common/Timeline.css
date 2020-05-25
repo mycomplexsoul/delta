@@ -1,0 +1,10 @@
+.timeline-input-description {
+  width: 100%;
+  height: 100px;
+}
+
+@media (min-width: 505px) {
+  .timeline-input-description {
+    width: 60%;
+  }
+}

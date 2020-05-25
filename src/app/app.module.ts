@@ -42,10 +42,13 @@ import { CfgComponent } from "./common/cfg.component";
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 import { TimeFormatComponent } from "./task/time-format.component";
 import { NotificationComponent } from "./common/notification.component";
+import { TimelineComponent } from "./common/TimelineComponent";
 
 import { PendingProvisionReportComponent } from "./cartera/PendingProvisionReportComponent";
 import { UnitStatusReportComponent } from "./cartera/UnitStatusReportComponent";
 import { ResultsReportComponent } from "./cartera/ResultsReportComponent";
+import { MovementsReportComponent } from "./cartera/MovementsReportComponent";
+import { CarteraComponent } from "./cartera/CarteraComponent";
 
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
@@ -77,6 +80,7 @@ import { RegisterComponent } from "./common/register.component";
     DrinkWaterComponent,
     TimeFormatComponent,
     NotificationComponent,
+    TimelineComponent,
     MenuComponent,
     SyncComponent,
     LoginComponent,
@@ -88,6 +92,8 @@ import { RegisterComponent } from "./common/register.component";
     PendingProvisionReportComponent,
     UnitStatusReportComponent,
     ResultsReportComponent,
+    MovementsReportComponent,
+    CarteraComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

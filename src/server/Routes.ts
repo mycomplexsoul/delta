@@ -21,6 +21,7 @@ import * as LinkRoute from "./Link/LinkRoute";
 import * as LinkRouteExternal from "./Link/LinkRouteExternal";
 import * as ActivityRoute from "./Activity/ActivityRoute";
 import * as CarteraRoute from "./Cartera/CarteraRoute";
+import * as TimelineRoute from "./Timeline/TimelineRoute";
 
 import * as SyncRoute from "./Sync/SyncRoute";
 
@@ -52,6 +53,7 @@ const entitiesWithAuth = [
   { url: "/links", handler: LinkRoute.router },
   { url: "/activities", handler: ActivityRoute.router },
   // { url: "/cartera", handler: CarteraRoute.router },
+  { url: "/timeline", handler: TimelineRoute.router },
 
   { url: "/sync", handler: SyncRoute.router }
 ];

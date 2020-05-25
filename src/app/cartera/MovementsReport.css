@@ -1,0 +1,11 @@
+@import "./CarteraReportsCommon.css";
+
+@media screen, print {
+  * {
+    font-family: sans-serif;
+  }
+
+  .movements-report-row:nth-child(even) {
+    background-color: #e0e0e0;
+  }
+}
