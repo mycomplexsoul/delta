@@ -34,8 +34,7 @@ export class TasksComponent implements OnInit {
   public delayOnUpdateState: number = 100;
   public groupHeader: string;
   public timers: any = {};
-  public viewAll: boolean = false;
-  public viewBacklog: boolean = false;
+
   public viewPostponed: boolean = false;
   public viewReportsWeek: boolean = false;
   public viewReportsDayDistribution: boolean = false;
@@ -53,7 +52,6 @@ export class TasksComponent implements OnInit {
   public load: boolean = true;
   public reports: any = {};
   public optionsInput: string = "default";
-  public showButtonSection: boolean = false;
   public tagInfo: any = {};
   public options: any;
   public defaultOptions: any = {
@@ -62,7 +60,21 @@ export class TasksComponent implements OnInit {
     optShowQualifiedTasksOnly: false,
     optNewTaskStatusIsBacklog: false,
     optShowIndicatorsTable: false,
-    optAllowToEditETA: false
+    optAllowToEditETA: false,
+    optCollapseOpenTasks: false,
+    optCollapseIndicators: false,
+    optCollapseNextTasks: false,
+    optCollapseFinishedToday: false,
+    optCollapseBacklog: false,
+    optCollapseClosedTasks: false,
+    optCollapseReportsWeekDistribution: false,
+    optCollapseReportsDayDistribution: false,
+    optCollapseQualifiersTotals: false,
+    optShowBacklog: false,
+    optShowClosedTasks: false,
+    optShowReportsWeekDistribution: false,
+    optShowReportsDayDistribution: false,
+    optShowQualifiersTotals: false
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -239,6 +251,10 @@ export class TasksComponent implements OnInit {
     // Info
     // Total time spent today
     // this.calculateTotalTimeSpentToday();
+    this.state.openTasksCount = this.tasks.filter(
+      t => t.tsk_ctg_status == this.taskStatus.OPEN
+    ).length;
+
     this.state.backlogTasksCount = this.tasks.filter(
       t => t.tsk_ctg_status == this.taskStatus.BACKLOG
     ).length;
@@ -1041,22 +1057,6 @@ export class TasksComponent implements OnInit {
     } else {
       this.viewETABeforeAdd = false;
     }
-  }
-
-  toggleViewBacklog() {
-    this.viewBacklog = !this.viewBacklog;
-  }
-
-  toggleViewAll() {
-    this.viewAll = !this.viewAll;
-  }
-
-  toggleViewReportsWeek() {
-    this.viewReportsWeek = !this.viewReportsWeek;
-  }
-
-  toggleViewReportsDayDistribution() {
-    this.viewReportsDayDistribution = !this.viewReportsDayDistribution;
   }
 
   toggleViewPostponed() {
@@ -1929,7 +1929,14 @@ export class TasksComponent implements OnInit {
 
   saveOptionsToLocalStorage() {
     if (typeof window.localStorage !== "undefined") {
-      localStorage.setItem("Options", JSON.stringify(this.options));
+      // filter out false values
+      const truthyOptions = {};
+      Object.keys(this.options).forEach(opt => {
+        if (this.options[opt]) {
+          truthyOptions[opt] = this.options[opt];
+        }
+      });
+      localStorage.setItem("Options", JSON.stringify(truthyOptions));
     }
   }
 

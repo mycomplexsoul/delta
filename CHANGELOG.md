@@ -24,10 +24,65 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.40 (2020-02-24)
+
+- [AppTasks][new] Toggle visibility of: Open Tasks, Indicators, Next Tasks, Finished Today, Backlog, Closed Tasks, Reports Week Distribution, Reports Day Distribution, Qualifiers Totals
+- [AppTasks][mod] When saving options to Local Storage, save just the true values, false values will be opted out by default
+- [AppTasks][new] Option to: Show Backlog, Show All Tasks, Show Reports Week, Show Day Distribution, Qualifier totals report, Remove Show Actions, leave Show Options
+
+## v1.10.39 (2020-02-17)
+
+- [AppKanban][new] Add `Timeline` listing and capture to Activity details
+- [AppCartera][new] Add specific details to Unit Status Report generation
+- [AppCartera][new] Improvements over reports styles to align UI
+
+## v1.10.38 (2020-02-10)
+
+- [AppTasks][new] Option to enable/disable edition of ETA in tasks
+- [AppTasks][new] In mobile bar add a button to remove all Qualifiers from task
+- [AppTasks][new] In Next Tasks section, color red when time tracking is behind current timestamp, color green if it's not behind
+
+## v1.10.37 (2020-02-03)
+
+- [AppCartera][new] Add route to `/cartera` in Menu
+- [AppMultimedia][mod] Group criteria for watched content uses watched date instead of modification date
+- [AppTasks][fix] Fix Next Tasks move-task action which was losing focus at the top
+
+## v1.10.36 (2020-02-03)
+
+- [AppCartera][new] Improvements in payments form to handle Condonation cases
+- [AppCartera][new] Improvements in the Pending Provisions Report to handle Condonation
+- [AppCartera][new] Improvements in the Pending Provisions Report to handle Identified payments that previously were non-identified for historical report generation
+
+## v1.10.35 (2020-01-27)
+
+- [AppCartera][new] Add timeline component to Results Report
+- [AppCartera][new] Add timeline component to Pending Provision Report
+- [AppCartera][new] Add type, non-identified check and identification date to payments to implement condonation and track non-identifiable payments when they are identified (for historical reports)
+
+## v1.10.34 (2020-01-20)
+
+- [AppKanban][new] Create `Timeline` component
+- [AppKanban][new] Create `Timeline` endpoints
+- [AppKanban][new] Connect `Timeline` endpoints and form
+
+## v1.10.33 (2020-01-13)
+
+- [AppCartera][new] Add payment form validation to Cartera component
+- [AppCartera][new] Improvements to capture for payment form in Cartera component
+- [AppCartera][new] Add signs line to Results Report
+
+## v1.10.32 (2020-01-06)
+
+- [AppCartera][new] Add payment form to Cartera component
+- [AppCartera][new] Add payment details grid form to Cartera component
+- [AppCartera][new] Cartera payment endpoints and front end connection
+
 ## v1.10.31 (2020-01-30)
 
 - [AppCartera][new] Create Movements Report UI page under `/cartera-movements`
 - [AppCartera][new] Add styles/mobile view to Movements Report
+- [AppCartera][new] Create Cartera Component page under `/cartera`
 
 ## v1.10.30 (2020-01-23)
 

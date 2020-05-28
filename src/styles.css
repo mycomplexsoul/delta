@@ -685,3 +685,25 @@ link {
   max-width: 100%;
   max-height: none;
 }
+
+.button-link {
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.button-link:hover {
+  background-color: none;
+  color: #006da3;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.task-options-section-title {
+  font-weight: bold;
+  margin-top: 10px;
+}
