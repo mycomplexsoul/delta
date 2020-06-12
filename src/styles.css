@@ -1,3 +1,5 @@
+@import "./app/styles/button.css";
+
 /* Master Styles */
 h1 {
   color: #369;
@@ -23,29 +25,12 @@ body {
   }
 }
 body,
-input[text],
-button {
+input[text] {
   color: #888;
   font-family: Cambria, Georgia;
 }
 a {
   cursor: pointer;
-}
-button {
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #cfd8dc;
-}
-button:disabled {
-  background-color: #eee;
-  color: #aaa;
-  cursor: auto;
 }
 
 /* Navigation link styles */
@@ -225,21 +210,6 @@ body {
 
 * {
   font-family: monospace;
-}
-
-button {
-  color: #222;
-  font-family: monospace;
-  padding: 1px 5px;
-  border: 1px solid #2f93f7;
-  background-color: #e6ecff;
-  border-radius: 10%;
-}
-
-@media (max-width: 504px) {
-  button {
-    height: 28px;
-  }
 }
 
 input.task {
@@ -686,19 +656,6 @@ link {
   max-height: none;
 }
 
-.button-link {
-  background: none;
-  border: none;
-  padding: 0;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.button-link:hover {
-  background-color: none;
-  color: #006da3;
-}
-
 .no-underline {
   text-decoration: none;
 }
@@ -706,4 +663,8 @@ link {
 .task-options-section-title {
   font-weight: bold;
   margin-top: 10px;
+}
+
+*:focus {
+  outline: 1px solid #2453ff;
 }

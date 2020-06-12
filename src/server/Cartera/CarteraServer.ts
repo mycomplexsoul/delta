@@ -1207,12 +1207,13 @@ export class CarteraServer {
       allPayments,
       allPayDet
     ); */
-    this.addSpecificProvisionsAndPayments402PropietaryDesiredApplication(
+    /*
+    this.addSpecificProvisionsAndPayments402CurrentDBApplication(
       allProvisions,
       allPayments,
       allPayDet
     );
-
+*/
     console.log(
       `provisions: ${allProvisions.length}, payments: ${
         allPayments.length

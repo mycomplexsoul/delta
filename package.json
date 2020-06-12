@@ -1,19 +1,22 @@
 {
   "name": "delta",
-  "version": "1.10.40",
+  "version": "1.10.41",
   "scripts": {
     "ng": "ng",
     "start:ng": "ng serve",
-    "build": "ng build && node ./node_modules/typescript/lib/tsc ./server.ts --lib es6 --types node",
+    "build": "ng build && node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap && node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap",
+    "build:prod": "ng build --prod && node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap && node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap",
     "start": "node --inspect server.js",
     "test": "ng test",
-    "coverage:node": "node ./node_modules/nyc/bin/nyc ./node_modules/mocha/bin/mocha",
+    "coverage:node": "node ./node_modules/nyc/bin/nyc npm run test:node",
     "lint": "ng lint",
     "prettier": "node ./node_modules/prettier/bin-prettier.js --write ./src/**/*.ts",
     "e2e": "ng e2e",
     "test:node": "node ./node_modules/mocha/bin/mocha",
     "bstart": "npm run build && npm start",
-    "dev": "nodemon"
+    "prod:start": "npm run build:prod && npm start",
+    "dev": "nodemon",
+    "open:coverage": "start ./coverage/index.html"
   },
   "private": true,
   "engines": {
@@ -21,23 +24,28 @@
   },
   "nyc": {
     "all": true,
+    "cache": false,
+    "instrument": true,
+    "sourceMap": true,
+    "exclude-after-remap": false,
     "include": [
-      "src/server/**/*.ts"
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/app/**/*.ts"
     ],
     "extension": [
       ".ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "source-map-support/register"
     ],
     "reporter": [
+      "text",
       "text-summary",
-      "cobertura",
-      "lcov",
       "html"
-    ],
-    "sourceMap": true,
-    "instrument": true
+    ]
   },
   "author": "mycomplexsoul",
   "dependencies": {
@@ -48,7 +56,9 @@
     "@angular/forms": "~8.1.2",
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
+    "@angular/pwa": "^0.901.7",
     "@angular/router": "~8.1.2",
+    "@angular/service-worker": "~8.1.2",
     "@types/node": "~8.9.4",
     "chart.js": "^2.8.0",
     "core-js": "^2.5.4",
@@ -85,11 +95,11 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
-    "nyc": "^14.0.0",
+    "nyc": "^14.1.1",
     "prettier": "^1.16.4",
     "protractor": "~5.4.0",
     "source-map-support": "^0.5.11",
-    "ts-node": "^7.0.1",
+    "ts-node": "^8.3.0",
     "tslint": "~5.11.0"
   },
   "prettier": {

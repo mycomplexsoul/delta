@@ -19,7 +19,12 @@
     *ngIf="showBatchAdd"
     spellcheck="false"
   ></textarea>
-  <button type="submit" (click)="addTask(tasksForm)" id="btnAddTask">
+  <button
+    type="submit"
+    (click)="addTask(tasksForm)"
+    id="btnAddTask"
+    *ngIf="(tasksForm.value.tsk_name && !showBatchAdd) || (tasksForm.value.tsk_multiple_name && showBatchAdd)"
+  >
     Add task
   </button>
   <button (click)="toggleViewPostponed()" *ngIf="state.postponedTasksCount">
@@ -144,7 +149,7 @@
   ></checkbox-option>
   <div *ngIf="options.optShowIndicatorsTable">
     <checkbox-option
-      label="Show Indicator - Open Count EOD"
+      label="Show Indicator - Open Count"
       optionId="optShowIndicatorOpenCountEOD"
       [checked]="options.optShowIndicatorOpenCountEOD"
       (onClick)="toggleOptionById($event); calculateIndicators()"
@@ -213,6 +218,30 @@
       label="Show Indicator - Open Spent"
       optionId="optShowIndicatorOpenSpent"
       [checked]="options.optShowIndicatorOpenSpent"
+      (onClick)="toggleOptionById($event); calculateIndicators()"
+    ></checkbox-option>
+    <checkbox-option
+      label="Show Indicator - Backlog Count"
+      optionId="optShowIndicatorBacklogCount"
+      [checked]="options.optShowIndicatorBacklogCount"
+      (onClick)="toggleOptionById($event); calculateIndicators()"
+    ></checkbox-option>
+    <checkbox-option
+      label="Show Indicator - Backlog ETA"
+      optionId="optShowIndicatorBacklogETA"
+      [checked]="options.optShowIndicatorBacklogETA"
+      (onClick)="toggleOptionById($event); calculateIndicators()"
+    ></checkbox-option>
+    <checkbox-option
+      label="Show Indicator - All Open Count"
+      optionId="optShowIndicatorAllOpenCount"
+      [checked]="options.optShowIndicatorAllOpenCount"
+      (onClick)="toggleOptionById($event); calculateIndicators()"
+    ></checkbox-option>
+    <checkbox-option
+      label="Show Indicator - All Open ETA"
+      optionId="optShowIndicatorAllOpenETA"
+      [checked]="options.optShowIndicatorAllOpenETA"
       (onClick)="toggleOptionById($event); calculateIndicators()"
     ></checkbox-option>
   </div>
@@ -496,14 +525,16 @@
     >{{ isOnline() ? "" : "You are OFFLINE" }}</strong
   >
   <div *ngIf="options.optShowIndicatorsTable" class="task-indicators-container">
-    <button
-      class="button-link no-underline"
-      (click)="toggleOption('optCollapseIndicators')"
-    >
-      <strong
-        >{{ options.optCollapseIndicators ? '+' : '-' }} Indicators</strong
+    <div>
+      <button
+        class="button-link no-underline"
+        (click)="toggleOption('optCollapseIndicators')"
       >
-    </button>
+        <strong
+          >{{ options.optCollapseIndicators ? '+' : '-' }} Indicators</strong
+        >
+      </button>
+    </div>
     <table class="indicators-table" *ngIf="!options.optCollapseIndicators">
       <tr>
         <td>Indicator</td>

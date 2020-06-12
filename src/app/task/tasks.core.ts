@@ -4,6 +4,7 @@ import { Task } from "../../crosscommon/entities/Task";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
 import { SyncAPI } from "../common/sync.api";
 import { DateCommon } from "../common/date.common";
+import { DateUtils } from "../../crosscommon/DateUtility";
 import { Utils } from "../../crosscommon/Utility";
 import { AuthenticationService } from "../common/authentication.service";
 
@@ -66,6 +67,10 @@ export class TasksCore {
     let T = this.data.taskList;
 
     let parsedTask = this.parseTask(task, options);
+
+    if (parsedTask.tsk_ctg_status === 1) {
+      parsedTask.tsk_date_due = null;
+    }
 
     T.push(this.newTaskTemplate(parsedTask));
     // console.log(T[T.length-1]);
@@ -553,8 +558,7 @@ export class TasksCore {
       tsk_id_user_asigned: task.tsk_id_user_asigned || username,
       tsk_template: task.tsk_template || "",
       tsk_template_state: task.tsk_template_state || "",
-      tsk_date_due:
-        task.tsk_date_due || this.services.dateUtils.newDateUpToSeconds(),
+      tsk_date_due: task.tsk_date_due || null,
       tsk_id_related: task.tsk_id_related || "0",
       tsk_url: task.tsk_url || "",
       tsk_ctg_repeats: task.tsk_ctg_repeats || 0,

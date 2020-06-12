@@ -2,6 +2,7 @@ import { TaskStatus } from "./task.type";
 import { DateCommon } from "../common/date.common";
 import { Injectable } from "@angular/core";
 import { Task } from "src/crosscommon/entities/Task";
+import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Injectable()
 export class TaskIndicator {
@@ -195,14 +196,15 @@ export class TaskIndicator {
    * @param initialDate ignore this param.
    * @param finalDate Date until total task count should be calculated, including this day.
    */
-  totalTaskCountUntil(initialDate: Date, finalDate: Date): number {
+  openTaskCountUntil(initialDate: Date, finalDate: Date): number {
     let total: Array<any>;
     total = this.tasks.filter(
       (t: Task) =>
         new Date(t.tsk_date_due) <= initialDate &&
         (new Date(t.tsk_date_done) >= finalDate ||
           (t.tsk_ctg_status !== TaskStatus.CLOSED &&
-            t.tsk_ctg_status !== TaskStatus.CANCELLED))
+            t.tsk_ctg_status !== TaskStatus.CANCELLED &&
+            t.tsk_ctg_status !== TaskStatus.BACKLOG))
     );
     return total.length;
   }
@@ -220,5 +222,64 @@ export class TaskIndicator {
         total += t.tsk_estimated_duration;
       });
     return total;
+  }
+
+  backlogTaskCount(initialDate: Date, finalDate: Date) {
+    let total: number = 0;
+    total = this.tasks.filter(
+      (t: Task) =>
+        t.tsk_ctg_status == TaskStatus.BACKLOG &&
+        new Date(t.tsk_date_add).getTime() <= finalDate.getTime()
+    ).length;
+    return total;
+  }
+
+  backlogETA(initialDate: Date, finalDate: Date) {
+    let total: number = 0;
+    this.tasks
+      .filter(
+        (t: Task) =>
+          t.tsk_ctg_status === TaskStatus.BACKLOG &&
+          new Date(t.tsk_date_add).getTime() <= finalDate.getTime()
+      )
+      .forEach((t: Task) => {
+        total += t.tsk_estimated_duration;
+      });
+    return total;
+  }
+
+  allOpenETA(initialDate: Date, finalDate: Date) {
+    let total: number = 0;
+    this.tasks
+      .filter(
+        (t: Task) =>
+          (t.tsk_ctg_status === TaskStatus.OPEN ||
+            (t.tsk_date_done &&
+              new Date(t.tsk_date_done).getTime() > finalDate.getTime()) ||
+            ((t.tsk_ctg_status === TaskStatus.BACKLOG &&
+              t.tsk_date_due &&
+              new Date(t.tsk_date_due).getTime() < finalDate.getTime()) ||
+              (!t.tsk_date_due &&
+                DateUtils.dateOnly().getTime() < finalDate.getTime()))) &&
+          new Date(t.tsk_date_add).getTime() <= finalDate.getTime()
+      )
+      .forEach((t: Task) => {
+        total += t.tsk_estimated_duration;
+      });
+    return total;
+  }
+
+  allOpenTaskCountUntil(initialDate: Date, finalDate: Date): number {
+    let total: Array<any>;
+    total = this.tasks.filter(
+      (t: Task) =>
+        (t.tsk_date_due &&
+          new Date(t.tsk_date_due) <= initialDate &&
+          (new Date(t.tsk_date_done) >= finalDate ||
+            (t.tsk_ctg_status !== TaskStatus.CLOSED &&
+              t.tsk_ctg_status !== TaskStatus.CANCELLED))) ||
+        (!t.tsk_date_due && t.tsk_date_add.getTime() < finalDate.getTime())
+    );
+    return total.length;
   }
 }

@@ -55,6 +55,8 @@ import { JwtInterceptor } from "./common/jwt.interceptor";
 import { ErrorInterceptor } from "./common/error.interceptor";
 import { HomeComponent } from "./common/home.component";
 import { RegisterComponent } from "./common/register.component";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
@@ -63,7 +65,8 @@ import { RegisterComponent } from "./common/register.component";
     ReactiveFormsModule,
     HttpClientModule,
     routing,
-    ChartsModule
+    ChartsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   declarations: [
     AppComponent,

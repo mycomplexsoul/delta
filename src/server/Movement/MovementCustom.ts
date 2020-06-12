@@ -544,7 +544,7 @@ export class MovementCustom {
   rebuildAndTransfer(): Promise<any> {
     // get first month
     let balanceMotor: BalanceModule = new BalanceModule();
-    const user: string = "anon";
+    const user: string = "mycomplexsoul";
 
     let sql: string = `select min(ent_date) as min, max(ent_date) as max from entry where ent_id_user = '${user}'`;
     const connection: iConnection = ConnectionService.getConnection();

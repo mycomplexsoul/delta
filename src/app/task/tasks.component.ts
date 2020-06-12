@@ -88,7 +88,7 @@ export class TasksComponent implements OnInit {
   };
   public events: any[] = [];
   public layout: string = "float"; // possible values: grid, float
-  private selectedTask: Task = null;
+  public selectedTask: Task = null;
 
   constructor(
     tasksCore: TasksCore,
@@ -151,7 +151,7 @@ export class TasksComponent implements OnInit {
         this.services.tasksCore.addTask(
           {
             tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
-            tsk_date_due: this.services.dateUtils.newDateUpToSeconds(),
+            tsk_date_due: this.services.dateUtils.dateOnly(),
             tsk_name: form.value.tsk_name
           },
           this.options
@@ -1081,6 +1081,9 @@ export class TasksComponent implements OnInit {
   }
 
   taskAge(t: any) {
+    if (!t.tsk_date_due) {
+      return "(n/a)";
+    }
     let diff = this.services.tasksCore.elapsedDays(
       new Date(t.tsk_date_due),
       new Date()
@@ -1091,11 +1094,14 @@ export class TasksComponent implements OnInit {
   }
 
   taskAgeClass(t: any) {
+    let classes = ["task-age-0", "task-age-1", "task-age-2", "task-age-10"];
+    if (!t.tsk_date_due) {
+      return classes[0];
+    }
     let diff = this.services.tasksCore.elapsedDays(
       new Date(t.tsk_date_due),
       new Date()
     );
-    let classes = ["task-age-0", "task-age-1", "task-age-2", "task-age-10"];
     if (diff <= 2) {
       return classes[diff];
     }
@@ -1167,7 +1173,9 @@ export class TasksComponent implements OnInit {
       changes.tsk_date_due = this.dateUtils.dateOnly(new Date());
     }
     this.updateTask(t.tsk_id, changes);
-    this.updateState();
+    setTimeout(() => {
+      this.updateState();
+    }, 1000);
   }
 
   taskEstimatedDurationEdit(t: any, event: KeyboardEvent) {
@@ -2114,16 +2122,58 @@ export class TasksComponent implements OnInit {
     const formatTimestampDays = (v: number) =>
       DateUtils.formatTimestamp(v * 60, "[d]d[H]h");
 
-    // total task count overall
+    // all open/backlog task count overall
     addIndicator(
-      "Open Count EOD",
+      "All Open Count",
       LESS_IS_BETTER,
       calculateForAllDays(
         days,
-        this.services.taskIndicator.totalTaskCountUntil
+        this.services.taskIndicator.allOpenTaskCountUntil
       ),
+      this.options["optShowIndicatorAllOpenCount"],
+      null,
+      (prev: number, curr: number) => ({
+        isCompleted: prev >= curr,
+        percentageCompleted:
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+      })
+    );
+
+    // All Open/Backlog ETA
+    addIndicator(
+      "All Open ETA",
+      LESS_IS_BETTER,
+      calculateForAllDays(days, this.services.taskIndicator.allOpenETA),
+      this.options["optShowIndicatorAllOpenETA"],
+      formatTimestampDays,
+      (prev: number, curr: number) => ({
+        isCompleted: prev >= curr,
+        percentageCompleted:
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+      })
+    );
+
+    // open task count overall
+    addIndicator(
+      "Open Count EOD",
+      LESS_IS_BETTER,
+      calculateForAllDays(days, this.services.taskIndicator.openTaskCountUntil),
       this.options["optShowIndicatorOpenCountEOD"],
       null,
+      (prev: number, curr: number) => ({
+        isCompleted: prev >= curr,
+        percentageCompleted:
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+      })
+    );
+
+    // Open ETA
+    addIndicator(
+      "Open ETA",
+      LESS_IS_BETTER,
+      calculateForAllDays(days, this.services.taskIndicator.openETA),
+      this.options["optShowIndicatorOpenETA"],
+      formatTimestampDays,
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
@@ -2242,20 +2292,6 @@ export class TasksComponent implements OnInit {
       formatTimestamp
     );
 
-    // Open ETA
-    addIndicator(
-      "Open ETA",
-      LESS_IS_BETTER,
-      calculateForAllDays(days, this.services.taskIndicator.openETA),
-      this.options["optShowIndicatorOpenETA"],
-      formatTimestampDays,
-      (prev: number, curr: number) => ({
-        isCompleted: prev >= curr,
-        percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
-      })
-    );
-
     // Spent on Open Tasks
     addIndicator(
       "Open Spent",
@@ -2268,6 +2304,34 @@ export class TasksComponent implements OnInit {
       ),
       this.options["optShowIndicatorOpenSpent"],
       formatTimestampMinutes
+    );
+
+    // Backlog count
+    addIndicator(
+      "Backlog Count",
+      LESS_IS_BETTER,
+      calculateForAllDays(days, this.services.taskIndicator.backlogTaskCount),
+      this.options["optShowIndicatorBacklogCount"],
+      null,
+      (prev: number, curr: number) => ({
+        isCompleted: prev >= curr,
+        percentageCompleted:
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+      })
+    );
+
+    // Backlog ETA
+    addIndicator(
+      "Backlog ETA",
+      LESS_IS_BETTER,
+      calculateForAllDays(days, this.services.taskIndicator.backlogETA),
+      this.options["optShowIndicatorBacklogETA"],
+      formatTimestampDays,
+      (prev: number, curr: number) => ({
+        isCompleted: prev >= curr,
+        percentageCompleted:
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+      })
     );
 
     // karma

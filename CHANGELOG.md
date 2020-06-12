@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.41 (2020-03-02)
+
+- [AppCommon][new] PWA configuration
+
 ## v1.10.40 (2020-02-24)
 
 - [AppTasks][new] Toggle visibility of: Open Tasks, Indicators, Next Tasks, Finished Today, Backlog, Closed Tasks, Reports Week Distribution, Reports Day Distribution, Qualifiers Totals

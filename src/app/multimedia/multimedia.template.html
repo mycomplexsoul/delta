@@ -1,5 +1,5 @@
 <form #newForm="ngForm" (ngSubmit)="newItem(newForm)">
-  <button type="button" (click)="toggleShowItemForm(newForm)">
+  <button type="button" (click)="toggleShowItemForm()">
     {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}
   </button>
 

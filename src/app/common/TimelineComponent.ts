@@ -16,7 +16,7 @@ export class TimelineComponent {
   @Input() recordId: string = "general";
   @Output() onNewItem: EventEmitter<any> = new EventEmitter();
 
-  private viewData: {
+  public viewData: {
     showForm: boolean;
   } = {
     showForm: false

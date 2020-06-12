@@ -7,11 +7,17 @@ import { existsSync } from "fs";
 const app = express();
 app.use(express.json());
 
-// app.use(express.static(path.join(__dirname, '../../src')));
 app.use(
   "/node_modules",
   express.static(path.join(__dirname, "../../node_modules"))
 );
+
+console.log(
+  "-- running from",
+  __dirname,
+  path.join(__dirname, "../../dist/intranet/assets")
+);
+app.use("/", express.static(path.join(__dirname, "../../dist/intranet")));
 
 app.use(function(req, res, next) {
   console.log("----------------------------");
@@ -55,7 +61,7 @@ app.use(function(req, res) {
     .concat(files.map(f => `${f}-es2015.js.map`))
     .concat(files.map(f => `${f}-es5.js`))
     .concat(files.map(f => `${f}-es5.js.map`))
-    .concat(["/favicon.ico"]);
+    .concat(["/favicon.ico", "/manifest.webmanifest"]);
   // Use res.sendfile, as it streams instead of reading the file into memory.
   const index = path.join(__dirname, "../../dist/intranet/index.html");
   if (expandedFiles.indexOf(req.url) !== -1) {
