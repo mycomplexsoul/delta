@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Notes / To Do / Roadmap]
 
-## [Unreleased / Work In Progress]
-
 - [AppCommon][new][CFG] Basic CFG configuration page
 - [AppCommon][new][Login] Login logged user identity service uses token data
 
@@ -22,7 +20,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppLastTime][new] Reuse CSS styles and generic grid listing components
 - [AppLastTime][new] Edit history items
 
+## [Unreleased / Work In Progress]
+
+- [AppCartera] Create Payment receipt report, month listing and individual
+- [AppCommon] Research on IndexedDB support
+- [AppCommon] Add IndexedDB support to Tasks
+
 <hr/>
+
+## v1.10.42 (2020-03-09)
+
+- [AppCartera][new] Cartera Payment report UI and services under `/provision-payment-listing`
+- [AppCartera][new] Create Current Month Payment report under `/cartera-payment-report`
+- [AppCartera][new] Current Month Payment report UI improvements
 
 ## v1.10.41 (2020-03-02)
 

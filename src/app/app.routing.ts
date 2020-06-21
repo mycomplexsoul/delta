@@ -28,6 +28,7 @@ import { UnitStatusReportComponent } from "./cartera/UnitStatusReportComponent";
 import { ResultsReportComponent } from "./cartera/ResultsReportComponent";
 import { MovementsReportComponent } from "./cartera/MovementsReportComponent";
 import { CarteraComponent } from "./cartera/CarteraComponent";
+import { PaymentReportComponent } from "./cartera/PaymentReport/PaymentReportComponent";
 
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 
@@ -116,6 +117,10 @@ const appRoutes: Routes = [
   {
     path: "cartera",
     component: CarteraComponent
+  },
+  {
+    path: "cartera-payment-report",
+    component: PaymentReportComponent
   },
   {
     path: "type-generator",

@@ -846,7 +846,7 @@ export class CarteraServer {
       paymentList: paymentList
         .filter(
           item =>
-            initialDate.getTime() < item.cpy_date.getTime() &&
+            initialDate.getTime() <= item.cpy_date.getTime() &&
             item.cpy_date.getTime() < finalDate.getTime()
         )
         .map(payment => {
@@ -879,7 +879,7 @@ export class CarteraServer {
     node.response.end(
       JSON.stringify({
         operationOk: true,
-        listing: await this.getPaymentApplicationListing(year, month)
+        ...(await this.getPaymentApplicationListing(year, month))
       })
     );
   }
@@ -2595,5 +2595,91 @@ export class CarteraServer {
         provisionList
       });
     });
+  }
+
+  async getProvisionPaymentListing(
+    year: number,
+    month: number
+  ): Promise<{
+    provisionList: Array<{
+      provision: CarteraProvision;
+      previousPayDetList: CarteraPayDet[];
+      paymentList: Array<{
+        payment: CarteraPayment;
+        payDetList: CarteraPayDet[];
+      }>;
+    }>;
+  }> {
+    const provisionList: CarteraProvision[] = await this.getProvisions();
+    const paymentList: CarteraPayment[] = await this.getPayments();
+    const payDetList: CarteraPayDet[] = await this.getPayDetList();
+
+    const initialDate: Date = new Date(year, month - 1, 1);
+    const finalDate: Date = new Date(year, month, 1);
+
+    const listing = {
+      provisionList: provisionList
+        .filter(
+          item =>
+            initialDate.getTime() <= item.cpr_date.getTime() &&
+            item.cpr_date.getTime() < finalDate.getTime() &&
+            item.cpr_code_reference.includes("cuota-normal|")
+        )
+        .sort((a, b) => (a.cpr_id_unit > b.cpr_id_unit ? 1 : -1))
+        .map(provision => ({
+          provision,
+          previousPayDetList: payDetList
+            .filter(
+              pd =>
+                pd.cpd_id_provision === provision.cpr_id &&
+                pd.cpd_date_payment.getTime() < initialDate.getTime()
+            )
+            .sort((a, b) =>
+              a.cpd_date.getTime() > b.cpd_date.getTime() ? 1 : -1
+            ),
+          paymentList: paymentList
+            .filter(
+              item =>
+                item.cpy_match_hint.endsWith(`|${provision.cpr_id_unit}`) &&
+                initialDate.getTime() <= item.cpy_date.getTime() &&
+                item.cpy_date.getTime() < finalDate.getTime()
+            )
+            .map(payment => ({
+              payment,
+              payDetList: payDetList.filter(
+                pd => pd.cpd_id_payment === payment.cpy_id
+              )
+            }))
+            .sort((a, b) =>
+              a.payment.cpy_date.getTime() > b.payment.cpy_date.getTime()
+                ? 1
+                : -1
+            )
+        }))
+    };
+
+    return listing;
+  }
+
+  async getProvisionPaymentListingHandler(node: iNode) {
+    const { year, month } = node.request.query;
+
+    const listing = await this.getProvisionPaymentListing(year, month);
+
+    node.response.end(
+      JSON.stringify({
+        operationOk: true,
+        provisionList: listing.provisionList.map(item => ({
+          provision: Utils.entityToRawTableFields(item.provision),
+          previousPayDetList: item.previousPayDetList.map(
+            Utils.entityToRawTableFields
+          ),
+          paymentList: item.paymentList.map(p => ({
+            payment: Utils.entityToRawTableFields(p.payment),
+            payDetList: p.payDetList.map(Utils.entityToRawTableFields)
+          }))
+        }))
+      })
+    );
   }
 }

@@ -49,14 +49,15 @@ import { UnitStatusReportComponent } from "./cartera/UnitStatusReportComponent";
 import { ResultsReportComponent } from "./cartera/ResultsReportComponent";
 import { MovementsReportComponent } from "./cartera/MovementsReportComponent";
 import { CarteraComponent } from "./cartera/CarteraComponent";
+import { PaymentReportComponent } from "./cartera/PaymentReport/PaymentReportComponent";
 
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
 import { ErrorInterceptor } from "./common/error.interceptor";
 import { HomeComponent } from "./common/home.component";
 import { RegisterComponent } from "./common/register.component";
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from "../environments/environment";
 
 @NgModule({
   imports: [
@@ -66,7 +67,9 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     routing,
     ChartsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production
+    })
   ],
   declarations: [
     AppComponent,
@@ -97,6 +100,7 @@ import { environment } from '../environments/environment';
     ResultsReportComponent,
     MovementsReportComponent,
     CarteraComponent,
+    PaymentReportComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

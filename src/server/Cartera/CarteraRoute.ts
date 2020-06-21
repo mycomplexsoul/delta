@@ -91,6 +91,18 @@ router.get("/payment-listing", (req, res) => {
 });
 
 /**
+ * List of provisions for a single month having each the payment done and their previous payments
+ */
+router.get("/provision-payment-listing", (req, res) => {
+  let server: CarteraServer = new CarteraServer();
+  let node: iNode = {
+    request: req,
+    response: res
+  };
+  server.getProvisionPaymentListingHandler(node);
+});
+
+/**
  * Rebuilds status for a given month by reseting payments on provisions
  * and then applying payments until the required month.
  *

@@ -1,0 +1,133 @@
+<h1 class="page-title text-align-center">
+  {{viewData.title}}
+</h1>
+
+<div class="text-align-center width-100-pct print-only">
+  Página 1 de 1
+</div>
+
+<table class="payment-listing width-100-pct-print-only desktop-only">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Unidad</th>
+      <th>A favor</th>
+      <th>Fecha</th>
+      <th>Monto</th>
+      <th>Concepto / Observaciones</th>
+      <th>Condomino</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let item of viewData.paymentReportData; let counter = index"
+      class="payment-listing-row"
+    >
+      <td class="padding-all-3 text-align-center vertical-align-top">
+        {{counter + 1}}
+      </td>
+      <td class="padding-all-3 text-align-center vertical-align-top">
+        {{item.provision.cpr_id_unit}}
+      </td>
+      <td class="padding-all-3 text-align-right vertical-align-top">
+        <span *ngIf="item.previousPayDetTotal">
+          {{item.previousPayDetTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </span>
+      </td>
+      <td class="padding-all-3 width-80 text-align-center vertical-align-top">
+        <span *ngIf="item.paymentList.length > 0">
+          {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
+          date: "yyyy-MM-dd"}}
+        </span>
+      </td>
+      <td class="padding-all-3 text-align-right vertical-align-top">
+        <span *ngIf="item.paymentList.length > 0">
+          {{item.paymentList.length && item.paymentList[0].payment.cpy_amount |
+          currency: "USD":"symbol-narrow":"1.2-2"}}
+        </span>
+      </td>
+      <td class="padding-all-3 width-80 vertical-align-top">
+        <div *ngIf="item.paymentList.length > 0">
+          <div *ngFor="let det of item.paymentList[0].payDetList">
+            <span *ngIf="item.paymentList[0].payDetList.length > 1">
+              + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+              {{det.cpd_concept}}
+            </span>
+            <span *ngIf="item.paymentList[0].payDetList.length === 1">
+              {{det.cpd_concept}}
+            </span>
+          </div>
+        </div>
+      </td>
+      <td
+        class="padding-all-3 width-100 vertical-align-top payment-report-unit"
+      >
+        {{item.provision.cpr_id_unit}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-center">Total</td>
+      <td class="padding-all-3 text-align-right width-80">
+        <span *ngIf="viewData.total > 0">
+          {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </span>
+      </td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3"></td>
+    </tr>
+  </tfoot>
+</table>
+<!--
+<table class="payment-listing width-100-pct mobile-only">
+  <thead>
+    <tr>
+      <th># - Fecha - Concepto</th>
+      <th>Monto</th>
+      <th>Saldo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let item of viewData.movementList; let counter = index"
+      class="payment-listing-row"
+    >
+      <td class="padding-all-3 vertical-align-top">
+        <span *ngIf="item.type === 'PAYMENT'">
+          #{{counter + 1}} {{item.concept}} con fecha {{item.date | date:
+          "yyyy-MM-dd"}}
+        </span>
+        <span *ngIf="item.type === 'PROVISION'">
+          #{{counter + 1}} {{item.concept}}
+        </span>
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        <span *ngIf="item.type === 'PROVISION'">
+          {{-1 * item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </span>
+        <span *ngIf="item.type === 'PAYMENT'" class="display-inline"
+          >+{{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}</span
+        >
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        {{item.balance | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3">Saldo Final</td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+-->

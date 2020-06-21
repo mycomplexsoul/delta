@@ -213,7 +213,7 @@
       *ngFor="let provision of viewData.futureProvisionList"
       class="pending-provision-listing-row"
     >
-      <td class="padding-all-3 text-align-center">
+      <td class="padding-all-3 text-align-center" title="{{provision.cpr_id}}">
         {{provision.cpr_id_unit}}
       </td>
       <td class="padding-all-3">{{provision.cpr_concept}}</td>

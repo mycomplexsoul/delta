@@ -1,0 +1,32 @@
+@import "../CarteraReportsCommon.css";
+
+@media screen, print {
+  * {
+    font-family: sans-serif;
+  }
+
+  .payment-report-listing-row:nth-child(even) {
+    background-color: #e0e0e0;
+  }
+
+  table tr td.padding-all-3 {
+    padding: 6px 3px;
+    border: 1px solid black;
+  }
+
+  .payment-report-unit {
+    padding: 0px !important;
+    vertical-align: top;
+    font-size: 0.6rem;
+  }
+}
+
+@media print {
+  @page {
+    size: landscape;
+  }
+
+  .width-80 {
+    min-width: 50px;
+  }
+}
