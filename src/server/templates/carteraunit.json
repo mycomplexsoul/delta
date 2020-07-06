@@ -1,0 +1,92 @@
+{
+  "name": "CarteraUnit",
+  "namespace": "common",
+  "removeMeans": "DELETION",
+  "authNeeded": false,
+  "displayOnMenu": false,
+  "prefix": "uni",
+  "permissionsTemplate": "permissions_all",
+  "specialFeatures": [
+    "AUTONUMERIC",
+    "HEADERS(Unit,Units)",
+    "TABLE_NAME(CARTERAUNIT)",
+    "VIEW_NAME(VICARTERAUNIT)"
+  ],
+  "fields": [
+    {
+      "templateId": "string",
+      "dbName": "uni_id",
+      "isPK": true,
+      "size": 32,
+      "minLength": 1,
+      "dbComment": "Id for the unit",
+      "entName": "UnitId",
+      "captureRequired": true,
+      "specialRules": ["DUPLICITY_ADD"],
+      "displayName": "Unit Id",
+      "isRecordName": true
+    },
+    {
+      "templateId": "string",
+      "dbName": "uni_first_name",
+      "size": 100,
+      "minLength": 1,
+      "dbComment": "First name of the owner",
+      "entName": "FirstName",
+      "displayName": "First Name"
+    },
+    {
+      "templateId": "string",
+      "dbName": "uni_middle_name",
+      "size": 100,
+      "minLength": 1,
+      "allowNull": true,
+      "dbComment": "Middle name of the owner",
+      "entName": "MiddleName",
+      "displayName": "Middle Name"
+    },
+    {
+      "templateId": "string",
+      "dbName": "uni_last_name",
+      "size": 100,
+      "minLength": 0,
+      "allowNull": true,
+      "dbComment": "Last name of the owner",
+      "entName": "LastName",
+      "displayName": "Last Name"
+    },
+    {
+      "templateId": "string",
+      "dbName": "uni_email",
+      "size": 500,
+      "minLength": 1,
+      "dbComment": "Email of the owner",
+      "entName": "Email",
+      "displayName": "Email"
+    },
+    {
+      "templateId": "string",
+      "dbName": "uni_tel",
+      "size": 100,
+      "minLength": 1,
+      "dbComment": "Phone number of the owner",
+      "entName": "PhoneNumber",
+      "displayName": "Phone Number"
+    },
+    {
+      "templateId": "creationDate"
+    },
+    {
+      "templateId": "modificationDate"
+    },
+    {
+      "templateId": "status",
+      "catalogId": "RECORD_STATUS"
+    },
+    {
+      "templateId": "catalog",
+      "linkedField": "_ctg_status"
+    }
+  ],
+  "view": []
+}

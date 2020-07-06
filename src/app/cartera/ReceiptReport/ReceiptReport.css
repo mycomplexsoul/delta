@@ -1,0 +1,65 @@
+@import "../CarteraReportsCommon.css";
+
+@media screen, print {
+  * {
+    font-family: sans-serif;
+  }
+
+  .receipt-top-block {
+    margin-top: 50px;
+  }
+
+  .receipt-item {
+    width: 60%;
+  }
+
+  h1,
+  table,
+  .receipt-header,
+  .receipt-information {
+    width: 100%;
+  }
+
+  .receipt-header,
+  .receipt-information {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .receipt-sign-list {
+    display: flex;
+    justify-content: center;
+  }
+
+  .receipt-sign-list table {
+    border: 0;
+    width: 300px;
+  }
+
+  .receipt-sign-list table tr {
+    border-top: 1px solid black;
+    text-align: center;
+  }
+
+  .receipt-sign-list table tr td {
+    padding-top: 5px;
+  }
+
+  .receipt-sign-list table tr.no-border {
+    border-top: 0;
+  }
+
+  .receipt-sign-img {
+    width: 80px;
+  }
+}
+
+@media print {
+  .receipt-item {
+    width: 100%;
+  }
+
+  .padding-all-3 {
+    padding: 5px;
+  }
+}

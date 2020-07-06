@@ -115,6 +115,16 @@ class Utility {
   buildFilterStringified(fieldName: string, value: any, op: string = "eq") {
     return JSON.stringify(this.buildFilter(fieldName, value, op));
   }
+
+  retryHelper(method: Function, condition: Function, limit: number = 3) {
+    for (let i = 0; i < limit; i++) {
+      const methodResult = method();
+      if (condition(methodResult)) {
+        return methodResult;
+      }
+    }
+    return null;
+  }
 }
 
 export let Utils = new Utility();

@@ -26,6 +26,7 @@ export class PaymentReportComponent implements OnInit {
     displayYearMonth: string;
     previousTotal: number;
     total: number;
+    layout: string;
   } = {
     paymentReportData: [],
     title: null,
@@ -33,7 +34,8 @@ export class PaymentReportComponent implements OnInit {
     month: 0,
     displayYearMonth: null,
     previousTotal: 0,
-    total: 0
+    total: 0,
+    layout: null // print, report (default), report-reference
   };
 
   parseQueryString() {
@@ -41,6 +43,7 @@ export class PaymentReportComponent implements OnInit {
 
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
+    this.viewData.layout = query.get("layout") || "report";
 
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month

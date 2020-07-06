@@ -15,7 +15,7 @@
       <th>Fecha</th>
       <th>Monto</th>
       <th>Concepto / Observaciones</th>
-      <th>Condomino</th>
+      <th *ngIf="viewData.layout === 'print'">Firma Condomino</th>
     </tr>
   </thead>
   <tbody>
@@ -61,6 +61,7 @@
       </td>
       <td
         class="padding-all-3 width-100 vertical-align-top payment-report-unit"
+        *ngIf="viewData.layout === 'print'"
       >
         {{item.provision.cpr_id_unit}}
       </td>
@@ -80,7 +81,7 @@
         </span>
       </td>
       <td class="padding-all-3"></td>
-      <td class="padding-all-3"></td>
+      <td class="padding-all-3" *ngIf="viewData.layout === 'print'"></td>
     </tr>
   </tfoot>
 </table>

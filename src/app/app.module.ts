@@ -50,6 +50,7 @@ import { ResultsReportComponent } from "./cartera/ResultsReportComponent";
 import { MovementsReportComponent } from "./cartera/MovementsReportComponent";
 import { CarteraComponent } from "./cartera/CarteraComponent";
 import { PaymentReportComponent } from "./cartera/PaymentReport/PaymentReportComponent";
+import { ReceiptReportComponent } from "./cartera/ReceiptReport/ReceiptReportComponent";
 
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
@@ -101,6 +102,7 @@ import { environment } from "../environments/environment";
     MovementsReportComponent,
     CarteraComponent,
     PaymentReportComponent,
+    ReceiptReportComponent,
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,

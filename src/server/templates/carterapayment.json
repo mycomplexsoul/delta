@@ -26,7 +26,7 @@
             "templateId": "integer"
             , "dbName": "cpy_ctg_type"
             , "dbComment": "Indicates if this is a payment or a condonation"
-            , "entName": "Payment Type"
+            , "entName": "PaymentType"
             , "displayName": "Payment Type"
             , "catalogId": "CARTERA_PAY_TYPE"
         },{
@@ -73,6 +73,20 @@
             , "entName": "IdentificationDate"
             , "allowNull": true
             , "displayName": "Identification Date"
+        },{
+            "templateId": "integer"
+            , "dbName": "cpy_ctg_form"
+            , "dbComment": "Indicates the way this payment was done"
+            , "entName": "PaymentForm"
+            , "displayName": "Payment Form"
+            , "catalogId": "CARTERA_PAY_FORM"
+        },{
+            "templateId": "string"
+            , "dbName": "cpy_reference"
+            , "size": 200
+            , "dbComment": "Description of the payment form"
+            , "entName": "Reference"
+            , "displayName": "Reference"
         },{
             "templateId": "string"
             , "dbName": "cpy_id_user"

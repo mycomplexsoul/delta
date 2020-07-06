@@ -12,6 +12,8 @@ import { MovementCustom } from "../Movement/MovementCustom";
 import { Balance } from "../../crosscommon/entities/Balance";
 import { MoSQL } from "../MoSQL";
 import { Timeline } from "../../crosscommon/entities/Timeline";
+import { Crypto } from "../Crypto";
+import { CarteraUnit } from "../../crosscommon/entities/CarteraUnit";
 
 // configuration
 const CODE_NORMAL = "cuota-normal";
@@ -136,6 +138,10 @@ export class CarteraServer {
       cpr_amount: AMOUNT,
       cpr_payed: 0,
       cpr_remaining: AMOUNT,
+      cpr_folio: null,
+      cpr_type: CODE_NORMAL,
+      cpr_year: year,
+      cpr_month: month,
       cpr_id_user: user,
       cpr_date_add: new Date(),
       cpr_date_mod: new Date(),
@@ -818,6 +824,13 @@ export class CarteraServer {
     return apiCarteraProvision
       .list({})
       .then(items => items.map(i => new CarteraProvision(i)));
+  }
+
+  async getUnits(): Promise<CarteraUnit[]> {
+    const apiCarteraUnit: ApiModule = new ApiModule(new CarteraUnit());
+    return apiCarteraUnit
+      .list({})
+      .then(items => items.map(i => new CarteraUnit(i)));
   }
 
   async getPayments(): Promise<CarteraPayment[]> {
@@ -2681,5 +2694,92 @@ export class CarteraServer {
         }))
       })
     );
+  }
+
+  async getProvisionPayedReceiptList(
+    year: number,
+    month: number,
+    unit: string | number
+  ) {
+    const provisionList: CarteraProvision[] = await this.getProvisions();
+    const payDetList: CarteraPayDet[] = await this.getPayDetList();
+    const unitList: CarteraUnit[] = await this.getUnits();
+
+    const initialDate: Date = new Date(year, month - 1, 1);
+    const finalDate: Date = new Date(year, month, 1);
+
+    const listing = {
+      provisionList: provisionList
+        .filter(
+          item =>
+            initialDate.getTime() <= item.cpr_date.getTime() &&
+            item.cpr_date.getTime() < finalDate.getTime() &&
+            (item.cpr_code_reference.includes("cuota-normal|") ||
+              item.cpr_code_reference.includes("cuota-extra|")) &&
+            item.cpr_remaining === 0 &&
+            (unit ? item.cpr_id_unit === unit : true)
+        )
+        .sort((a, b) => (a.cpr_id_unit > b.cpr_id_unit ? 1 : -1))
+        .map(provision => {
+          const hash = this.generateReceiptHash(provision); // use cpr_id to generate hash
+          const unit = unitList.find(u => u.uni_id == provision.cpr_id_unit);
+          const payment = payDetList
+            .filter(
+              p =>
+                p.cpd_id_provision === provision.cpr_id &&
+                initialDate.getTime() <= p.cpd_date_payment.getTime() &&
+                p.cpd_date_payment.getTime() < finalDate.getTime()
+            )
+            .sort((a, b) =>
+              a.cpd_date_payment.getTime() > b.cpd_date_payment.getTime()
+                ? 1
+                : -1
+            )[0];
+
+          return {
+            provision,
+            hash: hash.encryptedData,
+            name: `${unit.uni_first_name} ${unit.uni_middle_name}`,
+            paymentDate: payment ? payment.cpd_date_payment : null
+          };
+        })
+        .filter(item => item.paymentDate)
+    };
+
+    return listing;
+  }
+
+  async getProvisionPayedReceiptListHandler(node: iNode) {
+    const { year, month, unit = null } = node.request.query;
+
+    const listing = await this.getProvisionPayedReceiptList(year, month, unit);
+
+    node.response.end(
+      JSON.stringify({
+        operationOk: true,
+        provisionList: listing.provisionList.map(item => ({
+          provision: Utils.entityToRawTableFields(item.provision),
+          hash: item.hash,
+          name: item.name,
+          paymentDate: item.paymentDate
+        }))
+      })
+    );
+  }
+
+  generateReceiptHash(
+    provision: CarteraProvision
+  ): { iv: string; encryptedData: string } {
+    const crypto = new Crypto();
+    const { cpr_id_unit, cpr_code_reference, cpr_amount } = provision;
+    const structure = `${cpr_id_unit}||${cpr_code_reference}||${cpr_amount}`;
+
+    return crypto.encrypt(structure);
+  }
+
+  decryptReceiptHash(text): string {
+    const crypto = new Crypto();
+
+    return crypto.decrypt(text);
   }
 }

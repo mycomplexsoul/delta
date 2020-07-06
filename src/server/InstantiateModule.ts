@@ -24,6 +24,8 @@ import { Keyval } from "../crosscommon/entities/Keyval";
 import { CarteraProvision } from "../crosscommon/entities/CarteraProvision";
 import { CarteraPayment } from "../crosscommon/entities/CarteraPayment";
 import { CarteraPayDet } from "../crosscommon/entities/CarteraPayDet";
+import { CarteraUnit } from "../crosscommon/entities/CarteraUnit";
+import { Timeline } from "../crosscommon/entities/Timeline";
 
 const entityNameModelMap = {
   Catalog: () => new Catalog(),
@@ -56,7 +58,10 @@ const entityNameModelMap = {
   // Cartera
   CarteraProvision: () => new CarteraProvision(),
   CarteraPayment: () => new CarteraPayment(),
-  CarteraPayDet: () => new CarteraPayDet()
+  CarteraPayDet: () => new CarteraPayDet(),
+  CarteraUnit: () => new CarteraUnit(),
+  // Timeline
+  Timeline: () => new Timeline()
 };
 
 const instantiateFromString = (entityName: string): iEntity =>

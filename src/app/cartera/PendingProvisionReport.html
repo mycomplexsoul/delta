@@ -1,8 +1,19 @@
 <h1 class="page-title text-align-center">
-  Relación de cobranza {{viewData.displayYearMonth}} FFJ78
+  {{viewData.title}}
 </h1>
 
-<div class="text-align-center width-100-pct print-only">Página 1 de 2</div>
+<div
+  class="text-align-center width-100-pct print-only"
+  *ngIf="viewData.layout === '1-page'"
+>
+  Página 1 de 1
+</div>
+<div
+  class="text-align-center width-100-pct print-only"
+  *ngIf="viewData.layout === '2-pages'"
+>
+  Página 1 de 2
+</div>
 
 <h2 class="pending-provision-subtitle margin-all-0">Detalle de adeudos</h2>
 
@@ -128,7 +139,12 @@
   </tfoot>
 </table>
 
-<div class="pending-provision-color-legend page-break-after">
+<div
+  class="pending-provision-color-legend"
+  [ngClass]="{
+    'page-break-after': viewData.layout === '2-pages'
+  }"
+>
   <br />
   <span>Leyenda sobre los colores</span>
 
@@ -147,11 +163,19 @@
   </div>
 </div>
 
-<h1 class="page-title text-align-center page-top print-only">
-  Relación de cobranza {{viewData.displayYearMonth}} FFJ78
+<h1
+  class="page-title text-align-center page-top print-only"
+  *ngIf="viewData.layout === '2-pages'"
+>
+  {{viewData.title}}
 </h1>
 
-<div class="text-align-center width-100-pct print-only">Página 2 de 2</div>
+<div
+  class="text-align-center width-100-pct print-only"
+  *ngIf="viewData.layout === '2-pages'"
+>
+  Página 2 de 2
+</div>
 
 <h2 class="pending-provision-subtitle">Resumen de adeudos</h2>
 

@@ -22,11 +22,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased / Work In Progress]
 
-- [AppCartera] Create Payment receipt report, month listing and individual
 - [AppCommon] Research on IndexedDB support
 - [AppCommon] Add IndexedDB support to Tasks
 
 <hr/>
+
+## v1.10.45 (2020-03-30)
+
+- [AppCommon][new] Add Diagnostic information to Home
+- [AppCartera][mod] Add layout parameter to Pending Provision report to print in a single page
+- [AppCartera][mod] Add Verification hash to receipt report using Crypto module
+
+## v1.10.44 (2020-03-23)
+
+- [AppCommon][new] Add SpeechRecognition module, use it in app
+- [AppCommon][new] Add TextToSpeech module, use it in app
+- [AppCommon][new] Add Crypto encrypt/decrypt module, use it in app
+
+## v1.10.43 (2020-03-16)
+
+- [AppCartera][new] Create Payment receipt report, month listing and individual services under `/provision-payed-receipt`
+- [AppCartera][new] Create Payment receipt report, month listing and individual UI page under `/receipt-report`
+- [AppCartera][new] Create Payment receipt report, month listing and individual improvements
 
 ## v1.10.42 (2020-03-09)
 

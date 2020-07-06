@@ -35,6 +35,7 @@ export class TypeGeneratorServer {
     "CarteraProvision",
     "CarteraPayment",
     "CarteraPayDet",
+    "CarteraUnit",
     // Timeline
     "Timeline"
   ];

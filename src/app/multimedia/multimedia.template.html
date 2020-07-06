@@ -354,6 +354,7 @@
           <span *ngIf="epModel.fNotes">
             {{ epModel.fNotes.length }} / 500 characters
           </span>
+          <button type="button" (click)="dictate()">Dictate</button>
         </span>
 
         <span class="field" *ngIf="newEpForm.value.fEpId !== epModel.fNextEpId">

@@ -85,6 +85,35 @@
             , "entName": "User"
             , "displayName": "User"
         },{
+            "templateId": "string"
+            , "dbName": "cpr_folio"
+            , "size": 50
+            , "allowNull": true
+            , "dbComment": "Folio assigned to the receipt of this provision once it is payed"
+            , "entName": "Folio"
+            , "displayName": "Folio"
+        },{
+            "templateId": "string"
+            , "dbName": "cpr_type"
+            , "size": 100
+            , "dbComment": "Type of provision"
+            , "entName": "Type"
+            , "displayName": "Type"
+        },{
+            "templateId": "integer"
+            , "dbName": "cpr_year"
+            , "size": 4
+            , "dbComment": "Year of the provision application"
+            , "entName": "Year"
+            , "displayName": "Year"
+        },{
+            "templateId": "integer"
+            , "dbName": "cpr_month"
+            , "size": 2
+            , "dbComment": "Month of the provision application"
+            , "entName": "Month"
+            , "displayName": "Month"
+        },{
             "templateId": "creationDate"
         },{
             "templateId": "modificationDate"

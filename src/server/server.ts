@@ -12,11 +12,6 @@ app.use(
   express.static(path.join(__dirname, "../../node_modules"))
 );
 
-console.log(
-  "-- running from",
-  __dirname,
-  path.join(__dirname, "../../dist/intranet/assets")
-);
 app.use("/", express.static(path.join(__dirname, "../../dist/intranet")));
 
 app.use(function(req, res, next) {

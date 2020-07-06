@@ -5,12 +5,27 @@ import { first } from "rxjs/operators";
 import { User } from "./user-login.model";
 import { UserService } from "./user-login.service";
 import { AuthenticationService } from "./authentication.service";
+import { TextToSpeech } from "./speechRecognition";
 
 @Component({ templateUrl: "./home.template.html" })
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   currentUserSubscription: Subscription;
   users: User[] = [];
+  viewData = {
+    device: <any>{},
+    battery: {
+      level: null
+    },
+    localStorageUsage: {
+      details: null,
+      totalInKB: null
+    }
+  };
+  model = {
+    textToRead: null
+  };
+  speechInstance = new TextToSpeech();
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -21,10 +36,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.currentUser = user;
       }
     );
+    this.viewData.device = this.getDeviceInformation();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadAllUsers();
+    this.viewData.battery = await this.getBattery();
+    this.viewData.localStorageUsage = this.getLocalStorageUsage();
   }
 
   ngOnDestroy() {
@@ -48,5 +66,42 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(users => {
         this.users = users;
       });
+  }
+
+  getDeviceInformation() {
+    return navigator;
+  }
+
+  async getBattery() {
+    return navigator["getBattery"] && navigator["getBattery"]();
+  }
+
+  getLocalStorageUsage() {
+    let used = 0,
+      item = null;
+    let data = { details: [], total: 0, totalInKB: null };
+
+    for (item in localStorage) {
+      if (!localStorage.hasOwnProperty(item)) {
+        continue;
+      }
+      used = (localStorage[item].length + item.length) * 2;
+      data.total += used;
+
+      data.details.push({
+        item,
+        used,
+        usedInKB: (used / 1024).toFixed(2)
+      });
+    }
+
+    data.totalInKB = (data.total / 1024).toFixed(2);
+    return data;
+  }
+
+  readText() {
+    if (this.model.textToRead) {
+      this.speechInstance.textToSpeechVoice(this.model.textToRead);
+    }
   }
 }

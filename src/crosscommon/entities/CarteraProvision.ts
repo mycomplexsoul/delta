@@ -12,6 +12,10 @@ export class CarteraProvision implements iEntity {
 	public cpr_payed: number;
 	public cpr_remaining: number;
 	public cpr_id_user: string;
+	public cpr_folio: string;
+	public cpr_type: string;
+	public cpr_year: number;
+	public cpr_month: number;
 	public cpr_date_add: Date;
 	public cpr_date_mod: Date;
 	public cpr_ctg_status: number;
@@ -337,6 +341,130 @@ export class CarteraProvision implements iEntity {
 				, globalOrder: 0
 				, value: null
 			}, {
+				templateId: 'string'
+				, dbName: 'cpr_folio'
+				, dbType: 'string'
+				, isTableField: true
+				, isPK: false
+				, size: 50
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: 'Folio assigned to the receipt of this provision once it is payed'
+				, catalogId: ''
+				, originTable: ''
+				, linkedField: ''
+				, entName: 'Folio'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: 'Folio'
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 9
+				, orderOnNew: 9
+				, orderOnDetails: 9
+				, orderOnEdit: 9
+				, orderOnImport: 9
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'string'
+				, dbName: 'cpr_type'
+				, dbType: 'string'
+				, isTableField: true
+				, isPK: false
+				, size: 100
+				, decimal: 0
+				, minLength: 0
+				, allowNull: false
+				, default: ''
+				, dbComment: 'Type of provision'
+				, catalogId: ''
+				, originTable: ''
+				, linkedField: ''
+				, entName: 'Type'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: 'Type'
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 10
+				, orderOnNew: 10
+				, orderOnDetails: 10
+				, orderOnEdit: 10
+				, orderOnImport: 10
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'integer'
+				, dbName: 'cpr_year'
+				, dbType: 'integer'
+				, isTableField: true
+				, isPK: false
+				, size: 4
+				, decimal: 0
+				, minLength: 1
+				, allowNull: false
+				, default: ''
+				, dbComment: 'Year of the provision application'
+				, catalogId: ''
+				, originTable: ''
+				, linkedField: ''
+				, entName: 'Year'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: 'Year'
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 11
+				, orderOnNew: 11
+				, orderOnDetails: 11
+				, orderOnEdit: 11
+				, orderOnImport: 11
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'integer'
+				, dbName: 'cpr_month'
+				, dbType: 'integer'
+				, isTableField: true
+				, isPK: false
+				, size: 2
+				, decimal: 0
+				, minLength: 1
+				, allowNull: false
+				, default: ''
+				, dbComment: 'Month of the provision application'
+				, catalogId: ''
+				, originTable: ''
+				, linkedField: ''
+				, entName: 'Month'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: 'Month'
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 12
+				, orderOnNew: 12
+				, orderOnDetails: 12
+				, orderOnEdit: 12
+				, orderOnImport: 12
+				, globalOrder: 0
+				, value: null
+			}, {
 				templateId: 'creationDate'
 				, dbName: 'cpr_date_add'
 				, dbType: 'datetime'
@@ -361,11 +489,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Creation Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 9
-				, orderOnNew: 9
-				, orderOnDetails: 9
-				, orderOnEdit: 9
-				, orderOnImport: 9
+				, gridOrder: 13
+				, orderOnNew: 13
+				, orderOnDetails: 13
+				, orderOnEdit: 13
+				, orderOnImport: 13
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -394,11 +522,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Last Modification Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 10
-				, orderOnNew: 10
-				, orderOnDetails: 10
-				, orderOnEdit: 10
-				, orderOnImport: 10
+				, gridOrder: 14
+				, orderOnNew: 14
+				, orderOnDetails: 14
+				, orderOnEdit: 14
+				, orderOnImport: 14
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -425,11 +553,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 11
-				, orderOnNew: 11
-				, orderOnDetails: 11
-				, orderOnEdit: 11
-				, orderOnImport: 11
+				, gridOrder: 15
+				, orderOnNew: 15
+				, orderOnDetails: 15
+				, orderOnEdit: 15
+				, orderOnImport: 15
 				, globalOrder: undefined
 				, value: null
 			}, {
@@ -456,11 +584,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 12
-				, orderOnNew: 12
-				, orderOnDetails: 12
-				, orderOnEdit: 12
-				, orderOnImport: 12
+				, gridOrder: 16
+				, orderOnNew: 16
+				, orderOnDetails: 16
+				, orderOnEdit: 16
+				, orderOnImport: 16
 				, globalOrder: 0
 				, value: null
 			}
@@ -480,6 +608,10 @@ export class CarteraProvision implements iEntity {
 			this.cpr_payed = base.cpr_payed;
 			this.cpr_remaining = base.cpr_remaining;
 			this.cpr_id_user = base.cpr_id_user;
+			this.cpr_folio = base.cpr_folio;
+			this.cpr_type = base.cpr_type;
+			this.cpr_year = base.cpr_year;
+			this.cpr_month = base.cpr_month;
 			this.cpr_date_add = (base.cpr_date_add !== null) ? new Date(base.cpr_date_add) : null;
 			this.cpr_date_mod = (base.cpr_date_mod !== null) ? new Date(base.cpr_date_mod) : null;
 			this.cpr_ctg_status = base.cpr_ctg_status;

@@ -33,6 +33,8 @@ export class PendingProvisionReportComponent implements OnInit {
     nonIdentifiedTotalAmount: number;
     displayYearMonth: string;
     timelineList: Timeline[];
+    title: string;
+    layout: string;
   } = {
     pendingProvisionList: [],
     futureProvisionList: [],
@@ -49,7 +51,9 @@ export class PendingProvisionReportComponent implements OnInit {
     nonIdentifiedPaymentList: [],
     nonIdentifiedTotalAmount: 0,
     displayYearMonth: null,
-    timelineList: []
+    timelineList: [],
+    title: null,
+    layout: null // 2-pages, 1-page
   };
 
   parseQueryString() {
@@ -57,9 +61,14 @@ export class PendingProvisionReportComponent implements OnInit {
 
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
+    this.viewData.layout = query.get("layout") || "2-pages";
+
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month
     )} ${this.viewData.year}`;
+    this.viewData.title = `Relación de Cobranza ${
+      this.viewData.displayYearMonth
+    } FFJ78`;
   }
 
   constructor(
@@ -67,9 +76,7 @@ export class PendingProvisionReportComponent implements OnInit {
     private titleService: Title
   ) {
     this.parseQueryString();
-    titleService.setTitle(
-      `Relación de Cobranza ${this.viewData.displayYearMonth} FFJ78`
-    );
+    titleService.setTitle(this.viewData.title);
   }
 
   ngOnInit() {

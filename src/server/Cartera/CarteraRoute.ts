@@ -186,4 +186,16 @@ router.post("/payment", (req, res) => {
   server.savePaymentAndPayDetHandler(node);
 });
 
+/**
+ * Returns provision payment information to generate receipt
+ */
+router.get("/provision-payed-receipt", (req, res) => {
+  let server: CarteraServer = new CarteraServer();
+  let node: iNode = {
+    request: req,
+    response: res
+  };
+  server.getProvisionPayedReceiptListHandler(node);
+});
+
 export { router };

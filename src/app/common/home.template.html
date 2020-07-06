@@ -1,4 +1,70 @@
 <h1>Hi {{ currentUser.firstName }}!</h1>
-<p>You're logged in with Angular 7!!</p>
+<p>You're logged in with Angular 8!!</p>
 
-This is your dashboard
+Diagnostic information from your device
+<div>
+  Memory: {{ viewData.device.deviceMemory }}
+</div>
+<div>
+  Logical processors: {{ viewData.device.hardwareConcurrency }}
+</div>
+<div>
+  Network: {{ viewData.device.connection.effectiveType }}
+</div>
+<div>
+  Browser language: {{ viewData.device.language }}
+</div>
+<div>
+  Platform: {{ viewData.device.platform }}
+</div>
+<div>
+  User Agent: {{ viewData.device.userAgent }}
+</div>
+<div>
+  User Activation: {{ viewData.device.userActivation.hasBeenActive }} / {{
+  viewData.device.userActivation.isActive }}
+</div>
+<div>
+  Has Share API: {{ !!viewData.device.share }}
+</div>
+<div>
+  Battery: {{ viewData.battery.level }}
+</div>
+<div>
+  <div>
+    Local Storage usage:
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Usage in KB</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of viewData.localStorageUsage.details">
+        <td>
+          {{e.item}}
+        </td>
+        <td>
+          {{e.usedInKB}}
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td>
+          <strong>
+            {{viewData.localStorageUsage.totalInKB}}
+          </strong>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<div>
+  <textarea id="text-to-read" [(ngModel)]="model.textToRead"></textarea>
+  <button (click)="readText()" [disabled]="!model.textToRead">Read text</button>
+</div>

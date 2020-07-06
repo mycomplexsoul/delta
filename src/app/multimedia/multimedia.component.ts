@@ -15,7 +15,8 @@ import { Catalog } from "../../crosscommon/entities/Catalog";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { SyncQueue } from "../common/SyncQueue";
 import { CommonComponent } from "../common/common.component";
-import { iEntity } from "src/crosscommon/iEntity";
+
+import { startSpeechRecognition } from "../common/speechRecognition";
 
 @Component({
   selector: "multimedia",
@@ -603,5 +604,14 @@ export class MultimediaComponent {
 
       document.querySelector("#fRating")["focus"]();
     }
+  }
+
+  dictate() {
+    startSpeechRecognition()
+      .then(text => {
+        this.epModel.fNotes = text;
+      })
+      .catch(console.log);
+    return false;
   }
 }

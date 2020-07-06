@@ -1,0 +1,140 @@
+<div *ngIf="!viewData.unit">
+  <h1 class="page-title text-align-center">
+    {{viewData.title}}
+  </h1>
+
+  <table class="receipt-top-block">
+    <thead>
+      <tr>
+        <th class="padding-all-3">#</th>
+        <th class="padding-all-3">Unidad</th>
+        <th class="padding-all-3">Folio</th>
+        <th class="padding-all-3">Fecha de pago</th>
+        <th class="padding-all-3">Concepto</th>
+        <th class="padding-all-3">Cargo original</th>
+        <th class="padding-all-3">Abono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of viewData.paymentReportData; let count = index"
+        class="receipt-item receipt-top-block"
+      >
+        <td class="padding-all-3 text-align-center">{{count + 1}}</td>
+        <td class="padding-all-3 text-align-center">
+          {{item.provision.cpr_id_unit}}
+        </td>
+        <td class="padding-all-3 text-align-center">
+          {{item.provision.cpr_folio}}
+        </td>
+        <td class="padding-all-3 text-align-center">
+          {{item.paymentDate | date: "yyyy-MM-dd"}}
+        </td>
+        <td class="padding-all-3">{{item.provision.cpr_concept}}</td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_amount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div
+  *ngFor="let item of viewData.paymentReportData"
+  class="receipt-item receipt-top-block"
+  [ngClass]="{
+    'page-break-before': !viewData.unit
+  }"
+>
+  <h1 class="page-title text-align-center">
+    Recibo de pago
+  </h1>
+
+  <div class="receipt-header receipt-top-block padding-all-3">
+    <div>
+      <strong>FFJ78</strong>
+      <div>Francisco Field Jurado #78</div>
+      <div>Independencia, Benito Juárez</div>
+      <div>CDMX</div>
+    </div>
+    <div>
+      <div>Fecha de Impresión: {{viewData.date | date: "yyyy-MM-dd"}}</div>
+    </div>
+  </div>
+
+  <div class="receipt-information receipt-top-block">
+    <div>
+      <div>Folio: <strong>{{item.provision.cpr_folio}}</strong></div>
+    </div>
+    <div class="text-align-right">
+      <div>Condomino: {{item.name}}</div>
+      <div>Departamento: {{item.provision.cpr_id_unit}}</div>
+    </div>
+  </div>
+
+  <table class="receipt-top-block">
+    <thead>
+      <tr>
+        <th class="padding-all-3">Fecha</th>
+        <th class="padding-all-3">Concepto</th>
+        <th class="padding-all-3">Cargo original</th>
+        <th class="padding-all-3">Condonado</th>
+        <th class="padding-all-3">Abono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="padding-all-3 text-align-center">
+          {{item.paymentDate | date: "yyyy-MM-dd"}}
+        </td>
+        <td class="padding-all-3">{{item.provision.cpr_concept}}</td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_amount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right">
+          {{0 | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3 text-align-right">Total recibido</td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="receipt-sign-list receipt-top-block">
+    <table>
+      <tr class="no-border">
+        <td class="padding-all-3 text-align-center">
+          <img src="/assets/images/firma-comite.png" class="receipt-sign-img" />
+        </td>
+      </tr>
+      <tr>
+        <td class="padding-all-3 text-align-center">
+          Comité de Vigilancia
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="receipt-top-block">
+    Nota: El pago de este recibo no lo libera de adeudos anteriores.
+  </div>
+  <br />
+  <div>Cadena de Verificación: {{item.hash}}</div>
+</div>

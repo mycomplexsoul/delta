@@ -9,6 +9,7 @@ import { DateCommon } from "../common/date.common";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
+import { TextToSpeech } from "../common/speechRecognition";
 
 @Component({
   selector: "tasks",
@@ -89,6 +90,7 @@ export class TasksComponent implements OnInit {
   public events: any[] = [];
   public layout: string = "float"; // possible values: grid, float
   public selectedTask: Task = null;
+  speech = new TextToSpeech();
 
   constructor(
     tasksCore: TasksCore,
@@ -1366,6 +1368,8 @@ export class TasksComponent implements OnInit {
     }
     // send in-window notification
     this.notificationService.notify(data.body, "Tasks", 0);
+    // notify with speech :-D
+    this.speechText(data.body);
   }
 
   setUnpostpone(t: any) {
@@ -2503,5 +2507,9 @@ export class TasksComponent implements OnInit {
 
   getDate() {
     return DateUtils.newDateUpToSeconds();
+  }
+
+  speechText(text: string) {
+    this.speech.textToSpeechVoice(text);
   }
 }
