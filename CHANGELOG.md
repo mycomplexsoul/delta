@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.48 (2020-04-20)
+
+- [AppCommon][new] Upgrade Angular to latest v8.
+
 ## v1.10.47 (2020-04-13)
 
 - [AppTasks][new] Add a clear next tasks listing button to options section

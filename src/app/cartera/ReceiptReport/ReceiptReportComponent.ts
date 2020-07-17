@@ -5,7 +5,7 @@ import {
 } from "./ReceiptReportService";
 import { Title } from "@angular/platform-browser";
 import { DateUtils } from "src/crosscommon/DateUtility";
-import { generatePDF } from "src/crosscommon/pdfModule";
+// import { generatePDF } from "src/crosscommon/pdfModule";
 
 const UNIT_LABEL = "Departamento";
 
@@ -98,6 +98,6 @@ export class ReceiptReportComponent implements OnInit {
   }
 
   generatePDFReceipt() {
-    generatePDF(document.body);
+    // generatePDF(document.body);
   }
 }
