@@ -963,6 +963,10 @@ export class CarteraServer {
         cpr_payed: 0,
         cpr_remaining: 148,
         cpr_id_user: user,
+        cpr_folio: null,
+        cpr_type: "cuota-penalidad",
+        cpr_year: year,
+        cpr_month: month,
         cpr_date_add: DateUtils.newDateUpToSeconds(),
         cpr_date_mod: DateUtils.newDateUpToSeconds(),
         cpr_ctg_status: 1
@@ -978,6 +982,21 @@ export class CarteraServer {
     return Promise.all(allProvisions).then(list => {
       return list;
     });
+  }
+
+  lastFolioAvailable(provisionList: CarteraProvision[], date: Date) {
+    const monthAbr = DateUtils.getMonthNameSpanish(date.getMonth() + 1)
+      .substr(0, 3)
+      .toUpperCase();
+
+    const last = provisionList
+      .filter(p => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
+      .reduce((max, p) => {
+        const num = parseInt(p.cpr_folio.substr(6, 3), 10);
+        return max < num ? num : max;
+      }, 0);
+
+    return last;
   }
 
   rebuildPendingPaymentsForMonthHandler(node: iNode) {
@@ -1003,7 +1022,11 @@ export class CarteraServer {
           ),
           timelineList: await this.getTimeline(
             `cartera-pending-provision|${year}-${month}`
-          ).then(list => list.map(Utils.entityToRawTableFields))
+          ).then(list => list.map(Utils.entityToRawTableFields)),
+          lastFolio: this.lastFolioAvailable(
+            await this.getProvisions(),
+            new Date(year, month - 1, 1)
+          )
         })
       );
     });
@@ -2449,17 +2472,19 @@ export class CarteraServer {
 
   savePaymentAndPayDetHandler(node: iNode) {
     // payDetList: [{ "<provision_id>": <payment_amount> }, ...]
-    const { payment, payDetList } = node.request.body;
+    const { payment, payDetList, payDetFolioList } = node.request.body;
 
-    this.savePaymentAndPayDet(payment, payDetList).then(data => {
-      node.response.end(
-        JSON.stringify({
-          operationOk: true,
-          payment: Utils.entityToRawTableFields(data.payment),
-          payDetList: data.payDetList.map(Utils.entityToRawTableFields)
-        })
-      );
-    });
+    this.savePaymentAndPayDet(payment, payDetList, payDetFolioList).then(
+      data => {
+        node.response.end(
+          JSON.stringify({
+            operationOk: true,
+            payment: Utils.entityToRawTableFields(data.payment),
+            payDetList: data.payDetList.map(Utils.entityToRawTableFields)
+          })
+        );
+      }
+    );
   }
 
   buildMatchHint(date: Date | string, unit: string | number): string {
@@ -2476,7 +2501,8 @@ export class CarteraServer {
 
   async savePaymentAndPayDet(
     { paymentType, date, amount, unit, description, user, paymentId },
-    payDetList: any
+    payDetList: any,
+    payDetFolioList: any
   ): Promise<{
     payment: CarteraPayment;
     payDetList: CarteraPayDet[];
@@ -2564,8 +2590,12 @@ export class CarteraServer {
                   {
                     body: {
                       ...provision,
-                      cpr_payed: d.cpd_amount,
-                      cpr_remaining: provision.cpr_amount - d.cpd_amount,
+                      cpr_payed: provision.cpr_payed + d.cpd_amount,
+                      cpr_remaining:
+                        provision.cpr_amount -
+                        provision.cpr_payed -
+                        d.cpd_amount,
+                      cpr_folio: payDetFolioList[provision.cpr_id],
                       cpr_date_mod: DateUtils.newDateUpToSeconds()
                     },
                     pk: {
@@ -2696,11 +2726,7 @@ export class CarteraServer {
     );
   }
 
-  async getProvisionPayedReceiptList(
-    year: number,
-    month: number,
-    unit: string | number
-  ) {
+  async getProvisionPayedReceiptList(year: number, month: number) {
     const provisionList: CarteraProvision[] = await this.getProvisions();
     const payDetList: CarteraPayDet[] = await this.getPayDetList();
     const unitList: CarteraUnit[] = await this.getUnits();
@@ -2708,18 +2734,21 @@ export class CarteraServer {
     const initialDate: Date = new Date(year, month - 1, 1);
     const finalDate: Date = new Date(year, month, 1);
 
+    const monthAbr = DateUtils.getMonthNameSpanish(initialDate.getMonth() + 1)
+      .substr(0, 3)
+      .toUpperCase();
+
     const listing = {
       provisionList: provisionList
         .filter(
-          item =>
-            initialDate.getTime() <= item.cpr_date.getTime() &&
-            item.cpr_date.getTime() < finalDate.getTime() &&
-            (item.cpr_code_reference.includes("cuota-normal|") ||
-              item.cpr_code_reference.includes("cuota-extra|")) &&
-            item.cpr_remaining === 0 &&
-            (unit ? item.cpr_id_unit === unit : true)
+          item => item.cpr_folio && item.cpr_folio.substr(0, 3) === monthAbr
         )
-        .sort((a, b) => (a.cpr_id_unit > b.cpr_id_unit ? 1 : -1))
+        .sort((a, b) => {
+          return parseInt(a.cpr_folio.substr(6, 3)) >
+            parseInt(b.cpr_folio.substr(6, 3))
+            ? 1
+            : -1;
+        })
         .map(provision => {
           const hash = this.generateReceiptHash(provision); // use cpr_id to generate hash
           const unit = unitList.find(u => u.uni_id == provision.cpr_id_unit);
@@ -2749,10 +2778,47 @@ export class CarteraServer {
     return listing;
   }
 
-  async getProvisionPayedReceiptListHandler(node: iNode) {
-    const { year, month, unit = null } = node.request.query;
+  async getProvisionPayedReceiptByFolio(folio: string) {
+    const provisionList: CarteraProvision[] = await this.getProvisions();
+    const payDetList: CarteraPayDet[] = await this.getPayDetList();
+    const unitList: CarteraUnit[] = await this.getUnits();
 
-    const listing = await this.getProvisionPayedReceiptList(year, month, unit);
+    const listing = {
+      provisionList: provisionList
+        .filter(item => item.cpr_folio === folio)
+        .map(provision => {
+          const hash = this.generateReceiptHash(provision); // use cpr_id to generate hash
+          const unit = unitList.find(u => u.uni_id == provision.cpr_id_unit);
+          const payment = payDetList
+            .filter(p => p.cpd_id_provision === provision.cpr_id)
+            .sort((a, b) =>
+              a.cpd_date_payment.getTime() > b.cpd_date_payment.getTime()
+                ? 1
+                : -1
+            )[0];
+
+          return {
+            provision,
+            hash: hash.encryptedData,
+            name: `${unit.uni_first_name} ${unit.uni_middle_name}`,
+            paymentDate: payment ? payment.cpd_date_payment : null
+          };
+        })
+        .filter(item => item.paymentDate)
+    };
+
+    return listing;
+  }
+
+  async getProvisionPayedReceiptListHandler(node: iNode) {
+    const { year = null, month = null, folio = null } = node.request.query;
+
+    let listing;
+    if (folio) {
+      listing = await this.getProvisionPayedReceiptByFolio(folio);
+    } else {
+      listing = await this.getProvisionPayedReceiptList(year, month);
+    }
 
     node.response.end(
       JSON.stringify({

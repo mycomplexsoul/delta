@@ -77,6 +77,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+jspdf
+MIT
+
 lodash
 MIT
 Copyright OpenJS Foundation and other contributors <https://openjsf.org/>

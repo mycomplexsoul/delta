@@ -6,6 +6,7 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 import { Title } from "@angular/platform-browser";
 import { NgForm } from "@angular/forms";
 import { NotificationService } from "../common/notification.service";
+import { Utils } from "src/crosscommon/Utility";
 
 const CUOTA_NORMAL = "cuota-normal";
 const PROVISION_AMOUNT = 1480;
@@ -42,10 +43,13 @@ export class CarteraComponent implements OnInit {
   public viewData: {
     showItemForm: boolean;
     showPayDetList: boolean;
+    showPayDetListAfterPayment: boolean;
     payDetCaptureStatus: string;
     payDetCaptureTotal: number;
+    payDetFolioCaptureStatus: string;
     unitList: Array<string> | Array<number>;
     unitPendingProvisionList: CarteraProvision[];
+    unitPendingProvisionListAfterPayment: CarteraProvision[];
     pendingProvisionList: CarteraProvision[];
     futureProvisionList: CarteraProvision[];
     pendingTotalAmount: number;
@@ -64,10 +68,13 @@ export class CarteraComponent implements OnInit {
   } = {
     showItemForm: false,
     showPayDetList: false,
+    showPayDetListAfterPayment: false,
     payDetCaptureStatus: null,
     payDetCaptureTotal: 0,
+    payDetFolioCaptureStatus: null,
     unitList: UNIT_LIST,
     unitPendingProvisionList: [],
+    unitPendingProvisionListAfterPayment: [],
     pendingProvisionList: [],
     futureProvisionList: [],
     pendingTotalAmount: 0,
@@ -102,6 +109,8 @@ export class CarteraComponent implements OnInit {
     paymentId: null
   };
   private payDetModel: any = {};
+  private payDetFolioModel: any = {};
+  private lastFolio: number = 0;
 
   parseQueryString() {
     const date = new Date();
@@ -140,12 +149,14 @@ export class CarteraComponent implements OnInit {
         const {
           pendingProvisionList,
           futureProvisionList,
-          nonIdentifiedPaymentList
+          nonIdentifiedPaymentList,
+          lastFolio
         } = response;
 
         this.viewData.pendingProvisionList = pendingProvisionList;
         this.viewData.futureProvisionList = futureProvisionList;
         this.viewData.nonIdentifiedPaymentList = nonIdentifiedPaymentList;
+        this.lastFolio = lastFolio;
 
         // calculate totals
         this.viewData.pendingTotalAmount = this.sumByField(
@@ -265,7 +276,51 @@ export class CarteraComponent implements OnInit {
       this.model.fAmount - this.viewData.payDetCaptureTotal
         ? provision.cpr_remaining
         : this.model.fAmount - this.viewData.payDetCaptureTotal;
+
+    // if payment is complete for this provision, generate folio
+    if (this.payDetModel[provision.cpr_id] === provision.cpr_remaining) {
+      const date = DateUtils.stringDateToDate(this.model.fDate);
+      let next = this.nextFolioAvailable(
+        this.viewData.pendingProvisionList,
+        date
+      );
+
+      if (next <= this.lastFolio) {
+        this.lastFolio += 1;
+        next = this.lastFolio;
+      } else {
+        this.lastFolio = next; // save it for the next one
+      }
+
+      this.payDetFolioModel[
+        provision.cpr_id
+      ] = `${DateUtils.getMonthNameSpanish(date.getMonth() + 1)
+        .substr(0, 3)
+        .toUpperCase()}${date.getFullYear() % 100}-${Utils.pad(
+        next,
+        "0",
+        3,
+        -1
+      )}`;
+    }
+
     return false;
+  }
+
+  nextFolioAvailable(provisionList: CarteraProvision[], date: Date) {
+    const monthAbr = DateUtils.getMonthNameSpanish(date.getMonth() + 1)
+      .substr(0, 3)
+      .toUpperCase();
+
+    const next =
+      provisionList
+        .filter(p => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
+        .reduce((max, p) => {
+          const num = parseInt(p.cpr_folio.substr(6, 3), 10);
+          return max < num ? num : max;
+        }, 0) + 1;
+
+    return next;
   }
 
   validatePayDetTotal(amount: number) {
@@ -322,13 +377,22 @@ export class CarteraComponent implements OnInit {
           unitId,
           fDescription,
           paymentId,
-          this.payDetModel
+          this.payDetModel,
+          this.payDetFolioModel
         )
         .then(response => {
           this.notificationService.notify(
             `Payment created successfully`,
             "Cartera"
           );
+          // save up folios into provisions
+          Object.keys(this.payDetFolioModel).forEach(id => {
+            const prov = this.viewData.unitPendingProvisionList.find(
+              p => p.cpr_id === id
+            );
+            prov.cpr_folio = this.payDetFolioModel[id];
+          });
+          this.showListAfterPayment(this.payDetModel);
           this.resetForm(newItemForm);
         });
     }
@@ -341,8 +405,6 @@ export class CarteraComponent implements OnInit {
       this.model.fDescription = `Cuota de Mantenimiento ${DateUtils.getMonthNameSpanish(
         date.getMonth() + 1
       )} ${date.getFullYear()}`;
-    } else {
-      this.model.fDescription = null;
     }
   }
 
@@ -356,6 +418,7 @@ export class CarteraComponent implements OnInit {
     this.model.fDescription = null;
 
     this.payDetModel = {};
+    this.payDetFolioModel = {};
     this.viewData.payDetCaptureTotal = 0;
     this.viewData.payDetCaptureStatus = null;
     this.viewData.showPayDetList = false;
@@ -378,5 +441,42 @@ export class CarteraComponent implements OnInit {
       .concat(
         this.viewData.futureProvisionList.filter(e => e.cpr_id_unit === unitId)
       );
+  }
+
+  showListAfterPayment(payDetModel) {
+    this.viewData.unitPendingProvisionListAfterPayment = [];
+    const list = this.viewData.unitPendingProvisionListAfterPayment;
+
+    Object.keys(payDetModel).forEach(id => {
+      const provision = this.viewData.unitPendingProvisionList.find(
+        p => p.cpr_id === id
+      );
+
+      // apply payment
+      provision.cpr_payed += payDetModel[id];
+      provision.cpr_remaining -= payDetModel[id];
+
+      list.push(provision);
+    });
+
+    this.viewData.showPayDetListAfterPayment = true;
+  }
+
+  validatePayDetFolio(provision: CarteraProvision) {
+    if (provision.cpr_remaining !== this.payDetModel[provision.cpr_id]) {
+      this.viewData.payDetFolioCaptureStatus = "invalid";
+      return false;
+    }
+
+    const duplicate = this.viewData.pendingProvisionList.find(
+      p => p.cpr_folio === this.payDetFolioModel[provision.cpr_id]
+    );
+    if (duplicate) {
+      this.viewData.payDetFolioCaptureStatus = "invalid";
+      return false;
+    }
+
+    this.viewData.payDetFolioCaptureStatus = "valid";
+    return true;
   }
 }

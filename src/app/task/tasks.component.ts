@@ -2512,4 +2512,17 @@ export class TasksComponent implements OnInit {
   speechText(text: string) {
     this.speech.textToSpeechVoice(text);
   }
+
+  clearNextTasks() {
+    this.nextTasks = [];
+    this.nextTasks.push({
+      estimatedDuration: 0,
+      tasks: []
+    });
+
+    localStorage.setItem(
+      "NextTasks",
+      JSON.stringify(this.nextTasks[0].tasks.map((e: any) => e.tsk_id))
+    );
+  }
 }

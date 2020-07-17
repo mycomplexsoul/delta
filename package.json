@@ -1,6 +1,6 @@
 {
   "name": "delta",
-  "version": "1.10.45",
+  "version": "1.10.47",
   "scripts": {
     "ng": "ng",
     "start:ng": "ng serve",

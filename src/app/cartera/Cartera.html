@@ -119,7 +119,11 @@
           step="0.01"
           [(ngModel)]="model.fAmount"
           [disabled]="viewData.showPayDetList || model._paymentType === 'nonidentified' || model._paymentType === 'identification'"
-        />&nbsp;<button (click)="model.fAmount = 1480" *ngIf="!model.fAmount">
+          (change)="setDescription(model.fAmount, model.fDate)"
+        />&nbsp;<button
+          (click)="model.fAmount = 1480;setDescription(model.fAmount, model.fDate)"
+          *ngIf="!model.fAmount"
+        >
           $1,480
         </button>
       </span>
@@ -132,7 +136,6 @@
           class="field-select"
           [(ngModel)]="model.unitId"
           [disabled]="model._paymentType === 'nonidentified' || viewData.showPayDetList"
-          (change)="setDescription(model.fAmount, model.fDate)"
         >
           <option *ngFor="let opt of viewData.unitList" value="{{ opt }}"
             >{{ opt }}</option
@@ -194,6 +197,7 @@
               <th>Recaudado</th>
               <th>Adeudo</th>
               <th>Pago</th>
+              <th>Recibo</th>
             </tr>
           </thead>
           <tbody>
@@ -260,6 +264,20 @@
                   [max]="provision.cpr_remaining"
                 />
               </td>
+              <td class="padding-all-3">
+                <input
+                  [name]="provision.cpr_id + '_folio'"
+                  type="text"
+                  class="field-input width-80"
+                  [(ngModel)]="payDetFolioModel[provision.cpr_id]"
+                  (change)="validatePayDetFolio(provision)"
+                  [ngClass]="{
+                    'input-invalid': viewData.payDetFolioCaptureStatus === 'invalid' && payDetFolioModel[provision.cpr_id]
+                  }"
+                  [disabled]="payDetModel[provision.cpr_id] !== provision.cpr_remaining"
+                  maxlength="9"
+                />
+              </td>
             </tr>
           </tbody>
           <tfoot>
@@ -285,6 +303,7 @@
                 <br />rem {{model.fAmount - viewData.payDetCaptureTotal |
                 currency: "USD":"symbol-narrow":"1.2-2"}}
               </td>
+              <td class="padding-all-3"></td>
             </tr>
           </tfoot>
         </table>
@@ -300,3 +319,96 @@
     </div>
   </div>
 </form>
+
+<div *ngIf="viewData.showPayDetListAfterPayment">
+  <table
+    class="pending-provision-listing desktop-only width-100-pct-print-only"
+  >
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Unidad</th>
+        <th>Concepto</th>
+        <th>Monto</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let provision of viewData.unitPendingProvisionListAfterPayment; let counter = index"
+        class="pending-provision-listing-row"
+        [ngClass]="{
+          'provision-payed-row': provision.cpr_remaining === 0,
+          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+        }"
+      >
+        <td class="padding-all-3 text-align-center">
+          {{counter + 1}}
+        </td>
+        <td class="padding-all-3 text-align-center">
+          {{provision.cpr_id_unit}}
+        </td>
+        <td class="padding-all-3">
+          <span>
+            {{provision.cpr_concept}}
+          </span>
+          <span *ngIf="provision.cpr_remaining === 0">
+            <!-- payed row -->
+            [R]
+          </span>
+          <span
+            *ngIf="isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)"
+          >
+            <!-- added row -->
+            [A]
+          </span>
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          <span *ngIf="provision.cpr_remaining === 0">
+            <a
+              [href]="'/receipt-report?folio=' + provision.cpr_folio"
+              target="_blank"
+              >Ver recibo</a
+            >
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.payDetCaptureTotal | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+          <br />rem {{model.fAmount - viewData.payDetCaptureTotal | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

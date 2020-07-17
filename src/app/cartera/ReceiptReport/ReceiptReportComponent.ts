@@ -5,6 +5,7 @@ import {
 } from "./ReceiptReportService";
 import { Title } from "@angular/platform-browser";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { generatePDF } from "src/crosscommon/pdfModule";
 
 const UNIT_LABEL = "Departamento";
 
@@ -21,7 +22,7 @@ export class ReceiptReportComponent implements OnInit {
     year: number;
     month: number;
     displayYearMonth: string;
-    unit: string;
+    folio: string;
     date: Date;
   } = {
     paymentReportData: [],
@@ -29,20 +30,21 @@ export class ReceiptReportComponent implements OnInit {
     year: 0,
     month: 0,
     displayYearMonth: null,
-    unit: null,
+    folio: null,
     date: null
   };
 
   parseQueryString() {
     const query = this.receiptReportService.getQueryStringParameters();
 
-    this.viewData.year = parseInt(query.get("year"), 10);
-    this.viewData.month = parseInt(query.get("month"), 10);
-    this.viewData.unit = query.get("unit");
+    this.viewData.year = parseInt(query.get("year"), 10) || null;
+    this.viewData.month = parseInt(query.get("month"), 10) || null;
+    this.viewData.folio = query.get("folio") || null;
 
-    this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
+    this.viewData.displayYearMonth = this.getYearMonth(
+      this.viewData.year,
       this.viewData.month
-    )} ${this.viewData.year}`;
+    );
   }
 
   constructor(
@@ -50,11 +52,7 @@ export class ReceiptReportComponent implements OnInit {
     private titleService: Title
   ) {
     this.parseQueryString();
-    this.viewData.title = !this.viewData.unit
-      ? `Recibos de pago ${this.viewData.displayYearMonth}`
-      : `Recibo de pago ${this.viewData.unit} - ${
-          this.viewData.displayYearMonth
-        }`;
+    this.viewData.title = `Recibos de pago ${this.viewData.displayYearMonth}`;
     this.titleService.setTitle(this.viewData.title);
   }
 
@@ -66,9 +64,40 @@ export class ReceiptReportComponent implements OnInit {
     this.viewData.date = DateUtils.dateOnly();
 
     this.receiptReportService
-      .getPaymentReceiptForMonth(this.viewData.year, this.viewData.month)
+      .getPaymentReceiptForMonth(
+        this.viewData.year,
+        this.viewData.month,
+        this.viewData.folio
+      )
       .then((response: iReceiptReportData[]) => {
         this.viewData.paymentReportData = response;
+        if (this.viewData.folio) {
+          const prov =
+            this.viewData.paymentReportData.length &&
+            this.viewData.paymentReportData[0].provision;
+          this.setTitleForFolio(prov);
+        }
       });
+  }
+
+  setTitleForFolio(prov) {
+    if (prov) {
+      this.viewData.displayYearMonth = this.getYearMonth(
+        prov.cpr_year,
+        prov.cpr_month
+      );
+      this.viewData.title = `${this.viewData.folio} Recibo de pago ${
+        prov.cpr_id_unit
+      } - ${this.viewData.displayYearMonth}`;
+      this.titleService.setTitle(this.viewData.title);
+    }
+  }
+
+  getYearMonth(year, month) {
+    return `${DateUtils.getMonthNameSpanish(month)} ${year}`;
+  }
+
+  generatePDFReceipt() {
+    generatePDF(document.body);
   }
 }

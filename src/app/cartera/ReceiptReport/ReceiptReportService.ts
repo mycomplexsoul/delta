@@ -14,7 +14,8 @@ export class ReceiptReportService {
   private data: iReceiptReportData[] = [];
   private config = {
     api: {
-      list: "/api/external/cartera-ext/provision-payed-receipt"
+      list:
+        "/api/external/cartera-ext/provision-payed-receipt?year={year}&month={month}&folio={folio}"
     }
   };
 
@@ -28,15 +29,29 @@ export class ReceiptReportService {
     return new URL(window.location.href).searchParams;
   }
 
+  fillServiceUrl(year: number, month: number, folio: string | number) {
+    if (!folio) {
+      return this.config.api.list
+        .replace("{year}", year.toString())
+        .replace("{month}", month.toString())
+        .replace("&folio={folio}", "");
+    }
+    return this.config.api.list
+      .replace("year={year}", "")
+      .replace("&month={month}", "")
+      .replace("&folio=", "folio=")
+      .replace("{folio}", folio.toString());
+  }
+
   async getPaymentReceiptForMonth(
     year: number,
     month: number,
-    unit: string | number = null
+    folio: string | number = null
   ): Promise<iReceiptReportData[]> {
     const defaultData: iReceiptReportData[] = [];
 
     return this.sync
-      .get(`${this.config.api.list}?year=${year}&month=${month}`)
+      .get(this.fillServiceUrl(year, month, folio))
       .then(response => {
         this.data = response.provisionList.map((d: any) => ({
           provision: new CarteraProvision(d.provision),

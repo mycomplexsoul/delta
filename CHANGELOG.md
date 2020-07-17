@@ -27,6 +27,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.47 (2020-04-13)
+
+- [AppTasks][new] Add a clear next tasks listing button to options section
+- [AppCartera][new] Display payment listing with folios after payment is saved
+- [AppCartera][mod] Generate receipt report by folio or full month listing
+
+## v1.10.46 (2020-04-06)
+
+- [AppCartera][new] Add folio, reference, year and month to Cartera Provision entity
+- [AppCartera][new] Add folio support to Payment capture form, services and endpoints
+- [AppCartera][mod] Improve folio generation when capturing payment details
+
 ## v1.10.45 (2020-03-30)
 
 - [AppCommon][new] Add Diagnostic information to Home

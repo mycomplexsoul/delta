@@ -13,10 +13,12 @@ export class CarteraService {
     pendingProvisionList: CarteraProvision[];
     futureProvisionList: CarteraProvision[];
     nonIdentifiedPaymentList: CarteraPayment[];
+    lastFolio: number;
   } = {
     pendingProvisionList: [],
     futureProvisionList: [],
-    nonIdentifiedPaymentList: []
+    nonIdentifiedPaymentList: [],
+    lastFolio: 0
   };
   private config = {
     api: {
@@ -39,7 +41,8 @@ export class CarteraService {
       pendingProvisionList: [],
       futureProvisionList: [],
       nonIdentifiedPaymentList: [],
-      timelineList: []
+      timelineList: [],
+      lastFolio: 0
     };
 
     return this.sync
@@ -54,7 +57,8 @@ export class CarteraService {
           ),
           nonIdentifiedPaymentList: data.nonIdentifiedPaymentList.map(
             (d: any): CarteraPayment => new CarteraPayment(d)
-          )
+          ),
+          lastFolio: data.lastFolio
         };
         return this.data;
       })
@@ -70,7 +74,8 @@ export class CarteraService {
     unit: string | number,
     description: string,
     paymentId: string,
-    payDetList: any
+    payDetList: any,
+    payDetFolioList: any
   ): Promise<{
     payment: CarteraPayment;
     payDetList: CarteraPayDet[];
@@ -86,7 +91,8 @@ export class CarteraService {
           paymentId,
           user: this.authenticationService.currentUserValue.username
         },
-        payDetList
+        payDetList,
+        payDetFolioList
       })
       .then(data => {
         return {
