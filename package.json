@@ -92,7 +92,7 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "3.3.1",
     "karma-jasmine-html-reporter": "1.5.4",
-    "mocha": "6.1.4",
+    "mocha": "6.2.3",
     "nodemon": "1.19.1",
     "nyc": "14.1.1",
     "prettier": "1.16.4",
