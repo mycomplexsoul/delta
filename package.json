@@ -60,7 +60,7 @@
     "@angular/service-worker": "10.0.4",
     "@types/node": "12.12.50",
     "chart.js": "2.8.0",
-    "core-js": "2.6.3",
+    "core-js": "2.6.11",
     "cors": "2.8.5",
     "express": "4.16.4",
     "jsonwebtoken": "8.5.1",
