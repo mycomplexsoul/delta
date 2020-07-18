@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component, OnInit, Renderer2 } from "@angular/core";
 import { Place } from "../../crosscommon/entities/Place";
 import { PlaceService } from "./place.service";
 import { NgForm } from "@angular/forms";

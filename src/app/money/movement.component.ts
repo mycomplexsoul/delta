@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component, OnInit, Renderer2 } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 //import { CurrencyPipe } from '@angular/common';

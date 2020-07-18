@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component, OnInit, Renderer2 } from "@angular/core";
 import { Category } from "../../crosscommon/entities/Category";
 import { CategoryService } from "./category.service";
 import { NgForm } from "@angular/forms";

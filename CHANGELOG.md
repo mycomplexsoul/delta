@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppCommon][new] Upgrade Angular to latest v8
 - [AppCommon][new] Upgrade dependencies prior to Angular v9 upgrade
+- [AppCommon][new] Upgrade Angular v9
 
 ## v1.10.47 (2020-04-13)
 

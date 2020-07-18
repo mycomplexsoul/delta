@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from "@angular/core";
+import { Component, OnInit, Renderer2 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
 // types
