@@ -64,7 +64,7 @@
     "cors": "2.8.5",
     "express": "4.16.4",
     "jsonwebtoken": "8.5.1",
-    "mysql": "2.16.0",
+    "mysql": "2.18.1",
     "ng2-charts": "2.3.2",
     "nodemailer": "5.1.1",
     "rxjs": "6.6.0",
