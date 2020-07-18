@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.49 (2020-04-27)
+
+- [AppCommon][new] Upgrade Angular v10
+
 ## v1.10.48 (2020-04-20)
 
 - [AppCommon][new] Upgrade Angular to latest v8
