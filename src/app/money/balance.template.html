@@ -136,7 +136,44 @@
     [selectedBalance]="model.selectedBalance"
     selectedView="compact"
     *ngIf="viewData.movements.length"
+    (onSelectMovement)="selectMovement($event)"
   ></movement-listing>
+
+  <div *ngIf="viewData.selectedTotal !== 0">
+    <table>
+      <thead>
+        <tr>
+          <td>Type</td>
+          <td>Sum</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Income</td>
+          <td>
+            {{viewData.selectedIncome | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>Expense</td>
+          <td>
+            {{viewData.selectedExpense | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          <td>
+            {{viewData.selectedTotal | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
   <canvas
     id="monthlyExpenseChart"

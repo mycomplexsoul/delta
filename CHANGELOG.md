@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppCommon][new] Upgrade Angular v10
 - [AppCommon][new] Upgrade dependencies
+- [AppMoney][new] Add checkboxes to select movements in movements grid, also add a total as the sum of the movements amounts
 
 ## v1.10.48 (2020-04-20)
 

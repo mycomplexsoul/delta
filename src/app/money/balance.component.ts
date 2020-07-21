@@ -44,6 +44,9 @@ export class BalanceComponent implements OnInit {
     };
     showOptions: boolean;
     monthlyExpenseVsIncomeChart: any;
+    selectedTotal: number;
+    selectedIncome: number;
+    selectedExpense: number;
   } = {
     balance: [],
     movements: [],
@@ -87,7 +90,10 @@ export class BalanceComponent implements OnInit {
         }
       ],
       chartLabels: []
-    }
+    },
+    selectedTotal: 0,
+    selectedIncome: 0,
+    selectedExpense: 0
   };
   public services: {
     balance: BalanceService;
@@ -489,5 +495,16 @@ export class BalanceComponent implements OnInit {
         this.transfer();
       }
     }
+  }
+
+  selectMovement(movement: Movement) {
+    if (movement.mov_ctg_type === 1) {
+      this.viewData.selectedExpense += movement.mov_amount;
+    }
+    if (movement.mov_ctg_type === 2) {
+      this.viewData.selectedIncome += movement.mov_amount;
+    }
+    this.viewData.selectedTotal =
+      this.viewData.selectedIncome - this.viewData.selectedExpense;
   }
 }

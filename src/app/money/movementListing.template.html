@@ -103,6 +103,7 @@
 <div *ngIf="movementList.length && selectedView === 'compact'">
   <table>
     <tr>
+      <th class="padding-all-5">-</th>
       <th class="padding-all-5 width-80">Date</th>
       <th class="padding-all-5 width-80">Amount</th>
       <th class="padding-all-5">Place</th>
@@ -112,6 +113,7 @@
       class="movements-listing-row vertical-align-top"
       *ngIf="selectedBalance"
     >
+      <td class="padding-all-5"></td>
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
         <strong
@@ -126,6 +128,9 @@
       class="movements-listing-row vertical-align-top"
       *ngFor="let m of movementList"
     >
+      <td class="padding-all-5">
+        <input type="checkbox" (click)="handleSelectMovement(m)" />
+      </td>
       <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
       <td class="padding-all-5 text-align-right" *ngIf="selectedBalance">
         {{ (m.mov_ctg_type === 1 || (m.mov_ctg_type === 3 && m.mov_id_account
@@ -145,6 +150,7 @@
       class="movements-listing-row vertical-align-top"
       *ngIf="selectedBalance"
     >
+      <td class="padding-all-5"></td>
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
         <strong

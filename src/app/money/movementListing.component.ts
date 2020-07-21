@@ -18,6 +18,7 @@ export class MovementListingComponent {
   @Input() showSearch: boolean;
   @Input() searchTerm: string;
   @Output() onSearch: EventEmitter<any> = new EventEmitter();
+  @Output() onSelectMovement: EventEmitter<any> = new EventEmitter();
 
   handleClick(id: string) {
     if (this.onItemClick) {
@@ -28,6 +29,12 @@ export class MovementListingComponent {
   handleSearch() {
     if (this.onSearch) {
       this.onSearch.emit(this.searchTerm);
+    }
+  }
+
+  handleSelectMovement(movement: Movement) {
+    if (this.onSelectMovement) {
+      this.onSelectMovement.emit(movement);
     }
   }
 }
