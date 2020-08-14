@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.51 (2020-05-11)
+
+- [AppCartera][new] Add jspdf to allow PDF generation for reports
+
 ## v1.10.50 (2020-05-04)
 
 - [AppCartera][mod] Cartera payment report improvements to print version to allow easy capture
