@@ -101,6 +101,16 @@
             , "originTable": "ACCOUNT"
             , "linkedField": "ACCOUNT1.acc_name"
         },{
+            "templateId": "table"
+            , "dbName": "bal_ctg_account_type"
+            , "dbType": "integer"
+            , "originTable": "ACCOUNT"
+            , "linkedField": "ACCOUNT1.acc_ctg_type"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_account_type"
+            , "catalogId": "ACCOUNT_TYPES"
+        },{
             "templateId": "catalog"
             , "linkedField": "_ctg_currency"
         },{

@@ -23,30 +23,62 @@
       *ngFor="let item of viewData.paymentReportData; let counter = index"
       class="payment-listing-row"
     >
-      <td class="padding-all-3 text-align-center vertical-align-top">
+      <td
+        class="padding-all-3 text-align-center vertical-align-top payment-report-counter"
+      >
         {{counter + 1}}
       </td>
-      <td class="padding-all-3 text-align-center vertical-align-top">
+      <td
+        class="padding-all-3 text-align-center vertical-align-top payment-report-unit"
+      >
         {{item.provision.cpr_id_unit}}
       </td>
-      <td class="padding-all-3 text-align-right vertical-align-top">
+      <td
+        class="padding-all-3 text-align-right vertical-align-top payment-report-in-favor"
+      >
         <span *ngIf="item.previousPayDetTotal">
           {{item.previousPayDetTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
         </span>
       </td>
-      <td class="padding-all-3 width-80 text-align-center vertical-align-top">
+      <td
+        class="padding-all-3 width-80-strict text-align-center vertical-align-top"
+      >
         <span *ngIf="item.paymentList.length > 0">
           {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
           date: "yyyy-MM-dd"}}
         </span>
+        <span
+          *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
+        >
+          {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +
+          viewData.month }}-___
+        </span>
       </td>
-      <td class="padding-all-3 text-align-right vertical-align-top">
+      <td
+        class="padding-all-3 vertical-align-top"
+        [ngClass]="{
+        'text-align-right': viewData.layout !== 'print',
+        'payment-report-amount': viewData.layout !== 'print',
+        'payment-report-amount-print': viewData.layout === 'print'
+      }"
+      >
         <span *ngIf="item.paymentList.length > 0">
           {{item.paymentList.length && item.paymentList[0].payment.cpy_amount |
           currency: "USD":"symbol-narrow":"1.2-2"}}
         </span>
+        <span
+          *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
+        >
+          <input type="checkbox" />
+          <span>
+            {{ 1480 | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          <span>
+            ó otro: $_______
+          </span>
+        </span>
       </td>
-      <td class="padding-all-3 width-80 vertical-align-top">
+      <td class="padding-all-3 vertical-align-top">
         <div *ngIf="item.paymentList.length > 0">
           <div *ngFor="let det of item.paymentList[0].payDetList">
             <span *ngIf="item.paymentList[0].payDetList.length > 1">
@@ -58,9 +90,17 @@
             </span>
           </div>
         </div>
+        <div
+          *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
+        >
+          <input type="checkbox" />
+          <span>
+            Mantto {{ viewData.displayYearMonth }}
+          </span>
+        </div>
       </td>
       <td
-        class="padding-all-3 width-100 vertical-align-top payment-report-unit"
+        class="padding-all-3 vertical-align-top payment-report-sign"
         *ngIf="viewData.layout === 'print'"
       >
         {{item.provision.cpr_id_unit}}

@@ -5,7 +5,6 @@ import { Title } from "@angular/platform-browser";
 // types
 import { Movement } from "../../crosscommon/entities/Movement";
 import { Account } from "../../crosscommon/entities/Account";
-import { Catalog } from "../../crosscommon/entities/Catalog";
 import { Category } from "../../crosscommon/entities/Category";
 import { Place } from "../../crosscommon/entities/Place";
 import { Entry } from "../../crosscommon/entities/Entry";
@@ -13,7 +12,6 @@ import { Preset } from "../../crosscommon/entities/Preset";
 import { iEntity } from "../../crosscommon/iEntity";
 
 // services
-import { StorageService } from "../common/storage.service";
 import { AccountService } from "./account.service";
 import { CategoryService } from "./category.service";
 import { PlaceService } from "./place.service";
@@ -23,7 +21,6 @@ import { BalanceService } from "./balance.service";
 import { PresetService } from "./preset.service";
 import { formatCurrency } from "@angular/common";
 import { DateUtils } from "src/crosscommon/DateUtility";
-import { reduce } from "rxjs/operators";
 
 @Component({
   selector: "movement",
