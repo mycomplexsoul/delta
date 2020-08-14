@@ -598,7 +598,13 @@
 <div id="nextToDoTodayList" *ngIf="nextTasks[0].tasks.length">
   <hr />
   <div class="task-open-task-list-container">
-    <div *ngFor="let item of nextTasks" class="task-record">
+    <div
+      *ngFor="let item of nextTasks"
+      class="task-record"
+      [ngClass]="{
+      'columns-3': nextTasks.length > 10
+    }"
+    >
       <div>
         <button
           class="button-link no-underline"

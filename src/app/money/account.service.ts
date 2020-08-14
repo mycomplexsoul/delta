@@ -50,7 +50,7 @@ export class AccountService {
         {
           f: "acc_ctg_type",
           op: "ne",
-          val: "4"
+          val: "5"
         }
       ]
     };
