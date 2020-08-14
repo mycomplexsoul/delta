@@ -17,6 +17,8 @@ export class Balance implements iEntity {
 	public bal_ctg_status: number;
 
 	public bal_txt_account: string;
+	public bal_ctg_account_type: number;
+	public bal_txt_account_type: string;
 	public bal_txt_currency: string;
 	public bal_txt_status: string;
 
@@ -469,6 +471,68 @@ export class Balance implements iEntity {
 				, globalOrder: 0
 				, value: null
 			}, {
+				templateId: 'table'
+				, dbName: 'bal_ctg_account_type'
+				, dbType: 'integer'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: ''
+				, originTable: 'ACCOUNT'
+				, linkedField: 'ACCOUNT1.acc_ctg_type'
+				, entName: ''
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 13
+				, orderOnNew: 13
+				, orderOnDetails: 13
+				, orderOnEdit: 13
+				, orderOnImport: 13
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'catalog'
+				, dbName: 'bal_txt_account_type'
+				, dbType: 'string'
+				, isTableField: false
+				, isPK: false
+				, size: 250
+				, decimal: 0
+				, minLength: 0
+				, allowNull: true
+				, default: ''
+				, dbComment: ''
+				, catalogId: 'ACCOUNT_TYPES'
+				, originTable: 'CATALOG'
+				, linkedField: 'bal_ctg_account_type'
+				, entName: 'Text'
+				, formControl: 'Textbox'
+				, captureRequired: false
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: ''
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 14
+				, orderOnNew: 14
+				, orderOnDetails: 14
+				, orderOnEdit: 14
+				, orderOnImport: 14
+				, globalOrder: 0
+				, value: null
+			}, {
 				templateId: 'catalog'
 				, dbName: 'bal_txt_currency'
 				, dbType: 'string'
@@ -492,11 +556,11 @@ export class Balance implements iEntity {
 				, displayName: 'Currency'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 13
-				, orderOnNew: 13
-				, orderOnDetails: 13
-				, orderOnEdit: 13
-				, orderOnImport: 13
+				, gridOrder: 15
+				, orderOnNew: 15
+				, orderOnDetails: 15
+				, orderOnEdit: 15
+				, orderOnImport: 15
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -523,11 +587,11 @@ export class Balance implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 14
-				, orderOnNew: 14
-				, orderOnDetails: 14
-				, orderOnEdit: 14
-				, orderOnImport: 14
+				, gridOrder: 16
+				, orderOnNew: 16
+				, orderOnDetails: 16
+				, orderOnEdit: 16
+				, orderOnImport: 16
 				, globalOrder: 0
 				, value: null
 			}
@@ -557,6 +621,8 @@ export class Balance implements iEntity {
 			this.bal_ctg_status = base.bal_ctg_status;
 
 			this.bal_txt_account = base.bal_txt_account;
+			this.bal_ctg_account_type = base.bal_ctg_account_type;
+			this.bal_txt_account_type = base.bal_txt_account_type;
 			this.bal_txt_currency = base.bal_txt_currency;
 			this.bal_txt_status = base.bal_txt_status;
 		}

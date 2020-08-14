@@ -5,7 +5,9 @@ import {
 } from "./ReceiptReportService";
 import { Title } from "@angular/platform-browser";
 import { DateUtils } from "src/crosscommon/DateUtility";
-// import { generatePDF } from "src/crosscommon/pdfModule";
+import html2canvas from "html2canvas";
+import * as jsPDF from "jspdf";
+// import { generatePDF } from "../../common/pdfModule";
 
 const UNIT_LABEL = "Departamento";
 
@@ -98,6 +100,16 @@ export class ReceiptReportComponent implements OnInit {
   }
 
   generatePDFReceipt() {
+    if (window) {
+      window["html2canvas"] = html2canvas;
+    }
+    const pdf = new jsPDF("p", "pt", "letter");
+
+    pdf.html(document.querySelector("receipt-report").innerHTML, {
+      callback: function(doc) {
+        doc.save();
+      }
+    });
     // generatePDF(document.body);
   }
 }
