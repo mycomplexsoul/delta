@@ -27,10 +27,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.51 (2020-05-11)
+
+- [AppCartera][new] Add jspdf to allow PDF generation for reports
+
+## v1.10.50 (2020-05-04)
+
+- [AppCartera][mod] Cartera payment report improvements to print version to allow easy capture
+- [AppMoney][new] Add total expenses graph in balance page
+- [AppMoney][new] Add specific categories expenses graph in balance page
+- [AppMoney][new] Add total balance responsive view in balance page
+
 ## v1.10.49 (2020-04-27)
 
 - [AppCommon][new] Upgrade Angular v10
 - [AppCommon][new] Upgrade dependencies
+- [AppMoney][new] Add checkboxes to select movements in movements grid, also add a total as the sum of the movements amounts
 
 ## v1.10.48 (2020-04-20)
 

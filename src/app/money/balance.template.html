@@ -41,21 +41,21 @@
     <table>
       <tr>
         <th>Account</th>
-        <th>Initial</th>
-        <th>Charges</th>
-        <th>Withdrawals</th>
+        <th class="desktop-only">Initial</th>
+        <th class="desktop-only">Charges</th>
+        <th class="desktop-only">Withdrawals</th>
         <th>Final</th>
         <th>Actions</th>
       </tr>
       <tr *ngFor="let b of viewData.monthBalance" class="balance-row">
         <td>{{ b.bal_txt_account }}</td>
-        <td class="text-align-right padding-all-5">
+        <td class="text-align-right padding-all-5 desktop-only">
           {{ b.bal_initial | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
-        <td class="text-align-right padding-all-5">
+        <td class="text-align-right padding-all-5 desktop-only">
           {{ b.bal_charges | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
-        <td class="text-align-right padding-all-5">
+        <td class="text-align-right padding-all-5 desktop-only">
           {{ b.bal_withdrawals | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
         <td
@@ -70,6 +70,28 @@
         </td>
         <td>
           <a href="#" (click)="renderMovements(b, $event)">View Movements</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="balance-listing-container">
+    <table>
+      <tr>
+        <th>Account Type</th>
+        <th>Final</th>
+      </tr>
+      <tr *ngFor="let b of viewData.balanceDistribution" class="balance-row">
+        <td>{{ b.name }}</td>
+        <td
+          class="text-align-right padding-all-5"
+          [ngClass]="{
+            'balance-zero': b.total == 0,
+            'balance-positive': b.total > 0,
+            'balance-negative': b.total < 0
+          }"
+        >
+          {{ b.total | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
       </tr>
     </table>
@@ -136,7 +158,44 @@
     [selectedBalance]="model.selectedBalance"
     selectedView="compact"
     *ngIf="viewData.movements.length"
+    (onSelectMovement)="selectMovement($event)"
   ></movement-listing>
+
+  <div *ngIf="viewData.selectedTotal !== 0">
+    <table>
+      <thead>
+        <tr>
+          <td>Type</td>
+          <td>Sum</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Income</td>
+          <td>
+            {{viewData.selectedIncome | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>Expense</td>
+          <td>
+            {{viewData.selectedExpense | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          <td>
+            {{viewData.selectedTotal | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
   <canvas
     id="monthlyExpenseChart"
@@ -166,6 +225,24 @@
     [datasets]="viewData.monthlyExpenseVsIncomeChart.chartData"
     [labels]="viewData.monthlyExpenseVsIncomeChart.chartLabels"
     [chartType]="viewData.monthlyExpenseVsIncomeChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyExpenseComparisonChart"
+    baseChart
+    [datasets]="viewData.monthlyExpenseComparisonChart.chartData"
+    [labels]="viewData.monthlyExpenseComparisonChart.chartLabels"
+    [chartType]="viewData.monthlyExpenseComparisonChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyExpenseComparisonFoodChart"
+    baseChart
+    [datasets]="viewData.monthlyExpenseComparisonFoodChart.chartData"
+    [labels]="viewData.monthlyExpenseComparisonFoodChart.chartLabels"
+    [chartType]="viewData.monthlyExpenseComparisonFoodChart.chartType"
   >
   </canvas>
 </div>
