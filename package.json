@@ -60,7 +60,7 @@
     "@angular/service-worker": "10.0.9",
     "@types/node": "12.12.54",
     "chart.js": "2.8.0",
-    "core-js": "2.6.11",
+    "core-js": "3.6.5",
     "cors": "2.8.5",
     "express": "4.17.1",
     "html2canvas": "^1.0.0-rc.5",
