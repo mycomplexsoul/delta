@@ -158,6 +158,10 @@ nav a.router-link-active {
   min-width: 100%;
 }
 
+.max-width-100-pct {
+  max-width: 100%;
+}
+
 .width-120 {
   width: 120px;
 }
@@ -302,6 +306,10 @@ textarea.task-multiple {
   }
   table.desktop-only {
     display: inline-table;
+  }
+  th.desktop-only,
+  td.desktop-only {
+    display: table-cell;
   }
 }
 
@@ -654,6 +662,9 @@ link {
 #nextToDoTodayList .task-record {
   max-width: 100%;
   max-height: none;
+}
+
+.columns-3 {
   column-count: 3;
 }
 

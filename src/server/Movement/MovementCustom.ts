@@ -1263,7 +1263,7 @@ export class MovementCustom {
             {
               f: "acc_ctg_type",
               op: "eq",
-              val: "4"
+              val: "5"
             },
             {
               f: "acc_name",

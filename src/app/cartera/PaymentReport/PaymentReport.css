@@ -10,14 +10,35 @@
   }
 
   table tr td.padding-all-3 {
-    padding: 6px 3px;
+    padding: 5px 3px;
     border: 1px solid black;
   }
 
+  .payment-report-counter {
+    width: 20px;
+  }
+
   .payment-report-unit {
+    width: 30px;
+  }
+
+  .payment-report-in-favor {
+    width: 50px;
+  }
+
+  .payment-report-amount {
+    width: 60px;
+  }
+
+  .payment-report-amount-print {
+    width: 160px;
+  }
+
+  .payment-report-sign {
     padding: 0px !important;
     vertical-align: top;
     font-size: 0.6rem;
+    width: 140px;
   }
 }
 

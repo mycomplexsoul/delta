@@ -27,6 +27,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.50 (2020-05-04)
+
+- [AppCartera][mod] Cartera payment report improvements to print version to allow easy capture
+- [AppMoney][new] Add total expenses graph in balance page
+- [AppMoney][new] Add specific categories expenses graph in balance page
+- [AppMoney][new] Add total balance responsive view in balance page
+
 ## v1.10.49 (2020-04-27)
 
 - [AppCommon][new] Upgrade Angular v10
