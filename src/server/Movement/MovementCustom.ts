@@ -31,7 +31,7 @@ export class MovementCustom {
     findCriteria: (e: T) => boolean,
     returnField: string
   ) => {
-    const f = arr.filter(e => findCriteria(e));
+    const f = arr.filter((e) => findCriteria(e));
     if (f.length) {
       return f[0][returnField];
     } else {
@@ -70,7 +70,7 @@ export class MovementCustom {
       placeModel,
       accountModel,
       movementModel,
-      catalogModel
+      catalogModel,
     ];
 
     Promise.all(
@@ -83,7 +83,7 @@ export class MovementCustom {
         })
       )
     )
-      .then(response => {
+      .then((response) => {
         // We have all data from database now
         categoryList = response[0].rows;
         placeList = response[1].rows;
@@ -122,7 +122,7 @@ export class MovementCustom {
             mct_id_user: user,
             mct_date_add: d,
             mct_date_mod: d,
-            mct_ctg_status: 1
+            mct_ctg_status: 1,
           });
           return elem;
         };
@@ -136,13 +136,13 @@ export class MovementCustom {
             mpl_id_user: user,
             mpl_date_add: d,
             mpl_date_mod: d,
-            mpl_ctg_status: 1
+            mpl_ctg_status: 1,
           });
           return elem;
         };
         const movementsImport = {
           // this should come from a different file
-          movements: []
+          movements: [],
         };
         movementsImport.movements.forEach((rawMov: string) => {
           // Get individual values for current movement
@@ -185,12 +185,12 @@ export class MovementCustom {
           ...newCategoriesList.map((elem: Category) =>
             sqlMotor.toInsertSQL(elem)
           ),
-          ...newPlacesList.map((elem: Place) => sqlMotor.toInsertSQL(elem))
+          ...newPlacesList.map((elem: Place) => sqlMotor.toInsertSQL(elem)),
         ];
 
         // save categories to storage
         Promise.all(connection.runSqlArray(all_sql))
-          .then(response => {
+          .then((response) => {
             // all new categories are saved now
             // append new categories to current listing
             categoryList = categoryList.concat(newCategoriesList);
@@ -349,7 +349,7 @@ export class MovementCustom {
                   sqlMotor.toInsertSQL(elem)
                 )
               )
-            ).then(response => {
+            ).then((response) => {
               // All new movements inserted
               connection.close();
               node.response.end(
@@ -357,19 +357,19 @@ export class MovementCustom {
                   operationOk: true,
                   message: `Batch finished, inserted ok: ${
                     movementList.length
-                  }, errors: ${0}`
+                  }, errors: ${0}`,
                 })
               );
             });
           })
-          .catch(err => {
+          .catch((err) => {
             // TODO: Some category/place had an error on inserting, abort until that is fixed
             node.response.end(
               JSON.stringify({ operationOk: false, message: `error ${err}` })
             );
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(
           `An error ocurred while fetching initial data from database, error is: ${err}`
         );
@@ -411,7 +411,7 @@ export class MovementCustom {
           ent_id_user: m.mov_id_user,
           ent_date_add: m.mov_date_add,
           ent_date_mod: m.mov_date_mod,
-          ent_ctg_status: m.mov_ctg_status
+          ent_ctg_status: m.mov_ctg_status,
         })
       );
       // generate entry 2
@@ -433,24 +433,24 @@ export class MovementCustom {
           ent_id_user: m.mov_id_user,
           ent_date_add: m.mov_date_add,
           ent_date_mod: m.mov_date_mod,
-          ent_ctg_status: m.mov_ctg_status
+          ent_ctg_status: m.mov_ctg_status,
         })
       );
     });
     // insert entries
-    const responsesPromises = entryList.map(e => sqlMotor.toInsertSQL(e));
+    const responsesPromises = entryList.map((e) => sqlMotor.toInsertSQL(e));
     return Promise.all(connection.runSqlArray(responsesPromises))
-      .then(values => {
+      .then((values) => {
         // all inserted ok
         connection.close();
         console.log(`Batch finished, inserted ok: ${entryList.length}`);
         return {
           operationOk: true,
           message: `Batch finished, inserted ok: ${entryList.length}`,
-          data: entryList
+          data: entryList,
         };
       })
-      .catch(reason => {
+      .catch((reason) => {
         // some failed
         console.log("err on inserting entries", reason);
         return { operationOk: false, message: `error ${reason}` };
@@ -462,9 +462,9 @@ export class MovementCustom {
     const movementModel: Movement = new Movement();
     const sqlMotor: MoSQL = new MoSQL(movementModel);
 
-    connection.runSql(sqlMotor.toSelectSQL()).then(response => {
+    connection.runSql(sqlMotor.toSelectSQL()).then((response) => {
       const list: Movement[] = response.rows.map((r: any) => new Movement(r));
-      this.generateEntries(list).then(result => {
+      this.generateEntries(list).then((result) => {
         node.response.end(JSON.stringify(result));
       });
     });
@@ -475,9 +475,9 @@ export class MovementCustom {
     const sqlMotor: MoSQL = new MoSQL();
     let balanceList: Balance[] = [];
 
-    entryList.forEach(e => {
+    entryList.forEach((e) => {
       let b: Balance = balanceList.find(
-        b =>
+        (b) =>
           b.bal_year === e.ent_date.getFullYear() &&
           b.bal_month === e.ent_date.getMonth() + 1 &&
           b.bal_id_account === e.ent_id_account &&
@@ -509,17 +509,17 @@ export class MovementCustom {
       }
     });
     // insert balance
-    let responsesPromises = balanceList.map(b => sqlMotor.toInsertSQL(b));
+    let responsesPromises = balanceList.map((b) => sqlMotor.toInsertSQL(b));
     return Promise.all(connection.runSqlArray(responsesPromises))
-      .then(values => {
+      .then((values) => {
         // all inserted ok
         connection.close();
         return {
           operationOk: true,
-          message: `Batch finished, inserted ok: ${balanceList.length}`
+          message: `Batch finished, inserted ok: ${balanceList.length}`,
         };
       })
-      .catch(reason => {
+      .catch((reason) => {
         // some failed
         console.log("err on inserting balance", reason);
         return { operationOk: false, message: `error ${reason}` };
@@ -531,11 +531,11 @@ export class MovementCustom {
     const entryModel: Entry = new Entry();
     const sqlMotor: MoSQL = new MoSQL(entryModel);
 
-    connection.runSql(sqlMotor.toSelectSQL()).then(response => {
+    connection.runSql(sqlMotor.toSelectSQL()).then((response) => {
       let entryList: Entry[] = response.rows.map((r: any) => new Entry(r));
       console.log("entries to process", response.rows.length);
 
-      this.generateBalance(entryList).then(result => {
+      this.generateBalance(entryList).then((result) => {
         node.response.end(JSON.stringify(result));
       });
     });
@@ -548,7 +548,7 @@ export class MovementCustom {
 
     let sql: string = `select min(ent_date) as min, max(ent_date) as max from entry where ent_id_user = '${user}'`;
     const connection: iConnection = ConnectionService.getConnection();
-    return connection.runSql(sql).then(response => {
+    return connection.runSql(sql).then((response) => {
       if (response) {
         let yearInitial = new Date(response.rows[0].min).getFullYear();
         let monthInitial = new Date(response.rows[0].min).getMonth() + 1;
@@ -563,7 +563,7 @@ export class MovementCustom {
             monthFinal,
             user
           )
-          .then(resp => {
+          .then((resp) => {
             return resp;
           });
       }
@@ -577,19 +577,19 @@ export class MovementCustom {
     const hooks: any = {
       afterInsertOK: (response: any, model: Movement) => {
         // generate entities
-        return this.generateEntries([model]).then(result => {
+        return this.generateEntries([model]).then((result) => {
           console.log(`entry generation for movement result`, result);
           if (result.operationOk) {
             // generate balance
             return balanceModule
               .applyEntriesToBalance(result.data, model.mov_id_user)
-              .then(res => {
+              .then((res) => {
                 console.log(`balance generation for movement result`, res);
                 return { message: `entries: ${result.message}` };
               });
           }
         });
-      }
+      },
     };
 
     return api.create({ body }, hooks);
@@ -598,7 +598,7 @@ export class MovementCustom {
   createHandler = (node: iNode) => {
     const { body } = node.request;
 
-    this.create({ body }).then(response => {
+    this.create({ body }).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -610,7 +610,7 @@ export class MovementCustom {
     const hooks: any = {
       afterUpdateOK: (response: any, model: Movement) => {
         // generate entities
-        return this.updateEntries([model]).then(result => {
+        return this.updateEntries([model]).then((result) => {
           console.log(`entries updated for movement result`, result);
           if (result.operationOk) {
             // generate balance
@@ -627,17 +627,17 @@ export class MovementCustom {
                 finalMonth,
                 "anon"
               )
-              .then(res => {
+              .then((res) => {
                 return { message: `entries: ${result.message}` };
               });
           }
         });
-      }
+      },
     };
 
     api
       .update({ body: node.request.body, pk: node.request.params }, hooks)
-      .then(response => {
+      .then((response) => {
         node.response.end(JSON.stringify(response));
       });
   };
@@ -649,7 +649,7 @@ export class MovementCustom {
     const hooks: any = {
       afterDeleteOK: (response: any, model: Movement) => {
         // generate entities
-        return this.deleteEntries([model]).then(result => {
+        return this.deleteEntries([model]).then((result) => {
           console.log(`entries deleted for movement result`, result);
           if (result.operationOk) {
             // rebuild balance
@@ -666,12 +666,12 @@ export class MovementCustom {
                 finalMonth,
                 "anon"
               )
-              .then(res => {
+              .then((res) => {
                 return { message: `delete entries: ${result.message}` };
               });
           }
         });
-      }
+      },
     };
 
     api
@@ -680,7 +680,7 @@ export class MovementCustom {
         hooks,
         new Movement() // just to have metadata
       )
-      .then(response => {
+      .then((response) => {
         node.response.end(JSON.stringify(response));
       });
   };
@@ -704,14 +704,14 @@ export class MovementCustom {
               {
                 f: "ent_id",
                 op: "in",
-                val: movementList.map(m => `'${m.mov_id}'`).join(", ")
-              }
-            ]
+                val: movementList.map((m) => `'${m.mov_id}'`).join(", "),
+              },
+            ],
           }),
           entryModel
         )
       )
-      .then(entryResponse => {
+      .then((entryResponse) => {
         entryOriginList = entryResponse.rows.map((r: any) => new Entry(r));
 
         // iterate movements
@@ -735,7 +735,7 @@ export class MovementCustom {
               ent_id_user: m.mov_id_user,
               ent_date_add: m.mov_date_add,
               ent_date_mod: m.mov_date_mod,
-              ent_ctg_status: m.mov_ctg_status
+              ent_ctg_status: m.mov_ctg_status,
             })
           );
           // generate entry 2
@@ -760,32 +760,32 @@ export class MovementCustom {
               ent_id_user: m.mov_id_user,
               ent_date_add: m.mov_date_add,
               ent_date_mod: m.mov_date_mod,
-              ent_ctg_status: m.mov_ctg_status
+              ent_ctg_status: m.mov_ctg_status,
             })
           );
         });
         // update entries
-        const responsesPromises = entryList.map(e =>
+        const responsesPromises = entryList.map((e) =>
           sqlMotor.toUpdateSQL(
             e,
             entryOriginList.find(
-              o =>
+              (o) =>
                 o.ent_id === e.ent_id && o.ent_sequential === e.ent_sequential
             )
           )
         );
         return Promise.all(connection.runSqlArray(responsesPromises))
-          .then(values => {
+          .then((values) => {
             // all updated ok
             connection.close();
             console.log(`Batch finished, updated ok: ${entryList.length}`);
             return {
               operationOk: true,
               message: `Batch finished, updated ok: ${entryList.length}`,
-              data: entryList
+              data: entryList,
             };
           })
-          .catch(reason => {
+          .catch((reason) => {
             // some failed
             console.log("err on updating entries", reason);
             return { operationOk: false, message: `error ${reason}` };
@@ -809,23 +809,23 @@ export class MovementCustom {
               {
                 f: "ent_id",
                 op: "in",
-                val: movementList.map(m => `'${m.mov_id}'`).join(", ")
-              }
-            ]
+                val: movementList.map((m) => `'${m.mov_id}'`).join(", "),
+              },
+            ],
           }),
           entryModel
         )
       )
-      .then(entryResponse => {
+      .then((entryResponse) => {
         entryOriginList = entryResponse.rows.map((r: any) => new Entry(r));
 
         // delete entries
-        const responsesPromises = entryOriginList.map(e =>
+        const responsesPromises = entryOriginList.map((e) =>
           sqlMotor.toDeleteSQL(e)
         );
 
         return Promise.all(connection.runSqlArray(responsesPromises))
-          .then(values => {
+          .then((values) => {
             // all deleted ok
             connection.close();
             console.log(
@@ -834,10 +834,10 @@ export class MovementCustom {
             return {
               operationOk: true,
               message: `Batch finished, deleted ok: ${entryOriginList.length}`,
-              data: entryOriginList
+              data: entryOriginList,
             };
           })
-          .catch(reason => {
+          .catch((reason) => {
             // some failed
             console.log("err on deleting entries", reason);
             return { operationOk: false, message: `error ${reason}` };
@@ -856,11 +856,11 @@ export class MovementCustom {
       )`;
 
     // TODO: Improve this later: it is parsing query, then concatenating user id and stringifying again :-(
-    const query = JSON.parse(node.request.query["q"]);
+    const query = JSON.parse((node.request.query as any)["q"]);
     query.cont.push({
       f: "acc_id_user",
       op: "eq",
-      val: username
+      val: username,
     });
 
     const queue = [
@@ -868,23 +868,24 @@ export class MovementCustom {
         sql,
         model: new Account(),
         name: "accounts",
-        q: JSON.stringify(query)
-      }
+        q: JSON.stringify(query),
+      },
     ];
 
-    api.multipleListWithSQL({ queue }).then(response => {
+    api.multipleListWithSQL({ queue }).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
 
   averageBalance = (node: iNode) => {
-    const idAccount: string = node.request.query["account"];
-    const useCheckDay: boolean = node.request.query["checkday"] === "true";
-    const year: number = Number.parseInt(node.request.query["year"]);
-    const month: number = Number.parseInt(node.request.query["month"]);
+    const q = node.request.query as any;
+    const idAccount: string = q["account"];
+    const useCheckDay: boolean = q["checkday"] === "true";
+    const year: number = Number.parseInt(q["year"]);
+    const month: number = Number.parseInt(q["month"]);
 
     this.averageBalancePerAccount(idAccount, useCheckDay, year, month).then(
-      result => {
+      (result) => {
         node.response.end(JSON.stringify(result));
       }
     );
@@ -928,7 +929,7 @@ export class MovementCustom {
       startingDate: null,
       finalDate: null,
       averageMinBalance: 0,
-      dailyBalance: []
+      dailyBalance: [],
     };
     let startingDate: Date = new Date(year, month - 1, 1, 0, 0, 0);
     const iterablePreviousMonth = DateUtils.getIterablePreviousMonth(
@@ -949,7 +950,7 @@ export class MovementCustom {
     const connection = ConnectionService.getConnection();
     return connection
       .runSql(sqlBalance)
-      .then(balanceResponse => {
+      .then((balanceResponse) => {
         if (balanceResponse.err) {
           result.message = "Could not fetch balance for account";
           return {};
@@ -960,7 +961,7 @@ export class MovementCustom {
           currentBalance: response["bal_initial"],
           checkDay: response["acc_check_day"],
           averageMinBalance: response["acc_average_min_balance"],
-          accountName: response["acc_name"]
+          accountName: response["acc_name"],
         };
       })
       .then(({ currentBalance, checkDay, averageMinBalance, accountName }) => {
@@ -1016,7 +1017,7 @@ export class MovementCustom {
         result.checkDay = checkDay;
         result.accountName = accountName;
 
-        return connection.runSql(sqlEntryAcumulation).then(entryResponse => {
+        return connection.runSql(sqlEntryAcumulation).then((entryResponse) => {
           if (entryResponse.err) {
             result.message = "Could not fetch entries for account";
             return result;
@@ -1032,7 +1033,7 @@ export class MovementCustom {
             while (dateCounter.getTime() < startingDate.getTime()) {
               // iterates each day within the range
               const daySum: any = entrySums.find(
-                e =>
+                (e) =>
                   new Date(e["ent_date"]).toISOString().slice(0, 10) ===
                   dateCounter.toISOString().slice(0, 10)
               );
@@ -1047,7 +1048,7 @@ export class MovementCustom {
           while (dateCounter.getTime() <= finalDate.getTime()) {
             // iterates each day within the range
             const daySum: any = entrySums.find(
-              e =>
+              (e) =>
                 new Date(e["ent_date"]).toISOString().slice(0, 10) ===
                 dateCounter.toISOString().slice(0, 10)
             );
@@ -1086,7 +1087,7 @@ export class MovementCustom {
           return result;
         });
       })
-      .catch(err => {
+      .catch((err) => {
         result.message = err;
         return result;
       });
@@ -1095,7 +1096,7 @@ export class MovementCustom {
   emailAccountMovements = (req: any, res: any) => {
     const { account, year, month } = req.query;
 
-    this._emailAccountMovements(account, year, month).then(result => {
+    this._emailAccountMovements(account, year, month).then((result) => {
       res.end(JSON.stringify(result));
     });
   };
@@ -1132,7 +1133,7 @@ export class MovementCustom {
       return new Intl.NumberFormat("en-US", {
         style: "currency",
         currencyDisplay: "symbol",
-        currency: "USD"
+        currency: "USD",
       }).format(amount);
     };
     // build html
@@ -1217,15 +1218,15 @@ export class MovementCustom {
       new Preset(),
       new Movement(),
       new Entry(),
-      new Balance()
+      new Balance(),
     ];
     const sqlMotor: MoSQL = new MoSQL();
 
     const sqlSelect: string[] = tables.map(
-      t => `select * from ${t.metadata.tableName}`
+      (t) => `select * from ${t.metadata.tableName}`
     );
     const sqlDelete: string[] = tables.map(
-      t => `delete from ${t.metadata.tableName}`
+      (t) => `delete from ${t.metadata.tableName}`
     );
 
     const defaultCon: iConnection = ConnectionService.getConnection();
@@ -1263,22 +1264,22 @@ export class MovementCustom {
             {
               f: "acc_ctg_type",
               op: "eq",
-              val: "5"
+              val: "5",
             },
             {
               f: "acc_name",
               op: "eq",
-              val: "Capital"
+              val: "Capital",
             },
             {
               f: "acc_id_user",
               op: "eq",
-              val: user
-            }
-          ]
-        })
+              val: user,
+            },
+          ],
+        }),
       })
-      .then(response => response.map(e => new Account(e)))
-      .then(accountList => (accountList.length > 0 ? accountList[0] : null));
+      .then((response) => response.map((e) => new Account(e)))
+      .then((accountList) => (accountList.length > 0 ? accountList[0] : null));
   }
 }

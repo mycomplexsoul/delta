@@ -14,6 +14,7 @@ import { MoSQL } from "../MoSQL";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 import { Crypto } from "../Crypto";
 import { CarteraUnit } from "../../crosscommon/entities/CarteraUnit";
+import { parse } from "qs";
 
 // configuration
 const CODE_NORMAL = "cuota-normal";
@@ -26,7 +27,7 @@ const mapConceptWithCode = {
   Cuota: CODE_NORMAL,
   Penalización: CODE_PENALIZATION,
   Extra: CODE_EXTRA,
-  PenaExtra: CODE_EXTRA_PENALIZATION
+  PenaExtra: CODE_EXTRA_PENALIZATION,
 };
 
 const mapConceptWithDescription = {
@@ -34,7 +35,7 @@ const mapConceptWithDescription = {
   Penalización: "Penalización",
   Extra: "Cuota Extraordinaria",
   PenaExtra: "Penalidad de Cuota Extraordinaria",
-  None: "Depósito sin identificar"
+  None: "Depósito sin identificar",
 };
 
 const mapCodeWithDescription = {
@@ -42,7 +43,7 @@ const mapCodeWithDescription = {
   [CODE_PENALIZATION]: mapConceptWithDescription["Penalización"],
   [CODE_EXTRA]: mapConceptWithDescription["Extra"],
   [CODE_EXTRA_PENALIZATION]: mapConceptWithDescription["PenaExtra"],
-  [CODE_NONE]: mapConceptWithDescription["None"]
+  [CODE_NONE]: mapConceptWithDescription["None"],
 };
 
 const PROVISION_AMOUNT = 1480;
@@ -53,13 +54,13 @@ export class CarteraServer {
     const { year, month, user } = node.request.body;
 
     this.generateAllProvisionsForMonth(year, month, user).then(
-      provisionList => {
+      (provisionList) => {
         node.response.end(
           JSON.stringify({
             operationOk: true,
-            provisionList: provisionList.map(provision =>
+            provisionList: provisionList.map((provision) =>
               Utils.entityToRawTableFields(provision)
-            )
+            ),
           })
         );
       }
@@ -91,7 +92,7 @@ export class CarteraServer {
       501,
       502,
       503,
-      504
+      504,
     ];
 
     return this.generateProvisions(year, month, UNITS, user);
@@ -105,7 +106,7 @@ export class CarteraServer {
   ): Promise<CarteraProvision[]> {
     const allProvisions: Promise<CarteraProvision>[] = [];
 
-    units.forEach(unit => {
+    units.forEach((unit) => {
       allProvisions.push(this.generateProvision(year, month, unit, user));
     });
 
@@ -145,7 +146,7 @@ export class CarteraServer {
       cpr_id_user: user,
       cpr_date_add: new Date(),
       cpr_date_mod: new Date(),
-      cpr_ctg_status: 1
+      cpr_ctg_status: 1,
     });
 
     provision.cpr_id = Utils.hashIdForEntity(provision, "cpr_id");
@@ -162,7 +163,7 @@ export class CarteraServer {
   ) {
     return apiCarteraProvision
       .create({ body: Utils.entityToRawTableFields(provision) }, {}, model)
-      .then(response => {
+      .then((response) => {
         if (response.operationOk) {
           return provision;
         }
@@ -173,7 +174,7 @@ export class CarteraServer {
         );
         return null;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("error generating Provision", provision.recordName, err);
         return null;
       });
@@ -187,7 +188,7 @@ export class CarteraServer {
       user
     );
 
-    this.savePayments(paymentList).then(async payList => {
+    this.savePayments(paymentList).then(async (payList) => {
       // Payments are saved, now peek into payments date to generate penalization provisions
       /* paymentList.forEach(p => {
         this.generatePenalizationProvisionForLatePayment(p);
@@ -201,10 +202,10 @@ export class CarteraServer {
       node.response.end(
         JSON.stringify({
           operationOk: true,
-          provisionList: payList.map(payment =>
+          provisionList: payList.map((payment) =>
             Utils.entityToRawTableFields(payment)
           ),
-          paymentsApplied
+          paymentsApplied,
         })
       );
     });
@@ -218,7 +219,7 @@ export class CarteraServer {
      * 201|cuota-normal|2019|11|2019-11-04|1480
      * 202|cuota-normal|2019|11|2019-11-04|1480
      */
-    data.forEach(row => {
+    data.forEach((row) => {
       const columns: string[] = row.split("|");
 
       list.push(
@@ -240,7 +241,7 @@ export class CarteraServer {
           cpy_id_user: user,
           cpy_date_add: DateUtils.newDateUpToSeconds(),
           cpy_date_mod: DateUtils.newDateUpToSeconds(),
-          cpy_ctg_status: 1
+          cpy_ctg_status: 1,
         })
       );
     });
@@ -251,7 +252,7 @@ export class CarteraServer {
   savePayments(paymentList: CarteraPayment[]): Promise<CarteraPayment[]> {
     const allPayments: Promise<CarteraPayment>[] = [];
 
-    paymentList.forEach(payment => {
+    paymentList.forEach((payment) => {
       allPayments.push(this.savePayment(payment));
     });
 
@@ -263,14 +264,14 @@ export class CarteraServer {
 
     return apiCarteraPayment
       .create({ body: Utils.entityToRawTableFields(payment) }, {})
-      .then(response => {
+      .then((response) => {
         if (response.operationOk) {
           return payment;
         }
         console.log("error generating Payment", payment.recordName, response);
         return null;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("error generating Payment", payment.recordName, err);
         return null;
       });
@@ -313,13 +314,13 @@ export class CarteraServer {
     );
     const provisionList: CarteraProvision[] = await apiCarteraProvision
       .list({})
-      .then(items => items.map(i => new CarteraProvision(i)));
+      .then((items) => items.map((i) => new CarteraProvision(i)));
 
     // iterate over payments
-    paymentList.forEach(async payment => {
+    paymentList.forEach(async (payment) => {
       // for this payment, find the proper provision and register the match
       const provision = provisionList.find(
-        item =>
+        (item) =>
           payment.cpy_match_hint ===
           `${item.cpr_code_reference}|${item.cpr_id_unit}`
       );
@@ -329,13 +330,7 @@ export class CarteraServer {
         if (provision.cpr_remaining === 0) {
           // TODO: provision is payed, should apply to subsequent provisions
           console.log(
-            `payment with id ${
-              payment.cpy_id
-            } was tried to apply at provision with id ${
-              provision.cpr_id
-            } but it's already payed, a remaining of ${
-              payment.cpy_amount
-            } was not applied to a provision`
+            `payment with id ${payment.cpy_id} was tried to apply at provision with id ${provision.cpr_id} but it's already payed, a remaining of ${payment.cpy_amount} was not applied to a provision`
           );
         } else {
           // pay the remaining or amount depending which one is less than the other
@@ -352,7 +347,7 @@ export class CarteraServer {
             cpd_id_user: payment.cpy_id_user,
             cpd_date_add: DateUtils.newDateUpToSeconds(),
             cpd_date_mod: DateUtils.newDateUpToSeconds(),
-            cpd_ctg_status: 1
+            cpd_ctg_status: 1,
           });
 
           payDetList.push(paydet);
@@ -364,20 +359,20 @@ export class CarteraServer {
 
           const apiCarteraPayDet: ApiModule = new ApiModule(paydet);
           await this.savePayDet(apiCarteraPayDet, paydet).then(
-            async response => {
+            async (response) => {
               return await this.updateProvision(
                 apiCarteraProvision,
                 provision,
                 provision
-              ).then(async updateResponse => {
+              ).then(async (updateResponse) => {
                 paymentsApplied.push({
                   payment: Utils.entityToRawTableFields(payment),
                   provisionList: [
                     {
                       provision: Utils.entityToRawTableFields(provision),
-                      paydet: Utils.entityToRawTableFields(paydet)
-                    }
-                  ]
+                      paydet: Utils.entityToRawTableFields(paydet),
+                    },
+                  ],
                 });
 
                 if (remaining) {
@@ -392,9 +387,7 @@ export class CarteraServer {
                   );
 
                   console.log(
-                    `payment with id ${
-                      payment.cpy_id
-                    } has a remaining of ${amountLeft} that was not applied to a provision`
+                    `payment with id ${payment.cpy_id} has a remaining of ${amountLeft} that was not applied to a provision`
                   );
                 } else {
                   // payment is less than or equal to remaining
@@ -423,20 +416,20 @@ export class CarteraServer {
     );
     const allProvisions: Promise<CarteraProvision>[] = [];
 
-    provisionList.forEach(provision => {
+    provisionList.forEach((provision) => {
       allProvisions.push(
         this.saveProvision(apiCarteraProvision, provision, provision)
       );
     });
 
-    return Promise.all(allProvisions).then(list => {
+    return Promise.all(allProvisions).then((list) => {
       console.log("listing", provisionList);
       node.response.end(
         JSON.stringify({
           operationOk: true,
-          provisionList: list.map(provision =>
+          provisionList: list.map((provision) =>
             Utils.entityToRawTableFields(provision)
-          )
+          ),
         })
       );
     });
@@ -454,7 +447,7 @@ export class CarteraServer {
      */
     const list: CarteraProvision[] = [];
 
-    data.forEach(row => {
+    data.forEach((row) => {
       const columns: string[] = row.split("|");
       const year: number = parseInt(columns[2].split("-")[0], 10);
       const month: number = parseInt(columns[2].split("-")[1], 10);
@@ -478,7 +471,7 @@ export class CarteraServer {
           cpr_id_user: user,
           cpr_date_add: DateUtils.newDateUpToSeconds(),
           cpr_date_mod: DateUtils.newDateUpToSeconds(),
-          cpr_ctg_status: 1
+          cpr_ctg_status: 1,
         })
       );
     });
@@ -493,14 +486,14 @@ export class CarteraServer {
   ) {
     return apiCarteraPayDet
       .create({ body: Utils.entityToRawTableFields(payDet) }, {}, model)
-      .then(response => {
+      .then((response) => {
         if (response.operationOk) {
           return payDet;
         }
         console.log("error generating payDet", payDet.recordName, response);
         return null;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("error generating payDet", payDet.recordName, err);
         return null;
       });
@@ -515,12 +508,12 @@ export class CarteraServer {
       .update(
         {
           body: Utils.entityToRawTableFields(provision),
-          pk: Utils.getPKFromEntity(provision)
+          pk: Utils.getPKFromEntity(provision),
         },
         {},
         model
       )
-      .then(response => {
+      .then((response) => {
         if (response.operationOk) {
           return provision;
         }
@@ -531,7 +524,7 @@ export class CarteraServer {
         );
         return null;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("error generating Provision", provision.recordName, err);
         return null;
       });
@@ -540,16 +533,18 @@ export class CarteraServer {
   generatePenalizationForMissingPaymentHandler(node: iNode) {
     const { year, month, user } = node.request.body;
 
-    this.generatePenalizationForMissingPayment(year, month, user).then(list => {
-      node.response.end(
-        JSON.stringify({
-          operationOk: true,
-          provisionList: list.map(provision =>
-            Utils.entityToRawTableFields(provision)
-          )
-        })
-      );
-    });
+    this.generatePenalizationForMissingPayment(year, month, user).then(
+      (list) => {
+        node.response.end(
+          JSON.stringify({
+            operationOk: true,
+            provisionList: list.map((provision) =>
+              Utils.entityToRawTableFields(provision)
+            ),
+          })
+        );
+      }
+    );
   }
 
   async generatePenalizationForMissingPayment(
@@ -567,21 +562,21 @@ export class CarteraServer {
         {
           f: "cpr_payed",
           op: "eq",
-          val: 0
+          val: 0,
         },
         {
           f: "cpr_date",
           op: "eq",
-          val: new Date(year, month - 1, 1, 0, 0, 0)
-        }
-      ]
+          val: new Date(year, month - 1, 1, 0, 0, 0),
+        },
+      ],
     };
     const provisionList = await apiCarteraProvision
       .list({ q: JSON.stringify(filter) })
-      .then(items => items.map(item => new CarteraProvision(item)));
+      .then((items) => items.map((item) => new CarteraProvision(item)));
 
     const penalizationList: CarteraProvision[] = [];
-    provisionList.forEach(provision => {
+    provisionList.forEach((provision) => {
       penalizationList.push(
         new CarteraProvision({
           cpr_id: Utils.hashIdForEntity(new CarteraProvision(), "cpr_id"),
@@ -600,20 +595,20 @@ export class CarteraServer {
           cpr_id_user: user,
           cpr_date_add: DateUtils.newDateUpToSeconds(),
           cpr_date_mod: DateUtils.newDateUpToSeconds(),
-          cpr_ctg_status: 1
+          cpr_ctg_status: 1,
         })
       );
     });
 
     const allProvisions: Promise<CarteraProvision>[] = [];
 
-    penalizationList.forEach(provision => {
+    penalizationList.forEach((provision) => {
       allProvisions.push(
         this.saveProvision(apiCarteraProvision, provision, provision)
       );
     });
 
-    return Promise.all(allProvisions).then(list => {
+    return Promise.all(allProvisions).then((list) => {
       console.log("listing", penalizationList);
       return list;
     });
@@ -627,7 +622,7 @@ export class CarteraServer {
 
     if (provision.cpr_code_reference.includes("cuota-normal")) {
       // if previous provision is a normal one, look for same month penalization one if any
-      nextProvision = provisionList.find(prov => {
+      nextProvision = provisionList.find((prov) => {
         return (
           prov.cpr_id_unit === provision.cpr_id_unit &&
           prov.cpr_code_reference ===
@@ -647,10 +642,10 @@ export class CarteraServer {
       const [year, month] = provision.cpr_code_reference
         .split("|")[1]
         .split("-")
-        .map(value => parseInt(value));
+        .map((value) => parseInt(value));
       const nextYearMonth = DateUtils.getIterableNextMonth(year, month);
 
-      nextProvision = provisionList.find(prov => {
+      nextProvision = provisionList.find((prov) => {
         return (
           prov.cpr_id_unit === provision.cpr_id_unit &&
           prov.cpr_code_reference ===
@@ -667,7 +662,7 @@ export class CarteraServer {
       }
 
       // if no quota is found, try next month penalization provision
-      nextProvision = provisionList.find(prov => {
+      nextProvision = provisionList.find((prov) => {
         return (
           prov.cpr_id_unit === provision.cpr_id_unit &&
           prov.cpr_code_reference ===
@@ -707,9 +702,7 @@ export class CarteraServer {
       let nextProvision: CarteraProvision;
       while (remainingAmount > 0) {
         console.log(
-          `Will try to pay provisions with remaining amount ${remainingAmount} from payment id ${
-            payment.cpy_id
-          }`
+          `Will try to pay provisions with remaining amount ${remainingAmount} from payment id ${payment.cpy_id}`
         );
         nextProvision = this.findNextProvisionToPay(provisionList, provision);
         console.log(
@@ -731,7 +724,7 @@ export class CarteraServer {
             cpd_id_user: payment.cpy_id_user,
             cpd_date_add: DateUtils.newDateUpToSeconds(),
             cpd_date_mod: DateUtils.newDateUpToSeconds(),
-            cpd_ctg_status: 1
+            cpd_ctg_status: 1,
           });
 
           nextProvision.cpr_payed += amount;
@@ -740,19 +733,19 @@ export class CarteraServer {
           const apiCarteraPayDet: ApiModule = new ApiModule(paydet);
           const apiCarteraProvision: ApiModule = new ApiModule(nextProvision);
           await this.savePayDet(apiCarteraPayDet, paydet).then(
-            async response => {
+            async (response) => {
               return await this.updateProvision(
                 apiCarteraProvision,
                 nextProvision,
                 nextProvision
-              ).then(updateResponse => {
+              ).then((updateResponse) => {
                 remainingAmount -= amount;
 
                 paymentsApplied
-                  .find(detail => detail.payment.cpy_id === payment.cpy_id)
+                  .find((detail) => detail.payment.cpy_id === payment.cpy_id)
                   .provisionList.push({
                     provision: Utils.entityToRawTableFields(provision),
-                    paydet: Utils.entityToRawTableFields(paydet)
+                    paydet: Utils.entityToRawTableFields(paydet),
                   });
 
                 return remainingAmount;
@@ -775,12 +768,12 @@ export class CarteraServer {
     const provisionList: CarteraProvision[] = await this.getProvisions();
     const paymentList: CarteraPayment[] = await this.getPayments();
 
-    payments.forEach(async detail => {
+    payments.forEach(async (detail) => {
       const selectedPayment = paymentList.find(
-        p => p.cpy_id === detail.payment_id
+        (p) => p.cpy_id === detail.payment_id
       );
       const selectedProvision = provisionList.find(
-        p => p.cpr_id === detail.provision_id
+        (p) => p.cpr_id === detail.provision_id
       );
 
       const paydet: CarteraPayDet = new CarteraPayDet({
@@ -791,7 +784,7 @@ export class CarteraServer {
         cpd_id_user: selectedPayment.cpy_id_user,
         cpd_date_add: DateUtils.newDateUpToSeconds(),
         cpd_date_mod: DateUtils.newDateUpToSeconds(),
-        cpd_ctg_status: 1
+        cpd_ctg_status: 1,
       });
 
       selectedProvision.cpr_payed += detail.amount;
@@ -799,12 +792,12 @@ export class CarteraServer {
 
       const apiCarteraPayDet: ApiModule = new ApiModule(paydet);
       const apiCarteraProvision: ApiModule = new ApiModule(selectedProvision);
-      await this.savePayDet(apiCarteraPayDet, paydet).then(async response => {
+      await this.savePayDet(apiCarteraPayDet, paydet).then(async (response) => {
         return await this.updateProvision(
           apiCarteraProvision,
           selectedProvision,
           selectedProvision
-        ).then(updateResponse => {
+        ).then((updateResponse) => {
           return true;
         });
       });
@@ -812,7 +805,7 @@ export class CarteraServer {
 
     node.response.end(
       JSON.stringify({
-        operationOk: true
+        operationOk: true,
       })
     );
   }
@@ -823,28 +816,28 @@ export class CarteraServer {
     );
     return apiCarteraProvision
       .list({})
-      .then(items => items.map(i => new CarteraProvision(i)));
+      .then((items) => items.map((i) => new CarteraProvision(i)));
   }
 
   async getUnits(): Promise<CarteraUnit[]> {
     const apiCarteraUnit: ApiModule = new ApiModule(new CarteraUnit());
     return apiCarteraUnit
       .list({})
-      .then(items => items.map(i => new CarteraUnit(i)));
+      .then((items) => items.map((i) => new CarteraUnit(i)));
   }
 
   async getPayments(): Promise<CarteraPayment[]> {
     const apiCarteraPayment: ApiModule = new ApiModule(new CarteraPayment());
     return apiCarteraPayment
       .list({})
-      .then(items => items.map(i => new CarteraPayment(i)));
+      .then((items) => items.map((i) => new CarteraPayment(i)));
   }
 
   async getPayDetList(): Promise<CarteraPayDet[]> {
     const apiCarteraPayDet: ApiModule = new ApiModule(new CarteraPayDet());
     return apiCarteraPayDet
       .list({})
-      .then(items => items.map(i => new CarteraPayDet(i)));
+      .then((items) => items.map((i) => new CarteraPayDet(i)));
   }
 
   async getPaymentApplicationListing(year: number, month: number) {
@@ -858,25 +851,25 @@ export class CarteraServer {
     const listing = {
       paymentList: paymentList
         .filter(
-          item =>
+          (item) =>
             initialDate.getTime() <= item.cpy_date.getTime() &&
             item.cpy_date.getTime() < finalDate.getTime()
         )
-        .map(payment => {
+        .map((payment) => {
           return {
             payment: Utils.entityToRawTableFields(payment),
             provisionList: payDetList
-              .filter(pd => pd.cpd_id_payment === payment.cpy_id)
-              .map(pd => {
+              .filter((pd) => pd.cpd_id_payment === payment.cpy_id)
+              .map((pd) => {
                 return {
                   paydet: Utils.entityToRawTableFields(pd),
                   provision: Utils.entityToRawTableFields(
-                    provisionList.find(p => p.cpr_id === pd.cpd_id_provision)
-                  )
+                    provisionList.find((p) => p.cpr_id === pd.cpd_id_provision)
+                  ),
                 };
-              })
+              }),
           };
-        })
+        }),
     };
 
     listing.paymentList.sort((a, b) =>
@@ -887,12 +880,12 @@ export class CarteraServer {
   }
 
   async getPaymentApplicationListingHandler(node: iNode) {
-    const { year, month } = node.request.query;
+    const { year, month } = node.request.query as any;
 
     node.response.end(
       JSON.stringify({
         operationOk: true,
-        ...(await this.getPaymentApplicationListing(year, month))
+        ...(await this.getPaymentApplicationListing(year, month)),
       })
     );
   }
@@ -900,13 +893,13 @@ export class CarteraServer {
   generatePenalizationForUnitHandler(node: iNode) {
     const { year, month, unit, user } = node.request.body;
 
-    this.generatePenalizationForUnit(year, month, unit, user).then(list => {
+    this.generatePenalizationForUnit(year, month, unit, user).then((list) => {
       node.response.end(
         JSON.stringify({
           operationOk: true,
-          provisionList: list.map(provision =>
+          provisionList: list.map((provision) =>
             Utils.entityToRawTableFields(provision)
-          )
+          ),
         })
       );
     });
@@ -928,17 +921,17 @@ export class CarteraServer {
         {
           f: "cpr_id_unit",
           op: "eq",
-          val: unit
-        }
-      ]
+          val: unit,
+        },
+      ],
     };
     const provisionList = await apiCarteraProvision
       .list({ q: JSON.stringify(filter) })
-      .then(items => items.map(item => new CarteraProvision(item)));
+      .then((items) => items.map((item) => new CarteraProvision(item)));
 
     const penalizationList: CarteraProvision[] = [];
     const provision = provisionList.find(
-      p =>
+      (p) =>
         p.cpr_id_unit === unit &&
         p.cpr_code_reference ===
           `cuota-penalidad|${year}-${Utils.pad(month, "0", 2, -1)}`
@@ -969,17 +962,17 @@ export class CarteraServer {
         cpr_month: month,
         cpr_date_add: DateUtils.newDateUpToSeconds(),
         cpr_date_mod: DateUtils.newDateUpToSeconds(),
-        cpr_ctg_status: 1
+        cpr_ctg_status: 1,
       })
     );
 
     const allProvisions: Promise<CarteraProvision>[] = [];
 
-    penalizationList.forEach(item => {
+    penalizationList.forEach((item) => {
       allProvisions.push(this.saveProvision(apiCarteraProvision, item, item));
     });
 
-    return Promise.all(allProvisions).then(list => {
+    return Promise.all(allProvisions).then((list) => {
       return list;
     });
   }
@@ -990,7 +983,7 @@ export class CarteraServer {
       .toUpperCase();
 
     const last = provisionList
-      .filter(p => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
+      .filter((p) => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
       .reduce((max, p) => {
         const num = parseInt(p.cpr_folio.substr(6, 3), 10);
         return max < num ? num : max;
@@ -1000,14 +993,14 @@ export class CarteraServer {
   }
 
   rebuildPendingPaymentsForMonthHandler(node: iNode) {
-    const { year, month, unit, future } = node.request.query;
+    const { year, month, unit, future } = node.request.query as any;
 
     this.rebuildPendingPaymentsForMonth(
       parseInt(year, 10),
       parseInt(month, 10),
       unit,
       future == 1
-    ).then(async list => {
+    ).then(async (list) => {
       node.response.end(
         JSON.stringify({
           operationOk: true,
@@ -1022,11 +1015,11 @@ export class CarteraServer {
           ),
           timelineList: await this.getTimeline(
             `cartera-pending-provision|${year}-${month}`
-          ).then(list => list.map(Utils.entityToRawTableFields)),
+          ).then((list) => list.map(Utils.entityToRawTableFields)),
           lastFolio: this.lastFolioAvailable(
             await this.getProvisions(),
             new Date(year, month - 1, 1)
-          )
+          ),
         })
       );
     });
@@ -1045,26 +1038,27 @@ export class CarteraServer {
     let provisionList: CarteraProvision[] = [];
 
     const limitDate: Date = new Date(year, month, 1); // next month
-    const allProvisions: CarteraProvision[] = (await this.getProvisions()).filter(
-      prov => (unit ? prov.cpr_id_unit === unit : true)
+    const allProvisions: CarteraProvision[] = (
+      await this.getProvisions()
+    ).filter((prov) => (unit ? prov.cpr_id_unit === unit : true));
+
+    const allPayDet: CarteraPayDet[] = (
+      await this.getPayDetList()
+    ).filter((paydet) =>
+      unit
+        ? paydet.cpd_id_unit === unit &&
+          paydet.cpd_date_payment.getTime() < limitDate.getTime()
+        : paydet.cpd_date_payment.getTime() < limitDate.getTime()
     );
 
-    const allPayDet: CarteraPayDet[] = (await this.getPayDetList()).filter(
-      paydet =>
-        unit
-          ? paydet.cpd_id_unit === unit &&
-            paydet.cpd_date_payment.getTime() < limitDate.getTime()
-          : paydet.cpd_date_payment.getTime() < limitDate.getTime()
-    );
-
-    provisionList = allProvisions.map(p => {
+    provisionList = allProvisions.map((p) => {
       p.cpr_payed = 0;
       p.cpr_remaining = p.cpr_amount;
       return p;
     });
 
     allPayDet
-      .filter(pd =>
+      .filter((pd) =>
         pd.cpd_ctg_non_identified === 2
           ? year * 100 + month >=
             pd.cpd_date_identification.getFullYear() * 100 +
@@ -1072,9 +1066,9 @@ export class CarteraServer {
               1
           : true
       )
-      .forEach(paydet => {
+      .forEach((paydet) => {
         const prov = provisionList.find(
-          p => p.cpr_id === paydet.cpd_id_provision
+          (p) => p.cpr_id === paydet.cpd_id_provision
         );
 
         if (prov) {
@@ -1083,16 +1077,14 @@ export class CarteraServer {
         } else {
           // should not happen, report error
           console.error(
-            `Provision with id ${
-              paydet.cpd_id_provision
-            } not found for paydet with id ${paydet.cpd_id}`
+            `Provision with id ${paydet.cpd_id_provision} not found for paydet with id ${paydet.cpd_id}`
           );
         }
       });
 
     const pendingProvisionList = provisionList
       .filter(
-        p =>
+        (p) =>
           (Math.round(p.cpr_remaining * 100) / 100 !== 0 || // provisions with remaining amount to be payed
             (p.cpr_remaining === 0 && // provisions fully payed in this month
               parseInt(
@@ -1102,7 +1094,7 @@ export class CarteraServer {
                 year * 100 + month &&
               allPayDet.filter(
                 // payment from this month
-                det =>
+                (det) =>
                   det.cpd_id_provision === p.cpr_id &&
                   det.cpd_date_payment.getFullYear() * 100 +
                     det.cpd_date_payment.getMonth() +
@@ -1111,7 +1103,7 @@ export class CarteraServer {
               ).length > 0) ||
             // provisions identified in this month
             allPayDet.filter(
-              det =>
+              (det) =>
                 det.cpd_id_provision === p.cpr_id &&
                 det.cpd_ctg_non_identified === 2 &&
                 det.cpd_date_identification.getFullYear() * 100 +
@@ -1130,7 +1122,7 @@ export class CarteraServer {
 
     const futureProvisionList = provisionList
       .filter(
-        p =>
+        (p) =>
           (p.cpr_payed !== 0 || includeAllProvisionsForFuture) &&
           p.cpr_date.getTime() >= limitDate.getTime() // provisions with payments // provisions from next month and future months
       )
@@ -1149,7 +1141,7 @@ export class CarteraServer {
     return Promise.resolve({
       pendingProvisionList,
       futureProvisionList,
-      nonIdentifiedPaymentList
+      nonIdentifiedPaymentList,
     });
   }
 
@@ -1159,7 +1151,7 @@ export class CarteraServer {
   ): Promise<CarteraPayment[]> {
     const limitDate: Date = new Date(year, month, 1); // next month
     const paymentList: CarteraPayment[] = (await this.getPayments()).filter(
-      p =>
+      (p) =>
         p.cpy_ctg_non_identified === 2 &&
         p.cpy_date.getTime() < limitDate.getTime() &&
         (p.cpy_date_identification // if it is identified then only show it up until the month it was identified
@@ -1174,17 +1166,17 @@ export class CarteraServer {
   }
 
   unitStatusForMonthHandler(node: iNode) {
-    const { year, month, unit } = node.request.query;
+    const { year, month, unit } = node.request.query as any;
 
-    this.unitStatusForMonth(year, month, unit).then(list => {
+    this.unitStatusForMonth(year, month, unit).then((list) => {
       node.response.end(
         JSON.stringify({
           operationOk: true,
-          provisionList: list.provisionList.map(item => ({
+          provisionList: list.provisionList.map((item) => ({
             provision: Utils.entityToRawTableFields(item.provision),
-            payDetList: item.payDetList.map(Utils.entityToRawTableFields)
+            payDetList: item.payDetList.map(Utils.entityToRawTableFields),
           })),
-          paymentList: list.paymentList.map(Utils.entityToRawTableFields)
+          paymentList: list.paymentList.map(Utils.entityToRawTableFields),
         })
       );
     });
@@ -1209,13 +1201,13 @@ export class CarteraServer {
       paymentList: CarteraPayment[];
     } = {
       provisionList: [],
-      paymentList: []
+      paymentList: [],
     };
 
     const limitDate: Date = new Date(year, month, 1); // next month
     const allProvisions: CarteraProvision[] = (await this.getProvisions())
       .filter(
-        prov =>
+        (prov) =>
           prov.cpr_id_unit === unit &&
           (prov.cpr_date.getTime() >= limitDate.getTime()
             ? prov.cpr_payed > 0
@@ -1224,17 +1216,15 @@ export class CarteraServer {
       .sort((a, b) => (a.cpr_date.getTime() > b.cpr_date.getTime() ? 1 : -1));
 
     const allPayments: CarteraPayment[] = (await this.getPayments())
-      .filter(i => i.cpy_match_hint.endsWith(`|${unit}`))
+      .filter((i) => i.cpy_match_hint.endsWith(`|${unit}`))
       .sort((a, b) => (a.cpy_date.getTime() > b.cpy_date.getTime() ? 1 : -1));
 
     const allPayDet: CarteraPayDet[] = (await this.getPayDetList()).filter(
-      paydet => paydet.cpd_id_unit === unit
+      (paydet) => paydet.cpd_id_unit === unit
     );
 
     console.log(
-      `provisions: ${allProvisions.length}, payments: ${
-        allPayments.length
-      }, paydet: ${allPayDet.length}`
+      `provisions: ${allProvisions.length}, payments: ${allPayments.length}, paydet: ${allPayDet.length}`
     );
 
     // add up provisions and payments
@@ -1251,24 +1241,22 @@ export class CarteraServer {
     );
 */
     console.log(
-      `provisions: ${allProvisions.length}, payments: ${
-        allPayments.length
-      }, paydet: ${allPayDet.length}`
+      `provisions: ${allProvisions.length}, payments: ${allPayments.length}, paydet: ${allPayDet.length}`
     );
 
     result.provisionList = allProvisions
       .sort((a, b) => (a.cpr_date.getTime() > b.cpr_date.getTime() ? 1 : -1))
-      .map(p => ({
+      .map((p) => ({
         provision: p,
         payDetList: allPayDet
           .filter(
-            det =>
+            (det) =>
               det.cpd_id_unit == p.cpr_id_unit &&
               det.cpd_id_provision === p.cpr_id
           )
           .sort((a, b) =>
             a.cpd_date.getTime() > b.cpd_date.getTime() ? 1 : -1
-          )
+          ),
       }));
 
     // validate detpay sumed up pays up assigned provision
@@ -1312,7 +1300,7 @@ export class CarteraServer {
       cpr_id_user: user,
       cpr_date_add: DateUtils.newDateUpToSeconds(),
       cpr_date_mod: DateUtils.newDateUpToSeconds(),
-      cpr_ctg_status: 1
+      cpr_ctg_status: 1,
     });
   }
 
@@ -1339,7 +1327,7 @@ export class CarteraServer {
       cpy_id_user: user,
       cpy_date_add: DateUtils.newDateUpToSeconds(),
       cpy_date_mod: DateUtils.newDateUpToSeconds(),
-      cpy_ctg_status: 1
+      cpy_ctg_status: 1,
     });
   }
 
@@ -1362,7 +1350,7 @@ export class CarteraServer {
       cpd_ctg_status: 1,
       cpd_id_unit: unit,
       cpd_ctg_type: 1,
-      cpd_date: date
+      cpd_date: date,
     });
   }
 
@@ -1375,7 +1363,7 @@ export class CarteraServer {
     includePenalization = false,
     penalizationAmount = PENALIZATION_AMOUNT,
     exclusions = [],
-    penalizationExclusions = []
+    penalizationExclusions = [],
   }: {
     provisionAmount?: number;
     unit: string | number;
@@ -1398,7 +1386,7 @@ export class CarteraServer {
       const month: number =
         currentPeriod - Math.floor(currentPeriod / 100) * 100;
 
-      if (!exclusions.some(e => parseDateReference(e) === currentPeriod)) {
+      if (!exclusions.some((e) => parseDateReference(e) === currentPeriod)) {
         provisionList.push(
           this.newCarteraProvision(
             new Date(year, month - 1, 1),
@@ -1413,7 +1401,7 @@ export class CarteraServer {
       if (includePenalization) {
         if (
           !penalizationExclusions.some(
-            e => parseDateReference(e) === currentPeriod
+            (e) => parseDateReference(e) === currentPeriod
           )
         ) {
           provisionList.push(
@@ -1440,7 +1428,7 @@ export class CarteraServer {
     paymentData,
     provisionList,
     paymentList,
-    payDetList
+    payDetList,
   }: {
     unit: string | number;
     user: string;
@@ -1462,7 +1450,7 @@ export class CarteraServer {
       payDetList: CarteraPayDet[];
     } = {
       paymentList: [],
-      payDetList: []
+      payDetList: [],
     };
 
     const getProvisionFromDateReference = (
@@ -1475,7 +1463,7 @@ export class CarteraServer {
       const date: Date = new Date(year, month - 1, type === "normal" ? 1 : 16);
 
       return provisions.find(
-        e =>
+        (e) =>
           e.cpr_date.getTime() === date.getTime() &&
           (type === "normal"
             ? e.cpr_amount === PROVISION_AMOUNT
@@ -1487,28 +1475,28 @@ export class CarteraServer {
       ({
         date: dateString,
         amount: paymentAmount = PROVISION_AMOUNT,
-        applyTo = []
+        applyTo = [],
       }) => {
         const payDate: Date = DateUtils.stringDateToDate(dateString);
 
         // look for existing payment and remove it
         if (
           paymentList.some(
-            e =>
+            (e) =>
               e.cpy_date.getTime() === payDate.getTime() &&
               e.cpy_amount === paymentAmount
           )
         ) {
           const pay = paymentList.find(
-            e =>
+            (e) =>
               e.cpy_date.getTime() === payDate.getTime() &&
               e.cpy_amount === paymentAmount
           );
           payDetList
-            .filter(e => e.cpd_id_payment === pay.cpy_id)
-            .forEach(e => {
+            .filter((e) => e.cpd_id_payment === pay.cpy_id)
+            .forEach((e) => {
               const prov = provisionList.find(
-                i => i.cpr_id === e.cpd_id_provision
+                (i) => i.cpr_id === e.cpd_id_provision
               );
 
               if (prov) {
@@ -1517,13 +1505,13 @@ export class CarteraServer {
               }
 
               payDetList.splice(
-                payDetList.findIndex(i => i.cpd_id === e.cpd_id),
+                payDetList.findIndex((i) => i.cpd_id === e.cpd_id),
                 1
               );
             });
           paymentList.splice(
             paymentList.findIndex(
-              e =>
+              (e) =>
                 e.cpy_date.getTime() === payDate.getTime() &&
                 e.cpy_amount === paymentAmount
             ),
@@ -1544,7 +1532,7 @@ export class CarteraServer {
             ({
               dateReference,
               amount: payDetAmount = paymentAmount,
-              type = "normal"
+              type = "normal",
             }) => {
               const provision: CarteraProvision = getProvisionFromDateReference(
                 dateReference || dateString,
@@ -1588,7 +1576,7 @@ export class CarteraServer {
                   if (penalization) {
                     provisionList.splice(
                       provisionList.findIndex(
-                        e => e.cpr_id === penalization.cpr_id
+                        (e) => e.cpr_id === penalization.cpr_id
                       ),
                       1
                     );
@@ -1611,7 +1599,7 @@ export class CarteraServer {
   ) {
     const config = {
       unit: 402,
-      user: "mycomplexsoul"
+      user: "mycomplexsoul",
     };
 
     const newProvisionList = this.buildProvisions({
@@ -1621,46 +1609,46 @@ export class CarteraServer {
       unit: config.unit,
       user: config.user,
       exclusions: ["2019-04"],
-      penalizationExclusions: ["2019-02", "2019-04", "2019-08"]
+      penalizationExclusions: ["2019-02", "2019-04", "2019-08"],
     });
 
     const payments = [
       {
         date: "2019-01-15",
-        applyTo: [{}]
+        applyTo: [{}],
       },
       {
         date: "2019-03-11",
-        applyTo: [{ dateReference: "2019-02" }]
+        applyTo: [{ dateReference: "2019-02" }],
       },
       {
         date: "2019-03-11",
-        applyTo: [{}]
+        applyTo: [{}],
       },
       {
         date: "2019-05-14",
-        applyTo: [{ dateReference: "2019-05" }] // current application
+        applyTo: [{ dateReference: "2019-05" }], // current application
       },
       {
         date: "2019-06-10",
-        applyTo: [{ dateReference: "2019-06" }] // current application
+        applyTo: [{ dateReference: "2019-06" }], // current application
       },
       {
         date: "2019-07-11",
-        applyTo: [{ dateReference: "2019-07" }] // current application
+        applyTo: [{ dateReference: "2019-07" }], // current application
       },
       {
         date: "2019-08-27",
-        applyTo: [{ dateReference: "2019-08" }] // current application
+        applyTo: [{ dateReference: "2019-08" }], // current application
       },
       {
         date: "2019-09-10",
-        applyTo: [{ dateReference: "2019-09" }] // current application
+        applyTo: [{ dateReference: "2019-09" }], // current application
       },
       {
         date: "2019-10-15",
-        applyTo: [{ dateReference: "2019-10" }] // current application
-      }
+        applyTo: [{ dateReference: "2019-10" }], // current application
+      },
       /*{
         date: "2019-11-08",
         applyTo: [{ dateReference: '2019-11' }] // current application
@@ -1674,7 +1662,7 @@ export class CarteraServer {
         applyTo: [{ dateReference: '2020-01' }] // current application
       },*/
     ];
-    newProvisionList.forEach(e => provisionList.push(e));
+    newProvisionList.forEach((e) => provisionList.push(e));
 
     const newPaymentList = this.buildPayments({
       unit: config.unit,
@@ -1682,11 +1670,11 @@ export class CarteraServer {
       paymentData: payments,
       provisionList,
       paymentList,
-      payDetList
+      payDetList,
     });
 
-    newPaymentList.paymentList.forEach(e => paymentList.push(e));
-    newPaymentList.payDetList.forEach(e => payDetList.push(e));
+    newPaymentList.paymentList.forEach((e) => paymentList.push(e));
+    newPaymentList.payDetList.forEach((e) => payDetList.push(e));
   }
 
   addSpecificProvisionsAndPayments402PropietaryDesiredApplication(
@@ -1696,7 +1684,7 @@ export class CarteraServer {
   ) {
     const config = {
       unit: 402,
-      user: "mycomplexsoul"
+      user: "mycomplexsoul",
     };
 
     const newProvisionList = this.buildProvisions({
@@ -1706,7 +1694,7 @@ export class CarteraServer {
       unit: config.unit,
       user: config.user,
       exclusions: ["2019-04"],
-      penalizationExclusions: ["2019-02", "2019-04", "2019-08"]
+      penalizationExclusions: ["2019-02", "2019-04", "2019-08"],
     });
     newProvisionList.push(
       this.newCarteraProvision(
@@ -1728,62 +1716,62 @@ export class CarteraServer {
     const payments = [
       {
         date: "2019-01-15",
-        applyTo: [{}]
+        applyTo: [{}],
       },
       {
         date: "2019-03-11",
-        applyTo: [{ dateReference: "2019-02" }]
+        applyTo: [{ dateReference: "2019-02" }],
       },
       {
         date: "2019-03-11",
-        applyTo: [{}]
+        applyTo: [{}],
       },
       {
         date: "2019-05-14",
-        applyTo: [{ dateReference: "2019-05" }] // current application
+        applyTo: [{ dateReference: "2019-05" }], // current application
       },
       {
         date: "2019-06-10",
-        applyTo: [{ dateReference: "2019-04" }] // changed
+        applyTo: [{ dateReference: "2019-04" }], // changed
       },
       {
         date: "2019-07-11",
-        applyTo: [{ dateReference: "2019-06" }] // changed
+        applyTo: [{ dateReference: "2019-06" }], // changed
       },
       {
         date: "2019-08-27",
-        applyTo: [{ dateReference: "2019-07" }] // changed
+        applyTo: [{ dateReference: "2019-07" }], // changed
       },
       {
         date: "2019-09-10",
-        applyTo: [{ dateReference: "2019-09" }] // current application
+        applyTo: [{ dateReference: "2019-09" }], // current application
       },
       {
         date: "2019-10-15",
-        applyTo: [{ dateReference: "2019-10" }] // current application
+        applyTo: [{ dateReference: "2019-10" }], // current application
       },
       {
         date: "2019-11-08",
-        applyTo: [{ dateReference: "2019-11" }] // current application
+        applyTo: [{ dateReference: "2019-11" }], // current application
       },
       {
         date: "2019-11-27",
-        applyTo: [{ dateReference: "2019-08" }] // changed
+        applyTo: [{ dateReference: "2019-08" }], // changed
       },
       {
         date: "2019-12-11",
-        applyTo: [{ dateReference: "2019-12" }] // changed
+        applyTo: [{ dateReference: "2019-12" }], // changed
       },
       {
         date: "2020-01-15",
-        applyTo: [{ dateReference: "2020-01" }] // changed
+        applyTo: [{ dateReference: "2020-01" }], // changed
       },
       {
         date: "2020-02-18",
-        applyTo: [{ dateReference: "2020-02" }] // changed
-      }
+        applyTo: [{ dateReference: "2020-02" }], // changed
+      },
     ];
-    newProvisionList.forEach(e => provisionList.push(e));
+    newProvisionList.forEach((e) => provisionList.push(e));
 
     const newPaymentList = this.buildPayments({
       unit: config.unit,
@@ -1791,11 +1779,11 @@ export class CarteraServer {
       paymentData: payments,
       provisionList,
       paymentList,
-      payDetList
+      payDetList,
     });
 
-    newPaymentList.paymentList.forEach(e => paymentList.push(e));
-    newPaymentList.payDetList.forEach(e => payDetList.push(e));
+    newPaymentList.paymentList.forEach((e) => paymentList.push(e));
+    newPaymentList.payDetList.forEach((e) => payDetList.push(e));
   }
 
   addSpecificProvisionsAndPayments(
@@ -1835,7 +1823,7 @@ export class CarteraServer {
         cpr_id_user: user,
         cpr_date_add: DateUtils.newDateUpToSeconds(),
         cpr_date_mod: DateUtils.newDateUpToSeconds(),
-        cpr_ctg_status: 1
+        cpr_ctg_status: 1,
       });
 
     const newPayment = (
@@ -1861,7 +1849,7 @@ export class CarteraServer {
         cpy_id_user: user,
         cpy_date_add: DateUtils.newDateUpToSeconds(),
         cpy_date_mod: DateUtils.newDateUpToSeconds(),
-        cpy_ctg_status: 1
+        cpy_ctg_status: 1,
       });
 
     const newPayDet = (
@@ -1881,7 +1869,7 @@ export class CarteraServer {
         cpd_date_mod: DateUtils.newDateUpToSeconds(),
         cpd_ctg_status: 1,
         cpd_id_unit: unit,
-        cpd_ctg_type: 1
+        cpd_ctg_type: 1,
       });
 
     const unit = "301";
@@ -1933,7 +1921,7 @@ export class CarteraServer {
     );
 
     const provMar = provisionList.find(
-      p =>
+      (p) =>
         p.cpr_id_unit === unit &&
         p.cpr_date.getTime() ===
           DateUtils.stringDateToDate("2019-03-01").getTime()
@@ -2092,7 +2080,7 @@ export class CarteraServer {
     this.changeConceptToSpanish().then(() => {
       node.response.end(
         JSON.stringify({
-          operationOk: true
+          operationOk: true,
         })
       );
     });
@@ -2106,9 +2094,9 @@ export class CarteraServer {
 
     const connection: iConnection = ConnectionService.getConnection();
     const ApiProvision: ApiModule = new ApiModule(new CarteraProvision());
-    allProvisions.forEach(async prov => {
+    allProvisions.forEach(async (prov) => {
       const [code, yearMonth] = prov.cpr_code_reference.split("|");
-      const [year, month] = yearMonth.split("-").map(i => parseInt(i, 10));
+      const [year, month] = yearMonth.split("-").map((i) => parseInt(i, 10));
       prov.cpr_concept = this.buildConcept(
         mapCodeWithDescription[code],
         year,
@@ -2117,7 +2105,7 @@ export class CarteraServer {
       await ApiProvision.update(
         {
           body: Utils.entityToRawTableFields(prov),
-          pk: Utils.getPKFromEntity(prov)
+          pk: Utils.getPKFromEntity(prov),
         },
         {},
         prov,
@@ -2126,9 +2114,9 @@ export class CarteraServer {
     });
 
     const ApiPayments: ApiModule = new ApiModule(new CarteraPayment());
-    allPayments.forEach(async payment => {
+    allPayments.forEach(async (payment) => {
       const [code, yearMonth] = payment.cpy_match_hint.split("|");
-      const [year, month] = yearMonth.split("-").map(i => parseInt(i, 10));
+      const [year, month] = yearMonth.split("-").map((i) => parseInt(i, 10));
       payment.cpy_description = this.buildConcept(
         mapCodeWithDescription[code],
         year,
@@ -2137,7 +2125,7 @@ export class CarteraServer {
       await ApiPayments.update(
         {
           body: Utils.entityToRawTableFields(payment),
-          pk: Utils.getPKFromEntity(payment)
+          pk: Utils.getPKFromEntity(payment),
         },
         {},
         payment,
@@ -2153,11 +2141,11 @@ export class CarteraServer {
   registerMonthlyIncomeHandler(node: iNode) {
     const { year, month, user } = node.request.body;
 
-    this.registerMonthlyIncome(year, month, user).then(response => {
+    this.registerMonthlyIncome(year, month, user).then((response) => {
       node.response.end(
         JSON.stringify({
           operationOk: true,
-          movementList: response.map(Utils.entityToRawTableFields)
+          movementList: response.map(Utils.entityToRawTableFields),
         })
       );
     });
@@ -2215,22 +2203,22 @@ export class CarteraServer {
           and cpy_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'
           and SUBSTR(cpy_match_hint, -3) = '000'
           and mov_id is null
-        order by date, unit`
+        order by date, unit`,
       })
-      .then(response =>
-        response.map(e => ({
+      .then((response) =>
+        response.map((e) => ({
           unit: e["unit"],
           concept: e["concept"],
           date: new Date(e["date"]),
           amount: e["amount"],
-          payId: e["payid"]
+          payId: e["payid"],
         }))
       );
 
     const params = {
       account_id: "acc2020040520302", // Fondo
       category_id: "mct20200405203206-356263334002", // Recaudación
-      place_id: "mpl20200405203255-686190649216" // Condominio
+      place_id: "mpl20200405203255-686190649216", // Condominio
     };
 
     // create an income movement for each sum item
@@ -2261,7 +2249,7 @@ export class CarteraServer {
           mov_id_user: user,
           mov_date_add: DateUtils.newDateUpToSeconds(),
           mov_date_mod: DateUtils.newDateUpToSeconds(),
-          mov_ctg_status: 1
+          mov_ctg_status: 1,
         })
     );
 
@@ -2271,7 +2259,7 @@ export class CarteraServer {
     for await (const mov of movementList) {
       movementServer
         .create({ body: mov })
-        .catch(err =>
+        .catch((err) =>
           console.log(`Error registering movement for cartera payment`, err)
         );
     }
@@ -2289,17 +2277,17 @@ export class CarteraServer {
     const result = code_reference
       .split("|")[1]
       .split("-")
-      .map(n => parseInt(n, 10));
+      .map((n) => parseInt(n, 10));
     return {
       year: result[0],
-      month: result[1]
+      month: result[1],
     };
   }
 
   resultsForMonthHandler(node: iNode) {
-    const { year, month } = node.request.query;
+    const { year, month } = node.request.query as any;
 
-    this.resultsForMonth(year, month).then(async response => {
+    this.resultsForMonth(year, month).then(async (response) => {
       node.response.end(
         JSON.stringify({
           operationOk: true,
@@ -2311,7 +2299,7 @@ export class CarteraServer {
           movementList: response,
           timeline: await this.getTimeline(
             `cartera-results|${year}-${month}`
-          ).then(list => list.map(Utils.entityToRawTableFields))
+          ).then((list) => list.map(Utils.entityToRawTableFields)),
         })
       );
     });
@@ -2337,14 +2325,14 @@ export class CarteraServer {
         "yyyy-MM-dd"
       )}'
       and mov_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'`,
-      account_id: "acc2020040520302"
+      account_id: "acc2020040520302",
     };
     const mapCodeWithDescription = {
       [CODE_NORMAL]: "Cuotas de Mantenimiento",
       [CODE_PENALIZATION]: "Penalizaciones",
       [CODE_EXTRA]: "Cuotas Extraordinarias",
       [CODE_EXTRA_PENALIZATION]: "Penalizaciones de Cuotas Extraordinarias",
-      [CODE_NONE]: "Cuotas pendientes de identificar"
+      [CODE_NONE]: "Cuotas pendientes de identificar",
     };
 
     const movementList: Array<{
@@ -2404,15 +2392,15 @@ export class CarteraServer {
         WHERE 
         ${config.dateFilter}
         and mov_id_account = '${config.account_id}'
-        and mov_ctg_type = 1`
+        and mov_ctg_type = 1`,
       })
-      .then(response =>
-        response.map(e => ({
+      .then((response) =>
+        response.map((e) => ({
           concept: e["type"].includes("-")
             ? mapCodeWithDescription[e["concept"]]
             : e["concept"],
           amount: e["amount"],
-          type: e["type"]
+          type: e["type"],
         }))
       );
 
@@ -2431,9 +2419,9 @@ export class CarteraServer {
         sql: `select * from balance
        where bal_id_account = '${account_id}'
        and bal_year = ${year}
-       and bal_month = ${month}`
+       and bal_month = ${month}`,
       })
-      .then(response => response.map(e => new Balance(e)));
+      .then((response) => response.map((e) => new Balance(e)));
 
     return Promise.resolve(
       balanceList.reduce(
@@ -2458,15 +2446,17 @@ export class CarteraServer {
         {
           f: "tim_id_record",
           op: "eq",
-          val: recordId
-        }
-      ]
+          val: recordId,
+        },
+      ],
     };
 
     return connection
       .runSql(sqlMotor.toSelectSQL(JSON.stringify(filter)))
-      .then(response => {
-        return (response.rows && response.rows.map(e => new Timeline(e))) || [];
+      .then((response) => {
+        return (
+          (response.rows && response.rows.map((e) => new Timeline(e))) || []
+        );
       });
   }
 
@@ -2475,12 +2465,12 @@ export class CarteraServer {
     const { payment, payDetList, payDetFolioList } = node.request.body;
 
     this.savePaymentAndPayDet(payment, payDetList, payDetFolioList).then(
-      data => {
+      (data) => {
         node.response.end(
           JSON.stringify({
             operationOk: true,
             payment: Utils.entityToRawTableFields(data.payment),
-            payDetList: data.payDetList.map(Utils.entityToRawTableFields)
+            payDetList: data.payDetList.map(Utils.entityToRawTableFields),
           })
         );
       }
@@ -2516,8 +2506,8 @@ export class CarteraServer {
         .runSql(
           new MoSQL(new CarteraPayment({ cpy_id: paymentId })).toSelectPKSQL()
         )
-        .then(response => response.rows.map(r => new CarteraPayment(r)))
-        .then(list => (list.length ? list[0] : null));
+        .then((response) => response.rows.map((r) => new CarteraPayment(r)))
+        .then((list) => (list.length ? list[0] : null));
 
       // add identification details
       paymentInstance.cpy_description = description;
@@ -2543,12 +2533,12 @@ export class CarteraServer {
         cpy_id_user: user,
         cpy_date_add: DateUtils.newDateUpToSeconds(),
         cpy_date_mod: DateUtils.newDateUpToSeconds(),
-        cpy_ctg_status: 1
+        cpy_ctg_status: 1,
       });
     }
 
     const payDetListInstance: CarteraPayDet[] = Object.keys(payDetList).map(
-      id =>
+      (id) =>
         new CarteraPayDet({
           cpd_id: Utils.hashIdForEntity(new CarteraPayDet(), "cpd_id"),
           cpd_id_provision: id,
@@ -2557,7 +2547,7 @@ export class CarteraServer {
           cpd_id_user: user,
           cpd_date_add: DateUtils.newDateUpToSeconds(),
           cpd_date_mod: DateUtils.newDateUpToSeconds(),
-          cpd_ctg_status: 1
+          cpd_ctg_status: 1,
         })
     );
 
@@ -2571,20 +2561,20 @@ export class CarteraServer {
       where cpr_id in (${Object.keys(payDetList).reduce(
         (prev, curr) => `${prev ? `${prev}, ` : ""}'${curr}'`,
         null
-      )})`
+      )})`,
             })
-            .then(list => list.map(d => new CarteraProvision(d)))
+            .then((list) => list.map((d) => new CarteraProvision(d)))
         : [];
 
     const afterInsertOK = (responseCreate, model: CarteraPayment) => {
       return Promise.all(
-        payDetListInstance.map(d =>
+        payDetListInstance.map((d) =>
           apiModule.create(
             { body: d },
             {
               afterInsertOK: (responseDet, detModel: CarteraPayDet) => {
                 const provision: CarteraProvision = provisionList.find(
-                  p => p.cpr_id === d.cpd_id_provision
+                  (p) => p.cpr_id === d.cpd_id_provision
                 );
                 return apiModule.update(
                   {
@@ -2596,16 +2586,16 @@ export class CarteraServer {
                         provision.cpr_payed -
                         d.cpd_amount,
                       cpr_folio: payDetFolioList[provision.cpr_id],
-                      cpr_date_mod: DateUtils.newDateUpToSeconds()
+                      cpr_date_mod: DateUtils.newDateUpToSeconds(),
                     },
                     pk: {
-                      ...Utils.getPKFromEntity(provision)
-                    }
+                      ...Utils.getPKFromEntity(provision),
+                    },
                   },
                   {},
                   provision
                 );
-              }
+              },
             },
             d
           )
@@ -2622,20 +2612,20 @@ export class CarteraServer {
         pk:
           paymentType === "identification"
             ? {
-                cpy_id: paymentId
+                cpy_id: paymentId,
               }
-            : undefined
+            : undefined,
       },
       {
         afterInsertOK,
-        afterUpdateOK: afterInsertOK
+        afterUpdateOK: afterInsertOK,
       },
       paymentInstance
-    ).then(response => {
+    ).then((response) => {
       return Promise.resolve({
         payment: paymentInstance,
         payDetList: payDetListInstance,
-        provisionList
+        provisionList,
       });
     });
   }
@@ -2663,17 +2653,17 @@ export class CarteraServer {
     const listing = {
       provisionList: provisionList
         .filter(
-          item =>
+          (item) =>
             initialDate.getTime() <= item.cpr_date.getTime() &&
             item.cpr_date.getTime() < finalDate.getTime() &&
             item.cpr_code_reference.includes("cuota-normal|")
         )
         .sort((a, b) => (a.cpr_id_unit > b.cpr_id_unit ? 1 : -1))
-        .map(provision => ({
+        .map((provision) => ({
           provision,
           previousPayDetList: payDetList
             .filter(
-              pd =>
+              (pd) =>
                 pd.cpd_id_provision === provision.cpr_id &&
                 pd.cpd_date_payment.getTime() < initialDate.getTime()
             )
@@ -2682,46 +2672,46 @@ export class CarteraServer {
             ),
           paymentList: paymentList
             .filter(
-              item =>
+              (item) =>
                 item.cpy_match_hint.endsWith(`|${provision.cpr_id_unit}`) &&
                 initialDate.getTime() <= item.cpy_date.getTime() &&
                 item.cpy_date.getTime() < finalDate.getTime()
             )
-            .map(payment => ({
+            .map((payment) => ({
               payment,
               payDetList: payDetList.filter(
-                pd => pd.cpd_id_payment === payment.cpy_id
-              )
+                (pd) => pd.cpd_id_payment === payment.cpy_id
+              ),
             }))
             .sort((a, b) =>
               a.payment.cpy_date.getTime() > b.payment.cpy_date.getTime()
                 ? 1
                 : -1
-            )
-        }))
+            ),
+        })),
     };
 
     return listing;
   }
 
   async getProvisionPaymentListingHandler(node: iNode) {
-    const { year, month } = node.request.query;
+    const { year, month } = node.request.query as any;
 
     const listing = await this.getProvisionPaymentListing(year, month);
 
     node.response.end(
       JSON.stringify({
         operationOk: true,
-        provisionList: listing.provisionList.map(item => ({
+        provisionList: listing.provisionList.map((item) => ({
           provision: Utils.entityToRawTableFields(item.provision),
           previousPayDetList: item.previousPayDetList.map(
             Utils.entityToRawTableFields
           ),
-          paymentList: item.paymentList.map(p => ({
+          paymentList: item.paymentList.map((p) => ({
             payment: Utils.entityToRawTableFields(p.payment),
-            payDetList: p.payDetList.map(Utils.entityToRawTableFields)
-          }))
-        }))
+            payDetList: p.payDetList.map(Utils.entityToRawTableFields),
+          })),
+        })),
       })
     );
   }
@@ -2741,7 +2731,7 @@ export class CarteraServer {
     const listing = {
       provisionList: provisionList
         .filter(
-          item => item.cpr_folio && item.cpr_folio.substr(0, 3) === monthAbr
+          (item) => item.cpr_folio && item.cpr_folio.substr(0, 3) === monthAbr
         )
         .sort((a, b) => {
           return parseInt(a.cpr_folio.substr(6, 3)) >
@@ -2749,12 +2739,12 @@ export class CarteraServer {
             ? 1
             : -1;
         })
-        .map(provision => {
+        .map((provision) => {
           const hash = this.generateReceiptHash(provision); // use cpr_id to generate hash
-          const unit = unitList.find(u => u.uni_id == provision.cpr_id_unit);
+          const unit = unitList.find((u) => u.uni_id == provision.cpr_id_unit);
           const payment = payDetList
             .filter(
-              p =>
+              (p) =>
                 p.cpd_id_provision === provision.cpr_id &&
                 initialDate.getTime() <= p.cpd_date_payment.getTime() &&
                 p.cpd_date_payment.getTime() < finalDate.getTime()
@@ -2769,10 +2759,10 @@ export class CarteraServer {
             provision,
             hash: hash.encryptedData,
             name: `${unit.uni_first_name} ${unit.uni_middle_name}`,
-            paymentDate: payment ? payment.cpd_date_payment : null
+            paymentDate: payment ? payment.cpd_date_payment : null,
           };
         })
-        .filter(item => item.paymentDate)
+        .filter((item) => item.paymentDate),
     };
 
     return listing;
@@ -2785,12 +2775,12 @@ export class CarteraServer {
 
     const listing = {
       provisionList: provisionList
-        .filter(item => item.cpr_folio === folio)
-        .map(provision => {
+        .filter((item) => item.cpr_folio === folio)
+        .map((provision) => {
           const hash = this.generateReceiptHash(provision); // use cpr_id to generate hash
-          const unit = unitList.find(u => u.uni_id == provision.cpr_id_unit);
+          const unit = unitList.find((u) => u.uni_id == provision.cpr_id_unit);
           const payment = payDetList
-            .filter(p => p.cpd_id_provision === provision.cpr_id)
+            .filter((p) => p.cpd_id_provision === provision.cpr_id)
             .sort((a, b) =>
               a.cpd_date_payment.getTime() > b.cpd_date_payment.getTime()
                 ? 1
@@ -2801,17 +2791,18 @@ export class CarteraServer {
             provision,
             hash: hash.encryptedData,
             name: `${unit.uni_first_name} ${unit.uni_middle_name}`,
-            paymentDate: payment ? payment.cpd_date_payment : null
+            paymentDate: payment ? payment.cpd_date_payment : null,
           };
         })
-        .filter(item => item.paymentDate)
+        .filter((item) => item.paymentDate),
     };
 
     return listing;
   }
 
   async getProvisionPayedReceiptListHandler(node: iNode) {
-    const { year = null, month = null, folio = null } = node.request.query;
+    const { year = null, month = null, folio = null } = node.request
+      .query as any;
 
     let listing;
     if (folio) {
@@ -2823,12 +2814,12 @@ export class CarteraServer {
     node.response.end(
       JSON.stringify({
         operationOk: true,
-        provisionList: listing.provisionList.map(item => ({
+        provisionList: listing.provisionList.map((item) => ({
           provision: Utils.entityToRawTableFields(item.provision),
           hash: item.hash,
           name: item.name,
-          paymentDate: item.paymentDate
-        }))
+          paymentDate: item.paymentDate,
+        })),
       })
     );
   }
