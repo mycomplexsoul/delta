@@ -30,14 +30,14 @@ const UNIT_LIST: string[] | number[] = [
   501,
   502,
   503,
-  504
+  504,
 ];
 
 @Component({
   selector: "cartera",
   templateUrl: "./Cartera.html",
   styleUrls: ["./Cartera.css"],
-  providers: [CarteraService]
+  providers: [CarteraService],
 })
 export class CarteraComponent implements OnInit {
   public viewData: {
@@ -65,6 +65,7 @@ export class CarteraComponent implements OnInit {
     nonIdentifiedPaymentList: CarteraPayment[];
     nonIdentifiedTotalAmount: number;
     displayYearMonth: string;
+    showOnlyUnitsWithoutPayment: boolean;
   } = {
     showItemForm: false,
     showPayDetList: false,
@@ -89,7 +90,8 @@ export class CarteraComponent implements OnInit {
     month: 0,
     nonIdentifiedPaymentList: [],
     nonIdentifiedTotalAmount: 0,
-    displayYearMonth: null
+    displayYearMonth: null,
+    showOnlyUnitsWithoutPayment: false,
   };
   private model: {
     _paymentType: string;
@@ -106,7 +108,7 @@ export class CarteraComponent implements OnInit {
     fAmount: 0,
     unitId: null,
     fDescription: null,
-    paymentId: null
+    paymentId: null,
   };
   private payDetModel: any = {};
   private payDetFolioModel: any = {};
@@ -145,18 +147,20 @@ export class CarteraComponent implements OnInit {
   deriveState() {
     this.carteraService
       .getPendingProvisionForMonth(this.viewData.year, this.viewData.month)
-      .then(response => {
+      .then((response) => {
         const {
           pendingProvisionList,
           futureProvisionList,
           nonIdentifiedPaymentList,
-          lastFolio
+          lastFolio,
         } = response;
 
         this.viewData.pendingProvisionList = pendingProvisionList;
         this.viewData.futureProvisionList = futureProvisionList;
         this.viewData.nonIdentifiedPaymentList = nonIdentifiedPaymentList;
         this.lastFolio = lastFolio;
+
+        this.toggleUnitList();
 
         // calculate totals
         this.viewData.pendingTotalAmount = this.sumByField(
@@ -188,7 +192,7 @@ export class CarteraComponent implements OnInit {
         // totals per unit
         this.viewData.pendingTotals = this.viewData.pendingProvisionList.reduce(
           (previous, current) => {
-            const found = previous.find(e => e.unit === current.cpr_id_unit);
+            const found = previous.find((e) => e.unit === current.cpr_id_unit);
             // the ones that are normal provisions and that doesn't have any payments
             const isNormalProvision =
               current.cpr_code_reference.split("|")[0] === CUOTA_NORMAL &&
@@ -201,7 +205,7 @@ export class CarteraComponent implements OnInit {
               previous.push({
                 unit: current.cpr_id_unit,
                 remaining: current.cpr_remaining,
-                normalProvisionCount: isNormalProvision ? 1 : 0
+                normalProvisionCount: isNormalProvision ? 1 : 0,
               });
             }
             return previous;
@@ -226,7 +230,7 @@ export class CarteraComponent implements OnInit {
     return provision.cpr_code_reference
       .split("|")[1]
       .split("-")
-      .map(n => parseInt(n, 10));
+      .map((n) => parseInt(n, 10));
   }
 
   isProvisionForCurrentRenderedMonth(
@@ -246,12 +250,12 @@ export class CarteraComponent implements OnInit {
   setUnitProvisionList(unitId: string) {
     this.viewData.showPayDetList = !this.viewData.showPayDetList;
     this.viewData.unitPendingProvisionList = this.viewData.pendingProvisionList.filter(
-      e => e.cpr_id_unit === unitId
+      (e) => e.cpr_id_unit === unitId
     );
 
     if (this.viewData.unitPendingProvisionList.length === 0) {
       this.viewData.unitPendingProvisionList = this.viewData.futureProvisionList.filter(
-        e => e.cpr_id_unit === unitId
+        (e) => e.cpr_id_unit === unitId
       );
     }
 
@@ -314,7 +318,7 @@ export class CarteraComponent implements OnInit {
 
     const next =
       provisionList
-        .filter(p => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
+        .filter((p) => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
         .reduce((max, p) => {
           const num = parseInt(p.cpr_folio.substr(6, 3), 10);
           return max < num ? num : max;
@@ -325,9 +329,9 @@ export class CarteraComponent implements OnInit {
 
   validatePayDetTotal(amount: number) {
     // fix max payDet
-    Object.keys(this.payDetModel).forEach(id => {
+    Object.keys(this.payDetModel).forEach((id) => {
       const prov = this.viewData.unitPendingProvisionList.find(
-        p => p.cpr_id === id
+        (p) => p.cpr_id === id
       );
 
       // if payment is more than remaining
@@ -365,7 +369,7 @@ export class CarteraComponent implements OnInit {
       unitId,
       fDescription,
       _paymentType,
-      paymentId
+      paymentId,
     } = this.model;
 
     if (this.viewData.payDetCaptureStatus === "valid") {
@@ -380,15 +384,15 @@ export class CarteraComponent implements OnInit {
           this.payDetModel,
           this.payDetFolioModel
         )
-        .then(response => {
+        .then((response) => {
           this.notificationService.notify(
             `Payment created successfully`,
             "Cartera"
           );
           // save up folios into provisions
-          Object.keys(this.payDetFolioModel).forEach(id => {
+          Object.keys(this.payDetFolioModel).forEach((id) => {
             const prov = this.viewData.unitPendingProvisionList.find(
-              p => p.cpr_id === id
+              (p) => p.cpr_id === id
             );
             prov.cpr_folio = this.payDetFolioModel[id];
           });
@@ -427,7 +431,7 @@ export class CarteraComponent implements OnInit {
 
   setPaymentDetailsInForm(form: NgForm, paymentId: string) {
     const payment: CarteraPayment = this.viewData.nonIdentifiedPaymentList.find(
-      e => e.cpy_id === paymentId
+      (e) => e.cpy_id === paymentId
     );
 
     this.model._dateType = "custom";
@@ -437,9 +441,11 @@ export class CarteraComponent implements OnInit {
 
   showFutureProvisions(unitId: string) {
     this.viewData.unitPendingProvisionList = this.viewData.pendingProvisionList
-      .filter(e => e.cpr_id_unit === unitId)
+      .filter((e) => e.cpr_id_unit === unitId)
       .concat(
-        this.viewData.futureProvisionList.filter(e => e.cpr_id_unit === unitId)
+        this.viewData.futureProvisionList.filter(
+          (e) => e.cpr_id_unit === unitId
+        )
       );
   }
 
@@ -447,9 +453,9 @@ export class CarteraComponent implements OnInit {
     this.viewData.unitPendingProvisionListAfterPayment = [];
     const list = this.viewData.unitPendingProvisionListAfterPayment;
 
-    Object.keys(payDetModel).forEach(id => {
+    Object.keys(payDetModel).forEach((id) => {
       const provision = this.viewData.unitPendingProvisionList.find(
-        p => p.cpr_id === id
+        (p) => p.cpr_id === id
       );
 
       // apply payment
@@ -469,7 +475,7 @@ export class CarteraComponent implements OnInit {
     }
 
     const duplicate = this.viewData.pendingProvisionList.find(
-      p => p.cpr_folio === this.payDetFolioModel[provision.cpr_id]
+      (p) => p.cpr_folio === this.payDetFolioModel[provision.cpr_id]
     );
     if (duplicate) {
       this.viewData.payDetFolioCaptureStatus = "invalid";
@@ -478,5 +484,24 @@ export class CarteraComponent implements OnInit {
 
     this.viewData.payDetFolioCaptureStatus = "valid";
     return true;
+  }
+
+  getUnitsWithoutPayment() {
+    return this.viewData.pendingProvisionList
+      .filter(
+        (p) =>
+          p.cpr_payed === 0 &&
+          p.cpr_year === this.viewData.year &&
+          p.cpr_month === this.viewData.month
+      )
+      .map((p) => p.cpr_id_unit);
+  }
+
+  toggleUnitList() {
+    this.viewData.showOnlyUnitsWithoutPayment = !this.viewData
+      .showOnlyUnitsWithoutPayment;
+    this.viewData.unitList = this.viewData.showOnlyUnitsWithoutPayment
+      ? this.getUnitsWithoutPayment()
+      : UNIT_LIST;
   }
 }

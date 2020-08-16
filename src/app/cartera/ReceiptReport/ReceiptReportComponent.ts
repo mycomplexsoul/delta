@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import {
   ReceiptReportService,
-  iReceiptReportData
+  iReceiptReportData,
 } from "./ReceiptReportService";
 import { Title } from "@angular/platform-browser";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import html2canvas from "html2canvas";
-import * as jsPDF from "jspdf";
+import jspdf from "jspdf";
 // import { generatePDF } from "../../common/pdfModule";
 
 const UNIT_LABEL = "Departamento";
@@ -15,7 +15,7 @@ const UNIT_LABEL = "Departamento";
   selector: "receipt-report",
   templateUrl: "./ReceiptReport.html",
   styleUrls: ["./ReceiptReport.css"],
-  providers: [ReceiptReportService]
+  providers: [ReceiptReportService],
 })
 export class ReceiptReportComponent implements OnInit {
   public viewData: {
@@ -33,7 +33,7 @@ export class ReceiptReportComponent implements OnInit {
     month: 0,
     displayYearMonth: null,
     folio: null,
-    date: null
+    date: null,
   };
 
   parseQueryString() {
@@ -88,9 +88,7 @@ export class ReceiptReportComponent implements OnInit {
         prov.cpr_year,
         prov.cpr_month
       );
-      this.viewData.title = `${this.viewData.folio} Recibo de pago ${
-        prov.cpr_id_unit
-      } - ${this.viewData.displayYearMonth}`;
+      this.viewData.title = `${this.viewData.folio} Recibo de pago ${prov.cpr_id_unit} - ${this.viewData.displayYearMonth}`;
       this.titleService.setTitle(this.viewData.title);
     }
   }
@@ -103,12 +101,27 @@ export class ReceiptReportComponent implements OnInit {
     if (window) {
       window["html2canvas"] = html2canvas;
     }
-    const pdf = new jsPDF("p", "pt", "letter");
+    const pdf = new jspdf("p", "pt", "letter");
 
-    pdf.html(document.querySelector("receipt-report").innerHTML, {
-      callback: function(doc) {
+    const styles = Array.from(document.querySelectorAll("style")).map(
+      (e) => e.innerHTML
+    );
+
+    const e = document.createElement("div");
+    e.innerHTML = `<style>${styles.join("\n")}</style>
+      <receipt-report>${document
+        .querySelector("receipt-report")
+        .innerHTML.replace("hide-on-print", "hide")
+        .replace("receipt-item", "receipt-item-pdf")}</receipt-report>`;
+
+    pdf.html(e, {
+      html2canvas: {
+        width: 800,
+        scale: 0.67,
+      },
+      callback: function (doc) {
         doc.save();
-      }
+      },
     });
     // generatePDF(document.body);
   }

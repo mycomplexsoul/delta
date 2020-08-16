@@ -20,6 +20,24 @@
     width: 100%;
   }
 
+  .receipt-item-pdf h1,
+  .receipt-item-pdf table,
+  .receipt-item-pdf .receipt-header,
+  .receipt-item-pdf .receipt-information,
+  .receipt-item-pdf .receipt-sign-list,
+  .receipt-item-pdf .receipt-notes {
+    width: 760px;
+    margin-left: 70px;
+    margin-right: 70px;
+  }
+
+  .receipt-item-pdf thead tr,
+  .receipt-item-pdf tbody tr,
+  .receipt-item-pdf tfoot tr {
+    /* fix for jspdf */
+    border-left: 1px solid black;
+  }
+
   .receipt-header,
   .receipt-information {
     display: flex;

@@ -84,7 +84,7 @@
     </div>
   </div>
 
-  <table class="receipt-top-block">
+  <table class="receipt-top-block" cellspacing="0">
     <thead>
       <tr>
         <th class="padding-all-3">Fecha</th>
@@ -140,11 +140,13 @@
     </table>
   </div>
 
-  <div class="receipt-top-block">
-    Nota: El pago de este recibo no lo libera de adeudos anteriores.
+  <div class="receipt-notes">
+    <div class="receipt-top-block">
+      Nota: El pago de este recibo no lo libera de adeudos anteriores.
+    </div>
+    <br />
+    <div>Cadena de Verificación: {{item.hash}}</div>
   </div>
-  <br />
-  <div>Cadena de Verificación: {{item.hash}}</div>
 </div>
 
 <div class="hide-on-print">

@@ -620,6 +620,10 @@ link {
   display: block;
 }
 
+.hide {
+  display: none;
+}
+
 @media print {
   @page {
     margin: 0;

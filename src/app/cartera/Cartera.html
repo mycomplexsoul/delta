@@ -141,6 +141,13 @@
             >{{ opt }}</option
           >
         </select>
+        &nbsp;<button
+          (click)="toggleUnitList()"
+          [disabled]="viewData.showPayDetList"
+        >
+          {{ viewData.showOnlyUnitsWithoutPayment ? 'Ver todas' : 'Ver faltantes
+          de pago' }}
+        </button>
       </span>
 
       <span class="field">
@@ -180,6 +187,7 @@
         type="button"
         id="showMoreProvisionsButton"
         (click)="showFutureProvisions(model.unitId)"
+        *ngIf="viewData.showPayDetList"
       >
         Ver Provisiones futuras
       </button>
@@ -313,8 +321,9 @@
         type="submit"
         id="newFormSubmitButton"
         [disabled]="viewData.payDetCaptureStatus !== 'valid'"
+        *ngIf="viewData.showPayDetList"
       >
-        {{ model.id !== null ? "Update Payment" : "Save Payment" }}
+        Aplicar pago
       </button>
     </div>
   </div>

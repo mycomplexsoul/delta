@@ -27,9 +27,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.52 (2020-05-18)
+
+- [AppCartera][mod] Formatting improvements to receipt report
+- [AppCartera][mod] Minor improvements in payment capture
+- [AppCommon][mod] Upgrade dependencies
+
 ## v1.10.51 (2020-05-11)
 
 - [AppCartera][new] Add jspdf to allow PDF generation for reports
+- [AppCartera][mod] Upgrade jspdf to v2
+- [AppCartera][mod] Use jspdf v2 to generate PDF with proper formatting
 
 ## v1.10.50 (2020-05-04)
 

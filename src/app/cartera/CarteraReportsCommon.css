@@ -1,22 +1,24 @@
 @media screen, print {
-  thead tr th,
-  tfoot tr td {
+  thead tr,
+  tfoot tr {
     background-color: #d0e4f5;
-    font-weight: bold;
   }
 
-  tfoot tr td {
+  thead tr,
+  tbody tr,
+  tfoot tr {
     border-top: 1px solid black;
+  }
+
+  thead tr th,
+  tfoot tr td {
+    font-weight: bold;
   }
 
   table {
     border: 1px solid black;
     border-collapse: collapse;
     border-spacing: 0;
-  }
-
-  tbody tr {
-    border-top: 1px solid black;
   }
 }
 
