@@ -65,6 +65,13 @@
             , "displayName": "Amount"
         },{
             "templateId": "double"
+            , "dbName": "cpr_condoned"
+            , "dbComment": "Total amount condoned"
+            , "entName": "Condoned"
+            , "captureRequired": true
+            , "displayName": "Condoned"
+        },{
+            "templateId": "double"
             , "dbName": "cpr_payed"
             , "dbComment": "Total amount payed"
             , "entName": "Payed"

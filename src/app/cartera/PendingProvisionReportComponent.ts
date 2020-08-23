@@ -13,13 +13,14 @@ const PROVISION_AMOUNT = 1480;
   selector: "pending-payments-report",
   templateUrl: "./PendingProvisionReport.html",
   styleUrls: ["./PendingProvisionReport.css"],
-  providers: [PendingProvisionService]
+  providers: [PendingProvisionService],
 })
 export class PendingProvisionReportComponent implements OnInit {
   public viewData: {
     pendingProvisionList: CarteraProvision[];
     futureProvisionList: CarteraProvision[];
     pendingTotalAmount: number;
+    pendingTotalCondoned: number;
     pendingTotalPayed: number;
     pendingTotalRemaining: number;
     pendingTotals: Array<{ unit: string; remaining: number }>;
@@ -39,6 +40,7 @@ export class PendingProvisionReportComponent implements OnInit {
     pendingProvisionList: [],
     futureProvisionList: [],
     pendingTotalAmount: 0,
+    pendingTotalCondoned: 0,
     pendingTotalPayed: 0,
     pendingTotalRemaining: 0,
     pendingTotals: [],
@@ -53,7 +55,7 @@ export class PendingProvisionReportComponent implements OnInit {
     displayYearMonth: null,
     timelineList: [],
     title: null,
-    layout: null // 2-pages, 1-page
+    layout: null, // 2-pages, 1-page
   };
 
   parseQueryString() {
@@ -66,9 +68,7 @@ export class PendingProvisionReportComponent implements OnInit {
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month
     )} ${this.viewData.year}`;
-    this.viewData.title = `Relación de Cobranza ${
-      this.viewData.displayYearMonth
-    } FFJ78`;
+    this.viewData.title = `Relación de Cobranza ${this.viewData.displayYearMonth} FFJ78`;
   }
 
   constructor(
@@ -93,12 +93,12 @@ export class PendingProvisionReportComponent implements OnInit {
   deriveState() {
     this.pendingProvisionService
       .getPendingProvisionForMonth(this.viewData.year, this.viewData.month)
-      .then(response => {
+      .then((response) => {
         const {
           pendingProvisionList,
           futureProvisionList,
           nonIdentifiedPaymentList,
-          timelineList
+          timelineList,
         } = response;
 
         this.viewData.pendingProvisionList = pendingProvisionList;
@@ -110,6 +110,10 @@ export class PendingProvisionReportComponent implements OnInit {
         this.viewData.pendingTotalAmount = this.sumByField(
           pendingProvisionList,
           "cpr_amount"
+        );
+        this.viewData.pendingTotalCondoned = this.sumByField(
+          pendingProvisionList,
+          "cpr_condoned"
         );
         this.viewData.pendingTotalPayed = this.sumByField(
           pendingProvisionList,
@@ -136,7 +140,7 @@ export class PendingProvisionReportComponent implements OnInit {
         // totals per unit
         this.viewData.pendingTotals = this.viewData.pendingProvisionList
           .reduce((previous, current) => {
-            const found = previous.find(e => e.unit === current.cpr_id_unit);
+            const found = previous.find((e) => e.unit === current.cpr_id_unit);
             // the ones that are normal provisions and that doesn't have any payments
             const isNormalProvision =
               current.cpr_code_reference.split("|")[0] === CUOTA_NORMAL &&
@@ -149,12 +153,12 @@ export class PendingProvisionReportComponent implements OnInit {
               previous.push({
                 unit: current.cpr_id_unit,
                 remaining: current.cpr_remaining,
-                normalProvisionCount: isNormalProvision ? 1 : 0
+                normalProvisionCount: isNormalProvision ? 1 : 0,
               });
             }
             return previous;
           }, [])
-          .filter(r => r.remaining >= 0.01);
+          .filter((r) => r.remaining >= 0.01);
         // total from pendingTotals
         this.viewData.totalRemainingFromPendingTotals = this.sumByField(
           this.viewData.pendingTotals,
@@ -173,7 +177,7 @@ export class PendingProvisionReportComponent implements OnInit {
     return provision.cpr_code_reference
       .split("|")[1]
       .split("-")
-      .map(n => parseInt(n, 10));
+      .map((n) => parseInt(n, 10));
   }
 
   isProvisionForCurrentRenderedMonth(
@@ -186,7 +190,7 @@ export class PendingProvisionReportComponent implements OnInit {
         (previous, current) => previous * 100 + current,
         0
       ) ===
-      year * 100 + month
+        year * 100 + month || ![1, 16].includes(provision.cpr_date.getDate())
     );
   }
 

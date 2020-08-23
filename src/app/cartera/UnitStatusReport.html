@@ -32,6 +32,9 @@
     <tr
       *ngFor="let item of viewData.movementList; let counter = index"
       class="unit-status-listing-row"
+      [ngClass]="{
+        'unit-status-highlight': item.highlight
+      }"
     >
       <td class="padding-all-3 text-align-center vertical-align-top">
         {{counter + 1}}
@@ -85,6 +88,9 @@
     <tr
       *ngFor="let item of viewData.movementList; let counter = index"
       class="unit-status-listing-row"
+      [ngClass]="{
+        'unit-status-highlight': item.highlight
+      }"
     >
       <td class="padding-all-3 vertical-align-top">
         <span *ngIf="item.type === 'PAYMENT'">
@@ -203,6 +209,9 @@
     <tr
       *ngFor="let item of viewData.provisionList; let counter = index"
       class="unit-status-listing-row"
+      [ngClass]="{
+        'unit-status-highlight': item.highlight
+      }"
     >
       <td class="padding-all-3 text-align-center vertical-align-top">
         {{counter + 1}}
@@ -213,14 +222,24 @@
         </div>
         <div>
           <div *ngFor="let payDet of item.payDetList">
-            <span *ngIf="payDet.cpd_ctg_type === 2">
+            <span
+              *ngIf="payDet.cpd_ctg_type === 2"
+              [ngClass]="{
+              'unit-status-highlight': payDet.cpd_txt_status === 'highlight'
+            }"
+            >
               - Ajuste {{payDet.cpd_amount | currency:
               "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonación/Ajuste
               #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
               getPayment(payDet.cpd_id_payment).cpy_amount | currency:
               "USD":"symbol-narrow":"1.2-2" }}
             </span>
-            <span *ngIf="payDet.cpd_ctg_type === 1">
+            <span
+              *ngIf="payDet.cpd_ctg_type === 1"
+              [ngClass]="{
+              'unit-status-highlight': payDet.cpd_txt_status === 'highlight'
+            }"
+            >
               - Recaudado {{payDet.cpd_amount | currency:
               "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
               getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{

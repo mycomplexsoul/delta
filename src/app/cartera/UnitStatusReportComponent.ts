@@ -12,7 +12,7 @@ const UNIT_LABEL = "Departamento";
   selector: "unit-status-report",
   templateUrl: "./UnitStatusReport.html",
   styleUrls: ["./UnitStatusReport.css"],
-  providers: [UnitStatusService]
+  providers: [UnitStatusService],
 })
 export class UnitStatusReportComponent implements OnInit {
   public viewData: {
@@ -30,6 +30,7 @@ export class UnitStatusReportComponent implements OnInit {
       balance: number;
       comment: string;
       orderIndex: number;
+      highlight: boolean;
     }>;
     finalBalance: number;
     pendingTotalAmount: number;
@@ -61,7 +62,7 @@ export class UnitStatusReportComponent implements OnInit {
     month: 0,
     unit: null,
     displayYearMonth: null,
-    layout: "1-page"
+    layout: "1-page",
   };
 
   parseQueryString() {
@@ -83,9 +84,7 @@ export class UnitStatusReportComponent implements OnInit {
     private titleService: Title
   ) {
     this.parseQueryString();
-    this.viewData.title = `Estado de Cuenta ${UNIT_LABEL} ${
-      this.viewData.unit
-    } ${this.viewData.displayYearMonth} FFJ78`;
+    this.viewData.title = `Estado de Cuenta ${UNIT_LABEL} ${this.viewData.unit} ${this.viewData.displayYearMonth} FFJ78`;
     titleService.setTitle(this.viewData.title);
   }
 
@@ -105,7 +104,7 @@ export class UnitStatusReportComponent implements OnInit {
       this.viewData.year,
       this.viewData.month,
       this.viewData.unit
-    ).then(response => {
+    ).then((response) => {
       const { provisionList, paymentList } = response;
 
       this.viewData.provisionList = provisionList;
@@ -113,15 +112,15 @@ export class UnitStatusReportComponent implements OnInit {
 
       // calculate pending totals
       this.viewData.pendingTotalAmount = this.sumByField(
-        this.viewData.provisionList.map(e => e.provision),
+        this.viewData.provisionList.map((e) => e.provision),
         "cpr_amount"
       );
       this.viewData.pendingTotalPayed = this.sumByField(
-        this.viewData.provisionList.map(e => e.provision),
+        this.viewData.provisionList.map((e) => e.provision),
         "cpr_payed"
       );
       this.viewData.pendingTotalRemaining = this.sumByField(
-        this.viewData.provisionList.map(e => e.provision),
+        this.viewData.provisionList.map((e) => e.provision),
         "cpr_remaining"
       );
 
@@ -132,7 +131,7 @@ export class UnitStatusReportComponent implements OnInit {
       ); // next month
       // create unified movement list
       this.viewData.provisionList
-        .filter(p => p.provision.cpr_date.getTime() < limitDate.getTime())
+        .filter((p) => p.provision.cpr_date.getTime() < limitDate.getTime())
         .forEach(({ provision }, index) => {
           this.viewData.movementList.push({
             concept: provision.cpr_concept,
@@ -141,7 +140,8 @@ export class UnitStatusReportComponent implements OnInit {
             date: provision.cpr_date,
             balance: 0,
             comment: null,
-            orderIndex: index
+            orderIndex: index,
+            highlight: provision.cpr_txt_status === "highlight",
           });
         });
 
@@ -156,7 +156,8 @@ export class UnitStatusReportComponent implements OnInit {
           date: payment.cpy_date,
           balance: 0,
           comment: null,
-          orderIndex: index
+          orderIndex: index,
+          highlight: payment.cpy_txt_status === "highlight",
         });
       });
 
@@ -185,8 +186,8 @@ export class UnitStatusReportComponent implements OnInit {
 
       // set future provisions
       this.viewData.futureProvisionList = this.viewData.provisionList
-        .filter(p => p.provision.cpr_date.getTime() >= limitDate.getTime())
-        .map(item => item.provision)
+        .filter((p) => p.provision.cpr_date.getTime() >= limitDate.getTime())
+        .map((item) => item.provision)
         .sort((a, b) => {
           if (a.cpr_date.getTime() === b.cpr_date.getTime()) {
             return a.cpr_concept > b.cpr_concept ? 1 : -1;
@@ -211,10 +212,10 @@ export class UnitStatusReportComponent implements OnInit {
   }
 
   getPayment(id: string) {
-    return this.viewData.paymentList.find(e => e.cpy_id === id);
+    return this.viewData.paymentList.find((e) => e.cpy_id === id);
   }
 
   getPaymentIndex(id: string) {
-    return this.viewData.paymentList.findIndex(e => e.cpy_id === id);
+    return this.viewData.paymentList.findIndex((e) => e.cpy_id === id);
   }
 }

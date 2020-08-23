@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.53 (2020-05-25)
+
+- [AppTasks][new] Option to add new tasks to Next Tasks section
+- [AppCartera][mod] Receipt report, improvements to handle condonation
+
 ## v1.10.52 (2020-05-18)
 
 - [AppCartera][mod] Formatting improvements to receipt report

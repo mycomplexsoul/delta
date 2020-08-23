@@ -12,7 +12,7 @@ import { AuthenticationService } from "../common/authentication.service";
 export class TasksCore {
   pendingRequests: Array<any> = [];
   data: any = {
-    taskList: <Array<Task>>[]
+    taskList: <Array<Task>>[],
   };
   public services: any = {};
   serverData: any = {};
@@ -35,7 +35,7 @@ export class TasksCore {
   }
 
   getAll(): Promise<Array<Task>> {
-    return this.sync.get(`/api/tasks/list-open`).then(data => {
+    return this.sync.get(`/api/tasks/list-open`).then((data) => {
       this.data.taskList = data.tasks.map(
         (d: any): Task => {
           let item: Task = new Task(d);
@@ -94,7 +94,7 @@ export class TasksCore {
         parsedTask = this.parseTask(
           {
             tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
-            tsk_name: text
+            tsk_name: text,
           },
           options
         );
@@ -110,6 +110,7 @@ export class TasksCore {
     });
     this.tasksToStorage();
     this.postBatch(list);
+    return list;
   }
 
   postBatch(list: any[]) {
@@ -141,15 +142,15 @@ export class TasksCore {
           this.dateWithFormat(this.services.dateUtils.dateOnly()).substring(
             0,
             10
-          )
+          ),
       },
       {
         tokenStr: "[DATETIME]",
         replaceMethod: () =>
-          this.dateWithFormat(this.services.dateUtils.dateOnly())
-      }
+          this.dateWithFormat(this.services.dateUtils.dateOnly()),
+      },
     ];
-    tokens.forEach(token => {
+    tokens.forEach((token) => {
       task.tsk_name = this.replaceAll(
         task.tsk_name,
         token.tokenStr,
@@ -412,14 +413,14 @@ export class TasksCore {
           "weekends",
           "each",
           "weekdays",
-          "onDay"
+          "onDay",
         ];
         const completionValues: Array<string> = ["", "strict", "onCompletion"];
         const repetitionEndValues: Array<string> = [
           "",
           "forever",
           "date",
-          "iterations"
+          "iterations",
         ];
         const frequencyRuleValues: Array<string> = ["", "d", "w", "m"];
         const weekdaysValues: Array<string> = [
@@ -430,7 +431,7 @@ export class TasksCore {
           "Th",
           "Fr",
           "Sa",
-          "Su"
+          "Su",
         ];
 
         if (expression) {
@@ -466,16 +467,10 @@ export class TasksCore {
               // number and literal
               frequency = parseInt(repetitionBasis.split(":")[1].trim()); // parse ignoring literal chars
               if (repetitionBasis.split(":")[0].trim() === "each") {
-                frequencyRule = repetitionBasis
-                  .split(":")[1]
-                  .trim()
-                  .substr(-1); // last char is literal
+                frequencyRule = repetitionBasis.split(":")[1].trim().substr(-1); // last char is literal
               }
               if (repetitionBasis.split(":")[0].trim() === "onDay") {
-                frequencyRule = repetitionBasis
-                  .split(":")[1]
-                  .trim()
-                  .substr(-2); // last chars is weekday
+                frequencyRule = repetitionBasis.split(":")[1].trim().substr(-2); // last chars is weekday
               }
             }
             repetitionBasis = repetitionBasis.split(":")[0].trim();
@@ -575,7 +570,7 @@ export class TasksCore {
       tsk_date_add:
         task.tsk_date_add || this.services.dateUtils.newDateUpToSeconds(),
       tsk_date_mod: this.services.dateUtils.newDateUpToSeconds(),
-      tsk_ctg_status: task.tsk_ctg_status
+      tsk_ctg_status: task.tsk_ctg_status,
     };
   }
 
@@ -722,7 +717,7 @@ export class TasksCore {
   }
 
   updateTask(task: any, newData: any) {
-    Object.keys(newData).forEach(k => {
+    Object.keys(newData).forEach((k) => {
       task[k] = newData[k];
     });
     task.tsk_date_mod = this.services.dateUtils.newDateUpToSeconds();
@@ -743,7 +738,7 @@ export class TasksCore {
       tsh_id_user: this.authenticationService.currentUserValue.username,
       tsh_date_add: this.services.dateUtils.newDateUpToSeconds(),
       tsh_date_mod: this.services.dateUtils.newDateUpToSeconds(),
-      ...specifics
+      ...specifics,
     });
     this.tasksToStorage();
   }
@@ -785,7 +780,7 @@ export class TasksCore {
   }
 
   updateTaskTimeTracking(taskTimeTracking: any, newData: any) {
-    Object.keys(newData).forEach(k => {
+    Object.keys(newData).forEach((k) => {
       taskTimeTracking[k] = newData[k];
     });
     if (taskTimeTracking.tsh_date_end !== null) {
@@ -890,7 +885,7 @@ export class TasksCore {
       date_start: <Date>null,
       date_end: <Date>null,
       duration: 0,
-      pattern: ""
+      pattern: "",
     };
 
     let patternTime = /\d{2}/i;
@@ -1005,19 +1000,19 @@ export class TasksCore {
   getTasks() {
     //return this.http.get(`${this.apiRoot}/api/tasks`).toPromise() // => data.json()
     return this.getAll()
-      .then(data => {
+      .then((data) => {
         this.serverData.tasks = data;
         console.log("from BE", this.serverData.tasks);
         return data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
 
   getTasksFromServer() {
     return this.getAll()
-      .then(data => {
+      .then((data) => {
         let task;
         let server = data;
         server.forEach((t: any) => {
@@ -1042,7 +1037,7 @@ export class TasksCore {
                 tsh_time_spent: this.elapsedTime(dateStart, dateDone),
                 tsh_id_user: t.tsk_id_user_asigned,
                 tsh_date_add: dateStart,
-                tsh_date_mod: dateDone
+                tsh_date_mod: dateDone,
               });
             }
             this.data.taskList.push(t);
@@ -1069,7 +1064,7 @@ export class TasksCore {
                   tsh_time_spent: this.elapsedTime(dateStart, dateDone),
                   tsh_id_user: t.tsk_id_user_asigned,
                   tsh_date_add: dateStart,
-                  tsh_date_mod: dateDone
+                  tsh_date_mod: dateDone,
                 });
                 this.data.taskList[
                   this.data.taskList.findIndex((d: any) => d.tsk_id == t.tsk_id)
@@ -1081,7 +1076,7 @@ export class TasksCore {
         });
         this.tasksToStorage();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }
@@ -1100,7 +1095,7 @@ export class TasksCore {
       "create",
       Utils.entityToRawTableFields(t),
       {
-        tsk_id: t.tsk_id
+        tsk_id: t.tsk_id,
       },
       "Task",
       () => {
@@ -1119,14 +1114,14 @@ export class TasksCore {
         action: "create",
         model: t,
         pk: {
-          tsk_id: t.tsk_id
+          tsk_id: t.tsk_id,
         },
         entity: "Task",
         callback: (model: any, response: any) => {
           model.not_sync = false;
         },
         recordName: (task: any) => task.tsk_id,
-        matchMethod: (val: any) => val.tsk_id === t.tsk_id // use pk's instead
+        matchMethod: (val: any) => val.tsk_id === t.tsk_id, // use pk's instead
       });
     });
     this.sync.multipleRequest(syncList);
@@ -1145,7 +1140,7 @@ export class TasksCore {
       "update",
       this.prepareTaskToPostBE(t),
       {
-        tsk_id: t.tsk_id
+        tsk_id: t.tsk_id,
       },
       "Task",
       () => {
@@ -1158,7 +1153,7 @@ export class TasksCore {
 
   parseToPost(obj: any) {
     let resp = "";
-    Object.keys(obj).forEach(k => {
+    Object.keys(obj).forEach((k) => {
       if (obj[k] === 0 || (obj[k] !== "" && obj[k])) {
         resp = (resp !== "" ? resp + "&" : "") + `${k}=${obj[k]}`;
       }
@@ -1233,7 +1228,7 @@ export class TasksCore {
     this.http
       .post(`/task/batch`, t, { headers: this.headers })
       .toPromise()
-      .then(response => {
+      .then((response) => {
         console.log("post response", response);
         // cleanup
         let filtered = this.data.taskList.filter((task: Task) => {
@@ -1264,13 +1259,13 @@ export class TasksCore {
         this.data.taskList = filtered;
         this.tasksToStorage();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("err", err);
       });
   }
 
   computeComparisonData() {
-    return this.getAll().then(serverData => {
+    return this.getAll().then((serverData) => {
       let clientData = this.data.taskList;
       let singleTask: any;
       let comparisonResults: Array<any> = [];
@@ -1295,7 +1290,7 @@ export class TasksCore {
       this.comparisonData = {
         results: comparisonResults,
         clientTaskCount: clientData.length,
-        serverTaskCount: serverData.length
+        serverTaskCount: serverData.length,
       };
       return this.comparisonData;
     });
@@ -1330,7 +1325,7 @@ export class TasksCore {
       "tsk_rep_date_end",
       "tsk_rep_weekdays",
       "tsk_date_add",
-      "tsk_ctg_status"
+      "tsk_ctg_status",
     ];
     //let fields = ['tsk_date_done'];
     let comparison: Array<any> = [];

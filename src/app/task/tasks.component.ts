@@ -14,7 +14,7 @@ import { TextToSpeech } from "../common/speechRecognition";
 @Component({
   selector: "tasks",
   templateUrl: "./tasks.template.html",
-  providers: [TasksCore, TaskIndicator]
+  providers: [TasksCore, TaskIndicator],
 })
 export class TasksComponent implements OnInit {
   public item: any;
@@ -28,7 +28,7 @@ export class TasksComponent implements OnInit {
     tasksCore: null,
     sync: null,
     taskIndicator: null,
-    dateUtils: null
+    dateUtils: null,
   };
   public state: any = {};
   public format: string = "yyyy-MM-dd HH:mm:ss";
@@ -47,7 +47,7 @@ export class TasksComponent implements OnInit {
     BACKLOG: 1,
     OPEN: 2,
     CLOSED: 3,
-    CANCELLED: 4
+    CANCELLED: 4,
   };
   public showBatchAdd: boolean = false;
   public load: boolean = true;
@@ -75,7 +75,8 @@ export class TasksComponent implements OnInit {
     optShowClosedTasks: false,
     optShowReportsWeekDistribution: false,
     optShowReportsDayDistribution: false,
-    optShowQualifiersTotals: false
+    optShowQualifiersTotals: false,
+    optAddNewTasksToNextTasks: false,
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -85,7 +86,7 @@ export class TasksComponent implements OnInit {
     element: HTMLElement;
   } = {
     task: null,
-    element: null
+    element: null,
   };
   public events: any[] = [];
   public layout: string = "float"; // possible values: grid, float
@@ -114,7 +115,7 @@ export class TasksComponent implements OnInit {
     }
     this.nextTasks = [];
     this.updateState();
-    this.services.tasksCore.getAll().then(taskList => {
+    this.services.tasksCore.getAll().then((taskList) => {
       this.tasks = taskList;
       this.load = true;
       this.updateState();
@@ -154,7 +155,7 @@ export class TasksComponent implements OnInit {
           {
             tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
             tsk_date_due: this.services.dateUtils.dateOnly(),
-            tsk_name: form.value.tsk_name
+            tsk_name: form.value.tsk_name,
           },
           this.options
         );
@@ -166,7 +167,7 @@ export class TasksComponent implements OnInit {
       // Batch add
       let t: any;
       if (form.value.tsk_multiple_name) {
-        this.services.tasksCore.batchAddTasks(
+        const added = this.services.tasksCore.batchAddTasks(
           form.value.tsk_multiple_name.split("\n"),
           this.options
         );
@@ -174,6 +175,11 @@ export class TasksComponent implements OnInit {
         form.controls.tsk_multiple_name.reset();
         this.showBatchAdd = false;
         setTimeout(() => this.updateState(), 100);
+        if (this.options.optAddNewTasksToNextTasks && added.length) {
+          added.forEach((a) => {
+            this.asNextToDo(a, true);
+          });
+        }
       }
     }
     this.viewETABeforeAdd = false;
@@ -209,13 +215,13 @@ export class TasksComponent implements OnInit {
     this.tasks = this.services.tasksCore.tasks();
     this.state.backlogTasks = this.createGroupedTasks(
       this.tasks
-        .filter(t => t.tsk_ctg_status == this.taskStatus.BACKLOG)
+        .filter((t) => t.tsk_ctg_status == this.taskStatus.BACKLOG)
         .sort(this.sortByGroup)
     );
     this.state.openTasks = this.createGroupedTasks(
       this.tasks
         .filter(
-          t =>
+          (t) =>
             t.tsk_ctg_status == this.taskStatus.OPEN &&
             (t.tsk_date_view_until
               ? new Date(t.tsk_date_view_until) < today
@@ -229,12 +235,12 @@ export class TasksComponent implements OnInit {
     );
     this.state.closedTasks = this.createGroupedClosedTasks(
       this.tasks
-        .filter(t => t.tsk_ctg_status == this.taskStatus.CLOSED)
+        .filter((t) => t.tsk_ctg_status == this.taskStatus.CLOSED)
         .sort(sortByClosedDate)
     );
     this.state.closedTodayTasks = this.tasks
       .filter(
-        t =>
+        (t) =>
           t.tsk_ctg_status == this.taskStatus.CLOSED &&
           new Date(t.tsk_date_done) >= today0 &&
           new Date(t.tsk_date_done) <= tomorrow0
@@ -242,7 +248,7 @@ export class TasksComponent implements OnInit {
       .sort(sortByClosedDate);
     this.state.postponedTasks = this.tasks
       .filter(
-        t =>
+        (t) =>
           t.tsk_ctg_status == this.taskStatus.OPEN &&
           (t.tsk_date_view_until
             ? new Date(t.tsk_date_view_until) > today
@@ -254,16 +260,16 @@ export class TasksComponent implements OnInit {
     // Total time spent today
     // this.calculateTotalTimeSpentToday();
     this.state.openTasksCount = this.tasks.filter(
-      t => t.tsk_ctg_status == this.taskStatus.OPEN
+      (t) => t.tsk_ctg_status == this.taskStatus.OPEN
     ).length;
 
     this.state.backlogTasksCount = this.tasks.filter(
-      t => t.tsk_ctg_status == this.taskStatus.BACKLOG
+      (t) => t.tsk_ctg_status == this.taskStatus.BACKLOG
     ).length;
 
     // Postponed tasks count
     this.state.postponedTasksCount = this.tasks.filter(
-      t =>
+      (t) =>
         t.tsk_ctg_status == this.taskStatus.OPEN &&
         (t.tsk_date_view_until
           ? new Date(t.tsk_date_view_until) > today
@@ -305,7 +311,7 @@ export class TasksComponent implements OnInit {
     if (this.nextTasks.length === 0) {
       this.nextTasks.push({
         estimatedDuration: 0,
-        tasks: []
+        tasks: [],
       });
     } else {
       this.nextTasks[0].tasks = [];
@@ -370,7 +376,7 @@ export class TasksComponent implements OnInit {
 
   showTimersOnLoad() {
     this.tasks
-      .filter(t => {
+      .filter((t) => {
         return (
           t.tsk_ctg_status == this.taskStatus.OPEN &&
           t.tsk_ctg_in_process === 2 &&
@@ -379,7 +385,7 @@ export class TasksComponent implements OnInit {
             : true)
         );
       })
-      .forEach(t => {
+      .forEach((t) => {
         if (!this.timers[t.tsk_id]) {
           this.showTimer(t, this.getTaskDOMElement(t.tsk_id));
         }
@@ -402,13 +408,13 @@ export class TasksComponent implements OnInit {
     let res: Array<any> = [];
     let lastHeader: string;
 
-    tasks.forEach(t => {
+    tasks.forEach((t) => {
       if (t.tsk_id_record !== lastHeader) {
         lastHeader = t.tsk_id_record;
         res.push({
           header: lastHeader,
           estimatedDuration: 0,
-          tasks: []
+          tasks: [],
         });
       }
       res[res.length - 1].tasks.push(t);
@@ -416,11 +422,9 @@ export class TasksComponent implements OnInit {
     });
 
     // order groups by total ETA
-    res = res.sort(
-      (a: any, b: any): number => {
-        return a.estimatedDuration > b.estimatedDuration ? -1 : 1;
-      }
-    );
+    res = res.sort((a: any, b: any): number => {
+      return a.estimatedDuration > b.estimatedDuration ? -1 : 1;
+    });
 
     return res;
   }
@@ -565,9 +569,7 @@ export class TasksComponent implements OnInit {
       );
       setTimeout(() => {
         this.focusElement(
-          `#nextToDoTodayList #${
-            parent.id
-          } span.task-text[contenteditable=true]`
+          `#nextToDoTodayList #${parent.id} span.task-text[contenteditable=true]`
         );
       }, 100);
     }
@@ -578,9 +580,7 @@ export class TasksComponent implements OnInit {
       );
       if (parent.nextElementSibling && parent.nextElementSibling.id) {
         this.focusElement(
-          `#nextToDoTodayList #${
-            parent.id
-          } span.task-text[contenteditable=true]`
+          `#nextToDoTodayList #${parent.id} span.task-text[contenteditable=true]`
         );
       }
     }
@@ -622,7 +622,7 @@ export class TasksComponent implements OnInit {
     }
     this.updateTask(t.tsk_id, {
       tsk_ctg_status: isChecked ? this.taskStatus.CLOSED : this.taskStatus.OPEN,
-      tsk_date_done: dateDone
+      tsk_date_done: dateDone,
     });
     setTimeout(() => {
       this.updateState();
@@ -652,7 +652,7 @@ export class TasksComponent implements OnInit {
   }
 
   updateTask(tsk_id: string, newData: any) {
-    let model = this.tasks.find(e => e.tsk_id === tsk_id);
+    let model = this.tasks.find((e) => e.tsk_id === tsk_id);
     this.services.tasksCore.updateTask(model, newData);
   }
 
@@ -684,8 +684,8 @@ export class TasksComponent implements OnInit {
   }
 
   interchangeTaskOrder(tsk_id1: string, tsk_id2: string) {
-    let t1 = this.tasks.find(e => e.tsk_id === tsk_id1).tsk_order;
-    let t2 = this.tasks.find(e => e.tsk_id === tsk_id2).tsk_order;
+    let t1 = this.tasks.find((e) => e.tsk_id === tsk_id1).tsk_order;
+    let t2 = this.tasks.find((e) => e.tsk_id === tsk_id2).tsk_order;
     this.updateTask(tsk_id1, { tsk_order: t2 });
     this.updateTask(tsk_id2, { tsk_order: t1 });
   }
@@ -699,17 +699,17 @@ export class TasksComponent implements OnInit {
     let currentNextTasks =
       localStorage && JSON.parse(localStorage.getItem("NextTasks"));
 
-    let index1 = currentNextTasks.findIndex(e => e === tsk_id1);
-    let index2 = currentNextTasks.findIndex(e => e === tsk_id2);
+    let index1 = currentNextTasks.findIndex((e) => e === tsk_id1);
+    let index2 = currentNextTasks.findIndex((e) => e === tsk_id2);
     // swap localStorage array
     [currentNextTasks[index1], currentNextTasks[index2]] = [
       currentNextTasks[index2],
-      currentNextTasks[index1]
+      currentNextTasks[index1],
     ];
     // swap memory array
     [this.nextTasks[0].tasks[index1], this.nextTasks[0].tasks[index2]] = [
       this.nextTasks[0].tasks[index2],
-      this.nextTasks[0].tasks[index1]
+      this.nextTasks[0].tasks[index1],
     ];
 
     // update localStorage
@@ -803,7 +803,7 @@ export class TasksComponent implements OnInit {
       // not in progress
       task.tsk_ctg_in_process = 2;
       this.updateTask(task.tsk_id, {
-        tsk_ctg_in_process: 2
+        tsk_ctg_in_process: 2,
       });
       // show timer
       this.showTimer(task, dom);
@@ -812,7 +812,7 @@ export class TasksComponent implements OnInit {
       // already in progress
       task.tsk_ctg_in_process = 1;
       this.updateTask(task.tsk_id, {
-        tsk_ctg_in_process: 1
+        tsk_ctg_in_process: 1,
       });
       // hide timer
       this.hideTimer(task, dom);
@@ -872,11 +872,11 @@ export class TasksComponent implements OnInit {
       ) {
         this.timers[task.tsk_id].burnoutNotified = true;
         if (
-          this.tasks.find(t => t.tsk_id === task.tsk_id).tsk_ctg_status ===
+          this.tasks.find((t) => t.tsk_id === task.tsk_id).tsk_ctg_status ===
           this.taskStatus.OPEN
         ) {
           this.notification({
-            body: `Task "${task.tsk_name}" is about to exceed estimation!`
+            body: `Task "${task.tsk_name}" is about to exceed estimation!`,
           });
         }
       }
@@ -985,7 +985,7 @@ export class TasksComponent implements OnInit {
     tsh_num_secuential: number,
     newData: any
   ) {
-    let model = this.tasks.find(e => e.tsk_id === tsh_id);
+    let model = this.tasks.find((e) => e.tsk_id === tsh_id);
     if (model) {
       model = model.tsk_time_history.find(
         (h: any) => h.tsh_num_secuential === tsh_num_secuential
@@ -1032,7 +1032,7 @@ export class TasksComponent implements OnInit {
             {
               tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
               tsk_date_due: this.services.dateUtils.newDateUpToSeconds(),
-              tsk_name: text
+              tsk_name: text,
             },
             this.options
           );
@@ -1043,7 +1043,7 @@ export class TasksComponent implements OnInit {
           } else {
             totalPerRecord.push({
               record: t.tsk_id_record,
-              totalETA: t.tsk_estimated_duration || 0
+              totalETA: t.tsk_estimated_duration || 0,
             });
           }
           totalETA += t.tsk_estimated_duration || 0;
@@ -1167,7 +1167,7 @@ export class TasksComponent implements OnInit {
   setOpen(t: Task) {
     const isDateDueNotSet: boolean = !t.tsk_date_due;
     const changes: any = {
-      tsk_ctg_status: this.taskStatus.OPEN
+      tsk_ctg_status: this.taskStatus.OPEN,
     };
     if (isDateDueNotSet) {
       // if date due is not set, we set it as today's time tracking can take it into account
@@ -1195,7 +1195,7 @@ export class TasksComponent implements OnInit {
       }
       this.updateTask(t.tsk_id, {
         tsk_estimated_duration: newDuration,
-        tsk_schedule_date_end: newEnd
+        tsk_schedule_date_end: newEnd,
       });
     }
   }
@@ -1203,7 +1203,7 @@ export class TasksComponent implements OnInit {
   commandOnTask(t: any, event: KeyboardEvent) {
     if (t.tsk_name !== event.target["textContent"]) {
       this.updateTask(t.tsk_id, {
-        tsk_name: event.target["textContent"]
+        tsk_name: event.target["textContent"],
       });
     }
 
@@ -1224,7 +1224,7 @@ export class TasksComponent implements OnInit {
         console.log("date parsed:", s);
         this.updateTask(t.tsk_id, {
           tsk_name: originalTask,
-          tsk_date_view_until: s.date_start
+          tsk_date_view_until: s.date_start,
         });
         this.updateState();
       }
@@ -1241,7 +1241,7 @@ export class TasksComponent implements OnInit {
       if (command) {
         this.updateTask(t.tsk_id, {
           tsk_name: originalTask,
-          tsk_id_record: command
+          tsk_id_record: command,
         });
         this.updateState();
       }
@@ -1261,7 +1261,7 @@ export class TasksComponent implements OnInit {
         tsk_name: originalTask,
         tsk_schedule_date_start: s.date_start,
         tsk_schedule_date_end: s.date_end,
-        tsk_estimated_duration: s.duration
+        tsk_estimated_duration: s.duration,
       });
       this.updateState();
     }
@@ -1278,7 +1278,7 @@ export class TasksComponent implements OnInit {
       originalTask = t.tsk_name.replace("#[" + command + "]", "");
       this.updateTask(t.tsk_id, {
         tsk_name: originalTask,
-        tsk_tags: command
+        tsk_tags: command,
       });
       this.updateState();
     }
@@ -1290,7 +1290,7 @@ export class TasksComponent implements OnInit {
           //t.tsk_url = 'http://' + expression;
           this.updateTask(t.tsk_id, {
             tsk_name: t.tsk_name,
-            tsk_url: "http://" + expression
+            tsk_url: "http://" + expression,
           });
           this.updateState();
         },
@@ -1305,7 +1305,7 @@ export class TasksComponent implements OnInit {
           //t.tsk_url = 'https://' + expression;
           this.updateTask(t.tsk_id, {
             tsk_name: t.tsk_name,
-            tsk_url: "https://" + expression
+            tsk_url: "https://" + expression,
           });
           this.updateState();
         },
@@ -1320,28 +1320,28 @@ export class TasksComponent implements OnInit {
       "[-LINK]": (t: Task) => ({
         // remove url link
         tsk_name: t.tsk_name,
-        tsk_url: null
+        tsk_url: null,
       }),
       "[-SCHEDULE]": (t: Task) => ({
         // remove schedule
         tsk_name: t.tsk_name,
         tsk_schedule_date_start: null,
-        tsk_schedule_date_end: null
+        tsk_schedule_date_end: null,
       }),
       "[-TAGS]": (t: Task) => ({
         // remove tags
         tsk_name: t.tsk_name,
-        tsk_tags: ""
+        tsk_tags: "",
       }),
       "[-QUALIFIERS]": (t: Task) => ({
         // remove qualifiers
         tsk_name: t.tsk_name,
-        tsk_qualifiers: ""
-      })
+        tsk_qualifiers: "",
+      }),
     };
 
     // Iterate tokens and apply changes
-    Object.keys(tokens).forEach(token => {
+    Object.keys(tokens).forEach((token) => {
       if (command.indexOf(token) !== -1) {
         this.services.tasksCore.doThisWithAToken(
           t,
@@ -1358,11 +1358,11 @@ export class TasksComponent implements OnInit {
   notification(data: any) {
     let not = window["Notification"];
     if (not && not.permission !== "denied") {
-      not.requestPermission(function(status: string) {
+      not.requestPermission(function (status: string) {
         // status is "granted", if accepted by user
         var n = new not(data.title || "Tasks", {
           body: data.body,
-          icon: data.icon || "favicon.ico" // optional
+          icon: data.icon || "favicon.ico", // optional
         });
       });
     }
@@ -1374,7 +1374,7 @@ export class TasksComponent implements OnInit {
 
   setUnpostpone(t: any) {
     this.updateTask(t.tsk_id, {
-      tsk_date_view_until: this.services.dateUtils.newDateUpToSeconds()
+      tsk_date_view_until: this.services.dateUtils.newDateUpToSeconds(),
     });
     if (this.state.postponedTasks.length === 0) {
       this.viewPostponed = false;
@@ -1393,7 +1393,7 @@ export class TasksComponent implements OnInit {
       this.state.startingTasksSchedule = [];
     }
     this.tasks
-      .filter(t => {
+      .filter((t) => {
         return (
           t.tsk_ctg_status !== this.taskStatus.CLOSED &&
           (t.tsk_schedule_date_start
@@ -1402,7 +1402,7 @@ export class TasksComponent implements OnInit {
             : false)
         );
       })
-      .forEach(t => {
+      .forEach((t) => {
         let diff = this.services.tasksCore.elapsedTime(
           now,
           new Date(t.tsk_schedule_date_start)
@@ -1425,20 +1425,20 @@ export class TasksComponent implements OnInit {
         }
         let timeout = setTimeout(() => {
           this.notification({
-            body: `Task "${t.tsk_name}" is about to start!`
+            body: `Task "${t.tsk_name}" is about to start!`,
           });
         }, diff * 1000);
         console.log("schedule in " + this.formatTime(diff), t);
         this.state.startingTasksSchedule.push({
           task: t,
-          timeoutHandler: timeout
+          timeoutHandler: timeout,
         });
       });
   }
 
   taskCancel(t: any) {
     this.updateTask(t.tsk_id, {
-      tsk_ctg_status: this.taskStatus.CANCELLED
+      tsk_ctg_status: this.taskStatus.CANCELLED,
     });
     this.updateState();
     console.log("cancelled task", t);
@@ -1458,7 +1458,7 @@ export class TasksComponent implements OnInit {
 
     while (currentDay <= today) {
       dayTasks = this.tasks.filter(
-        t =>
+        (t) =>
           new Date(t.tsk_date_done) > currentDay &&
           new Date(t.tsk_date_done) < tomorrow
       );
@@ -1485,7 +1485,7 @@ export class TasksComponent implements OnInit {
           realTimeElapsed: this.elapsedTime(
             this.firstTTEntryFromDay(currentDay),
             this.lastTTEntryFromDay(currentDay)
-          )
+          ),
         });
       }
 
@@ -1513,7 +1513,7 @@ export class TasksComponent implements OnInit {
 
     if (task.tsk_qualifiers !== newQualifiers) {
       this.updateTask(task.tsk_id, {
-        tsk_qualifiers: newQualifiers
+        tsk_qualifiers: newQualifiers,
       });
       // this.updateState();
     }
@@ -1581,7 +1581,7 @@ export class TasksComponent implements OnInit {
       this.dateUtils.dateOnly(new Date(t.tsk_date_due)).getTime() ===
       this.dateUtils.dateOnly(new Date()).getTime();
     const changes: any = {
-      tsk_ctg_status: this.taskStatus.BACKLOG
+      tsk_ctg_status: this.taskStatus.BACKLOG,
     };
     if (isDateDueToday) {
       // if date due is today, when moving to backlog set it as null
@@ -1604,7 +1604,7 @@ export class TasksComponent implements OnInit {
           eta: 0,
           real: 0,
           percentageEta: 0,
-          percentageReal: 0
+          percentageReal: 0,
         });
       }
     });
@@ -1648,7 +1648,7 @@ export class TasksComponent implements OnInit {
     }
 
     this.updateTask(t.tsk_id, {
-      tsk_date_done: new Date(newValue)
+      tsk_date_done: new Date(newValue),
     });
   }
 
@@ -1698,7 +1698,7 @@ export class TasksComponent implements OnInit {
   // }
 
   showTagStats(tag: string) {
-    let tasks = this.tasks.filter(t => t.tsk_tags.indexOf(tag) !== -1);
+    let tasks = this.tasks.filter((t) => t.tsk_tags.indexOf(tag) !== -1);
     this.tagInfo.display = true;
     this.tagInfo.tasks = tasks;
     // this.tagInfo.tasksOpen = tasks.filter(t => t.tsk_ctg_status === this.taskStatus.OPEN || t.tsk_ctg_status === this.taskStatus.BACKLOG);
@@ -1708,7 +1708,7 @@ export class TasksComponent implements OnInit {
     this.tagInfo.tasksOpenTotalSpent = 0;
     this.tagInfo.tasksClosedTotalEstimated = 0;
     this.tagInfo.tasksClosedTotalSpent = 0;
-    tasks.forEach(t => {
+    tasks.forEach((t) => {
       if (
         t.tsk_ctg_status === this.taskStatus.OPEN ||
         t.tsk_ctg_status === this.taskStatus.BACKLOG
@@ -1761,7 +1761,7 @@ export class TasksComponent implements OnInit {
         .replace(qualifier, "");
     }
     this.updateTask(t.tsk_id, {
-      tsk_qualifiers: qualifiers
+      tsk_qualifiers: qualifiers,
     });
   }
 
@@ -1774,7 +1774,7 @@ export class TasksComponent implements OnInit {
 
     if (task.tsk_tags !== newData) {
       this.updateTask(task.tsk_id, {
-        tsk_tags: newData
+        tsk_tags: newData,
       });
       this.updateState();
     }
@@ -1784,20 +1784,20 @@ export class TasksComponent implements OnInit {
     if ("serviceWorker" in navigator) {
       navigator["serviceWorker"]
         .register("../service-worker.js")
-        .then(function(registration: any) {
+        .then(function (registration: any) {
           console.log("Service Worker Registered");
           return registration.sync.getTags();
         })
-        .then(function() {
+        .then(function () {
           return navigator["serviceWorker"].ready;
         })
-        .then(function(reg: any) {
+        .then(function (reg: any) {
           return reg.sync.register("syncTest");
         })
-        .then(function() {
+        .then(function () {
           console.log("Sync registered");
         })
-        .catch(function(err: any) {
+        .catch(function (err: any) {
           console.log("Service Worker Failed to Register", err);
         });
     }
@@ -1817,7 +1817,7 @@ export class TasksComponent implements OnInit {
       "important",
       "urgent",
       "highlighted",
-      "progressed"
+      "progressed",
     ];
     let tasks = this.tasks.filter(
       (t: Task) => t.tsk_ctg_status === this.taskStatus.OPEN
@@ -1827,19 +1827,19 @@ export class TasksComponent implements OnInit {
     let rec = {
       qualifier: <string>null,
       taskCount: 0,
-      totalETA: 0
+      totalETA: 0,
     };
 
-    qualifierCollection.forEach(q => {
+    qualifierCollection.forEach((q) => {
       filtered = tasks.filter(
         (t: Task) => t.tsk_qualifiers && t.tsk_qualifiers.indexOf(q) !== -1
       );
       rec = {
         qualifier: q,
         taskCount: filtered.length,
-        totalETA: 0
+        totalETA: 0,
       };
-      filtered.forEach(t => {
+      filtered.forEach((t) => {
         rec.totalETA += t.tsk_estimated_duration;
       });
 
@@ -1859,7 +1859,7 @@ export class TasksComponent implements OnInit {
       }),
       totalETA: records.reduce((p: any, n: any) => {
         return (p.totalETA || p) + n.totalETA;
-      })
+      }),
     });
 
     this.reports.qualifierTotals = records;
@@ -1943,7 +1943,7 @@ export class TasksComponent implements OnInit {
     if (typeof window.localStorage !== "undefined") {
       // filter out false values
       const truthyOptions = {};
-      Object.keys(this.options).forEach(opt => {
+      Object.keys(this.options).forEach((opt) => {
         if (this.options[opt]) {
           truthyOptions[opt] = this.options[opt];
         }
@@ -1980,7 +1980,7 @@ export class TasksComponent implements OnInit {
     let res: Array<any> = [];
     let lastHeader: Date = this.services.dateUtils.newDateUpToSeconds();
 
-    tasks.forEach(t => {
+    tasks.forEach((t) => {
       if (
         this.services.tasksCore
           .dateOnly(new Date(t.tsk_date_done))
@@ -1992,7 +1992,7 @@ export class TasksComponent implements OnInit {
         res.push({
           header: lastHeader,
           totalTimeSpent: 0,
-          tasks: []
+          tasks: [],
         });
       }
       res[res.length - 1].tasks.push(t);
@@ -2000,11 +2000,9 @@ export class TasksComponent implements OnInit {
     });
 
     // order groups by date desc
-    res = res.sort(
-      (a: any, b: any): number => {
-        return a.header > b.header ? -1 : 1;
-      }
-    );
+    res = res.sort((a: any, b: any): number => {
+      return a.header > b.header ? -1 : 1;
+    });
 
     // console.log("closed tasks", res);
 
@@ -2079,7 +2077,7 @@ export class TasksComponent implements OnInit {
             ? Math.round(
                 (values[values.length - 1] / values[values.length - 2]) * 100
               ) / 100
-            : 0
+            : 0,
       };
 
       if (completedCriteria) {
@@ -2095,7 +2093,7 @@ export class TasksComponent implements OnInit {
         values,
         formattedValues,
         isCompleted: completed.isCompleted,
-        percentageCompleted: completed.percentageCompleted
+        percentageCompleted: completed.percentageCompleted,
       });
     };
 
@@ -2139,7 +2137,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2153,7 +2151,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2167,7 +2165,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2181,7 +2179,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2195,7 +2193,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2209,7 +2207,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2270,13 +2268,10 @@ export class TasksComponent implements OnInit {
     addIndicator(
       "First TT stamp",
       LESS_IS_BETTER,
-      calculateForAllDays(
-        days,
-        (d1: Date, d2: Date): number => {
-          const t = this.services.taskIndicator.firstTTEntryFromDay(d1);
-          return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
-        }
-      ),
+      calculateForAllDays(days, (d1: Date, d2: Date): number => {
+        const t = this.services.taskIndicator.firstTTEntryFromDay(d1);
+        return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
+      }),
       this.options["optShowIndicatorFirstTTStamp"],
       formatTimestamp
     );
@@ -2285,13 +2280,10 @@ export class TasksComponent implements OnInit {
     addIndicator(
       "Last TT stamp",
       MORE_IS_BETTER,
-      calculateForAllDays(
-        days,
-        (d1: Date, d2: Date): number => {
-          const t = this.services.taskIndicator.lastTTEntryFromDay(d1);
-          return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
-        }
-      ),
+      calculateForAllDays(days, (d1: Date, d2: Date): number => {
+        const t = this.services.taskIndicator.lastTTEntryFromDay(d1);
+        return t ? DateUtils.getTimeOnlyInSeconds(t) : 0;
+      }),
       this.options["optShowIndicatorLastTTStamp"],
       formatTimestamp
     );
@@ -2320,7 +2312,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2334,7 +2326,7 @@ export class TasksComponent implements OnInit {
       (prev: number, curr: number) => ({
         isCompleted: prev >= curr,
         percentageCompleted:
-          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0
+          prev !== 0 ? Math.round((curr * 100) / prev) / 100 : 0,
       })
     );
 
@@ -2368,7 +2360,7 @@ export class TasksComponent implements OnInit {
 
     if (task.tsk_notes !== newNotes) {
       this.updateTask(task.tsk_id, {
-        tsk_notes: newNotes
+        tsk_notes: newNotes,
       });
     }
   }
@@ -2377,7 +2369,7 @@ export class TasksComponent implements OnInit {
     // console.log('task on focus by user',task,event.target);
     this.focusedTask = {
       task,
-      element: event.target["parentNode"]
+      element: event.target["parentNode"],
     };
   }
 
@@ -2397,7 +2389,7 @@ export class TasksComponent implements OnInit {
   triggerEvent(event: string, params: any) {
     const handlers = this.events
       .filter((e: any) => e.event === event)
-      .map(e => e.callback);
+      .map((e) => e.callback);
     handlers.forEach((handler: Function) => {
       handler(params);
     });
@@ -2428,7 +2420,7 @@ export class TasksComponent implements OnInit {
         )
       );
     }
-    const calcRandomFinish = estimated =>
+    const calcRandomFinish = (estimated) =>
       (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
     if (tt && t["tsk_time_history"].length) {
       // task with history
@@ -2449,7 +2441,7 @@ export class TasksComponent implements OnInit {
           total += tth.tsh_time_spent;
         });
         this.services.tasksCore.updateTask(t, {
-          tsk_total_time_spent: total
+          tsk_total_time_spent: total,
         });
         t.tsk_total_time_spent = total;
       }
@@ -2463,10 +2455,10 @@ export class TasksComponent implements OnInit {
       this.services.tasksCore.addTimeTracking(t, {
         tsh_date_start: tt,
         tsh_date_end: new Date(tt.getTime() + randomFinish * 1000),
-        tsh_time_spent: randomFinish
+        tsh_time_spent: randomFinish,
       });
       this.services.tasksCore.updateTask(t, {
-        tsk_total_time_spent: randomFinish
+        tsk_total_time_spent: randomFinish,
       });
       t.tsk_total_time_spent = randomFinish;
     }
@@ -2477,7 +2469,7 @@ export class TasksComponent implements OnInit {
   }
 
   countTasksDone(record: string) {
-    return this.state.closedTodayTasks.filter(i => i.tsk_id_record === record)
+    return this.state.closedTodayTasks.filter((i) => i.tsk_id_record === record)
       .length;
   }
 
@@ -2501,7 +2493,7 @@ export class TasksComponent implements OnInit {
   removeQualifiersFromTask(t: Task) {
     t.tsk_qualifiers = "";
     this.services.tasksCore.updateTask(t, {
-      tsk_qualifiers: ""
+      tsk_qualifiers: "",
     });
   }
 
@@ -2517,7 +2509,7 @@ export class TasksComponent implements OnInit {
     this.nextTasks = [];
     this.nextTasks.push({
       estimatedDuration: 0,
-      tasks: []
+      tasks: [],
     });
 
     localStorage.setItem(

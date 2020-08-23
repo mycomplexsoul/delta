@@ -140,6 +140,12 @@
     [checked]="options.optAllowToEditETA"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
+  <checkbox-option
+    label="Add newly created tasks to Next Tasks listing"
+    optionId="optAddNewTasksToNextTasks"
+    [checked]="options.optAddNewTasksToNextTasks"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
 
   <div class="task-options-section-title">Showing / hiding Indicators</div>
   <checkbox-option
@@ -564,8 +570,15 @@
     <table class="indicators-table" *ngIf="!options.optCollapseIndicators">
       <tr>
         <td>Indicator</td>
-        <td *ngFor="let c of state.indicatorLabels">{{ c }}</td>
-        <td>Completed?</td>
+        <td
+          *ngFor="let c of state.indicatorLabels; let currIndex = index"
+          [ngClass]="{
+          'desktop-only': currIndex < 3
+        }"
+        >
+          {{ c }}
+        </td>
+        <td>%</td>
       </tr>
       <tr *ngFor="let indicator of state.indicators">
         <td>
@@ -579,7 +592,12 @@
             &darr;
           </span>
         </td>
-        <td *ngFor="let v of indicator.formattedValues; let currIndex = index">
+        <td
+          *ngFor="let v of indicator.formattedValues; let currIndex = index"
+          [ngClass]="{
+          'desktop-only': currIndex < 3
+        }"
+        >
           <span
             [ngClass]="{'color-green': currIndex > 0 && (indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER'),
           'color-red': currIndex > 0 && (indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER')}"
@@ -588,8 +606,7 @@
           </span>
         </td>
         <td>
-          {{ indicator.isCompleted ? "SI" : "NO" }} / {{
-          indicator.percentageCompleted }}
+          {{ indicator.percentageCompleted }}
         </td>
       </tr>
     </table>
@@ -598,13 +615,7 @@
 <div id="nextToDoTodayList" *ngIf="nextTasks[0].tasks.length">
   <hr />
   <div class="task-open-task-list-container">
-    <div
-      *ngFor="let item of nextTasks"
-      class="task-record"
-      [ngClass]="{
-      'columns-3': nextTasks.length > 10
-    }"
-    >
+    <div *ngFor="let item of nextTasks" class="task-record">
       <div>
         <button
           class="button-link no-underline"
@@ -621,7 +632,12 @@
           [value]="item.estimatedDuration"
         ></time-format>
       </div>
-      <div *ngIf="!options.optCollapseNextTasks">
+      <div
+        *ngIf="!options.optCollapseNextTasks"
+        [ngClass]="{
+        'columns-3': nextTasks[0].tasks.length > 10
+      }"
+      >
         <div
           *ngFor="let t of item.tasks; let count = index"
           data-id="{{ t.tsk_id }}"
@@ -634,20 +650,6 @@
             id="{{ t.tsk_id }}"
             (click)="taskCheckboxHandler(t, $event)"
           />
-          <span class="mobile-only">
-            <span
-              class="play-button clickable"
-              *ngIf="t.tsk_ctg_in_process === 1"
-              (click)="toggleTimeTracking(t, $event)"
-              >&#9654;</span
-            >
-            <span
-              class="stop-button clickable"
-              *ngIf="t.tsk_ctg_in_process === 2"
-              (click)="toggleTimeTracking(t, $event)"
-              >&#9724;</span
-            >
-          </span>
           <span
             [ngClass]="{
             'task-next-time-ahead': count === 0 && t['projectedDate'].getTime() >= getDate().getTime(),

@@ -119,8 +119,8 @@ export class ReceiptReportComponent implements OnInit {
         width: 800,
         scale: 0.67,
       },
-      callback: function (doc) {
-        doc.save();
+      callback: (doc) => {
+        doc.save(`${this.viewData.title}.pdf`);
       },
     });
     // generatePDF(document.body);

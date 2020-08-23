@@ -441,6 +441,7 @@ export class CarteraServer {
   ): CarteraProvision[] {
     /**
      * Format
+     * unit|type|year-month|-|-|-|-|amount
      * 204|PenaExtra|2018-12|125|0|68|16/07/2019|57
      * 301|Cuota|2019-03|1480|0|1132|20/03/2019|348
      * 302|Penalización|2018-04|148|0|141|23/09/2019|7
@@ -466,9 +467,14 @@ export class CarteraServer {
             mapConceptWithCode[columns[1]]
           }|${year}-${Utils.pad(month, "0", 2, -1)}`,
           cpr_amount: parseFloat(columns[7]),
+          cpr_condoned: 0,
           cpr_payed: 0,
           cpr_remaining: parseFloat(columns[7]),
           cpr_id_user: user,
+          cpr_folio: null,
+          cpr_type: mapConceptWithCode[columns[1]],
+          cpr_year: year,
+          cpr_month: month,
           cpr_date_add: DateUtils.newDateUpToSeconds(),
           cpr_date_mod: DateUtils.newDateUpToSeconds(),
           cpr_ctg_status: 1,
@@ -590,9 +596,14 @@ export class CarteraServer {
             -1
           )}`,
           cpr_amount: 148,
+          cpr_condoned: 0,
           cpr_payed: 0,
           cpr_remaining: 148,
           cpr_id_user: user,
+          cpr_folio: null,
+          cpr_type: "cuota-penalidad",
+          cpr_year: year,
+          cpr_month: month,
           cpr_date_add: DateUtils.newDateUpToSeconds(),
           cpr_date_mod: DateUtils.newDateUpToSeconds(),
           cpr_ctg_status: 1,
@@ -1052,6 +1063,7 @@ export class CarteraServer {
     );
 
     provisionList = allProvisions.map((p) => {
+      p.cpr_condoned = 0;
       p.cpr_payed = 0;
       p.cpr_remaining = p.cpr_amount;
       return p;
@@ -1072,7 +1084,13 @@ export class CarteraServer {
         );
 
         if (prov) {
-          prov.cpr_payed += paydet.cpd_amount;
+          if (paydet.cpd_ctg_type === 2) {
+            // condoned
+            prov.cpr_condoned += paydet.cpd_amount;
+          } else {
+            // payed
+            prov.cpr_payed += paydet.cpd_amount;
+          }
           prov.cpr_remaining -= paydet.cpd_amount;
         } else {
           // should not happen, report error
@@ -1228,6 +1246,11 @@ export class CarteraServer {
     );
 
     // add up provisions and payments
+    /*this.addSpecificProvisionsAndPayments504ExpectedApplication(
+      allProvisions,
+      allPayments,
+      allPayDet
+    );*/
     /* this.addSpecificProvisionsAndPayments(
       allProvisions,
       allPayments,
@@ -2580,9 +2603,17 @@ export class CarteraServer {
                   {
                     body: {
                       ...provision,
-                      cpr_payed: provision.cpr_payed + d.cpd_amount,
+                      cpr_condoned:
+                        paymentType === "condonation"
+                          ? provision.cpr_condoned + d.cpd_amount
+                          : provision.cpr_condoned,
+                      cpr_payed:
+                        paymentType === "condonation"
+                          ? provision.cpr_payed
+                          : provision.cpr_payed + d.cpd_amount,
                       cpr_remaining:
                         provision.cpr_amount -
+                        provision.cpr_condoned -
                         provision.cpr_payed -
                         d.cpd_amount,
                       cpr_folio: payDetFolioList[provision.cpr_id],
@@ -2746,8 +2777,12 @@ export class CarteraServer {
             .filter(
               (p) =>
                 p.cpd_id_provision === provision.cpr_id &&
-                initialDate.getTime() <= p.cpd_date_payment.getTime() &&
-                p.cpd_date_payment.getTime() < finalDate.getTime()
+                ((initialDate.getTime() <= p.cpd_date_payment.getTime() &&
+                  p.cpd_date_payment.getTime() < finalDate.getTime()) ||
+                  (p.cpd_ctg_non_identified === 2 &&
+                    initialDate.getTime() <=
+                      p.cpd_date_identification.getTime() &&
+                    p.cpd_date_identification.getTime() < finalDate.getTime()))
             )
             .sort((a, b) =>
               a.cpd_date_payment.getTime() > b.cpd_date_payment.getTime()
@@ -2838,5 +2873,53 @@ export class CarteraServer {
     const crypto = new Crypto();
 
     return crypto.decrypt(text);
+  }
+
+  addSpecificProvisionsAndPayments504ExpectedApplication(
+    provisionList: CarteraProvision[],
+    paymentList: CarteraPayment[],
+    payDetList: CarteraPayDet[]
+  ) {
+    const config = {
+      unit: 504,
+      user: "mycomplexsoul",
+    };
+
+    const payments = [
+      {
+        date: "2019-10-03",
+        applyTo: [{ dateReference: "2019-10" }],
+      },
+      {
+        date: "2020-01-03",
+        applyTo: [{ dateReference: "2020-01" }],
+      },
+      {
+        date: "2020-02-06",
+        applyTo: [{ dateReference: "2020-02" }],
+      },
+    ];
+    // newProvisionList.forEach((e) => provisionList.push(e));
+
+    const newPaymentList = this.buildPayments({
+      unit: config.unit,
+      user: config.user,
+      paymentData: payments,
+      provisionList,
+      paymentList,
+      payDetList,
+    });
+
+    console.log("newPaymentList", newPaymentList);
+
+    newPaymentList.paymentList.forEach((e) => {
+      e.cpy_txt_status = "highlight";
+      paymentList.push(e);
+    });
+    newPaymentList.payDetList.forEach((e) => {
+      e.cpd_txt_status = "highlight";
+
+      payDetList.push(e);
+    });
   }
 }

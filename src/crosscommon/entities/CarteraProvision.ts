@@ -9,6 +9,7 @@ export class CarteraProvision implements iEntity {
 	public cpr_concept: string;
 	public cpr_code_reference: string;
 	public cpr_amount: number;
+	public cpr_condoned: number;
 	public cpr_payed: number;
 	public cpr_remaining: number;
 	public cpr_id_user: string;
@@ -249,6 +250,37 @@ export class CarteraProvision implements iEntity {
 				, value: null
 			}, {
 				templateId: 'double'
+				, dbName: 'cpr_condoned'
+				, dbType: 'double'
+				, isTableField: true
+				, isPK: false
+				, size: 19
+				, decimal: 2
+				, minLength: 0
+				, allowNull: false
+				, default: ''
+				, dbComment: 'Total amount condoned'
+				, catalogId: ''
+				, originTable: ''
+				, linkedField: ''
+				, entName: 'Condoned'
+				, formControl: 'Textbox'
+				, captureRequired: true
+				, appearsByDefaultOnGrid: true
+				, specialRules: [
+				]
+				, displayName: 'Condoned'
+				, tooltip: ''
+				, isRecordName: false
+				, gridOrder: 6
+				, orderOnNew: 6
+				, orderOnDetails: 6
+				, orderOnEdit: 6
+				, orderOnImport: 6
+				, globalOrder: 0
+				, value: null
+			}, {
+				templateId: 'double'
 				, dbName: 'cpr_payed'
 				, dbType: 'double'
 				, isTableField: true
@@ -271,11 +303,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Payed'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 6
-				, orderOnNew: 6
-				, orderOnDetails: 6
-				, orderOnEdit: 6
-				, orderOnImport: 6
+				, gridOrder: 7
+				, orderOnNew: 7
+				, orderOnDetails: 7
+				, orderOnEdit: 7
+				, orderOnImport: 7
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -302,11 +334,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Remaining'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 7
-				, orderOnNew: 7
-				, orderOnDetails: 7
-				, orderOnEdit: 7
-				, orderOnImport: 7
+				, gridOrder: 8
+				, orderOnNew: 8
+				, orderOnDetails: 8
+				, orderOnEdit: 8
+				, orderOnImport: 8
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -333,11 +365,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'User'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 8
-				, orderOnNew: 8
-				, orderOnDetails: 8
-				, orderOnEdit: 8
-				, orderOnImport: 8
+				, gridOrder: 9
+				, orderOnNew: 9
+				, orderOnDetails: 9
+				, orderOnEdit: 9
+				, orderOnImport: 9
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -364,11 +396,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Folio'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 9
-				, orderOnNew: 9
-				, orderOnDetails: 9
-				, orderOnEdit: 9
-				, orderOnImport: 9
+				, gridOrder: 10
+				, orderOnNew: 10
+				, orderOnDetails: 10
+				, orderOnEdit: 10
+				, orderOnImport: 10
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -395,11 +427,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Type'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 10
-				, orderOnNew: 10
-				, orderOnDetails: 10
-				, orderOnEdit: 10
-				, orderOnImport: 10
+				, gridOrder: 11
+				, orderOnNew: 11
+				, orderOnDetails: 11
+				, orderOnEdit: 11
+				, orderOnImport: 11
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -426,11 +458,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Year'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 11
-				, orderOnNew: 11
-				, orderOnDetails: 11
-				, orderOnEdit: 11
-				, orderOnImport: 11
+				, gridOrder: 12
+				, orderOnNew: 12
+				, orderOnDetails: 12
+				, orderOnEdit: 12
+				, orderOnImport: 12
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -457,11 +489,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Month'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 12
-				, orderOnNew: 12
-				, orderOnDetails: 12
-				, orderOnEdit: 12
-				, orderOnImport: 12
+				, gridOrder: 13
+				, orderOnNew: 13
+				, orderOnDetails: 13
+				, orderOnEdit: 13
+				, orderOnImport: 13
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -489,11 +521,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Creation Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 13
-				, orderOnNew: 13
-				, orderOnDetails: 13
-				, orderOnEdit: 13
-				, orderOnImport: 13
+				, gridOrder: 14
+				, orderOnNew: 14
+				, orderOnDetails: 14
+				, orderOnEdit: 14
+				, orderOnImport: 14
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -522,11 +554,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Last Modification Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 14
-				, orderOnNew: 14
-				, orderOnDetails: 14
-				, orderOnEdit: 14
-				, orderOnImport: 14
+				, gridOrder: 15
+				, orderOnNew: 15
+				, orderOnDetails: 15
+				, orderOnEdit: 15
+				, orderOnImport: 15
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -553,11 +585,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 15
-				, orderOnNew: 15
-				, orderOnDetails: 15
-				, orderOnEdit: 15
-				, orderOnImport: 15
+				, gridOrder: 16
+				, orderOnNew: 16
+				, orderOnDetails: 16
+				, orderOnEdit: 16
+				, orderOnImport: 16
 				, globalOrder: undefined
 				, value: null
 			}, {
@@ -584,11 +616,11 @@ export class CarteraProvision implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 16
-				, orderOnNew: 16
-				, orderOnDetails: 16
-				, orderOnEdit: 16
-				, orderOnImport: 16
+				, gridOrder: 17
+				, orderOnNew: 17
+				, orderOnDetails: 17
+				, orderOnEdit: 17
+				, orderOnImport: 17
 				, globalOrder: 0
 				, value: null
 			}
@@ -605,6 +637,7 @@ export class CarteraProvision implements iEntity {
 			this.cpr_concept = base.cpr_concept;
 			this.cpr_code_reference = base.cpr_code_reference;
 			this.cpr_amount = base.cpr_amount;
+			this.cpr_condoned = base.cpr_condoned;
 			this.cpr_payed = base.cpr_payed;
 			this.cpr_remaining = base.cpr_remaining;
 			this.cpr_id_user = base.cpr_id_user;

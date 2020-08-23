@@ -669,7 +669,13 @@ link {
 }
 
 .columns-3 {
-  column-count: 3;
+  column-count: 1;
+}
+
+@media (min-width: 505px) {
+  .columns-3 {
+    column-count: 3;
+  }
 }
 
 .no-underline {
