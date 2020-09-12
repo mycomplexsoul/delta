@@ -115,14 +115,7 @@ export class TasksComponent implements OnInit {
     }
     this.nextTasks = [];
     this.updateState();
-    this.services.tasksCore.getAll().then((taskList) => {
-      this.tasks = taskList;
-      this.load = true;
-      this.updateState();
-      /* this.notification({ // this is the notification fired on load
-                body: 'Hello there!! you have ' + this.state.openTasksCount + ' tasks open'
-            });*/
-    });
+    this.fetchTasks();
     // this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
 
     // events
@@ -146,6 +139,15 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     // this.registerServiceWorker(); // enable to register ServiceWorker
+  }
+
+  fetchTasks() {
+    return this.services.tasksCore.getAll().then((taskList) => {
+      this.tasks = taskList;
+      this.load = true;
+      this.updateState();
+      return taskList;
+    });
   }
 
   addTask(form: any) {
@@ -2516,5 +2518,9 @@ export class TasksComponent implements OnInit {
       "NextTasks",
       JSON.stringify(this.nextTasks[0].tasks.map((e: any) => e.tsk_id))
     );
+  }
+
+  syncTasks() {
+    this.fetchTasks();
   }
 }

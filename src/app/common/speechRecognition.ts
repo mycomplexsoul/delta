@@ -12,7 +12,7 @@ const startSpeechRecognition = (): Promise<string> => {
 
     recognition.start();
 
-    recognition.onresult = event => {
+    recognition.onresult = (event) => {
       const speechResult = event.results[0][0].transcript;
       final = speechResult;
       resolve(final);
@@ -39,14 +39,14 @@ class TextToSpeech {
     if (!this.voices.length) {
       this.voices = this.synth.getVoices();
     }
-    return this.voices.find(v => v.lang === lang);
+    return this.voices.find((v) => v.lang === lang);
   }
 
   textToSpeechVoice(
     text: string,
     lang: string = "es-US",
     rate: number = 1,
-    volume: number = 1
+    volume: number = 0.4
   ) {
     const utt = new SpeechSynthesisUtterance(text);
     utt.voice = this.getVoice(lang);

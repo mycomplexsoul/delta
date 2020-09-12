@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.54 (2020-06-01)
+
+- [AppCartera][mod] Income and Expense report, add folio column
+- [AppTasks][new] Button to sync tasks, fetch status of tasks and load it above current status
+
 ## v1.10.53 (2020-05-25)
 
 - [AppTasks][new] Option to add new tasks to Next Tasks section

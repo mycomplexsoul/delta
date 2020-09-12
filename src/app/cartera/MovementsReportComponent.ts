@@ -88,30 +88,40 @@ export class MovementsReportComponent implements OnInit {
     const sort = (a: Movement, b: Movement): number => {
       if (a.mov_date.getTime() === b.mov_date.getTime()) {
         if (a.mov_ctg_type === b.mov_ctg_type) {
-          if (a.mov_ctg_type === 2) {
-            const referenceA = a.mov_notes && a.mov_notes.split("|");
-            const referenceB = b.mov_notes && b.mov_notes.split("|");
-            if (referenceA && referenceB) {
-              if (referenceA[2] === referenceB[2]) {
-                return parseInt(referenceA[1].replace("-", ""), 10) >
-                  parseInt(referenceB[1].replace("-", ""), 10)
-                  ? 1
-                  : -1;
+          if (a.mov_ctg_type === 2) { // both income
+              const referenceA = a.mov_notes && a.mov_notes.split("||")[1].split("|");
+              const referenceB = b.mov_notes && b.mov_notes.split("||")[1].split("|");
+              
+              if (referenceA[2] === referenceB[2]) { // same unit, keep them togheter
+                if (a.mov_budget && b.mov_budget) {
+                  return a.mov_budget > b.mov_budget ? 1 : -1;
+                }
+                if (a.mov_budget && !b.mov_budget) {
+                  return -1;
+                } else {
+                  if (!a.mov_budget && b.mov_budget) {
+                    return 1;
+                  } else {
+                    if (referenceA[2] > referenceB[2]) {
+                      return 1;
+                    }
+                    if (referenceA[2] < referenceB[2]) {
+                      return -1;
+                    }
+                    return 0;
+                  }
+                }
               } else {
-                return parseInt(referenceA[2], 10) > parseInt(referenceB[2], 10)
-                  ? 1
-                  : -1;
+                return a.mov_budget > b.mov_budget ? 1 : -1;
               }
-            } else {
-              return a.mov_desc > b.mov_desc ? 1 : -1;
-            }
-          } else {
-            return a.mov_amount < b.mov_amount ? 1 : -1;
+          } else { // both expense
+            return a.mov_budget > b.mov_budget ? 1 : (a.mov_amount < b.mov_amount ? 1 : -1);
           }
-        } else {
+        } else { // income vs expense, income first
           return a.mov_ctg_type < b.mov_ctg_type ? 1 : -1;
         }
       }
+      // first criteria: date
       return a.mov_date.getTime() > b.mov_date.getTime() ? 1 : -1;
     };
 

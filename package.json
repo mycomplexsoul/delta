@@ -1,6 +1,6 @@
 {
   "name": "delta",
-  "version": "1.10.53",
+  "version": "1.10.54",
   "scripts": {
     "ng": "ng",
     "start:ng": "ng serve",
@@ -71,7 +71,7 @@
     "nodemailer": "6.4.11",
     "rxjs": "6.6.2",
     "tslib": "2.0.0",
-    "typescript": "4.0.2",
+    "typescript": "3.9.7",
     "zone.js": "0.11.1"
   },
   "devDependencies": {

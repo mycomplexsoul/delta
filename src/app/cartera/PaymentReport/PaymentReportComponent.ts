@@ -97,9 +97,9 @@ export class PaymentReportComponent implements OnInit {
             0
           );
 
-          // total sum
+          // total sum, excluding condoned payments
           this.viewData.total += item.paymentList.reduce(
-            (total, current) => total + current.payment.cpy_amount,
+            (total, current) => total + (current.payment.cpy_ctg_type === 1 ? current.payment.cpy_amount : 0),
             0
           );
         });

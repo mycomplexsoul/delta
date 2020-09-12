@@ -138,6 +138,7 @@ export class CarteraServer {
       )}`,
       cpr_amount: AMOUNT,
       cpr_payed: 0,
+      cpr_condoned: 0,
       cpr_remaining: AMOUNT,
       cpr_folio: null,
       cpr_type: CODE_NORMAL,
@@ -2189,6 +2190,7 @@ export class CarteraServer {
       date: Date;
       amount: number;
       payId: string;
+      folio: string;
     }> = await apiModule
       .listWithSQL({
         // Get payDet info which is already assigned by type
@@ -2197,9 +2199,11 @@ export class CarteraServer {
           cpd_code_reference as concept,
           cpd_date_payment as date,
           cpd_amount as amount,
+          cpr_folio as folio,
           cpd_id as payid
         FROM vicarterapaydet
-        LEFT JOIN movement on (mov_budget = cpd_id)
+        LEFT JOIN movement on (SUBSTR(mov_notes, 1, INSTR(mov_notes, '||')-1) = cpd_id)
+        LEFT JOIN carteraprovision on (cpr_id = cpd_id_provision)
         WHERE
           cpd_ctg_type = 1
           and mov_id is null
@@ -2218,9 +2222,10 @@ export class CarteraServer {
           cpy_match_hint as concept,
           cpy_date as date,
           cpy_amount as amount,
+          null as folio,
           cpy_id as payid
         FROM carterapayment
-        LEFT JOIN movement on (mov_budget = cpy_id)
+        LEFT JOIN movement on (SUBSTR(mov_notes, 1, INSTR(mov_notes, '||')-1) = cpy_id)
         WHERE
           cpy_date >= '${DateUtils.formatDate(initialDate, "yyyy-MM-dd")}'
           and cpy_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'
@@ -2235,6 +2240,7 @@ export class CarteraServer {
           date: new Date(e["date"]),
           amount: e["amount"],
           payId: e["payid"],
+          folio: e["folio"],
         }))
       );
 
@@ -2246,7 +2252,7 @@ export class CarteraServer {
 
     // create an income movement for each sum item
     const movementList: Movement[] = sumPaymentList.map(
-      ({ unit, concept, date, amount, payId }) =>
+      ({ unit, concept, date, amount, payId, folio }) =>
         new Movement({
           mov_id: Utils.hashIdForEntity(new Movement(), "mov_id"),
           mov_date: date,
@@ -2255,7 +2261,7 @@ export class CarteraServer {
           mov_id_account: params.account_id,
           mov_id_account_to: null,
           mov_ctg_type: 2, // income
-          mov_budget: payId,
+          mov_budget: folio, // folio
           mov_id_category: params.category_id,
           mov_id_place: params.place_id,
           mov_desc:
@@ -2268,7 +2274,9 @@ export class CarteraServer {
                 } ${DateUtils.getMonthNameSpanish(
                   this.getYearMonthFromProvisionCodeReference(concept).month
                 )} ${year} ${unit === CODE_NONE ? "000" : unit}`,
-          mov_notes: `${concept}|${unit === CODE_NONE ? "000" : unit}`,
+          mov_notes: `${payId}||${concept}|${
+            unit === CODE_NONE ? "000" : unit
+          }`,
           mov_id_user: user,
           mov_date_add: DateUtils.newDateUpToSeconds(),
           mov_date_mod: DateUtils.newDateUpToSeconds(),
@@ -2367,7 +2375,7 @@ export class CarteraServer {
         // Get total income from payments, total income for non-identified payments
         // income from other movements and expenses
         sql: `SELECT 
-        SUBSTR(mov_notes, 1, INSTR(mov_notes, '|')-1) as concept,
+        SUBSTR(mov_notes, INSTR(mov_notes, '||')+2, INSTR(mov_notes, '|2')-INSTR(mov_notes, '||')-2) as concept,
         sum(mov_amount) as amount,
         'code-income' as type
         FROM movement
@@ -2376,7 +2384,7 @@ export class CarteraServer {
         and mov_id_account = '${config.account_id}'
         and mov_ctg_type = 2
         and SUBSTR(mov_notes, -3) != '000'
-        group by SUBSTR(mov_notes, 1, INSTR(mov_notes, '|')-1)
+        group by SUBSTR(mov_notes, INSTR(mov_notes, '||')+2, INSTR(mov_notes, '|2')-INSTR(mov_notes, '||')-2)
         
         UNION ALL
         
@@ -2687,6 +2695,7 @@ export class CarteraServer {
           (item) =>
             initialDate.getTime() <= item.cpr_date.getTime() &&
             item.cpr_date.getTime() < finalDate.getTime() &&
+            item.cpr_date.getDate() === 1 &&
             item.cpr_code_reference.includes("cuota-normal|")
         )
         .sort((a, b) => (a.cpr_id_unit > b.cpr_id_unit ? 1 : -1))

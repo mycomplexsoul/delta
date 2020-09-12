@@ -9,6 +9,7 @@
     <tr>
       <th>#</th>
       <th>Fecha</th>
+      <th>Folio</th>
       <th>Concepto</th>
       <th>Ingreso</th>
       <th>Egreso</th>
@@ -24,6 +25,9 @@
       </td>
       <td class="padding-all-3 text-align-center width-80 vertical-align-top">
         {{movement.mov_date | date: "yyyy-MM-dd"}}
+      </td>
+      <td class="padding-all-3">
+        {{movement.mov_budget}}
       </td>
       <td class="padding-all-3">
         {{movement.mov_desc}}
@@ -44,6 +48,7 @@
   </tbody>
   <tfoot>
     <tr>
+      <td class="padding-all-3"></td>
       <td class="padding-all-3"></td>
       <td class="padding-all-3"></td>
       <td class="padding-all-3">Totales</td>

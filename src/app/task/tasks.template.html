@@ -33,6 +33,7 @@
   <button (click)="toggleViewOptions()">
     {{ viewOptions ? "hide" : "show" }} options
   </button>
+  <button (click)="syncTasks()">sync tasks</button>
   <button
     (click)="options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord"
     *ngIf="options.optShowLimitedTasksPerRecord"
@@ -582,15 +583,9 @@
       </tr>
       <tr *ngFor="let indicator of state.indicators">
         <td>
-          <span>
-            {{ indicator.name }}
-          </span>
-          <span *ngIf="indicator.metric === 'MORE_IS_BETTER'">
-            &uarr;
-          </span>
-          <span *ngIf="indicator.metric === 'LESS_IS_BETTER'">
-            &darr;
-          </span>
+          <span> {{ indicator.name }} </span>
+          <span *ngIf="indicator.metric === 'MORE_IS_BETTER'"> &uarr; </span>
+          <span *ngIf="indicator.metric === 'LESS_IS_BETTER'"> &darr; </span>
         </td>
         <td
           *ngFor="let v of indicator.formattedValues; let currIndex = index"
@@ -605,9 +600,7 @@
             {{ v }}
           </span>
         </td>
-        <td>
-          {{ indicator.percentageCompleted }}
-        </td>
+        <td>{{ indicator.percentageCompleted }}</td>
       </tr>
     </table>
   </div>
@@ -728,9 +721,7 @@
             [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
             class="task-eta"
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-          ><span>
-            [{{t.tsk_id_record}}]
-          </span>
+          ><span> [{{t.tsk_id_record}}] </span>
           <span *ngIf="t.tsk_tags" class="task-tags">
             <span
               *ngFor="let tag of t.tsk_tags.split(' ')"
