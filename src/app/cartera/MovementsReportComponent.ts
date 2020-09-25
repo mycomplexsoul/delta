@@ -9,7 +9,7 @@ import { Utils } from "../../crosscommon/Utility";
   selector: "movements-report",
   templateUrl: "./MovementsReport.html",
   styleUrls: ["./MovementsReport.css"],
-  providers: [MovementService]
+  providers: [MovementService],
 })
 export class MovementsReportComponent implements OnInit {
   public viewData: {
@@ -27,7 +27,7 @@ export class MovementsReportComponent implements OnInit {
     expenseTotal: 0,
     year: 0,
     month: 0,
-    displayYearMonth: null
+    displayYearMonth: null,
   };
 
   getQueryStringParameters() {
@@ -50,9 +50,7 @@ export class MovementsReportComponent implements OnInit {
     private titleService: Title
   ) {
     this.parseQueryString();
-    this.viewData.title = `Ingresos y Egresos ${
-      this.viewData.displayYearMonth
-    } FFJ78`;
+    this.viewData.title = `Ingresos y Egresos ${this.viewData.displayYearMonth} FFJ78`;
     titleService.setTitle(this.viewData.title);
   }
 
@@ -75,49 +73,31 @@ export class MovementsReportComponent implements OnInit {
         {
           f: "mov_date",
           op: "ge",
-          val: `${year}-${Utils.pad(month, "0", 2, -1)}-01`
+          val: `${year}-${Utils.pad(month, "0", 2, -1)}-01`,
         },
         {
           f: "mov_date",
           op: "lt",
-          val: `${year}-${Utils.pad(month + 1, "0", 2, -1)}-01`
-        }
-      ]
+          val: `${year}-${Utils.pad(month + 1, "0", 2, -1)}-01`,
+        },
+      ],
     });
 
-    const sort = (a: Movement, b: Movement): number => {
+    const sortByDateUnitAndDateMod = (a: Movement, b: Movement): number => {
       if (a.mov_date.getTime() === b.mov_date.getTime()) {
         if (a.mov_ctg_type === b.mov_ctg_type) {
-          if (a.mov_ctg_type === 2) { // both income
-              const referenceA = a.mov_notes && a.mov_notes.split("||")[1].split("|");
-              const referenceB = b.mov_notes && b.mov_notes.split("||")[1].split("|");
-              
-              if (referenceA[2] === referenceB[2]) { // same unit, keep them togheter
-                if (a.mov_budget && b.mov_budget) {
-                  return a.mov_budget > b.mov_budget ? 1 : -1;
-                }
-                if (a.mov_budget && !b.mov_budget) {
-                  return -1;
-                } else {
-                  if (!a.mov_budget && b.mov_budget) {
-                    return 1;
-                  } else {
-                    if (referenceA[2] > referenceB[2]) {
-                      return 1;
-                    }
-                    if (referenceA[2] < referenceB[2]) {
-                      return -1;
-                    }
-                    return 0;
-                  }
-                }
-              } else {
-                return a.mov_budget > b.mov_budget ? 1 : -1;
-              }
-          } else { // both expense
-            return a.mov_budget > b.mov_budget ? 1 : (a.mov_amount < b.mov_amount ? 1 : -1);
+          if (a.mov_ctg_type === 2) {
+            return a.mov_date_mod.getTime() > b.mov_date_mod.getTime() ? 1 : -1;
+          } else {
+            // both expense
+            return a.mov_budget > b.mov_budget
+              ? 1
+              : a.mov_amount < b.mov_amount
+              ? 1
+              : -1;
           }
-        } else { // income vs expense, income first
+        } else {
+          // income vs expense, income first
           return a.mov_ctg_type < b.mov_ctg_type ? 1 : -1;
         }
       }
@@ -125,18 +105,18 @@ export class MovementsReportComponent implements OnInit {
       return a.mov_date.getTime() > b.mov_date.getTime() ? 1 : -1;
     };
 
-    this.MovementsReportService.getMovementList(filter).then(response => {
+    this.MovementsReportService.getMovementList(filter).then((response) => {
       const { movementList } = response;
 
-      this.viewData.movementList = movementList.sort(sort);
+      this.viewData.movementList = movementList.sort(sortByDateUnitAndDateMod);
 
       // calculate pending totals
       this.viewData.incomeTotal = this.sumByField(
-        this.viewData.movementList.filter(e => e.mov_ctg_type === 2),
+        this.viewData.movementList.filter((e) => e.mov_ctg_type === 2),
         "mov_amount"
       );
       this.viewData.expenseTotal = this.sumByField(
-        this.viewData.movementList.filter(e => e.mov_ctg_type === 1),
+        this.viewData.movementList.filter((e) => e.mov_ctg_type === 1),
         "mov_amount"
       );
     });

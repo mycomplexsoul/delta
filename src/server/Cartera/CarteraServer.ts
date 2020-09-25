@@ -2240,7 +2240,7 @@ export class CarteraServer {
           date: new Date(e["date"]),
           amount: e["amount"],
           payId: e["payid"],
-          folio: e["folio"],
+          folio: e["folio"] || null,
         }))
       );
 
@@ -2624,7 +2624,7 @@ export class CarteraServer {
                         provision.cpr_condoned -
                         provision.cpr_payed -
                         d.cpd_amount,
-                      cpr_folio: payDetFolioList[provision.cpr_id],
+                      cpr_folio: payDetFolioList[provision.cpr_id] || null,
                       cpr_date_mod: DateUtils.newDateUpToSeconds(),
                     },
                     pk: {

@@ -1,5 +1,10 @@
 @import "./app/styles/button.css";
 
+:root {
+  --font-color: #888;
+  --background-color: #eee;
+}
+
 /* Master Styles */
 h1 {
   color: #369;
@@ -16,7 +21,7 @@ h3 {
   display: inline;
 }
 body {
-  background-color: #eee;
+  background-color: var(--background-color);
   font-size: 13px;
 }
 @media (min-width: 505px) {
@@ -26,7 +31,7 @@ body {
 }
 body,
 input[text] {
-  color: #888;
+  color: var(--font-color);
   font-family: Cambria, Georgia;
 }
 a {
@@ -39,7 +44,7 @@ nav a {
   text-decoration: none;
   margin-top: 10px;
   display: inline-block;
-  background-color: #eee;
+  background-color: var(--background-color);
   border-radius: 4px;
 }
 nav a:visited,
@@ -65,7 +70,7 @@ nav a.router-link-active {
   cursor: pointer;
   position: relative;
   left: 0;
-  background-color: #eee;
+  background-color: var(--background-color);
   margin: 0.5em;
   padding: 0.3em 0;
   height: 1.6em;
@@ -94,7 +99,7 @@ nav a.router-link-active {
   cursor: pointer;
   position: relative;
   left: 0;
-  background-color: #eee;
+  background-color: var(--background-color);
   margin: 0.5em;
   padding: 0.3em 0;
   height: 1.6em;
@@ -353,7 +358,7 @@ textarea.task-multiple {
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: #eee;
+  background-color: var(--background-color);
   width: 100%;
   height: auto;
   border-top: 1px solid black;
@@ -692,7 +697,7 @@ link {
 }
 
 kbd {
-  background-color: #eee;
+  background-color: var(--background-color);
   border-radius: 3px;
   border: 1px solid #b4b4b4;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),

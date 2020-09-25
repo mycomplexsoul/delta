@@ -27,6 +27,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.55 (2020-06-08)
+
+- [AppCartera][mod] Cartera Income and Expense report sort movements by date mod for custom ordering
+- [AppCartera][fix] Cartera payment registering, fix null string value in folio, now uses null correctly
+- [AppCommon][mod] Upgrade dependencies
+- [AppCommon][new] Use CSS variables
+
 ## v1.10.54 (2020-06-01)
 
 - [AppCartera][mod] Income and Expense report, add folio column

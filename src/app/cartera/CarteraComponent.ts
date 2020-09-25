@@ -394,7 +394,7 @@ export class CarteraComponent implements OnInit {
             const prov = this.viewData.unitPendingProvisionList.find(
               (p) => p.cpr_id === id
             );
-            prov.cpr_folio = this.payDetFolioModel[id];
+            prov.cpr_folio = this.payDetFolioModel[id] || null;
           });
           this.showListAfterPayment(this.payDetModel);
           this.resetForm(newItemForm);
