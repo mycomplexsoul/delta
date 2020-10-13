@@ -5,12 +5,12 @@
     font-family: sans-serif;
   }
 
-  .provision-payed-row {
-    background-color: #b7e4b2;
-  }
-
   .provision-added-row {
     background-color: #f5d498;
+  }
+
+  .provision-payed-row {
+    background-color: #b7e4b2;
   }
 
   .provision-legend-box {

@@ -1,6 +1,4 @@
-<h1 class="page-title text-align-center">
-  {{viewData.title}}
-</h1>
+<h1 class="page-title text-align-center">{{viewData.title}}</h1>
 
 <div
   class="text-align-center width-100-pct print-only"
@@ -34,29 +32,23 @@
       *ngFor="let provision of viewData.pendingProvisionList; let counter = index"
       class="pending-provision-listing-row"
       [ngClass]="{
-        'provision-payed-row': provision.cpr_remaining === 0,
-        'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+        'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month),
+        'provision-payed-row': provision.cpr_remaining === 0
       }"
     >
-      <td class="padding-all-3 text-align-center">
-        {{counter + 1}}
-      </td>
-      <td class="padding-all-3 text-align-center">
-        {{provision.cpr_id_unit}}
-      </td>
+      <td class="padding-all-3 text-align-center">{{counter + 1}}</td>
+      <td class="padding-all-3 text-align-center">{{provision.cpr_id_unit}}</td>
       <td class="padding-all-3">
-        <span>
-          {{provision.cpr_concept}}
-        </span>
-        <span *ngIf="provision.cpr_remaining === 0">
-          <!-- payed row -->
-          [R]
-        </span>
+        <span> {{provision.cpr_concept}} </span>
         <span
           *ngIf="isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)"
         >
           <!-- added row -->
           [A]
+        </span>
+        <span *ngIf="provision.cpr_remaining === 0">
+          <!-- payed row -->
+          [R]
         </span>
       </td>
       <td class="padding-all-3 text-align-right width-80">
@@ -158,9 +150,7 @@
 
   <div class="margin-top-3">
     <span class="provision-added-row provision-legend-box">[A]</span>
-    <span>
-      = Cuota no cubierta en este mes (agregada en este mes)
-    </span>
+    <span> = Cuota no cubierta en este mes (agregada en este mes) </span>
   </div>
 
   <div class="margin-top-3">
@@ -200,9 +190,7 @@
       *ngFor="let provision of viewData.pendingTotals"
       class="pending-provision-listing-row"
     >
-      <td class="padding-all-3 text-align-center">
-        {{provision.unit}}
-      </td>
+      <td class="padding-all-3 text-align-center">{{provision.unit}}</td>
       <td class="padding-all-3 text-align-right width-80">
         {{provision.remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
       </td>
@@ -350,7 +338,11 @@
           >Depósito sin identificar</span
         >
         <span
-          *ngIf="payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month"
+          *ngIf="payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month && payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1) === '000'"
+          >Aplicado al fondo</span
+        >
+        <span
+          *ngIf="payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month && payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1) !== '000'"
           >Aplicado a {{
           payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)
           }}</span
@@ -383,9 +375,7 @@
     *ngIf="viewData.timelineList.length > 0"
   >
     <div>
-      <strong>
-        Observaciones
-      </strong>
+      <strong> Observaciones </strong>
     </div>
     <br />
     <div
