@@ -1,3 +1,15 @@
 {
-  "extends": ["config:base", ":preserveSemverRanges"]
+  "extends": [
+    "config:base",
+    ":preserveSemverRanges",
+    ":separateMajorReleases",
+    ":separateMultipleMajorReleases",
+    ":combinePatchMinorReleases",
+  ],
+  "schedule": ["after 8am and before 5pm every weekday"],
+  "packageRules": [{
+    "updateTypes": ["minor", "patch", "pin", "digest"],
+    "automerge": true
+  }],
+  "prBodyNotes": ["Please review any of the dependencies of this repo first to ensure all PRs have been merged and published the most recent version before merging this PR"]
 }
