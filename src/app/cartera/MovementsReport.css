@@ -8,4 +8,8 @@
   .movements-report-row:nth-child(even) {
     background-color: #e0e0e0;
   }
+
+  .movements-report-folio {
+    white-space: nowrap;
+  }
 }

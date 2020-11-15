@@ -538,7 +538,7 @@
           *ngIf="options.optViewElapsedDays"
           >{{ taskAge(t) }}</span
         >
-        <span *ngIf="t.not_sync">(Not in sync)</span>
+        <span *ngIf="t.not_sync">&#8634;</span>
       </div>
     </div>
   </div>
@@ -990,8 +990,9 @@
   <div *ngIf="!options.optCollapseClosedTasks">
     <div *ngFor="let group of state.closedTasks">
       <div>
+        <br/>
         <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>
-        <span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>
+        &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>
       </div>
       <div *ngFor="let item of group.tasks">
         -
@@ -1001,10 +1002,10 @@
         >
         <span>[{{ item.tsk_id_record }}]</span>
         <span>{{ item.tsk_name }}</span>
-        <span
+        <!--<span
           >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"
           }})</span
-        >
+        >-->
         <span *ngIf="item.tsk_tags" class="task-tags">
           <span
             *ngFor="let tag of item.tsk_tags.split(' ')"
@@ -1014,7 +1015,7 @@
             #{{ tag }}
           </span>
         </span>
-        <button (click)="setSelected(item)">details</button>
+        &nbsp;<button (click)="setSelected(item)">details</button>
       </div>
     </div>
   </div>

@@ -965,6 +965,7 @@ export class CarteraServer {
           -1
         )}`,
         cpr_amount: 148,
+        cpr_condoned: 0,
         cpr_payed: 0,
         cpr_remaining: 148,
         cpr_id_user: user,
@@ -2200,7 +2201,8 @@ export class CarteraServer {
           cpd_date_payment as date,
           cpd_amount as amount,
           cpr_folio as folio,
-          cpd_id as payid
+          cpd_id as payid,
+          cpd_date_mod as date_mod
         FROM vicarterapaydet
         LEFT JOIN movement on (SUBSTR(mov_notes, 1, INSTR(mov_notes, '||')-1) = cpd_id)
         LEFT JOIN carteraprovision on (cpr_id = cpd_id_provision)
@@ -2223,7 +2225,8 @@ export class CarteraServer {
           cpy_date as date,
           cpy_amount as amount,
           null as folio,
-          cpy_id as payid
+          cpy_id as payid,
+          cpy_date_mod as date_mod
         FROM carterapayment
         LEFT JOIN movement on (SUBSTR(mov_notes, 1, INSTR(mov_notes, '||')-1) = cpy_id)
         WHERE
@@ -2231,7 +2234,7 @@ export class CarteraServer {
           and cpy_date < '${DateUtils.formatDate(finalDate, "yyyy-MM-dd")}'
           and SUBSTR(cpy_match_hint, -3) = '000'
           and mov_id is null
-        order by date, unit`,
+        order by date_mod, date, unit`,
       })
       .then((response) =>
         response.map((e) => ({
@@ -2826,7 +2829,8 @@ export class CarteraServer {
           const payment = payDetList
             .filter((p) => p.cpd_id_provision === provision.cpr_id)
             .sort((a, b) =>
-              a.cpd_date_payment.getTime() > b.cpd_date_payment.getTime()
+              // Use last payment date for receipt
+              a.cpd_date_payment.getTime() < b.cpd_date_payment.getTime()
                 ? 1
                 : -1
             )[0];

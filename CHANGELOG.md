@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.56 (2020-06-15)
+
+- [AppMoney][fix] Fix folio column positioning in Movements Report
+- [AppMoney][fix] Fix movements order in Movements Report
+
 ## v1.10.55 (2020-06-08)
 
 - [AppCartera][mod] Cartera Income and Expense report sort movements by date mod for custom ordering
