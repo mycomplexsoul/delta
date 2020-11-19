@@ -2243,7 +2243,7 @@ export class CarteraServer {
           date: new Date(e["date"]),
           amount: e["amount"],
           payId: e["payid"],
-          folio: e["folio"] || null,
+          folio: e["folio"],
         }))
       );
 
@@ -2276,7 +2276,7 @@ export class CarteraServer {
                   ]
                 } ${DateUtils.getMonthNameSpanish(
                   this.getYearMonthFromProvisionCodeReference(concept).month
-                )} ${year} ${unit === CODE_NONE ? "000" : unit}`,
+                )} ${this.getYearMonthFromProvisionCodeReference(concept).year} ${unit === CODE_NONE ? "000" : unit}`,
           mov_notes: `${payId}||${concept}|${
             unit === CODE_NONE ? "000" : unit
           }`,
@@ -2663,7 +2663,13 @@ export class CarteraServer {
         afterUpdateOK: afterInsertOK,
       },
       paymentInstance
-    ).then((response) => {
+    ).then(async (response) => {
+      await this.registerMonthlyIncome(
+        paymentInstance.cpy_date_identification.getFullYear(),
+        paymentInstance.cpy_date_identification.getMonth() + 1,
+        user
+      );
+
       return Promise.resolve({
         payment: paymentInstance,
         payDetList: payDetListInstance,

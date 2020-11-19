@@ -27,6 +27,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.57 (2020-06-22)
+
+- [AppCommon][mod] Upgrade dependencies
+- [AppTasks][new] Show percentage of total time added in new tasks to be added
+- [AppTasks][new] Autogrow textarea to adjust to content
+
 ## v1.10.56 (2020-06-15)
 
 - [AppMoney][fix] Fix folio column positioning in Movements Report

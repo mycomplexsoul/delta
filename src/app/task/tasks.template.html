@@ -10,15 +10,16 @@
     (keyup)="inputKeyUpHandler($event)"
     [(ngModel)]="tsk_name"
   />
-  <textarea
-    name="tsk_multiple_name"
-    placeholder="Write a task per line..."
-    class="task-multiple"
-    (keyup)="inputKeyUpHandler($event)"
-    [(ngModel)]="tsk_multiple_name"
-    *ngIf="showBatchAdd"
-    spellcheck="false"
-  ></textarea>
+  <div class="grow-wrap" *ngIf="showBatchAdd">
+    <textarea
+      name="tsk_multiple_name"
+      placeholder="Write a task per line..."
+      class="task-multiple"
+      (keyup)="inputKeyUpHandler($event)"
+      [(ngModel)]="tsk_multiple_name"
+      spellcheck="false"
+    ></textarea>
+  </div>
   <button
     type="submit"
     (click)="addTask(tasksForm)"
@@ -44,7 +45,7 @@
     <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>
     <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>
     <span *ngFor="let r of state.beforeAddETA">
-      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }}]
+      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }} / {{r.totalETAPercentage}}%]
     </span>
   </div>
 </form>

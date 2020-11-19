@@ -311,9 +311,9 @@
   </tfoot>
 </table>
 
-<h2 class="pending-provision-subtitle">Depósitos pendientes de identificar</h2>
+<h2 class="pending-provision-subtitle" *ngIf="viewData.nonIdentifiedPaymentList.length">Depósitos pendientes de identificar</h2>
 
-<table class="non-identified-payments width-100-pct-mobile-only">
+<table class="non-identified-payments width-100-pct-mobile-only" *ngIf="viewData.nonIdentifiedPaymentList.length">
   <thead>
     <tr>
       <th>Fecha</th>

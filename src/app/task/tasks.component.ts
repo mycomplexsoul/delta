@@ -1002,6 +1002,29 @@ export class TasksComponent implements OnInit {
     return dom;
   }
 
+  autogrowSetup(componentIsVisible) {
+    // Setup autogrow for textarea
+    const growers = document.querySelectorAll(".grow-wrap");
+    const handleInput = function handeInput() {
+      console.log('replicating value');
+      this.parentNode.dataset.replicatedValue = this.value;
+    };
+
+    growers.forEach((grower: HTMLDivElement) => {
+      const textarea = grower.querySelector("textarea");
+      
+      if (componentIsVisible) {
+        setTimeout(() => {
+          const textarea = grower.querySelector("textarea");
+
+          textarea.addEventListener("input", handleInput.bind(textarea));
+        }, 200);
+      } else {
+        textarea.removeEventListener("input", handleInput.bind(textarea));
+      }
+    });
+  }
+
   inputKeyUpHandler(event: KeyboardEvent) {
     if (event.keyCode === 40 && !this.showBatchAdd) {
       // Down arrow
@@ -1010,6 +1033,9 @@ export class TasksComponent implements OnInit {
     if (event.keyCode == 113) {
       // detect "F2" = toggle Batch Add
       this.showBatchAdd = !this.showBatchAdd;
+
+      this.autogrowSetup(this.showBatchAdd);
+
       this.viewETABeforeAdd = false;
       setTimeout(() => {
         if (this.showBatchAdd) {
@@ -1052,6 +1078,10 @@ export class TasksComponent implements OnInit {
           totalTasksWritten++;
           // console.log("totals",totalPerRecord);
         }
+      });
+      // Calculate totals in percentage form
+      Object.keys(totalPerRecord).forEach((e) => {
+        totalPerRecord[e].totalETAPercentage = Math.round(totalPerRecord[e].totalETA * 100 / totalETA);
       });
       this.viewETABeforeAdd = true;
       this.state.beforeAddETA = totalPerRecord;
