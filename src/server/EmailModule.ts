@@ -4,7 +4,15 @@ import { configModule } from './ConfigModule';
 function setupTransporter(){
     const config: any = configModule.getConfigValue('mail');
 
-    // Definimos el transporter
+    if (config.service) {
+        return nodemailer.createTransport({
+            service: config.service,
+            auth: {
+              user: config.user,
+              pass: config.pass
+            }
+        });
+    }
     return nodemailer.createTransport({
         host: config.host,
         secure: config.secure,
@@ -35,15 +43,18 @@ function sendEmail(subject: string, body: string, to: string){
     });
 };
 
-function sendHTMLEmail(subject: string, html: string, to: string){
-    const from: string = configModule.getConfigValue('mail.from');
+function sendHTMLEmail({subject, html, to, cc = null, cco = null, attachments = null, fromOverride = null}){
+    const from: string = fromOverride || configModule.getConfigValue('mail.from');
     const transporter = setupTransporter();
 
     const mailOptions = {
         from,
         to,
+        cc,
+        cco,
         subject,
-        html
+        html,
+        attachments
     };
 
     transporter.sendMail(mailOptions, function(error, info){

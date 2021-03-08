@@ -11,6 +11,20 @@ import jspdf from "jspdf";
 
 const UNIT_LABEL = "Departamento";
 
+const CODE_NORMAL = "cuota-normal";
+const CODE_PENALIZATION = "cuota-penalidad";
+const CODE_EXTRA = "cuota-extra";
+const CODE_EXTRA_PENALIZATION = "cuota-extra_penalidad";
+const CODE_NONE = "none";
+
+const mapCodeWithDescription = {
+  [CODE_NORMAL]: "Mantenimiento",
+  [CODE_PENALIZATION]: "Penalización de Mantenimiento",
+  [CODE_EXTRA]: "Cuota Extraordinaria",
+  [CODE_EXTRA_PENALIZATION]: "Penalización de Cuota Extraordinaria",
+  [CODE_NONE]: "Otro concepto",
+};
+
 @Component({
   selector: "receipt-report",
   templateUrl: "./ReceiptReport.html",
@@ -88,7 +102,7 @@ export class ReceiptReportComponent implements OnInit {
         prov.cpr_year,
         prov.cpr_month
       );
-      this.viewData.title = `${this.viewData.folio} Recibo de pago ${prov.cpr_id_unit} - ${this.viewData.displayYearMonth}`;
+      this.viewData.title = `${this.viewData.folio} Recibo de pago ${prov.cpr_id_unit} - ${mapCodeWithDescription[prov.cpr_type]} ${this.viewData.displayYearMonth}`;
       this.titleService.setTitle(this.viewData.title);
     }
   }

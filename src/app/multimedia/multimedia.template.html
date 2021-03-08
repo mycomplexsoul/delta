@@ -95,19 +95,18 @@
   </div>
 </form>
 
-<table>
+<table class="multimedia-listing">
   <tr>
     <th class="padding-left-5 padding-right-5">#</th>
-    <th class="padding-left-5 padding-right-5 width-100">Title</th>
+    <th class="padding-left-5 padding-right-5 width-100">Last Viewed / Title</th>
     <th class="padding-left-5 padding-right-5">Episode</th>
-    <th class="padding-left-5 padding-right-5">Last Viewed</th>
   </tr>
   <tr
     class="multimedia-listing-row"
     *ngFor="let item of viewData.multimediaList; let i = index"
   >
-    <td class="padding-left-5 padding-right-5 text-align-right">{{ i + 1 }}</td>
-    <td class="padding-left-5 padding-right-5">
+    <td class="padding-left-5 padding-right-5 text-align-right vertical-align-top">{{ i + 1 }}</td>
+    <td class="padding-left-5 padding-right-5 vertical-align-top">
       <span
         (click)="item.showOptions = !item.showOptions"
         tabindex="0"
@@ -115,6 +114,19 @@
       >
         {{ item.showOptions ? "-" : "+" }}
       </span>
+      <span [ngClass]="item.ageClassname" class="desktop-only">
+        [{{ item.mma_date_mod | date: "yyyy-MM-dd" }}]
+      </span>
+      <span [ngClass]="item.ageClassname" class="mobile-only">
+        [{{ item.mma_date_mod | date: "MM-dd" }}]
+      </span>
+      <!--
+      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 1">MOVIE</span>
+      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 2">SERIES</span>
+      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 3">ANIME</span>
+      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 4">EBOOK</span>
+      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 5">MANGA</span>
+      -->
       <span
         [ngClass]="{
           'multimedia-movies': item.mma_ctg_media_type === 1,
@@ -124,12 +136,14 @@
           'multimedia-manga': item.mma_ctg_media_type === 5
         }"
       >
-        {{ item.mma_title + " T" + item.mma_season }}
+        {{ item.mma_title }}
       </span>
-      <a [href]="item.mma_url" target="_blank" *ngIf="item.mma_url">
-        [{{ item.mma_year }}]
-      </a>
-      <span *ngIf="!item.mma_url">[{{ item.mma_year }}]</span>
+      <span *ngIf="item.mma_url">
+        <a [href]="item.mma_url" target="_blank">{{ "T" + item.mma_season }}</a>
+      </span>
+      <span *ngIf="!item.mma_url">{{ "T" + item.mma_season }}</span>
+      
+      <span class="desktop-only">&nbsp;({{ item.mma_year }})</span>
       <br />
       <span *ngIf="item.showOptions">
         <button
@@ -151,19 +165,13 @@
         </button>
       </span>
     </td>
-    <td class="padding-left-5 padding-right-5 text-align-right">
+    <td class="padding-left-5 padding-right-5 text-align-right vertical-align-top">
       <span *ngIf="item.mma_total_ep !== '0'">
         {{ item.mma_current_ep + "/" + item.mma_total_ep }}
       </span>
       <span *ngIf="item.mma_total_ep === '0'">
         {{ item.mma_current_ep }}
       </span>
-    </td>
-    <td
-      class="padding-left-5 padding-right-5 width-80"
-      [ngClass]="item.ageClassname"
-    >
-      {{ item.mma_date_mod | date: "yyyy-MM-dd" }}
     </td>
   </tr>
 </table>

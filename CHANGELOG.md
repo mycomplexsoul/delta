@@ -27,6 +27,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.62 (2020-07-27)
+
+- [AppCommon][new] Email module - Support to send attachments in email
+- [AppCommon][new] Email module - Support to send to cc and cco recipients
+- [AppCartera][new] Send receipts email endpoint `/send-receipts-email`
+
+## v1.10.61 (2020-07-20)
+
+- [AppTasks][new] Allow to collapse records and persist collapsed records in localStorage
+- [AppTasks][new] Option to move time tracking stamps to earlier available slots when marking task as done
+- [AppCommon][new] Email module - Support to use gmail accounts to send email
+
+## v1.10.60 (2020-07-13)
+
+- [AppMovement][fix] Balance page - Fix sum upon movement selection also with transfers
+- [AppMovement][new] Balance page - Add colorizing for Account type
+- [AppMultimedia][mod] Multimedia page - Change colorizing for Media type and use mobile first UI
+
+## v1.10.59 (2020-07-06)
+
+- [AppCartera][mod] Results Report - Show signs is now enabled by default
+- [AppCartera][mod] Payment Report - Move sign column aside unit column
+- [AppCartera][mod] Receipt Report - Include Provision concept in report's title
+
+## v1.10.58 (2020-06-29)
+
+- [AppTasks][new] Add options to set custom record width/height in desktop view
+- [AppCartera][mod] Show total sum in favor per unit in Payment Report
+- [AppTasks][new] Add new qualifiers: prioritary, flag, blocked, people and update shortcuts
+
 ## v1.10.57 (2020-06-22)
 
 - [AppCommon][mod] Upgrade dependencies

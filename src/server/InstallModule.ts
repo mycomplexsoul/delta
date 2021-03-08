@@ -149,9 +149,10 @@ export class InstallModule {
         addCatalog('CATALOGS',6,'ACCOUNT_TYPES','ACCOUNT TYPES FOR ACCOUNT CLASIFICATION',4,new Date(),new Date(),1);
         
         addCatalog('ACCOUNT_TYPES',1,'DEBIT','ACCOUNT WITH DEBIT BALANCE ONLY',8,new Date(),new Date(),1);
-        addCatalog('ACCOUNT_TYPES',2,'CREDIT','ACCOUNT WITH CREDIT BALANCE',8,new Date(),new Date(),1);
-        addCatalog('ACCOUNT_TYPES',3,'LOAN','ACCOUNT TO KEEP BALANCE OF A LOAN',8,new Date(),new Date(),1);
-        addCatalog('ACCOUNT_TYPES',4,'OTHER','SPECIAL ACCOUNT',8,new Date(),new Date(),1);
+        addCatalog('ACCOUNT_TYPES',2,'INVESTMENT','ACCOUNT WITH INVESTMENT BALANCE ONLY',8,new Date(),new Date(),1);
+        addCatalog('ACCOUNT_TYPES',3,'CREDIT','ACCOUNT WITH CREDIT BALANCE',8,new Date(),new Date(),1);
+        addCatalog('ACCOUNT_TYPES',4,'LOAN','ACCOUNT TO KEEP BALANCE OF A LOAN',8,new Date(),new Date(),1);
+        addCatalog('ACCOUNT_TYPES',5,'CRYPTO','CRYPTO CURRENCY ACCOUNT',8,new Date(),new Date(),1);
         //#endregion
         //#region 7 - MOVEMENT_TYPES
         addCatalog('CATALOGS',7,'MOVEMENT_TYPES','MOVEMENT TYPES FOR HANDLING MONEY',4,new Date(),new Date(),1);

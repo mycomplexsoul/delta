@@ -6,6 +6,46 @@
   background-color: lightblue;
 }
 
+@media (max-width: 504px) {
+  .padding-all-5 {
+    padding: 8px;
+  }
+}
+
 .balance-listing-container {
   overflow-x: auto;
+}
+
+.balance-listing-container table {
+  width: 100%;
+}
+
+@media (min-width: 505px) {
+  .balance-listing-container table {
+    width: initial;
+  }
+}
+
+.balance-row-debit td:first-child {
+  color: #0061a7;
+}
+
+.balance-row-investment td:first-child {
+  color: #0dab19;
+}
+
+.balance-row-credit td:first-child {
+  color: #de0000;
+}
+
+.balance-row-loan td:first-child {
+  color: brown;
+}
+
+.balance-row-capital td:first-child {
+  color: purple;
+}
+
+.balance-row-crypto td:first-child {
+  color: darkgreen;
 }

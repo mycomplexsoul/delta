@@ -11,11 +11,11 @@
     <tr>
       <th>#</th>
       <th>Unidad</th>
+      <th *ngIf="viewData.layout === 'print'">Firma Condomino</th>
       <th>A favor</th>
       <th>Fecha</th>
       <th>Monto</th>
       <th>Concepto / Observaciones</th>
-      <th *ngIf="viewData.layout === 'print'">Firma Condomino</th>
     </tr>
   </thead>
   <tbody>
@@ -33,6 +33,10 @@
       >
         {{item.provision.cpr_id_unit}}
       </td>
+      <td
+        class="padding-all-3 vertical-align-top payment-report-sign"
+        *ngIf="viewData.layout === 'print'"
+      ></td>
       <td
         class="padding-all-3 text-align-right vertical-align-top payment-report-in-favor"
       >
@@ -99,18 +103,13 @@
           </span>
         </div>
       </td>
-      <td
-        class="padding-all-3 vertical-align-top payment-report-sign"
-        *ngIf="viewData.layout === 'print'"
-      >
-        {{item.provision.cpr_id_unit}}
-      </td>
     </tr>
   </tbody>
   <tfoot>
     <tr>
       <td class="padding-all-3"></td>
       <td class="padding-all-3"></td>
+      <td class="padding-all-3" *ngIf="viewData.layout === 'print'"></td>
       <td class="padding-all-3 text-align-right width-80">
         {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
       </td>
@@ -121,7 +120,6 @@
         </span>
       </td>
       <td class="padding-all-3"></td>
-      <td class="padding-all-3" *ngIf="viewData.layout === 'print'"></td>
     </tr>
   </tfoot>
 </table>

@@ -14,7 +14,8 @@ import { MoSQL } from "../MoSQL";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 import { Crypto } from "../Crypto";
 import { CarteraUnit } from "../../crosscommon/entities/CarteraUnit";
-import { parse } from "qs";
+import { getUnits, getProvisions, getPayments, getPayDetList } from './CarteraCommons'
+import { sendReceiptEmail } from "./SendReceiptEmail";
 
 // configuration
 const CODE_NORMAL = "cuota-normal";
@@ -777,8 +778,8 @@ export class CarteraServer {
   async assignPaymentHandler(node: iNode) {
     const { payments } = node.request.body;
 
-    const provisionList: CarteraProvision[] = await this.getProvisions();
-    const paymentList: CarteraPayment[] = await this.getPayments();
+    const provisionList: CarteraProvision[] = await getProvisions();
+    const paymentList: CarteraPayment[] = await getPayments();
 
     payments.forEach(async (detail) => {
       const selectedPayment = paymentList.find(
@@ -822,40 +823,10 @@ export class CarteraServer {
     );
   }
 
-  async getProvisions(): Promise<CarteraProvision[]> {
-    const apiCarteraProvision: ApiModule = new ApiModule(
-      new CarteraProvision()
-    );
-    return apiCarteraProvision
-      .list({})
-      .then((items) => items.map((i) => new CarteraProvision(i)));
-  }
-
-  async getUnits(): Promise<CarteraUnit[]> {
-    const apiCarteraUnit: ApiModule = new ApiModule(new CarteraUnit());
-    return apiCarteraUnit
-      .list({})
-      .then((items) => items.map((i) => new CarteraUnit(i)));
-  }
-
-  async getPayments(): Promise<CarteraPayment[]> {
-    const apiCarteraPayment: ApiModule = new ApiModule(new CarteraPayment());
-    return apiCarteraPayment
-      .list({})
-      .then((items) => items.map((i) => new CarteraPayment(i)));
-  }
-
-  async getPayDetList(): Promise<CarteraPayDet[]> {
-    const apiCarteraPayDet: ApiModule = new ApiModule(new CarteraPayDet());
-    return apiCarteraPayDet
-      .list({})
-      .then((items) => items.map((i) => new CarteraPayDet(i)));
-  }
-
   async getPaymentApplicationListing(year: number, month: number) {
-    const provisionList: CarteraProvision[] = await this.getProvisions();
-    const paymentList: CarteraPayment[] = await this.getPayments();
-    const payDetList: CarteraPayDet[] = await this.getPayDetList();
+    const provisionList: CarteraProvision[] = await getProvisions();
+    const paymentList: CarteraPayment[] = await getPayments();
+    const payDetList: CarteraPayDet[] = await getPayDetList();
 
     const initialDate: Date = new Date(year, month - 1, 1);
     const finalDate: Date = new Date(year, month, 1);
@@ -1030,7 +1001,7 @@ export class CarteraServer {
             `cartera-pending-provision|${year}-${month}`
           ).then((list) => list.map(Utils.entityToRawTableFields)),
           lastFolio: this.lastFolioAvailable(
-            await this.getProvisions(),
+            await getProvisions(),
             new Date(year, month - 1, 1)
           ),
         })
@@ -1052,11 +1023,11 @@ export class CarteraServer {
 
     const limitDate: Date = new Date(year, month, 1); // next month
     const allProvisions: CarteraProvision[] = (
-      await this.getProvisions()
+      await getProvisions()
     ).filter((prov) => (unit ? prov.cpr_id_unit === unit : true));
 
     const allPayDet: CarteraPayDet[] = (
-      await this.getPayDetList()
+      await getPayDetList()
     ).filter((paydet) =>
       unit
         ? paydet.cpd_id_unit === unit &&
@@ -1170,7 +1141,7 @@ export class CarteraServer {
     month: number
   ): Promise<CarteraPayment[]> {
     const limitDate: Date = new Date(year, month, 1); // next month
-    const paymentList: CarteraPayment[] = (await this.getPayments()).filter(
+    const paymentList: CarteraPayment[] = (await getPayments()).filter(
       (p) =>
         p.cpy_ctg_non_identified === 2 &&
         p.cpy_date.getTime() < limitDate.getTime() &&
@@ -1225,7 +1196,7 @@ export class CarteraServer {
     };
 
     const limitDate: Date = new Date(year, month, 1); // next month
-    const allProvisions: CarteraProvision[] = (await this.getProvisions())
+    const allProvisions: CarteraProvision[] = (await getProvisions())
       .filter(
         (prov) =>
           prov.cpr_id_unit === unit &&
@@ -1235,11 +1206,11 @@ export class CarteraServer {
       )
       .sort((a, b) => (a.cpr_date.getTime() > b.cpr_date.getTime() ? 1 : -1));
 
-    const allPayments: CarteraPayment[] = (await this.getPayments())
+    const allPayments: CarteraPayment[] = (await getPayments())
       .filter((i) => i.cpy_match_hint.endsWith(`|${unit}`))
       .sort((a, b) => (a.cpy_date.getTime() > b.cpy_date.getTime() ? 1 : -1));
 
-    const allPayDet: CarteraPayDet[] = (await this.getPayDetList()).filter(
+    const allPayDet: CarteraPayDet[] = (await getPayDetList()).filter(
       (paydet) => paydet.cpd_id_unit === unit
     );
 
@@ -2114,8 +2085,8 @@ export class CarteraServer {
    * @deprecated This was used once, should delete
    */
   async changeConceptToSpanish(): Promise<boolean> {
-    const allProvisions: CarteraProvision[] = await this.getProvisions();
-    const allPayments: CarteraPayment[] = await this.getPayments();
+    const allProvisions: CarteraProvision[] = await getProvisions();
+    const allPayments: CarteraPayment[] = await getPayments();
 
     const connection: iConnection = ConnectionService.getConnection();
     const ApiProvision: ApiModule = new ApiModule(new CarteraProvision());
@@ -2691,9 +2662,9 @@ export class CarteraServer {
       }>;
     }>;
   }> {
-    const provisionList: CarteraProvision[] = await this.getProvisions();
-    const paymentList: CarteraPayment[] = await this.getPayments();
-    const payDetList: CarteraPayDet[] = await this.getPayDetList();
+    const provisionList: CarteraProvision[] = await getProvisions();
+    const paymentList: CarteraPayment[] = await getPayments();
+    const payDetList: CarteraPayDet[] = await getPayDetList();
 
     const initialDate: Date = new Date(year, month - 1, 1);
     const finalDate: Date = new Date(year, month, 1);
@@ -2711,14 +2682,28 @@ export class CarteraServer {
         .map((provision) => ({
           provision,
           previousPayDetList: payDetList
-            .filter(
+            .filter( // Provisions that had a payment up until provided month
               (pd) =>
                 pd.cpd_id_provision === provision.cpr_id &&
                 pd.cpd_date_payment.getTime() < initialDate.getTime()
             )
             .sort((a, b) =>
               a.cpd_date.getTime() > b.cpd_date.getTime() ? 1 : -1
-            ),
+            ).concat(provisionList
+              .filter( // Normal provisions that have a payed amount for following months
+                (item) =>
+                  item.cpr_id_unit === provision.cpr_id_unit &&
+                  finalDate.getTime() <= item.cpr_date.getTime() &&
+                  item.cpr_date.getDate() === 1 &&
+                  item.cpr_code_reference.includes("cuota-normal|") &&
+                  item.cpr_payed > 0
+              )
+              .map((item) => {
+                return payDetList.find(
+                  (pd) => pd.cpd_id_provision === item.cpr_id
+                );
+              })
+              .filter(item => item.cpd_date_payment.getTime() < initialDate.getTime())),
           paymentList: paymentList
             .filter(
               (item) =>
@@ -2766,9 +2751,9 @@ export class CarteraServer {
   }
 
   async getProvisionPayedReceiptList(year: number, month: number) {
-    const provisionList: CarteraProvision[] = await this.getProvisions();
-    const payDetList: CarteraPayDet[] = await this.getPayDetList();
-    const unitList: CarteraUnit[] = await this.getUnits();
+    const provisionList: CarteraProvision[] = await getProvisions();
+    const payDetList: CarteraPayDet[] = await getPayDetList();
+    const unitList: CarteraUnit[] = await getUnits();
 
     const initialDate: Date = new Date(year, month - 1, 1);
     const finalDate: Date = new Date(year, month, 1);
@@ -2822,9 +2807,9 @@ export class CarteraServer {
   }
 
   async getProvisionPayedReceiptByFolio(folio: string) {
-    const provisionList: CarteraProvision[] = await this.getProvisions();
-    const payDetList: CarteraPayDet[] = await this.getPayDetList();
-    const unitList: CarteraUnit[] = await this.getUnits();
+    const provisionList: CarteraProvision[] = await getProvisions();
+    const payDetList: CarteraPayDet[] = await getPayDetList();
+    const unitList: CarteraUnit[] = await getUnits();
 
     const listing = {
       provisionList: provisionList

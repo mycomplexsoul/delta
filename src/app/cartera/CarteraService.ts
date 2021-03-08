@@ -22,8 +22,8 @@ export class CarteraService {
   };
   private config = {
     api: {
-      list: "/api/external/cartera-ext/rebuild-pending-payments-month",
-      create: "/api/external/cartera-ext/payment"
+      list: "/api/external/cartera/rebuild-pending-payments-month",
+      create: "/api/external/cartera/payment"
     }
   };
 

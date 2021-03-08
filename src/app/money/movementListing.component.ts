@@ -32,9 +32,9 @@ export class MovementListingComponent {
     }
   }
 
-  handleSelectMovement(movement: Movement) {
+  handleSelectMovement(movement: Movement, event: Event) {
     if (this.onSelectMovement) {
-      this.onSelectMovement.emit(movement);
+      this.onSelectMovement.emit({value: movement, event});
     }
   }
 }

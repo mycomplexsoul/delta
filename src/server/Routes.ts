@@ -21,6 +21,7 @@ import * as LinkRoute from "./Link/LinkRoute";
 import * as LinkRouteExternal from "./Link/LinkRouteExternal";
 import * as ActivityRoute from "./Activity/ActivityRoute";
 import * as CarteraRoute from "./Cartera/CarteraRoute";
+import * as CarteraRouteExternal from "./Cartera/CarteraRouteExternal";
 import * as TimelineRoute from "./Timeline/TimelineRoute";
 
 import * as SyncRoute from "./Sync/SyncRoute";
@@ -94,7 +95,7 @@ router.use("/login", LoginRoute.router);
 router.use("/external/links", LinkRouteExternal.router);
 router.use("/external/movement", MovementRouteExternal.router);
 router.use("/external/cartera", CarteraRoute.router);
-router.use("/external/cartera-ext", CarteraRoute.router);
+router.use("/external/cartera-ext", CarteraRouteExternal.router);
 
 // Routing for internals
 router.use("/type-generator", TypeGenerator.router);

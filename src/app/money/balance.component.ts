@@ -215,7 +215,7 @@ export class BalanceComponent implements OnInit {
   }
 
   balanceDistribution(monthBalance: Balance[]) {
-    return [...Array(6).keys()]
+    return [...Array(7).keys()]
       .map(i => ({
         type: i,
         total: monthBalance
@@ -557,13 +557,15 @@ export class BalanceComponent implements OnInit {
     }
   }
 
-  selectMovement(movement: Movement) {
-    if (movement.mov_ctg_type === 1) {
-      this.viewData.selectedExpense += movement.mov_amount;
+  selectMovement({value: movement, event}: {value: Movement, event: Event}) {
+    const factor = event.target['checked'] ? 1 : -1;
+    if (movement.mov_ctg_type === 1 || (movement.mov_ctg_type === 3 && movement.mov_id_account === this.model.selectedBalance.bal_id_account)) {
+      this.viewData.selectedExpense += factor * movement.mov_amount;
     }
-    if (movement.mov_ctg_type === 2) {
-      this.viewData.selectedIncome += movement.mov_amount;
+    if (movement.mov_ctg_type === 2 || (movement.mov_ctg_type === 3 && movement.mov_id_account_to === this.model.selectedBalance.bal_id_account)) {
+      this.viewData.selectedIncome += factor * movement.mov_amount;
     }
+
     this.viewData.selectedTotal =
       this.viewData.selectedIncome - this.viewData.selectedExpense;
   }

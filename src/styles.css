@@ -261,9 +261,6 @@ textarea.task-multiple {
 .productivity-bad {
   color: brown;
 }
-.task-important {
-  font-weight: bold;
-}
 .task-open-with-tt {
   color: green;
 }
@@ -273,7 +270,7 @@ textarea.task-multiple {
 .task-highlighted {
   background-color: #ddd;
 }
-.task-urgent {
+.task-priority {
   background-color: yellow;
 }
 .tag:hover {
@@ -282,11 +279,21 @@ textarea.task-multiple {
 .task-progressed {
   background-color: #a2ffa9;
 }
-.task-call {
+.task-unexpected {
   background-color: #81d4fa;
 }
-.task-unexpected {
+.task-important {
   background-color: #f9b97c;
+}
+.task-qualifier-icon {
+  padding-right: 2px;
+}
+.task-qualifier-urgent {
+  color: red;
+  font-weight: bold;
+}
+.task-qualifier-flag {
+  color: red;
 }
 .clickable {
   cursor: pointer;
@@ -322,6 +329,7 @@ textarea.task-multiple {
   display: flex;
   flex-wrap: wrap;
 }
+
 .task-record {
   max-width: 450px;
   min-width: 200px;
@@ -330,14 +338,27 @@ textarea.task-multiple {
   padding: 5px;
   border: 1px solid lightgray;
 }
+
+.task-record-items {
+  display: flow-root;
+}
+
+@media (max-width: 504px) {
+  .task-record-custom-size {
+    max-height: initial !important;
+  }
+}
+
 .task-record-no-task-done {
   border: 1px dashed #dd0000;
 }
+
 @media (min-width: 505px) {
-  .task-record {
-    overflow-y: auto;
+  .task-record-items {
     max-height: 390px;
+    overflow-y: auto;
   }
+
   .task-open-task-list-container--grid .task-record {
     flex: 0 0 31%;
   }
@@ -577,6 +598,10 @@ link {
   display: block;
 }
 
+.display-block {
+  display: block;
+}
+
 .hidden {
   display: none;
 }
@@ -743,3 +768,22 @@ kbd {
   /* Place on top of each other */
   grid-area: 1 / 1 / 2 / 2;
 }
+
+/* Scrollbars styles */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(13deg, #b2d3ff 14%, #669ed1 64%);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(13deg, #669ed1 14%, #006aff 64%);
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: inset 7px 10px 12px #f0f0f0;
+}
+/* End Scrollbars */

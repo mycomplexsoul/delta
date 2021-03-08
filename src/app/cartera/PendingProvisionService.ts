@@ -1,8 +1,6 @@
 import { CarteraProvision } from "../../crosscommon/entities/CarteraProvision";
 import { Injectable } from "@angular/core";
 import { SyncAPI } from "../common/sync.api";
-import { Utils } from "../../crosscommon/Utility";
-import { DateUtils } from "src/crosscommon/DateUtility";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
 import { Timeline } from "src/crosscommon/entities/Timeline";
 
@@ -21,7 +19,7 @@ export class PendingProvisionService {
   };
   private config = {
     api: {
-      list: "/api/external/cartera-ext/rebuild-pending-payments-month"
+      list: "/api/external/cartera/rebuild-pending-payments-month"
     }
   };
 

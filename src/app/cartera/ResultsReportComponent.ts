@@ -52,7 +52,7 @@ export class ResultsReportComponent implements OnInit {
 
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
-    this.viewData.showSigns = parseInt(query.get("signs"), 10) === 1;
+    this.viewData.showSigns = parseInt(query.get("signs"), 10) !== -1;
 
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month

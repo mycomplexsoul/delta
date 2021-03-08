@@ -18,7 +18,7 @@
 
 /* Multimedia coloring based on media type */
 .multimedia-movies {
-  color: violet;
+  color: black;
 }
 
 .multimedia-tvseries {
@@ -26,7 +26,7 @@
 }
 
 .multimedia-anime {
-  color: #ff7600;
+  color: #ca00e2;
 }
 
 .multimedia-book {
@@ -48,4 +48,16 @@
   .multimedia-input-summary {
     width: 60%;
   }
+}
+
+.multimedia-listing {
+  border-spacing: 0;
+}
+
+.multimedia-listing td {
+  padding: 5px;
+}
+
+.multimedia-listing .multimedia-listing-row:nth-child(even) {
+  background-color: #e6e6e6;
 }

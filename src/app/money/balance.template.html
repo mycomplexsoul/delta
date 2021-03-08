@@ -45,10 +45,32 @@
         <th class="desktop-only">Charges</th>
         <th class="desktop-only">Withdrawals</th>
         <th>Final</th>
-        <th>Actions</th>
       </tr>
-      <tr *ngFor="let b of viewData.monthBalance" class="balance-row">
-        <td>{{ b.bal_txt_account }}</td>
+      <tr *ngFor="let b of viewData.monthBalance" class="balance-row" [ngClass]="{
+        'balance-row-debit': b.bal_ctg_account_type === 1,
+        'balance-row-investment': b.bal_ctg_account_type === 2,
+        'balance-row-credit': b.bal_ctg_account_type === 3,
+        'balance-row-loan': b.bal_ctg_account_type === 4,
+        'balance-row-capital': b.bal_ctg_account_type === 5,
+        'balance-row-crypto': b.bal_ctg_account_type === 6
+      }">
+        <td>
+          <span
+            (click)="b.showOptions = !b.showOptions"
+            tabindex="0"
+            (keydown.enter)="b.showOptions = !b.showOptions"
+          >
+            {{ b.showOptions ? "-" : "+" }}
+          </span>
+          <span>
+            {{ b.bal_txt_account }}
+          </span>
+          <div *ngIf="b.showOptions">
+            <button type="button" (click)="renderMovements(b, $event); b.showOptions = false;">
+              details
+            </button>
+          </div>
+        </td>
         <td class="text-align-right padding-all-5 desktop-only">
           {{ b.bal_initial | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
@@ -68,13 +90,11 @@
         >
           {{ b.bal_final | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
-        <td>
-          <a href="#" (click)="renderMovements(b, $event)">View Movements</a>
-        </td>
       </tr>
     </table>
   </div>
 
+  <br/>
   <div class="balance-listing-container">
     <table>
       <tr>
@@ -98,10 +118,17 @@
   </div>
 
   <div *ngIf="model.selectedBalance">
-    Listing {{ viewData.movements.length }} movements for account
-    <strong>{{ model.selectedBalance.bal_txt_account }}</strong> for period {{
-    model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}
-
+    <button type="button" (click)="model.selectedBalance = null; viewData.movements = [];">
+      hide details
+    </button>
+    <br/>
+    Account:
+    <strong>{{model.selectedBalance.bal_txt_account}}</strong>
+    <br/>
+    Movement count: {{ viewData.movements.length }}
+    <br/>
+    Period: {{model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}
+    <br/>
     <div>
       <div>
         Average Balance: {{ viewData.averageBalanceInfo.averageBalance |

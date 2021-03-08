@@ -15,7 +15,7 @@ export class ReceiptReportService {
   private config = {
     api: {
       list:
-        "/api/external/cartera-ext/provision-payed-receipt?year={year}&month={month}&folio={folio}"
+        "/api/external/cartera/provision-payed-receipt?year={year}&month={month}&folio={folio}"
     }
   };
 

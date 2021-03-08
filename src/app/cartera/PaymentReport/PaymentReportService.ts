@@ -18,7 +18,7 @@ export class PaymentReportService {
   private data: iPaymentReportData[] = [];
   private config = {
     api: {
-      list: "/api/external/cartera-ext/provision-payment-listing"
+      list: "/api/external/cartera/provision-payment-listing"
     }
   };
 

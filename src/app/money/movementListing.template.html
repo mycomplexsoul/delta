@@ -129,7 +129,7 @@
       *ngFor="let m of movementList"
     >
       <td class="padding-all-5">
-        <input type="checkbox" (click)="handleSelectMovement(m)" />
+        <input type="checkbox" (click)="handleSelectMovement(m, $event)" />
       </td>
       <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
       <td class="padding-all-5 text-align-right" *ngIf="selectedBalance">

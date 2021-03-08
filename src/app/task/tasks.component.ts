@@ -77,6 +77,9 @@ export class TasksComponent implements OnInit {
     optShowReportsDayDistribution: false,
     optShowQualifiersTotals: false,
     optAddNewTasksToNextTasks: false,
+    optRecordWidth: 450,
+    optRecordHeight: 390,
+    optMoveTimetrackingToAvailableSlotWhenDone: false
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -108,10 +111,7 @@ export class TasksComponent implements OnInit {
     this.services.taskIndicator = taskIndicator;
     this.services.dateUtils = dateUtils;
     if (typeof window.localStorage !== "undefined") {
-      this.options = JSON.parse(localStorage.getItem("Options"));
-      if (!this.options) {
-        this.options = this.defaultOptions;
-      }
+      this.options = {...this.defaultOptions, ...JSON.parse(localStorage.getItem("Options"))};
     }
     this.nextTasks = [];
     this.updateState();
@@ -409,6 +409,8 @@ export class TasksComponent implements OnInit {
   createGroupedTasks(tasks: Array<any>) {
     let res: Array<any> = [];
     let lastHeader: string;
+    // read collapsed tasks
+    const collapsed = localStorage && JSON.parse(localStorage.getItem("TasksCollapsed") || "[]");
 
     tasks.forEach((t) => {
       if (t.tsk_id_record !== lastHeader) {
@@ -417,6 +419,7 @@ export class TasksComponent implements OnInit {
           header: lastHeader,
           estimatedDuration: 0,
           tasks: [],
+          collapsed: collapsed.includes(t.tsk_id_record)
         });
       }
       res[res.length - 1].tasks.push(t);
@@ -439,6 +442,13 @@ export class TasksComponent implements OnInit {
   taskEdit(t: Task, event: KeyboardEvent) {
     let parent = event.target["parentNode"];
 
+    const optIncludesKey = (key: string, options: string | string[]) => {
+      if (Array.isArray(options)) {
+        return options.includes(key)
+      }
+      return options === key;
+    };
+
     if (!event.shiftKey && event.keyCode == 113) {
       // detect "F2" = start/stop time tracking
       this.taskToggleTimeTracking(t, parent);
@@ -459,29 +469,49 @@ export class TasksComponent implements OnInit {
       // detect '*' || '1'
       this.markTaskAsDone(t, true, this.shouldUseTimeTrackingEndDate(t, event));
     }
-    if (event.altKey && (event.keyCode == 73 || event.keyCode == 50)) {
-      // detect 'i' || '2'
-      this.markTaskAs(t, "important");
+    if (event.altKey && optIncludesKey(event.key, '2')) {
+      // detect '2'
+      this.markTaskAs(t, "star");
     }
-    if (event.altKey && (event.keyCode == 85 || event.keyCode == 52)) {
-      // detect 'u' || '4'
-      this.markTaskAs(t, "urgent");
-    }
-    if (event.altKey && (event.keyCode == 72 || event.keyCode == 53)) {
-      // detect 'h' || '5'
+    if (event.altKey && optIncludesKey(event.key, '3')) {
+      // detect '3'
       this.markTaskAs(t, "highlighted");
     }
-    if (event.altKey && (event.keyCode == 80 || event.keyCode == 51)) {
-      // detect 'p' || '3'
-      this.markTaskAs(t, "progressed");
+    if (event.altKey && optIncludesKey(event.key, '4')) {
+      // detect '4'
+      this.markTaskAs(t, "priority");
     }
-    if (event.altKey && (event.keyCode == 67 || event.keyCode == 54)) {
-      // detect 'c' || '6'
-      this.markTaskAs(t, "call");
+    if (event.altKey && optIncludesKey(event.key, '5')) {
+      // detect '5'
+      this.markTaskAs(t, "important");
     }
-    if (event.altKey && event.keyCode == 55) {
+    if (event.altKey && optIncludesKey(event.key, '6')) {
+      // detect '6'
+      this.markTaskAs(t, "urgent");
+    }
+    if (event.altKey && optIncludesKey(event.key, '7')) {
       // detect '7'
       this.markTaskAs(t, "unexpected");
+    }
+    if (event.altKey && optIncludesKey(event.key, '8')) {
+      // detect '8'
+      this.markTaskAs(t, "progressed");
+    }
+    if (event.altKey && optIncludesKey(event.key, '9')) {
+      // detect '9'
+      this.markTaskAs(t, "people");
+    }
+    if (event.altKey && optIncludesKey(event.key, '0')) {
+      // detect '0'
+      this.clearQualifiers(t);
+    }
+    if (event.altKey && optIncludesKey(event.key, '/')) {
+      // detect '/'
+      this.markTaskAs(t, "flag");
+    }
+    if (event.altKey && optIncludesKey(event.key, '-')) {
+      // detect '/'
+      this.markTaskAs(t, "blocked");
     }
     if (event.altKey && event.keyCode == 107) {
       // detect '+'
@@ -615,6 +645,11 @@ export class TasksComponent implements OnInit {
       // stop time tracking
       this.taskToggleTimeTracking(t, this.getTaskDOMElement(t.tsk_id));
     }
+    // if option is enabled: move task time tracking to available slot
+    if (this.options.optMoveTimetrackingToAvailableSlotWhenDone) {
+      this.adjustTimeTracking(t);
+    }
+
     let dateDone: Date = this.services.dateUtils.newDateUpToSeconds();
     if (useTimeTrackingDate && t.tsk_time_history.length) {
       // modifier, use the last time tracking end date record
@@ -720,14 +755,14 @@ export class TasksComponent implements OnInit {
   }
 
   taskJumpUp(current: any, selector: string) {
-    if (current.previousElementSibling.querySelector(selector)) {
+    if (current.previousElementSibling && current.previousElementSibling.querySelector(selector)) {
       current.previousElementSibling.querySelector(selector).focus();
     } else {
       // pivot if there's hidden elements until there's not a hidden element
       let pivot =
-        current.previousElementSibling.parentNode.previousElementSibling &&
-        current.previousElementSibling.parentNode.previousElementSibling
-          .lastElementChild;
+        current.parentNode.parentNode.previousElementSibling &&
+        current.parentNode.parentNode.previousElementSibling
+          .lastElementChild.lastElementChild;
       while (pivot && pivot.classList.contains("hidden")) {
         pivot = pivot.previousElementSibling;
       }
@@ -745,12 +780,12 @@ export class TasksComponent implements OnInit {
 
   taskRecordJumpUp(current: any, selector: string) {
     if (
-      current.parentNode.previousElementSibling &&
-      current.parentNode.previousElementSibling.firstElementChild.nextElementSibling.querySelector(
+      current.parentNode.parentNode.previousElementSibling &&
+      current.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.querySelector(
         selector
       )
     ) {
-      current.parentNode.previousElementSibling.firstElementChild.nextElementSibling
+      current.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling
         .querySelector(selector)
         .focus();
     } else {
@@ -775,12 +810,12 @@ export class TasksComponent implements OnInit {
       current.nextElementSibling.querySelector(selector).focus();
     } else {
       if (
-        current.parentNode.nextElementSibling &&
-        current.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(
+        current.parentNode.parentNode.nextElementSibling &&
+        current.parentNode.parentNode.nextElementSibling.querySelector(
           selector
         )
       ) {
-        current.parentNode.nextElementSibling.firstElementChild.nextElementSibling
+        current.parentNode.parentNode.nextElementSibling
           .querySelector(selector)
           .focus();
       }
@@ -789,12 +824,12 @@ export class TasksComponent implements OnInit {
 
   taskRecordJumpDown(current: any, selector: string) {
     if (
-      current.parentNode.nextElementSibling &&
-      current.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(
+      current.parentNode.parentNode.nextElementSibling &&
+      current.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(
         selector
       )
     ) {
-      current.parentNode.nextElementSibling.firstElementChild.nextElementSibling
+      current.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling
         .querySelector(selector)
         .focus();
     }
@@ -1002,27 +1037,30 @@ export class TasksComponent implements OnInit {
     return dom;
   }
 
-  autogrowSetup(componentIsVisible) {
+  autogrowSetup(componentWillBeVisible) {
     // Setup autogrow for textarea
-    const growers = document.querySelectorAll(".grow-wrap");
     const handleInput = function handeInput() {
-      console.log('replicating value');
       this.parentNode.dataset.replicatedValue = this.value;
     };
-
-    growers.forEach((grower: HTMLDivElement) => {
-      const textarea = grower.querySelector("textarea");
+    const grow = (handlerAction: string) => {
+      const growers = document.querySelectorAll(".grow-wrap");
       
-      if (componentIsVisible) {
-        setTimeout(() => {
-          const textarea = grower.querySelector("textarea");
-
+      growers.forEach((grower: HTMLDivElement) => {
+        const textarea = grower.querySelector("textarea");
+  
+        if (handlerAction === 'remove-it') {
+          textarea.removeEventListener("input", handleInput.bind(textarea));
+        } else {
           textarea.addEventListener("input", handleInput.bind(textarea));
-        }, 200);
-      } else {
-        textarea.removeEventListener("input", handleInput.bind(textarea));
-      }
-    });
+        }
+      });
+    };
+
+    if (componentWillBeVisible) {
+      setTimeout(() => grow('add-it'), 200);
+    } else {
+      grow('remove-it');
+    }
   }
 
   inputKeyUpHandler(event: KeyboardEvent) {
@@ -1064,6 +1102,9 @@ export class TasksComponent implements OnInit {
             },
             this.options
           );
+          if (!t.tsk_id_record) {
+            t.tsk_id_record = 'general';
+          }
           if (totalPerRecord.find((r: any) => r.record === t.tsk_id_record)) {
             totalPerRecord.find(
               (r: any) => r.record === t.tsk_id_record
@@ -1076,18 +1117,16 @@ export class TasksComponent implements OnInit {
           }
           totalETA += t.tsk_estimated_duration || 0;
           totalTasksWritten++;
-          // console.log("totals",totalPerRecord);
         }
       });
       // Calculate totals in percentage form
       Object.keys(totalPerRecord).forEach((e) => {
-        totalPerRecord[e].totalETAPercentage = Math.round(totalPerRecord[e].totalETA * 100 / totalETA);
+        totalPerRecord[e].totalETAPercentage = totalETA === 0 ? 0 : Math.round(totalPerRecord[e].totalETA * 100 / totalETA);
       });
       this.viewETABeforeAdd = true;
       this.state.beforeAddETA = totalPerRecord;
       this.state.beforeAddTotalETA = totalETA;
       this.state.beforeAddTotalTasksWritten = totalTasksWritten;
-      // console.log('ETA',totalETA);
     } else {
       this.viewETABeforeAdd = false;
     }
@@ -1319,7 +1358,6 @@ export class TasksComponent implements OnInit {
       this.services.tasksCore.doThisWithAToken(
         t,
         (t: Task, expression: string) => {
-          //t.tsk_url = 'http://' + expression;
           this.updateTask(t.tsk_id, {
             tsk_name: t.tsk_name,
             tsk_url: "http://" + expression,
@@ -1334,7 +1372,6 @@ export class TasksComponent implements OnInit {
       this.services.tasksCore.doThisWithAToken(
         t,
         (t: Task, expression: string) => {
-          //t.tsk_url = 'https://' + expression;
           this.updateTask(t.tsk_id, {
             tsk_name: t.tsk_name,
             tsk_url: "https://" + expression,
@@ -1342,6 +1379,20 @@ export class TasksComponent implements OnInit {
           this.updateState();
         },
         "https://"
+      );
+    }
+    if (command.indexOf("$[") !== -1) {
+      // set url
+      this.services.tasksCore.doThisWithAToken(
+        t,
+        (t: Task, expression: string) => {
+          this.updateTask(t.tsk_id, {
+            tsk_name: t.tsk_name,
+            tsk_qualifiers: `${t.tsk_qualifiers}, ${expression}`,
+          });
+          this.updateState();
+        },
+        "$[", "]"
       );
     }
 
@@ -1794,6 +1845,12 @@ export class TasksComponent implements OnInit {
     }
     this.updateTask(t.tsk_id, {
       tsk_qualifiers: qualifiers,
+    });
+  }
+  
+  clearQualifiers(t: Task) {
+    this.updateTask(t.tsk_id, {
+      tsk_qualifiers: '',
     });
   }
 
@@ -2552,5 +2609,14 @@ export class TasksComponent implements OnInit {
 
   syncTasks() {
     this.fetchTasks();
+  }
+
+  toggleCollapsedRecord(item, collapsedValue: boolean) {
+    item.collapsed = collapsedValue;
+
+    localStorage.setItem(
+      "TasksCollapsed",
+      JSON.stringify(this.state.openTasks.filter(e => e.collapsed).map((e: any) => e.header))
+    );
   }
 }

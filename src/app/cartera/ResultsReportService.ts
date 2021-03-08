@@ -19,7 +19,7 @@ export class ResultsReportService {
   };
   private config = {
     api: {
-      list: "/api/external/cartera-ext/results-for-month"
+      list: "/api/external/cartera/results-for-month"
     }
   };
 
