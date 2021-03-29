@@ -66,12 +66,17 @@ export class InstallModule {
         };
         const installMotor: MoInstallSQL = new MoInstallSQL();
 
-        models.forEach((model) => {
-            connection.runSyncSql(`drop view if exists ${model.metadata.viewName}`, method(`view ${model.metadata.viewName} droped`));
-            connection.runSyncSql(`drop table if exists ${model.metadata.tableName}`, method(`table ${model.metadata.tableName} droped`));
-            connection.runSyncSql(installMotor.createTableSQL(model), method(`table ${model.metadata.tableName} created`));
-            connection.runSyncSql(installMotor.createPKSQL(model), method(`PK created`));
-            connection.runSyncSql(installMotor.createViewSQL(model), method(`view ${model.metadata.viewName} created`));
+        models.forEach(async (model) => {
+            await connection.runSql(`drop view if exists ${model.metadata.viewName}`);
+            method(`view ${model.metadata.viewName} droped`);
+            await connection.runSql(`drop table if exists ${model.metadata.tableName}`);
+            method(`table ${model.metadata.tableName} droped`);
+            await connection.runSql(installMotor.createTableSQL(model));
+            method(`table ${model.metadata.tableName} created`);
+            await connection.runSql(installMotor.createPKSQL(model));
+            method(`PK created`);
+            await connection.runSql(installMotor.createViewSQL(model));
+            method(`view ${model.metadata.viewName} created`);
         });
 
         this.populateInitialData();
@@ -212,12 +217,8 @@ export class InstallModule {
         addCatalog('CARTERA_PAY_TYPE',2,'CONDONACION','PAYMENT TYPE',8,new Date(),new Date(),1);
         //#endregion
 
-        inserts.forEach(i => {
-            connection.runSyncSql(i,(err) => {
-                if (err){
-                    console.log(err);
-                }
-            });
+        inserts.forEach(async (i) => {
+            await connection.runSql(i);
         });
         console.log('Catalog: inserted ' + inserts.length);
 
@@ -252,12 +253,8 @@ export class InstallModule {
         addUser('dummy','8nd423e3e9iewijns','dummypwd','Dummy','D.','Doe',1,'dummy@dummy.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
         addUser('admin','9813812n329832b31','admin','Admin','-','-',2,'admin@domain.com',1,0,null,null,1,1,null,new Date(),new Date(),1);
 
-        inserts.forEach(i => {
-            connection.runSyncSql(i,(err) => {
-                if (err){
-                    console.log(err);
-                }
-            });
+        inserts.forEach(async (i) => {
+            await connection.runSql(i);
         });
         console.log('User: inserted ' + inserts.length);
 
