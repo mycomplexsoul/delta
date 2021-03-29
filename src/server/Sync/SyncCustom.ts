@@ -64,6 +64,7 @@ export class SyncCustom {
 
       try {
         q = Object.assign(q, this.parseEntity(q.entity));
+        console.log('-- sync parsed payload', q, q.model);
       } catch (e) {
         q.result = {
           operationOk: false,

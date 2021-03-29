@@ -27,6 +27,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.10.64 (2020-08-10)
+
+- [AppMoney][mod] Movements - Rename budget field as tags, allow tags in transfers
+- [AppMoney][mod] Presets - Rename budget field as tags, allow tags in transfers
+- [AppTasks][new] Add all in-task keyboard shortcuts in help
+
+## v1.10.63 (2020-08-03)
+
+- [AppMoney][new] Balance - Show all movements in graph and add category filters with multiselection
+- [AppMoney][new] Balance - Show movement summary for current selected month
+- [AppCommon][fix] Fix menu component Ctrl + click now works correctly to open app in new tab
+
 ## v1.10.62 (2020-07-27)
 
 - [AppCommon][new] Email module - Support to send attachments in email

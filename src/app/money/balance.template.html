@@ -63,7 +63,9 @@
             {{ b.showOptions ? "-" : "+" }}
           </span>
           <span>
-            {{ b.bal_txt_account }}
+            <button type="button" class="no-button" (click)="renderMovements(b, $event);">
+              {{ b.bal_txt_account }}
+            </button>
           </span>
           <div *ngIf="b.showOptions">
             <button type="button" (click)="renderMovements(b, $event); b.showOptions = false;">
@@ -115,6 +117,14 @@
         </td>
       </tr>
     </table>
+  </div>
+
+  <div>
+    <div><strong>Movement Summary</strong></div>
+    <div>Total count: {{ viewData.movementSummary.movementCount }}</div>
+    <div>Expense count: {{ viewData.movementSummary.expenseCount }}</div>
+    <div>Income count: {{ viewData.movementSummary.incomeCount }}</div>
+    <div>Transfer count: {{ viewData.movementSummary.transferCount }}</div>
   </div>
 
   <div *ngIf="model.selectedBalance">
@@ -272,4 +282,20 @@
     [chartType]="viewData.monthlyExpenseComparisonFoodChart.chartType"
   >
   </canvas>
+
+  <div>
+    <button type="button" (click)="selectAllCategories()">select all categories</button>
+    <span *ngFor="let c of viewData.categoryList">
+      <input type="checkbox" [id]="'cat' + c.mct_id" (click)="toggleCategorySelection(c.mct_id, $event)" />
+      <label [for]="'cat' + c.mct_id">{{ c.mct_name}}</label>
+    </span>
+    
+    <movement-listing
+        [movementList]="viewData.movementsPerSelectedCategories"
+        [selectedBalance]="model.selectedBalance"
+        selectedView="compact"
+        *ngIf="viewData.movementsPerSelectedCategories.length"
+        (onSelectMovement)="selectMovement($event)"
+    ></movement-listing>
+  </div>
 </div>

@@ -86,12 +86,11 @@ export class PresetComponent implements OnInit {
           } else {
             newItem.pre_ctg_type = formValues.fMovementType;
           }
+          newItem.pre_budget = formValues.fBudget || null;
           if (!this.isTransfer) {
-            newItem.pre_budget = formValues.fBudget || null;
             newItem.pre_id_category = formValues.fCategory;
             newItem.pre_id_place = formValues.fPlace;
           } else {
-            newItem.pre_budget = null;
             newItem.pre_id_category = "0";
             newItem.pre_id_place = "0";
           }
@@ -127,12 +126,11 @@ export class PresetComponent implements OnInit {
           } else {
             newItem.pre_ctg_type = formValues.fMovementType;
           }
+          newItem.pre_budget = formValues.fBudget || null;
           if (!this.isTransfer) {
-            newItem.pre_budget = formValues.fBudget || null;
             newItem.pre_id_category = formValues.fCategory;
             newItem.pre_id_place = formValues.fPlace;
           } else {
-            newItem.pre_budget = null;
             newItem.pre_id_category = "0";
             newItem.pre_id_place = "0";
           }

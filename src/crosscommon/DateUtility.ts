@@ -98,7 +98,7 @@ class DateUtility {
   }
 
   lastDayInMonth(year: number, month: number): number {
-    let date: Date = new Date(year, month + 1, 1);
+    let date: Date = new Date(year, month, 1);
     date.setDate(date.getDate() - 1);
     return date.getDate();
   }

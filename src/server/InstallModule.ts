@@ -159,6 +159,7 @@ export class InstallModule {
         
         addCatalog('MOVEMENT_TYPES',1,'EXPENSE','INDICATES THIS IS AN EXPENSE MOVEMENT',8,new Date(),new Date(),1);
         addCatalog('MOVEMENT_TYPES',2,'INCOME','INDICATES THIS IS AN INCOME MOVEMENT',8,new Date(),new Date(),1);
+        addCatalog('MOVEMENT_TYPES',3,'TRANSFER','INDICATES THIS IS A TRANSFER MOVEMENT',8,new Date(),new Date(),1);
         //#endregion
         //#region 8 - TASK_REPETITION_TYPE
         addCatalog('CATALOGS',8,'TASK_REPETITION_TYPE','REPETITION FOR ITEM PERIOD OF TIME',4,new Date(),new Date(),1);

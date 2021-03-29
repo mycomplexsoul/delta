@@ -1199,7 +1199,7 @@ export class MovementCustom {
       month
     )}`;
     const to: string = configModule.getConfigValue("money-mail-to");
-    EmailModule.sendHTMLEmail(subject, html, to);
+    EmailModule.sendHTMLEmail({subject, html, to});
 
     return Promise.resolve({ operationResult: true, message: "email sent" });
   };

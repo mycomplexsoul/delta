@@ -77,4 +77,8 @@ export class MenuComponent implements OnInit {
       1000
     );
   }
+
+  handleClick() {
+    this.viewData.isOpen = false;
+  }
 }

@@ -218,13 +218,18 @@ export class MoSQL {
         }
       });
     }
-
-    console.log(
-      `Changes detection for object, changes detected:`,
-      changesArray
-    );
-
+    
     return changesArray;
+  }
+  
+  logChanges(changesArray) {
+    console.log(
+      `Changes detection for object with id: ${changesArray.length && changesArray[0].recordName}`,
+      changesArray.reduce((previous, { dbName, previousValue, value }) => {
+        previous[dbName] = { previousValue, value };
+        return previous;
+      }, {})
+    );
   }
 
   toUpdateSQL(changes: iEntity | Array<any>, model?: iEntity): string {
@@ -238,6 +243,7 @@ export class MoSQL {
     if (!changesArray.length) {
       return null;
     }
+    this.logChanges(changesArray);
 
     changesArray.forEach((change: any) => {
       // { dbName, dbType, previousValue, value }

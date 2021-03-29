@@ -270,12 +270,11 @@ export class MovementComponent implements OnInit {
       } else {
         p.pre_ctg_type = form.value.fMovementType;
       }
+      p.pre_budget = form.value.fBudget || null;
       if (!this.isTransfer) {
-        p.pre_budget = form.value.fBudget || null;
         p.pre_id_category = form.value.fCategory;
         p.pre_id_place = form.value.fPlace;
       } else {
-        p.pre_budget = null;
         p.pre_id_category = "0";
         p.pre_id_place = "0";
       }
@@ -331,12 +330,11 @@ export class MovementComponent implements OnInit {
       } else {
         m.mov_ctg_type = form.value.fMovementType;
       }
+      m.mov_budget = form.value.fBudget || null;
       if (!this.isTransfer) {
-        m.mov_budget = form.value.fBudget || null;
         m.mov_id_category = form.value.fCategory;
         m.mov_id_place = form.value.fPlace;
       } else {
-        m.mov_budget = null;
         m.mov_id_category = "0";
         m.mov_id_place = "0";
       }

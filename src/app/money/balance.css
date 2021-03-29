@@ -26,26 +26,26 @@
   }
 }
 
-.balance-row-debit td:first-child {
+.balance-row-debit td:first-child .no-button {
   color: #0061a7;
 }
 
-.balance-row-investment td:first-child {
+.balance-row-investment td:first-child .no-button {
   color: #0dab19;
 }
 
-.balance-row-credit td:first-child {
+.balance-row-credit td:first-child .no-button {
   color: #de0000;
 }
 
-.balance-row-loan td:first-child {
+.balance-row-loan td:first-child .no-button {
   color: brown;
 }
 
-.balance-row-capital td:first-child {
+.balance-row-capital td:first-child .no-button {
   color: purple;
 }
 
-.balance-row-crypto td:first-child {
+.balance-row-crypto td:first-child .no-button {
   color: darkgreen;
 }

@@ -31,7 +31,7 @@ button:disabled {
   }
 }
 
-.button-link {
+.button-link, .no-button {
   background: none;
   border: none;
   padding: 0;
@@ -41,9 +41,20 @@ button:disabled {
   box-shadow: none;
   border-radius: 0;
   color: #333;
+  font-family: monospace;
+  font-size: 11px;
 }
 
 .button-link:hover {
   background: none;
   color: #006da3;
+}
+
+.no-button {
+  text-decoration: none;
+}
+
+.no-button:hover {
+  background: none;
+  color: initial;
 }

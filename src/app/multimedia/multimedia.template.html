@@ -115,10 +115,10 @@
         {{ item.showOptions ? "-" : "+" }}
       </span>
       <span [ngClass]="item.ageClassname" class="desktop-only">
-        [{{ item.mma_date_mod | date: "yyyy-MM-dd" }}]
+        {{ item.mma_date_mod | date: "yyyy-MM-dd" }}
       </span>
       <span [ngClass]="item.ageClassname" class="mobile-only">
-        [{{ item.mma_date_mod | date: "MM-dd" }}]
+        {{ item.mma_date_mod | date: "MM-dd" }}
       </span>
       <!--
       <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 1">MOVIE</span>
@@ -442,7 +442,7 @@
             [{{ item.mmd_year }}]
           </a>
           <span *ngIf="!item.mmd_url">[{{ item.mmd_year }}]</span>
-          <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9734;</span>
+          <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9733;</span>
         </span>
       </span>
     </div>

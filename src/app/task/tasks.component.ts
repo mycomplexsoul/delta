@@ -510,7 +510,7 @@ export class TasksComponent implements OnInit {
       this.markTaskAs(t, "flag");
     }
     if (event.altKey && optIncludesKey(event.key, '-')) {
-      // detect '/'
+      // detect '-'
       this.markTaskAs(t, "blocked");
     }
     if (event.altKey && event.keyCode == 107) {
@@ -527,7 +527,7 @@ export class TasksComponent implements OnInit {
     }
     if (event.altKey && event.keyCode == 84) {
       // detect 't'
-      this.adjustTimeTracking(t);
+      this.adjustTimeTracking(t, true);
     }
     if (event.shiftKey && event.keyCode == 113) {
       // detect "Shift + F2" = find time tracking task, stop it, close the task and start the focused one
@@ -647,7 +647,7 @@ export class TasksComponent implements OnInit {
     }
     // if option is enabled: move task time tracking to available slot
     if (this.options.optMoveTimetrackingToAvailableSlotWhenDone) {
-      this.adjustTimeTracking(t);
+      this.adjustTimeTracking(t, false);
     }
 
     let dateDone: Date = this.services.dateUtils.newDateUpToSeconds();
@@ -914,6 +914,8 @@ export class TasksComponent implements OnInit {
         ) {
           this.notification({
             body: `Task "${task.tsk_name}" is about to exceed estimation!`,
+            hideIn: 60000,
+            useVoice: true
           });
         }
       }
@@ -1438,21 +1440,24 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  notification(data: any) {
-    let not = window["Notification"];
+  notification({title = 'Tasks', body, icon = 'favicon.ico', hideIn = 0, useVoice = false}) {
+    const not = window["Notification"];
     if (not && not.permission !== "denied") {
       not.requestPermission(function (status: string) {
+        // send browser notification
         // status is "granted", if accepted by user
-        var n = new not(data.title || "Tasks", {
-          body: data.body,
-          icon: data.icon || "favicon.ico", // optional
+        const n = new not(title, {
+          body,
+          icon
         });
       });
     }
     // send in-window notification
-    this.notificationService.notify(data.body, "Tasks", 0);
+    this.notificationService.notify(body, title, hideIn);
     // notify with speech :-D
-    this.speechText(data.body);
+    if (useVoice) {
+      this.speechText(body);
+    }
   }
 
   setUnpostpone(t: any) {
@@ -1509,7 +1514,17 @@ export class TasksComponent implements OnInit {
         let timeout = setTimeout(() => {
           this.notification({
             body: `Task "${t.tsk_name}" is about to start!`,
+            hideIn: 5000 * 60,
+            useVoice: true
           });
+          // second reminder on time
+          setTimeout(() => {
+            this.notification({
+              body: `Task "${t.tsk_name}" is starting now!`,
+              hideIn: 1000 * 60,
+              useVoice: true
+            });
+          }, 5000 * 60);
         }, diff * 1000);
         console.log("schedule in " + this.formatTime(diff), t);
         this.state.startingTasksSchedule.push({
@@ -2497,7 +2512,7 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  adjustTimeTracking(t: Task) {
+  adjustTimeTracking(t: Task, triggerUpdateTask: boolean) {
     let tt = this.lastTTEntryFromDay(
       this.services.dateUtils.dateOnly(new Date())
     );
@@ -2529,9 +2544,12 @@ export class TasksComponent implements OnInit {
         t["tsk_time_history"].forEach((tth: any) => {
           total += tth.tsh_time_spent;
         });
-        this.services.tasksCore.updateTask(t, {
-          tsk_total_time_spent: total,
-        });
+
+        if (triggerUpdateTask) {
+          this.services.tasksCore.updateTask(t, {
+            tsk_total_time_spent: total,
+          });
+        }
         t.tsk_total_time_spent = total;
       }
       //this.updateTaskTimeTracking(t.tsk_id,t.tsk_time_history.length,data);
@@ -2546,9 +2564,12 @@ export class TasksComponent implements OnInit {
         tsh_date_end: new Date(tt.getTime() + randomFinish * 1000),
         tsh_time_spent: randomFinish,
       });
-      this.services.tasksCore.updateTask(t, {
-        tsk_total_time_spent: randomFinish,
-      });
+
+      if (triggerUpdateTask) {
+        this.services.tasksCore.updateTask(t, {
+          tsk_total_time_spent: randomFinish,
+        });
+      }
       t.tsk_total_time_spent = randomFinish;
     }
   }

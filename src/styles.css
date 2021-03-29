@@ -429,6 +429,10 @@ menu {
   width: 100%;
 }
 
+.field-input-small {
+  width: 50px;
+}
+
 .field-select {
   width: calc(100% - 60px);
   display: inline;

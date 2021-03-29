@@ -155,24 +155,26 @@
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
   <div>
-    <label>Record listing width (in px, desktop only, minimum is 200)</label>
     <input
       type="number"
       step="1"
       name="optRecordWidth"
       [(value)]="options.optRecordWidth"
       (change)="saveOption('optRecordWidth', $event.target.valueAsNumber)"
-      />
-    </div>
-    <div>
-      <label>Record listing height (in px, desktop only)</label>
-      <input
+      class="field-input-small"
+    />
+    <label>Record listing width (in px, desktop only, minimum is 200)</label>
+  </div>
+  <div>
+    <input
       type="number"
       step="1"
       name="optRecordHeight"
       [(value)]="options.optRecordHeight"
       (change)="saveOption('optRecordHeight', $event.target.valueAsNumber)"
-      />
+      class="field-input-small"
+    />
+    <label>Record listing height (in px, desktop only)</label>
   </div>
 
   <div class="task-options-section-title">Showing / hiding Indicators</div>
@@ -302,12 +304,106 @@
           <td>In task</td>
           <td>Marks task as completed</td>
         </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>2</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: star</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>3</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: highlighted</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>4</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: priority</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>5</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: important</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>6</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: urgent</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>7</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: unexpected</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>8</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: progressed</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>9</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: people</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>/</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: flag</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>-</kbd></td>
+          <td>In task</td>
+          <td>Toggle qualifier: blocked</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>0</kbd></td>
+          <td>In task</td>
+          <td>Clear all qualifiers</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>t</kbd></td>
+          <td>In task</td>
+          <td>Adjusts time tracking to an earlier available slot</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>s</kbd></td>
+          <td>In task</td>
+          <td>Sets the task as selected and show details</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>Supr</kbd></td>
+          <td>In task</td>
+          <td>Sets status cancelled</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>b</kbd></td>
+          <td>In task</td>
+          <td>Moves the task to backlog section</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>+</kbd></td>
+          <td>In task</td>
+          <td>Focus the new task input</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>n</kbd></td>
+          <td>In task</td>
+          <td>Adds task to next task listing</td>
+        </tr>
+        <tr>
+          <td><kbd>Alt</kbd> + <kbd>r</kbd></td>
+          <td>In task</td>
+          <td>Removes task from next task listing</td>
+        </tr>
+        <tr>
+          <td><kbd>Shift</kbd> + <kbd>F2</kbd></td>
+          <td>In task</td>
+          <td>Stops other tasks in progress, starts time tracking for current task</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div id="optionsMessages"></div>
-  <hr />
 </div>
 <div id="taskDetails" *ngIf="state.selected">
   <button (click)="state.selected = null">hide</button>
@@ -693,7 +789,7 @@
           </span>
           <span *ngIf="t.tsk_schedule_date_start"
             ><strong
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</strong
+              >&nbsp;at {{ formatDateTime(t.tsk_schedule_date_start) }} &#9200;</strong
             ></span
           >&nbsp;<span
             [ngClass]="taskAgeClass(t)"
