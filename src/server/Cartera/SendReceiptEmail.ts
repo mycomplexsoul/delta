@@ -85,7 +85,7 @@ async function postSendReceiptsEmailHandler(node: iNode) {
 
   node.response.end(
     JSON.stringify({
-      operationOk: true,
+      success: true,
       responseDetails
     })
   );

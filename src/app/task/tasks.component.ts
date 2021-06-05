@@ -79,7 +79,8 @@ export class TasksComponent implements OnInit {
     optAddNewTasksToNextTasks: false,
     optRecordWidth: 450,
     optRecordHeight: 390,
-    optMoveTimetrackingToAvailableSlotWhenDone: false
+    optMoveTimetrackingToAvailableSlotWhenDone: false,
+    optHideScrollbarsInRecord: false,
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -2521,6 +2522,14 @@ export class TasksComponent implements OnInit {
       tt = this.lastTTEntryFromDay(
         this.services.dateUtils.dateOnly(
           this.services.dateUtils.addDays(new Date(), -1)
+        )
+      );
+    }
+    if (!tt) {
+      // no task today, try 2 days earlier
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(
+          this.services.dateUtils.addDays(new Date(), -2)
         )
       );
     }

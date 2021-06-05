@@ -5,6 +5,7 @@ import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
 import { AuthenticationService } from "../common/authentication.service";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { requestResult } from "../common/requestResult";
 
 @Injectable()
 export class CategoryService {
@@ -16,8 +17,10 @@ export class CategoryService {
     api: {
       list: "/api/categories",
       create: "/api/categories",
-      update: "/api/categories/:id"
-    }
+      update: "/api/categories/:id",
+      delete: "/api/categories/:id"
+    },
+    replaceCategoryEndpoint: "/api/movements/replace-category"
   };
 
   constructor(
@@ -67,7 +70,7 @@ export class CategoryService {
     return this.sync
       .post(this.config.api.create, newItem)
       .then(response => {
-        if (response.processOk) {
+        if (response.success) {
           this.data.push(newItem);
         } else {
           newItem["sync"] = false;
@@ -97,7 +100,7 @@ export class CategoryService {
         Utils.entityToRawTableFields(item)
       )
       .then(response => {
-        if (!response.operationOk) {
+        if (!response.success) {
           item["sync"] = false;
         }
         updateLocal();
@@ -109,6 +112,42 @@ export class CategoryService {
         item["sync"] = false;
         updateLocal();
         return item;
+      });
+  }
+  
+  deleteItem(item: Category): Promise<requestResult> {
+    const updateLocal = () => {
+      const index = this.data.findIndex(e => e.mct_id === item.mct_id);
+      if (index !== -1) {
+        this.data.splice(index, 1);
+      }
+    };
+
+    return this.sync
+      .delete(
+        this.config.api.delete.replace(":id", item.mct_id),
+        Utils.entityToRawTableFields(item)
+      )
+      .then(response => {
+        if (response.success) {
+          updateLocal();
+        }
+        return response;
+      }).catch(err => ({
+        success: false,
+        message: 'An error ocurred, the action was not completed, try again',
+        errors: [err]
+      }));
+  }
+
+  replaceCategory(oldCategoryId: string, newCategoryId: string): Promise<{
+    success: boolean,
+    message: string
+  }> {
+    return this.sync
+      .post(this.config.replaceCategoryEndpoint, {
+        oldCategoryId,
+        newCategoryId
       });
   }
 }

@@ -18,10 +18,12 @@ export class AccountComponent implements OnInit {
     accountList: Account[];
     showItemForm: boolean;
     typeList: Catalog[];
+    includeArchived: boolean;
   } = {
     accountList: [],
     showItemForm: false,
-    typeList: []
+    typeList: [],
+    includeArchived: false
   };
   private services: {
     accountService: AccountService;
@@ -68,7 +70,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.services.accountService.getAll().then(list => {
-      this.viewData.accountList = list;
+      this.reloadItems({ checked: this.viewData.includeArchived });
     });
   }
 
@@ -153,5 +155,15 @@ export class AccountComponent implements OnInit {
         item.acc_txt_status =
           item.acc_ctg_status === 1 ? "ACTIVE" : "CANCELLED";
       });
+  }
+
+  reloadItems({ checked: includeArchived }) {
+    const list = this.services.accountService.list();
+    this.viewData.includeArchived = includeArchived;
+    if (includeArchived) {
+      this.viewData.accountList = list;
+    } else {
+      this.viewData.accountList = list.filter(a => a.acc_ctg_status === 1);
+    }
   }
 }

@@ -58,7 +58,7 @@ export class CarteraServer {
       (provisionList) => {
         node.response.end(
           JSON.stringify({
-            operationOk: true,
+            success: true,
             provisionList: provisionList.map((provision) =>
               Utils.entityToRawTableFields(provision)
             ),
@@ -166,7 +166,7 @@ export class CarteraServer {
     return apiCarteraProvision
       .create({ body: Utils.entityToRawTableFields(provision) }, {}, model)
       .then((response) => {
-        if (response.operationOk) {
+        if (response.success) {
           return provision;
         }
         console.log(
@@ -203,7 +203,7 @@ export class CarteraServer {
 
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           provisionList: payList.map((payment) =>
             Utils.entityToRawTableFields(payment)
           ),
@@ -267,7 +267,7 @@ export class CarteraServer {
     return apiCarteraPayment
       .create({ body: Utils.entityToRawTableFields(payment) }, {})
       .then((response) => {
-        if (response.operationOk) {
+        if (response.success) {
           return payment;
         }
         console.log("error generating Payment", payment.recordName, response);
@@ -428,7 +428,7 @@ export class CarteraServer {
       console.log("listing", provisionList);
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           provisionList: list.map((provision) =>
             Utils.entityToRawTableFields(provision)
           ),
@@ -495,7 +495,7 @@ export class CarteraServer {
     return apiCarteraPayDet
       .create({ body: Utils.entityToRawTableFields(payDet) }, {}, model)
       .then((response) => {
-        if (response.operationOk) {
+        if (response.success) {
           return payDet;
         }
         console.log("error generating payDet", payDet.recordName, response);
@@ -522,7 +522,7 @@ export class CarteraServer {
         model
       )
       .then((response) => {
-        if (response.operationOk) {
+        if (response.success) {
           return provision;
         }
         console.log(
@@ -545,7 +545,7 @@ export class CarteraServer {
       (list) => {
         node.response.end(
           JSON.stringify({
-            operationOk: true,
+            success: true,
             provisionList: list.map((provision) =>
               Utils.entityToRawTableFields(provision)
             ),
@@ -818,7 +818,7 @@ export class CarteraServer {
 
     node.response.end(
       JSON.stringify({
-        operationOk: true,
+        success: true,
       })
     );
   }
@@ -867,7 +867,7 @@ export class CarteraServer {
 
     node.response.end(
       JSON.stringify({
-        operationOk: true,
+        success: true,
         ...(await this.getPaymentApplicationListing(year, month)),
       })
     );
@@ -879,7 +879,7 @@ export class CarteraServer {
     this.generatePenalizationForUnit(year, month, unit, user).then((list) => {
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           provisionList: list.map((provision) =>
             Utils.entityToRawTableFields(provision)
           ),
@@ -987,7 +987,7 @@ export class CarteraServer {
     ).then(async (list) => {
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           pendingProvisionList: list.pendingProvisionList.map(
             Utils.entityToRawTableFields
           ),
@@ -1162,7 +1162,7 @@ export class CarteraServer {
     this.unitStatusForMonth(year, month, unit).then((list) => {
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           provisionList: list.provisionList.map((item) => ({
             provision: Utils.entityToRawTableFields(item.provision),
             payDetList: item.payDetList.map(Utils.entityToRawTableFields),
@@ -2076,7 +2076,7 @@ export class CarteraServer {
     this.changeConceptToSpanish().then(() => {
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
         })
       );
     });
@@ -2140,7 +2140,7 @@ export class CarteraServer {
     this.registerMonthlyIncome(year, month, user).then((response) => {
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           movementList: response.map(Utils.entityToRawTableFields),
         })
       );
@@ -2295,7 +2295,7 @@ export class CarteraServer {
     this.resultsForMonth(year, month).then(async (response) => {
       node.response.end(
         JSON.stringify({
-          operationOk: true,
+          success: true,
           initialBalance: await this.getInitialBalanceForMonth(
             year,
             month,
@@ -2473,7 +2473,7 @@ export class CarteraServer {
       (data) => {
         node.response.end(
           JSON.stringify({
-            operationOk: true,
+            success: true,
             payment: Utils.entityToRawTableFields(data.payment),
             payDetList: data.payDetList.map(Utils.entityToRawTableFields),
           })
@@ -2735,7 +2735,7 @@ export class CarteraServer {
 
     node.response.end(
       JSON.stringify({
-        operationOk: true,
+        success: true,
         provisionList: listing.provisionList.map((item) => ({
           provision: Utils.entityToRawTableFields(item.provision),
           previousPayDetList: item.previousPayDetList.map(
@@ -2852,7 +2852,7 @@ export class CarteraServer {
 
     node.response.end(
       JSON.stringify({
-        operationOk: true,
+        success: true,
         provisionList: listing.provisionList.map((item) => ({
           provision: Utils.entityToRawTableFields(item.provision),
           hash: item.hash,

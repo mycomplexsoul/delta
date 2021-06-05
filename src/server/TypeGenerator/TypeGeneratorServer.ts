@@ -59,7 +59,7 @@ export class TypeGeneratorServer {
     });
     node.response.end(
       JSON.stringify({
-        operationOK: true,
+        success: true,
         message: `Successfully generated File types for the entities: ${message}`
       })
     );
@@ -79,7 +79,7 @@ export class TypeGeneratorServer {
         message += "<br/>" + msg;
       }
     });
-    node.response.end(JSON.stringify({ operationOK: true, message }));
+    node.response.end(JSON.stringify({ success: true, message }));
   };
 
   checkDatabase = async (node: iNode) => {
@@ -99,6 +99,6 @@ export class TypeGeneratorServer {
       }
     }
 
-    node.response.end(JSON.stringify({ operationOK: true, message }));
+    node.response.end(JSON.stringify({ success: true, message }));
   };
 }

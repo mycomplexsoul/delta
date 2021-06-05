@@ -33,4 +33,13 @@ router.post("/:mct_id", (req, res) => {
   server.updateRequestHandler(node);
 });
 
+router.delete("/:mct_id", (req, res) => {
+  let server: CategoryServer = new CategoryServer();
+  let node: iNode = {
+    request: req,
+    response: res
+  };
+  server.deleteRequestHandler(node);
+});
+
 export { router };

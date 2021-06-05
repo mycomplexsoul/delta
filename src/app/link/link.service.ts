@@ -59,7 +59,7 @@ export class LinkService {
     return this.sync
       .post(this.config.api.create, newItem)
       .then(response => {
-        if (response.processOk) {
+        if (response.success) {
           this.data.push(newItem);
         } else {
           newItem["sync"] = false;
@@ -89,7 +89,7 @@ export class LinkService {
         Utils.entityToRawTableFields(item)
       )
       .then(response => {
-        if (!response.operationOk) {
+        if (!response.success) {
           item["sync"] = false;
         }
         updateLocal();

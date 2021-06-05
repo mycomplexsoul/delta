@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
 app.get("/status", (req, res) => {
   res.end(
     JSON.stringify({
-      operationOK: true,
+      success: true,
       message: `Hi! server time is ${new Date()}`
     })
   );

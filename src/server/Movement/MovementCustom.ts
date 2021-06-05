@@ -19,6 +19,7 @@ import EmailModule from "../EmailModule";
 import { configModule } from "../ConfigModule";
 import { Preset } from "../../crosscommon/entities/Preset";
 import { ApiServer } from "../ApiServer";
+import { MoGen } from "../../crosscommon/MoGen";
 
 export class MovementCustom {
   private api: ApiServer = new ApiServer(new Movement());
@@ -354,7 +355,7 @@ export class MovementCustom {
               connection.close();
               node.response.end(
                 JSON.stringify({
-                  operationOk: true,
+                  success: true,
                   message: `Batch finished, inserted ok: ${
                     movementList.length
                   }, errors: ${0}`,
@@ -365,7 +366,7 @@ export class MovementCustom {
           .catch((err) => {
             // TODO: Some category/place had an error on inserting, abort until that is fixed
             node.response.end(
-              JSON.stringify({ operationOk: false, message: `error ${err}` })
+              JSON.stringify({ success: false, message: `error ${err}` })
             );
           });
       })
@@ -374,7 +375,7 @@ export class MovementCustom {
           `An error ocurred while fetching initial data from database, error is: ${err}`
         );
         node.response.end(
-          JSON.stringify({ operationOk: false, message: `error ${err}` })
+          JSON.stringify({ success: false, message: `error ${err}` })
         );
       });
 
@@ -445,7 +446,7 @@ export class MovementCustom {
         connection.close();
         console.log(`Batch finished, inserted ok: ${entryList.length}`);
         return {
-          operationOk: true,
+          success: true,
           message: `Batch finished, inserted ok: ${entryList.length}`,
           data: entryList,
         };
@@ -453,7 +454,7 @@ export class MovementCustom {
       .catch((reason) => {
         // some failed
         console.log("err on inserting entries", reason);
-        return { operationOk: false, message: `error ${reason}` };
+        return { success: false, message: `error ${reason}` };
       });
   };
 
@@ -515,14 +516,14 @@ export class MovementCustom {
         // all inserted ok
         connection.close();
         return {
-          operationOk: true,
+          success: true,
           message: `Batch finished, inserted ok: ${balanceList.length}`,
         };
       })
       .catch((reason) => {
         // some failed
         console.log("err on inserting balance", reason);
-        return { operationOk: false, message: `error ${reason}` };
+        return { success: false, message: `error ${reason}` };
       });
   };
 
@@ -579,7 +580,7 @@ export class MovementCustom {
         // generate entities
         return this.generateEntries([model]).then((result) => {
           console.log(`entry generation for movement result`, result);
-          if (result.operationOk) {
+          if (result.success) {
             // generate balance
             return balanceModule
               .applyEntriesToBalance(result.data, model.mov_id_user)
@@ -612,7 +613,7 @@ export class MovementCustom {
         // generate entities
         return this.updateEntries([model]).then((result) => {
           console.log(`entries updated for movement result`, result);
-          if (result.operationOk) {
+          if (result.success) {
             // generate balance
             const date: Date = new Date(model.mov_date);
             const initialYear = date.getFullYear();
@@ -651,7 +652,7 @@ export class MovementCustom {
         // generate entities
         return this.deleteEntries([model]).then((result) => {
           console.log(`entries deleted for movement result`, result);
-          if (result.operationOk) {
+          if (result.success) {
             // rebuild balance
             const date: Date = new Date(model.mov_date);
             const initialYear = date.getFullYear();
@@ -780,7 +781,7 @@ export class MovementCustom {
             connection.close();
             console.log(`Batch finished, updated ok: ${entryList.length}`);
             return {
-              operationOk: true,
+              success: true,
               message: `Batch finished, updated ok: ${entryList.length}`,
               data: entryList,
             };
@@ -788,7 +789,7 @@ export class MovementCustom {
           .catch((reason) => {
             // some failed
             console.log("err on updating entries", reason);
-            return { operationOk: false, message: `error ${reason}` };
+            return { success: false, message: `error ${reason}` };
           });
       });
   };
@@ -832,7 +833,7 @@ export class MovementCustom {
               `Batch finished, deleted ok: ${entryOriginList.length}`
             );
             return {
-              operationOk: true,
+              success: true,
               message: `Batch finished, deleted ok: ${entryOriginList.length}`,
               data: entryOriginList,
             };
@@ -840,7 +841,7 @@ export class MovementCustom {
           .catch((reason) => {
             // some failed
             console.log("err on deleting entries", reason);
-            return { operationOk: false, message: `error ${reason}` };
+            return { success: false, message: `error ${reason}` };
           });
       });
   };
@@ -897,7 +898,7 @@ export class MovementCustom {
     year: number,
     month: number
   ): Promise<{
-    operationOk: boolean;
+    success: boolean;
     averageBalance: number;
     message: string;
     checkDay: number;
@@ -909,7 +910,7 @@ export class MovementCustom {
   }> => {
     let dailyBalance: number[] = [];
     let result: {
-      operationOk: boolean;
+      success: boolean;
       averageBalance: number;
       accountName: string;
       message: string;
@@ -920,7 +921,7 @@ export class MovementCustom {
       averageMinBalance: number;
       dailyBalance: number[];
     } = {
-      operationOk: false,
+      success: false,
       averageBalance: 0,
       accountName: null,
       message: null,
@@ -1081,7 +1082,7 @@ export class MovementCustom {
           result.averageBalance =
             dailyBalance.reduce((prev, curr) => prev + curr, 0) /
             dailyBalance.length;
-          result.operationOk = true;
+          result.success = true;
           result.dailyBalance = dailyBalance;
           console.log("result for average-balance process", result);
           return result;
@@ -1281,5 +1282,38 @@ export class MovementCustom {
       })
       .then((response) => response.map((e) => new Account(e)))
       .then((accountList) => (accountList.length > 0 ? accountList[0] : null));
+  }
+
+  /**
+   * Replace category in specific movements with another category
+   * @param oldCategoryId 
+   * @param newCategoryId 
+   * @returns 
+   */
+  replaceCategory(oldCategoryId: string, newCategoryId: string): Promise<{
+    success: boolean,
+    message: string,
+    error?: Object
+  }> {
+    const response = {
+      success: false,
+      message: "Error replacing category",
+      error: null
+    };
+
+    const model = new Movement();
+    const { tableName } = model.metadata;
+    const sql = `update ${tableName} set mov_id_category = '${MoGen.parseApostropheForSQL(newCategoryId)}'
+      where mov_id_category = '${MoGen.parseApostropheForSQL(oldCategoryId)}'`;
+    const connection = ConnectionService.getConnection();
+
+    return connection.runSql(sql).then(sqlResult => {
+      response.success = true;
+      response.message = `Replaced correctly ${sqlResult.rows.affectedRows} items`;
+      return response;
+    }).catch(error => {
+      response.error = error;
+      return response;
+    });
   }
 }

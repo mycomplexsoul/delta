@@ -125,6 +125,11 @@
           *ngIf="!model.fAmount"
         >
           $1,480
+        </button>&nbsp;<button
+          (click)="model.fAmount = 1500;setDescription(model.fAmount, model.fDate)"
+          *ngIf="!model.fAmount"
+        >
+          $1,500
         </button>
       </span>
 

@@ -154,6 +154,12 @@
     [checked]="options.optMoveTimetrackingToAvailableSlotWhenDone"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
+  <checkbox-option
+    label="Hide scrollbars for all Record listings when it has too much items"
+    optionId="optHideScrollbarsInRecord"
+    [checked]="options.optHideScrollbarsInRecord"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
   <div>
     <input
       type="number"
@@ -674,7 +680,7 @@
         }"
         [ngStyle]="{
           'max-width': (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordWidth + 'px' : defaultOptions.optRecordWidth,
-          'max-height': (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight
+          'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)
         }"
       >
         <div

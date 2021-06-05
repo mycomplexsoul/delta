@@ -9,7 +9,7 @@ export class InstallServer {
 
     node.response.end(
       JSON.stringify({
-        operationOK: true,
+        success: true,
         message: `Successfully installed!`
       })
     );

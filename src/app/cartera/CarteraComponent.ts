@@ -405,11 +405,9 @@ export class CarteraComponent implements OnInit {
 
   setDescription(amount: number, dateString: string) {
     const date: Date = new Date(dateString);
-    if (amount === 1480) {
-      this.model.fDescription = `Cuota de Mantenimiento ${DateUtils.getMonthNameSpanish(
-        date.getMonth() + 1
-      )} ${date.getFullYear()}`;
-    }
+    this.model.fDescription = `Cuota de Mantenimiento ${DateUtils.getMonthNameSpanish(
+      date.getMonth() + 1
+    )} ${date.getFullYear()}`;
   }
 
   resetForm(newItemForm: NgForm) {
@@ -490,7 +488,7 @@ export class CarteraComponent implements OnInit {
     return this.viewData.pendingProvisionList
       .filter(
         (p) =>
-          p.cpr_payed === 0 &&
+          p.cpr_remaining !== 0 &&
           p.cpr_year === this.viewData.year &&
           p.cpr_month === this.viewData.month
       )

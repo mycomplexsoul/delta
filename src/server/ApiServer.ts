@@ -48,4 +48,16 @@ export class ApiServer {
 
     return api.update({ body, pk }, {});
   };
+
+  deleteRequestHandler = async (node: iNode) => {
+    this.delete(node.request.params).then(response => {
+      node.response.end(JSON.stringify(response));
+    });    
+  };
+
+  delete = (pk: any): Promise<any> => {
+    const api: ApiModule = new ApiModule(this.model);
+
+    return api.delete({ pk }, {});
+  };
 }

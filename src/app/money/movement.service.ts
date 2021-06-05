@@ -103,7 +103,7 @@ export class MovementService {
     this.sync
       .post(this.config.api.create, newItem)
       .then(response => {
-        if (response.operationOk) {
+        if (response.success) {
           callback();
         } else {
           newItem["sync"] = false;
@@ -131,7 +131,7 @@ export class MovementService {
 
   sendBatchToServer(list: Array<Movement>) {
     this.sync.post(`${this.config.api.batch}`, list).then((response: any) => {
-      // response: { operationOk: true, details: {  } }
+      // response: { success: true, details: {  } }
       console.log("response movements batch", response);
     });
   }
@@ -146,7 +146,7 @@ export class MovementService {
       .post(this.config.api.update.replace(":id", movement.mov_id), item)
       .then(response => {
         const index = this.data.findIndex(d => d.mov_id === item.mov_id);
-        if (response.operationOk) {
+        if (response.success) {
           callback();
         } else {
           item["sync"] = false;
@@ -168,7 +168,7 @@ export class MovementService {
       .delete(this.config.api.delete.replace(":id", movement.mov_id), movement)
       .then(response => {
         const index = this.data.findIndex(d => d.mov_id === movement.mov_id);
-        if (response.operationOk) {
+        if (response.success) {
           callback();
         } else {
           movement["sync"] = false;

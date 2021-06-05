@@ -27,7 +27,7 @@ export class LastTimeServer {
     const hooks: any = {
       afterInsertOK: (response: any, model: LastTime) => {
         return this.generateHistory([model]).then(result => {
-          if (result.operationOk) {
+          if (result.success) {
             return { message: `history: ${result.message}` };
           }
         });
@@ -47,7 +47,7 @@ export class LastTimeServer {
         if (model.lst_ctg_status === 1 && !node.request.body["noHistory"]) {
           return this.generateHistory([model])
             .then(result => {
-              if (result.operationOk) {
+              if (result.success) {
                 return { message: `history: ${result.message}` };
               } else {
                 return { message: `not ok: ${result}` };
@@ -72,7 +72,7 @@ export class LastTimeServer {
 
   generateHistory(
     modelList: LastTime[]
-  ): Promise<{ operationOk: boolean; message: string }> {
+  ): Promise<{ success: boolean; message: string }> {
     const connection: iConnection = ConnectionService.getConnection();
     const sqlMotor: MoSQL = new MoSQL();
 
@@ -120,7 +120,7 @@ export class LastTimeServer {
           connection.close();
           console.log(`Batch finished, inserted ok: ${itemList.length}`);
           return {
-            operationOk: true,
+            success: true,
             message: `Batch finished, inserted ok: ${itemList.length}`,
             data: itemList
           };
@@ -128,7 +128,7 @@ export class LastTimeServer {
         .catch(reason => {
           // some failed
           console.log("err on inserting items", reason);
-          return { operationOk: false, message: `error ${reason}` };
+          return { success: false, message: `error ${reason}` };
         });
     });
   }

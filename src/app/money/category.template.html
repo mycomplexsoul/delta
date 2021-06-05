@@ -29,6 +29,34 @@
       </span>
 
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+      <button type="button" class="btn-secondary" (click)="deleteItem(model.id)"
+        *ngIf="viewData.selectedCategory && viewData.selectedCategory['movementList'] && viewData.selectedCategory['movementList'].length === 0"
+        >Delete</button>
+    </div>
+    
+    <div *ngIf="viewData.showItemForm">
+      <movement-listing
+        [movementList]="viewData.selectedCategory['movementList']"
+        [selectedBalance]="viewData.selectedCategory"
+        selectedView="compact"
+        *ngIf="viewData.selectedCategory"
+      ></movement-listing>
+
+      <span>
+        Replace uses of this category with a different one
+      </span>
+      <select
+        name="replaceCategoryId"
+        id="replaceCategoryId"
+        class="field-select"
+        [(ngModel)]="replaceCategoryId"
+      >
+        <option *ngFor="let opt of viewData.replaceCategoryList"
+          [value]="opt.mct_id"
+        >{{ opt.mct_name }}</option>
+      </select>
+
+      <button type="button" (click)="applyCategoryReplacement(model.id, replaceCategoryId)">Apply replacement</button>
     </div>
   </form>
 

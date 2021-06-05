@@ -32,7 +32,7 @@ export class SyncCustom {
    *          action: 'create|update|delete',
    *          model: { tsk_id: ... },
    *          pk: { tsk_id: ... }, // only for update and delete
-   *          callback: function({operationOk, message, data}),
+   *          callback: function({success, message, data}),
    *          status: 'queue|processed|error',
    *          entity: 'Task'
    *      }
@@ -40,11 +40,11 @@ export class SyncCustom {
    * }
    *
    * Response schema: {
-   *  operationOk: boolean,
+   *  success: boolean,
    *  message: string,
    *  result: [
    *      {
-   *          operationOk: boolean,
+   *          success: boolean,
    *          message: string,
    *          recordName: string,
    *          data: { tsk_id: ... }
@@ -67,7 +67,7 @@ export class SyncCustom {
         console.log('-- sync parsed payload', q, q.model);
       } catch (e) {
         q.result = {
-          operationOk: false,
+          success: false,
           message: `sync failed due to entity ${q.entity} is not supported`,
           pk: q.pk,
         };
@@ -78,7 +78,7 @@ export class SyncCustom {
         const item: iEntity = q.construct(q.model);
 
         q.result = {
-          operationOk: false,
+          success: false,
           message: `sync failed due to action ${q.action} is not supported in ${q.entity}`,
           recordName: item.recordName(),
           pk: q.pk,
@@ -91,7 +91,7 @@ export class SyncCustom {
 
       result.then(
         (response: {
-          operationOk: boolean;
+          success: boolean;
           message: string;
           data?: any;
           pk: any;
@@ -109,7 +109,7 @@ export class SyncCustom {
 
     Promise.all(resultPromiseList).then((list) => {
       const response = {
-        operationOk: true,
+        success: true,
         message: "sync completed",
         result: queue.map((q: syncItem) => q.result),
       };
@@ -128,7 +128,7 @@ export class SyncCustom {
     } catch (e) {
       const final: iEntity[] = [];
       result = {
-        operationOk: false,
+        success: false,
         message: `sync failed due to entity ${entity} is not supported`,
         list: final,
       };
@@ -140,7 +140,7 @@ export class SyncCustom {
 
     return ApiMotor.list({ q, model }).then((list) => {
       return {
-        operationOk: true,
+        success: true,
         message: `sync listing success`,
         list,
       };

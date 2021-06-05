@@ -30,7 +30,7 @@ export class ActivityServer {
           .map(item => keyvalServer.create(item));
 
         return {
-          operationOk: true,
+          success: true,
           message: `${
             Object.keys(keyvalItems).length
           } Keyval records created successfully`

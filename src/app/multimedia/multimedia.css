@@ -1,4 +1,9 @@
 /* Multimedia coloring based on age */
+.multimedia-oldest {
+  color: red;
+  font-weight: bold;
+}
+
 .multimedia-old {
   color: red;
 }

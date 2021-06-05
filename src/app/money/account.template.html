@@ -110,6 +110,13 @@
     </div>
   </form>
 
+  <checkbox-option
+    label="Include archived items"
+    optionId="accounts-options-archived"
+    [checked]="viewData.includeArchived"
+    (onClick)="reloadItems($event)"
+  ></checkbox-option>
+
   <div class="card-list">
     <div *ngFor="let item of viewData.accountList" class="card-item-container">
       <span class="account-name">{{ item.acc_name }}</span>

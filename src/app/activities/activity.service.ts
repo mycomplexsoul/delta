@@ -53,7 +53,7 @@ export class ActivityService {
     return this.sync
       .post(this.config.api.create, Utils.removeMetadataFromEntity(baseItem))
       .then(response => {
-        if (response.processOk) {
+        if (response.success) {
           this.data.push(baseItem);
         } else {
           baseItem["sync"] = false;
@@ -83,7 +83,7 @@ export class ActivityService {
         Utils.entityToRawTableFields(item)
       )
       .then(response => {
-        if (!response.operationOk) {
+        if (!response.success) {
           item["sync"] = false;
         }
         updateLocal();

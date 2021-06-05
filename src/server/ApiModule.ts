@@ -66,7 +66,7 @@ export class ApiModule {
         .then(response => {
           if (!response) {
             return {
-              operationOk: false,
+              success: false,
               message: `${
                 m.metadata.tableName
               } already exists. id: ${recordName}`
@@ -79,7 +79,7 @@ export class ApiModule {
             connection.close();
             if (responseCreate.err) {
               return {
-                operationOk: false,
+                success: false,
                 message: `Error on ${
                   m.metadata.tableName
                 } creation. id: ${recordName}`
@@ -91,7 +91,7 @@ export class ApiModule {
                   .afterInsertOK(responseCreate, m)
                   .then((resultAfterInsertOk: any) => {
                     return {
-                      operationOk: true,
+                      success: true,
                       message: `${
                         m.metadata.tableName
                       } created correctly. id: ${recordName}${
@@ -103,7 +103,7 @@ export class ApiModule {
                   });
               }
               return {
-                operationOk: true,
+                success: true,
                 message: `${
                   m.metadata.tableName
                 } created correctly. id: ${recordName}`
@@ -154,7 +154,7 @@ export class ApiModule {
               m.metadata.tableName
             } that does not exist in the server. id: ${recordName}. Tried to create it.`;
             return {
-              operationOk: responseCreate.operationOk,
+              success: responseCreate.success,
               message: `${msg} ${responseCreate.message}`
             };
           });
@@ -175,7 +175,7 @@ export class ApiModule {
             }
             if (responseUpdate.err) {
               return {
-                operationOk: false,
+                success: false,
                 message: `Error on ${
                   m.metadata.tableName
                 } modification. id: ${recordName}`
@@ -186,7 +186,7 @@ export class ApiModule {
                   .afterUpdateOK(responseUpdate, m)
                   .then((resultAfterUpdateOk: any) => {
                     return {
-                      operationOk: true,
+                      success: true,
                       message: `${
                         m.metadata.tableName
                       } created correctly. id: ${recordName}${
@@ -198,7 +198,7 @@ export class ApiModule {
                   });
               }
               return {
-                operationOk: true,
+                success: true,
                 message: `${
                   m.metadata.tableName
                 } updated correctly. id: ${recordName}`
@@ -212,7 +212,7 @@ export class ApiModule {
               .afterUpdateOK({}, m)
               .then((resultAfterUpdateOk: any) => {
                 return {
-                  operationOk: true,
+                  success: true,
                   message: `${
                     m.metadata.tableName
                   } created correctly. id: ${recordName}${
@@ -224,7 +224,7 @@ export class ApiModule {
               });
           }
           return {
-            operationOk: true,
+            success: true,
             message: `${
               m.metadata.tableName
             } updated correctly. id: ${recordName}`
@@ -263,7 +263,7 @@ export class ApiModule {
           );
 
           return {
-            operationOk: false,
+            success: false,
             message: "Deletion found an error looking for the record."
           };
         }
@@ -275,7 +275,7 @@ export class ApiModule {
             connection.close();
             if (responseDelete.err) {
               return {
-                operationOk: false,
+                success: false,
                 message: `Error on ${
                   m.metadata.tableName
                 } record deletion. id: ${recordName}`
@@ -286,7 +286,7 @@ export class ApiModule {
                   .afterDeleteOK(responseDelete, m)
                   .then((resultAfterDeleteOk: any) => {
                     return {
-                      operationOk: true,
+                      success: true,
                       message: `${
                         m.metadata.tableName
                       } deleted correctly. id: ${recordName}${
@@ -298,7 +298,7 @@ export class ApiModule {
                   });
               }
               return {
-                operationOk: true,
+                success: true,
                 message: `${
                   m.metadata.tableName
                 } deleted correctly. id: ${recordName}`
@@ -311,7 +311,7 @@ export class ApiModule {
           );
 
           return {
-            operationOk: true,
+            success: true,
             message: "Deletion did not find a record to delete."
           };
         }
@@ -409,7 +409,7 @@ export class ApiModule {
           return connection.runSql(item.sqlInsert).then(responseCreate => {
             if (responseCreate.err) {
               return {
-                operationOk: false,
+                success: false,
                 message: `Error on ${
                   m.metadata.tableName
                 } creation. id: ${recordName}`
@@ -421,7 +421,7 @@ export class ApiModule {
                   .afterInsertOK(responseCreate, m)
                   .then((resultAfterInsertOk: any) => {
                     return {
-                      operationOk: true,
+                      success: true,
                       message: `${
                         m.metadata.tableName
                       } created correctly. id: ${recordName}${
@@ -433,7 +433,7 @@ export class ApiModule {
                   });
               }
               return {
-                operationOk: true,
+                success: true,
                 message: `${
                   m.metadata.tableName
                 } created correctly. id: ${recordName}`

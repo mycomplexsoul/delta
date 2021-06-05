@@ -291,8 +291,8 @@ export class SyncAPI {
             compareObjects(q.pk, r.pk)
           );
           if (found) {
-            found.status = r.operationOk ? "processed" : "error";
-            if (r.operationOk) {
+            found.status = r.success ? "processed" : "error";
+            if (r.success) {
               found.callback(found.model, response);
             }
           }

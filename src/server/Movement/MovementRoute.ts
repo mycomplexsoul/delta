@@ -13,6 +13,18 @@ router.get("/", (req, res) => {
   server.listRequestHandler(node);
 });
 
+/**
+ * Replace category in specific movements with another category
+ * Endpoint: /api/movements/replace-category
+ */
+ router.post("/replace-category", async (req, res) => {
+  const server: MovementCustom = new MovementCustom();
+  const { oldCategoryId, newCategoryId } = req.body;
+  
+  const response = await server.replaceCategory(oldCategoryId, newCategoryId);
+  res.send(response);
+});
+
 router.get("/import", (req, res) => {
   const mov: MovementCustom = new MovementCustom();
   const node: iNode = {
@@ -68,7 +80,7 @@ router.get("/generate-balance", (req, res) => {
   mov.rebuildAndTransfer();
   res.end(
     JSON.stringify({
-      operationOk: true,
+      success: true,
       message: `Batch finished, inserted ok`
     })
   );

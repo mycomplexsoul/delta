@@ -27,9 +27,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.11.5 (2020-09-22)
+
+- [AppMoney][new] Categories - Delete category service logic
+- [AppMoney][new] Categories - Delete category UI implementation
+- [AppTasks][new] Hide scrollbars for all record listings when it has too much items under an option flag
+
+## v1.11.4 (2020-09-15)
+
+- [AppMoney][new] Categories - Replace category endpoint under movements server `/api/movements/replace-category`
+- [AppMoney][new] Categories - Replace category service logic
+- [AppMoney][new] Categories - Replace category UI implementation
+
+## v1.11.3 (2020-09-08)
+
+- [AppCartera][new] Cartera - Add button for specific rounded quantity
+- [AppCommon][new] MoSQL - Added methd `simpleCriteriaToSQL()` to simplify coding and dealing with SQL
+- [AppMoney][new] Categories - Delete endpoint `/api/categories/:mct_id`
+
+## v1.11.2 (2020-09-01)
+
+- [AppMoney][new] Accounts - Option to include cancelled accounts in listing
+- [AppCommon][new] Added `requestResult` type to handle request results, added CONTRIBUTING.md with details of it
+- [AppCommon][mod] Refactored service responses from `operationOk` and `processOk` to `success`
+
 ## v1.11.1 (2020-08-25)
 
-- [AppCommon] Use pool for db connections
+- [AppCommon][new] Use pool for db connections
 
 ## v1.11.0 (2020-08-17)
 

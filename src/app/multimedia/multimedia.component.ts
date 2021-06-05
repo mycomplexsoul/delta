@@ -105,8 +105,9 @@ export class MultimediaComponent {
     _DateViewedType: "current"
   };
   private MEDIA_AGE = {
-    old: 10,
-    normal: 3,
+    oldest: 30,
+    old: 15,
+    normal: 7,
     recent: 1,
     today: 0
   };

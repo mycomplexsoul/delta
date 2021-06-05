@@ -1,5 +1,4 @@
 import { iEntity } from "../crosscommon/iEntity";
-import { Catalog } from "../crosscommon/entities/Catalog";
 import { FieldDefinition } from "../crosscommon/FieldDefinition";
 import { MoGen } from "../crosscommon/MoGen";
 import { DateUtils } from "../crosscommon/DateUtility";
@@ -333,6 +332,26 @@ export class MoSQL {
     return jsonCriteria;
   };
 
+  /**
+   * Structure of criteria object:
+   * {
+   *    gc: "AND",
+   *    cont: [{
+   *      cont: [{
+   *        f: "fieldName",
+   *        op: "operator",
+   *        val: "value"
+   *      }]
+   *    }],
+   *    f: "fieldName",
+   *    op: "operator",
+   *    val: "value"
+   * }
+   * 
+   * @param criteria 
+   * @param model 
+   * @returns 
+   */
   criteriaToSQL = (criteria: any, model: iEntity): string => {
     let sql: string = "";
 
@@ -375,6 +394,65 @@ export class MoSQL {
         } else {
           // field not found inside this Entity, skip it
         }
+      }
+    });
+
+    return sql ? `(${sql})` : "";
+  };
+
+  /**
+   * Simpler form to build sql statements.
+   * Structure of the criteria object:
+   * {
+   *    "fieldName|operator": "value",
+   *    "fieldName|operator": "value"
+   * }
+   * 
+   * @param criteria 
+   * @param model 
+   * @returns 
+   */
+  simpleCriteriaToSQL = (criteria: any, model: iEntity, groupConcat: string = "AND"): string => {
+    let sql: string = "";
+    
+    Object.keys(criteria).forEach((key: any) => {
+      let completeFieldName: string = "";
+      const [fieldName, operator = 'eq'] = key.split('|');
+      const value = criteria[key];
+
+      if (key[0] === "_") {
+        // field name starts with an underscore, append prefix
+        completeFieldName = model.metadata.prefix + fieldName;
+      } else {
+        completeFieldName = fieldName;
+      }
+      if (model.metadata.fields.find(f => f.dbName === completeFieldName)) {
+        let dbType: string = model.metadata.fields.find(
+          f => f.dbName === completeFieldName
+        ).dbType;
+        if (groupConcat === "AND") {
+          sql = this.concatAnd(
+            sql,
+            this.formatValueForSQL(
+              dbType,
+              value,
+              completeFieldName,
+              this.OPERATORS[operator]
+            )
+          );
+        } else {
+          sql = this.concatOr(
+            sql,
+            this.formatValueForSQL(
+              dbType,
+              value,
+              completeFieldName,
+              this.OPERATORS[operator]
+            )
+          );
+        }
+      } else {
+        // field not found inside this Entity, skip it
       }
     });
 
