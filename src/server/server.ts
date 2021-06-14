@@ -16,7 +16,13 @@ app.use("/", express.static(path.join(__dirname, "../../dist/intranet")));
 
 app.use(function(req, res, next) {
   console.log("----------------------------");
-  console.log(`incoming request ${req.method}: ${req.url}`);
+  console.log(`${new Date().toISOString()} incoming request ${req.method}: ${req.url}`);
+  if (Object.keys(req.body).length) {
+    console.log(req.body, 'body in request');
+  }
+  if (Object.keys(req.params).length) {
+    console.log(req.params, 'params in request');
+  }
   next();
 });
 

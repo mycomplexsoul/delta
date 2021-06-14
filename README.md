@@ -10,6 +10,7 @@ Create a file named `cfg.json` in the root of the project and add the proper con
 
 ```javascript
 {
+    /* [Common] Configuration to connect to the database */
     "db": [
         {
             "label"    : "default",
@@ -19,7 +20,30 @@ Create a file named `cfg.json` in the root of the project and add the proper con
             "database" : "some_db"
         }
     ],
-    "secretForToken": "your custom secret salt used for token generation"
+    "secretForToken": "your custom secret salt used for token generation",
+    /* [Common] Configuration to send email */
+    "mail": { /* to use a gmail account */
+        "service": "gmail", /* gmail only, if not gmail don't set the property */
+        "user": "some-email@gmail.com",
+        "pass": "email-account-pass",
+        "from": "Alias to show as recipient <some-email@gmail.com>"
+    }, /* -- or -- */
+    "mail": { /* to use a different account */
+        "user": "some-email@gmail.com",
+        "pass": "email-account-pass",
+        "from": "Alias to show as recipient <some-email@gmail.com>",
+        "host": "smtp.some-host.com",
+        "secure": true
+    },
+    /* [Common] Encryption keys for all things kept as secret */
+    "encryption": {
+        "private": "some-hash",
+        "public": "some-other-hash"
+    },
+    /* [AppMoney] Recipients to send email */
+    "money-mail-to": "some-email@mail.com",
+    /* [AppCartera] Path to find receipts to send as email attachments */
+    "receipts-path": "C:\\data\\receipts-temp\\",
 }
 ```
 

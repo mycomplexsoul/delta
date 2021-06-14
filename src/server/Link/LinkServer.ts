@@ -20,12 +20,20 @@ export class LinkServer {
 
   externalCreateRequestHandler = (node: iNode) => {
     this.externalCreate(node.request.body).then(response => {
+      console.log('response from API', response);
       node.response.end(JSON.stringify(response));
     });
   };
 
   externalCreate = (body: any): Promise<any> => {
     const api: ApiModule = new ApiModule(new Link());
+
+    if (!body.lnk_url) {
+      return Promise.resolve({
+        success: false,
+        message: 'Bad payload, you did not sent an url'
+      });
+    }
 
     const item = {
       lnk_id: Utils.hashIdForEntity(new Link(), "lnk_id"),

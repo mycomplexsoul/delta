@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.11.6 (2020-09-29)
+
+- [AppLinks][new] Add bad payload handling to return error properly, create browser extension as a separate project
+- [AppCommon][new] Update cfg.json documentation
+
 ## v1.11.5 (2020-09-22)
 
 - [AppMoney][new] Categories - Delete category service logic
