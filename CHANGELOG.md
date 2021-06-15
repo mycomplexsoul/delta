@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [AppLinks][new] Add bad payload handling to return error properly, create browser extension as a separate project
 - [AppCommon][new] Update cfg.json documentation
+- [AppCommon][new] Set up different email configurations
 
 ## v1.11.5 (2020-09-22)
 

@@ -68,7 +68,7 @@ const sendReceiptEmail = async (year: number, month: number, unit: string = null
           EmailModule.sendHTMLEmail({subject, html: body, to, attachments: [{
             filename,
             path: filepath
-          }], fromOverride});
+          }], fromOverride, serviceName: 'cartera'});
         } else {
           response.skipped += 1;
         }

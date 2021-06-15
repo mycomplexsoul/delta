@@ -23,17 +23,19 @@ Create a file named `cfg.json` in the root of the project and add the proper con
     "secretForToken": "your custom secret salt used for token generation",
     /* [Common] Configuration to send email */
     "mail": { /* to use a gmail account */
-        "service": "gmail", /* gmail only, if not gmail don't set the property */
-        "user": "some-email@gmail.com",
-        "pass": "email-account-pass",
-        "from": "Alias to show as recipient <some-email@gmail.com>"
-    }, /* -- or -- */
-    "mail": { /* to use a different account */
-        "user": "some-email@gmail.com",
-        "pass": "email-account-pass",
-        "from": "Alias to show as recipient <some-email@gmail.com>",
-        "host": "smtp.some-host.com",
-        "secure": true
+        "default": { /* default is used unless it's specified to use a different one */
+            "service": "gmail", /* gmail only, if not gmail don't set the property */
+            "user": "some-email@gmail.com",
+            "pass": "email-account-pass",
+            "from": "Alias to show as recipient <some-email@gmail.com>"
+        },
+        "cartera": { /* for all things in Cartera app */
+            "user": "some-email@gmail.com",
+            "pass": "email-account-pass",
+            "from": "Alias to show as recipient <some-email@gmail.com>",
+            "host": "smtp.some-host.com",
+            "secure": true
+        }
     },
     /* [Common] Encryption keys for all things kept as secret */
     "encryption": {
