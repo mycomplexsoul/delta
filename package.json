@@ -7,7 +7,7 @@
     "build:prod": "ng build --prod && node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap && node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap",
     "start": "npm run build:prod && npm run start:main",
     "start:main": "node --inspect server.js",
-    "start:nodemon": "nodemon",
+    "start:dev": "npm run build && nodemon",
     "start:ng": "ng serve",
     "start:build": "npm run build && npm run start:main",
     "lint": "ng lint",
@@ -72,7 +72,7 @@
     "nodemailer": "6.6.2",
     "rxjs": "6.6.7",
     "tslib": "^2.0.0",
-    "typescript": "4.3.5",
+    "typescript": "4.0.5",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
