@@ -1,3 +1,13 @@
+@media screen {
+  .page-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
 @media screen, print {
   * {
     font-family: sans-serif;
@@ -40,18 +50,16 @@
   .results-sign-list table tr td {
     padding-top: 5px;
   }
+
+  .results-summary {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 @media (max-width: 504px) {
   .results-summary table {
     width: 50%;
-  }
-}
-
-@media (max-width: 504px), print {
-  .results-summary {
-    display: flex;
-    justify-content: flex-end;
   }
 }
 

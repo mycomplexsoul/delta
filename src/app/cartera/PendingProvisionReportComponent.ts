@@ -36,6 +36,7 @@ export class PendingProvisionReportComponent implements OnInit {
     timelineList: Timeline[];
     title: string;
     layout: string;
+    unit: string;
   } = {
     pendingProvisionList: [],
     futureProvisionList: [],
@@ -56,6 +57,7 @@ export class PendingProvisionReportComponent implements OnInit {
     timelineList: [],
     title: null,
     layout: null, // 2-pages, 1-page
+    unit: null,
   };
 
   parseQueryString() {
@@ -63,7 +65,8 @@ export class PendingProvisionReportComponent implements OnInit {
 
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
-    this.viewData.layout = query.get("layout") || "2-pages";
+    this.viewData.layout = query.get("layout") || "1-page";
+    this.viewData.unit = query.get("unit") || null;
 
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month
@@ -101,39 +104,46 @@ export class PendingProvisionReportComponent implements OnInit {
           timelineList,
         } = response;
 
-        this.viewData.pendingProvisionList = pendingProvisionList;
-        this.viewData.futureProvisionList = futureProvisionList;
-        this.viewData.nonIdentifiedPaymentList = nonIdentifiedPaymentList;
-        this.viewData.timelineList = timelineList.map(this.parseNewline);
+        if (this.viewData.unit) {
+          this.viewData.pendingProvisionList = pendingProvisionList.filter(e => e.cpr_id_unit === this.viewData.unit);
+          this.viewData.futureProvisionList = futureProvisionList.filter(e => e.cpr_id_unit === this.viewData.unit);
+          this.viewData.nonIdentifiedPaymentList = [];
+          this.viewData.timelineList = [];
+        } else {
+          this.viewData.pendingProvisionList = pendingProvisionList;
+          this.viewData.futureProvisionList = futureProvisionList;
+          this.viewData.nonIdentifiedPaymentList = nonIdentifiedPaymentList;
+          this.viewData.timelineList = timelineList.map(this.parseNewline);
+        }
 
         // calculate totals
         this.viewData.pendingTotalAmount = this.sumByField(
-          pendingProvisionList,
+          this.viewData.pendingProvisionList,
           "cpr_amount"
         );
         this.viewData.pendingTotalCondoned = this.sumByField(
-          pendingProvisionList,
+          this.viewData.pendingProvisionList,
           "cpr_condoned"
         );
         this.viewData.pendingTotalPayed = this.sumByField(
-          pendingProvisionList,
+          this.viewData.pendingProvisionList,
           "cpr_payed"
         );
         this.viewData.pendingTotalRemaining = this.sumByField(
-          pendingProvisionList,
+          this.viewData.pendingProvisionList,
           "cpr_remaining"
         );
 
         this.viewData.futureTotalAmount = this.sumByField(
-          futureProvisionList,
+          this.viewData.futureProvisionList,
           "cpr_amount"
         );
         this.viewData.futureTotalPayed = this.sumByField(
-          futureProvisionList,
+          this.viewData.futureProvisionList,
           "cpr_payed"
         );
         this.viewData.futureTotalRemaining = this.sumByField(
-          futureProvisionList,
+          this.viewData.futureProvisionList,
           "cpr_remaining"
         );
 

@@ -1,103 +1,105 @@
-<h1 class="page-title text-align-center">
-  {{viewData.title}}
-</h1>
-
-<div class="text-align-center width-100-pct print-only">Página 1 de 1</div>
-
-<table class="movements-report desktop-only width-100-pct-print-only">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Fecha</th>
-      <th>Folio</th>
-      <th>Concepto</th>
-      <th>Ingreso</th>
-      <th>Egreso</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let movement of viewData.movementList; let counter = index"
-      class="movements-report-row"
-    >
-      <td class="padding-all-3 text-align-center vertical-align-top">
-        {{counter + 1}}
-      </td>
-      <td class="padding-all-3 text-align-center width-80 vertical-align-top">
-        {{movement.mov_date | date: "yyyy-MM-dd"}}
-      </td>
-      <td class="padding-all-3 movements-report-folio vertical-align-top">
-        {{movement.mov_budget}}
-      </td>
-      <td class="padding-all-3">
-        {{movement.mov_desc}}
-      </td>
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
-        <span *ngIf="movement.mov_ctg_type === 2">
-          {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-        </span>
-        <span *ngIf="movement.mov_ctg_type !== 2"></span>
-      </td>
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
-        <span *ngIf="movement.mov_ctg_type === 1">
-          {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-        </span>
-        <span *ngIf="movement.mov_ctg_type !== 1"></span>
-      </td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td class="padding-all-3"></td>
-      <td class="padding-all-3"></td>
-      <td class="padding-all-3"></td>
-      <td class="padding-all-3">Totales</td>
-      <td class="padding-all-3 text-align-right width-80">
-        {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
-      </td>
-      <td class="padding-all-3 text-align-right width-80">
-        {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
-      </td>
-    </tr>
-  </tfoot>
-</table>
-
-<table class="movements-report mobile-only width-100-pct">
-  <thead>
-    <tr>
-      <th># - Fecha - Concepto</th>
-      <th>Monto</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let movement of viewData.movementList; let counter = index"
-      class="movements-report-row"
-    >
-      <td class="padding-all-3 vertical-align-top">
-        #{{counter + 1}} - {{movement.mov_date | date: "yyyy-MM-dd"}} -
-        {{movement.mov_desc}}
-      </td>
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
-        <span *ngIf="movement.mov_ctg_type === 2"
-          >+{{movement.mov_amount | currency:
-          "USD":"symbol-narrow":"1.2-2"}}</span
-        >
-        <span *ngIf="movement.mov_ctg_type === 1">
-          {{-1 * movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-        </span>
-      </td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td class="padding-all-3">Totales</td>
-      <td class="padding-all-3 text-align-right width-80">
-        Ingresos: {{viewData.incomeTotal | currency:
-        "USD":"symbol-narrow":"1.2-2"}}
-        <br />Egresos: {{viewData.expenseTotal | currency:
-        "USD":"symbol-narrow":"1.2-2"}}
-      </td>
-    </tr>
-  </tfoot>
-</table>
+<div class="page-container">
+  <h1 class="page-title text-align-center">
+    {{viewData.title}}
+  </h1>
+  
+  <div class="text-align-center width-100-pct print-only">Página 1 de 1</div>
+  
+  <table class="movements-report desktop-only width-100-pct-print-only">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Folio</th>
+        <th>Concepto</th>
+        <th>Ingreso</th>
+        <th>Egreso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let movement of viewData.movementList; let counter = index"
+        class="movements-report-row"
+      >
+        <td class="padding-all-3 text-align-center vertical-align-top">
+          {{counter + 1}}
+        </td>
+        <td class="padding-all-3 text-align-center width-80 vertical-align-top">
+          {{movement.mov_date | date: "yyyy-MM-dd"}}
+        </td>
+        <td class="padding-all-3 movements-report-folio vertical-align-top">
+          {{movement.mov_budget}}
+        </td>
+        <td class="padding-all-3">
+          {{movement.mov_desc}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+          <span *ngIf="movement.mov_ctg_type === 2">
+            {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          <span *ngIf="movement.mov_ctg_type !== 2"></span>
+        </td>
+        <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+          <span *ngIf="movement.mov_ctg_type === 1">
+            {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          <span *ngIf="movement.mov_ctg_type !== 1"></span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <table class="movements-report mobile-only width-100-pct">
+    <thead>
+      <tr>
+        <th># - Fecha - Concepto</th>
+        <th>Monto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let movement of viewData.movementList; let counter = index"
+        class="movements-report-row"
+      >
+        <td class="padding-all-3 vertical-align-top">
+          #{{counter + 1}} - {{movement.mov_date | date: "yyyy-MM-dd"}} -
+          {{movement.mov_desc}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+          <span *ngIf="movement.mov_ctg_type === 2"
+            >+{{movement.mov_amount | currency:
+            "USD":"symbol-narrow":"1.2-2"}}</span
+          >
+          <span *ngIf="movement.mov_ctg_type === 1">
+            {{-1 * movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          Ingresos: {{viewData.incomeTotal | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+          <br />Egresos: {{viewData.expenseTotal | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

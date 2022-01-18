@@ -468,7 +468,7 @@ export class TasksComponent implements OnInit {
     }
     if (event.altKey && (event.keyCode == 106 || event.keyCode == 49)) {
       // detect '*' || '1'
-      this.markTaskAsDone(t, true, this.shouldUseTimeTrackingEndDate(t, event));
+      this.markTaskAsDone(t, { target: { checked: true }, shiftKey: event.shiftKey });
     }
     if (event.altKey && optIncludesKey(event.key, '2')) {
       // detect '2'
@@ -640,7 +640,7 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  markTaskAsDone(t: any, isChecked: boolean, useTimeTrackingDate: boolean) {
+  markTaskAsDone(t: any, event: { target: { checked: boolean }, shiftKey: boolean }) {
     if (this.timers[t.tsk_id]) {
       // task is in running state
       // stop time tracking
@@ -650,6 +650,8 @@ export class TasksComponent implements OnInit {
     if (this.options.optMoveTimetrackingToAvailableSlotWhenDone) {
       this.adjustTimeTracking(t, false);
     }
+    const { target: { checked: isChecked }, shiftKey } = event;
+    const useTimeTrackingDate = this.shouldUseTimeTrackingEndDate(t, shiftKey);
 
     let dateDone: Date = this.services.dateUtils.newDateUpToSeconds();
     if (useTimeTrackingDate && t.tsk_time_history.length) {
@@ -667,9 +669,9 @@ export class TasksComponent implements OnInit {
     }, this.delayOnUpdateState);
   }
 
-  shouldUseTimeTrackingEndDate(t: Task, event: Event): boolean {
+  shouldUseTimeTrackingEndDate(t: Task, shiftKeyWasUsed: boolean): boolean {
     const useTimeTrackingDate: boolean =
-      event["shiftKey"] ||
+      shiftKeyWasUsed ||
       (!!this.options.optUseEndTTDateAsDoneDate &&
         t &&
         t["tsk_time_history"] &&
@@ -684,8 +686,7 @@ export class TasksComponent implements OnInit {
   taskCheckboxHandler(t: Task, event: Event) {
     this.markTaskAsDone(
       t,
-      event["target"]["checked"],
-      this.shouldUseTimeTrackingEndDate(t, event)
+      { target: { checked: event["target"]["checked"] }, shiftKey: event["shiftKey"] }
     );
   }
 
@@ -2643,10 +2644,21 @@ export class TasksComponent implements OnInit {
 
   toggleCollapsedRecord(item, collapsedValue: boolean) {
     item.collapsed = collapsedValue;
-
+    this.saveCollapsedRecordsToStorage();
+  }
+  
+  saveCollapsedRecordsToStorage() {
     localStorage.setItem(
       "TasksCollapsed",
       JSON.stringify(this.state.openTasks.filter(e => e.collapsed).map((e: any) => e.header))
     );
+  }
+
+  toggleCollapseAllRecords(collapseAll: boolean) {
+    const collapsedTasks: String[] = collapseAll ? this.state.openTasks.map((e: any) => e.header) : [];
+
+    this.state.openTasks.forEach(e =>{ e.collapsed = collapseAll; });
+    this.saveCollapsedRecordsToStorage();
+
   }
 }

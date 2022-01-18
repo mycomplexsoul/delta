@@ -27,6 +27,7 @@ export class PaymentReportComponent implements OnInit {
     previousTotal: number;
     total: number;
     layout: string;
+    unit: string;
   } = {
     paymentReportData: [],
     title: null,
@@ -35,7 +36,8 @@ export class PaymentReportComponent implements OnInit {
     displayYearMonth: null,
     previousTotal: 0,
     total: 0,
-    layout: null // print, report (default), report-reference
+    layout: null, // print, report (default), report-reference
+    unit: null
   };
 
   parseQueryString() {
@@ -44,6 +46,7 @@ export class PaymentReportComponent implements OnInit {
     this.viewData.year = parseInt(query.get("year"), 10);
     this.viewData.month = parseInt(query.get("month"), 10);
     this.viewData.layout = query.get("layout") || "report";
+    this.viewData.unit = query.get("unit") || null;
 
     this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
       this.viewData.month
@@ -81,7 +84,11 @@ export class PaymentReportComponent implements OnInit {
     this.paymentReportService
       .getPaymentsForMonth(this.viewData.year, this.viewData.month)
       .then((response: iPaymentReportData[]) => {
-        this.viewData.paymentReportData = response;
+        if (this.viewData.unit) {
+          this.viewData.paymentReportData = response.filter(e => e.provision.cpr_id_unit === this.viewData.unit);
+        } else {
+          this.viewData.paymentReportData = response;
+        }
 
         this.viewData.paymentReportData.forEach(item => {
           if (item.previousPayDetList.length) {
@@ -102,6 +109,10 @@ export class PaymentReportComponent implements OnInit {
             (total, current) => total + (current.payment.cpy_ctg_type === 1 ? current.payment.cpy_amount : 0),
             0
           );
+
+          //
+          item['totalPayment'] = item.paymentList
+            .reduce((total, current) => total + (current.payment.cpy_ctg_type === 1 ? current.payment.cpy_amount : 0), 0)
         });
       });
   }

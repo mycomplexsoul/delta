@@ -166,7 +166,10 @@
       </span>
     </td>
     <td class="padding-left-5 padding-right-5 text-align-right vertical-align-top">
-      <span *ngIf="item.mma_total_ep !== '0'">
+      <span *ngIf="item.mma_total_ep !== '0'" [ngClass]="{
+        'multimedia-last-ep': item.mma_current_ep === item.mma_total_ep
+      }">
+      <span *ngIf="item.mma_current_ep === item.mma_total_ep">***</span>
         {{ item.mma_current_ep + "/" + item.mma_total_ep }}
       </span>
       <span *ngIf="item.mma_total_ep === '0'">
@@ -322,6 +325,7 @@
             [(ngModel)]="epModel.fTimeViewed"
             *ngIf="epModel._DateViewedType !== 'current'"
           />
+          <button (click)="setDateViewedInModel(viewData.latestViewedDate, $event)">{{ viewData.latestViewedDate | date: "yyyy-MM-dd" }}</button>
         </span>
         <span class="field">
           <label for="fRating" class="label-left">Rating</label>
@@ -442,6 +446,7 @@
             [{{ item.mmd_year }}]
           </a>
           <span *ngIf="!item.mmd_url">[{{ item.mmd_year }}]</span>
+          <span> | {{ item["viewedInfo"].mmv_date_viewed | date: "HH:mm:ss" }} </span>
           <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9733;</span>
         </span>
       </span>

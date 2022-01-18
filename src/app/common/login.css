@@ -8,3 +8,17 @@
   margin: 0 auto;
   width: 300px;
 }
+
+h2 {
+  text-align: center;
+}
+
+.form-item,
+label {
+  padding: 5px;
+}
+
+button,
+a {
+  margin: 5px;
+}

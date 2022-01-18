@@ -41,6 +41,7 @@ export class MultimediaComponent {
     showDetList: boolean;
     detListTitle: string;
     multimediaDetListWithGroups: any[];
+    latestViewedDate: Date;
   } = {
     multimediaList: [],
     multimediaDetList: [],
@@ -51,7 +52,8 @@ export class MultimediaComponent {
     showCreateEpForm: false,
     showDetList: false,
     detListTitle: null,
-    multimediaDetListWithGroups: []
+    multimediaDetListWithGroups: [],
+    latestViewedDate: null,
   };
 
   public model: {
@@ -511,7 +513,7 @@ export class MultimediaComponent {
 
     if (!id) {
       this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter(
-        (item, index) => index < 40
+        (item, index) => index < 50
       );
     }
 
@@ -540,6 +542,7 @@ export class MultimediaComponent {
       }
     });
     this.viewData.multimediaDetListWithGroups = multimediaDetListWithGroups;
+    this.viewData.latestViewedDate = multimediaDetListWithGroups[0].date;
   }
 
   showDetListing(id: string) {
@@ -597,11 +600,19 @@ export class MultimediaComponent {
     if (info && info.includes("|")) {
       const splitted: string[] = info.split("|");
 
-      this.epModel.fEpTitle = splitted[0];
-      this.epModel.fAltEpTitle = splitted[1] || "";
-      this.epModel.fYear = Number.parseInt(splitted[2]);
-      this.epModel.fUrl = splitted[3].trim() || "";
-      this.epModel.fSummary = splitted[4] || "";
+      if (splitted.length === 5) { // from imdb
+        this.epModel.fEpTitle = splitted[0];
+        this.epModel.fAltEpTitle = splitted[1] || "";
+        this.epModel.fYear = Number.parseInt(splitted[2]);
+        this.epModel.fUrl = splitted[3].trim() || "";
+        this.epModel.fSummary = splitted[4] || "";
+      }
+
+      if (splitted.length === 3) { // from netflix
+        this.epModel.fEpTitle = splitted[0];
+        this.epModel.fSummary = splitted[1] || "";
+        this.epModel.fPlatform = Number.parseInt(splitted[2]) || 1;
+      }
 
       document.querySelector("#fRating")["focus"]();
     }
@@ -614,5 +625,10 @@ export class MultimediaComponent {
       })
       .catch(console.log);
     return false;
+  }
+
+  setDateViewedInModel(date: Date, event: Event) {
+    this.epModel.fDateViewed = DateUtils.dateToStringDate(date);
+    event.preventDefault();
   }
 }

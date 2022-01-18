@@ -965,9 +965,11 @@ export class CarteraServer {
     const monthAbr = DateUtils.getMonthNameSpanish(date.getMonth() + 1)
       .substr(0, 3)
       .toUpperCase();
+    const yearTwoDigits = date.getFullYear() % 100;
+    const match = `${monthAbr}${yearTwoDigits}`;
 
     const last = provisionList
-      .filter((p) => p.cpr_folio && p.cpr_folio.substr(0, 3) === monthAbr)
+      .filter((p) => p.cpr_folio && p.cpr_folio.substr(0, 5) === match)
       .reduce((max, p) => {
         const num = parseInt(p.cpr_folio.substr(6, 3), 10);
         return max < num ? num : max;
@@ -978,6 +980,8 @@ export class CarteraServer {
 
   rebuildPendingPaymentsForMonthHandler(node: iNode) {
     const { year, month, unit, future } = node.request.query as any;
+
+    console.log('--running here');
 
     this.rebuildPendingPaymentsForMonth(
       parseInt(year, 10),

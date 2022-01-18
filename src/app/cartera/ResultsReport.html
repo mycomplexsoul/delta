@@ -1,169 +1,171 @@
-<h1 class="page-title text-align-center">
-  {{viewData.title}}
-</h1>
-
-<div class="text-align-center width-100-pct print-only">
-  Página 1 de 1
-</div>
-
-<div class="results-top-block padding-all-3">
-  <strong>FFJ78</strong>
-  <div>Francisco Field Jurado #78</div>
-  <div>Independencia, Benito Juárez</div>
-  <div>CDMX</div>
-</div>
-
-<table class="results-movements desktop-only width-100-pct-print-only">
-  <tbody>
-    <tr
-      *ngFor="let movement of viewData.renderList; let counter = index"
-      class="results-listing-row"
-      [ngClass]="{
-          'results-header-row': movement.type === 'header',
-          'results-total-row': movement.type === 'total'
-      }"
-    >
-      <td class="padding-all-3">
-        <span *ngIf="movement.type === 'header'">
-          {{movement.concept}}
-        </span>
-      </td>
-      <td class="padding-all-3">
-        <span *ngIf="movement.type === 'movement'">
-          {{movement.concept}}
-        </span>
-      </td>
-      <td class="padding-all-3 text-align-right width-120">
-        <span *ngIf="movement.type === 'total'">
-          {{movement.concept}}
-        </span>
-      </td>
-      <td class="padding-all-3 text-align-right width-80-strict">
-        <span *ngIf="movement.type === 'header' && counter === 0">
-          Importe
-        </span>
-        <span *ngIf="movement.type !== 'header'">
-          {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="results-movements mobile-only width-100-pct">
-  <tbody>
-    <tr
-      *ngFor="let movement of viewData.renderList; let counter = index"
-      class="results-listing-row"
-      [ngClass]="{
-          'results-header-row': movement.type === 'header',
-          'results-total-row': movement.type === 'total'
-      }"
-    >
-      <td
-        class="padding-all-3"
-        [ngClass]="{
-        'text-align-right': movement.type === 'total'
-      }"
-      >
-        <span>
-          {{movement.concept}}
-        </span>
-      </td>
-      <td class="padding-all-3 text-align-right width-80-strict">
-        <span *ngIf="movement.type === 'header' && counter === 0">
-          Importe
-        </span>
-        <span *ngIf="movement.type !== 'header'">
-          {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<div
-  [ngClass]="{
-  'results-top-block-50': viewData.timelineList.length > 0
-}"
->
-  <div class="results-timeline-list" *ngIf="viewData.timelineList.length > 0">
-    <div>
-      <strong>
-        Observaciones
-      </strong>
-    </div>
-    <br />
-    <div
-      *ngFor="let t of viewData.timelineList"
-      [innerHTML]="t.tim_description"
-    ></div>
+<div class="page-container">
+  <h1 class="page-title text-align-center">
+    {{viewData.title}}
+  </h1>
+  
+  <div class="text-align-center width-100-pct print-only">
+    Página 1 de 1
   </div>
-
-  <br />
-  <timeline
-    [recordId]="'cartera-results|' + viewData.year + '-' + viewData.month"
-    (onNewItem)="handleNewTimeline($event)"
-  ></timeline>
-</div>
-
-<div
-  class="results-summary width-100-pct-mobile-only"
-  [ngClass]="{
-  'results-top-block-50': viewData.timelineList.length > 0
-}"
->
-  <table class="text-align-right">
+  
+  <div class="results-top-block padding-all-3">
+    <strong>FFJ78</strong>
+    <div>Francisco Field Jurado #78</div>
+    <div>Independencia, Benito Juárez</div>
+    <div>CDMX</div>
+  </div>
+  
+  <table class="results-movements desktop-only width-100-pct-print-only">
     <tbody>
-      <tr class="results-total-row">
-        <td class="padding-all-3 width-120">
-          <span>Balance inicial</span>
-        </td>
-        <td class="padding-all-3 width-80-strict">
-          <span>
-            {{viewData.initialBalance | currency:
-            "USD":"symbol-narrow":"1.2-2"}}
+      <tr
+        *ngFor="let movement of viewData.renderList; let counter = index"
+        class="results-listing-row"
+        [ngClass]="{
+            'results-header-row': movement.type === 'header',
+            'results-total-row': movement.type === 'total'
+        }"
+      >
+        <td class="padding-all-3">
+          <span *ngIf="movement.type === 'header'">
+            {{movement.concept}}
           </span>
         </td>
-      </tr>
-      <tr>
-        <td class="padding-all-3 width-120">
-          <span>+ Total ingresos</span>
-        </td>
-        <td class="padding-all-3 width-80-strict">
-          <span>
-            {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+        <td class="padding-all-3">
+          <span *ngIf="movement.type === 'movement'">
+            {{movement.concept}}
           </span>
         </td>
-      </tr>
-      <tr>
-        <td class="padding-all-3 width-120">
-          <span>- Total egresos</span>
-        </td>
-        <td class="padding-all-3 width-80-strict">
-          <span>
-            {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+        <td class="padding-all-3 text-align-right width-120">
+          <span *ngIf="movement.type === 'total'">
+            {{movement.concept}}
           </span>
         </td>
-      </tr>
-      <tr class="results-total-row">
-        <td class="padding-all-3 width-120">
-          <span>Balance final</span>
-        </td>
-        <td class="padding-all-3 width-80-strict">
-          <span>
-            {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}
+        <td class="padding-all-3 text-align-right width-80-strict">
+          <span *ngIf="movement.type === 'header' && counter === 0">
+            Importe
+          </span>
+          <span *ngIf="movement.type !== 'header'">
+            {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
           </span>
         </td>
       </tr>
     </tbody>
   </table>
-</div>
-
-<div class="results-sign-list" *ngIf="viewData.showSigns">
-  <table>
-    <tr>
-      <td>Comité de Vigilancia</td>
-    </tr>
+  
+  <table class="results-movements mobile-only width-100-pct">
+    <tbody>
+      <tr
+        *ngFor="let movement of viewData.renderList; let counter = index"
+        class="results-listing-row"
+        [ngClass]="{
+            'results-header-row': movement.type === 'header',
+            'results-total-row': movement.type === 'total'
+        }"
+      >
+        <td
+          class="padding-all-3"
+          [ngClass]="{
+          'text-align-right': movement.type === 'total'
+        }"
+        >
+          <span>
+            {{movement.concept}}
+          </span>
+        </td>
+        <td class="padding-all-3 text-align-right width-80-strict">
+          <span *ngIf="movement.type === 'header' && counter === 0">
+            Importe
+          </span>
+          <span *ngIf="movement.type !== 'header'">
+            {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+        </td>
+      </tr>
+    </tbody>
   </table>
+  
+  <div
+    [ngClass]="{
+    'results-top-block-50': viewData.timelineList.length > 0
+  }"
+  >
+    <div class="results-timeline-list" *ngIf="viewData.timelineList.length > 0">
+      <div>
+        <strong>
+          Observaciones
+        </strong>
+      </div>
+      <br />
+      <div
+        *ngFor="let t of viewData.timelineList"
+        [innerHTML]="t.tim_description"
+      ></div>
+    </div>
+  
+    <br />
+    <timeline
+      [recordId]="'cartera-results|' + viewData.year + '-' + viewData.month"
+      (onNewItem)="handleNewTimeline($event)"
+    ></timeline>
+  </div>
+  
+  <div
+    class="results-summary width-100-pct-mobile-only"
+    [ngClass]="{
+    'results-top-block-50': viewData.timelineList.length > 0
+  }"
+  >
+    <table class="text-align-right">
+      <tbody>
+        <tr class="results-total-row">
+          <td class="padding-all-3 width-120">
+            <span>Balance inicial</span>
+          </td>
+          <td class="padding-all-3 width-80-strict">
+            <span>
+              {{viewData.initialBalance | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="padding-all-3 width-120">
+            <span>+ Total ingresos</span>
+          </td>
+          <td class="padding-all-3 width-80-strict">
+            <span>
+              {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="padding-all-3 width-120">
+            <span>- Total egresos</span>
+          </td>
+          <td class="padding-all-3 width-80-strict">
+            <span>
+              {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+            </span>
+          </td>
+        </tr>
+        <tr class="results-total-row">
+          <td class="padding-all-3 width-120">
+            <span>Balance final</span>
+          </td>
+          <td class="padding-all-3 width-80-strict">
+            <span>
+              {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="results-sign-list" *ngIf="viewData.showSigns">
+    <table>
+      <tr>
+        <td>Comité de Vigilancia</td>
+      </tr>
+    </table>
+  </div>
 </div>

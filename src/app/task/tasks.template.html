@@ -631,7 +631,14 @@
     >
       <strong>{{ options.optCollapseOpenTasks ? '+' : '-' }} Open Tasks</strong>
     </button>
-    | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks</span
+    | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks
+    <button (click)="toggleCollapseAllRecords(true)">
+      Collapse all
+    </button>
+    <button (click)="toggleCollapseAllRecords(false)">
+      Expand all
+    </button>
+    </span
   >
   <div *ngIf="!state.openTasks.length">
     <strong
@@ -752,7 +759,7 @@
           <span class="task-qualifier-icon task-qualifier-urgent" *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1">&#33;</span>
           <span class="task-qualifier-icon" *ngIf="t.tsk_qualifiers.indexOf('people') !== -1">&#9472;</span>
           <span class="task-qualifier-icon task-qualifier-flag" *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1">&#9873;</span>
-          <span class="task-qualifier-icon" *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1">&#8856;</span>
+          <span class="task-qualifier-icon" *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1">&#10006;</span>
           <span
             contenteditable="true"
             spellcheck="false"
@@ -874,7 +881,7 @@
         >
           {{ c }}
         </td>
-        <td>%</td>
+        <td class="text-align-center">%</td>
       </tr>
       <tr *ngFor="let indicator of state.indicators">
         <td>

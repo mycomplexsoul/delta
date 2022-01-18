@@ -27,6 +27,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.11.13 (2020-11-17)
+
+- [AppLinks][new] /verify to verify if an url was previously saved
+
+## v1.11.12 (2020-11-10)
+
+- [AppMultimedia] UI highlight to last episode media
+- [AppTasks][fix] Fix Shift key usage to handle time tracking
+- [AppLinks][fix] Fix CORS for verify endpoint
+
+## v1.11.11 (2020-11-03)
+
+- [AppCartera] Pending Provisions Report - Filter by unit
+- [AppMultimedia] Add a button to use last viewed date
+- [AppLogin] Small UI tweaks
+
+## v1.11.10 (2020-10-27)
+
+- [AppCartera] Pending Provisions Report - Filter by unit
+- [AppCartera] Payment Report - Add mobile view
+- [AppCartera] Payment Report - Filter by unit
+
+## v1.11.9 (2020-10-20)
+
+- [AppCartera] Payment Report - Add mobile view
+- [AppCommon] Fix nodemon start script task
+- [AppCartera] Fix page containers CSS to fit page-width
+
+## v1.11.8 (2020-10-13)
+
+- [AppCartera][new] Generate Cartera Pending Payment Report for a single unit by passing a unit as parameter
+- [AppCartera][new] Generate Cartera Payment Report for a single unit
+- [AppCartera][mod] All Reports - Center content for screen view
+
+## v1.11.7 (2020-10-06)
+
+- [AppCartera][fix] Fix Cartera last folio available by matching month and year
+- [AppCartera][mod] Cartera Payment Report - Render all payments instead of just one
+- [AppTasks][new] Buttons to collapse/expand all records
+
 ## v1.11.6 (2020-09-29)
 
 - [AppLinks][new] Add bad payload handling to return error properly, create browser extension as a separate project

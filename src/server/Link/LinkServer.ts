@@ -80,4 +80,43 @@ export class LinkServer {
       });
     });
   };
+
+  getRequestHandler = (node: iNode) => {
+    this.get(node.request.query).then(response => {
+      console.log('response from API', response);
+      node.response.json(response);
+    });
+  };
+
+  get = (query: any): Promise<any> => {
+    const api: ApiModule = new ApiModule(new Link());
+
+    if (!query.lnk_url) {
+      return Promise.resolve({
+        success: false,
+        message: 'Bad request, you did not sent an url'
+      });
+    }
+
+    // TODO: Improve this later: it is parsing query, then concatenating user id and stringifying again :-(
+    const q = {
+      cont: []
+    };
+    q.cont.push({
+      f: "lnk_url",
+      op: "eq",
+      val: query["lnk_url"],
+    });
+
+    const queue = [
+      {
+        sql: "select * from vilink",
+        model: new Link(),
+        name: "links",
+        q: JSON.stringify(q),
+      },
+    ];
+
+    return api.listWithSQL(queue[0]);
+  }
 }
