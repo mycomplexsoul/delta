@@ -27,9 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.11.13 (2020-11-17)
+## v1.12.0 (2020-11-17)
 
 - [AppLinks][new] /verify to verify if an url was previously saved
+- [AppCommon] Upgrade to Angular v12
+- [AppCommon] Upgrade dependencies
 
 ## v1.11.12 (2020-11-10)
 
