@@ -52,3 +52,6 @@ server.js
 
 # Special files
 cfg.json
+
+# Angular cache
+.angular/
