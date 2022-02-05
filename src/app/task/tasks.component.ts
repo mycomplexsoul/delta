@@ -1991,6 +1991,20 @@ export class TasksComponent implements OnInit {
           parseInt(parts[1]) * 60 * 1000 +
           parseInt(parts[2]) * 1000
       );
+      // safe check if history is empty
+      if (task.tsk_time_history.length === 0) {
+        task.tsk_time_history.push({
+          tsh_id: task.tsk_id,
+          tsh_num_secuential: 1,
+          tsh_name: task.tsk_name,
+          tsh_date_start: DateUtils.newDateUpToSeconds(),
+          tsh_date_end: DateUtils.newDateUpToSeconds(),
+          tsh_time_spent: 0,
+          tsh_id_user: task.tsk_id_user_added,
+          tsh_date_add: DateUtils.newDateUpToSeconds(),
+          tsh_date_mod: DateUtils.newDateUpToSeconds(),
+        });
+      }
       // only update if value changed
       let previousValue = new Date(
         task.tsk_time_history[task.tsk_time_history.length - 1][

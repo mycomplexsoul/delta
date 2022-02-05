@@ -27,6 +27,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.13.3 (2020-12-15)
+
+- [AppCartera] Option to show Payments Report in portrait/landscape
+- [AppTasks][fix] Fix quick edit timetracking when it was not saved into DB after reloading
+- [AppCommon][new] AppComponent - Add wake lock configuration to prevent screen lock
+
+## v1.13.2 (2020-12-08)
+
+- [AppLinks][new] Page and Extension - Update modified date when url exists
+- [AppCartera][mod] Payment Report Print mode - Add a note when the provision is already payed
+- [AppCartera][new] When saving cartera payment report, append a prefix to the filename "Formato"
+
+## v1.13.1 (2020-12-01)
+
+- [AppKanban][new] Add KeyVal listing to activity details
+- [AppMultimedia][new] Do not allow to save if year is empty
+- [AppLinks][new] Extension - Allow to send from page with a button
+
 ## v1.13.0 (2020-11-24)
 
 - [AppCommon] Upgrade to Angular v13

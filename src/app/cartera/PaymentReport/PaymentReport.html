@@ -107,9 +107,12 @@
           <div
             *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
           >
-            <input type="checkbox" />
-            <span>
+            <input type="checkbox" *ngIf="!item.isCurrentProvisionPayed" />
+            <span *ngIf="!item.isCurrentProvisionPayed">
               Mantto {{ viewData.displayYearMonth }}
+            </span>
+            <span *ngIf="item.isCurrentProvisionPayed">
+              (Cuota de este mes cubierta)
             </span>
           </div>
         </td>

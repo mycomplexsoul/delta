@@ -42,6 +42,14 @@
 
   <div class="activity-details" *ngIf="model.id">
     <span>
+      Details
+    </span>
+
+    <div *ngFor="let k of model.keyval">
+      {{ k.key_name }} / {{ k.key_value }}
+    </div>
+
+    <span>
       Timeline
     </span>
 

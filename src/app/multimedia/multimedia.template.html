@@ -260,6 +260,7 @@
           step="1"
           [(ngModel)]="epModel.fYear"
         />
+        <span *ngIf="!epModel.fYear" class="color-red padding-left-5">Year is required</span>
       </span>
       <span class="field">
         <label for="fUrl" class="label-left">Url</label>
@@ -337,6 +338,7 @@
             step="1"
             [(ngModel)]="epModel.fRating"
           />
+          <span *ngIf="!epModel.fRating" class="color-red padding-left-5">Rating is required</span>
         </span>
         <span class="field">
           <label for="fPlatform" class="label-left">Platform</label>
@@ -410,7 +412,7 @@
         </span>
       </span>
 
-      <button type="submit">Save</button>
+      <button type="submit" [disabled]="!epModel.fYear || !epModel.fRating">Save</button>
     </div>
   </div>
 </form>

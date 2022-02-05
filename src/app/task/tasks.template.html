@@ -1111,7 +1111,7 @@
               contenteditable="true"
               spellcheck="false"
               (keyup)="timeTrackingQuickEdit(item, $event, 'start')"
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1]
+              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] && item.tsk_time_history[item.tsk_time_history.length - 1]
               .tsh_date_start | date: "HH:mm:ss" }}</span
             >
             -
@@ -1120,7 +1120,7 @@
               contenteditable="true"
               spellcheck="false"
               (keyup)="timeTrackingQuickEdit(item, $event, 'end')"
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1]
+              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] && item.tsk_time_history[item.tsk_time_history.length - 1]
               .tsh_date_end | date: "HH:mm:ss" }}</span
             >]
           </span>

@@ -50,6 +50,7 @@ app.get("/metadata", (req, res) => {
 
 app.options("/api/external/links", cors());
 app.options("/api/external/links/verify", cors());
+app.options("/api/external/links/:lnk_id", cors());
 
 app.use("/api", Routes.router);
 

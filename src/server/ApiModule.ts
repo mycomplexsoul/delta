@@ -18,7 +18,7 @@ export class ApiModule {
     let sql: string = sqlMotor.toSelectSQL(params);
     let array: iEntity[] = [];
 
-    if (data.username) {
+    if (data.username && m.metadata.fields.find((field) => field.dbName === `${m.metadata.prefix}_id_user`)) {
       sql += `${params ? " and " : " where "}${m.metadata.prefix}_id_user = '${
         data.username
       }'`;
@@ -48,8 +48,13 @@ export class ApiModule {
       const sqlMotor: MoSQL = new MoSQL(m);
       const recordName: string = m.recordName();
 
+      let verifyExistsSQL = sqlMotor.toSelectPKSQL();
+      if (hooks.onVerifyExistsSQL) {
+        verifyExistsSQL = hooks.onVerifyExistsSQL(m, sqlMotor);
+      }
+
       return connection
-        .runSql(sqlMotor.toSelectPKSQL())
+        .runSql(verifyExistsSQL)
         .then(response => {
           if (response.err) {
             //console.log(`got this error trying to validate if this ${strName} already exists`,err);

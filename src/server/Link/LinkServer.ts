@@ -5,6 +5,8 @@ import { ApiModule } from "../ApiModule";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { Utils } from "../../crosscommon/Utility";
 import { configModule } from "../ConfigModule";
+import { iEntity } from "../../crosscommon/iEntity";
+import { MoSQL } from "../MoSQL";
 
 export class LinkServer {
   private api: ApiServer = new ApiServer(new Link());
@@ -119,4 +121,38 @@ export class LinkServer {
 
     return api.listWithSQL(queue[0]);
   }
+
+  externalUpdateRequestHandler = (node: iNode) => {
+    this.externalUpdate(node.request.body, node.request.params).then(response => {
+      console.log('response from API', response);
+      node.response.end(JSON.stringify(response));
+    });
+  };
+
+  externalUpdate = (body: any, pk: any): Promise<any> => {
+    const api: ApiModule = new ApiModule(new Link());
+
+    if (!body.lnk_url) {
+      return Promise.resolve({
+        success: false,
+        message: 'Bad payload, you did not sent an url'
+      });
+    }
+
+    console.log('pk received', pk);
+
+    const item = {
+      lnk_id: body.lnk_id || pk.lnk_id,
+      lnk_url: body.lnk_url,
+      lnk_title: body.lnk_title,
+      lnk_tags: body.lnk_tags || null,
+      lnk_comment: null,
+      lnk_id_user: body.lnk_id_user,
+      lnk_date_add: new Date(body.lnk_date_add) || DateUtils.newDateUpToSeconds(),
+      lnk_date_mod: DateUtils.newDateUpToSeconds(),
+      lnk_ctg_status: 1
+    };
+
+    return api.update({ body: item, pk }, {});
+  };
 }

@@ -1,18 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { Activity } from "../../crosscommon/entities/Activity";
 import { ActivityService } from "./activity.service";
+import { KeyvalService } from "./keyval.service";
 import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 import { CommonComponent } from "../common/common.component";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { TimelineService } from "../common/TimelineService";
 import { Timeline } from "src/crosscommon/entities/Timeline";
+import { Keyval } from "src/crosscommon/entities/Keyval";
 
 @Component({
   selector: "activity",
   templateUrl: "./activity.template.html",
   styleUrls: ["./activity.css"],
-  providers: [ActivityService, TimelineService]
+  providers: [ActivityService, TimelineService, KeyvalService]
 })
 export class ActivityComponent implements OnInit {
   public viewData: {
@@ -20,23 +22,28 @@ export class ActivityComponent implements OnInit {
     showItemForm: boolean;
     timelineList: Timeline[];
     timelineKey: string;
+    keyvalList: Keyval[]
   } = {
     activityList: [],
     showItemForm: false,
     timelineList: [],
-    timelineKey: "activity|"
+    timelineKey: "activity|",
+    keyvalList: []
   };
 
   public model: {
     id: string;
+    keyval: Keyval[]
   } = {
-    id: null
+    id: null,
+    keyval: []
   };
   public common: CommonComponent<Activity> = null;
 
   constructor(
     private activityService: ActivityService,
-    private timelineService: TimelineService
+    private timelineService: TimelineService,
+    private keyvalService: KeyvalService
   ) {
     this.common = new CommonComponent<Activity>();
   }
@@ -44,6 +51,10 @@ export class ActivityComponent implements OnInit {
   ngOnInit() {
     this.activityService.getAll().then(list => {
       this.viewData.activityList = list;
+    });
+    // TODO: Get only keyval for open activities
+    this.keyvalService.getAll().then(list => {
+      this.viewData.keyvalList = list;
     });
   }
 
@@ -61,7 +72,7 @@ export class ActivityComponent implements OnInit {
         form,
         model: this.model,
         listing: this.viewData.activityList,
-        onFindExpression: item => this.findById(item, this.model.id),
+        onFindExpression: item => this.findById(item, "act_id", this.model.id),
         onAssignForEdit: (item, formValues) => {
           const newItem = new Activity(item);
 
@@ -85,7 +96,7 @@ export class ActivityComponent implements OnInit {
         form,
         listing: this.viewData.activityList,
         onFindExpression: (item, newItem) =>
-          this.findById(item, newItem.act_id),
+          this.findById(item, "act_id", newItem.act_id),
         onAssignForCreate: formValues => {
           const newItem = new Activity({
             act_id_project: formValues.fProjectId || "0",
@@ -131,15 +142,18 @@ export class ActivityComponent implements OnInit {
       this.viewData.showItemForm = !this.viewData.showItemForm;
     }
 
-    model = this.viewData.activityList.find(item => this.findById(item, id));
+    // Set activity
+    model = this.viewData.activityList.find(item => this.findById(item, "act_id", id));
     this.model.id = model["act_id"]; // to tell the form that this is an edition
 
+    // Get Timeline
     this.timelineService
       .getTimeline(this.viewData.timelineKey + this.model.id)
       .then(({ timeline }) => {
         this.viewData.timelineList = timeline;
       });
 
+    // Fill form
     setTimeout(() => {
       // form.controls["fProjectId"].setValue(model["act_id_project"]);
       form.controls["fName"].setValue(model["act_name"]);
@@ -148,9 +162,12 @@ export class ActivityComponent implements OnInit {
       // form.controls["fCloseComment"].setValue(model["act_close_comment"]);
       // form.controls["fCtgStatus"].setValue(model["act_ctg_status"]);
     }, 0);
+
+    // Get Keyval
+    this.model.keyval = this.viewData.keyvalList.filter(item => this.findById(item, "key_id", id));
   }
 
-  findById(item: Activity, id: string) {
-    return item.act_id === id;
+  findById(item: iEntity, field: string, id: string) {
+    return item[field] === id;
   }
 }

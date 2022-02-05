@@ -59,7 +59,11 @@ export class PaymentReportComponent implements OnInit {
   ) {
     this.parseQueryString();
     this.viewData.title = `Recaudación ${this.viewData.displayYearMonth} FFJ78`;
-    titleService.setTitle(this.viewData.title);
+    if (this.viewData.layout === 'print') {
+      titleService.setTitle(`Formato de ${this.viewData.title}`);
+    } else {
+      titleService.setTitle(this.viewData.title);
+    }
   }
 
   ngOnInit() {
@@ -113,6 +117,8 @@ export class PaymentReportComponent implements OnInit {
           //
           item['totalPayment'] = item.paymentList
             .reduce((total, current) => total + (current.payment.cpy_ctg_type === 1 ? current.payment.cpy_amount : 0), 0)
+
+          item['isCurrentProvisionPayed'] = item.provision.cpr_remaining === 0;
         });
       });
   }

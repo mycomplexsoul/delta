@@ -23,6 +23,7 @@ import * as ActivityRoute from "./Activity/ActivityRoute";
 import * as CarteraRoute from "./Cartera/CarteraRoute";
 import * as CarteraRouteExternal from "./Cartera/CarteraRouteExternal";
 import * as TimelineRoute from "./Timeline/TimelineRoute";
+import * as KeyvalRoute from "./Keyval/KeyvalRoute";
 
 import * as SyncRoute from "./Sync/SyncRoute";
 
@@ -55,6 +56,7 @@ const entitiesWithAuth = [
   { url: "/activities", handler: ActivityRoute.router },
   // { url: "/cartera", handler: CarteraRoute.router },
   { url: "/timeline", handler: TimelineRoute.router },
+  { url: "/keyval", handler: KeyvalRoute.router },
 
   { url: "/sync", handler: SyncRoute.router }
 ];
