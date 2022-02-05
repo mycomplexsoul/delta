@@ -75,7 +75,7 @@
     "zone.js": "0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.1.4",
+    "@angular-devkit/build-angular": "^13.2.2",
     "@angular/cli": "13.2.2",
     "@angular/compiler-cli": "13.2.1",
     "@angular/language-service": "13.2.1",
@@ -94,7 +94,7 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "mocha": "^9.1.4",
+    "mocha": "^9.2.0",
     "nodemon": "^2.0.4",
     "nyc": "15.1.0",
     "prettier": "2.5.1",
