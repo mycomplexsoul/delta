@@ -10,6 +10,7 @@ import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
 import { TextToSpeech } from "../common/speechRecognition";
+import { autogrowSetup } from '../common/autogrow';
 
 @Component({
   selector: "tasks",
@@ -247,6 +248,14 @@ export class TasksComponent implements OnInit {
           t.tsk_ctg_status == this.taskStatus.CLOSED &&
           new Date(t.tsk_date_done) >= today0 &&
           new Date(t.tsk_date_done) <= tomorrow0
+      )
+      .sort(sortByClosedDate);
+    this.state.closedYesterdayTasks = this.tasks
+      .filter(
+        (t) =>
+          t.tsk_ctg_status == this.taskStatus.CLOSED &&
+          new Date(t.tsk_date_done) >= yesterday0 &&
+          new Date(t.tsk_date_done) <= today0
       )
       .sort(sortByClosedDate);
     this.state.postponedTasks = this.tasks
@@ -1041,32 +1050,6 @@ export class TasksComponent implements OnInit {
     return dom;
   }
 
-  autogrowSetup(componentWillBeVisible) {
-    // Setup autogrow for textarea
-    const handleInput = function handeInput() {
-      this.parentNode.dataset.replicatedValue = this.value;
-    };
-    const grow = (handlerAction: string) => {
-      const growers = document.querySelectorAll(".grow-wrap");
-      
-      growers.forEach((grower: HTMLDivElement) => {
-        const textarea = grower.querySelector("textarea");
-  
-        if (handlerAction === 'remove-it') {
-          textarea.removeEventListener("input", handleInput.bind(textarea));
-        } else {
-          textarea.addEventListener("input", handleInput.bind(textarea));
-        }
-      });
-    };
-
-    if (componentWillBeVisible) {
-      setTimeout(() => grow('add-it'), 200);
-    } else {
-      grow('remove-it');
-    }
-  }
-
   inputKeyUpHandler(event: KeyboardEvent) {
     if (event.keyCode === 40 && !this.showBatchAdd) {
       // Down arrow
@@ -1076,7 +1059,7 @@ export class TasksComponent implements OnInit {
       // detect "F2" = toggle Batch Add
       this.showBatchAdd = !this.showBatchAdd;
 
-      this.autogrowSetup(this.showBatchAdd);
+      autogrowSetup({ componentWillBeVisible: this.showBatchAdd });
 
       this.viewETABeforeAdd = false;
       setTimeout(() => {

@@ -17,6 +17,7 @@ import { SyncQueue } from "../common/SyncQueue";
 import { CommonComponent } from "../common/common.component";
 
 import { startSpeechRecognition } from "../common/speechRecognition";
+import { autogrowSetup } from '../common/autogrow';
 
 @Component({
   selector: "multimedia",
@@ -287,6 +288,22 @@ export class MultimediaComponent {
     this.epModel.isViewed = true;
     this.epModel.mediaUrl = item.mma_url;
 
+    // autogrow textarea
+    autogrowSetup();
+
+    // Peek into previous ep and use that if it's posterior to media year
+    const previousEpisodes = this.multimediaDetService
+      .list()
+      .filter(e => e.mmd_id === item.mma_id)
+      .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
+    if (previousEpisodes.length > 0) {
+      const previousEp: MultimediaDet = previousEpisodes[0];
+
+      if (previousEp && previousEp.mmd_year > this.epModel.fYear) {
+        this.epModel.fYear = previousEp.mmd_year;
+      }
+    }
+
     // see if we have data for this ep in order to populate form
     const detFound = this.multimediaDetService
       .list()
@@ -317,21 +334,6 @@ export class MultimediaComponent {
       this.epModel.fRating = viewFound.mmv_num_rating;
       this.epModel.fPlatform = viewFound.mmv_ctg_platform;
       this.epModel.fNotes = viewFound.mmv_notes;
-    }
-
-    // if year is not set, try to peek into previous ep and use that
-    if (this.epModel.fYear === 0) {
-      const previousEpisodes = this.multimediaDetService
-        .list()
-        .filter(e => e.mmd_id === item.mma_id)
-        .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
-      if (previousEpisodes.length > 0) {
-        const previousEp: MultimediaDet = previousEpisodes[0];
-
-        if (previousEp) {
-          this.epModel.fYear = previousEp.mmd_year;
-        }
-      }
     }
 
     // set our guess on the next ep id so the user can verify or change it
@@ -542,7 +544,8 @@ export class MultimediaComponent {
       }
     });
     this.viewData.multimediaDetListWithGroups = multimediaDetListWithGroups;
-    this.viewData.latestViewedDate = multimediaDetListWithGroups[0].date;
+    // latest viewed item is the first one of the first listing always because of ordering
+    this.viewData.latestViewedDate = multimediaDetListWithGroups[0].items[0].viewedDate;
   }
 
   showDetListing(id: string) {
@@ -628,7 +631,16 @@ export class MultimediaComponent {
   }
 
   setDateViewedInModel(date: Date, event: Event) {
+    const btn = document.getElementById('fDateViewedTypeCustom');
+    if (btn && this.epModel._DateViewedType !== 'custom') {
+      btn.click();
+    }
     this.epModel.fDateViewed = DateUtils.dateToStringDate(date);
+    // Use current date but with the hours digits +1hr from the argument
+    // so that new time is ahead of the latest viewed item for at least 0min and at most 1hr
+    const tempDate = new Date();
+    tempDate.setHours(date.getHours() + 1);
+    this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(tempDate);
     event.preventDefault();
   }
 }

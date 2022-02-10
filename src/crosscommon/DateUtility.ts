@@ -247,7 +247,7 @@ class DateUtility {
       hour = Math.floor(elapsed / (60 * 60));
     }
 
-    const str: string = format
+    let str: string = format
       .replace("[dd]", this.fillString(days, 2, -1, zero))
       .replace("[d]", String(days))
       .replace("0d", "")
@@ -259,6 +259,13 @@ class DateUtility {
       .replace("[s]", String(sec))
       .replace("m0s", "m")
       .replace("h0m", "h");
+    
+    if (str.startsWith('00:')) { // HH
+      str = str.replace('00:', '');
+    }
+    if (str.startsWith('00:')) { // mm
+      str = str.replace('00:', '');
+    }
 
     return ["0h", "0h0", "0h0m"].indexOf(str) !== -1 ? "0" : str;
   }

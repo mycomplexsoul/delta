@@ -33,8 +33,9 @@
             *ngFor="let opt of viewData.mediaTypeList"
             [value]="opt.ctg_sequential"
             [selected]="opt.ctg_sequential === newForm.value.fMediaType"
-            >{{ opt.ctg_name }}</option
           >
+            {{ opt.ctg_name }}
+          </option>
         </select>
       </span>
       <span class="field">
@@ -98,14 +99,20 @@
 <table class="multimedia-listing">
   <tr>
     <th class="padding-left-5 padding-right-5">#</th>
-    <th class="padding-left-5 padding-right-5 width-100">Last Viewed / Title</th>
+    <th class="padding-left-5 padding-right-5 width-100">
+      Last Viewed / Title
+    </th>
     <th class="padding-left-5 padding-right-5">Episode</th>
   </tr>
   <tr
     class="multimedia-listing-row"
     *ngFor="let item of viewData.multimediaList; let i = index"
   >
-    <td class="padding-left-5 padding-right-5 text-align-right vertical-align-top">{{ i + 1 }}</td>
+    <td
+      class="padding-left-5 padding-right-5 text-align-right vertical-align-top"
+    >
+      {{ i + 1 }}
+    </td>
     <td class="padding-left-5 padding-right-5 vertical-align-top">
       <span
         (click)="item.showOptions = !item.showOptions"
@@ -142,7 +149,7 @@
         <a [href]="item.mma_url" target="_blank">{{ "T" + item.mma_season }}</a>
       </span>
       <span *ngIf="!item.mma_url">{{ "T" + item.mma_season }}</span>
-      
+
       <span class="desktop-only">&nbsp;({{ item.mma_year }})</span>
       <br />
       <span *ngIf="item.showOptions">
@@ -165,16 +172,19 @@
         </button>
       </span>
     </td>
-    <td class="padding-left-5 padding-right-5 text-align-right vertical-align-top">
-      <span *ngIf="item.mma_total_ep !== '0'" [ngClass]="{
+    <td
+      class="padding-left-5 padding-right-5 text-align-right vertical-align-top"
+    >
+      <span
+        *ngIf="item.mma_total_ep !== '0'"
+        [ngClass]="{
         'multimedia-last-ep': item.mma_current_ep === item.mma_total_ep
-      }">
-      <span *ngIf="item.mma_current_ep === item.mma_total_ep">***</span>
+      }"
+      >
+        <span *ngIf="item.mma_current_ep === item.mma_total_ep">***</span>
         {{ item.mma_current_ep + "/" + item.mma_total_ep }}
       </span>
-      <span *ngIf="item.mma_total_ep === '0'">
-        {{ item.mma_current_ep }}
-      </span>
+      <span *ngIf="item.mma_total_ep === '0'"> {{ item.mma_current_ep }} </span>
     </td>
   </tr>
 </table>
@@ -200,9 +210,7 @@
 
 <form #newEpForm="ngForm" (ngSubmit)="newEpItem(newEpForm)">
   <div *ngIf="viewData.showCreateEpForm">
-    <button type="button" (click)="hideNewEpForm()">
-      Hide Ep Form
-    </button>
+    <button type="button" (click)="hideNewEpForm()">Hide Ep Form</button>
     <div>
       <span class="field">
         <label for="fTitle" class="label-left">Title</label>
@@ -260,7 +268,9 @@
           step="1"
           [(ngModel)]="epModel.fYear"
         />
-        <span *ngIf="!epModel.fYear" class="color-red padding-left-5">Year is required</span>
+        <span *ngIf="!epModel.fYear" class="color-red padding-left-5"
+          >Year is required</span
+        >
       </span>
       <span class="field">
         <label for="fUrl" class="label-left">Url</label>
@@ -286,12 +296,14 @@
       <span *ngIf="epModel.isViewed">
         <span class="field">
           <label for="fSummary" class="label-left">Summary</label>
-          <textarea
-            name="fSummary"
-            id="fSummary"
-            class="field-input multimedia-input-summary"
-            [(ngModel)]="epModel.fSummary"
-          ></textarea>
+          <div class="grow-wrap">
+            <textarea
+              name="fSummary"
+              id="fSummary"
+              class="multimedia-input-summary"
+              [(ngModel)]="epModel.fSummary"
+            ></textarea>
+          </div>
           <span *ngIf="epModel.fSummary">
             {{ epModel.fSummary.length }} / 4000 characters
           </span>
@@ -326,7 +338,12 @@
             [(ngModel)]="epModel.fTimeViewed"
             *ngIf="epModel._DateViewedType !== 'current'"
           />
-          <button (click)="setDateViewedInModel(viewData.latestViewedDate, $event)">{{ viewData.latestViewedDate | date: "yyyy-MM-dd" }}</button>
+          <button
+            (click)="setDateViewedInModel(viewData.latestViewedDate, $event)"
+            id="btnSetDateViewedInModel"
+          >
+            {{ viewData.latestViewedDate | date: "yyyy-MM-dd" }}
+          </button>
         </span>
         <span class="field">
           <label for="fRating" class="label-left">Rating</label>
@@ -338,7 +355,9 @@
             step="1"
             [(ngModel)]="epModel.fRating"
           />
-          <span *ngIf="!epModel.fRating" class="color-red padding-left-5">Rating is required</span>
+          <span *ngIf="!epModel.fRating" class="color-red padding-left-5"
+            >Rating is required</span
+          >
         </span>
         <span class="field">
           <label for="fPlatform" class="label-left">Platform</label>
@@ -352,8 +371,9 @@
               *ngFor="let opt of viewData.platformList"
               [value]="opt.ctg_sequential"
               [selected]="opt.ctg_sequential === newEpForm.value.fPlatform"
-              >{{ opt.ctg_name }}</option
             >
+              {{ opt.ctg_name }}
+            </option>
           </select>
         </span>
         <span class="field">
@@ -412,7 +432,9 @@
         </span>
       </span>
 
-      <button type="submit" [disabled]="!epModel.fYear || !epModel.fRating">Save</button>
+      <button type="submit" [disabled]="!epModel.fYear || !epModel.fRating">
+        Save
+      </button>
     </div>
   </div>
 </form>
@@ -424,9 +446,7 @@
   >Listing for media: {{ viewData.detListTitle }}</span
 >
 <div *ngIf="viewData.multimediaDetListWithGroups">
-  <div>
-    Title | Ep Title | Year - link
-  </div>
+  <div>Title | Ep Title | Year - link</div>
   <div
     class="multimedia-listing-row"
     *ngFor="let group of viewData.multimediaDetListWithGroups"
@@ -448,7 +468,9 @@
             [{{ item.mmd_year }}]
           </a>
           <span *ngIf="!item.mmd_url">[{{ item.mmd_year }}]</span>
-          <span> | {{ item["viewedInfo"].mmv_date_viewed | date: "HH:mm:ss" }} </span>
+          <span>
+            | {{ item["viewedInfo"].mmv_date_viewed | date: "HH:mm:ss" }}
+          </span>
           <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9733;</span>
         </span>
       </span>

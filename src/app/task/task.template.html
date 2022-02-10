@@ -1,0 +1,45 @@
+<div>
+  <input type="checkbox" id="{{ task.tsk_id }}" checked />
+  <span
+    *ngIf="task.tsk_total_time_spent !== 0"
+    [ngClass]="{
+                'task-open-with-tt':
+                  task.tsk_ctg_status === this.taskStatus.OPEN &&
+                  task.tsk_time_history.length > 0
+              }"
+    >[{{ task.tsk_time_history.length }}/{{
+    formatTime(task.tsk_total_time_spent) }}/<time-format
+      class="notification-date"
+      [value]="task.tsk_total_time_spent"
+      format="[HH]:[mm]:[ss]"
+    ></time-format
+    >]
+    <span *ngIf="task.tsk_ctg_in_process !== 2">
+      [<span class="tt-start" contenteditable="true" spellcheck="false"
+        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
+        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start
+        | date: "HH:mm:ss" }}</span
+      >
+      -
+      <span class="tt-end" contenteditable="true" spellcheck="false"
+        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
+        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_end |
+        date: "HH:mm:ss" }}</span
+      >]
+    </span>
+  </span>
+  <span
+    >(Done at:
+    <span contenteditable="true" spellcheck="false"
+      >{{ task.tsk_date_done | date: format }}</span
+    >)</span
+  >&nbsp;<span
+    [ngClass]="{
+                'task-done': task.tsk_ctg_status === this.taskStatus.CLOSED
+              }"
+    >{{ task.tsk_name }}</span
+  >
+  <span *ngIf="task['not_sync']">(Not in sync)</span>&nbsp;<button>
+    details
+  </button>
+</div>

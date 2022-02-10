@@ -10,6 +10,7 @@ import { ChartsModule } from "ng2-charts";
 
 import { AppComponent } from "./app.component";
 import { TasksComponent } from "./task/tasks.component";
+import { TaskComponent } from "./task/task.component";
 import { MenuComponent } from "./common/menu.component";
 import { SyncComponent } from "./common/sync.component";
 
@@ -75,6 +76,7 @@ import { environment } from "../environments/environment";
   declarations: [
     AppComponent,
     TasksComponent,
+    TaskComponent,
     AccountComponent,
     MovementComponent,
     BalanceComponent,

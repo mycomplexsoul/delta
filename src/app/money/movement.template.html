@@ -41,9 +41,9 @@
             setModelDetails(model.selectedPreset, newMovementForm, 'pre')
           "
         >
-          <option *ngFor="let opt of viewData.presets" value="{{ opt.pre_id }}"
-            >{{ opt.pre_name }}</option
-          >
+          <option *ngFor="let opt of viewData.presets" value="{{ opt.pre_id }}">
+            {{ opt.pre_name }}
+          </option>
         </select>
         <hr />
       </span>
@@ -60,6 +60,9 @@
           class="field-input movement-input-description"
           ngModel
         />
+        <span *ngIf="newMovementForm.value.fDescription">
+          {{ newMovementForm.value.fDescription.length }} / 200 characters
+        </span>
       </span>
       <span class="field">
         <label for="fAmount" class="label-left">Amount</label>
@@ -76,19 +79,25 @@
       <span class="field">
         <label for="fAccount" class="label-left">Account</label>
         <select name="fAccount" id="fAccount" class="field-select" ngModel>
-          <option *ngFor="let opt of viewData.accounts" value="{{ opt.acc_id }}"
-            >{{ opt.acc_name }} / {{ opt.bal_final | currency:
-            "USD":"symbol-narrow":"1.2-2" }}</option
+          <option
+            *ngFor="let opt of viewData.accounts"
+            value="{{ opt.acc_id }}"
           >
+            {{ opt.acc_name }} / {{ opt.bal_final | currency:
+            "USD":"symbol-narrow":"1.2-2" }}
+          </option>
         </select>
       </span>
       <span class="field" *ngIf="isTransfer">
         <label for="fAccountTo" class="label-left">Account To</label>
         <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
-          <option *ngFor="let opt of viewData.accounts" value="{{ opt.acc_id }}"
-            >{{ opt.acc_name }} / {{ opt.bal_final | currency:
-            "USD":"symbol-narrow":"1.2-2" }}</option
+          <option
+            *ngFor="let opt of viewData.accounts"
+            value="{{ opt.acc_id }}"
           >
+            {{ opt.acc_name }} / {{ opt.bal_final | currency:
+            "USD":"symbol-narrow":"1.2-2" }}
+          </option>
         </select>
       </span>
       <span class="field" *ngIf="!isTransfer">
@@ -127,8 +136,9 @@
             *ngFor="let opt of viewData.places"
             [value]="opt.mpl_id"
             [selected]="opt.mpl_id === newMovementForm.value.fPlace"
-            >{{ opt.mpl_name }}</option
           >
+            {{ opt.mpl_name }}
+          </option>
         </select>
         <combo-item
           [name]="place"
@@ -147,8 +157,9 @@
             *ngFor="let opt of viewData.categories"
             [value]="opt.mct_id"
             [selected]="opt.mct_id === newMovementForm.value.fCategory"
-            >{{ opt.mct_name }}</option
           >
+            {{ opt.mct_name }}
+          </option>
         </select>
         <combo-item
           [name]="category"
@@ -164,6 +175,9 @@
           class="field-input movement-input-budget"
           ngModel
         />
+        <span *ngIf="newMovementForm.value.fBudget">
+          {{ newMovementForm.value.fBudget.length }} / 50 characters
+        </span>
       </span>
       <span class="field">
         <label for="fNotes" class="label-left">Notes</label>
@@ -174,6 +188,9 @@
           class="field-input movement-input-notes"
           ngModel
         />
+        <span *ngIf="newMovementForm.value.fNotes">
+          {{ newMovementForm.value.fNotes.length }} / 200 characters
+        </span>
       </span>
       <span class="field">
         <hr />

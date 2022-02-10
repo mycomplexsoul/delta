@@ -27,6 +27,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.13.4 (2021-01-28)
+
+- [AppMultimedia][new] Make summary adjust its size to the content
+- [AppMultimedia][fix] Use year of the last episode if available
+- [AppMultimedia][new] When using an older date, also push the time an hour from latest
+- [AppTasks][new] Create Task component
+- [AppTasks][new] Render Yesterday tasks using `TaskComponent`
+
 ## v1.13.3 (2020-12-15)
 
 - [AppCartera] Option to show Payments Report in portrait/landscape
