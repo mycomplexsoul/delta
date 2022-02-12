@@ -228,23 +228,24 @@ class DateUtility {
   /**
    * Format as a timestamp a positive number being interpreted as elapsed time
    * with a provided format.
-   * @param elapsed Positive number interpreted as elapsed time
+   * @param elapsed Positive or negative number interpreted as elapsed time
    * @param format Format to use, example: [HH]:[mm]:[ss]
    */
   formatTime(elapsed: number, format: String = undefined): String {
+    const unsignedElapsed: number = Math.abs(elapsed);
     // time in seconds
-    let days: number = Math.floor(elapsed / (60 * 60 * 24));
-    let hour: number = Math.floor((elapsed - days * 60 * 60 * 24) / (60 * 60));
+    let days: number = Math.floor(unsignedElapsed / (60 * 60 * 24));
+    let hour: number = Math.floor((unsignedElapsed - days * 60 * 60 * 24) / (60 * 60));
     let min: number = Math.floor(
-      (elapsed - days * 60 * 60 * 24 - hour * 60 * 60) / 60
+      (unsignedElapsed - days * 60 * 60 * 24 - hour * 60 * 60) / 60
     );
     let sec: number = Math.round(
-      elapsed - days * 60 * 60 * 24 - hour * 60 * 60 - min * 60
+      unsignedElapsed - days * 60 * 60 * 24 - hour * 60 * 60 - min * 60
     );
     const zero: string = "0";
 
     if (!format.includes("d")) {
-      hour = Math.floor(elapsed / (60 * 60));
+      hour = Math.floor(unsignedElapsed / (60 * 60));
     }
 
     let str: string = format

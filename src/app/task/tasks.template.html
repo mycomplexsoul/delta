@@ -786,6 +786,7 @@
             *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
             >&#10006;</span
           >
+          <span class="task-next-todo-icon" *ngIf="t.inNextToDo">Next</span>
           <span
             contenteditable="true"
             spellcheck="false"
@@ -956,6 +957,16 @@
         <time-format
           format="([H]h[m]m)"
           [value]="item.estimatedDuration"
+        ></time-format>
+        |
+        <time-format
+          format="([H]h[m]m)"
+          [value]="differenceLastClosedToRealTime"
+          title="Time ahead/behind of the last task closed"
+          [ngClass]="{
+            'task-next-time-ahead': differenceLastClosedToRealTime < 0,
+            'task-next-time-behind': 0 <= differenceLastClosedToRealTime
+          }"
         ></time-format>
       </div>
       <div
@@ -1202,7 +1213,7 @@
   <div *ngIf="!options.optCollapseFinishedYesterday">
     <div *ngFor="let item of state.closedYesterdayTasks; let i = index">
       <div *ngIf="i < 3 || viewAllFinishedYesterday">
-        <task [task]="item"></task>
+        <task [task]="item" [handlers]="handlers"></task>
       </div>
     </div>
     <button

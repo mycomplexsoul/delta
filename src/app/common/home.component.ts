@@ -20,7 +20,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     localStorageUsage: {
       details: null,
       totalInKB: null
-    }
+    },
+    angularVersion: null,
   };
   model = {
     textToRead: null
@@ -43,6 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loadAllUsers();
     this.viewData.battery = await this.getBattery();
     this.viewData.localStorageUsage = this.getLocalStorageUsage();
+    this.viewData.angularVersion = this.getAngularVersion();
   }
 
   ngOnDestroy() {
@@ -104,4 +106,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.speechInstance.textToSpeechVoice(this.model.textToRead);
     }
   }
+
+  getAngularVersion() {
+    const element = document.querySelector('app-root');
+    return element ? element.getAttribute('ng-version') : null;
+  }
+  
 }

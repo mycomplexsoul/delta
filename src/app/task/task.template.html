@@ -7,8 +7,7 @@
                   task.tsk_ctg_status === this.taskStatus.OPEN &&
                   task.tsk_time_history.length > 0
               }"
-    >[{{ task.tsk_time_history.length }}/{{
-    formatTime(task.tsk_total_time_spent) }}/<time-format
+    >[{{ task.tsk_time_history.length }}/<time-format
       class="notification-date"
       [value]="task.tsk_total_time_spent"
       format="[HH]:[mm]:[ss]"
@@ -39,7 +38,9 @@
               }"
     >{{ task.tsk_name }}</span
   >
-  <span *ngIf="task['not_sync']">(Not in sync)</span>&nbsp;<button>
+  <span *ngIf="task['not_sync']">(Not in sync)</span>&nbsp;<button
+    (click)="handlers.onViewTaskDetails(task)"
+  >
     details
   </button>
 </div>

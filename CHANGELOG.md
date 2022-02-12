@@ -34,6 +34,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppMultimedia][new] When using an older date, also push the time an hour from latest
 - [AppTasks][new] Create Task component
 - [AppTasks][new] Render Yesterday tasks using `TaskComponent`
+- [AppTasks][new] Show timetracking last stamp and difference through current time
+- [AppCommon] Upgrade dependencies
+- [AppKanban][new] Add menu entry `/activities`
+- [AppTasks][new] Show a badge for tasks that are already in the Next To Do Today tasks listing
+- [AppCommon][new] Show which version of Angular is currently using
 
 ## v1.13.3 (2020-12-15)
 

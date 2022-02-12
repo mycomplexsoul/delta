@@ -1,9 +1,7 @@
 <div class="menu-container" *ngIf="currentUser">
   <div class="menu-header">
     <div class="menu-icon">
-      <button (click)="viewData.isOpen = !viewData.isOpen">
-        menu
-      </button>
+      <button (click)="viewData.isOpen = !viewData.isOpen">menu</button>
     </div>
     <div class="menu-area">
       <span class="menu-clock">
@@ -12,42 +10,26 @@
       <drink-water></drink-water>
       <sync></sync>
     </div>
-    <div
-      class="menu-overlay"
-      *ngIf="viewData.isOpen"
-      (click)="handleClick()"
-    >
+    <div class="menu-overlay" *ngIf="viewData.isOpen" (click)="handleClick()">
       <div class="menu-section">
         <ul class="menu-items" (keydown.esc)="handleClick()">
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="tasks"
-              href="/tasks"
+            <a (click)="handleClick()" routerLink="tasks" href="/tasks"
               >Tasks</a
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="movement"
-              href="/movement"
+            <a (click)="handleClick()" routerLink="movement" href="/movement"
               >Movements</a
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="balance"
-              href="/balance"
+            <a (click)="handleClick()" routerLink="balance" href="/balance"
               >Balance</a
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="lasttime"
-              href="/lasttime"
+            <a (click)="handleClick()" routerLink="lasttime" href="/lasttime"
               >Last Time</a
             >
           </li>
@@ -60,10 +42,7 @@
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="account"
-              href="/account"
+            <a (click)="handleClick()" routerLink="account" href="/account"
               >Accounts</a
             >
           </li>
@@ -76,35 +55,31 @@
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="places"
-              href="/places"
+            <a (click)="handleClick()" routerLink="places" href="/places"
               >Places</a
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="presets"
-              href="/presets"
+            <a (click)="handleClick()" routerLink="presets" href="/presets"
               >Presets</a
             >
           </li>
           <li>
-            <a
-              (click)="handleClick()"
-              routerLink="links"
-              href="/links"
+            <a (click)="handleClick()" routerLink="links" href="/links"
               >Links</a
+            >
+          </li>
+          <li>
+            <a (click)="handleClick()" routerLink="cartera" href="/cartera"
+              >Cartera</a
             >
           </li>
           <li>
             <a
               (click)="handleClick()"
-              routerLink="cartera"
-              href="/cartera"
-              >Cartera</a
+              routerLink="activities"
+              href="/activities"
+              >Activities</a
             >
           </li>
           <li>

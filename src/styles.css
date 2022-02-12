@@ -295,6 +295,11 @@ textarea.task-multiple {
 .task-qualifier-flag {
   color: red;
 }
+.task-next-todo-icon {
+  color: blue;
+  font-weight: bold;
+  padding-left: 2px;
+}
 .clickable {
   cursor: pointer;
 }

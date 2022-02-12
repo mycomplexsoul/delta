@@ -4,6 +4,7 @@ import { Task } from '../../crosscommon/entities/Task';
 const defaults = {
 
 };
+const noop = () => {};
 
 @Component({
   selector: "task",
@@ -21,6 +22,11 @@ export class TaskComponent {
   };
 
   @Input() task: Task = null;
+  @Input() handlers: {
+    onViewTaskDetails: (task: Task) => void
+  } = {
+    onViewTaskDetails: noop
+  };
   /* @Input() selectedView: string = LAYOUTS[0];
   @Input() movementList: Movement[] = [];
   @Input() selectedBalance: Balance = null;
@@ -47,35 +53,4 @@ export class TaskComponent {
       this.onSelectMovement.emit({value: movement, event});
     }
   }*/
-
-  formatTime(elapsed: number, format: String = undefined): String {
-    // time in seconds
-    let hr: number = Math.floor(elapsed / (60 * 60));
-    let min: number = Math.floor((elapsed - hr * 60 * 60) / 60);
-    let sec: number = Math.round(elapsed - hr * 60 * 60 - min * 60);
-    let str = "";
-    if (format === "hr:min:sec" || format === undefined) {
-      if (hr === 0) {
-        // only min:sec
-        str += min > 9 ? min : "0" + min;
-        str += ":" + (sec > 9 ? sec : "0" + sec);
-      } else {
-        str += hr > 9 ? hr : "0" + hr;
-        str += ":" + (min > 9 ? min : "0" + min);
-        str += ":" + (sec > 9 ? sec : "0" + sec);
-      }
-    }
-    if (format === "#h#m") {
-      if (hr === 0) {
-        str = `${min}m`;
-      } else {
-        if (min === 0) {
-          str = `${hr}h`;
-        } else {
-          str = `${hr}h${min}m`;
-        }
-      }
-    }
-    return str;
-  }
 }

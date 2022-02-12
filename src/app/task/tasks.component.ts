@@ -96,7 +96,13 @@ export class TasksComponent implements OnInit {
   public events: any[] = [];
   public layout: string = "float"; // possible values: grid, float
   public selectedTask: Task = null;
+  public differenceLastClosedToRealTime: number = 0;
   speech = new TextToSpeech();
+
+  // handlers for TaskComponent
+  public handlers = {
+    onViewTaskDetails: (task: Task) => this.setSelected(task)
+  };
 
   constructor(
     tasksCore: TasksCore,
@@ -338,6 +344,8 @@ export class TasksComponent implements OnInit {
           );
           if (nt) {
             this.nextTasks[0].tasks.push(nt);
+            // add a badge
+            nt['inNextToDo'] = true;
           }
         });
         // We set them again to filter out done tasks
@@ -360,6 +368,10 @@ export class TasksComponent implements OnInit {
       }
     });
     this.projectNextTasksDates();
+
+    // Calculate difference between last task closed and current time
+    const lastTTEntryFromDay = this.lastTTEntryFromDay(today);
+    this.differenceLastClosedToRealTime = DateUtils.elapsedTime(new Date(), lastTTEntryFromDay);
 
     if (this.focusedTask.task) {
       if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
@@ -2443,12 +2455,14 @@ export class TasksComponent implements OnInit {
       if (index === -1) {
         p.push(t);
         this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+        t['inNextToDo'] = true;
         this.projectNextTasksDates();
       }
     } else {
       if (index !== -1) {
         p.splice(index, 1);
         this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
+        t['inNextToDo'] = false;
         this.projectNextTasksDates();
       }
     }
