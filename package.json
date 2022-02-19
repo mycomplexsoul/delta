@@ -58,7 +58,7 @@
     "@angular/platform-browser-dynamic": "13.2.3",
     "@angular/router": "13.2.3",
     "@angular/service-worker": "13.2.3",
-    "@types/node": "16.11.24",
+    "@types/node": "16.11.25",
     "chart.js": "2.9.4",
     "core-js": "3.21.1",
     "cors": "2.8.5",
