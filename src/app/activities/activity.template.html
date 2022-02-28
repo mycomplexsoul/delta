@@ -36,22 +36,31 @@
         />
       </span>
 
+      <span class="field">
+        <label for="fTasksTag" class="label-left">Tasks Tag</label>
+        <input
+          type="text"
+          name="fTasksTag"
+          id="fTasksTag"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
   </form>
 
   <div class="activity-details" *ngIf="model.id">
-    <span>
-      Details
-    </span>
+    <span> Details </span>
 
     <div *ngFor="let k of model.keyval">
       {{ k.key_name }} / {{ k.key_value }}
     </div>
 
-    <span>
-      Timeline
-    </span>
+    <hr />
+
+    <span> Timeline </span>
 
     <div *ngFor="let t of viewData.timelineList">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}

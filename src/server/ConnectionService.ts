@@ -58,10 +58,47 @@ let ConnectionService = (function() {
       return responseArray;
     };
 
+    const runSqlArraySerial = async (sqlArray: Array<string>): Promise<{
+      operationResult: boolean,
+      results: Array<{
+        result: Boolean,
+        sql: string,
+        error: any
+      }>
+    }> => {
+      let response = {
+        operationResult: true,
+        results: []
+      };
+      
+      for (const sql of sqlArray) {
+        const result = {
+          success: true,
+          sql,
+          error: null
+        };
+  
+        try {
+          await runSql(sql);
+          response.results.push(result);
+        } catch(e) {
+          result.success = false;
+          result.error = e.message + ' => ' + JSON.stringify(e);
+          response.results.push(result);
+          response.operationResult = false;
+        }
+      }
+
+      console.log('runSqlArraySerial end status', response);
+
+      return Promise.resolve(response);
+    };
+
     return {
       close,
       runSql,
-      runSqlArray
+      runSqlArray,
+      runSqlArraySerial
     } as iConnection;
   };
 

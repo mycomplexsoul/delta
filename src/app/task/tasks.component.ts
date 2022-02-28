@@ -99,6 +99,38 @@ export class TasksComponent implements OnInit {
   public differenceLastClosedToRealTime: number = 0;
   speech = new TextToSpeech();
 
+  public viewData: {
+    selectedFilter: string;
+  } = {
+    selectedFilter: "all"
+  };
+
+  public CONSTANTS = {
+    filters: [
+      { id: "all", name: "All" },
+      { id: "next", name: "Next To Do Today" },
+      { id: "due-today", name: "Due Today" },
+      { id: "today", name: "Added Today" },
+      { id: "yesterday", name: "Added Yesterday" },
+      { id: "old-30", name: "Older than 30 days" },
+      { id: "with-schedule", name: "With Schedule" },
+      { id: "in-progress", name: "In Progress" },
+      { id: "qualifiers", name: "Have Qualifiers" },
+      { id: "q-star", name: "Star (2)" },
+      { id: "q-highlight", name: "Highlight (3)" },
+      { id: "q-priority", name: "Priority (4)" },
+      { id: "q-important", name: "Important (5)" },
+      { id: "q-urgent", name: "Urgent (6)" },
+      { id: "q-unexpected", name: "Unexpected (7)" },
+      { id: "q-progressed", name: "Progressed (8)" },
+      { id: "q-people", name: "People (9)" },
+      { id: "q-flag", name: "Flag (/)" },
+      { id: "q-blocked", name: "Blocked (-)" },
+      { id: "q-directions", name: "Directions (?)" },
+      { id: "q-mobile", name: "Mobile (.)" },
+    ]
+  };
+
   // handlers for TaskComponent
   public handlers = {
     onViewTaskDetails: (task: Task) => this.setSelected(task)
@@ -241,6 +273,40 @@ export class TasksComponent implements OnInit {
               : true) ||
               t.tsk_ctg_in_process == 2)
         )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'next' ? t['inNextToDo'] : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'due-today' ? today0.getTime() === new Date(t.tsk_date_due).getTime() : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'today' ? today0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < tomorrow0.getTime() : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'yesterday' ? yesterday0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < today0.getTime() : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'old-30' ? new Date(t.tsk_date_add).getTime() < (DateUtils.addDays(today0, -30)).getTime() : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'with-schedule' ? !!t.tsk_schedule_date_start : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'in-progress' ? t.tsk_ctg_in_process === 2 : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'qualifiers' ? !!t.tsk_qualifiers : true
+        )
+        .filter((t) => {
+          const qFilters = this.CONSTANTS.filters.filter(f => f.id.startsWith('q-'));
+          
+          // only apply filter if selected
+          if (qFilters.some(filter => this.viewData.selectedFilter === filter.id)){
+            return t.tsk_qualifiers && t.tsk_qualifiers.includes(this.viewData.selectedFilter.substring(2));
+          }
+          // otherwise no filter is applied
+          return true;
+        })
         .sort(this.sortByGroup)
     );
     this.state.closedTasks = this.createGroupedClosedTasks(
@@ -277,9 +343,12 @@ export class TasksComponent implements OnInit {
     // Info
     // Total time spent today
     // this.calculateTotalTimeSpentToday();
-    this.state.openTasksCount = this.tasks.filter(
-      (t) => t.tsk_ctg_status == this.taskStatus.OPEN
-    ).length;
+    //this.state.openTasksCount = this.tasks.filter(
+    //  (t) => t.tsk_ctg_status == this.taskStatus.OPEN
+    //).length;
+    this.state.openTasksCount = this.state.openTasks.reduce(
+      (total, group) => total + group.tasks.length
+    , 0);
 
     this.state.backlogTasksCount = this.tasks.filter(
       (t) => t.tsk_ctg_status == this.taskStatus.BACKLOG
@@ -534,6 +603,14 @@ export class TasksComponent implements OnInit {
     if (event.altKey && optIncludesKey(event.key, '-')) {
       // detect '-'
       this.markTaskAs(t, "blocked");
+    }
+    if (event.altKey && optIncludesKey(event.key, '?') && event.shiftKey) {
+      // detect 'Shift + ?'
+      this.markTaskAs(t, "directions");
+    }
+    if (event.altKey && optIncludesKey(event.key, '.')) {
+      // detect '.'
+      this.markTaskAs(t, "mobile");
     }
     if (event.altKey && event.keyCode == 107) {
       // detect '+'

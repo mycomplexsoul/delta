@@ -643,6 +643,24 @@
     | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks
     <button (click)="toggleCollapseAllRecords(true)">Collapse all</button>
     <button (click)="toggleCollapseAllRecords(false)">Expand all</button>
+    <span class="padding-left-5 padding-right-5">
+      Filter
+      <select
+        name="fFilter"
+        id="fFilter"
+        class="field-select"
+        [(ngModel)]="viewData.selectedFilter"
+        (change)="updateState()"
+      >
+        <option
+          *ngFor="let opt of CONSTANTS.filters"
+          [value]="opt.id"
+          [selected]="opt.id === viewData.selectedFilter"
+        >
+          {{ opt.name }}
+        </option>
+      </select>
+    </span>
   </span>
   <div *ngIf="!state.openTasks.length">
     <strong
@@ -774,8 +792,23 @@
           <span
             class="task-qualifier-icon"
             *ngIf="t.tsk_qualifiers.indexOf('people') !== -1"
-            >&#9472;</span
           >
+            <img
+              src="/assets/icons/people.svg"
+              alt="Requires reaching out people"
+              title="Requires reaching out people"
+            />
+          </span>
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('mobile') !== -1"
+          >
+            <img
+              src="/assets/icons/smartphone.svg"
+              alt="Can be done using phone"
+              title="Can be done using phone"
+            />
+          </span>
           <span
             class="task-qualifier-icon task-qualifier-flag"
             *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1"
@@ -786,7 +819,13 @@
             *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
             >&#10006;</span
           >
-          <span class="task-next-todo-icon" *ngIf="t.inNextToDo">Next</span>
+          <span class="task-next-todo-icon" *ngIf="t.inNextToDo">
+            <img
+              src="/assets/icons/energy.svg"
+              alt="In Next To Do Today listing"
+              title="In Next To Do Today listing"
+            />
+          </span>
           <span
             contenteditable="true"
             spellcheck="false"
@@ -798,7 +837,8 @@
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
               'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
-              'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1
+              'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             (focus)="setFocus(t, $event); setTaskSelected(t)"

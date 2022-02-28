@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.loadAllUsers();
+    // this.loadAllUsers();
     this.viewData.battery = await this.getBattery();
     this.viewData.localStorageUsage = this.getLocalStorageUsage();
     this.viewData.angularVersion = this.getAngularVersion();

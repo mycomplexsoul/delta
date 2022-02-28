@@ -104,10 +104,7 @@ export class TaskCustom {
     }
 
     const connection: iConnection = ConnectionService.getConnection();
-    return Promise.all(connection.runSqlArray(sqlList)).then(response => {
-      connection.close();
-      return response;
-    });
+    return connection.runSqlArraySerial(sqlList);
   };
 
   updateRequestHandler = (node: iNode) => {

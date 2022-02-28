@@ -469,6 +469,7 @@ export class MultimediaComponent {
     this.resetEpForm(form);
     this.viewData.showCreateEpForm = false;
     this.renderDetListing(this.viewData.multimediaDetList, null);
+    document.querySelector('.multimedia-listing-section').scrollIntoView();
   }
 
   calculateNextEp(currentEp: string): string {
@@ -642,5 +643,21 @@ export class MultimediaComponent {
     tempDate.setHours(date.getHours() + 1);
     this.epModel.fTimeViewed = DateUtils.timeFromDateAsString(tempDate);
     event.preventDefault();
+  }
+
+  submitOnEnter(event: KeyboardEvent, newEpForm: NgForm) {
+    if (event.key === 'Enter') {
+      const mediaItem = this.viewData.multimediaList.find(m => m.mma_id === this.epModel.id);
+      this.newEpItem(newEpForm);
+
+      if (event.key === 'Enter' && event.shiftKey) {
+        setTimeout(() => {
+          this.showNewEpForm(mediaItem);
+        }, 200);
+      }
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
 }

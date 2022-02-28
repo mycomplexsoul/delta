@@ -212,6 +212,15 @@
           ngModel
         />
       </span>
+      <span class="field">
+        <label for="fResetForm" class="label-left">Reset form after save</label>
+        <input
+          type="checkbox"
+          name="fResetForm"
+          id="fResetForm"
+          [(ngModel)]="model.resetForm"
+        />
+      </span>
       <button type="submit" id="newFormSubmitButton">
         {{ model.asPreset ? "Save as Preset" : model.id !== null ? "Update
         Movement" : "Save Movement" }}

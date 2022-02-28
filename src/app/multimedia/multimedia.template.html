@@ -384,6 +384,7 @@
             id="fNotes"
             class="field-input multimedia-input-notes"
             [(ngModel)]="epModel.fNotes"
+            (keydown)="submitOnEnter($event, newEpForm)"
           />
           <span *ngIf="epModel.fNotes">
             {{ epModel.fNotes.length }} / 500 characters
@@ -446,7 +447,7 @@
   >Listing for media: {{ viewData.detListTitle }}</span
 >
 <div *ngIf="viewData.multimediaDetListWithGroups">
-  <div>Title | Ep Title | Year - link</div>
+  <div class="multimedia-listing-section">Title | Ep Title | Year - link</div>
   <div
     class="multimedia-listing-row"
     *ngFor="let group of viewData.multimediaDetListWithGroups"

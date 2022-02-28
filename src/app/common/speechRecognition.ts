@@ -27,6 +27,7 @@ const startSpeechRecognition = (): Promise<string> => {
 class TextToSpeech {
   synth = window.speechSynthesis;
   voices = this.synth.getVoices();
+  utt = null;
 
   constructor() {
     this.synth.onvoiceschanged = () => {
@@ -48,12 +49,28 @@ class TextToSpeech {
     rate: number = 1,
     volume: number = 0.4
   ) {
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.voice = this.getVoice(lang);
-    utt.rate = rate;
-    utt.volume = volume;
+    this.utt = new SpeechSynthesisUtterance(text);
+    this.utt.voice = this.getVoice(lang);
+    this.utt.rate = rate;
+    this.utt.volume = volume;
 
-    this.synth.speak(utt);
+    this.synth.cancel();
+    this.synth.speak(this.utt);
+
+    return new Promise((resolve, reject) => {
+      let resolveCalled = false;
+      this.utt.onend = () => {
+        resolveCalled = true;
+        return resolve(true);
+      };
+
+      setTimeout(() => {
+        if (!resolveCalled) {
+          this.synth.cancel();
+          return reject(false);
+        }
+      }, 15000);
+    });
   }
 }
 

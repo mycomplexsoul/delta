@@ -64,6 +64,14 @@
             , "displayName": "Tags"
         },{
             "templateId": "string"
+            , "dbName": "act_tasks_tag"
+            , "size": 200
+            , "allowNull": true
+            , "dbComment": "Tag used by tasks associated with this activity"
+            , "entName": "TasksTag"
+            , "displayName": "Tasks Tag"
+        },{
+            "templateId": "string"
             , "dbName": "act_close_comment"
             , "size": 4000
             , "allowNull": true

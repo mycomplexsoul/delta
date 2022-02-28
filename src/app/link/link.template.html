@@ -12,9 +12,9 @@
     <div id="newItemFormSection" *ngIf="viewData.showItemForm">
       <span class="field" *ngIf="model.id">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="field-input-small">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
       </span>
 
       <span class="field">
@@ -64,6 +64,13 @@
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
   </form>
+
+  <div>
+    {{ viewData.linkList.length }} items.
+    <br />
+    <label>Search</label>
+    <input (keyup)="filter($event)" placeholder="Filter" />
+  </div>
 
   <div class="card-list">
     <div

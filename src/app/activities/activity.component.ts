@@ -80,6 +80,7 @@ export class ActivityComponent implements OnInit {
           newItem.act_name = formValues.fName;
           // newItem.act_description = formValues.fDescription;
           newItem.act_tags = formValues.fTags;
+          newItem.act_tasks_tag = formValues.fTasksTag;
           // newItem.act_close_comment = formValues.fCloseComment;
           // newItem.act_ctg_status = formValues.fCtgStatus;
 
@@ -103,6 +104,7 @@ export class ActivityComponent implements OnInit {
             act_name: formValues.fName,
             act_description: formValues.fDescription || null,
             act_tags: formValues.fTags || null,
+            act_tasks_tag: formValues.fTasksTag || null,
             act_close_comment: formValues.fCloseComment || null,
             act_ctg_status: formValues.fCtgStatus || "1"
           });
@@ -159,6 +161,7 @@ export class ActivityComponent implements OnInit {
       form.controls["fName"].setValue(model["act_name"]);
       // form.controls["fDescription"].setValue(model["act_description"]);
       form.controls["fTags"].setValue(model["act_tags"]);
+      form.controls["fTasksTag"].setValue(model["act_tasks_tag"]);
       // form.controls["fCloseComment"].setValue(model["act_close_comment"]);
       // form.controls["fCtgStatus"].setValue(model["act_ctg_status"]);
     }, 0);

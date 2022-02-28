@@ -26,6 +26,7 @@ export class LinkComponent implements OnInit {
     id: null
   };
   public common: CommonComponent<Link> = null;
+  public filterApplied: string = "";
 
   constructor(private linkService: LinkService) {
     this.common = new CommonComponent<Link>();
@@ -112,5 +113,27 @@ export class LinkComponent implements OnInit {
 
   findById(item: Link, id: string) {
     return item.lnk_id === id;
+  }
+
+  criteriaForFilter = (item: Link, query: string) =>
+    item.lnk_url.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+    item.lnk_title.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+    item.lnk_tags.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+
+  sort(a: Link, b: Link) {
+    return a.lnk_date_mod.getTime() >= b.lnk_date_mod.getTime() ? 1 : -1;
+  }
+
+  filter(event: KeyboardEvent) {
+    const query: string = event.target["value"];
+
+    this.filterApplied = query;
+    if (query) {
+      this.viewData.linkList = this.linkService
+        .list()
+        .filter(i => this.criteriaForFilter(i, this.filterApplied));
+    } else {
+      this.viewData.linkList = this.linkService.list().sort(this.sort);
+    }
   }
 }

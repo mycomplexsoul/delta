@@ -21,6 +21,7 @@ import { BalanceService } from "./balance.service";
 import { PresetService } from "./preset.service";
 import { formatCurrency } from "@angular/common";
 import { DateUtils } from "src/crosscommon/DateUtility";
+import { NotificationService } from "../common/notification.service";
 
 @Component({
   selector: "movement",
@@ -68,7 +69,8 @@ export class MovementComponent implements OnInit {
     place: 0,
     asPreset: false,
     selectedPreset: null,
-    id: null
+    id: null,
+    resetForm: true
   };
   public viewAddCategoryForm: boolean = false;
   public _movementFlowType: string = "custom";
@@ -101,6 +103,7 @@ export class MovementComponent implements OnInit {
     entryService: EntryService,
     balanceService: BalanceService,
     presetService: PresetService,
+    private notificationService: NotificationService,
     private titleService: Title
   ) {
     this.services.account = accountService;
@@ -390,7 +393,11 @@ export class MovementComponent implements OnInit {
       } else {
         // new movement
         this.services.movement.newItem(m, () =>
-          this.retrieveAccountsAndBalance()
+          {
+            this.retrieveAccountsAndBalance();
+            const body = 'Movement saved correctly';
+            this.notificationService.notify(body, 'Movements', 10000);
+          }
         );
         m["isNew"] = true; // flag to render as new on UI
         console.log("this is the movement", m);
@@ -416,7 +423,10 @@ export class MovementComponent implements OnInit {
         // add a new movement based on this one with specific changes
         this.createReimburseMovement(m);
       }
-      this.resetForm(form);
+      if (this.model.resetForm) {
+        this.resetForm(form);
+        this.viewData.showCreateForm = false;
+      }
       submitButton.disabled = false;
 
       return false;
@@ -866,6 +876,10 @@ export class MovementComponent implements OnInit {
     this.model.type = 1;
     if (form.controls["fMovementType"]) {
       form.controls["fMovementType"].setValue(1);
+    }
+    this.model.resetForm = true;
+    if (form.controls["fResetForm"]) {
+      form.controls["fResetForm"].setValue(true);
     }
     form.controls["fDate"].setValue(DateUtils.dateToStringDate(new Date()));
   }

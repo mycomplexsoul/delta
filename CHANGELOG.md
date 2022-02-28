@@ -27,6 +27,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.13.5 (2021-02-28)
+
+- [AppTasks][fix] Ensure time tracking items are executed in the correct order
+- [AppTasks][new] Filter to show only tasks that: Are in next to do, have qualifiers, added today, added yesterday, qualifier urgent, qualifier important, qualifier etc
+- [AppLinks][new] Add search to filter listing
+- [AppMultimedia][new] Allow to submit with `Enter`, if `Shift + Enter` is pressed, save and create a new episode for the same media
+- [AppMultimedia][new] Scroll to top of viewed section after saving an episode
+- [AppMoney][new] Movement - Add option/checkbox to save movement but keep data to add another based on current one
+- [AppCommon][doc] Add coding style documentation to Contributing.md
+- [AppCartera][fix] Fix unit list after payment is registered
+- [AppTasks][new] Add icons for qualifiers: people, next to do, also add a new qualifier: directions
+- [AppTasks][new] Add new qualifier "mobile" for tasks that can be done while on mobile, add phone icon, show in filters
+- [AppTasks][new] Fix open tasks count when using filters
+
 ## v1.13.4 (2021-01-28)
 
 - [AppMultimedia][new] Make summary adjust its size to the content

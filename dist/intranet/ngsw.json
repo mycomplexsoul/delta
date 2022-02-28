@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1644630148944,
+  "timestamp": 1646026166350,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,15 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
-        "/750.ce8d179525c9be9b.js",
+        "/750.958e71ec1ac5dd72.js",
         "/870.6c13c410647df144.js",
         "/favicon.ico",
         "/index.html",
-        "/main.56680cbe6f0f307c.js",
+        "/main.e0052dfe9e42fd56.js",
         "/manifest.webmanifest",
         "/polyfills.be579823003f7acb.js",
-        "/runtime.bc52c28685409261.js",
-        "/styles.e454b68381e8300f.css"
+        "/runtime.369f84cb1f1b9f40.js",
+        "/styles.f61c8e668287ff46.css"
       ],
       "patterns": []
     },
@@ -31,6 +31,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/icons/energy.svg",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -39,6 +40,8 @@
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
+        "/assets/icons/people.svg",
+        "/assets/icons/smartphone.svg",
         "/assets/images/firma-comite.png"
       ],
       "patterns": []
@@ -46,8 +49,9 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/750.ce8d179525c9be9b.js": "18865990949e146491b84104d65cb34a8fe690ae",
+    "/750.958e71ec1ac5dd72.js": "05488e9268e45334c6c443de5d387266a541f60d",
     "/870.6c13c410647df144.js": "d8ebb988f00eef838f6a959371841e43f55b1de2",
+    "/assets/icons/energy.svg": "5a84324cff6e0fbd22661e415087b051663629e4",
     "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -56,14 +60,16 @@
     "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
     "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/icons/people.svg": "8449e2e3731a3fafc26c80c0d785b9b0fbe3c0bd",
+    "/assets/icons/smartphone.svg": "13031b9b8dbe1959b13cabc2bc5b62ecd4b8642a",
     "/assets/images/firma-comite.png": "a82c28413f5f5cbbd5feba6e9f0b9afd23b1bc4a",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "76b07a1c5b6079d8927a561be4c482f9902b5647",
-    "/main.56680cbe6f0f307c.js": "fedb65785922b58a75e366cf2d06561b78583ae9",
+    "/index.html": "4f7aa0a3833b8c0546bef70ae78c4834940acb4b",
+    "/main.e0052dfe9e42fd56.js": "1a2efd0a979dfccf215695558d0d369df3013634",
     "/manifest.webmanifest": "f007557c731ca82b5c8546a06399847411e838d7",
     "/polyfills.be579823003f7acb.js": "faf2b8f65d450b83ec399e3ee15ff0cf36d66592",
-    "/runtime.bc52c28685409261.js": "2ec3453a0d2a701d476d31672ca4b360fc9db1da",
-    "/styles.e454b68381e8300f.css": "af1121d097a42b6c8d0a5fad5e65806e856cc2f8"
+    "/runtime.369f84cb1f1b9f40.js": "efd577a06ca3ce1208686fb2f4006bb1b2d0bc06",
+    "/styles.f61c8e668287ff46.css": "8552761de38a765f0c1d41eca722661fb856fb50"
   },
   "navigationUrls": [
     {

@@ -285,8 +285,17 @@ textarea.task-multiple {
 .task-important {
   background-color: #f9b97c;
 }
+.task-directions {
+  background-color: #efbfff;
+}
 .task-qualifier-icon {
   padding-right: 2px;
+}
+.task-qualifier-icon img,
+.task-next-todo-icon img {
+  width: 12px;
+  height: 12px;
+  vertical-align: text-top;
 }
 .task-qualifier-urgent {
   color: red;
@@ -296,9 +305,7 @@ textarea.task-multiple {
   color: red;
 }
 .task-next-todo-icon {
-  color: blue;
-  font-weight: bold;
-  padding-left: 2px;
+  padding-right: 2px;
 }
 .clickable {
   cursor: pointer;
