@@ -36,12 +36,14 @@ import { CarteraPayment } from '../crosscommon/entities/CarteraPayment';
 import { CarteraPayDet } from '../crosscommon/entities/CarteraPayDet';
 
 import { Timeline } from '../crosscommon/entities/Timeline';
+import { Profile } from '../crosscommon/entities/Profile';
+import { Permission } from '../crosscommon/entities/Permission';
 
 export class InstallModule {
     install = () => {
         const connection: iConnection = ConnectionService.getConnection('default');
         const models: iEntity[] = [
-            new Catalog()
+            /*new Catalog()
             , new User()
             , new Logger()
             , new Task(), new TaskTimeTracking(), new TaskSchedule()
@@ -51,7 +53,8 @@ export class InstallModule {
             , new Link()
             , new Activity(), new Keyval()
             , new CarteraProvision(), new CarteraPayment(), new CarteraPayDet()
-            , new Timeline()
+            , new Timeline()*/
+            new Profile(), new Permission()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {
@@ -79,7 +82,7 @@ export class InstallModule {
             method(`view ${model.metadata.viewName} created`);
         });
 
-        this.populateInitialData();
+        // this.populateInitialData();
         connection.close();
         console.log('installation finished');
     };

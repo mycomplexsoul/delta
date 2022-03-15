@@ -5,6 +5,10 @@ import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 import { CommonComponent } from "../common/common.component";
 
+import { copyTextToClipboard } from '../common/copy-text';
+import { NotificationService } from "../common/notification.service";
+import { DateUtils } from "src/crosscommon/DateUtility";
+
 @Component({
   selector: "link",
   templateUrl: "./link.template.html",
@@ -28,7 +32,10 @@ export class LinkComponent implements OnInit {
   public common: CommonComponent<Link> = null;
   public filterApplied: string = "";
 
-  constructor(private linkService: LinkService) {
+  constructor(
+    private linkService: LinkService,
+    private notificationService: NotificationService
+    ) {
     this.common = new CommonComponent<Link>();
   }
 
@@ -135,5 +142,29 @@ export class LinkComponent implements OnInit {
     } else {
       this.viewData.linkList = this.linkService.list().sort(this.sort);
     }
+  }
+
+  copyAndUpdateItem(item: Link) {
+    copyTextToClipboard(item.lnk_url).then(() => {
+      // update date_mod
+      this.common.updateItem({
+        form: { value: null },
+        model: item,
+        listing: this.viewData.linkList,
+        onFindExpression: e => this.findById(e, item.lnk_id),
+        onAssignForEdit: (e) => {
+          const newItem = new Link(e);
+          newItem.lnk_date_mod = DateUtils.newDateUpToSeconds();
+  
+          return newItem;
+        },
+        onUpdateItemService: e => this.linkService.updateItem(e),
+        onFinalExecution: () => {
+          this.notificationService.notify('Copied url to clipboard');
+        }
+      });
+    }).catch((error) => {
+      this.notificationService.notify(`Error trying to copy url to clipboard: ${error}`);
+    });
   }
 }

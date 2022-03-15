@@ -73,23 +73,23 @@
   </div>
 
   <div class="card-list">
-    <div
-      *ngFor="let item of viewData.linkList"
-      class="card-item-container"
-      (click)="setModelDetails(item.lnk_id, itemForm)"
-    >
+    <div *ngFor="let item of viewData.linkList" class="card-item-container">
       <span class="link-url">{{ item.lnk_url }}</span>
       <br />
       <span>Tags: {{ item.lnk_tags }}</span>
+      <br />
+      <span>Date Mod: {{ item.lnk_date_mod | date: "yyyy-MM-dd HH:mm" }}</span>
+      <span (click)="item.showOptions = !item.showOptions">
+        {{ item.showOptions ? "-" : "+" }}
+      </span>
 
       <span class="link-badge-new" *ngIf="item.isNew">new</span>
       <span class="link-badge-edited" *ngIf="item.isEdited">edited</span>
-      <!--
-              <span *ngIf="item.showOptions">
-                <button (click)="archiveRecord(item)">archive</button>
-                <button (click)="editNotes(item)">edit notes</button>
-                <button (click)="viewHistory(item)">view history</button>
-            </span>    -->
+
+      <span *ngIf="item.showOptions">
+        <button (click)="setModelDetails(item.lnk_id, itemForm)">edit</button>
+        <button (click)="copyAndUpdateItem(item)">copy</button>
+      </span>
     </div>
   </div>
 </div>

@@ -1,0 +1,69 @@
+{
+    "name": "Permission"
+    , "namespace": "common"
+    , "removeMeans": "DELETION"
+    , "authNeeded": true
+    , "displayOnMenu": false
+    , "prefix": "per"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Permission,Permissions)"
+        , "TABLE_NAME(PERMISSION)"
+        , "VIEW_NAME(VIPERMISSION)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "per_id"
+            , "isPK": true
+            , "size": 20
+            , "minLength": 1
+            , "dbComment": "Id for the profile"
+            , "entName": "ProfileId"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD(PER_ID,PER_PAGE,PER_FEATURE)"
+                , "DUPLICITY_EDIT(PER_ID,PER_PAGE,PER_FEATURE)"
+            ]
+            , "displayName": "Profile Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "per_page"
+            , "size": 100
+            , "minLength": 1
+            , "dbComment": "Identifier name of the page"
+            , "entName": "Page"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD(PER_ID,PER_PAGE,PER_FEATURE)"
+                , "DUPLICITY_EDIT(PER_ID,PER_PAGE,PER_FEATURE)"
+            ]
+            , "displayName": "Page"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "per_feature"
+            , "size": 200
+            , "minLength": 1
+            , "dbComment": "Identifier name of the feature"
+            , "entName": "Feature"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD(PER_ID,PER_PAGE,PER_FEATURE)"
+                , "DUPLICITY_EDIT(PER_ID,PER_PAGE,PER_FEATURE)"
+            ]
+            , "displayName": "Feature"
+            , "isRecordName": true
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        }
+    ]
+    , "view": [
+    ]
+}

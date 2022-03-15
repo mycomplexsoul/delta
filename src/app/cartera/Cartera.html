@@ -1,3 +1,31 @@
+<div>
+  <span class="field">
+    <label for="fReport" class="label-left">Report</label>
+    <select [(ngModel)]="model.report" name="fReport" id="fReport">
+      <option
+        *ngFor="let opt of viewData.reportList"
+        value="{{ opt.iterable }}"
+      >
+        {{ opt.name }}
+      </option>
+    </select>
+  </span>
+
+  <span class="field">
+    <label for="fPeriod" class="label-left">Year-Month</label>
+    <select [(ngModel)]="model.period" name="fPeriod" id="fPeriod">
+      <option
+        *ngFor="let opt of viewData.periodList"
+        value="{{ opt.iterable }}"
+      >
+        {{ opt.name }}
+      </option>
+    </select>
+  </span>
+
+  <button (click)="openReport(model.report, model.period)">Open Report</button>
+</div>
+
 <form #newItemForm="ngForm" (ngSubmit)="newItem(newItemForm)">
   <button
     type="button"
@@ -66,9 +94,10 @@
           <option
             *ngFor="let opt of viewData.nonIdentifiedPaymentList"
             value="{{ opt.cpy_id }}"
-            >{{ opt.cpy_date | date: "yyyy-MM-dd" }} {{ opt.cpy_amount |
-            currency: "USD":"symbol-narrow":"1.2-2"}}</option
           >
+            {{ opt.cpy_date | date: "yyyy-MM-dd" }} {{ opt.cpy_amount |
+            currency: "USD":"symbol-narrow":"1.2-2"}}
+          </option>
         </select>
       </span>
 
@@ -124,8 +153,8 @@
           (click)="model.fAmount = 1480;setDescription(model.fAmount, model.fDate)"
           *ngIf="!model.fAmount"
         >
-          $1,480
-        </button>&nbsp;<button
+          $1,480</button
+        >&nbsp;<button
           (click)="model.fAmount = 1500;setDescription(model.fAmount, model.fDate)"
           *ngIf="!model.fAmount"
         >
@@ -142,9 +171,9 @@
           [(ngModel)]="model.unitId"
           [disabled]="model._paymentType === 'nonidentified' || viewData.showPayDetList"
         >
-          <option *ngFor="let opt of viewData.unitList" value="{{ opt }}"
-            >{{ opt }}</option
-          >
+          <option *ngFor="let opt of viewData.unitList" value="{{ opt }}">
+            {{ opt }}
+          </option>
         </select>
         &nbsp;<button
           (click)="toggleUnitList()"
@@ -222,16 +251,12 @@
                 'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
               }"
             >
-              <td class="padding-all-3 text-align-center">
-                {{counter + 1}}
-              </td>
+              <td class="padding-all-3 text-align-center">{{counter + 1}}</td>
               <td class="padding-all-3 text-align-center">
                 {{provision.cpr_id_unit}}
               </td>
               <td class="padding-all-3">
-                <span>
-                  {{provision.cpr_concept}}
-                </span>
+                <span> {{provision.cpr_concept}} </span>
                 <span *ngIf="provision.cpr_remaining === 0">
                   <!-- payed row -->
                   [R]
@@ -358,16 +383,12 @@
           'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
         }"
       >
-        <td class="padding-all-3 text-align-center">
-          {{counter + 1}}
-        </td>
+        <td class="padding-all-3 text-align-center">{{counter + 1}}</td>
         <td class="padding-all-3 text-align-center">
           {{provision.cpr_id_unit}}
         </td>
         <td class="padding-all-3">
-          <span>
-            {{provision.cpr_concept}}
-          </span>
+          <span> {{provision.cpr_concept}} </span>
           <span *ngIf="provision.cpr_remaining === 0">
             <!-- payed row -->
             [R]

@@ -1,6 +1,39 @@
 <span class="drink-water-widget">
-    <span>Water Count: {{count}}</span>
-    <button *ngIf="notifyEnabled" (click)="addOne()" title="Click to add one to current count">+1</button>
-    <button *ngIf="notifyEnabled" (click)="stopNotification()" title="Click to stop notifying">stop</button>
-    <button *ngIf="!notifyEnabled" (click)="startNotification()" title="Click to start notifying">start</button>
+  <button (click)="showDialog()" title="Click to view configuration">
+    configure
+  </button>
 </span>
+
+<dialog id="reminders-dialog">
+  <strong>Reminders</strong>
+  <br />
+
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Start Time</th>
+        <th>Schedule</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let title of titles">
+        <td>{{ title }}</td>
+        <td>
+          <input type="time" />
+        </td>
+        <td>
+          <input type="text" />
+          <button>apply changes</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <button (click)="addReminder()">add reminder</button>
+  <br />
+  <button (click)="launchReminders()">launch reminders</button>
+  <br />
+  <button (click)="closeDialog()">close dialog</button>
+</dialog>

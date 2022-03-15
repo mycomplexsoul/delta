@@ -117,9 +117,28 @@ export class LinkServer {
         name: "links",
         q: JSON.stringify(q),
       },
+      {
+        sql: `SELECT DATE( lnk_date_add ) as date, COUNT( * ) as counter
+          FROM link
+          WHERE DATE( lnk_date_add ) = CURDATE()
+          GROUP BY DATE( lnk_date_add )
+          ORDER BY DATE( lnk_date_add ) DESC`,
+        model: new Link(),
+        name: "added_counter",
+      },
+      {
+        sql: `SELECT DATE( lnk_date_mod ) as date, COUNT( * ) as counter
+          FROM link
+          WHERE DATE( lnk_date_mod ) = CURDATE()
+          AND DATE( lnk_date_add ) != DATE( lnk_date_mod )
+          GROUP BY DATE( lnk_date_mod )
+          ORDER BY DATE( lnk_date_mod ) DESC`,
+        model: new Link(),
+        name: "modified_counter",
+      },
     ];
 
-    return api.listWithSQL(queue[0]);
+    return api.multipleListWithSQL({ queue });
   }
 
   externalUpdateRequestHandler = (node: iNode) => {

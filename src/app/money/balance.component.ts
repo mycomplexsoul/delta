@@ -13,6 +13,7 @@ import { SyncAPI } from "../common/sync.api";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { AuthenticationService } from "../common/authentication.service";
 import { totalExpenseByDate } from "./movement.indicators";
+import { NotificationService } from "../common/notification.service";
 
 @Component({
   selector: "balance",
@@ -142,15 +143,6 @@ export class BalanceComponent implements OnInit {
       transferCount: 0
     }
   };
-  public services: {
-    balance: BalanceService;
-    movement: MovementService;
-    sync: SyncAPI;
-  } = {
-    balance: null,
-    movement: null,
-    sync: null
-  };
   public model: {
     iterable: number;
     year: number;
@@ -173,17 +165,14 @@ export class BalanceComponent implements OnInit {
   };
 
   constructor(
-    balanceService: BalanceService,
-    movementService: MovementService,
-    syncService: SyncAPI,
+    private balanceService: BalanceService,
+    private movementService: MovementService,
+    private syncService: SyncAPI,
     private titleService: Title,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService
   ) {
-    this.services.balance = balanceService;
-    this.services.movement = movementService;
-    this.services.sync = syncService;
-
-    titleService.setTitle("Balance");
+    this.titleService.setTitle("Balance");
   }
 
   sort(a, b) {
@@ -198,7 +187,7 @@ export class BalanceComponent implements OnInit {
       new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
     this.parseIterable();
 
-    this.services.balance.getAll().then((list: Array<Balance>) => {
+    this.balanceService.getAll().then((list: Array<Balance>) => {
       this.viewData.balance = list;
 
       /*this.viewData.balance = this.viewData.balance
@@ -208,30 +197,31 @@ export class BalanceComponent implements OnInit {
       this.viewData.balanceDistribution = this.balanceDistribution(
         this.viewData.monthBalance
       );
-      //this.viewData.monthBalance = this.services.balance.list;
+      //this.viewData.monthBalance = this.balanceService.list;
       // TODO: add list of year/months of balance for combo box
-      this.viewData.monthList = this.services.balance.monthList();
+      this.viewData.monthList = this.balanceService.monthList();
 
       this.checkCurrentBalance(list);
 
       this.monthlyIncomeVsExpense();
     });
-    this.services.movement.getAll().then((list: Array<Movement>) => {
+    this.movementService.getAll().then((list: Array<Movement>) => {
       this.state.movementList = list;
       this.monthlyTotals();
     });
   }
 
-  fetchBalance() {
-    this.services.balance.getAll().then((list: Array<Balance>) => {
+  fetchBalance(): Promise<any> {
+    return this.balanceService.getAll().then((list: Array<Balance>) => {
       this.viewData.balance = list;
 
       this.viewData.monthBalance = this.filterMonthBalance();
-      this.viewData.monthList = this.services.balance.monthList();
+      this.viewData.monthList = this.balanceService.monthList();
       this.viewData.balanceDistribution = this.balanceDistribution(
         this.viewData.monthBalance
       );
       this.monthlyIncomeVsExpense();
+      return true;
     });
   }
 
@@ -285,7 +275,7 @@ export class BalanceComponent implements OnInit {
         );
     }
 
-    return this.services.balance
+    return this.balanceService
       .list()
       .filter((b: Balance) => filter(b))
       .sort(this.sort);
@@ -301,7 +291,7 @@ export class BalanceComponent implements OnInit {
     const url = `/api/movements/average-balance?account=${
       balance.bal_id_account
     }&checkday=true&year=${balance.bal_year}&month=${balance.bal_month}`;
-    this.services.sync.get(url).then(response => {
+    this.syncService.get(url).then(response => {
       this.viewData.averageBalanceInfo = response;
       this.viewData.averageBalanceInfo.startingDate = new Date(
         this.viewData.averageBalanceInfo.startingDate
@@ -319,7 +309,7 @@ export class BalanceComponent implements OnInit {
         })
       );
     });
-    this.services.movement.getAll().then((list: Array<Movement>) => {
+    this.movementService.getAll().then((list: Array<Movement>) => {
       let ref = balance.bal_year * 100 + balance.bal_month;
       this.viewData.movements = list.filter(m => {
         let movRef =
@@ -466,56 +456,60 @@ export class BalanceComponent implements OnInit {
   rebuild() {
     const model = this.parseModel();
 
-    this.services.sync
+    this.syncService
       .post("/api/balance/rebuild", {
         year: model.parsedYear,
         month: model.parsedMonth,
         user: this.authenticationService.currentUserValue.username
       })
+      .then(this.fetchBalance.bind(this))
       .then(() => {
-        this.fetchBalance();
+          this.notificationService.notify('Rebuild finished correctly, balances are updated');
       });
   }
 
   transfer() {
     const model = this.parseModel();
 
-    this.services.sync
+    this.syncService
       .post("/api/balance/transfer", {
         year: model.parsedYear,
         month: model.parsedMonth,
         user: this.authenticationService.currentUserValue.username
       })
+      .then(this.fetchBalance.bind(this))
       .then(() => {
-        this.fetchBalance();
+          this.notificationService.notify('Transfer finished correctly, balances are updated');
       });
   }
 
   rebuildAndTransfer() {
     const model = this.parseModel();
 
-    this.services.sync
+    this.syncService
       .post("/api/balance/rebuild-and-transfer", {
         year: model.parsedYear,
         month: model.parsedMonth,
         user: this.authenticationService.currentUserValue.username
       })
+      .then(this.fetchBalance.bind(this))
       .then(() => {
-        this.fetchBalance();
+          this.notificationService.notify('Rebuild and transfer finished correctly, balances are updated');
       });
   }
 
   rebuildAndTransferUntilCurrentMonth() {
     const model = this.parseModel();
 
-    this.services.sync
+    this.syncService
       .post("/api/balance/rebuild-and-transfer-range", {
         year: model.parsedYear,
         month: model.parsedMonth,
         user: this.authenticationService.currentUserValue.username
       })
+      .then(this.fetchBalance.bind(this))
       .then(() => {
-        this.fetchBalance();
+          this.notificationService.notify('Rebuild and transfer finished correctly, balances are updated');
       });
   }
 
@@ -531,7 +525,7 @@ export class BalanceComponent implements OnInit {
     }[] = this.viewData.monthList
       .filter((m, index) => index < itemCount)
       .reverse();
-    const capitalBalanceMonthly: Balance[] = this.services.balance
+    const capitalBalanceMonthly: Balance[] = this.balanceService
       .list()
       .filter(b => b.bal_id_account === capitalAccountId);
     const graphData = {

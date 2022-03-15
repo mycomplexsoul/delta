@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Task } from "../../crosscommon/entities/Task";
 import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
 import { SyncAPI } from "../common/sync.api";
-import { DateCommon } from "../common/date.common";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { Utils } from "../../crosscommon/Utility";
 import { AuthenticationService } from "../common/authentication.service";
@@ -24,11 +23,9 @@ export class TasksCore {
     private authenticationService: AuthenticationService,
     private http: HttpClient,
     private sync: SyncAPI,
-    private dateUtils: DateCommon
   ) {
     let tasks: Array<Task> = this.tasksFromStorage();
     this.data.taskList = tasks;
-    this.services.dateUtils = dateUtils;
     //this.getTasks();
     this.http = http;
     this.sync = sync;
@@ -87,13 +84,13 @@ export class TasksCore {
     tasks.forEach((text: string) => {
       if (!text.startsWith("//") && text !== "") {
         //t = this.addTask({
-        //    'tsk_date_add': this.services.dateUtils.newDateUpToSeconds(),
+        //    'tsk_date_add': DateUtils.newDateUpToSeconds(),
         //    'tsk_name': text
         //}, options);
 
         parsedTask = this.parseTask(
           {
-            tsk_date_add: this.services.dateUtils.newDateUpToSeconds(),
+            tsk_date_add: DateUtils.newDateUpToSeconds(),
             tsk_name: text,
           },
           options
@@ -139,7 +136,7 @@ export class TasksCore {
       {
         tokenStr: "[DATE]",
         replaceMethod: () =>
-          this.dateWithFormat(this.services.dateUtils.dateOnly()).substring(
+          this.dateWithFormat(DateUtils.dateOnly()).substring(
             0,
             10
           ),
@@ -147,7 +144,7 @@ export class TasksCore {
       {
         tokenStr: "[DATETIME]",
         replaceMethod: () =>
-          this.dateWithFormat(this.services.dateUtils.dateOnly()),
+          this.dateWithFormat(DateUtils.dateOnly()),
       },
     ];
     tokens.forEach((token) => {
@@ -201,7 +198,7 @@ export class TasksCore {
           parseInt(parts[0].split(":")[1]);
         task.tsk_schedule_date_start = new Date(
           this.dateOnly(
-            this.services.dateUtils.newDateUpToSeconds()
+            DateUtils.newDateUpToSeconds()
           ).getTime() +
             min * 60 * 1000
         );
@@ -238,13 +235,13 @@ export class TasksCore {
           parseInt(parts[1].split(":")[1]);
         task.tsk_schedule_date_start = new Date(
           this.dateOnly(
-            this.services.dateUtils.newDateUpToSeconds()
+            DateUtils.newDateUpToSeconds()
           ).getTime() +
             min1 * 60 * 1000
         );
         task.tsk_schedule_date_end = new Date(
           this.dateOnly(
-            this.services.dateUtils.newDateUpToSeconds()
+            DateUtils.newDateUpToSeconds()
           ).getTime() +
             min2 * 60 * 1000
         );
@@ -270,7 +267,7 @@ export class TasksCore {
           parseInt(expression.split(":")[1]);
         task.tsk_schedule_date_start = new Date(
           this.dateOnly(
-            this.services.dateUtils.newDateUpToSeconds()
+            DateUtils.newDateUpToSeconds()
           ).getTime() +
             min * 60 * 1000
         );
@@ -314,7 +311,7 @@ export class TasksCore {
         task.tsk_ctg_status = 1; // BACKLOG
       } else {
         task.tsk_ctg_status = 2; // OPEN
-        task.tsk_date_due = this.dateUtils.dateOnly(new Date());
+        task.tsk_date_due = DateUtils.dateOnly(new Date());
       }
     }
 
@@ -568,8 +565,8 @@ export class TasksCore {
       tsk_ctg_rep_frequency_rule: task.tsk_ctg_rep_frequency_rule || 0,
       tsk_rep_weekdays: task.tsk_rep_weekdays || "",
       tsk_date_add:
-        task.tsk_date_add || this.services.dateUtils.newDateUpToSeconds(),
-      tsk_date_mod: this.services.dateUtils.newDateUpToSeconds(),
+        task.tsk_date_add || DateUtils.newDateUpToSeconds(),
+      tsk_date_mod: DateUtils.newDateUpToSeconds(),
       tsk_ctg_status: task.tsk_ctg_status,
     };
   }
@@ -614,7 +611,7 @@ export class TasksCore {
   generateId() {
     // take date + time + random 10 digits
     // total digits 10 + 6 + 10 = 26
-    let date = this.services.dateUtils.newDateUpToSeconds();
+    let date = DateUtils.newDateUpToSeconds();
     let random = Math.floor(Math.random() * 1e14);
     let datetimeString = `${date.getFullYear()}${this.pad(
       date.getMonth() + 1,
@@ -720,7 +717,7 @@ export class TasksCore {
     Object.keys(newData).forEach((k) => {
       task[k] = newData[k];
     });
-    task.tsk_date_mod = this.services.dateUtils.newDateUpToSeconds();
+    task.tsk_date_mod = DateUtils.newDateUpToSeconds();
     const index = this.tasks().findIndex((e: any) => e.tsk_id === task.tsk_id);
     this.data.taskList[index] = task;
     this.updateTaskBE(task);
@@ -732,12 +729,12 @@ export class TasksCore {
       tsh_id: task.tsk_id,
       tsh_num_secuential: task.tsk_time_history.length + 1,
       tsh_name: task.tsk_name,
-      tsh_date_start: this.services.dateUtils.newDateUpToSeconds(),
+      tsh_date_start: DateUtils.newDateUpToSeconds(),
       tsh_date_end: null,
       tsh_time_spent: 0,
       tsh_id_user: this.authenticationService.currentUserValue.username,
-      tsh_date_add: this.services.dateUtils.newDateUpToSeconds(),
-      tsh_date_mod: this.services.dateUtils.newDateUpToSeconds(),
+      tsh_date_add: DateUtils.newDateUpToSeconds(),
+      tsh_date_mod: DateUtils.newDateUpToSeconds(),
       ...specifics,
     });
     this.tasksToStorage();
@@ -746,9 +743,9 @@ export class TasksCore {
   stopTimeTracking(task: any) {
     let h = task.tsk_time_history[task.tsk_time_history.length - 1];
     h.tsh_name = task.tsk_name;
-    h.tsh_date_end = this.services.dateUtils.newDateUpToSeconds();
+    h.tsh_date_end = DateUtils.newDateUpToSeconds();
     h.tsh_time_spent = this.elapsedTime(h.tsh_date_start, h.tsh_date_end);
-    h.tsh_date_mod = this.services.dateUtils.newDateUpToSeconds();
+    h.tsh_date_mod = DateUtils.newDateUpToSeconds();
 
     this.recalculateTotalTimeSpent(task);
     this.tasksToStorage();
@@ -791,7 +788,7 @@ export class TasksCore {
     } else {
       taskTimeTracking.tsh_time_spent = 0;
     }
-    taskTimeTracking.tsh_date_mod = this.services.dateUtils.newDateUpToSeconds();
+    taskTimeTracking.tsh_date_mod = DateUtils.newDateUpToSeconds();
     const task = this.recalculateTotalTimeSpent(
       this.data.taskList.find((t: any) => t.tsk_id === taskTimeTracking.tsh_id)
     );
@@ -912,7 +909,7 @@ export class TasksCore {
         parseInt(parts[0].split(":")[0]) * 60 +
         parseInt(parts[0].split(":")[1]);
       s.date_start = new Date(
-        this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
           min * 60 * 1000
       );
       s.duration = this.parseTime(parts[1]);
@@ -942,11 +939,11 @@ export class TasksCore {
         parseInt(parts[1].split(":")[0]) * 60 +
         parseInt(parts[1].split(":")[1]);
       s.date_start = new Date(
-        this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
           min1 * 60 * 1000
       );
       s.date_end = new Date(
-        this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
           min2 * 60 * 1000
       );
       s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
@@ -968,7 +965,7 @@ export class TasksCore {
         parseInt(expression.split(":")[0]) * 60 +
         parseInt(expression.split(":")[1]);
       s.date_start = new Date(
-        this.dateOnly(this.services.dateUtils.newDateUpToSeconds()).getTime() +
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
           min * 60 * 1000
       );
       parsed = true;
@@ -1004,77 +1001,6 @@ export class TasksCore {
         this.serverData.tasks = data;
         console.log("from BE", this.serverData.tasks);
         return data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  getTasksFromServer() {
-    return this.getAll()
-      .then((data) => {
-        let task;
-        let server = data;
-        server.forEach((t: any) => {
-          t.tsk_time_history = t.tsk_time_history || [];
-
-          task = this.data.taskList.find((d: any) => d.tsk_id == t.tsk_id);
-          if (!task) {
-            // if task was not found on client but it's coming from server, add it
-            // add one time tracking if task is done
-            if (t.tsk_ctg_status == 3) {
-              let dateDone: Date = new Date(t.tsk_date_done);
-              let dateStart: Date = new Date(t.tsk_date_done);
-              dateStart = new Date(
-                dateStart.getTime() - (t.tsk_estimated_duration - 1) * 60 * 1000
-              );
-              t.tsk_time_history.push({
-                tsh_id: t.tsk_id,
-                tsh_num_secuential: 1,
-                tsh_name: t.tsk_name,
-                tsh_date_start: dateStart,
-                tsh_date_end: dateDone,
-                tsh_time_spent: this.elapsedTime(dateStart, dateDone),
-                tsh_id_user: t.tsk_id_user_asigned,
-                tsh_date_add: dateStart,
-                tsh_date_mod: dateDone,
-              });
-            }
-            this.data.taskList.push(t);
-          } else {
-            // task is in server and client, let's see if it has changes
-            if (
-              new Date(t.tsk_date_mod).getTime() !=
-              new Date(task.tsk_date_mod).getTime()
-            ) {
-              // add one time tracking if task is done
-              if (t.tsk_ctg_status == 3) {
-                let dateDone: Date = new Date(t.tsk_date_done);
-                let dateStart: Date = new Date(t.tsk_date_done);
-                dateStart = new Date(
-                  dateStart.getTime() -
-                    (t.tsk_estimated_duration - 1) * 60 * 1000
-                );
-                t.tsk_time_history.push({
-                  tsh_id: t.tsk_id,
-                  tsh_num_secuential: 1,
-                  tsh_name: t.tsk_name,
-                  tsh_date_start: dateStart,
-                  tsh_date_end: dateDone,
-                  tsh_time_spent: this.elapsedTime(dateStart, dateDone),
-                  tsh_id_user: t.tsk_id_user_asigned,
-                  tsh_date_add: dateStart,
-                  tsh_date_mod: dateDone,
-                });
-                this.data.taskList[
-                  this.data.taskList.findIndex((d: any) => d.tsk_id == t.tsk_id)
-                ] = t;
-                //task = t;
-              }
-            }
-          }
-        });
-        this.tasksToStorage();
       })
       .catch((err) => {
         console.log(err);
@@ -1201,67 +1127,6 @@ export class TasksCore {
 
       method(task, expression);
     }
-  }
-
-  /**
-   * @deprecated Old way to push tasks to BE, no need anymore
-   */
-  batchAdd() {
-    const date1 = new Date(2018, 8, 1);
-    const date2 = new Date(2018, 9, 1);
-    const dateFrom = (d: any) => new Date(d);
-    const dateGreaterThan = (d1: any, d2: any) =>
-      dateFrom(d1).getTime() > dateFrom(d2).getTime();
-    const dateGreaterOrEqualThan = (d1: any, d2: any) =>
-      dateFrom(d1).getTime() >= dateFrom(d2).getTime();
-    const dateLowerThan = (d1: any, d2: any) =>
-      dateFrom(d1).getTime() < dateFrom(d2).getTime();
-    const dateLowerOrEqualThan = (d1: any, d2: any) =>
-      dateFrom(d1).getTime() <= dateFrom(d2).getTime();
-
-    let t = this.data.taskList.filter(
-      (task: Task) =>
-        dateGreaterOrEqualThan(task.tsk_date_add, date1) &&
-        dateLowerThan(task.tsk_date_add, date2)
-    );
-    console.log("tasks to push", t);
-    this.http
-      .post(`/task/batch`, t, { headers: this.headers })
-      .toPromise()
-      .then((response) => {
-        console.log("post response", response);
-        // cleanup
-        let filtered = this.data.taskList.filter((task: Task) => {
-          return (
-            dateGreaterOrEqualThan(task.tsk_date_add, date2) ||
-            task.tsk_ctg_status <= 2
-          ); // BACKLOG, OPEN
-        });
-        let cleanedup = this.data.taskList.filter((task: Task) => {
-          return (
-            dateGreaterOrEqualThan(task.tsk_date_add, date1) &&
-            dateLowerThan(task.tsk_date_add, date2) &&
-            task.tsk_ctg_status > 2
-          ); // CLOSED, CANCELLED
-        });
-        let preservedPush = this.data.taskList.filter((task: Task) => {
-          return (
-            dateGreaterOrEqualThan(task.tsk_date_add, date1) &&
-            dateLowerThan(task.tsk_date_add, date2) &&
-            task.tsk_ctg_status <= 2
-          ); // BACKLOG, OPEN
-        });
-
-        console.log("tasks remaining after cleanup", filtered);
-        console.log("cleanedup tasks", cleanedup);
-        console.log("preserved from push", preservedPush);
-
-        this.data.taskList = filtered;
-        this.tasksToStorage();
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
   }
 
   computeComparisonData() {

@@ -53,7 +53,6 @@ export class TasksComponent implements OnInit {
   public showBatchAdd: boolean = false;
   public load: boolean = true;
   public reports: any = {};
-  public optionsInput: string = "default";
   public tagInfo: any = {};
   public options: any;
   public defaultOptions: any = {
@@ -82,6 +81,7 @@ export class TasksComponent implements OnInit {
     optRecordHeight: 390,
     optMoveTimetrackingToAvailableSlotWhenDone: false,
     optHideScrollbarsInRecord: false,
+    optShowTaskToolbar: false,
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -116,6 +116,7 @@ export class TasksComponent implements OnInit {
       { id: "with-schedule", name: "With Schedule" },
       { id: "in-progress", name: "In Progress" },
       { id: "qualifiers", name: "Have Qualifiers" },
+      { id: "not-today", name: "Not Added Today" },
       { id: "q-star", name: "Star (2)" },
       { id: "q-highlight", name: "Highlight (3)" },
       { id: "q-priority", name: "Priority (4)" },
@@ -283,7 +284,7 @@ export class TasksComponent implements OnInit {
           this.viewData.selectedFilter === 'today' ? today0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < tomorrow0.getTime() : true
         )
         .filter((t) => 
-          this.viewData.selectedFilter === 'yesterday' ? yesterday0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < today0.getTime() : true
+        this.viewData.selectedFilter === 'yesterday' ? yesterday0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < today0.getTime() : true
         )
         .filter((t) => 
           this.viewData.selectedFilter === 'old-30' ? new Date(t.tsk_date_add).getTime() < (DateUtils.addDays(today0, -30)).getTime() : true
@@ -292,7 +293,10 @@ export class TasksComponent implements OnInit {
           this.viewData.selectedFilter === 'with-schedule' ? !!t.tsk_schedule_date_start : true
         )
         .filter((t) => 
-          this.viewData.selectedFilter === 'in-progress' ? t.tsk_ctg_in_process === 2 : true
+        this.viewData.selectedFilter === 'in-progress' ? t.tsk_ctg_in_process === 2 : true
+        )
+        .filter((t) => 
+          this.viewData.selectedFilter === 'not-today' ? today0.getTime() > new Date(t.tsk_date_add).getTime() : true
         )
         .filter((t) => 
           this.viewData.selectedFilter === 'qualifiers' ? !!t.tsk_qualifiers : true
@@ -757,6 +761,11 @@ export class TasksComponent implements OnInit {
       dateDone = new Date(
         t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
       );
+      // if dateDone is happening before last time tracking date, use last time tracking date instead
+      const lastDateDoneEntryFromDay = this.lastDateDoneEntryFromDay(new Date()) || this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1));
+      if (dateDone.getTime() < lastDateDoneEntryFromDay.getTime()) {
+        dateDone = DateUtils.addSeconds(lastDateDoneEntryFromDay, 1);
+      }
     }
     this.updateTask(t.tsk_id, {
       tsk_ctg_status: isChecked ? this.taskStatus.CLOSED : this.taskStatus.OPEN,
@@ -855,14 +864,17 @@ export class TasksComponent implements OnInit {
   }
 
   taskJumpUp(current: any, selector: string) {
-    if (current.previousElementSibling && current.previousElementSibling.querySelector(selector)) {
-      current.previousElementSibling.querySelector(selector).focus();
+    const previous = current.previousElementSibling;
+    if (previous && previous.querySelector(selector)) {
+      previous.querySelector(selector).focus();
     } else {
       // pivot if there's hidden elements until there's not a hidden element
-      let pivot =
-        current.parentNode.parentNode.previousElementSibling &&
-        current.parentNode.parentNode.previousElementSibling
-          .lastElementChild.lastElementChild;
+      let recordPivot = current.parentNode.parentNode.previousElementSibling;
+      while (recordPivot && recordPivot.classList.contains("hidden") && recordPivot.previousElementSibling) {
+        recordPivot = recordPivot.previousElementSibling;
+      }
+
+      let pivot = recordPivot && recordPivot.lastElementChild.lastElementChild;
       while (pivot && pivot.classList.contains("hidden")) {
         pivot = pivot.previousElementSibling;
       }
@@ -879,13 +891,19 @@ export class TasksComponent implements OnInit {
   }
 
   taskRecordJumpUp(current: any, selector: string) {
+    let previous = current.parentNode.parentNode.previousElementSibling;
+
+    while (previous && previous.classList.contains("hidden") && previous.previousElementSibling) {
+      previous = previous.previousElementSibling;
+    }
+
     if (
-      current.parentNode.parentNode.previousElementSibling &&
-      current.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.querySelector(
+      previous &&
+      previous.firstElementChild.nextElementSibling.querySelector(
         selector
       )
     ) {
-      current.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling
+      previous.firstElementChild.nextElementSibling
         .querySelector(selector)
         .focus();
     } else {
@@ -902,34 +920,33 @@ export class TasksComponent implements OnInit {
   }
 
   taskJumpDown(current: any, selector: string) {
-    if (
-      current.nextElementSibling &&
-      !current.nextElementSibling.classList.contains("hidden") && // skips hidden ones
-      current.nextElementSibling.querySelector(selector)
+    const next = current.nextElementSibling;
+    if (next && !next.classList.contains("hidden") && // skips hidden ones
+      next.querySelector(selector)
     ) {
-      current.nextElementSibling.querySelector(selector).focus();
+      next.querySelector(selector).focus();
     } else {
-      if (
-        current.parentNode.parentNode.nextElementSibling &&
-        current.parentNode.parentNode.nextElementSibling.querySelector(
-          selector
-        )
-      ) {
-        current.parentNode.parentNode.nextElementSibling
-          .querySelector(selector)
-          .focus();
+      let nextRecord = current.parentNode.parentNode.nextElementSibling;
+
+      while (nextRecord && nextRecord.classList.contains("hidden") && nextRecord.nextElementSibling) {
+        nextRecord = nextRecord.nextElementSibling;
+      }
+      
+      if (nextRecord && nextRecord.querySelector(selector)) {
+        nextRecord.querySelector(selector).focus();
       }
     }
   }
 
   taskRecordJumpDown(current: any, selector: string) {
-    if (
-      current.parentNode.parentNode.nextElementSibling &&
-      current.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.querySelector(
-        selector
-      )
-    ) {
-      current.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling
+    let nextRecord = current.parentNode.parentNode.nextElementSibling;
+
+    while (nextRecord && nextRecord.classList.contains("hidden") && nextRecord.nextElementSibling) {
+      nextRecord = nextRecord.nextElementSibling;
+    }
+
+    if (nextRecord && nextRecord.firstElementChild.nextElementSibling.querySelector(selector)) {
+      nextRecord.firstElementChild.nextElementSibling
         .querySelector(selector)
         .focus();
     }
@@ -1748,6 +1765,33 @@ export class TasksComponent implements OnInit {
     return lastDate;
   }
 
+  lastDateDoneEntryFromDay(date: Date) {
+    let day0 = this.services.tasksCore.dateOnly(date);
+    let nextDay0 = this.addDays(day0, 1);
+    let lastDate: Date = day0;
+    let tasksOfTheDay = this.tasks.filter((t: any) => {
+      return (
+        new Date(t.tsk_date_done).getTime() >= day0.getTime() &&
+        new Date(t.tsk_date_done).getTime() < nextDay0.getTime() &&
+        t.tsk_ctg_status === TaskStatus.CLOSED
+      );
+    });
+    tasksOfTheDay.forEach((t: any) => {
+      if (t.tsk_date_done) {
+        if (
+          new Date(t.tsk_date_done).getTime() > lastDate.getTime() &&
+          new Date(t.tsk_date_done).getTime() < nextDay0.getTime()
+        ) {
+          lastDate = new Date(t.tsk_date_done);
+        }
+      }
+    });
+    if (lastDate === day0) {
+      return null;
+    }
+    return lastDate;
+  }
+
   taskToBacklog(t: Task) {
     const isDateDueToday: boolean =
       this.dateUtils.dateOnly(new Date(t.tsk_date_due)).getTime() ===
@@ -1824,42 +1868,8 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  backup() {
-    let tasks = JSON.stringify(this.tasks);
-    this.optionsInput = tasks;
-  }
-
-  backupDoneOnly() {
-    let tasks = this.tasks.filter((t: any) => {
-      return t.tsk_ctg_status === this.taskStatus.CLOSED;
-    });
-    let tasksStr = JSON.stringify(tasks);
-    this.optionsInput = tasksStr;
-    this.optionsMessage(`Backup correctly ${tasks.length} tasks.`);
-  }
-
   optionsMessage(message: string) {
     document.querySelector("#optionsMessages").innerHTML = message;
-  }
-
-  import() {
-    let data = this.optionsInput;
-    let tasks = JSON.parse(data);
-
-    if (Array.isArray(tasks) && tasks.length > 0) {
-      this.services.tasksCore.import(tasks);
-      this.tasks = this.services.tasksCore.tasks();
-      this.optionsMessage(`Imported correctly ${tasks.length} tasks.`);
-      setTimeout(() => this.updateState(), 100);
-    }
-  }
-
-  purgeDoneTasks() {
-    let tasks = this.tasks.filter((t: any) => {
-      return t.tsk_ctg_status === this.taskStatus.CLOSED;
-    });
-    this.services.tasksCore.purgeDoneTasks();
-    this.optionsMessage(`Deleted correctly ${tasks.length} tasks.`);
   }
 
   // formatTags(tags: string){
@@ -1979,15 +1989,6 @@ export class TasksComponent implements OnInit {
           console.log("Service Worker Failed to Register", err);
         });
     }
-  }
-
-  sendAllToServer() {
-    this.services.tasksCore.batchAdd();
-  }
-
-  getTasksFromServer() {
-    this.services.tasksCore.getTasksFromServer();
-    this.updateState();
   }
 
   qualifierTotals() {

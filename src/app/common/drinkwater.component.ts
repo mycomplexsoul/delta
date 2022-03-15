@@ -8,72 +8,174 @@ import { DateUtils } from "src/crosscommon/DateUtility";
   providers: []
 })
 export class DrinkWaterComponent {
-  public count: number = 0;
-  private intervalRef: number = 0;
-  private timeoutRef: number = 0;
-  public notifyEnabled: boolean = false;
-  private MESSAGE: string = "Hey! drink some water";
-
   constructor(private notificationService: NotificationService) {
-    // this.startNotification();
+    
   }
 
-  notification(data: any) {
-    let not = window["Notification"];
-    if (not && not.permission !== "denied") {
-      not.requestPermission(function(status: string) {
-        // status is "granted", if accepted by user
-        var n = new not(data.title || "Tasks", {
-          body: data.body,
-          icon: data.icon || "favicon.ico" // optional
-        });
-      });
-    }
-    this.notificationService.notify(data.body, data.title, 0);
+  /////////////////////////////
+  public titles = [
+    'Water',
+    'Lipstick',
+    'Check downloads state',
+    'Excercise',
+    'Slack Globant',
+    'Solar protector',
+    'Post tweet',
+    'Custom'
+  ];
+  public viewData = {
+    reminders: [
+      {
+        title: 'Water',
+        startTime: 9 * 60,
+        started: false,
+        schedule: 30,
+        nextOcurrence: null
+      },
+      {
+        title: 'Lipstick',
+        startTime: 9 * 60 + 10,
+        started: false,
+        schedule: 240,
+        nextOcurrence: null
+      },
+      {
+        title: 'Downloads state',
+        startTime: 9 * 60 + 20,
+        started: false,
+        schedule: 120,
+        nextOcurrence: null
+      },
+      {
+        title: 'Get up',
+        startTime: 9 * 60 + 40,
+        started: false,
+        schedule: 90,
+        nextOcurrence: null
+      },
+      {
+        title: 'Slack Globant',
+        startTime: 9 * 60 + 50,
+        started: false,
+        schedule: 270,
+        nextOcurrence: null
+      },
+      {
+        title: 'Solar protector',
+        startTime: 9 * 60 + 15,
+        started: false,
+        schedule: 240,
+        nextOcurrence: null
+      },
+      {
+        title: 'Clean teeth',
+        startTime: 9 * 60 + 45,
+        started: false,
+        schedule: 360,
+        nextOcurrence: null
+      },
+      {
+        title: 'Kiss Lau',
+        startTime: 10 * 60 + 25,
+        started: false,
+        schedule: 360,
+        nextOcurrence: null
+      },
+      {
+        title: 'Tweetdeck',
+        startTime: 10 * 60 + 35,
+        started: false,
+        schedule: 30,
+        nextOcurrence: null
+      }
+    ],
+  };
+
+  showDialog() {
+    const dialog = document.querySelector('#reminders-dialog');
+    
+    dialog['show']();
+  }
+  
+  closeDialog() {
+    const dialog = document.querySelector('#reminders-dialog');
+    
+    dialog['close']();
   }
 
-  addOne() {
-    this.count++;
-  }
+  generateReminder({ title, startTime, schedule }) {
+    const reminders = this.viewData.reminders;
+    const reminder = reminders.find(r => r.title === title);
 
-  stopNotification() {
-    window.clearTimeout(this.timeoutRef);
-    window.clearInterval(this.intervalRef);
-    this.timeoutRef = 0;
-    this.intervalRef = 0;
-    this.notifyEnabled = false;
-  }
-
-  startNotification() {
-    const min = 30;
-    this.notifyEnabled = true;
-
-    // adjust next notification to show within the next 00 or 30 minutes of the hour
-    let currDate: Date = new Date();
-    if (currDate.getMinutes() > 30) {
-      currDate = DateUtils.addMinutes(currDate, 60 - currDate.getMinutes());
-      currDate.setSeconds(0);
+    if (reminder) {
+      // update
     } else {
-      currDate = DateUtils.addMinutes(currDate, 30 - currDate.getMinutes());
-      currDate.setSeconds(0);
+      // create
+      reminders.push({
+        title,
+        startTime,
+        started: false,
+        schedule,
+        nextOcurrence: null
+      })
     }
-    const scheduleIn: number = currDate.getTime() - new Date().getTime();
+  }
 
-    const self = this;
-    console.log(
-      `Schedule to start Drink Water notification in ${scheduleIn /
-        (1000 * 60)} minutes`
-    );
-    const notification = () =>
-      self.notification({
-        title: "Drink Water",
-        body: self.MESSAGE
-      });
-    this.timeoutRef = window.setTimeout(() => {
-      notification();
-      self.intervalRef = window.setInterval(() => {
-        notification();
-      }, min * 60 * 1000);
-    }, scheduleIn);
+  addReminder() {
+
+  }
+
+  calculateNextOccurence(reminder) {
+    const currentDate = DateUtils.addMinutes(new Date(), 1); // To prevent matching current time for next occurence
+    let { nextOcurrence } = reminder;
+    // set next occurrence to be the startTime when null
+    if (!nextOcurrence) {
+      nextOcurrence = DateUtils.addMinutes(
+        DateUtils.dateOnly(), reminder.startTime
+      );
+    }
+  
+    // we calculate the next occurrence using the schedule
+    // in case the occurence is projected in the past, calculate the next one
+    while (nextOcurrence.getTime() < currentDate.getTime()) {
+      nextOcurrence = DateUtils.addMinutes(
+        nextOcurrence, reminder.schedule
+      );
+    }
+
+    // stop if we spill into the next day / stop mark
+    if (nextOcurrence.getTime() > DateUtils.addDays(DateUtils.dateOnly(), 1).getTime()) {
+      nextOcurrence = null;
+    }
+
+    return nextOcurrence;
+  }
+
+  scheduleReminder(reminder) {
+    console.log(`schedule reminder in ${DateUtils.formatTimestamp(
+      DateUtils.elapsedTime(reminder.nextOcurrence, new Date()),
+      '[HH]:[mm]:[ss]'
+      )}`, reminder);
+
+    // schedule reminder notification for the next ocurrence
+    // TODO: refactor to a proper timerService implementation to track all timers
+    setTimeout(() => {
+      this.notificationService.notify(reminder.title, 'Reminders', 0);
+        
+      // schedule the next notification
+      reminder.nextOcurrence = this.calculateNextOccurence(reminder);
+      if (reminder.nextOcurrence) {
+        this.scheduleReminder(reminder);
+      }
+    }, DateUtils.elapsedTime(reminder.nextOcurrence, new Date()) * 1000);
+  }
+
+  launchReminders() {
+    const { reminders } = this.viewData;
+
+    reminders.forEach((reminder) => {
+      reminder.nextOcurrence = this.calculateNextOccurence(reminder);
+      this.scheduleReminder(reminder);
+    });
   }
 }

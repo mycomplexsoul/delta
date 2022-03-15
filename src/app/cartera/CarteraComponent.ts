@@ -66,6 +66,8 @@ export class CarteraComponent implements OnInit {
     nonIdentifiedTotalAmount: number;
     displayYearMonth: string;
     showOnlyUnitsWithoutPayment: boolean;
+    reportList: Array<any>;
+    periodList: Array<any>
   } = {
     showItemForm: false,
     showPayDetList: false,
@@ -92,8 +94,10 @@ export class CarteraComponent implements OnInit {
     nonIdentifiedTotalAmount: 0,
     displayYearMonth: null,
     showOnlyUnitsWithoutPayment: false,
+    reportList: [],
+    periodList: []
   };
-  private model: {
+  public model: {
     _paymentType: string;
     _dateType: string;
     fDate: string;
@@ -101,6 +105,8 @@ export class CarteraComponent implements OnInit {
     unitId: string;
     fDescription: string;
     paymentId: string;
+    period: string;
+    report: string;
   } = {
     _paymentType: "normal",
     _dateType: "current",
@@ -109,6 +115,8 @@ export class CarteraComponent implements OnInit {
     unitId: null,
     fDescription: null,
     paymentId: null,
+    period: null,
+    report: null
   };
   private payDetModel: any = {};
   private payDetFolioModel: any = {};
@@ -145,6 +153,46 @@ export class CarteraComponent implements OnInit {
   }
 
   deriveState() {
+    let periodIterator = DateUtils.getIterableCurrentMonth(this.viewData.year, this.viewData.month);
+    const lastMonth = DateUtils.getIterableCurrentMonth(2019, 11);
+
+    while(periodIterator.iterable > lastMonth.iterable) {
+      this.viewData.periodList.push({
+        iterable: periodIterator.iterable,
+        name: `${DateUtils.getMonthNameSpanish(periodIterator.month)} ${periodIterator.year}`
+      });
+
+      periodIterator = DateUtils.getIterablePreviousMonth(periodIterator.year, periodIterator.month);
+    }
+
+    this.viewData.reportList.push({
+      iterable: '/cartera-results?year={year}&month={month}',
+      name: 'Estado de Resultados',
+    });
+    this.viewData.reportList.push({
+      iterable: '/cartera-movements?year={year}&month={month}',
+      name: 'Ingresos y Egresos',
+    });
+    this.viewData.reportList.push({
+      iterable: '/cartera-pending-payments?year={year}&month={month}',
+      name: 'Relación de Cobranza',
+    });
+    this.viewData.reportList.push({
+      iterable: '/cartera-payment-report?year={year}&month={month}',
+      name: 'Resumen de Recaudación',
+    });
+    this.viewData.reportList.push({
+      iterable: '/cartera-payment-report?year={year}&month={month}&layout=print',
+      name: 'Formato de Recaudación',
+    });
+    this.viewData.reportList.push({
+      iterable: '/receipt-report?year={year}&month={month}',
+      name: 'Recibos de Pago',
+    });
+
+    this.model.report = this.viewData.reportList[0].iterable;
+    this.model.period = this.viewData.periodList[0].iterable;
+
     this.carteraService
       .getPendingProvisionForMonth(this.viewData.year, this.viewData.month)
       .then((response) => {
@@ -395,6 +443,9 @@ export class CarteraComponent implements OnInit {
               (p) => p.cpr_id === id
             );
             prov.cpr_folio = this.payDetFolioModel[id] || null;
+            // prov.cpr_condoned = _paymentType === 'condonation' ? prov.cpr_condoned + fAmount : prov.cpr_condoned;
+            // prov.cpr_payed = _paymentType === 'condonation' ? prov.cpr_payed : prov.cpr_payed + fAmount;
+            // prov.cpr_remaining = prov.cpr_amount - prov.cpr_condoned - prov.cpr_payed - fAmount;
           });
           this.showListAfterPayment(this.payDetModel);
           this.resetForm(newItemForm);
@@ -425,6 +476,9 @@ export class CarteraComponent implements OnInit {
     this.viewData.payDetCaptureStatus = null;
     this.viewData.showPayDetList = false;
     this.viewData.showItemForm = false;
+
+    this.toggleUnitList();
+    this.toggleUnitList();
   }
 
   setPaymentDetailsInForm(form: NgForm, paymentId: string) {
@@ -485,7 +539,7 @@ export class CarteraComponent implements OnInit {
   }
 
   getUnitsWithoutPayment() {
-    return this.viewData.pendingProvisionList
+    const unitList = this.viewData.pendingProvisionList
       .filter(
         (p) =>
           p.cpr_remaining !== 0 &&
@@ -493,6 +547,7 @@ export class CarteraComponent implements OnInit {
           p.cpr_month === this.viewData.month
       )
       .map((p) => p.cpr_id_unit);
+    return [...new Set(unitList)];
   }
 
   toggleUnitList() {
@@ -501,5 +556,13 @@ export class CarteraComponent implements OnInit {
     this.viewData.unitList = this.viewData.showOnlyUnitsWithoutPayment
       ? this.getUnitsWithoutPayment()
       : UNIT_LIST;
+  }
+
+  openReport(report: string, period: string) {
+    const year = period.substring(0, 4);
+    const month = parseInt(period.substring(4, 6), 10);
+    const url = report.replace('{year}', year).replace('{month}', String(month));
+
+    window.open(url, '_blank');
   }
 }

@@ -52,14 +52,9 @@
 </form>
 <div *ngIf="viewOptions">
   <hr />
-  <button (click)="deleteTasks()">delete all tasks</button>
-  <input type="text" name="optionsInput" [(ngModel)]="optionsInput" />
-  <button (click)="backup()">backup</button>
-  <button (click)="backupDoneOnly()">backup done only</button>
-  <button (click)="import()">import</button>
-  <button (click)="purgeDoneTasks()">purge done tasks</button>
-  <button (click)="sendAllToServer()">all tasks to server</button>
-  <button (click)="getTasksFromServer()">get tasks from server</button>
+  <button (click)="deleteTasks()" class="btn-secondary">
+    delete all tasks
+  </button>
   <button (click)="clearNextTasks()">clear next tasks listing</button>
   <br />
   <div class="task-options-section-title">Showing / hiding sections</div>
@@ -147,6 +142,12 @@
     label="Allow to edit ETA in tasks"
     optionId="optAllowToEditETA"
     [checked]="options.optAllowToEditETA"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show task toolbar in desktop"
+    optionId="optShowTaskToolbar"
+    [checked]="options.optShowTaskToolbar"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
   <checkbox-option
@@ -1399,7 +1400,13 @@
   </table>
 </div>
 
-<div class="task-item-toolbar" *ngIf="selectedTask">
+<div
+  class="task-item-toolbar"
+  *ngIf="selectedTask"
+  [ngClass]="{
+  'mobile-only': !options.optShowTaskToolbar
+}"
+>
   <div>{{ selectedTask.tsk_name }}</div>
   <div class="task-item-toolbar-content">
     <span

@@ -43,7 +43,7 @@ export class CommonComponent<T> {
     onUpdateItemService,
     onFinalExecution
   }: {
-    form: NgForm;
+    form: NgForm | { value: any };
     model: any; // model
     listing: T[];
     onFindExpression: (item: T) => boolean;

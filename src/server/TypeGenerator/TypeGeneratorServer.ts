@@ -37,7 +37,10 @@ export class TypeGeneratorServer {
     "CarteraPayDet",
     "CarteraUnit",
     // Timeline
-    "Timeline"
+    "Timeline",
+    // Permissions
+    "Profile",
+    "Permission"
   ];
 
   config = (node: iNode) => {

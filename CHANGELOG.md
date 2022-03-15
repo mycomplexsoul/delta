@@ -27,6 +27,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.13.7 (2021-04-28) -- In Progress --
+
+- [AppMoney][new] Balance - Notify when Rebuild and transfer operations are finished
+
+## v1.13.6 (2021-03-28)
+
+- [AppTasks][mod] Use latest date_done when adjusting backwards and time is behind
+- [AppTasks][mod] Cleanup old buttons and code
+- [AppTasks][fix] Allow to jump record listings even when some are collapsed
+- [AppLinks][new] List oldest 10 links, when checked update modified date to latest, show button to copy link and copy link when clicked
+- [AppCommon][new] Reminders - Add basic UI elements for custom reminders
+- [AppCommon][new] Reminders - Base config to use reminders
+- [AppCommon][new] Permissions - `Profile` entity definition
+- [AppCommon][new] Permissions - `Permission` entity definition
+- [AppTasks][new] Option to show task toolbar in desktop
+- [AppCartera][new] Report generation form
+
 ## v1.13.5 (2021-02-28)
 
 - [AppTasks][fix] Ensure time tracking items are executed in the correct order

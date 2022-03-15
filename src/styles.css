@@ -404,12 +404,6 @@ textarea.task-multiple {
   font-size: 200%;
 }
 
-@media (min-width: 505px) {
-  .task-item-toolbar {
-    display: none;
-  }
-}
-
 .option-item {
   display: block;
 }

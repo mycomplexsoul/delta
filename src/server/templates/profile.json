@@ -1,0 +1,54 @@
+{
+    "name": "Profile"
+    , "namespace": "common"
+    , "removeMeans": "CANCELATION"
+    , "authNeeded": true
+    , "displayOnMenu": true
+    , "prefix": "pro"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Profile,Profiles)"
+        , "TABLE_NAME(PROFILE)"
+        , "VIEW_NAME(VIPROFILE)"
+    ]
+    , "fields": [
+        {
+            "templateId": "string"
+            , "dbName": "pro_id"
+            , "isPK": true
+            , "size": 20
+            , "minLength": 1
+            , "dbComment": "Id for the profile"
+            , "entName": "ProfileId"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD"
+            ]
+            , "displayName": "Profile Id"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "pro_name"
+            , "size": 200
+            , "minLength": 1
+            , "dbComment": "Identifier to use when showing the profile information"
+            , "entName": "Name"
+            , "captureRequired": true
+            , "specialRules": [
+                "DUPLICITY_ADD(PRO_ID)"
+                , "DUPLICITY_EDIT(PRO_ID)"
+            ]
+            , "displayName": "Name"
+            , "isRecordName": true
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        }
+    ]
+    , "view": [
+    ]
+}
