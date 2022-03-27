@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.13.7 (2021-04-28) -- In Progress --
+## v1.13.7 (2021-04-28)
 
 - [AppMoney][new] Balance - Notify when Rebuild and transfer operations are finished
 - [AppTasks][new] Add options to display filters and collapse buttons
@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppTasks][fix] Remove event notification when schedule is removed or when task is closed
 - [AppMoney][new] Balance - Add button to refresh data from server and render UI again
 - [AppCartera][new] UI to generate provisions for the next provided period
+- [AppCommon][dep] Upgrade to Angular@13.3.0 dependencies
+- [AppCommon][dep] Upgrade dependencies
 
 ## v1.13.6 (2021-03-28)
 
