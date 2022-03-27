@@ -9,6 +9,8 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 import { TimelineService } from "../common/TimelineService";
 import { Timeline } from "src/crosscommon/entities/Timeline";
 import { Keyval } from "src/crosscommon/entities/Keyval";
+import { TasksCore } from "../task/tasks.core";
+import { Task } from "src/crosscommon/entities/Task";
 
 @Component({
   selector: "activity",
@@ -33,17 +35,25 @@ export class ActivityComponent implements OnInit {
 
   public model: {
     id: string;
-    keyval: Keyval[]
+    keyval: Keyval[];
+    tasks: Task[]
   } = {
     id: null,
-    keyval: []
+    keyval: [],
+    tasks: []
   };
   public common: CommonComponent<Activity> = null;
+  
+  // handlers for TaskComponent
+  public handlers = {
+    onViewTaskDetails: (task: Task) => {}
+  };
 
   constructor(
     private activityService: ActivityService,
     private timelineService: TimelineService,
-    private keyvalService: KeyvalService
+    private keyvalService: KeyvalService,
+    private tasksService: TasksCore,
   ) {
     this.common = new CommonComponent<Activity>();
   }
@@ -139,7 +149,7 @@ export class ActivityComponent implements OnInit {
   }
 
   setModelDetails(id: string, form: NgForm) {
-    let model: iEntity;
+    let model: Activity;
     if (!this.viewData.showItemForm) {
       this.viewData.showItemForm = !this.viewData.showItemForm;
     }
@@ -168,6 +178,15 @@ export class ActivityComponent implements OnInit {
 
     // Get Keyval
     this.model.keyval = this.viewData.keyvalList.filter(item => this.findById(item, "key_id", id));
+
+    // get tasks
+    if (model.act_tasks_tag) {
+      this.tasksService.getTasks().then((tasks: Task[]) => {
+        const tagTasks = tasks.filter(t => t.tsk_tags && t.tsk_tags.includes(model.act_tasks_tag));
+  
+        this.model.tasks = tagTasks;
+      });
+    }
   }
 
   findById(item: iEntity, field: string, id: string) {

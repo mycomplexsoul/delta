@@ -7,7 +7,7 @@ import { By }           from '@angular/platform-browser';
 
 ////////  SPECS  /////////////
 
-describe('DateCommon', () => {
+describe('DateCommon --deprecate--', () => {
     let dateObj: DateCommon;
 
     beforeEach(() => {

@@ -60,6 +60,7 @@ import { HomeComponent } from "./common/home.component";
 import { RegisterComponent } from "./common/register.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
+import { TasksCore } from "./task/tasks.core";
 
 @NgModule({
   imports: [
@@ -118,6 +119,7 @@ import { environment } from "../environments/environment";
     SyncAPI,
     UtilsCommon,
     Title,
+    TasksCore,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]

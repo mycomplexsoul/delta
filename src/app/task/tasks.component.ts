@@ -58,7 +58,10 @@ export class TasksComponent implements OnInit {
   public defaultOptions: any = {
     optViewElapsedDays: false,
     optShowFinishedToday: false,
-    optShowQualifiedTasksOnly: false,
+    optShowCollapseRecords: false,
+    optShowFilter: false,
+    optShowSyncButton: false,
+    optUsePresentationMode: false,
     optNewTaskStatusIsBacklog: false,
     optShowIndicatorsTable: false,
     optAllowToEditETA: false,
@@ -491,6 +494,10 @@ export class TasksComponent implements OnInit {
 
   setSelected(item: any) {
     this.state.selected = item;
+    setTimeout(() => {
+      autogrowSetup({ componentWillBeVisible: true });
+      document.querySelector('.tasks-details textarea').parentNode['dataset'].replicatedValue = item.tsk_notes;
+    }, 100);
   }
 
   sortByGroup(a: any, b: any) {
@@ -773,6 +780,8 @@ export class TasksComponent implements OnInit {
     });
     setTimeout(() => {
       this.updateState();
+      // remove notification if any
+      this.removeScheduledNotification(t);
     }, this.delayOnUpdateState);
   }
 
@@ -1524,6 +1533,10 @@ export class TasksComponent implements OnInit {
           (t: Task, expression: string) => {
             this.updateTask(t.tsk_id, tokens[token](t));
             this.updateState();
+            // remove notification if any
+            if (token === "[-SCHEDULE]") {
+              this.removeScheduledNotification(t);
+            }
           },
           token
         );
@@ -1531,7 +1544,7 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  notification({title = 'Tasks', body, icon = 'favicon.ico', hideIn = 0, useVoice = false}) {
+  notification({title = 'Tasks', body, icon = 'favicon.ico', hideIn = 0, useVoice = false, minimalUI = false}) {
     const not = window["Notification"];
     if (not && not.permission !== "denied") {
       not.requestPermission(function (status: string) {
@@ -1544,7 +1557,7 @@ export class TasksComponent implements OnInit {
       });
     }
     // send in-window notification
-    this.notificationService.notify(body, title, hideIn);
+    this.notificationService.notifyWithOptions(body, { title, hideIn, minimalUI: true });
     // notify with speech :-D
     if (useVoice) {
       this.speechText(body);
@@ -2551,12 +2564,13 @@ export class TasksComponent implements OnInit {
   }
 
   setTaskNotes(task: any, event: KeyboardEvent) {
-    let newNotes = event.target["textContent"];
+    const newNotes = event.target["value"];
 
     if (task.tsk_notes !== newNotes) {
       this.updateTask(task.tsk_id, {
         tsk_notes: newNotes,
       });
+      document.querySelector('.tasks-details textarea').parentNode['dataset'].replicatedValue = newNotes;
     }
   }
 
@@ -2749,5 +2763,23 @@ export class TasksComponent implements OnInit {
     this.state.openTasks.forEach(e =>{ e.collapsed = collapseAll; });
     this.saveCollapsedRecordsToStorage();
 
+  }
+
+  removeScheduledNotification(task: Task) {
+    const found = this.state.startingTasksSchedule.find(
+      (s: any) => s.task.tsk_id == task.tsk_id && s.timeoutHandler != -1
+    );
+    if (found) {
+      if (
+        new Date(found.task.tsk_schedule_date_start).getTime() ===
+        new Date(task.tsk_schedule_date_start).getTime()
+      ) {
+        clearTimeout(found.timeoutHandler);
+        found.timeoutHandler = -1;
+      } else {
+        return false; // date is different, do nothing and leave the scheduled notification
+      }
+    }
+    return true;
   }
 }

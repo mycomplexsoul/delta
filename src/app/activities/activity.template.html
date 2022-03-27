@@ -70,6 +70,14 @@
       [recordId]="viewData.timelineKey + model.id"
       (onNewItem)="handleNewTimeline($event)"
     ></timeline>
+
+    <span> Tasks </span>
+
+    <div>
+      <div *ngFor="let item of model.tasks">
+        <task [task]="item" [handlers]="handlers"></task>
+      </div>
+    </div>
   </div>
 
   <div class="card-list">

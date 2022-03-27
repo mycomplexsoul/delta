@@ -4,10 +4,11 @@ type NotificationItem = {
   id: string;
   message: string;
   date: Date;
-  status: NotificationStatus; // queue, displayed, cancelled
+  status: NotificationStatus | string; // queue, displayed, cancelled
   title: string;
   showHeader: boolean;
   hideIn: number;
+  minimalUI: boolean;
 };
 
 export { NotificationStatus, NotificationItem };

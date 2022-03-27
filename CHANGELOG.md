@@ -30,6 +30,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## v1.13.7 (2021-04-28) -- In Progress --
 
 - [AppMoney][new] Balance - Notify when Rebuild and transfer operations are finished
+- [AppTasks][new] Add options to display filters and collapse buttons
+- [AppTasks][new] Add option to use a "Presentation mode" for meetings, using minimal UI
+- [AppCommon][fix] Fix backend test runner
+- [AppTasks][new] Add unit tests for time schedule ranges interpretation
+- [AppTasks][fix] Remove event notification when schedule is removed or when task is closed
+- [AppMoney][new] Balance - Add button to refresh data from server and render UI again
+- [AppCartera][new] UI to generate provisions for the next provided period
 
 ## v1.13.6 (2021-03-28)
 

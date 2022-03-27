@@ -7,6 +7,7 @@ import { Title } from "@angular/platform-browser";
 import { NgForm } from "@angular/forms";
 import { NotificationService } from "../common/notification.service";
 import { Utils } from "src/crosscommon/Utility";
+import { AuthenticationService } from "../common/authentication.service";
 
 const CUOTA_NORMAL = "cuota-normal";
 const PROVISION_AMOUNT = 1480;
@@ -67,7 +68,10 @@ export class CarteraComponent implements OnInit {
     displayYearMonth: string;
     showOnlyUnitsWithoutPayment: boolean;
     reportList: Array<any>;
-    periodList: Array<any>
+    periodList: Array<any>;
+    showGenerateReportSection: boolean;
+    showGenerateProvisionsSection: boolean;
+    nextMonthWithProvisionsToGenerate: Array<any>;
   } = {
     showItemForm: false,
     showPayDetList: false,
@@ -95,7 +99,10 @@ export class CarteraComponent implements OnInit {
     displayYearMonth: null,
     showOnlyUnitsWithoutPayment: false,
     reportList: [],
-    periodList: []
+    periodList: [],
+    showGenerateReportSection: false,
+    showGenerateProvisionsSection: false,
+    nextMonthWithProvisionsToGenerate: [],
   };
   public model: {
     _paymentType: string;
@@ -107,6 +114,7 @@ export class CarteraComponent implements OnInit {
     paymentId: string;
     period: string;
     report: string;
+    nextPeriod: string;
   } = {
     _paymentType: "normal",
     _dateType: "current",
@@ -116,7 +124,8 @@ export class CarteraComponent implements OnInit {
     fDescription: null,
     paymentId: null,
     period: null,
-    report: null
+    report: null,
+    nextPeriod: null,
   };
   private payDetModel: any = {};
   private payDetFolioModel: any = {};
@@ -135,10 +144,11 @@ export class CarteraComponent implements OnInit {
   constructor(
     private carteraService: CarteraService,
     private notificationService: NotificationService,
-    private titleService: Title
+    private titleService: Title,
+    private authenticationService: AuthenticationService,
   ) {
     this.parseQueryString();
-    titleService.setTitle("Cartera");
+    this.titleService.setTitle("Cartera");
   }
 
   ngOnInit() {
@@ -271,6 +281,18 @@ export class CarteraComponent implements OnInit {
           nonIdentifiedPaymentList,
           "cpy_amount"
         );
+
+        // Determine next month without provisions if we need to generate future provisions
+        const year = this.viewData.futureProvisionList[this.viewData.futureProvisionList.length-1].cpr_year;
+        const month = this.viewData.futureProvisionList[this.viewData.futureProvisionList.length-1].cpr_month;
+        const nextMonthIterable = DateUtils.getIterableNextMonth(year, month);
+        this.viewData.nextMonthWithProvisionsToGenerate.push({
+          iterable: nextMonthIterable.iterable,
+          name: `${DateUtils.getMonthNameSpanish(nextMonthIterable.month)} ${nextMonthIterable.year}`,
+          selected: true,
+        });
+        // since it's always 1 period, we assign it early to have it ready
+        this.model.nextPeriod = String(nextMonthIterable.iterable);
       });
   }
 
@@ -564,5 +586,34 @@ export class CarteraComponent implements OnInit {
     const url = report.replace('{year}', year).replace('{month}', String(month));
 
     window.open(url, '_blank');
+  }
+
+  generateProvisionsForMonth(period: string) {
+    const year = period.substring(0, 4);
+    const month = parseInt(period.substring(4, 6), 10);
+    const url = '/api/external/cartera/generate-provisions';
+
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        year: year,
+        month: month,
+        user: this.authenticationService.currentUserValue.username
+      })
+    })
+    .then((response) => response.json())
+    .then(response => {
+      let message = 'Error generating provisions, try again later';
+      if (response.success) {
+        message = 'Provisions generated correctly';
+      }
+      this.notificationService.notifyWithOptions(message, {
+        title: 'Cartera'
+      })
+    });
   }
 }

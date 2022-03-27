@@ -8,20 +8,21 @@
         format="[HH]:[mm]"
       ></time-format>
     </div>
+    <img
+      src="/assets/icons/close.svg"
+      class="close-button-img"
+      (click)="onClose(item)"
+    />
     <div class="notification-body">
-      <span>
-        {{item.message}}
-      </span>
+      <span> {{item.message}} </span>
     </div>
     <div class="notification-footer">
       <button
         class="notification-close-button"
         (click)="item.showHeader = !item.showHeader"
+        *ngIf="!item.minimalUI"
       >
         {{item.showHeader ? 'hide details' : 'details'}}
-      </button>
-      <button class="notification-close-button" (click)="onClose(item)">
-        close
       </button>
     </div>
   </div>

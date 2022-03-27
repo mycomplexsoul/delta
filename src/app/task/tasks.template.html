@@ -34,7 +34,6 @@
   <button (click)="toggleViewOptions()">
     {{ viewOptions ? "hide" : "show" }} options
   </button>
-  <button (click)="syncTasks()">sync tasks</button>
   <button
     (click)="options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord"
     *ngIf="options.optShowLimitedTasksPerRecord"
@@ -109,10 +108,28 @@
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
   <checkbox-option
-    label="Show only tasks that have Qualifiers"
-    optionId="optShowQualifiedTasksOnly"
-    [checked]="options.optShowQualifiedTasksOnly"
-    (onClick)="toggleOptionById($event); updateState()"
+    label="Show Collapse/Expand buttons for record listings"
+    optionId="optShowCollapseRecords"
+    [checked]="options.optShowCollapseRecords"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show tasks filter"
+    optionId="optShowFilter"
+    [checked]="options.optShowFilter"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Show sync tasks button"
+    optionId="optShowSyncButton"
+    [checked]="options.optShowSyncButton"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="Use presentation mode for meetings"
+    optionId="optUsePresentationMode"
+    [checked]="options.optUsePresentationMode"
+    (onClick)="toggleOptionById($event)"
   ></checkbox-option>
   <checkbox-option
     label="When a new task is added, add it to BACKLOG instead (of adding it to OPEN)"
@@ -421,26 +438,41 @@
 
   <div id="optionsMessages"></div>
 </div>
-<div id="taskDetails" *ngIf="state.selected">
-  <button (click)="state.selected = null">hide</button>
-  <br />
+<div id="taskDetails" class="tasks-details" *ngIf="state.selected">
+  <img
+    src="/assets/icons/close.svg"
+    class="close-button-img"
+    (click)="state.selected = null"
+  />
   <strong>Task Details</strong>
-  <div>Id: {{ state.selected.tsk_id }}</div>
-  <div>Container: {{ state.selected.tsk_id_container }}</div>
-  <div>Record: {{ state.selected.tsk_id_record }}</div>
+  <br />
+  <br />
+  <div *ngIf="!options.optUsePresentationMode">
+    Id: {{ state.selected.tsk_id }}
+  </div>
   <div>Name: {{ state.selected.tsk_name }}</div>
+  <div *ngIf="!options.optUsePresentationMode">
+    <div>Container: {{ state.selected.tsk_id_container }}</div>
+    <div>Record: {{ state.selected.tsk_id_record }}</div>
+    <div>Parent: {{ state.selected.tsk_parent }}</div>
+    <div>Order: {{ state.selected.tsk_order }}</div>
+  </div>
   <div>
     Notes:
-    <span
-      contenteditable="true"
-      spellcheck="false"
-      (blur)="setTaskNotes(state.selected, $event)"
-      >{{ state.selected.tsk_notes ? state.selected.tsk_notes : "-" }}</span
-    >
+    <br />
+    <div class="grow-wrap">
+      <textarea
+        spellcheck="false"
+        (blur)="setTaskNotes(state.selected, $event)"
+      >
+{{ state.selected.tsk_notes }}</textarea
+      >
+      <span *ngIf="state.selected.tsk_notes.length">
+        {{ state.selected.tsk_notes.length }} / 4000 characters
+      </span>
+    </div>
   </div>
-  <div>Parent: {{ state.selected.tsk_parent }}</div>
-  <div>Order: {{ state.selected.tsk_order }}</div>
-  <div>
+  <div *ngIf="state.selected.tsk_date_done">
     Date Done:
     <span
       contenteditable="true"
@@ -449,10 +481,10 @@
       >{{ state.selected.tsk_date_done | date: format }}</span
     >
   </div>
-  <div>
+  <div *ngIf="state.selected.tsk_total_time_spent">
     Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}
   </div>
-  <div>
+  <div *ngIf="state.selected.tsk_total_time_spent">
     <fieldset *ngIf="state.selected.tsk_time_history.length">
       <legend>Time History</legend>
       <table>
@@ -502,8 +534,10 @@
       </table>
     </fieldset>
   </div>
-  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>
-  <div>
+  <div *ngIf="!options.optUsePresentationMode">
+    In Progress: {{ state.selected.tsk_ctg_in_process }}
+  </div>
+  <div *ngIf="state.selected.tsk_qualifiers">
     Qualifiers:
     <span
       contenteditable="true"
@@ -512,7 +546,7 @@
       >{{ state.selected.tsk_qualifiers }}</span
     >
   </div>
-  <div>
+  <div *ngIf="state.selected.tsk_tags">
     Tags:
     <span
       contenteditable="true"
@@ -521,21 +555,28 @@
       >{{ state.selected.tsk_tags }}</span
     >
   </div>
-  <div>Estimated Duration: {{ state.selected.tsk_estimated_duration }}</div>
   <div>
-    Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:
-    format }}
+    Estimated Duration: {{ formatTime(state.selected.tsk_estimated_duration *
+    60, "#h#m") }}
   </div>
-  <div>
-    Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format }}
+  <div *ngIf="!options.optUsePresentationMode">
+    <div>
+      Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:
+      format }}
+    </div>
+    <div>
+      Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format
+      }}
+    </div>
+    <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>
+    <div>User Added: {{ state.selected.tsk_id_user_added }}</div>
+    <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>
+    <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>
+    <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>
   </div>
-  <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>
-  <div>User Added: {{ state.selected.tsk_id_user_added }}</div>
-  <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>
-  <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>
-  <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>
-  <div>Status: {{ state.selected.tsk_ctg_status }}</div>
-  <hr />
+  <div *ngIf="!options.optUsePresentationMode">
+    Status: {{ state.selected.tsk_ctg_status }}
+  </div>
 </div>
 <div id="backlogTaskList" *ngIf="options.optShowBacklog">
   <hr />
@@ -642,9 +683,19 @@
       <strong>{{ options.optCollapseOpenTasks ? '+' : '-' }} Open Tasks</strong>
     </button>
     | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks
-    <button (click)="toggleCollapseAllRecords(true)">Collapse all</button>
-    <button (click)="toggleCollapseAllRecords(false)">Expand all</button>
-    <span class="padding-left-5 padding-right-5">
+    <span *ngIf="options.optShowSyncButton && !options.optCollapseOpenTasks">
+      <button (click)="syncTasks()">sync tasks</button>
+    </span>
+    <span
+      *ngIf="options.optShowCollapseRecords && !options.optCollapseOpenTasks"
+    >
+      <button (click)="toggleCollapseAllRecords(true)">Collapse all</button>
+      <button (click)="toggleCollapseAllRecords(false)">Expand all</button>
+    </span>
+    <span
+      class="padding-left-5 padding-right-5"
+      *ngIf="options.optShowFilter && !options.optCollapseOpenTasks"
+    >
       Filter
       <select
         name="fFilter"
@@ -918,20 +969,23 @@
     </div>
   </div>
 </div>
+<br />
 <div id="Info">
   <hr />
   Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }}
   <span *ngIf="state.postponedTasksCount">
     | Postponed: {{ state.postponedTasksCount }}
   </span>
-  <br />Karma Score:
-  <span
-    >{{ state.karmaScore }} ({{ state.karmaCount }} / {{
-    state.closedTodayTasks.length }})</span
-  >
-  <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong
-    >{{ isOnline() ? "" : "You are OFFLINE" }}</strong
-  >
+  <div *ngIf="!options.optUsePresentationMode">
+    Karma Score:
+    <span
+      >{{ state.karmaScore }} ({{ state.karmaCount }} / {{
+      state.closedTodayTasks.length }})</span
+    >
+    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong
+      >{{ isOnline() ? "" : "You are OFFLINE" }}</strong
+    >
+  </div>
   <div *ngIf="options.optShowIndicatorsTable" class="task-indicators-container">
     <div>
       <button

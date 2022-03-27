@@ -18,7 +18,8 @@ export class NotificationService {
     hideIn: number = 5000,
     date: Date = new Date(),
     status: NotificationStatus = "queue",
-    showHeader: boolean = false
+    showHeader: boolean = false,
+    minimalUI: boolean = false,
   ) {
     const id: string = Utils.hashId("not", 32);
     const notification: NotificationItem = {
@@ -28,7 +29,8 @@ export class NotificationService {
       date,
       status,
       title,
-      showHeader
+      showHeader,
+      minimalUI
     };
     this.queue.push(notification);
     this.provider.next(notification);
@@ -39,5 +41,25 @@ export class NotificationService {
     this.queue = this.queue
       .filter(({ status }) => status === "queue")
       .map(q => ({ ...q, status: "displayed" }));
+  }
+
+  notifyWithOptions(message: string, {
+    title = '', hideIn = 5000, date = new Date(), status = 'queue', showHeader = false,
+    minimalUI = true
+  }) {
+    const id: string = Utils.hashId("not", 32);
+    const notification: NotificationItem = {
+      id,
+      message,
+      hideIn,
+      date,
+      status,
+      title,
+      showHeader,
+      minimalUI
+    };
+    this.queue.push(notification);
+    this.provider.next(notification);
+    this.tidyUpQueue();
   }
 }

@@ -160,7 +160,7 @@ export class DrinkWaterComponent {
     // schedule reminder notification for the next ocurrence
     // TODO: refactor to a proper timerService implementation to track all timers
     setTimeout(() => {
-      this.notificationService.notify(reminder.title, 'Reminders', 0);
+      this.notificationService.notifyWithOptions(reminder.title, { title: 'Reminders', hideIn: 0 });
         
       // schedule the next notification
       reminder.nextOcurrence = this.calculateNextOccurence(reminder);

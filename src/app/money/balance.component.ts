@@ -182,33 +182,42 @@ export class BalanceComponent implements OnInit {
     return a.bal_ctg_account_type > b.bal_ctg_account_type ? 1 : -1;
   }
 
-  ngOnInit() {
-    this.model.iterable =
-      new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
+  refreshData() {
+    let shouldCheckForCurrentBalance = false;
+    if (this.model.iterable === 0) {
+      shouldCheckForCurrentBalance = true;
+      this.model.iterable =
+        new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
+    }
     this.parseIterable();
-
+      
     this.balanceService.getAll().then((list: Array<Balance>) => {
       this.viewData.balance = list;
-
-      /*this.viewData.balance = this.viewData.balance
-            .sort((a: Balance, b: Balance) => a.mov_date >= b.mov_date ? -1 : 1)
-            .slice(0,10);*/
+  
       this.viewData.monthBalance = this.filterMonthBalance();
       this.viewData.balanceDistribution = this.balanceDistribution(
         this.viewData.monthBalance
       );
-      //this.viewData.monthBalance = this.balanceService.list;
+
       // TODO: add list of year/months of balance for combo box
       this.viewData.monthList = this.balanceService.monthList();
-
-      this.checkCurrentBalance(list);
-
+  
+      if (shouldCheckForCurrentBalance) {
+        this.checkCurrentBalance(list);
+      }
+  
       this.monthlyIncomeVsExpense();
     });
     this.movementService.getAll().then((list: Array<Movement>) => {
       this.state.movementList = list;
       this.monthlyTotals();
     });
+    this.notificationService.notifyWithOptions('Data refreshed correctly', { title: 'Balance' });
+    return null;
+  }
+
+  ngOnInit() {
+    this.refreshData();
   }
 
   fetchBalance(): Promise<any> {
