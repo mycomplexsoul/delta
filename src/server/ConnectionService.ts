@@ -30,22 +30,25 @@ let ConnectionService = (function() {
           }
 
           return connection.query(sql, (err: any, rows: any, fields: any[]) => {
+            const status: any = {
+              success: false,
+              timestamp: new Date(),
+              sql,
+            };
             if (err) {
-              console.log(
-                "There was an error with this sql: " +
-                  sql +
-                  ", the error is: " +
-                  err
-              );
+              status.message = 'Error running sql';
+              status.error = err;
+              console.log(status);
               reject(err);
               return false;
             }
+            status.success = true;
+            
             if (!fields && rows.message) {
-              console.log(
-                "Message returned after running the sql: " + rows.message
-              );
+              status.message = rows.message;
             }
-            console.log("[async execution ok for query] ", sql);
+            console.log(status);
+
             connection.release();
             resolve({ sql, err, rows, fields });
           });

@@ -237,6 +237,7 @@ textarea.task-multiple {
 .task-eta {
   color: gray;
   font-weight: bold;
+  margin-left: 5px;
 }
 .task-no-eta {
   color: red;
@@ -604,7 +605,7 @@ combo-item .combo-item-container {
   padding: 5px;
   display: block;
   width: 100%;
-  cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
 }
 
 @media (min-width: 505px) {
@@ -720,6 +721,10 @@ link {
 #nextToDoTodayList .task-record {
   max-width: 100%;
   max-height: none;
+}
+
+#openTaskList {
+  clear: both;
 }
 
 .columns-3 {

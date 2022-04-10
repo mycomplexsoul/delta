@@ -587,47 +587,64 @@
     <strong>{{ options.optCollapseBacklog ? '+' : '-' }} Backlog</strong>
   </button>
   | {{ state.backlogTasks.length }} tasks
-  <div *ngIf="!options.optCollapseBacklog">
-    <div *ngFor="let item of state.backlogTasks">
+  <div
+    *ngIf="!options.optCollapseBacklog"
+    [ngClass]="{
+      'task-open-task-list-container': true,
+      'task-open-task-list-container--grid': layout === 'grid',
+      'task-open-task-list-container--float': layout === 'float'
+    }"
+  >
+    <div
+      *ngFor="let item of state.backlogTasks"
+      class="task-record"
+      [ngClass]="{
+        'hidden': item.collapsed
+      }"
+    >
       <div>
-        <strong>{{ item.header }}</strong>
+        <button
+          class="button-link no-underline"
+          (click)="toggleCollapsedRecord(item, true)"
+        >
+          <strong>- {{ item.header }}</strong>
+        </button>
         ({{ formatTime(item.estimatedDuration * 60) }})
       </div>
-      <div *ngFor="let t of item.tasks" data-id="{{ t.tsk_id }}">
-        -
-        <span *ngIf="t.tsk_total_time_spent !== 0"
-          >[{{ t.tsk_time_history.length }}/{{
-          formatTime(t.tsk_total_time_spent) }}]</span
-        >
-        <span
-          contenteditable="true"
-          spellcheck="false"
-          (keyup)="taskEdit(t, $event)"
+      <div
+        class="task-record-items"
+        [ngClass]="{
+          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight
+        }"
+        [ngStyle]="{
+          'max-width': (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordWidth + 'px' : defaultOptions.optRecordWidth,
+          'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)
+        }"
+      >
+        <task
+          *ngFor="let t of item.tasks"
+          [task]="t"
+          [groupTasks]="item.tasks"
+          containerSelector="#backlogTaskList"
+          [handlers]="handlersForBacklog"
+          [options]="{
+          optShowRecordNameInline: true,
+          optShowBadgeIfTaskIsInBacklog: true
+        }"
           [ngClass]="{
-            'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
-            'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
-            'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1
-          }"
-          class="editable"
-          >{{ t.tsk_name }}</span
-        >
-        <span
-          contenteditable="true"
-          spellcheck="false"
-          (blur)="taskEstimatedDurationEdit(t, $event)"
-          [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
-          class="task-eta"
-          >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-        >
-        <span *ngIf="t.tsk_schedule_date_start"
-          >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span
-        >
-        <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-        <button (click)="setOpen(t)">Move to open</button>
+          hidden:
+            options.optShowLimitedTasksPerRecord &&
+            options.optLimitTasksPerRecord &&
+            i >= 3 &&
+            t.tsk_time_history.length === 0
+        }"
+          [ngStyle]="{
+          'font-size-2': ageFontSizeNormalization(t) + 'px'
+        }"
+        ></task>
       </div>
     </div>
   </div>
-  <hr />
 </div>
 <div id="postponedTaskList" *ngIf="viewPostponed">
   <strong>Postponed Tasks</strong>
@@ -906,7 +923,7 @@
               target="_blank"
               >link</a
             ></span
-          >&nbsp;<span
+          ><span
             [attr.contenteditable]="options.optAllowToEditETA"
             spellcheck="false"
             (blur)="taskEstimatedDurationEdit(t, $event)"
@@ -1308,7 +1325,15 @@
   <div *ngIf="!options.optCollapseFinishedYesterday">
     <div *ngFor="let item of state.closedYesterdayTasks; let i = index">
       <div *ngIf="i < 3 || viewAllFinishedYesterday">
-        <task [task]="item" [handlers]="handlers"></task>
+        <task
+          [task]="item"
+          [handlers]="handlersForClosedYesterday"
+          [options]="{
+            optShowRecordNameInline: true,
+            optShowTimeTrackingHistory: true,
+            optShowDetailsButton: true
+        }"
+        ></task>
       </div>
     </div>
     <button
@@ -1495,3 +1520,12 @@
     >
   </div>
 </div>
+
+<task-toolbar
+  [task]="selectedTask"
+  [groupTasks]="selectedRecord"
+  [handlers]="handlersForTaskToolbar"
+  [options]="{
+    optShowTaskToolbar: true
+  }"
+></task-toolbar>

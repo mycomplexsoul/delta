@@ -80,7 +80,7 @@ export class ActivityService {
     return this.sync
       .post(
         this.config.api.update.replace(":id", item.act_id),
-        Utils.entityToRawTableFields(item)
+        Utils.removeMetadataFromEntity(item)
       )
       .then(response => {
         if (!response.success) {

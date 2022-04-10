@@ -278,7 +278,11 @@ export class SyncAPI {
       return test1 && test2;
     };
 
-    this.http
+    if (!dataToSend.length) {
+      return false; // nothing to sync
+    }
+
+    return this.http
       .post("/api/sync", { queue: dataToSend }, this.options)
       .toPromise()
       .then(data => {

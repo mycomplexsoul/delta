@@ -41,6 +41,33 @@ export class ActivityServer {
   };
   create = this.api.create;
 
-  updateRequestHandler = this.api.updateRequestHandler;
+  updateRequestHandler = (node: iNode) => {
+    const hooks = {
+      afterUpdateOK: async (responseUpdate, model: Activity) => {
+        // insert Keyval data
+        const { keyvalItems = {} } = node.request.body;
+        const keyvalServer = new KeyvalServer();
+
+        await Object.keys(keyvalItems)
+          .map(keyname => ({
+            key_id: model.act_id,
+            key_name: keyname,
+            key_value: keyvalItems[keyname],
+            key_date_add: DateUtils.newDateUpToSeconds(),
+            key_date_mod: DateUtils.newDateUpToSeconds(),
+            key_ctg_status: 1
+          }))
+          .map(item => keyvalServer.create(item));
+
+        return {
+          success: true,
+          message: `${
+            Object.keys(keyvalItems).length
+          } Keyval records created successfully`
+        };
+      }
+    };
+    this.api.updateRequestHandler(node, hooks);
+  };
   update = this.api.update;
 }

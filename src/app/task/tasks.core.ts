@@ -849,6 +849,7 @@ export class TasksCore {
     return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
   }
 
+  // TODO: remove this, already moved into DateUtils
   parseTime(duration: string) {
     let hours = 0,
       min = 0;
@@ -875,6 +876,7 @@ export class TasksCore {
     return parseInt(duration);
   }
 
+  // TODO: remove this, already moved into DateUtils
   parseDatetime(expression: string) {
     let parts = <any>[];
     let parsed: boolean = false;

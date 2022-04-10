@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, EventEmitter } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { TasksCore } from "./tasks.core";
 import { SyncAPI } from "../common/sync.api";
@@ -10,7 +10,7 @@ import { TaskTimeTracking } from "../../crosscommon/entities/TaskTimeTracking";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
 import { TextToSpeech } from "../common/speechRecognition";
-import { autogrowSetup } from '../common/autogrow';
+import { autogrowSetup } from "../common/autogrow";
 
 @Component({
   selector: "tasks",
@@ -99,13 +99,14 @@ export class TasksComponent implements OnInit {
   public events: any[] = [];
   public layout: string = "float"; // possible values: grid, float
   public selectedTask: Task = null;
+  public selectedRecord: Task[] = [];
   public differenceLastClosedToRealTime: number = 0;
   speech = new TextToSpeech();
 
   public viewData: {
     selectedFilter: string;
   } = {
-    selectedFilter: "all"
+    selectedFilter: "all",
   };
 
   public CONSTANTS = {
@@ -132,13 +133,37 @@ export class TasksComponent implements OnInit {
       { id: "q-blocked", name: "Blocked (-)" },
       { id: "q-directions", name: "Directions (?)" },
       { id: "q-mobile", name: "Mobile (.)" },
-    ]
+    ],
   };
 
-  // handlers for TaskComponent
-  public handlers = {
-    onViewTaskDetails: (task: Task) => this.setSelected(task)
+  // handlers for Backlog
+  public handlersForBacklog = {
+    onViewTaskDetails: (task: Task, event: Event, groupTasks: Task[]) => {
+      this.setSelected(task);
+    },
+    onTaskFocus: (task: Task, event: Event, groupTasks: Task[]) => {
+      this.selectedTask = task;
+      this.selectedRecord = groupTasks;
+    },
+    onEvent: (event: { changes: any }) => {
+      console.log("received an update", event);
+      if (event.changes.tsk_ctg_status === 3) {
+        this.updateState();
+      }
+    },
   };
+  // handlers for Backlog
+  public handlersForClosedYesterday = {
+    onViewTaskDetails: (task: Task) => this.setSelected(task),
+    onEvent: (event: { changes: any }) => {
+      console.log("received an update", event);
+      if (event.changes.tsk_ctg_status === 3) {
+        this.updateState();
+      }
+    },
+  };
+  // handlers for TaskToolbar
+  public handlersForTaskToolbar = {};
 
   constructor(
     tasksCore: TasksCore,
@@ -155,7 +180,10 @@ export class TasksComponent implements OnInit {
     this.services.taskIndicator = taskIndicator;
     this.services.dateUtils = dateUtils;
     if (typeof window.localStorage !== "undefined") {
-      this.options = {...this.defaultOptions, ...JSON.parse(localStorage.getItem("Options"))};
+      this.options = {
+        ...this.defaultOptions,
+        ...JSON.parse(localStorage.getItem("Options")),
+      };
     }
     this.nextTasks = [];
     this.updateState();
@@ -277,39 +305,69 @@ export class TasksComponent implements OnInit {
               : true) ||
               t.tsk_ctg_in_process == 2)
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'next' ? t['inNextToDo'] : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "next" ? t["inNextToDo"] : true
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'due-today' ? today0.getTime() === new Date(t.tsk_date_due).getTime() : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "due-today"
+            ? today0.getTime() === new Date(t.tsk_date_due).getTime()
+            : true
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'today' ? today0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < tomorrow0.getTime() : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "today"
+            ? today0.getTime() < new Date(t.tsk_date_add).getTime() &&
+              new Date(t.tsk_date_add).getTime() < tomorrow0.getTime()
+            : true
         )
-        .filter((t) => 
-        this.viewData.selectedFilter === 'yesterday' ? yesterday0.getTime() < new Date(t.tsk_date_add).getTime() && new Date(t.tsk_date_add).getTime() < today0.getTime() : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "yesterday"
+            ? yesterday0.getTime() < new Date(t.tsk_date_add).getTime() &&
+              new Date(t.tsk_date_add).getTime() < today0.getTime()
+            : true
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'old-30' ? new Date(t.tsk_date_add).getTime() < (DateUtils.addDays(today0, -30)).getTime() : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "old-30"
+            ? new Date(t.tsk_date_add).getTime() <
+              DateUtils.addDays(today0, -30).getTime()
+            : true
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'with-schedule' ? !!t.tsk_schedule_date_start : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "with-schedule"
+            ? !!t.tsk_schedule_date_start
+            : true
         )
-        .filter((t) => 
-        this.viewData.selectedFilter === 'in-progress' ? t.tsk_ctg_in_process === 2 : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "in-progress"
+            ? t.tsk_ctg_in_process === 2
+            : true
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'not-today' ? today0.getTime() > new Date(t.tsk_date_add).getTime() : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "not-today"
+            ? today0.getTime() > new Date(t.tsk_date_add).getTime()
+            : true
         )
-        .filter((t) => 
-          this.viewData.selectedFilter === 'qualifiers' ? !!t.tsk_qualifiers : true
+        .filter((t) =>
+          this.viewData.selectedFilter === "qualifiers"
+            ? !!t.tsk_qualifiers
+            : true
         )
         .filter((t) => {
-          const qFilters = this.CONSTANTS.filters.filter(f => f.id.startsWith('q-'));
-          
+          const qFilters = this.CONSTANTS.filters.filter((f) =>
+            f.id.startsWith("q-")
+          );
+
           // only apply filter if selected
-          if (qFilters.some(filter => this.viewData.selectedFilter === filter.id)){
-            return t.tsk_qualifiers && t.tsk_qualifiers.includes(this.viewData.selectedFilter.substring(2));
+          if (
+            qFilters.some(
+              (filter) => this.viewData.selectedFilter === filter.id
+            )
+          ) {
+            return (
+              t.tsk_qualifiers &&
+              t.tsk_qualifiers.includes(
+                this.viewData.selectedFilter.substring(2)
+              )
+            );
           }
           // otherwise no filter is applied
           return true;
@@ -354,8 +412,9 @@ export class TasksComponent implements OnInit {
     //  (t) => t.tsk_ctg_status == this.taskStatus.OPEN
     //).length;
     this.state.openTasksCount = this.state.openTasks.reduce(
-      (total, group) => total + group.tasks.length
-    , 0);
+      (total, group) => total + group.tasks.length,
+      0
+    );
 
     this.state.backlogTasksCount = this.tasks.filter(
       (t) => t.tsk_ctg_status == this.taskStatus.BACKLOG
@@ -421,7 +480,7 @@ export class TasksComponent implements OnInit {
           if (nt) {
             this.nextTasks[0].tasks.push(nt);
             // add a badge
-            nt['inNextToDo'] = true;
+            nt["inNextToDo"] = true;
           }
         });
         // We set them again to filter out done tasks
@@ -447,7 +506,10 @@ export class TasksComponent implements OnInit {
 
     // Calculate difference between last task closed and current time
     const lastTTEntryFromDay = this.lastTTEntryFromDay(today);
-    this.differenceLastClosedToRealTime = DateUtils.elapsedTime(new Date(), lastTTEntryFromDay);
+    this.differenceLastClosedToRealTime = DateUtils.elapsedTime(
+      new Date(),
+      lastTTEntryFromDay
+    );
 
     if (this.focusedTask.task) {
       if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
@@ -496,7 +558,9 @@ export class TasksComponent implements OnInit {
     this.state.selected = item;
     setTimeout(() => {
       autogrowSetup({ componentWillBeVisible: true });
-      document.querySelector('.tasks-details textarea').parentNode['dataset'].replicatedValue = item.tsk_notes;
+      document.querySelector(".tasks-details textarea").parentNode[
+        "dataset"
+      ].replicatedValue = item.tsk_notes;
     }, 100);
   }
 
@@ -512,7 +576,9 @@ export class TasksComponent implements OnInit {
     let res: Array<any> = [];
     let lastHeader: string;
     // read collapsed tasks
-    const collapsed = localStorage && JSON.parse(localStorage.getItem("TasksCollapsed") || "[]");
+    const collapsed =
+      localStorage &&
+      JSON.parse(localStorage.getItem("TasksCollapsed") || "[]");
 
     tasks.forEach((t) => {
       if (t.tsk_id_record !== lastHeader) {
@@ -521,7 +587,7 @@ export class TasksComponent implements OnInit {
           header: lastHeader,
           estimatedDuration: 0,
           tasks: [],
-          collapsed: collapsed.includes(t.tsk_id_record)
+          collapsed: collapsed.includes(t.tsk_id_record),
         });
       }
       res[res.length - 1].tasks.push(t);
@@ -546,7 +612,7 @@ export class TasksComponent implements OnInit {
 
     const optIncludesKey = (key: string, options: string | string[]) => {
       if (Array.isArray(options)) {
-        return options.includes(key)
+        return options.includes(key);
       }
       return options === key;
     };
@@ -569,57 +635,60 @@ export class TasksComponent implements OnInit {
     }
     if (event.altKey && (event.keyCode == 106 || event.keyCode == 49)) {
       // detect '*' || '1'
-      this.markTaskAsDone(t, { target: { checked: true }, shiftKey: event.shiftKey });
+      this.markTaskAsDone(t, {
+        target: { checked: true },
+        shiftKey: event.shiftKey,
+      });
     }
-    if (event.altKey && optIncludesKey(event.key, '2')) {
+    if (event.altKey && optIncludesKey(event.key, "2")) {
       // detect '2'
       this.markTaskAs(t, "star");
     }
-    if (event.altKey && optIncludesKey(event.key, '3')) {
+    if (event.altKey && optIncludesKey(event.key, "3")) {
       // detect '3'
       this.markTaskAs(t, "highlighted");
     }
-    if (event.altKey && optIncludesKey(event.key, '4')) {
+    if (event.altKey && optIncludesKey(event.key, "4")) {
       // detect '4'
       this.markTaskAs(t, "priority");
     }
-    if (event.altKey && optIncludesKey(event.key, '5')) {
+    if (event.altKey && optIncludesKey(event.key, "5")) {
       // detect '5'
       this.markTaskAs(t, "important");
     }
-    if (event.altKey && optIncludesKey(event.key, '6')) {
+    if (event.altKey && optIncludesKey(event.key, "6")) {
       // detect '6'
       this.markTaskAs(t, "urgent");
     }
-    if (event.altKey && optIncludesKey(event.key, '7')) {
+    if (event.altKey && optIncludesKey(event.key, "7")) {
       // detect '7'
       this.markTaskAs(t, "unexpected");
     }
-    if (event.altKey && optIncludesKey(event.key, '8')) {
+    if (event.altKey && optIncludesKey(event.key, "8")) {
       // detect '8'
       this.markTaskAs(t, "progressed");
     }
-    if (event.altKey && optIncludesKey(event.key, '9')) {
+    if (event.altKey && optIncludesKey(event.key, "9")) {
       // detect '9'
       this.markTaskAs(t, "people");
     }
-    if (event.altKey && optIncludesKey(event.key, '0')) {
+    if (event.altKey && optIncludesKey(event.key, "0")) {
       // detect '0'
       this.clearQualifiers(t);
     }
-    if (event.altKey && optIncludesKey(event.key, '/')) {
+    if (event.altKey && optIncludesKey(event.key, "/")) {
       // detect '/'
       this.markTaskAs(t, "flag");
     }
-    if (event.altKey && optIncludesKey(event.key, '-')) {
+    if (event.altKey && optIncludesKey(event.key, "-")) {
       // detect '-'
       this.markTaskAs(t, "blocked");
     }
-    if (event.altKey && optIncludesKey(event.key, '?') && event.shiftKey) {
+    if (event.altKey && optIncludesKey(event.key, "?") && event.shiftKey) {
       // detect 'Shift + ?'
       this.markTaskAs(t, "directions");
     }
-    if (event.altKey && optIncludesKey(event.key, '.')) {
+    if (event.altKey && optIncludesKey(event.key, ".")) {
       // detect '.'
       this.markTaskAs(t, "mobile");
     }
@@ -749,7 +818,10 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  markTaskAsDone(t: any, event: { target: { checked: boolean }, shiftKey: boolean }) {
+  markTaskAsDone(
+    t: any,
+    event: { target: { checked: boolean }; shiftKey: boolean }
+  ) {
     if (this.timers[t.tsk_id]) {
       // task is in running state
       // stop time tracking
@@ -759,7 +831,10 @@ export class TasksComponent implements OnInit {
     if (this.options.optMoveTimetrackingToAvailableSlotWhenDone) {
       this.adjustTimeTracking(t, false);
     }
-    const { target: { checked: isChecked }, shiftKey } = event;
+    const {
+      target: { checked: isChecked },
+      shiftKey,
+    } = event;
     const useTimeTrackingDate = this.shouldUseTimeTrackingEndDate(t, shiftKey);
 
     let dateDone: Date = this.services.dateUtils.newDateUpToSeconds();
@@ -769,7 +844,9 @@ export class TasksComponent implements OnInit {
         t.tsk_time_history[t.tsk_time_history.length - 1].tsh_date_end
       );
       // if dateDone is happening before last time tracking date, use last time tracking date instead
-      const lastDateDoneEntryFromDay = this.lastDateDoneEntryFromDay(new Date()) || this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1));
+      const lastDateDoneEntryFromDay =
+        this.lastDateDoneEntryFromDay(new Date()) ||
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1));
       if (dateDone.getTime() < lastDateDoneEntryFromDay.getTime()) {
         dateDone = DateUtils.addSeconds(lastDateDoneEntryFromDay, 1);
       }
@@ -800,10 +877,10 @@ export class TasksComponent implements OnInit {
   }
 
   taskCheckboxHandler(t: Task, event: Event) {
-    this.markTaskAsDone(
-      t,
-      { target: { checked: event["target"]["checked"] }, shiftKey: event["shiftKey"] }
-    );
+    this.markTaskAsDone(t, {
+      target: { checked: event["target"]["checked"] },
+      shiftKey: event["shiftKey"],
+    });
   }
 
   updateTask(tsk_id: string, newData: any) {
@@ -879,7 +956,11 @@ export class TasksComponent implements OnInit {
     } else {
       // pivot if there's hidden elements until there's not a hidden element
       let recordPivot = current.parentNode.parentNode.previousElementSibling;
-      while (recordPivot && recordPivot.classList.contains("hidden") && recordPivot.previousElementSibling) {
+      while (
+        recordPivot &&
+        recordPivot.classList.contains("hidden") &&
+        recordPivot.previousElementSibling
+      ) {
         recordPivot = recordPivot.previousElementSibling;
       }
 
@@ -902,15 +983,17 @@ export class TasksComponent implements OnInit {
   taskRecordJumpUp(current: any, selector: string) {
     let previous = current.parentNode.parentNode.previousElementSibling;
 
-    while (previous && previous.classList.contains("hidden") && previous.previousElementSibling) {
+    while (
+      previous &&
+      previous.classList.contains("hidden") &&
+      previous.previousElementSibling
+    ) {
       previous = previous.previousElementSibling;
     }
 
     if (
       previous &&
-      previous.firstElementChild.nextElementSibling.querySelector(
-        selector
-      )
+      previous.firstElementChild.nextElementSibling.querySelector(selector)
     ) {
       previous.firstElementChild.nextElementSibling
         .querySelector(selector)
@@ -930,17 +1013,23 @@ export class TasksComponent implements OnInit {
 
   taskJumpDown(current: any, selector: string) {
     const next = current.nextElementSibling;
-    if (next && !next.classList.contains("hidden") && // skips hidden ones
+    if (
+      next &&
+      !next.classList.contains("hidden") && // skips hidden ones
       next.querySelector(selector)
     ) {
       next.querySelector(selector).focus();
     } else {
       let nextRecord = current.parentNode.parentNode.nextElementSibling;
 
-      while (nextRecord && nextRecord.classList.contains("hidden") && nextRecord.nextElementSibling) {
+      while (
+        nextRecord &&
+        nextRecord.classList.contains("hidden") &&
+        nextRecord.nextElementSibling
+      ) {
         nextRecord = nextRecord.nextElementSibling;
       }
-      
+
       if (nextRecord && nextRecord.querySelector(selector)) {
         nextRecord.querySelector(selector).focus();
       }
@@ -950,11 +1039,18 @@ export class TasksComponent implements OnInit {
   taskRecordJumpDown(current: any, selector: string) {
     let nextRecord = current.parentNode.parentNode.nextElementSibling;
 
-    while (nextRecord && nextRecord.classList.contains("hidden") && nextRecord.nextElementSibling) {
+    while (
+      nextRecord &&
+      nextRecord.classList.contains("hidden") &&
+      nextRecord.nextElementSibling
+    ) {
       nextRecord = nextRecord.nextElementSibling;
     }
 
-    if (nextRecord && nextRecord.firstElementChild.nextElementSibling.querySelector(selector)) {
+    if (
+      nextRecord &&
+      nextRecord.firstElementChild.nextElementSibling.querySelector(selector)
+    ) {
       nextRecord.firstElementChild.nextElementSibling
         .querySelector(selector)
         .focus();
@@ -1041,7 +1137,7 @@ export class TasksComponent implements OnInit {
           this.notification({
             body: `Task "${task.tsk_name}" is about to exceed estimation!`,
             hideIn: 60000,
-            useVoice: true
+            useVoice: true,
           });
         }
       }
@@ -1160,8 +1256,9 @@ export class TasksComponent implements OnInit {
   }
 
   getTaskDOMElement(tsk_id: string): HTMLElement {
-    let dom: HTMLElement = document.querySelector(`div[id="${tsk_id}"] span`)
-      .parentElement;
+    let dom: HTMLElement = document.querySelector(
+      `div[id="${tsk_id}"] span`
+    ).parentElement;
     return dom;
   }
 
@@ -1205,7 +1302,7 @@ export class TasksComponent implements OnInit {
             this.options
           );
           if (!t.tsk_id_record) {
-            t.tsk_id_record = 'general';
+            t.tsk_id_record = "general";
           }
           if (totalPerRecord.find((r: any) => r.record === t.tsk_id_record)) {
             totalPerRecord.find(
@@ -1223,7 +1320,10 @@ export class TasksComponent implements OnInit {
       });
       // Calculate totals in percentage form
       Object.keys(totalPerRecord).forEach((e) => {
-        totalPerRecord[e].totalETAPercentage = totalETA === 0 ? 0 : Math.round(totalPerRecord[e].totalETA * 100 / totalETA);
+        totalPerRecord[e].totalETAPercentage =
+          totalETA === 0
+            ? 0
+            : Math.round((totalPerRecord[e].totalETA * 100) / totalETA);
       });
       this.viewETABeforeAdd = true;
       this.state.beforeAddETA = totalPerRecord;
@@ -1337,6 +1437,10 @@ export class TasksComponent implements OnInit {
     this.state.totalTimeSpentToday += spent;
   }*/
 
+  /**
+   * @deprecated Now the task has Alt + o to move a task to OPEN
+   * @param t
+   */
   setOpen(t: Task) {
     const isDateDueNotSet: boolean = !t.tsk_date_due;
     const changes: any = {
@@ -1494,7 +1598,8 @@ export class TasksComponent implements OnInit {
           });
           this.updateState();
         },
-        "$[", "]"
+        "$[",
+        "]"
       );
     }
 
@@ -1544,7 +1649,14 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  notification({title = 'Tasks', body, icon = 'favicon.ico', hideIn = 0, useVoice = false, minimalUI = false}) {
+  notification({
+    title = "Tasks",
+    body,
+    icon = "favicon.ico",
+    hideIn = 0,
+    useVoice = false,
+    minimalUI = false,
+  }) {
     const not = window["Notification"];
     if (not && not.permission !== "denied") {
       not.requestPermission(function (status: string) {
@@ -1552,12 +1664,16 @@ export class TasksComponent implements OnInit {
         // status is "granted", if accepted by user
         const n = new not(title, {
           body,
-          icon
+          icon,
         });
       });
     }
     // send in-window notification
-    this.notificationService.notifyWithOptions(body, { title, hideIn, minimalUI: true });
+    this.notificationService.notifyWithOptions(body, {
+      title,
+      hideIn,
+      minimalUI: true,
+    });
     // notify with speech :-D
     if (useVoice) {
       this.speechText(body);
@@ -1619,14 +1735,14 @@ export class TasksComponent implements OnInit {
           this.notification({
             body: `Task "${t.tsk_name}" is about to start!`,
             hideIn: 5000 * 60,
-            useVoice: true
+            useVoice: true,
           });
           // second reminder on time
           setTimeout(() => {
             this.notification({
               body: `Task "${t.tsk_name}" is starting now!`,
               hideIn: 1000 * 60,
-              useVoice: true
+              useVoice: true,
             });
           }, 5000 * 60);
         }, diff * 1000);
@@ -1959,10 +2075,10 @@ export class TasksComponent implements OnInit {
       tsk_qualifiers: qualifiers,
     });
   }
-  
+
   clearQualifiers(t: Task) {
     this.updateTask(t.tsk_id, {
-      tsk_qualifiers: '',
+      tsk_qualifiers: "",
     });
   }
 
@@ -2546,14 +2662,14 @@ export class TasksComponent implements OnInit {
       if (index === -1) {
         p.push(t);
         this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
-        t['inNextToDo'] = true;
+        t["inNextToDo"] = true;
         this.projectNextTasksDates();
       }
     } else {
       if (index !== -1) {
         p.splice(index, 1);
         this.nextTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
-        t['inNextToDo'] = false;
+        t["inNextToDo"] = false;
         this.projectNextTasksDates();
       }
     }
@@ -2570,7 +2686,9 @@ export class TasksComponent implements OnInit {
       this.updateTask(task.tsk_id, {
         tsk_notes: newNotes,
       });
-      document.querySelector('.tasks-details textarea').parentNode['dataset'].replicatedValue = newNotes;
+      document.querySelector(".tasks-details textarea").parentNode[
+        "dataset"
+      ].replicatedValue = newNotes;
     }
   }
 
@@ -2641,18 +2759,15 @@ export class TasksComponent implements OnInit {
       (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
     if (tt && t["tsk_time_history"].length) {
       // task with history
-      t["tsk_time_history"][
-        t["tsk_time_history"].length - 1
-      ].tsh_date_start = tt;
+      t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_start =
+        tt;
       if (t.tsk_ctg_in_process == 1) {
         // task 'in progress'
         const randomFinish = calcRandomFinish(t.tsk_estimated_duration);
-        t["tsk_time_history"][
-          t["tsk_time_history"].length - 1
-        ].tsh_date_end = new Date(tt.getTime() + randomFinish * 1000);
-        t["tsk_time_history"][
-          t["tsk_time_history"].length - 1
-        ].tsh_time_spent = randomFinish;
+        t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_end =
+          new Date(tt.getTime() + randomFinish * 1000);
+        t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_time_spent =
+          randomFinish;
         let total: number = 0;
         t["tsk_time_history"].forEach((tth: any) => {
           total += tth.tsh_time_spent;
@@ -2749,20 +2864,27 @@ export class TasksComponent implements OnInit {
     item.collapsed = collapsedValue;
     this.saveCollapsedRecordsToStorage();
   }
-  
+
   saveCollapsedRecordsToStorage() {
     localStorage.setItem(
       "TasksCollapsed",
-      JSON.stringify(this.state.openTasks.filter(e => e.collapsed).map((e: any) => e.header))
+      JSON.stringify(
+        this.state.openTasks
+          .filter((e) => e.collapsed)
+          .map((e: any) => e.header)
+      )
     );
   }
 
   toggleCollapseAllRecords(collapseAll: boolean) {
-    const collapsedTasks: String[] = collapseAll ? this.state.openTasks.map((e: any) => e.header) : [];
+    const collapsedTasks: String[] = collapseAll
+      ? this.state.openTasks.map((e: any) => e.header)
+      : [];
 
-    this.state.openTasks.forEach(e =>{ e.collapsed = collapseAll; });
+    this.state.openTasks.forEach((e) => {
+      e.collapsed = collapseAll;
+    });
     this.saveCollapsedRecordsToStorage();
-
   }
 
   removeScheduledNotification(task: Task) {

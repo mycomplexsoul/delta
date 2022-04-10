@@ -61,6 +61,8 @@ import { RegisterComponent } from "./common/register.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 import { TasksCore } from "./task/tasks.core";
+import { TaskCore } from "./task/task.core";
+import { TaskToolbarComponent } from "./task/task-toolbar.component";
 
 @NgModule({
   imports: [
@@ -78,6 +80,7 @@ import { TasksCore } from "./task/tasks.core";
     AppComponent,
     TasksComponent,
     TaskComponent,
+    TaskToolbarComponent,
     AccountComponent,
     MovementComponent,
     BalanceComponent,
@@ -120,6 +123,7 @@ import { TasksCore } from "./task/tasks.core";
     UtilsCommon,
     Title,
     TasksCore,
+    TaskCore,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]

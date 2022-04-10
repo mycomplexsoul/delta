@@ -1,0 +1,41 @@
+<div
+  class="task-toolbar"
+  *ngIf="task"
+  [ngClass]="{
+  'mobile-only': !options.optShowTaskToolbar
+}"
+>
+  <div>{{ task.tsk_name }}</div>
+  <div class="task-toolbar-content">
+    <!--
+        <span
+          class="play-button clickable"
+          *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"
+          (click)="toggleTimeTracking(selectedTask, $event)"
+          >&#9654;</span
+        >
+        <span
+          class="stop-button clickable"
+          *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"
+          (click)="toggleTimeTracking(selectedTask, $event)"
+          >&#9724;</span
+        >
+        <span
+          class="set-selected-button clickable"
+          (click)="handlerViewDetails(task)"
+          >&#9998;</span
+        >
+    -->
+    <span
+      class="task-toolbar-btn-move-up clickable"
+      (click)="handlerMoveUp(task, $event, groupTasks)"
+      >up</span
+    >
+    <span
+      class="task-toolbar-btn-move-up clickable"
+      (click)="handlerMoveDown(task, $event, groupTasks)"
+      >down</span
+    >
+    <span class="close-button clickable" (click)="task = null">&times;</span>
+  </div>
+</div>

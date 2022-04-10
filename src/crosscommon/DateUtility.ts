@@ -313,6 +313,174 @@ class DateUtility {
       .replace("[ss]", this.fillString(sec, 2, -1, zero));
     return str;
   }
+
+  /**
+   * Given a duration in string format, it parses it and returns
+   * the same duration in integer format, where the value represents
+   * the amount of minutes of the same duration provided.
+   * 
+   * Examples
+   * parseTime('30') => 30
+   * parseTime('1h') => 60
+   * parseTime('2h15') => 135
+   * parseTime('3:40') => 220
+   * parseTime('3:40') => 220
+   * parseTime('5h5m') => 305
+   * 
+   * @param duration string representation of a duration in hours and minutes
+   * @returns An integer representing duration in minutes
+   */
+  parseTime(duration: string) {
+    let hours = 0,
+      min = 0;
+    if (duration.indexOf("h") !== -1) {
+      hours = parseInt(duration.substring(0, duration.indexOf("h")));
+      duration = duration.replace(hours + "h", "");
+    }
+    if (duration.indexOf(":") !== -1) {
+      hours = parseInt(duration.substring(0, duration.indexOf(":")));
+      duration = duration.replace(hours + ":", "");
+    }
+    if (duration.indexOf("m") !== -1) {
+      min = parseInt(duration.substring(0, duration.indexOf("m")));
+      duration = duration.replace(min + "m", "");
+    } else {
+      if (duration !== "") {
+        min = parseInt(duration);
+        duration = duration.replace(min + "", "");
+      }
+    }
+    if (duration === "") {
+      return hours * 60 + min;
+    }
+    // fallback
+    return parseInt(duration);
+  }
+
+  /**
+   * Parses a schedule from a string.
+   * 
+   * Examples
+   * 
+   * 1) start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
+   * parseDatetime('2050-01-22 15:30 + 1h30') => { date_start: new Date(2050, 0, 22, 15, 30, 0), date_end: new Date(2050, 0, 22, 17, 0, 0), duration: 90, pattern: 'yyyy-MM-dd HH:mm + ##h##m' }
+   *
+   * 2) start time and duration -> HH:mm + ##h##m
+   * parseDatetime('9:30 + 30m') => { date_start: new Date(2040, 1, 25, 9, 30, 0), date_end: new Date(2040, 1, 25, 10, 0, 0), duration: 30, pattern: 'HH:mm + ##h##m' }
+   *
+   * 3) start date and time and end time -> yyyy-MM-dd HH:mm - HH:mm
+   * parseDatetime('2050-01-22 15:30 - 18:00') => { date_start: new Date(2050, 0, 22, 15, 30, 0), date_end: new Date(2050, 0, 22, 18, 0, 0), duration: 150, pattern: 'yyyy-MM-dd HH:mm - HH:mm' }
+   *
+   * 4) start time and end time -> HH:mm - HH:mm
+   * parseDatetime('8:30 - 9:00') => { date_start: new Date(2050, 0, 22, 8, 30, 0), date_end: new Date(2050, 0, 22, 9, 0, 0), duration: 30, pattern: 'HH:mm - HH:mm' }
+   *
+   * 5) start date and time -> yyyy-MM-dd HH:mm
+   * parseDatetime('2050-01-22 6:30') => { date_start: new Date(2050, 0, 22, 6, 30, 0), pattern: 'yyyy-MM-dd HH:mm' }
+   *
+   * 6) time only -> HH:mm
+   * parseDatetime('19:30') => { date_start: new Date(2050, 0, 22, 19, 30, 0), pattern: 'HH:mm' }
+   * 
+   * @param expression string representing a duration or a range conformed by a start datetime and a duration or end datetime
+   * @returns an object representing the schedule with a start, end and duration
+   */
+  parseDatetime(expression: string) {
+    let parts = <any>[];
+    let parsed: boolean = false;
+    const s = {
+      date_start: <Date>null,
+      date_end: <Date>null,
+      duration: 0,
+      pattern: "",
+    };
+
+    const patternTime = /\d{2}/i;
+    const patternDateTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/i;
+    const patternDateTimeEnd = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} - \d{2}:\d{2}/i;
+    const patternDateTimeDuration = /\d{4}-\d{2}-\d{2} \d{2}:\d{2} \+ /i;
+    const patternTimeEnd = /\d{2}:\d{2} - \d{2}:\d{2}/i;
+    const patternTimeDuration = /\d{2}:\d{2} \+ /i;
+
+    // start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
+    if (patternDateTimeDuration.test(expression)) {
+      parts = expression.split(" + ");
+      s.date_start = new Date(parts[0]);
+      s.duration = this.parseTime(parts[1]);
+      s.date_end = new Date(s.date_start.getTime() + s.duration * 60 * 1000);
+      parsed = true;
+      s.pattern = "yyyy-MM-dd HH:mm + ##h##m";
+    }
+
+    // start time and duration -> HH:mm + ##h##m
+    if (patternTimeDuration.test(expression) && !parsed) {
+      parts = expression.split(" + ");
+      let min =
+        parseInt(parts[0].split(":")[0]) * 60 +
+        parseInt(parts[0].split(":")[1]);
+      s.date_start = new Date(
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
+          min * 60 * 1000
+      );
+      s.duration = this.parseTime(parts[1]);
+      s.date_end = new Date(s.date_start.getTime() + s.duration * 60 * 1000);
+      parsed = true;
+      s.pattern = "HH:mm + ##h##m";
+    }
+
+    // start date and time and end time -> yyyy-MM-dd HH:mm - HH:mm
+    if (patternDateTimeEnd.test(expression) && !parsed) {
+      parts = expression.split(" - ");
+      let dateOnly = parts[0].split(" ")[0];
+      s.date_start = new Date(parts[0]);
+      s.date_end = new Date(dateOnly + " " + parts[1]);
+      s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
+      parsed = true;
+      s.pattern = "yyyy-MM-dd HH:mm - HH:mm";
+    }
+
+    // start time and end time -> HH:mm - HH:mm
+    if (patternTimeEnd.test(expression) && !parsed) {
+      parts = expression.split(" - ");
+      let min1 =
+        parseInt(parts[0].split(":")[0]) * 60 +
+        parseInt(parts[0].split(":")[1]);
+      let min2 =
+        parseInt(parts[1].split(":")[0]) * 60 +
+        parseInt(parts[1].split(":")[1]);
+      s.date_start = new Date(
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
+          min1 * 60 * 1000
+      );
+      s.date_end = new Date(
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
+          min2 * 60 * 1000
+      );
+      s.duration = this.elapsedTime(s.date_start, s.date_end) / 60;
+      parsed = true;
+      s.pattern = "HH:mm - HH:mm";
+    }
+
+    // start date and time -> yyyy-MM-dd HH:mm
+    if (patternDateTime.test(expression) && !parsed) {
+      s.date_start = new Date(expression);
+      parsed = true;
+      s.pattern = "yyyy-MM-dd HH:mm";
+    }
+
+    // time only -> HH:mm
+    if (patternTime.test(expression) && !parsed) {
+      let min =
+        parseInt(expression.split(":")[0]) * 60 +
+        parseInt(expression.split(":")[1]);
+      s.date_start = new Date(
+        this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
+          min * 60 * 1000
+      );
+      parsed = true;
+      s.pattern = "HH:mm";
+    }
+
+    return s;
+  }
 }
 
 export let DateUtils = new DateUtility();

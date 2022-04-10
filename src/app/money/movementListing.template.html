@@ -73,12 +73,12 @@
           >{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span
         >
       </span>
-      <span class="movement-account">[{{ m.mov_txt_account }}]</span>
+      <span class="movement-account">&nbsp;[{{ m.mov_txt_account }}]</span>
       <span class="movement-account" *ngIf="m.mov_txt_account_to">
         -> [{{ m.mov_txt_account_to }}]</span
       ><br />
       <span class="movement-date">[{{ m.mov_date | date: "yyyy-MM-dd" }}]</span>
-      <span class="movement-description">{{ m.mov_desc }}</span>
+      <span class="movement-description">&nbsp;{{ m.mov_desc }}</span>
       <br />
       <span class="movement-category" *ngIf="m.mov_txt_category"
         >{{ m.mov_txt_category }}</span

@@ -11,6 +11,7 @@ import { Timeline } from "src/crosscommon/entities/Timeline";
 import { Keyval } from "src/crosscommon/entities/Keyval";
 import { TasksCore } from "../task/tasks.core";
 import { Task } from "src/crosscommon/entities/Task";
+import { NotificationService } from "../common/notification.service";
 
 @Component({
   selector: "activity",
@@ -46,7 +47,7 @@ export class ActivityComponent implements OnInit {
   
   // handlers for TaskComponent
   public handlers = {
-    onViewTaskDetails: (task: Task) => {}
+    
   };
 
   constructor(
@@ -54,6 +55,7 @@ export class ActivityComponent implements OnInit {
     private timelineService: TimelineService,
     private keyvalService: KeyvalService,
     private tasksService: TasksCore,
+    private notificationService: NotificationService,
   ) {
     this.common = new CommonComponent<Activity>();
   }
@@ -65,6 +67,18 @@ export class ActivityComponent implements OnInit {
     // TODO: Get only keyval for open activities
     this.keyvalService.getAll().then(list => {
       this.viewData.keyvalList = list;
+    });
+    // TODO: Get all tasks
+    this.tasksService.getTasks().then((tasks: Task[]) => {
+      this.viewData.activityList.forEach(a => {
+        const tagTasks = tasks.filter(t => t.tsk_tags && t.tsk_tags.includes(a.act_tasks_tag));
+        
+        a['additional'] = {
+          tasks: tagTasks.sort(this.sortTasks),
+        };
+      });
+
+
     });
   }
 
@@ -148,6 +162,41 @@ export class ActivityComponent implements OnInit {
     form.reset();
   }
 
+  sortTasks(a: Task, b: Task) {
+    if (a.tsk_date_done) {
+      if (b.tsk_date_done) {
+        if (a.tsk_date_done.getTime() > b.tsk_date_done.getTime()) {
+          return 1;
+        }
+        if (a.tsk_date_done.getTime() < b.tsk_date_done.getTime()) {
+          return -1;
+        }
+        if (a.tsk_date_done.getTime() === b.tsk_date_done.getTime()) {
+          return 0;
+        }
+      } else {
+        // a is finished => goes first, b is open => goes last
+        return -1;
+      }
+    } else {
+      if (b.tsk_date_done) {
+        // a is open => goes last, b is finished => goes first
+        return 1;
+      } else {
+        // a and b are open, order by task order
+        if (a.tsk_order > b.tsk_order) {
+          return 1;
+        }
+        if (a.tsk_order < b.tsk_order) {
+          return -1;
+        }
+        if (a.tsk_order === b.tsk_order) {
+          return 0;
+        }
+      }
+    }
+  }
+
   setModelDetails(id: string, form: NgForm) {
     let model: Activity;
     if (!this.viewData.showItemForm) {
@@ -184,12 +233,48 @@ export class ActivityComponent implements OnInit {
       this.tasksService.getTasks().then((tasks: Task[]) => {
         const tagTasks = tasks.filter(t => t.tsk_tags && t.tsk_tags.includes(model.act_tasks_tag));
   
-        this.model.tasks = tagTasks;
+        this.model.tasks = tagTasks.sort(this.sortTasks);
+
+        model['additional'] = {
+          tasks: this.model.tasks,
+        };
       });
     }
   }
 
   findById(item: iEntity, field: string, id: string) {
     return item[field] === id;
+  }
+
+  changeStatus(id: string, status: string): void {
+    const ALL_STATUS = ['CAPTURED', 'BACKLOG', 'OPEN', 'IN-PROGRESS', 'VERIFICATION', 'CLOSED'];
+
+    if(!id) {
+      throw new Error('id should not be empty');
+    }
+    
+    const item: Activity = this.viewData.activityList.find(({ act_id }) => act_id === id);
+    
+    if (!item) {
+      throw new Error('Activity not found');
+    }
+
+    if (ALL_STATUS.includes(status)) {
+      item.act_ctg_status = ALL_STATUS.indexOf(status) + 1;
+      item.act_date_mod = DateUtils.newDateUpToSeconds();
+
+      // augment with Keyval info
+      item["keyvalItems"] = {
+        ACT_DATE_CLOSED: DateUtils.formatDate(
+          DateUtils.newDateUpToSeconds()
+        )
+      };
+
+      this.activityService.updateItem(item).then(response => {
+        this.notificationService.notifyWithOptions('Activity was closed successfuly', {
+          title: 'Activities'
+        });
+      });
+    }
   }
 }

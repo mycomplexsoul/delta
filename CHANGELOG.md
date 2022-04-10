@@ -27,6 +27,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.13.8 (2021-05-28)
+
+- [AppKanban][mod] Improvements to task listing
+- [AppTasks][new] TaskComponent - Add features to task component: add action handlers, add styles
+- [AppKanban][new] Add button to close activity
+- [AppKanban][new] TaskComponent - Improve task component to allow edit
+- [AppKanban][new] TaskComponent -Improve task component with refactor
+- [AppKanban][new] Add tasks to each activity and refine styles and edit fixes
+- [AppTasks][new] TaskComponent - Allow to move up/down tasks for backlog
+- [AppTasks][fix] Fix sync sending multiple requests
+- [AppTasks][new] TaskToolbarComponent - Create component to move backlog tasks in mobile
+- [AppCommon][dep] Upgrade dependencies
+
 ## v1.13.7 (2021-04-28)
 
 - [AppMoney][new] Balance - Notify when Rebuild and transfer operations are finished

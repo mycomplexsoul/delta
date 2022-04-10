@@ -461,4 +461,6 @@ export class Activity implements iEntity {
 			return `${f.dbName} = ${this[f.dbName]}`;
 		}).join(', ');
 	};
+
+	public additional: any = {};
 }

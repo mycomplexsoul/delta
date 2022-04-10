@@ -37,16 +37,16 @@ export class ApiServer {
     return api.create({ body }, hooks);
   };
 
-  updateRequestHandler = (node: iNode) => {
-    this.update(node.request.body, node.request.params).then(response => {
+  updateRequestHandler = (node: iNode, hooks: any = {}) => {
+    this.update(node.request.body, node.request.params, hooks).then(response => {
       node.response.end(JSON.stringify(response));
     });
   };
 
-  update = (body: any, pk: any): Promise<any> => {
+  update = (body: any, pk: any, hooks: any = {}): Promise<any> => {
     const api: ApiModule = new ApiModule(this.model);
 
-    return api.update({ body, pk }, {});
+    return api.update({ body, pk }, hooks);
   };
 
   deleteRequestHandler = async (node: iNode) => {

@@ -52,6 +52,9 @@
   </form>
 
   <div class="activity-details" *ngIf="model.id">
+    <div class="activity-actions">
+      <button (click)="changeStatus(model.id, 'CLOSED')">Close Activity</button>
+    </div>
     <span> Details </span>
 
     <div *ngFor="let k of model.keyval">
@@ -75,29 +78,52 @@
 
     <div>
       <div *ngFor="let item of model.tasks">
-        <task [task]="item" [handlers]="handlers"></task>
+        <task
+          [task]="item"
+          [handlers]="handlers"
+          [options]="{
+          optShowRecordNameInline: true,
+          optShowBadgeIfTaskIsInBacklog: true
+        }"
+        ></task>
       </div>
     </div>
   </div>
 
-  <div class="card-list">
-    <div
-      *ngFor="let item of viewData.activityList"
-      class="card-item-container"
-      (click)="setModelDetails(item.act_id, itemForm)"
-    >
-      <span class="activity-name">{{ item.act_name }}</span>
-      <br />
-      <span>Tags: {{ item.act_tags }}</span>
+  <div class="card-list width-100-pct">
+    <div *ngFor="let item of viewData.activityList" class="card-item-container">
+      <div class="activity-card-header">
+        <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
+        <span class="activity-name">{{ item.act_name }}</span>
+        <br />
+        <span>Status: {{ item.act_ctg_status }}</span>
 
-      <span class="activity-badge-new" *ngIf="item.isNew">new</span>
-      <span class="activity-badge-edited" *ngIf="item.isEdited">edited</span>
-      <!--
-                <span *ngIf="item.showOptions">
-                  <button (click)="archiveRecord(item)">archive</button>
-                  <button (click)="editNotes(item)">edit notes</button>
-                  <button (click)="viewHistory(item)">view history</button>
-              </span>    -->
+        <span (click)="item.showOptions = !item.showOptions">
+          {{ item.showOptions ? "-" : "+" }}
+        </span>
+
+        <span class="activity-badge-new" *ngIf="item.isNew">new</span>
+        <span class="activity-badge-edited" *ngIf="item.isEdited">edited</span>
+
+        <span *ngIf="item.showOptions">
+          <br />
+          <button (click)="setModelDetails(item.act_id, itemForm)">
+            details
+          </button>
+        </span>
+      </div>
+
+      <div *ngFor="let t of item['additional'].tasks">
+        <task
+          [task]="t"
+          [handlers]="handlers"
+          [options]="{
+          optShowRecordNameInline: true,
+          optShowBadgeIfTaskIsInBacklog: true,
+          optShowTimeTrackingHistory: false
+        }"
+        ></task>
+      </div>
     </div>
   </div>
 </div>

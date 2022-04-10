@@ -1,19 +1,15 @@
 <div class="page-container">
-  <h1 class="page-title text-align-center">
-    {{viewData.title}}
-  </h1>
-  
-  <div class="text-align-center width-100-pct print-only">
-    Página 1 de 1
-  </div>
-  
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
+
+  <div class="text-align-center width-100-pct print-only">Página 1 de 1</div>
+
   <div class="results-top-block padding-all-3">
     <strong>FFJ78</strong>
     <div>Francisco Field Jurado #78</div>
     <div>Independencia, Benito Juárez</div>
     <div>CDMX</div>
   </div>
-  
+
   <table class="results-movements desktop-only width-100-pct-print-only">
     <tbody>
       <tr
@@ -25,9 +21,7 @@
         }"
       >
         <td class="padding-all-3">
-          <span *ngIf="movement.type === 'header'">
-            {{movement.concept}}
-          </span>
+          <span *ngIf="movement.type === 'header'"> {{movement.concept}} </span>
         </td>
         <td class="padding-all-3">
           <span *ngIf="movement.type === 'movement'">
@@ -35,11 +29,11 @@
           </span>
         </td>
         <td class="padding-all-3 text-align-right width-120">
-          <span *ngIf="movement.type === 'total'">
-            {{movement.concept}}
-          </span>
+          <span *ngIf="movement.type === 'total'"> {{movement.concept}} </span>
         </td>
-        <td class="padding-all-3 text-align-right width-80-strict">
+        <td
+          class="padding-all-3 text-align-right vertical-align-top width-80-strict"
+        >
           <span *ngIf="movement.type === 'header' && counter === 0">
             Importe
           </span>
@@ -50,7 +44,7 @@
       </tr>
     </tbody>
   </table>
-  
+
   <table class="results-movements mobile-only width-100-pct">
     <tbody>
       <tr
@@ -67,11 +61,11 @@
           'text-align-right': movement.type === 'total'
         }"
         >
-          <span>
-            {{movement.concept}}
-          </span>
+          <span> {{movement.concept}} </span>
         </td>
-        <td class="padding-all-3 text-align-right width-80-strict">
+        <td
+          class="padding-all-3 text-align-right vertical-align-top width-80-strict"
+        >
           <span *ngIf="movement.type === 'header' && counter === 0">
             Importe
           </span>
@@ -82,7 +76,7 @@
       </tr>
     </tbody>
   </table>
-  
+
   <div
     [ngClass]="{
     'results-top-block-50': viewData.timelineList.length > 0
@@ -90,9 +84,7 @@
   >
     <div class="results-timeline-list" *ngIf="viewData.timelineList.length > 0">
       <div>
-        <strong>
-          Observaciones
-        </strong>
+        <strong> Observaciones </strong>
       </div>
       <br />
       <div
@@ -100,14 +92,14 @@
         [innerHTML]="t.tim_description"
       ></div>
     </div>
-  
+
     <br />
     <timeline
       [recordId]="'cartera-results|' + viewData.year + '-' + viewData.month"
       (onNewItem)="handleNewTimeline($event)"
     ></timeline>
   </div>
-  
+
   <div
     class="results-summary width-100-pct-mobile-only"
     [ngClass]="{
@@ -143,7 +135,8 @@
           </td>
           <td class="padding-all-3 width-80-strict">
             <span>
-              {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+              {{viewData.expenseTotal | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
             </span>
           </td>
         </tr>
@@ -153,14 +146,15 @@
           </td>
           <td class="padding-all-3 width-80-strict">
             <span>
-              {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}
+              {{viewData.finalBalance | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
             </span>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  
+
   <div class="results-sign-list" *ngIf="viewData.showSigns">
     <table>
       <tr>

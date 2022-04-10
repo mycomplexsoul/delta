@@ -1,45 +1,208 @@
-<div>
-  <input type="checkbox" id="{{ task.tsk_id }}" checked />
+<div id="{{ task.tsk_id }}">
+  <input
+    type="checkbox"
+    [checked]="task.tsk_ctg_status === 3"
+    (click)="handlers.onTaskMarkAsDone(task, $event)"
+  />
+  <!-- #region Time tracking history -->
   <span
-    *ngIf="task.tsk_total_time_spent !== 0"
+    *ngIf="task.tsk_total_time_spent !== 0 && options.optShowTimeTrackingHistory"
     [ngClass]="{
-                'task-open-with-tt':
-                  task.tsk_ctg_status === this.taskStatus.OPEN &&
-                  task.tsk_time_history.length > 0
-              }"
+      'task-open-with-tt':
+        task.tsk_ctg_status === this.taskStatus.OPEN &&
+        task.tsk_time_history.length > 0
+    }"
     >[{{ task.tsk_time_history.length }}/<time-format
       class="notification-date"
       [value]="task.tsk_total_time_spent"
       format="[HH]:[mm]:[ss]"
     ></time-format
     >]
-    <span *ngIf="task.tsk_ctg_in_process !== 2">
-      [<span class="tt-start" contenteditable="true" spellcheck="false"
+    <!-- #region Task with time tracking history and not in progress -->
+    <span *ngIf="task.tsk_ctg_in_process !== 2 && task.tsk_time_history.length">
+      [<span
+        class="tt-start"
+        contenteditable="true"
+        spellcheck="false"
+        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'start')"
         >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
         task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start
         | date: "HH:mm:ss" }}</span
       >
       -
-      <span class="tt-end" contenteditable="true" spellcheck="false"
+      <span
+        class="tt-end"
+        contenteditable="true"
+        spellcheck="false"
+        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'end')"
         >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
         task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_end |
         date: "HH:mm:ss" }}</span
       >]
     </span>
+    <!-- #endregion -->
+    <!-- #region Task with time tracking history and in progress -->
+    <span *ngIf="task.tsk_ctg_in_process === 2 && task.tsk_time_history.length">
+      [<span
+        class="tt-start"
+        contenteditable="true"
+        spellcheck="false"
+        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'start')"
+        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
+        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start
+        | date: "HH:mm:ss" }}</span
+      >
+      <!-- #region Toggle timer mode -->
+      <span
+        (click)="handlers.onToggleTimeMode()"
+        class="clickable"
+        title="click to toggle timer mode"
+      >
+        {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : "" }}
+      </span>
+      <!-- #endregion -->
+    </span>
+    <!-- #endregion -->
   </span>
-  <span
+  <span *ngIf="task.tsk_date_done && options.optShowTimeTrackingHistory"
     >(Done at:
     <span contenteditable="true" spellcheck="false"
       >{{ task.tsk_date_done | date: format }}</span
-    >)</span
-  >&nbsp;<span
+    >)&nbsp;</span
+  >
+  <span *ngIf="task.tsk_date_done && !options.optShowTimeTrackingHistory"
+    >(Done at:
+    <span contenteditable="true" spellcheck="false"
+      >{{ task.tsk_date_done | date: 'yyyy-MM-dd' }}</span
+    >)&nbsp;</span
+  >
+  <!-- #endregion -->
+  <!-- #region Qualifiers styling -->
+  <span
+    class="task-qualifier-icon"
+    *ngIf="task.tsk_qualifiers.indexOf('star') !== -1"
+    >&#9733;</span
+  >
+  <span
+    class="task-qualifier-icon task-qualifier-urgent"
+    *ngIf="task.tsk_qualifiers.indexOf('urgent') !== -1"
+    >&#33;</span
+  >
+  <span
+    class="task-qualifier-icon"
+    *ngIf="task.tsk_qualifiers.indexOf('people') !== -1"
+  >
+    <img
+      src="/assets/icons/people.svg"
+      alt="Requires reaching out people"
+      title="Requires reaching out people"
+    />
+  </span>
+  <span
+    class="task-qualifier-icon"
+    *ngIf="task.tsk_qualifiers.indexOf('mobile') !== -1"
+  >
+    <img
+      src="/assets/icons/smartphone.svg"
+      alt="Can be done using phone"
+      title="Can be done using phone"
+    />
+  </span>
+  <span
+    class="task-qualifier-icon task-qualifier-flag"
+    *ngIf="task.tsk_qualifiers.indexOf('flag') !== -1"
+    >&#9873;</span
+  >
+  <span
+    class="task-qualifier-icon"
+    *ngIf="task.tsk_qualifiers.indexOf('blocked') !== -1"
+    >&#10006;</span
+  >
+  <span class="task-next-todo-icon" *ngIf="task['inNextToDo']">
+    <img
+      src="/assets/icons/energy.svg"
+      alt="In Next To Do Today listing"
+      title="In Next To Do Today listing"
+    />
+  </span>
+  <!-- #endregion -->
+  <!-- #region Main task description -->
+  <span
+    contenteditable="true"
+    spellcheck="false"
     [ngClass]="{
-                'task-done': task.tsk_ctg_status === this.taskStatus.CLOSED
-              }"
+      'task-done': task.tsk_ctg_status === this.taskStatus.CLOSED,
+      'task-in-process': task.tsk_ctg_in_process === 2,
+      'task-highlighted': task.tsk_qualifiers.indexOf('highlighted') !== -1,
+      'task-priority': task.tsk_qualifiers.indexOf('priority') !== -1,
+      'task-important': task.tsk_qualifiers.indexOf('important') !== -1,
+      'task-unexpected': task.tsk_qualifiers.indexOf('unexpected') !== -1,
+      'task-progressed': task.tsk_qualifiers.indexOf('progressed') !== -1,
+      'task-directions': task.tsk_qualifiers.indexOf('directions') !== -1
+    }"
+    (keyup)="handlerTaskKeyUp(task, $event)"
+    (blur)="handlerTaskBlur(task, $event)"
+    (focus)="handlerTaskFocus(task, $event)"
+    (keydown)="handlerTaskKeyDown(task, $event)"
+    tabindex="0"
+    class="editable task-text"
     >{{ task.tsk_name }}</span
   >
+  <!-- #endregion -->
+  <!-- #region Link -->
+  <span class="task-link" *ngIf="task.tsk_url"
+    ><a href="{{ task.tsk_url }}" title="{{ task.tsk_url }}" target="_blank"
+      >link</a
+    >&nbsp;</span
+  >
+  <!-- #endregion -->
+  <!-- #region ETA -->
+  <span
+    [attr.contenteditable]="options.optAllowToEditETA"
+    spellcheck="false"
+    (blur)="handlers.onTaskEditEstimatedDuration(task, $event)"
+    (keydown)="handlers.onTaskEditEtaKeyDown(task, $event)"
+    [ngClass]="{ 'task-no-eta': task.tsk_estimated_duration === 0 }"
+    class="task-eta"
+    >{{ formatTime(task.tsk_estimated_duration * 60, "#h#m") }}</span
+  >
+  <!-- #endregion -->
+  <!-- #region Tags -->
+  <span *ngIf="task.tsk_tags" class="task-tags"
+    >&nbsp;<span
+      *ngFor="let tag of task.tsk_tags.split(' ')"
+      (click)="handlers.onShowTagStats(tag)"
+      class="tag"
+      >#{{ tag }}&nbsp;</span
+    >
+  </span>
+  <!-- #endregion -->
+  <!-- #region Schedule -->
+  <span *ngIf="task.tsk_schedule_date_start"
+    ><strong
+      >&nbsp;at {{ formatDateTime(task.tsk_schedule_date_start) }}
+      &#9200;</strong
+    ></span
+  >&nbsp;<span
+    [ngClass]="handlers.onGetTaskAgeClass(task)"
+    *ngIf="options.optViewElapsedDays"
+    >{{ handlers.onGetTaskAge(task) }}</span
+  >
+  <!-- #endregion -->
+  <!-- #region Record name -->
+  <span *ngIf="options.optShowRecordNameInline"
+    >[{{ task.tsk_id_record }}]</span
+  >
+  <!-- #endregion -->
+  <!-- #region Is in backlog -->
+  <span
+    *ngIf="options.optShowBadgeIfTaskIsInBacklog && task.tsk_ctg_status === 1"
+    >[BACKLOG]</span
+  >
+  <!-- #endregion -->
   <span *ngIf="task['not_sync']">(Not in sync)</span>&nbsp;<button
     (click)="handlers.onViewTaskDetails(task)"
+    *ngIf="handlers.onViewTaskDetails && options.optShowDetailsButton"
   >
     details
   </button>
