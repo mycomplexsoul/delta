@@ -3,6 +3,7 @@ type NotificationStatus = "queue" | "displayed" | "cancelled";
 type NotificationItem = {
   id: string;
   message: string;
+  count: number;
   date: Date;
   status: NotificationStatus | string; // queue, displayed, cancelled
   title: string;

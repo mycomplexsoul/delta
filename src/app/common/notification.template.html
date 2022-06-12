@@ -14,7 +14,8 @@
       (click)="onClose(item)"
     />
     <div class="notification-body">
-      <span> {{item.message}} </span>
+      <span> {{ item.message }} </span>
+      <span *ngIf="item.count > 1"> (x{{ item.count }}) </span>
     </div>
     <div class="notification-footer">
       <button

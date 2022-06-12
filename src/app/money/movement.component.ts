@@ -33,8 +33,8 @@ import { NotificationService } from "../common/notification.service";
     MovementService,
     EntryService,
     BalanceService,
-    PresetService
-  ]
+    PresetService,
+  ],
 })
 export class MovementComponent implements OnInit {
   private accounts: Array<Account> = [];
@@ -59,7 +59,7 @@ export class MovementComponent implements OnInit {
     movements: [],
     entries: [],
     presets: [],
-    showCreateForm: false
+    showCreateForm: false,
   };
   public model: any = {
     /* UI default form data */
@@ -70,7 +70,7 @@ export class MovementComponent implements OnInit {
     asPreset: false,
     selectedPreset: null,
     id: null,
-    resetForm: true
+    resetForm: true,
   };
   public viewAddCategoryForm: boolean = false;
   public _movementFlowType: string = "custom";
@@ -92,7 +92,7 @@ export class MovementComponent implements OnInit {
     movement: null,
     entry: null,
     balance: null,
-    preset: null
+    preset: null,
   };
 
   constructor(
@@ -120,32 +120,32 @@ export class MovementComponent implements OnInit {
     this.viewData.types = [
       {
         ctg_ctg_value: 1,
-        ctg_desc: "Expense"
+        ctg_desc: "Expense",
       },
       {
         ctg_ctg_value: 2,
-        ctg_desc: "Income"
+        ctg_desc: "Income",
       },
       {
         ctg_ctg_value: 3,
-        ctg_desc: "Transfer"
-      }
+        ctg_desc: "Transfer",
+      },
     ];
 
     // TODO: this data should come from localStorage, if not present then fetch from BE
     this.viewData.statuses = [
       {
         ctg_ctg_value: 1,
-        ctg_desc: "Active"
+        ctg_desc: "Active",
       },
       {
         ctg_ctg_value: 2,
-        ctg_desc: "Cancelled"
+        ctg_desc: "Cancelled",
       },
       {
         ctg_ctg_value: 3,
-        ctg_desc: "Pending"
-      }
+        ctg_desc: "Pending",
+      },
     ];
 
     // TODO: this data should have an entity
@@ -155,7 +155,7 @@ export class MovementComponent implements OnInit {
       "Renewal",
       "Groceries",
       "Mom",
-      "Health"
+      "Health",
     ];
 
     this.model.date = DateUtils.dateToStringDate(new Date());
@@ -315,6 +315,7 @@ export class MovementComponent implements OnInit {
       this.services.preset.newItem(p);
       this.viewData.presets.push(p);
       console.log("this is the preset", p);
+      submitButton.disabled = false;
     } else {
       let m = new Movement();
       m.mov_date = DateUtils.stringDateToDate(form.value.fDate);
@@ -381,7 +382,7 @@ export class MovementComponent implements OnInit {
       if (this.model.id) {
         // edition
         const existingIndex: number = this.viewData.movements.findIndex(
-          m => m.mov_id === this.model.id
+          (m) => m.mov_id === this.model.id
         );
         m.mov_date_add = new Date(
           this.viewData.movements[existingIndex].mov_date_add
@@ -392,13 +393,11 @@ export class MovementComponent implements OnInit {
         this.model.id = null;
       } else {
         // new movement
-        this.services.movement.newItem(m, () =>
-          {
-            this.retrieveAccountsAndBalance();
-            const body = 'Movement saved correctly';
-            this.notificationService.notify(body, 'Movements', 10000);
-          }
-        );
+        this.services.movement.newItem(m, () => {
+          this.retrieveAccountsAndBalance();
+          const body = "Movement saved correctly";
+          this.notificationService.notify(body, "Movements", 10000);
+        });
         m["isNew"] = true; // flag to render as new on UI
         console.log("this is the movement", m);
         this.viewData.movements.unshift(m);
@@ -472,11 +471,11 @@ export class MovementComponent implements OnInit {
     reimburse.mov_ctg_type = 2;
     reimburse.mov_id_account = ACCOUNT_FOR_REIMBURSE;
     reimburse.mov_txt_account = this.viewData.accounts.find(
-      acc => acc.acc_id === ACCOUNT_FOR_REIMBURSE
+      (acc) => acc.acc_id === ACCOUNT_FOR_REIMBURSE
     ).acc_name;
     reimburse.mov_id_category = REIMBURSE_CATEGORY; // 'Rembolsos' Reimburse category
     reimburse.mov_txt_category = this.viewData.categories.find(
-      cat => cat.mct_id === REIMBURSE_CATEGORY
+      (cat) => cat.mct_id === REIMBURSE_CATEGORY
     ).mct_name; // 'Rembolsos' Reimburse category
     reimburse.mov_budget = base.mov_budget.replace(REIMBURSE_50, "");
 
@@ -798,44 +797,44 @@ export class MovementComponent implements OnInit {
     let fields: Array<any> = [
       {
         control: "fDescription",
-        value: "_desc"
+        value: "_desc",
       },
       {
         control: "fAmount",
-        value: "_amount"
+        value: "_amount",
       },
       {
         control: "fAccount",
-        value: "_id_account"
+        value: "_id_account",
       },
       {
         control: "fAccountTo",
-        value: "_id_account_to"
+        value: "_id_account_to",
       },
       {
         control: "fMovementType",
-        value: "_ctg_type"
+        value: "_ctg_type",
       },
       {
         control: "fDate",
-        value: "_date"
+        value: "_date",
       },
       {
         control: "fBudget",
-        value: "_budget"
+        value: "_budget",
       },
       {
         control: "fCategory",
-        value: "_id_category"
+        value: "_id_category",
       },
       {
         control: "fPlace",
-        value: "_id_place"
+        value: "_id_place",
       },
       {
         control: "fNotes",
-        value: "_notes"
-      }
+        value: "_notes",
+      },
     ];
     setTimeout(() => {
       fields.forEach((f: any) => {
@@ -885,9 +884,9 @@ export class MovementComponent implements OnInit {
   }
 
   cancel(id: string, form: NgForm) {
-    const m = this.viewData.movements.find(m => m.mov_id === id);
+    const m = this.viewData.movements.find((m) => m.mov_id === id);
     const existingIndex = this.viewData.movements.findIndex(
-      m => m.mov_id === id
+      (m) => m.mov_id === id
     );
 
     // updates status for cancellation
@@ -903,9 +902,9 @@ export class MovementComponent implements OnInit {
   }
 
   deleteMovement(id: string, form: NgForm) {
-    const m = this.viewData.movements.find(m => m.mov_id === id);
+    const m = this.viewData.movements.find((m) => m.mov_id === id);
     const existingIndex = this.viewData.movements.findIndex(
-      m => m.mov_id === id
+      (m) => m.mov_id === id
     );
 
     this.services.movement.delete(m, () => {
@@ -942,7 +941,7 @@ export class MovementComponent implements OnInit {
         if (usageCount < usage[categoryId]) {
           return {
             category: categoryId,
-            usageCount: usage[categoryId]
+            usageCount: usage[categoryId],
           };
         }
         return { category, usageCount };
@@ -971,21 +970,22 @@ export class MovementComponent implements OnInit {
       "mov_txt_category",
       "mov_txt_place",
       "mov_amount",
-      "mov_budget"
+      "mov_budget",
     ];
 
     if (searchTerm) {
-      this.viewData.movements = this.services.movement.list().filter((
-        movement // if one field string comparison ignoring case returns true, then use the movement
-      ) =>
-        fields.some(
-          field =>
-            movement[field] &&
-            movement[field]
-              .toString()
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-        )
+      this.viewData.movements = this.services.movement.list().filter(
+        (
+          movement // if one field string comparison ignoring case returns true, then use the movement
+        ) =>
+          fields.some(
+            (field) =>
+              movement[field] &&
+              movement[field]
+                .toString()
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+          )
       );
     } else {
       this.viewData.movements = this.getLastestMovements(

@@ -626,7 +626,7 @@ export class MovementCustom {
                 initialMonth,
                 finalYear,
                 finalMonth,
-                "anon"
+                model.mov_id_user || "anon"
               )
               .then((res) => {
                 return { message: `entries: ${result.message}` };
@@ -1117,14 +1117,10 @@ export class MovementCustom {
 
     // get period movements
     const initialDate: Date = new Date(year, month - 1, 1);
-    const finalDate: Date = new Date(
-      year,
-      month - 1,
-      DateUtils.lastDayInMonth(year, month - 1)
-    );
+    const finalDate: Date = new Date(year, month, 1);
     const sqlMovements: string = `select * from vimovement where (mov_id_account = '${account}' or mov_id_account_to = '${account}') and mov_date >= '${DateUtils.formatDate(
       initialDate
-    )}' and mov_date <= '${DateUtils.formatDate(
+    )}' and mov_date < '${DateUtils.formatDate(
       finalDate
     )}' order by mov_date asc`;
     const { rows: MovementList } = await connection.runSql(sqlMovements);
@@ -1200,7 +1196,7 @@ export class MovementCustom {
       month
     )}`;
     const to: string = configModule.getConfigValue("money-mail-to");
-    EmailModule.sendHTMLEmail({subject, html, to});
+    EmailModule.sendHTMLEmail({ subject, html, to });
 
     return Promise.resolve({ operationResult: true, message: "email sent" });
   };
@@ -1286,34 +1282,42 @@ export class MovementCustom {
 
   /**
    * Replace category in specific movements with another category
-   * @param oldCategoryId 
-   * @param newCategoryId 
-   * @returns 
+   * @param oldCategoryId
+   * @param newCategoryId
+   * @returns
    */
-  replaceCategory(oldCategoryId: string, newCategoryId: string): Promise<{
-    success: boolean,
-    message: string,
-    error?: Object
+  replaceCategory(
+    oldCategoryId: string,
+    newCategoryId: string
+  ): Promise<{
+    success: boolean;
+    message: string;
+    error?: Object;
   }> {
     const response = {
       success: false,
       message: "Error replacing category",
-      error: null
+      error: null,
     };
 
     const model = new Movement();
     const { tableName } = model.metadata;
-    const sql = `update ${tableName} set mov_id_category = '${MoGen.parseApostropheForSQL(newCategoryId)}'
+    const sql = `update ${tableName} set mov_id_category = '${MoGen.parseApostropheForSQL(
+      newCategoryId
+    )}'
       where mov_id_category = '${MoGen.parseApostropheForSQL(oldCategoryId)}'`;
     const connection = ConnectionService.getConnection();
 
-    return connection.runSql(sql).then(sqlResult => {
-      response.success = true;
-      response.message = `Replaced correctly ${sqlResult.rows.affectedRows} items`;
-      return response;
-    }).catch(error => {
-      response.error = error;
-      return response;
-    });
+    return connection
+      .runSql(sql)
+      .then((sqlResult) => {
+        response.success = true;
+        response.message = `Replaced correctly ${sqlResult.rows.affectedRows} items`;
+        return response;
+      })
+      .catch((error) => {
+        response.error = error;
+        return response;
+      });
   }
 }

@@ -90,39 +90,88 @@
     </div>
   </div>
 
-  <div class="card-list width-100-pct">
-    <div *ngFor="let item of viewData.activityList" class="card-item-container">
-      <div class="activity-card-header">
-        <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
-        <span class="activity-name">{{ item.act_name }}</span>
-        <br />
-        <span>Status: {{ item.act_ctg_status }}</span>
-
-        <span (click)="item.showOptions = !item.showOptions">
-          {{ item.showOptions ? "-" : "+" }}
-        </span>
-
-        <span class="activity-badge-new" *ngIf="item.isNew">new</span>
-        <span class="activity-badge-edited" *ngIf="item.isEdited">edited</span>
-
-        <span *ngIf="item.showOptions">
-          <br />
-          <button (click)="setModelDetails(item.act_id, itemForm)">
-            details
-          </button>
-        </span>
+  <div class="card-group-list width-100-pct">
+    <div *ngFor="let group of viewData.activityGroups" class="card-group-item">
+      <div class="card-group-header">
+        <span class="card-group-header-title">{{ group.act_txt_status }}</span>
+        <span class="card-group-header-subtitle"
+          >{{ group.items.length }} items</span
+        >
       </div>
 
-      <div *ngFor="let t of item['additional'].tasks">
-        <task
-          [task]="t"
-          [handlers]="handlers"
-          [options]="{
-          optShowRecordNameInline: true,
-          optShowBadgeIfTaskIsInBacklog: true,
-          optShowTimeTrackingHistory: false
-        }"
-        ></task>
+      <div class="card-list">
+        <div *ngFor="let item of group.items" class="card-item-container">
+          <div class="activity-card-header">
+            <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
+            <span class="activity-name">{{ item.act_name }}</span>
+            <br />
+            <span>[{{ group.act_txt_status }}]</span>
+
+            <span (click)="item.showOptions = !item.showOptions">
+              {{ item.showOptions ? "-" : "+" }}
+            </span>
+
+            <span class="activity-badge-new" *ngIf="item.isNew">new</span>
+            <span class="activity-badge-edited" *ngIf="item.isEdited"
+              >edited</span
+            >
+
+            <span *ngIf="item.showOptions">
+              <br />
+              <button (click)="setModelDetails(item.act_id, itemForm)">
+                details
+              </button>
+              <button
+                *ngIf="item.act_ctg_status === 1"
+                (click)="changeStatus(item.act_id, 'BACKLOG')"
+              >
+                To Backlog
+              </button>
+              <button
+                *ngIf="item.act_ctg_status === 2"
+                (click)="changeStatus(item.act_id, 'OPEN')"
+              >
+                To Open
+              </button>
+              <button
+                *ngIf="item.act_ctg_status === 3"
+                (click)="changeStatus(item.act_id, 'IN PROGRESS')"
+              >
+                To In Progress
+              </button>
+              <button
+                *ngIf="item.act_ctg_status === 4"
+                (click)="changeStatus(item.act_id, 'VERIFICATION')"
+              >
+                To Verification
+              </button>
+              <button
+                *ngIf="item.act_ctg_status === 5"
+                (click)="changeStatus(item.act_id, 'CLOSED')"
+              >
+                To Closed
+              </button>
+              <button
+                *ngIf="item.act_ctg_status !== 6"
+                (click)="addNewTask(item)"
+              >
+                Add new task
+              </button>
+            </span>
+          </div>
+
+          <div *ngFor="let t of item['additional'].tasks">
+            <task
+              [task]="t"
+              [handlers]="handlers"
+              [options]="{
+              optShowRecordNameInline: true,
+              optShowBadgeIfTaskIsInBacklog: true,
+              optShowTimeTrackingHistory: false
+            }"
+            ></task>
+          </div>
+        </div>
       </div>
     </div>
   </div>

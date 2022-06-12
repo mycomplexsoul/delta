@@ -137,7 +137,7 @@ class DateUtility {
       "September",
       "October",
       "November",
-      "December"
+      "December",
     ];
     return months[month - 1];
   }
@@ -155,7 +155,7 @@ class DateUtility {
       "Septiembre",
       "Octubre",
       "Noviembre",
-      "Diciembre"
+      "Diciembre",
     ];
     return months[month - 1];
   }
@@ -180,7 +180,7 @@ class DateUtility {
     return {
       year,
       month,
-      iterable: year * 100 + month
+      iterable: year * 100 + month,
     };
   }
 
@@ -206,7 +206,7 @@ class DateUtility {
     return [
       date.getFullYear(),
       (mm > 9 ? "" : "0") + mm,
-      (dd > 9 ? "" : "0") + dd
+      (dd > 9 ? "" : "0") + dd,
     ].join("-");
   }
 
@@ -236,11 +236,13 @@ class DateUtility {
    * @param elapsed Positive or negative number interpreted as elapsed time
    * @param format Format to use, example: [HH]:[mm]:[ss]
    */
-  formatTime(elapsed: number, format: String = undefined): String {
+  formatTime(elapsed: number, format: string = undefined): string {
     const unsignedElapsed: number = Math.abs(elapsed);
     // time in seconds
     let days: number = Math.floor(unsignedElapsed / (60 * 60 * 24));
-    let hour: number = Math.floor((unsignedElapsed - days * 60 * 60 * 24) / (60 * 60));
+    let hour: number = Math.floor(
+      (unsignedElapsed - days * 60 * 60 * 24) / (60 * 60)
+    );
     let min: number = Math.floor(
       (unsignedElapsed - days * 60 * 60 * 24 - hour * 60 * 60) / 60
     );
@@ -265,12 +267,14 @@ class DateUtility {
       .replace("[s]", String(sec))
       .replace("m0s", "m")
       .replace("h0m", "h");
-    
-    if (str.startsWith('00:')) { // HH
-      str = str.replace('00:', '');
+
+    if (str.startsWith("00:")) {
+      // HH
+      str = str.replace("00:", "");
     }
-    if (str.startsWith('00:')) { // mm
-      str = str.replace('00:', '');
+    if (str.startsWith("00:")) {
+      // mm
+      str = str.replace("00:", "");
     }
 
     return ["0h", "0h0", "0h0m"].indexOf(str) !== -1 ? "0" : str;
@@ -285,7 +289,7 @@ class DateUtility {
   formatTimestamp(
     date: Date | string | number,
     format: string = "[yyyy]-[MM]-[dd] [HH]:[mm]:[ss]"
-  ) {
+  ): string {
     if (date === null) {
       return null;
     }
@@ -318,7 +322,7 @@ class DateUtility {
    * Given a duration in string format, it parses it and returns
    * the same duration in integer format, where the value represents
    * the amount of minutes of the same duration provided.
-   * 
+   *
    * Examples
    * parseTime('30') => 30
    * parseTime('1h') => 60
@@ -326,7 +330,7 @@ class DateUtility {
    * parseTime('3:40') => 220
    * parseTime('3:40') => 220
    * parseTime('5h5m') => 305
-   * 
+   *
    * @param duration string representation of a duration in hours and minutes
    * @returns An integer representing duration in minutes
    */
@@ -359,9 +363,9 @@ class DateUtility {
 
   /**
    * Parses a schedule from a string.
-   * 
+   *
    * Examples
-   * 
+   *
    * 1) start date and time and duration -> yyyy-MM-dd HH:mm + ##h##m
    * parseDatetime('2050-01-22 15:30 + 1h30') => { date_start: new Date(2050, 0, 22, 15, 30, 0), date_end: new Date(2050, 0, 22, 17, 0, 0), duration: 90, pattern: 'yyyy-MM-dd HH:mm + ##h##m' }
    *
@@ -379,7 +383,7 @@ class DateUtility {
    *
    * 6) time only -> HH:mm
    * parseDatetime('19:30') => { date_start: new Date(2050, 0, 22, 19, 30, 0), pattern: 'HH:mm' }
-   * 
+   *
    * @param expression string representing a duration or a range conformed by a start datetime and a duration or end datetime
    * @returns an object representing the schedule with a start, end and duration
    */

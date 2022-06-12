@@ -586,7 +586,7 @@
   >
     <strong>{{ options.optCollapseBacklog ? '+' : '-' }} Backlog</strong>
   </button>
-  | {{ state.backlogTasks.length }} tasks
+  | {{ state.backlogTasks.length }} lists {{ state.backlogTasksCount }} tasks
   <div
     *ngIf="!options.optCollapseBacklog"
     [ngClass]="{
@@ -745,6 +745,36 @@
       'task-open-task-list-container--float': layout === 'float'
     }"
   >
+    <div class="task-record-collapsed display-block">
+      <div
+        *ngFor="let item of state.openTasks"
+        class="task-record"
+        [ngClass]="{
+          'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
+          'hidden': !item.collapsed
+        }"
+      >
+        <div *ngIf="item.collapsed">
+          <button
+            class="button-link no-underline"
+            (click)="toggleCollapsedRecord(item, false)"
+          >
+            <strong>+ {{ item.header }}</strong>
+          </button>
+          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
+          60) }})
+          <span *ngIf="countTasksDone(item.header) > 0">
+            |
+            <span
+              class="task-done"
+              title="tasks done today from this record list"
+            >
+              {{ countTasksDone(item.header) }}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
     <div
       *ngFor="let item of state.openTasks"
       class="task-record"
@@ -954,36 +984,6 @@
         </div>
       </div>
     </div>
-    <div class="task-record-collapsed display-block">
-      <div
-        *ngFor="let item of state.openTasks"
-        class="task-record"
-        [ngClass]="{
-          'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
-          'hidden': !item.collapsed
-        }"
-      >
-        <div *ngIf="item.collapsed">
-          <button
-            class="button-link no-underline"
-            (click)="toggleCollapsedRecord(item, false)"
-          >
-            <strong>+ {{ item.header }}</strong>
-          </button>
-          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
-          60) }})
-          <span *ngIf="countTasksDone(item.header) > 0">
-            |
-            <span
-              class="task-done"
-              title="tasks done today from this record list"
-            >
-              {{ countTasksDone(item.header) }}
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 <br />
@@ -1153,6 +1153,46 @@
             }}
           </span>
           <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
+            >&#9733;</span
+          >
+          <span
+            class="task-qualifier-icon task-qualifier-urgent"
+            *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
+            >&#33;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('people') !== -1"
+          >
+            <img
+              src="/assets/icons/people.svg"
+              alt="Requires reaching out people"
+              title="Requires reaching out people"
+            />
+          </span>
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('mobile') !== -1"
+          >
+            <img
+              src="/assets/icons/smartphone.svg"
+              alt="Can be done using phone"
+              title="Can be done using phone"
+            />
+          </span>
+          <span
+            class="task-qualifier-icon task-qualifier-flag"
+            *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1"
+            >&#9873;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
+            >&#10006;</span
+          >
+          <span
             contenteditable="true"
             spellcheck="false"
             (keyup)="taskEdit(t, $event)"
@@ -1165,7 +1205,9 @@
               'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
               'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
-              'task-call': t.tsk_qualifiers.indexOf('call') !== -1
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             class="editable task-text"

@@ -1,11 +1,42 @@
 @import "./app/styles/button.css";
 
+/* #region Dark Mode setup */
 :root {
-  --font-color: #888;
+  --text-color: #333;
   --background-color: #eee;
+  --nav-background-color: #aaa;
+  /* Task */
+  --task-st-in-progress: blue;
+  --task-st-backlog: #e9bef1;
+  /* Task Qualifiers */
+  --task-q-directions: #efbfff;
+  --task-q-highlighted: #ddd;
+  --task-q-important: #f9b97c;
+  --task-q-priority: yellow;
+  --task-q-unexpected: #81d4fa;
+  /* Cards component */
+  --card-item-container: lightgray;
 }
 
-/* Master Styles */
+[data-theme="dark"] {
+  --text-color: #d4d4d4;
+  --background-color: #1e1e1e;
+  --nav-background-color: #101010;
+  /* Task */
+  --task-st-in-progress: white;
+  --task-st-backlog: rgb(233 190 241 / 40%);
+  /* Task Qualifiers */
+  --task-q-directions: rgb(239 191 255 / 35%);
+  --task-q-highlighted: rgb(221 221 221 / 15%);
+  --task-q-important: rgb(249 185 124 / 50%);
+  --task-q-priority: rgb(255 255 0 / 35%);
+  --task-q-unexpected: rgb(129 212 250 / 45%);
+  /* Cards component */
+  --card-item-container: #606060;
+}
+/* #endregion */
+
+/* #region Master Styles */
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
@@ -22,6 +53,9 @@ h3 {
 }
 body {
   background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  font-family: monospace;
   font-size: 13px;
 }
 @media (min-width: 505px) {
@@ -31,14 +65,15 @@ body {
 }
 body,
 input[text] {
-  color: var(--font-color);
+  color: var(--text-color);
   font-family: Cambria, Georgia;
 }
 a {
   cursor: pointer;
 }
+/* #endregion */
 
-/* Navigation link styles */
+/* #region Navigation link styles */
 nav a {
   padding: 5px 10px;
   text-decoration: none;
@@ -58,7 +93,7 @@ nav a:hover {
 nav a.router-link-active {
   color: #039be5;
 }
-
+/* #endregion */
 /* items class */
 .items {
   margin: 0 0 2em 0;
@@ -205,18 +240,6 @@ tasks .task-done {
   color: gray;
 }
 
-tasks .task-in-process {
-  font-style: italic;
-  font-weight: bold;
-  color: blue !important;
-}
-
-body {
-  margin: 0;
-  color: #333;
-  font-family: monospace;
-}
-
 * {
   font-family: monospace;
 }
@@ -268,26 +291,11 @@ textarea.task-multiple {
 .task-tags {
   color: gray;
 }
-.task-highlighted {
-  background-color: #ddd;
-}
-.task-priority {
-  background-color: yellow;
-}
 .tag:hover {
   cursor: pointer;
 }
 .task-progressed {
   background-color: #a2ffa9;
-}
-.task-unexpected {
-  background-color: #81d4fa;
-}
-.task-important {
-  background-color: #f9b97c;
-}
-.task-directions {
-  background-color: #efbfff;
 }
 .task-qualifier-icon {
   padding-right: 2px;
@@ -437,7 +445,7 @@ menu {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #aaa;
+  background-color: var(--nav-background-color);
 }
 
 .field {
@@ -600,7 +608,7 @@ combo-item .combo-item-container {
 }
 
 .card-item-container {
-  border: 1px solid lightgray;
+  border: 1px solid var(--card-item-container);
   margin: 5px;
   padding: 5px;
   display: block;
@@ -798,7 +806,7 @@ kbd {
   grid-area: 1 / 1 / 2 / 2;
 }
 
-/* Scrollbars styles */
+/* #region Scrollbars styles */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -815,4 +823,4 @@ kbd {
   border-radius: 10px;
   box-shadow: inset 7px 10px 12px #f0f0f0;
 }
-/* End Scrollbars */
+/* #endregion */

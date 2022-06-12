@@ -41,7 +41,7 @@ button:disabled {
   text-shadow: none;
   box-shadow: none;
   border-radius: 0;
-  color: #333;
+  color: var(--text-color);
   font-family: monospace;
   font-size: 11px;
 }

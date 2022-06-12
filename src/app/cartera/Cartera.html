@@ -377,6 +377,21 @@
             </tr>
           </tfoot>
         </table>
+
+        <div>
+          <span class="field">
+            <label for="fResetForm" class="label-left"
+              >Reset form after save</label
+            >
+            <input
+              type="checkbox"
+              id="fResetForm"
+              [(ngModel)]="model.resetForm"
+              [checked]="model.resetForm"
+              (change)="model.resetForm = !model.resetForm"
+            />
+          </span>
+        </div>
       </div>
 
       <button

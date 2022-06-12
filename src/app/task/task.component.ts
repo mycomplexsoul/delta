@@ -24,7 +24,6 @@ export class TaskComponent implements OnInit {
 
   @Input() task: Task = null;
   @Input() record: string = null; // record grouping name in a list, null means it was not passed
-  // @Input() index: number = -1; // position in a list, -1 means it was not passed
   @Input() groupTasks: Task[] = []; // position in a list, -1 means it was not passed
   @Input() containerSelector: string = null; // query selector of the container of the task, null means it was not passed
   @Input() handlers: {
@@ -45,6 +44,7 @@ export class TaskComponent implements OnInit {
     onShowTagStats?: (tag: string, event: Event) => void;
     onGetTaskAgeClass?: (tag: string) => void;
     onGetTaskAge?: (tag: string) => void;
+    onEvent?: ({ type: string, task: Task, changes: any }) => void;
   } = {
     onViewTaskDetails: null,
     onTaskMarkAsDone: noop,
@@ -59,6 +59,7 @@ export class TaskComponent implements OnInit {
     onShowTagStats: noop,
     onGetTaskAgeClass: noop,
     onGetTaskAge: noop,
+    onEvent: null,
   };
   @Input() options: {
     optAllowToEditETA: boolean;
@@ -186,30 +187,9 @@ export class TaskComponent implements OnInit {
     return str;
   }
 
-  /* @Input() selectedView: string = LAYOUTS[0];
-  @Input() movementList: Movement[] = [];
-  @Input() selectedBalance: Balance = null;
-  @Output() onItemClick: EventEmitter<any> = new EventEmitter();
-  @Input() showSearch: boolean;
-  @Input() searchTerm: string;
-  @Output() onSearch: EventEmitter<any> = new EventEmitter();
-  @Output() onSelectMovement: EventEmitter<any> = new EventEmitter();
-*/
-  /*handleClick(id: string) {
-    if (this.onItemClick) {
-      this.onItemClick.emit(id);
-    }
-  }*/
-
-  /*handleSearch() {
-    if (this.onSearch) {
-      this.onSearch.emit(this.searchTerm);
-    }
-  }*/
-
-  /*handleSelectMovement(movement: Movement, event: Event) {
-    if (this.onSelectMovement) {
-      this.onSelectMovement.emit({value: movement, event});
-    }
-  }*/
+  onEvent() {
+    this.core.onTaskEvent.subscribe((event) => {
+      this.handlers.onEvent(event);
+    });
+  }
 }

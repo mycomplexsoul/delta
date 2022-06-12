@@ -12,26 +12,8 @@ import { AuthenticationService } from "../common/authentication.service";
 const CUOTA_NORMAL = "cuota-normal";
 const PROVISION_AMOUNT = 1480;
 const UNIT_LIST: string[] | number[] = [
-  101,
-  102,
-  103,
-  104,
-  201,
-  202,
-  203,
-  204,
-  301,
-  302,
-  303,
-  304,
-  401,
-  402,
-  403,
-  404,
-  501,
-  502,
-  503,
-  504,
+  101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304, 401, 402, 403,
+  404, 501, 502, 503, 504,
 ];
 
 @Component({
@@ -115,6 +97,7 @@ export class CarteraComponent implements OnInit {
     period: string;
     report: string;
     nextPeriod: string;
+    resetForm: boolean;
   } = {
     _paymentType: "normal",
     _dateType: "current",
@@ -126,6 +109,7 @@ export class CarteraComponent implements OnInit {
     period: null,
     report: null,
     nextPeriod: null,
+    resetForm: true,
   };
   private payDetModel: any = {};
   private payDetFolioModel: any = {};
@@ -145,7 +129,7 @@ export class CarteraComponent implements OnInit {
     private carteraService: CarteraService,
     private notificationService: NotificationService,
     private titleService: Title,
-    private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService
   ) {
     this.parseQueryString();
     this.titleService.setTitle("Cartera");
@@ -163,41 +147,50 @@ export class CarteraComponent implements OnInit {
   }
 
   deriveState() {
-    let periodIterator = DateUtils.getIterableCurrentMonth(this.viewData.year, this.viewData.month);
+    let periodIterator = DateUtils.getIterableCurrentMonth(
+      this.viewData.year,
+      this.viewData.month
+    );
     const lastMonth = DateUtils.getIterableCurrentMonth(2019, 11);
 
-    while(periodIterator.iterable > lastMonth.iterable) {
+    while (periodIterator.iterable > lastMonth.iterable) {
       this.viewData.periodList.push({
         iterable: periodIterator.iterable,
-        name: `${DateUtils.getMonthNameSpanish(periodIterator.month)} ${periodIterator.year}`
+        name: `${DateUtils.getMonthNameSpanish(periodIterator.month)} ${
+          periodIterator.year
+        }`,
       });
 
-      periodIterator = DateUtils.getIterablePreviousMonth(periodIterator.year, periodIterator.month);
+      periodIterator = DateUtils.getIterablePreviousMonth(
+        periodIterator.year,
+        periodIterator.month
+      );
     }
 
     this.viewData.reportList.push({
-      iterable: '/cartera-results?year={year}&month={month}',
-      name: 'Estado de Resultados',
+      iterable: "/cartera-results?year={year}&month={month}",
+      name: "Estado de Resultados",
     });
     this.viewData.reportList.push({
-      iterable: '/cartera-movements?year={year}&month={month}',
-      name: 'Ingresos y Egresos',
+      iterable: "/cartera-movements?year={year}&month={month}",
+      name: "Ingresos y Egresos",
     });
     this.viewData.reportList.push({
-      iterable: '/cartera-pending-payments?year={year}&month={month}',
-      name: 'Relación de Cobranza',
+      iterable: "/cartera-pending-payments?year={year}&month={month}",
+      name: "Relación de Cobranza",
     });
     this.viewData.reportList.push({
-      iterable: '/cartera-payment-report?year={year}&month={month}',
-      name: 'Resumen de Recaudación',
+      iterable: "/cartera-payment-report?year={year}&month={month}",
+      name: "Resumen de Recaudación",
     });
     this.viewData.reportList.push({
-      iterable: '/cartera-payment-report?year={year}&month={month}&layout=print',
-      name: 'Formato de Recaudación',
+      iterable:
+        "/cartera-payment-report?year={year}&month={month}&layout=print",
+      name: "Formato de Recaudación",
     });
     this.viewData.reportList.push({
-      iterable: '/receipt-report?year={year}&month={month}',
-      name: 'Recibos de Pago',
+      iterable: "/receipt-report?year={year}&month={month}",
+      name: "Recibos de Pago",
     });
 
     this.model.report = this.viewData.reportList[0].iterable;
@@ -283,12 +276,20 @@ export class CarteraComponent implements OnInit {
         );
 
         // Determine next month without provisions if we need to generate future provisions
-        const year = this.viewData.futureProvisionList[this.viewData.futureProvisionList.length-1].cpr_year;
-        const month = this.viewData.futureProvisionList[this.viewData.futureProvisionList.length-1].cpr_month;
+        const year =
+          this.viewData.futureProvisionList[
+            this.viewData.futureProvisionList.length - 1
+          ].cpr_year;
+        const month =
+          this.viewData.futureProvisionList[
+            this.viewData.futureProvisionList.length - 1
+          ].cpr_month;
         const nextMonthIterable = DateUtils.getIterableNextMonth(year, month);
         this.viewData.nextMonthWithProvisionsToGenerate.push({
           iterable: nextMonthIterable.iterable,
-          name: `${DateUtils.getMonthNameSpanish(nextMonthIterable.month)} ${nextMonthIterable.year}`,
+          name: `${DateUtils.getMonthNameSpanish(nextMonthIterable.month)} ${
+            nextMonthIterable.year
+          }`,
           selected: true,
         });
         // since it's always 1 period, we assign it early to have it ready
@@ -319,14 +320,16 @@ export class CarteraComponent implements OnInit {
 
   setUnitProvisionList(unitId: string) {
     this.viewData.showPayDetList = !this.viewData.showPayDetList;
-    this.viewData.unitPendingProvisionList = this.viewData.pendingProvisionList.filter(
-      (e) => e.cpr_id_unit === unitId
-    );
-
-    if (this.viewData.unitPendingProvisionList.length === 0) {
-      this.viewData.unitPendingProvisionList = this.viewData.futureProvisionList.filter(
+    this.viewData.unitPendingProvisionList =
+      this.viewData.pendingProvisionList.filter(
         (e) => e.cpr_id_unit === unitId
       );
+
+    if (this.viewData.unitPendingProvisionList.length === 0) {
+      this.viewData.unitPendingProvisionList =
+        this.viewData.futureProvisionList.filter(
+          (e) => e.cpr_id_unit === unitId
+        );
     }
 
     // totals
@@ -433,14 +436,8 @@ export class CarteraComponent implements OnInit {
   }
 
   newItem(newItemForm: NgForm) {
-    const {
-      fDate,
-      fAmount,
-      unitId,
-      fDescription,
-      _paymentType,
-      paymentId,
-    } = this.model;
+    const { fDate, fAmount, unitId, fDescription, _paymentType, paymentId } =
+      this.model;
 
     if (this.viewData.payDetCaptureStatus === "valid") {
       this.carteraService
@@ -470,7 +467,11 @@ export class CarteraComponent implements OnInit {
             // prov.cpr_remaining = prov.cpr_amount - prov.cpr_condoned - prov.cpr_payed - fAmount;
           });
           this.showListAfterPayment(this.payDetModel);
-          this.resetForm(newItemForm);
+          if (this.model.resetForm) {
+            this.resetForm(newItemForm);
+          } else {
+            this.resetSoftForm(newItemForm);
+          }
         });
     }
     return false;
@@ -498,6 +499,20 @@ export class CarteraComponent implements OnInit {
     this.viewData.payDetCaptureStatus = null;
     this.viewData.showPayDetList = false;
     this.viewData.showItemForm = false;
+
+    this.toggleUnitList();
+    this.toggleUnitList();
+  }
+
+  resetSoftForm(newItemForm: NgForm) {
+    this.model.fAmount = null;
+    this.model.unitId = null;
+
+    this.payDetModel = {};
+    this.payDetFolioModel = {};
+    this.viewData.payDetCaptureTotal = 0;
+    this.viewData.payDetCaptureStatus = null;
+    this.viewData.showPayDetList = false;
 
     this.toggleUnitList();
     this.toggleUnitList();
@@ -573,8 +588,8 @@ export class CarteraComponent implements OnInit {
   }
 
   toggleUnitList() {
-    this.viewData.showOnlyUnitsWithoutPayment = !this.viewData
-      .showOnlyUnitsWithoutPayment;
+    this.viewData.showOnlyUnitsWithoutPayment =
+      !this.viewData.showOnlyUnitsWithoutPayment;
     this.viewData.unitList = this.viewData.showOnlyUnitsWithoutPayment
       ? this.getUnitsWithoutPayment()
       : UNIT_LIST;
@@ -583,37 +598,39 @@ export class CarteraComponent implements OnInit {
   openReport(report: string, period: string) {
     const year = period.substring(0, 4);
     const month = parseInt(period.substring(4, 6), 10);
-    const url = report.replace('{year}', year).replace('{month}', String(month));
+    const url = report
+      .replace("{year}", year)
+      .replace("{month}", String(month));
 
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   }
 
   generateProvisionsForMonth(period: string) {
     const year = period.substring(0, 4);
     const month = parseInt(period.substring(4, 6), 10);
-    const url = '/api/external/cartera/generate-provisions';
+    const url = "/api/external/cartera/generate-provisions";
 
     return fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         year: year,
         month: month,
-        user: this.authenticationService.currentUserValue.username
-      })
+        user: this.authenticationService.currentUserValue.username,
+      }),
     })
-    .then((response) => response.json())
-    .then(response => {
-      let message = 'Error generating provisions, try again later';
-      if (response.success) {
-        message = 'Provisions generated correctly';
-      }
-      this.notificationService.notifyWithOptions(message, {
-        title: 'Cartera'
-      })
-    });
+      .then((response) => response.json())
+      .then((response) => {
+        let message = "Error generating provisions, try again later";
+        if (response.success) {
+          message = "Provisions generated correctly";
+        }
+        this.notificationService.notifyWithOptions(message, {
+          title: "Cartera",
+        });
+      });
   }
 }

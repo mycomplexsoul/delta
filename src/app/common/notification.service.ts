@@ -19,18 +19,19 @@ export class NotificationService {
     date: Date = new Date(),
     status: NotificationStatus = "queue",
     showHeader: boolean = false,
-    minimalUI: boolean = false,
+    minimalUI: boolean = false
   ) {
     const id: string = Utils.hashId("not", 32);
     const notification: NotificationItem = {
       id,
       message,
+      count: 1,
       hideIn,
       date,
       status,
       title,
       showHeader,
-      minimalUI
+      minimalUI,
     };
     this.queue.push(notification);
     this.provider.next(notification);
@@ -39,27 +40,42 @@ export class NotificationService {
 
   private tidyUpQueue() {
     this.queue = this.queue
-      .filter(({ status }) => status === "queue")
-      .map(q => ({ ...q, status: "displayed" }));
+      // .filter(({ status }) => status === "queue")
+      .map((q) => ({ ...q, status: "displayed" }));
   }
 
-  notifyWithOptions(message: string, {
-    title = '', hideIn = 5000, date = new Date(), status = 'queue', showHeader = false,
-    minimalUI = true
-  }) {
+  notifyWithOptions(
+    message: string,
+    {
+      title = "",
+      hideIn = 5000,
+      date = new Date(),
+      status = "queue",
+      showHeader = false,
+      minimalUI = true,
+    }
+  ): NotificationItem {
     const id: string = Utils.hashId("not", 32);
     const notification: NotificationItem = {
       id,
       message,
+      count: 1,
       hideIn,
       date,
       status,
       title,
       showHeader,
-      minimalUI
+      minimalUI,
     };
+
     this.queue.push(notification);
     this.provider.next(notification);
     this.tidyUpQueue();
+    return notification;
+  }
+
+  remove(item: NotificationItem) {
+    const index = this.queue.findIndex(({ id }) => id);
+    this.queue.splice(index, 1);
   }
 }
