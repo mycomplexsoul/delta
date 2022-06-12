@@ -666,4 +666,286 @@ export class TaskCore {
     );
   }
   // #endregion
+  // #region createTask
+  parseTask(task: any, options: any) {
+    if (task.tsk_name.startsWith("[")) {
+      // should be at the beggining of the string
+      // otherwise skip this token
+      this.doThisWithAToken(
+        task.tsk_name,
+        (tsk_name: string, expression: string, token: string) => {
+          task.tsk_name = tsk_name;
+          task.tsk_id_record = expression;
+        },
+        "[",
+        "]"
+      );
+    }
+
+    // Parse special tokens
+    let statusFromToken: boolean = false;
+    const tokens = [
+      {
+        tokenStr: "[DATE]",
+        replaceMethod: () => DateUtils.formatDate(DateUtils.dateOnly()),
+      },
+      {
+        tokenStr: "[DATETIME]",
+        replaceMethod: () => DateUtils.formatTimestamp(DateUtils.dateOnly()),
+      },
+      {
+        tokenStr: "[BACKLOG]",
+        replaceMethod: () => "",
+        postAction: (task: any) => {
+          task.tsk_ctg_status = 1;
+          statusFromToken = true;
+        },
+      },
+      {
+        tokenStr: "[OPEN]",
+        replaceMethod: () => "",
+        postAction: (task: any) => {
+          task.tsk_ctg_status = 2;
+          task.tsk_date_due = DateUtils.dateOnly();
+          statusFromToken = true;
+        },
+      },
+    ];
+    tokens.forEach((token) => {
+      const matched = task.tsk_name.includes(token);
+      task.tsk_name = Utils.replaceAll(
+        task.tsk_name,
+        token.tokenStr,
+        token.replaceMethod()
+      );
+      if (matched && token.postAction) {
+        token.postAction(task);
+      }
+    });
+
+    // detect Schedule (Start Date and End Date)
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        const parsed = DateUtils.parseDatetime(expression);
+        task.tsk_schedule_date_start = parsed.date_start;
+        if (parsed.date_end) {
+          task.tsk_schedule_date_end = parsed.date_end;
+        }
+        if (parsed.duration) {
+          task.tsk_estimated_duration = parsed.duration;
+        }
+      },
+      "%[",
+      "]"
+    );
+
+    // detect estimated duration
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        task.tsk_estimated_duration = DateUtils.parseTime(expression);
+      },
+      "%"
+    );
+
+    // Status in case a token is not provided
+    if (!statusFromToken) {
+      // override from options for backlog
+      if (options.optNewTaskStatusIsBacklog) {
+        task.tsk_ctg_status = 1;
+      } else {
+        // this is the default
+        // when override not provided and token not provided
+        task.tsk_ctg_status = 2;
+        task.tsk_date_due = DateUtils.dateOnly();
+      }
+    }
+
+    // detects $[] qualifiers
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        task.tsk_qualifiers = expression;
+      },
+      "$[",
+      "]"
+    );
+
+    // detects #[] hashtags (multiple)
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        task.tsk_tags = expression;
+      },
+      "#[",
+      "]"
+    );
+
+    // detects # hashtags (individual)
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        task.tsk_tags = expression;
+      },
+      "#"
+    );
+
+    // detects URLs
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        task.tsk_url = `${token}${expression}`;
+      },
+      "http://"
+    );
+
+    this.doThisWithAToken(
+      task.tsk_name,
+      (tsk_name: string, expression: string, token: string) => {
+        task.tsk_name = tsk_name;
+
+        task.tsk_url = `${token}${expression}`;
+      },
+      "https://"
+    );
+
+    task.tsk_name = task.tsk_name.trim();
+
+    return task;
+  }
+
+  pad(
+    value: string | number,
+    fillChar: string,
+    length: number,
+    dir: number = -1
+  ) {
+    let result: string = value + "";
+    while (result.length < length) {
+      if (dir === -1) {
+        result = fillChar + result;
+      } else {
+        result = result + fillChar;
+      }
+    }
+    return result;
+  }
+
+  generateId() {
+    // take date + time + random 10 digits
+    // total digits 10 + 6 + 10 = 26
+    let date = DateUtils.newDateUpToSeconds();
+    let random = Math.floor(Math.random() * 1e14);
+    let datetimeString = `${date.getFullYear()}${this.pad(
+      date.getMonth() + 1,
+      "0",
+      2
+    )}${this.pad(date.getDate(), "0", 2)}`;
+    datetimeString += `${this.pad(date.getHours(), "0", 2)}${this.pad(
+      date.getMinutes(),
+      "0",
+      2
+    )}${this.pad(date.getSeconds(), "0", 2)}`;
+    let id = `T${datetimeString}-${random}`;
+    return id;
+  }
+
+  /**
+   * Extends a basic task model so it has all of the properties of a complete task model.
+   * @param {Object} task Basic task model to be extended, it has some properties used in the complete task model.
+   * @return {Object} A complete task model extended with the data of the basic task model.
+   */
+  newTaskTemplate(task: any) {
+    const id = this.generateId();
+    const username = this.componentHandlers.getUser();
+    const nextOrder = this.componentHandlers.nextOrder();
+
+    return {
+      tsk_id: id,
+      tsk_id_container: "tasks",
+      tsk_id_record: task.tsk_id_record || "general",
+      tsk_name: task.tsk_name,
+      tsk_notes: task.tsk_notes || "",
+      tsk_parent: task.tsk_parent || "0",
+      tsk_order: nextOrder,
+      tsk_date_done: task.tsk_date_done || null,
+      tsk_total_time_spent: 0,
+      tsk_time_history: task.tsk_time_history || <any>[],
+      tsk_ctg_in_process: task.tsk_ctg_in_process || 1,
+      tsk_qualifiers: task.tsk_qualifiers || "",
+      tsk_tags: task.tsk_tags || "",
+      tsk_estimated_duration: task.tsk_estimated_duration || 0,
+      tsk_schedule_date_start: task.tsk_schedule_date_start || null,
+      tsk_schedule_date_end: task.tsk_schedule_date_end || null,
+      tsk_schedule_history: <any>[],
+      tsk_date_view_until: task.tsk_date_view_until || null,
+      tsk_notifications: <any>[],
+      tsk_id_user_added: task.tsk_id_user_added || username,
+      tsk_id_user_asigned: task.tsk_id_user_asigned || username,
+      tsk_template: task.tsk_template || "",
+      tsk_template_state: task.tsk_template_state || "",
+      tsk_date_due: task.tsk_date_due || null,
+      tsk_id_related: task.tsk_id_related || "0",
+      tsk_url: task.tsk_url || "",
+      tsk_ctg_repeats: task.tsk_ctg_repeats || 0,
+      tsk_id_main: task.tsk_id_main || id,
+      tsk_ctg_rep_type: task.tsk_ctg_rep_type || 0,
+      tsk_ctg_rep_after_completion: task.tsk_ctg_rep_after_completion || 0,
+      tsk_ctg_rep_end: task.tsk_ctg_rep_end || 0,
+      tsk_rep_date_end: task.tsk_rep_date_end || null,
+      tsk_rep_end_iteration: task.tsk_rep_end_iteration || 0,
+      tsk_rep_iteration: task.tsk_rep_iteration || 0,
+      tsk_rep_frequency: task.tsk_rep_frequency || 0,
+      tsk_ctg_rep_frequency_rule: task.tsk_ctg_rep_frequency_rule || 0,
+      tsk_rep_weekdays: task.tsk_rep_weekdays || "",
+      tsk_date_add: task.tsk_date_add || DateUtils.newDateUpToSeconds(),
+      tsk_date_mod: DateUtils.newDateUpToSeconds(),
+      tsk_ctg_status: task.tsk_ctg_status,
+    };
+  }
+
+  createTask(task: any, options: any) {
+    const t: Task = new Task(
+      this.newTaskTemplate(this.parseTask(task, options))
+    );
+
+    this.syncService.request(
+      "create",
+      Utils.removeMetadataFromEntity(t),
+      t.metadata.fields
+        .filter((f) => f.isPK)
+        .reduce((final, f) => {
+          final[f.dbName] = t[f.dbName];
+          return final;
+        }, {}),
+      t.metadata.name,
+      () => {
+        t["not_sync"] = false;
+        // broadcast crate event
+        this.onTaskEvent.emit({
+          type: "create",
+          task: t,
+          changes: {},
+        });
+      },
+      t.recordName,
+      (item: Task) => item.tsk_id === t.tsk_id
+    );
+
+    return t;
+  }
+  // #endregion
 }

@@ -15,6 +15,7 @@ import { autogrowSetup } from "../common/autogrow";
 @Component({
   selector: "tasks",
   templateUrl: "./tasks.template.html",
+  styleUrls: ["./tasks.css"],
   providers: [TasksCore, TaskIndicator],
 })
 export class TasksComponent implements OnInit {
@@ -145,14 +146,22 @@ export class TasksComponent implements OnInit {
       this.selectedTask = task;
       this.selectedRecord = groupTasks;
     },
-    onEvent: (event: { changes: any }) => {
-      console.log("received an update", event);
-      if (event.changes.tsk_ctg_status === 3) {
+    onEvent: ({
+      type,
+      task,
+      changes,
+    }: {
+      type: string;
+      task: Task;
+      changes: any;
+    }) => {
+      console.log("received an update", { type, task, changes });
+      if (changes.tsk_ctg_status === 3) {
         this.updateState();
       }
     },
   };
-  // handlers for Backlog
+  // handlers for Closed Yesterday
   public handlersForClosedYesterday = {
     onViewTaskDetails: (task: Task) => this.setSelected(task),
     onEvent: (event: { changes: any }) => {

@@ -197,7 +197,8 @@
   <!-- #region Is in backlog -->
   <span
     *ngIf="options.optShowBadgeIfTaskIsInBacklog && task.tsk_ctg_status === 1"
-    >[BACKLOG]</span
+    class="task-badge-status-backlog"
+    >BACKLOG</span
   >
   <!-- #endregion -->
   <span *ngIf="task['not_sync']">(Not in sync)</span>&nbsp;<button

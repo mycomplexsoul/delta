@@ -27,6 +27,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
+## v1.13.10 (2021-07-28) -- In Progress --
+
+- [AppTasks][new] `TaskComponent` - Add parse task code to task.core component
+- [AppCommon][new] `NotificationComponent` - Group notifications with same text, for the `RemindersComponent` convenience
+- [AppCommon][new] Dark Mode - Initial styling using CSS variables
+
+## v1.13.9 (2021-06-28)
+
+- [AppKanban][new] Group activities by status, add status texts
+- [AppKanban][new] Move activity between statuses
+- [AppCartera][new] Option to reset form after save payment
+- [AppCommon][new] Reminders - Group reminders of the same type
+- [AppCartera][fix] Send receipt email - Send emails sequentially using promises, response should wait 4s for emails to be sent before returning a response
+- [AppMoney][fix] Fix user to use when rebuild balances
+- [AppMoney][fix] Fix month range for email account movements
+- [AppCommon][mod] Log improvements, cleanup and format as JSON
+- [AppTasks][mod] Move collapsed records to top
+- [AppTasks][fix] Fix qualifiers in Next to do listing
+
 ## v1.13.8 (2021-05-28)
 
 - [AppKanban][mod] Improvements to task listing

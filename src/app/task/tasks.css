@@ -1,0 +1,27 @@
+span.task-in-process {
+  font-style: italic;
+  font-weight: bold;
+  color: var(--task-st-in-progress);
+}
+
+/* #region Qualifiers */
+span.task-directions {
+  background-color: var(--task-q-directions);
+}
+span.task-highlighted {
+  background-color: var(--task-q-highlighted);
+}
+span.task-important {
+  background-color: var(--task-q-important);
+}
+span.task-priority {
+  background-color: var(--task-q-priority);
+}
+span.task-unexpected {
+  background-color: var(--task-q-unexpected);
+}
+/* #endregion */
+
+.task-record-collapsed {
+  display: inline-block;
+}

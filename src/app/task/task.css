@@ -1,0 +1,9 @@
+span.task-badge-status-backlog {
+  background: var(--task-st-backlog);
+  margin-left: 5px;
+  padding: 0px 5px;
+}
+
+span.task-unexpected {
+  background-color: var(--task-q-unexpected);
+}

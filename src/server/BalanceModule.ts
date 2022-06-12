@@ -5,6 +5,7 @@ import iConnection from "./iConnection";
 import { Balance } from "../crosscommon/entities/Balance";
 import { iEntity } from "../crosscommon/iEntity";
 import { DateUtils } from "../crosscommon/DateUtility";
+import { Utils } from "../crosscommon/Utility";
 
 export class BalanceModule {
   getAllForMonth(
@@ -13,7 +14,7 @@ export class BalanceModule {
     month: number
   ): Balance[] {
     return balanceList.filter(
-      b => b.bal_year === year && b.bal_month === month
+      (b) => b.bal_year === year && b.bal_month === month
     );
   }
 
@@ -35,7 +36,7 @@ export class BalanceModule {
         })
       )
     )
-      .then(response => {
+      .then((response) => {
         let entryList: Entry[] = response[0].rows;
         let balanceList: Balance[] = response[1].rows.map(
           (r: any) => new Balance(r)
@@ -51,13 +52,13 @@ export class BalanceModule {
         let isNew: number;
 
         let monthEntryList: Entry[] = entryList.filter(
-          e =>
+          (e) =>
             e.ent_date.getFullYear() === year &&
             e.ent_date.getMonth() + 1 === month &&
             e.ent_ctg_status === 1
         );
         let balance: Array<Balance> = [
-          ...this.getAllForMonth(balanceList, year, month)
+          ...this.getAllForMonth(balanceList, year, month),
         ];
 
         balance.forEach((b: Balance) => {
@@ -69,7 +70,7 @@ export class BalanceModule {
         // add up
         monthEntryList.forEach((e: Entry) => {
           let b: Balance = balance.find(
-            b => b.bal_id_account === e.ent_id_account
+            (b) => b.bal_id_account === e.ent_id_account
           );
 
           if (b) {
@@ -81,10 +82,10 @@ export class BalanceModule {
             b.bal_date_mod = new Date();
 
             found = updateBalanceList.findIndex(
-              balance => balance.bal_id_account === b.bal_id_account
+              (balance) => balance.bal_id_account === b.bal_id_account
             );
             isNew = newBalanceList.findIndex(
-              nb =>
+              (nb) =>
                 nb.bal_year === b.bal_year &&
                 nb.bal_month === b.bal_month &&
                 nb.bal_id_account === b.bal_id_account
@@ -125,11 +126,11 @@ export class BalanceModule {
         console.log(`previous, update balance`, updateBalanceList.length);
 
         const all_sql: string[] = [
-          ...newBalanceList.map(bal => sqlMotor.toInsertSQL(bal)),
-          ...updateBalanceList.map(bal =>
+          ...newBalanceList.map((bal) => sqlMotor.toInsertSQL(bal)),
+          ...updateBalanceList.map((bal) =>
             sqlMotor.toUpdateSQL(
               bal,
-              originalBalanceList.find(b => {
+              originalBalanceList.find((b) => {
                 return (
                   b.bal_year === bal.bal_year &&
                   b.bal_month === bal.bal_month &&
@@ -137,23 +138,21 @@ export class BalanceModule {
                 );
               })
             )
-          )
+          ),
         ];
         return Promise.all(connection.runSqlArray(all_sql))
-          .then(response => {
+          .then((response) => {
             console.log(
-              `inserted ${newBalanceList.length}, updated ${
-                updateBalanceList.length
-              }`
+              `inserted ${newBalanceList.length}, updated ${updateBalanceList.length}`
             );
             return true;
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(`error ${err}`);
             return false;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`error ${err}`);
         return false;
       });
@@ -176,7 +175,7 @@ export class BalanceModule {
         })
       )
     )
-      .then(response => {
+      .then((response) => {
         let balanceList: Balance[] = response[0].rows.map(
           (r: any) => new Balance(r)
         );
@@ -209,7 +208,7 @@ export class BalanceModule {
 
         balanceCurrent.forEach((bc: Balance) => {
           const foundBalance = balanceNext.find(
-            b => b.bal_id_account === bc.bal_id_account
+            (b) => b.bal_id_account === bc.bal_id_account
           );
 
           let bn: Balance;
@@ -224,7 +223,7 @@ export class BalanceModule {
                 bn.bal_initial + bn.bal_charges - bn.bal_withdrawals;
 
               found = updateBalanceList.findIndex(
-                balance => balance.bal_id_account === bn.bal_id_account
+                (balance) => balance.bal_id_account === bn.bal_id_account
               );
               if (found === -1) {
                 updateBalanceList.push(bn);
@@ -257,9 +256,9 @@ export class BalanceModule {
         // console.log(`balance to update: ${updateBalanceList.length}`);
 
         const all_sql: string[] = [
-          ...newBalanceList.map(balance => sqlMotor.toInsertSQL(balance)),
-          ...updateBalanceList.map(balance => {
-            const baseBalance: Balance = balanceList.find(b => {
+          ...newBalanceList.map((balance) => sqlMotor.toInsertSQL(balance)),
+          ...updateBalanceList.map((balance) => {
+            const baseBalance: Balance = balanceList.find((b) => {
               return (
                 b.bal_year === balance.bal_year &&
                 b.bal_month === balance.bal_month &&
@@ -274,23 +273,21 @@ export class BalanceModule {
               return null;
             }
             return sqlMotor.toUpdateSQL(balance, baseBalance);
-          })
+          }),
         ];
         return Promise.all(connection.runSqlArray(all_sql))
-          .then(response => {
+          .then((response) => {
             console.log(
-              `inserted ${newBalanceList.length}, updated ${
-                updateBalanceList.length
-              }`
+              `inserted ${newBalanceList.length}, updated ${updateBalanceList.length}`
             );
             return true;
           })
-          .catch(err => {
+          .catch((err) => {
             console.error(`error ${err}`);
             return false;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(`error ${err}`);
         return false;
       });
@@ -311,7 +308,7 @@ export class BalanceModule {
     let control = {
       year: yearInitial,
       month: monthInitial,
-      iterable: yearInitial * 100 + monthInitial
+      iterable: yearInitial * 100 + monthInitial,
     };
     while (control.iterable <= yearFinal * 100 + monthFinal) {
       await this.rebuild(control.year, control.month, user);
@@ -325,13 +322,13 @@ export class BalanceModule {
       return {
         year: year + 1,
         month: 1,
-        iterable: (year + 1) * 100 + 1
+        iterable: (year + 1) * 100 + 1,
       };
     } else {
       return {
         year,
         month: month + 1,
-        iterable: year * 100 + month + 1
+        iterable: year * 100 + month + 1,
       };
     }
   }
@@ -342,7 +339,7 @@ export class BalanceModule {
     let sql: string = `update balance set bal_charges = 0, bal_withdrawals = 0, bal_final = 0
             where bal_year = ${year} and bal_month = ${month} and bal_id_user = '${user}'`;
 
-    connection.runSql(sql).then(response => {
+    connection.runSql(sql).then((response) => {
       sql = `select sum(*) from entry where ... group by account`;
     });
   }
@@ -357,11 +354,12 @@ export class BalanceModule {
     const sqlMotor: MoSQL = new MoSQL();
     const models: iEntity[] = [balanceModel];
     let year: number = new Date(
-      entryList.map(e => e.ent_date.getTime()).sort()[0]
+      entryList.map((e) => e.ent_date.getTime()).sort()[0]
     ).getFullYear();
     let month: number =
-      new Date(entryList.map(e => e.ent_date.getTime()).sort()[0]).getMonth() +
-      1;
+      new Date(
+        entryList.map((e) => e.ent_date.getTime()).sort()[0]
+      ).getMonth() + 1;
     let iterable: {
       year: number;
       month: number;
@@ -369,7 +367,7 @@ export class BalanceModule {
     } = {
       year,
       month,
-      iterable: year * 100 + month
+      iterable: year * 100 + month,
     };
 
     const finalYear: number = new Date().getFullYear(); //(new Date(entryList.map(e => e.ent_date.getTime()).sort().reverse()[0])).getFullYear();
@@ -391,7 +389,7 @@ export class BalanceModule {
         })
       )
     )
-      .then(response => {
+      .then((response) => {
         let balanceList: Balance[] = response[0].rows.map(
           (r: any) => new Balance(r)
         );
@@ -410,34 +408,36 @@ export class BalanceModule {
 
         while (iterable.iterable <= finalIterable) {
           console.log(
-            `-- Applying entries to balance iteration: ${
-              iterable.iterable
-            }, limit: ${finalIterable}`
+            `-- Applying entries to balance iteration: ${iterable.iterable}, limit: ${finalIterable}`
           );
           let monthEntryList: Entry[] = entryList.filter(
-            e =>
+            (e) =>
               e.ent_date.getFullYear() === iterable.year &&
               e.ent_date.getMonth() + 1 === iterable.month
           );
           let balance: Array<Balance> = [
-            ...this.getAllForMonth(balanceList, iterable.year, iterable.month)
+            ...this.getAllForMonth(balanceList, iterable.year, iterable.month),
           ];
 
           console.log(
-            `Entries to be processed in this iteration: ${
-              monthEntryList.length
-            }`
+            `Entries to be processed in this iteration: ${monthEntryList.length}`
           );
           // add up
           monthEntryList.forEach((e: Entry) => {
-            console.log(`Entry to be processed`, e);
+            console.log(
+              `Entry to be processed`,
+              Utils.removeMetadataFromEntity(e)
+            );
             let b: Balance = balance.find(
-              b => b.bal_id_account === e.ent_id_account
+              (b) => b.bal_id_account === e.ent_id_account
             );
 
             if (b) {
               // exists a balance, add entry amount
-              console.log(`Balance found for entry`, b);
+              console.log(
+                `Balance found for entry`,
+                Utils.removeMetadataFromEntity(b)
+              );
               b.bal_charges += e.ent_ctg_type === 2 ? e.ent_amount : 0;
               b.bal_withdrawals += e.ent_ctg_type === 1 ? e.ent_amount : 0;
               b.bal_final +=
@@ -448,10 +448,10 @@ export class BalanceModule {
               round(b, "bal_final");
 
               found = updateBalanceList.findIndex(
-                balance => balance.bal_id_account === b.bal_id_account
+                (balance) => balance.bal_id_account === b.bal_id_account
               );
               isNew = newBalanceList.findIndex(
-                nb =>
+                (nb) =>
                   nb.bal_year === b.bal_year &&
                   nb.bal_month === b.bal_month &&
                   nb.bal_id_account === b.bal_id_account
@@ -459,19 +459,22 @@ export class BalanceModule {
               // if a record in newBalance exists in updateBalance, move the one in updateBalance to newBalance
               if (isNew === -1) {
                 if (found === -1) {
-                  console.log(`Balance pushed for update with new values`, b);
+                  console.log(
+                    `Balance pushed for update with new values`,
+                    Utils.removeMetadataFromEntity(b)
+                  );
                   updateBalanceList.push(b);
                 } else {
                   console.log(
                     `Balance updated in updateArray for update with new values`,
-                    b
+                    Utils.removeMetadataFromEntity(b)
                   );
                   updateBalanceList[found] = b;
                 }
               } else {
                 console.log(
                   `Balance pushed as new for update flow with new values`,
-                  b
+                  Utils.removeMetadataFromEntity(b)
                 );
                 newBalanceList[isNew] = b;
               }
@@ -508,11 +511,11 @@ export class BalanceModule {
               ...newBalanceList,
               ...newBalanceList
                 .filter(
-                  nb =>
+                  (nb) =>
                     nb.bal_year === iterable.year &&
                     nb.bal_month === iterable.month
                 )
-                .map(nb => {
+                .map((nb) => {
                   let n: Balance = new Balance(nb);
                   n.bal_year = nextIterable.year;
                   n.bal_month = nextIterable.month;
@@ -520,7 +523,7 @@ export class BalanceModule {
                   n.bal_charges = 0;
                   n.bal_withdrawals = 0;
                   return n;
-                })
+                }),
             ];
 
             // add up current month existing balance to the next month
@@ -528,15 +531,15 @@ export class BalanceModule {
               ...updateBalanceList,
               ...updateBalanceList
                 .filter(
-                  ub =>
+                  (ub) =>
                     ub.bal_year === iterable.year &&
                     ub.bal_month === iterable.month
                 )
-                .map(u => {
+                .map((u) => {
                   const n: Balance = new Balance(u);
                   const ob: Balance = new Balance(
                     originalBalanceList.find(
-                      ob =>
+                      (ob) =>
                         ob.bal_year === nextIterable.year &&
                         ob.bal_month === nextIterable.month &&
                         ob.bal_id_account === u.bal_id_account
@@ -545,9 +548,12 @@ export class BalanceModule {
                   ob.bal_initial = n.bal_final;
                   ob.bal_final =
                     ob.bal_initial + ob.bal_charges - ob.bal_withdrawals;
-                  console.log("transfered balance is:", ob);
+                  console.log(
+                    "transfered balance is:",
+                    Utils.removeMetadataFromEntity(ob)
+                  );
                   return ob;
-                })
+                }),
             ];
           }
 
@@ -559,9 +565,9 @@ export class BalanceModule {
         console.log(`update balance details:`, updateBalanceList);
 
         const all_sql: string[] = [
-          ...newBalanceList.map(bal => sqlMotor.toInsertSQL(bal)),
-          ...updateBalanceList.map(bal => {
-            const baseBalance: Balance = originalBalanceList.find(b => {
+          ...newBalanceList.map((bal) => sqlMotor.toInsertSQL(bal)),
+          ...updateBalanceList.map((bal) => {
+            const baseBalance: Balance = originalBalanceList.find((b) => {
               return (
                 b.bal_year === bal.bal_year &&
                 b.bal_month === bal.bal_month &&
@@ -569,24 +575,22 @@ export class BalanceModule {
               );
             });
             return sqlMotor.toUpdateSQL(bal, baseBalance);
-          })
+          }),
         ];
         console.log(`this is all sql to update`, all_sql);
         return Promise.all(connection.runSqlArray(all_sql))
-          .then(response => {
+          .then((response) => {
             console.log(
-              `inserted ${newBalanceList.length}, updated ${
-                updateBalanceList.length
-              }`
+              `inserted ${newBalanceList.length}, updated ${updateBalanceList.length}`
             );
             return true;
           })
-          .catch(err => {
+          .catch((err) => {
             console.error(`error on running sql for balance: ${err}`);
             return false;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(`error ${err}`);
         return false;
       });

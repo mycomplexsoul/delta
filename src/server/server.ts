@@ -14,15 +14,17 @@ app.use(
 
 app.use("/", express.static(path.join(__dirname, "../../dist/intranet")));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   console.log("----------------------------");
-  console.log(`${new Date().toISOString()} incoming request ${req.method}: ${req.url}`);
-  if (Object.keys(req.body).length) {
-    console.log(req.body, 'body in request');
-  }
-  if (Object.keys(req.params).length) {
-    console.log(req.params, 'params in request');
-  }
+  console.log(
+    `${new Date().toISOString()} incoming request ${req.method}: ${req.url}`
+  );
+  const requestData = {
+    body: req.body,
+    params: req.params,
+    query: req.query,
+  };
+  console.log(JSON.stringify(requestData, null, 2), "data in request");
   next();
 });
 
@@ -30,7 +32,7 @@ app.get("/status", (req, res) => {
   res.end(
     JSON.stringify({
       success: true,
-      message: `Hi! server time is ${new Date()}`
+      message: `Hi! server time is ${new Date()}`,
     })
   );
 });
@@ -43,7 +45,7 @@ app.get("/metadata", (req, res) => {
     JSON.stringify({
       appVersion,
       serverDate: new Date(),
-      hasCFG
+      hasCFG,
     })
   );
 });
@@ -54,16 +56,16 @@ app.options("/api/external/links/:lnk_id", cors());
 
 app.use("/api", Routes.router);
 
-app.use(function(req, res) {
+app.use(function (req, res) {
   const log = (msg: string) => {
     console.log(new Date(), msg);
   };
   const files = ["/runtime", "/polyfills", "/styles", "/vendor", "/main"];
   const expandedFiles = []
-    .concat(files.map(f => `${f}-es2015.js`))
-    .concat(files.map(f => `${f}-es2015.js.map`))
-    .concat(files.map(f => `${f}-es5.js`))
-    .concat(files.map(f => `${f}-es5.js.map`))
+    .concat(files.map((f) => `${f}-es2015.js`))
+    .concat(files.map((f) => `${f}-es2015.js.map`))
+    .concat(files.map((f) => `${f}-es5.js`))
+    .concat(files.map((f) => `${f}-es5.js.map`))
     .concat(["/favicon.ico", "/manifest.webmanifest"]);
   // Use res.sendfile, as it streams instead of reading the file into memory.
   const index = path.join(__dirname, "../../dist/intranet/index.html");

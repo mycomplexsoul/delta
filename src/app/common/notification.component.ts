@@ -6,7 +6,7 @@ import { Subscription } from "rxjs";
 @Component({
   selector: "notification",
   styleUrls: ["./notification.css"],
-  templateUrl: "./notification.template.html"
+  templateUrl: "./notification.template.html",
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
@@ -17,8 +17,19 @@ export class NotificationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.notificationService
       .getProvider()
-      .subscribe(item => {
+      .subscribe((item) => {
+        const foundIndex = this.notificationList.findIndex(
+          ({ message }) => message === item.message
+        );
+        if (foundIndex !== -1) {
+          const found = this.notificationList[foundIndex];
+          this.notificationList.splice(foundIndex, 1);
+          this.notificationService.remove(found);
+
+          item.count = found.count + 1;
+        }
         this.notificationList.push(item);
+
         if (item.hideIn) {
           setTimeout(() => this.onClose(item), item.hideIn);
         }
@@ -30,10 +41,15 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   onClose(notificationItem: NotificationItem) {
-    const index = this.notificationList.findIndex(
-      item => notificationItem.id === item.id
-    );
-    this.notificationList.splice(index, 1);
+    if (notificationItem.count > 1) {
+      notificationItem.count -= 1;
+    } else {
+      const index = this.notificationList.findIndex(
+        (item) => notificationItem.id === item.id
+      );
+      this.notificationList.splice(index, 1);
+      this.notificationService.remove(notificationItem);
+    }
   }
 
   /**

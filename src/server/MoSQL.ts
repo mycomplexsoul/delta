@@ -16,14 +16,14 @@ export class MoSQL {
     _datetimeFormatDB: "yyyy-MM-dd HH:mm:ss",
     _s: ", ",
     _and: " and ",
-    _or: " or "
+    _or: " or ",
   };
   OPERATORS: any = {
     eq: "=",
     ne: "!=",
     in: "in",
     lt: "<",
-    ge: ">="
+    ge: ">=",
   };
 
   constructor(model?: iEntity) {
@@ -57,7 +57,7 @@ export class MoSQL {
 
   // get PK fields
   getPK(model: iEntity) {
-    return model.metadata.fields.filter(e => {
+    return model.metadata.fields.filter((e) => {
       return e.isPK;
     });
   }
@@ -99,10 +99,10 @@ export class MoSQL {
     let found: boolean;
     if (tableFieldsOnly) {
       found = !!model.metadata.fields.find(
-        f => f.dbName === dbName && f.isTableField
+        (f) => f.dbName === dbName && f.isTableField
       );
     } else {
-      found = !!model.metadata.fields.find(f => f.dbName === dbName);
+      found = !!model.metadata.fields.find((f) => f.dbName === dbName);
     }
     return found;
   }
@@ -121,8 +121,8 @@ export class MoSQL {
     const c = { ...this.constants };
 
     m.metadata.fields
-      .filter(f => f.isTableField)
-      .forEach(f => {
+      .filter((f) => f.isTableField)
+      .forEach((f) => {
         headers = this.concatSemicolon(headers, f.dbName);
         sql = this.concatSemicolon(
           sql,
@@ -180,10 +180,10 @@ export class MoSQL {
     };
 
     if (Array.isArray(changes)) {
-      changes.forEach(ch => {
+      changes.forEach((ch) => {
         // { dbName: string, value: any }
         if (this.isValidFieldName(m, ch.dbName, true)) {
-          field = m.metadata.fields.filter(e => {
+          field = m.metadata.fields.filter((e) => {
             return e.dbName === ch.dbName;
           })[0];
           previousValue = m[ch.dbName];
@@ -202,7 +202,7 @@ export class MoSQL {
     }
     if (changes !== null && !Array.isArray(changes)) {
       // other object with different values on some members
-      changes.metadata.fields.forEach(field => {
+      changes.metadata.fields.forEach((field) => {
         if (!field.isPK && field.isTableField /* && changes.db[dbName]()*/) {
           // only members that are not PKs can receive changes in this way
           previousValue = m[field.dbName];
@@ -217,17 +217,22 @@ export class MoSQL {
         }
       });
     }
-    
+
     return changesArray;
   }
-  
+
   logChanges(changesArray) {
     console.log(
-      `Changes detection for object with id: ${changesArray.length && changesArray[0].recordName}`,
-      changesArray.reduce((previous, { dbName, previousValue, value }) => {
-        previous[dbName] = { previousValue, value };
-        return previous;
-      }, {})
+      "Changes detection:",
+      changesArray.reduce(
+        (previous, { dbName, previousValue, value }) => {
+          previous[dbName] = { previousValue, value };
+          return previous;
+        },
+        {
+          recordName: `${changesArray.length && changesArray[0].recordName}`,
+        }
+      )
     );
   }
 
@@ -256,7 +261,7 @@ export class MoSQL {
     });
 
     // iterate PKs
-    pkFields.forEach(f => {
+    pkFields.forEach((f) => {
       sql = this.concatAnd(
         sql,
         this.formatValueForSQL(f.dbType, m[f.dbName], f.dbName)
@@ -272,7 +277,7 @@ export class MoSQL {
     let sql: string = "";
     const c = { ...this.constants };
 
-    this.getPK(m).forEach(f => {
+    this.getPK(m).forEach((f) => {
       sql = this.concatAnd(
         sql,
         this.formatValueForSQL(f.dbType, m[f.dbName], f.dbName)
@@ -287,7 +292,7 @@ export class MoSQL {
     const m: iEntity = this.decideModel(model);
     let sql: string = "";
 
-    this.getPK(m).forEach(field => {
+    this.getPK(m).forEach((field) => {
       sql = this.concatAnd(
         sql,
         this.formatValueForSQL(field.dbType, m[field.dbName], field.dbName)
@@ -347,10 +352,10 @@ export class MoSQL {
    *    op: "operator",
    *    val: "value"
    * }
-   * 
-   * @param criteria 
-   * @param model 
-   * @returns 
+   *
+   * @param criteria
+   * @param model
+   * @returns
    */
   criteriaToSQL = (criteria: any, model: iEntity): string => {
     let sql: string = "";
@@ -366,9 +371,9 @@ export class MoSQL {
         } else {
           completeFieldName = crit.f;
         }
-        if (model.metadata.fields.find(f => f.dbName === completeFieldName)) {
+        if (model.metadata.fields.find((f) => f.dbName === completeFieldName)) {
           let dbType: string = model.metadata.fields.find(
-            f => f.dbName === completeFieldName
+            (f) => f.dbName === completeFieldName
           ).dbType;
           if (criteria.gc === "AND") {
             sql = this.concatAnd(
@@ -407,17 +412,21 @@ export class MoSQL {
    *    "fieldName|operator": "value",
    *    "fieldName|operator": "value"
    * }
-   * 
-   * @param criteria 
-   * @param model 
-   * @returns 
+   *
+   * @param criteria
+   * @param model
+   * @returns
    */
-  simpleCriteriaToSQL = (criteria: any, model: iEntity, groupConcat: string = "AND"): string => {
+  simpleCriteriaToSQL = (
+    criteria: any,
+    model: iEntity,
+    groupConcat: string = "AND"
+  ): string => {
     let sql: string = "";
-    
+
     Object.keys(criteria).forEach((key: any) => {
       let completeFieldName: string = "";
-      const [fieldName, operator = 'eq'] = key.split('|');
+      const [fieldName, operator = "eq"] = key.split("|");
       const value = criteria[key];
 
       if (key[0] === "_") {
@@ -426,9 +435,9 @@ export class MoSQL {
       } else {
         completeFieldName = fieldName;
       }
-      if (model.metadata.fields.find(f => f.dbName === completeFieldName)) {
+      if (model.metadata.fields.find((f) => f.dbName === completeFieldName)) {
         let dbType: string = model.metadata.fields.find(
-          f => f.dbName === completeFieldName
+          (f) => f.dbName === completeFieldName
         ).dbType;
         if (groupConcat === "AND") {
           sql = this.concatAnd(
