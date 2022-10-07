@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { first } from "rxjs/operators";
 
 import { AlertService } from "./alert.service";
@@ -10,13 +10,13 @@ import { SyncAPI } from "./sync.api";
 
 @Component({ templateUrl: "./login.template.html", styleUrls: ["./login.css"] })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
