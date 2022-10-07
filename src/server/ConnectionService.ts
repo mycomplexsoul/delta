@@ -3,8 +3,8 @@ import * as mysql from "mysql";
 import { configModule } from "./ConfigModule";
 
 let pool = null;
-      
-let ConnectionService = (function() {
+
+let ConnectionService = (function () {
   const getConnection = (label = "default"): iConnection => {
     const config = configModule
       .getConfigValue("db")
@@ -12,21 +12,29 @@ let ConnectionService = (function() {
 
     if (!pool) {
       pool = mysql.createPool({
-        connectionLimit : 10,
-        ...config
+        connectionLimit: 100,
+        ...config,
       });
     }
 
     const close = () => {
-      console.log('-- no need to call close on the sql connection');
+      console.log("-- no need to call close on the sql connection");
     };
 
     const runSql = (sql: string): Promise<any> => {
       return new Promise<any>((resolve, reject) => {
+        console.log(
+          "-- [ConnectionService.runSql] grab new DB connection from pool"
+        );
         pool.getConnection((err, connection: mysql.Connection) => {
+          console.log(
+            "-- [ConnectionService.runSql] obtained new DB connection from pool"
+          );
           if (err) {
-            reject(err);
-            return null;
+            console.error("error getting a DB connection from the pool", {
+              err,
+            });
+            return reject(err);
           }
 
           return connection.query(sql, (err: any, rows: any, fields: any[]) => {
@@ -36,21 +44,20 @@ let ConnectionService = (function() {
               sql,
             };
             if (err) {
-              status.message = 'Error running sql';
+              status.message = "Error running sql";
               status.error = err;
               console.log(status);
-              reject(err);
-              return false;
+              return reject(err);
             }
             status.success = true;
-            
+
             if (!fields && rows.message) {
               status.message = rows.message;
             }
             console.log(status);
 
             connection.release();
-            resolve({ sql, err, rows, fields });
+            return resolve({ sql, err, rows, fields });
           });
         });
       });
@@ -61,38 +68,40 @@ let ConnectionService = (function() {
       return responseArray;
     };
 
-    const runSqlArraySerial = async (sqlArray: Array<string>): Promise<{
-      operationResult: boolean,
+    const runSqlArraySerial = async (
+      sqlArray: Array<string>
+    ): Promise<{
+      operationResult: boolean;
       results: Array<{
-        result: Boolean,
-        sql: string,
-        error: any
-      }>
+        result: Boolean;
+        sql: string;
+        error: any;
+      }>;
     }> => {
       let response = {
         operationResult: true,
-        results: []
+        results: [],
       };
-      
+
       for (const sql of sqlArray) {
         const result = {
           success: true,
           sql,
-          error: null
+          error: null,
         };
-  
+
         try {
           await runSql(sql);
           response.results.push(result);
-        } catch(e) {
+        } catch (e) {
           result.success = false;
-          result.error = e.message + ' => ' + JSON.stringify(e);
+          result.error = e.message + " => " + JSON.stringify(e);
           response.results.push(result);
           response.operationResult = false;
         }
       }
 
-      console.log('runSqlArraySerial end status', response);
+      console.log("runSqlArraySerial end status", response);
 
       return Promise.resolve(response);
     };
@@ -101,12 +110,12 @@ let ConnectionService = (function() {
       close,
       runSql,
       runSqlArray,
-      runSqlArraySerial
+      runSqlArraySerial,
     } as iConnection;
   };
 
   return {
-    getConnection: getConnection
+    getConnection: getConnection,
   };
 })();
 export default ConnectionService;

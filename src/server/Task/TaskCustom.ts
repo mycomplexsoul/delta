@@ -19,16 +19,16 @@ export class TaskCustom {
         sql: "select * from vitask",
         q: node.request.query["q"],
         model: new Task(),
-        name: "tasks"
+        name: "tasks",
       },
       {
         sql: `select * from vitasktimetracking where tsh_id in (select tsk_id from task where tsk_ctg_status < 3 or tsk_date_add >= '2019-03-10')`,
         model: new TaskTimeTracking(),
-        name: "timetracking"
-      }
+        name: "timetracking",
+      },
     ];
 
-    api.multipleListWithSQL({ queue }).then(response => {
+    api.multipleListWithSQL({ queue }).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -44,22 +44,22 @@ export class TaskCustom {
       {
         sql: `select * from vitask where ${subquery}`,
         model: new Task(),
-        name: "tasks"
+        name: "tasks",
       },
       {
         sql: `select * from vitasktimetracking where tsh_id in (select tsk_id from task where ${subquery})`,
         model: new TaskTimeTracking(),
-        name: "timetracking"
-      }
+        name: "timetracking",
+      },
     ];
 
-    api.multipleListWithSQL({ queue }).then(response => {
+    api.multipleListWithSQL({ queue }).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
 
   createRequestHandler = (node: iNode) => {
-    this.create(node.request.body).then(response => {
+    this.create(node.request.body).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -70,10 +70,10 @@ export class TaskCustom {
     const hooks: any = {
       afterInsertOK: (response: any, model: Task) => {
         // generate timetracking
-        return this.insertTimeTracking([model]).then(result => {
+        return this.insertTimeTracking([model]).then((result) => {
           return result;
         });
-      }
+      },
     };
 
     return api.create({ body }, hooks);
@@ -108,7 +108,7 @@ export class TaskCustom {
   };
 
   updateRequestHandler = (node: iNode) => {
-    this.update(node.request.body, node.request.params).then(response => {
+    this.update(node.request.body, node.request.params).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -121,8 +121,10 @@ export class TaskCustom {
         // generate timetracking
         model["tsk_time_history"] = body["tsk_time_history"];
         return this.insertTimeTracking([model]);
-      }
+      },
     };
+
+    console.log("-- [TaskCustom.update] calling ApiModule.update()");
 
     return api.update({ body, pk }, hooks);
   };

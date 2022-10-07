@@ -1,3 +1,6 @@
+@import url('../task/tasks.css');
+@import url('../task/task.css');
+
 .card-group-header {
   margin: 10px 0;
   padding: 10px 0;
@@ -24,4 +27,36 @@
   border-bottom: 1px solid lightgray;
   padding-bottom: 8px;
   margin: 0 0 5px 0;
+}
+
+@media print {
+  .card-item-container {
+    width: 100%;
+    page-break-inside: avoid;
+    page-break-before: auto;
+  }
+}
+
+.activity-health-undetermined {
+  background-color: black;
+}
+
+.activity-health-green {
+  background-color: #87e187;
+}
+
+.activity-health-yellow {
+  background-color: yellow;
+}
+
+.activity-health-orange {
+  background-color: #ffbc00;
+}
+
+.activity-health-red {
+  background-color: red;
+}
+
+.status-block {
+  margin-right: 5px;
 }

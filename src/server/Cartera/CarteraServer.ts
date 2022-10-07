@@ -14,7 +14,12 @@ import { MoSQL } from "../MoSQL";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 import { Crypto } from "../Crypto";
 import { CarteraUnit } from "../../crosscommon/entities/CarteraUnit";
-import { getUnits, getProvisions, getPayments, getPayDetList } from './CarteraCommons'
+import {
+  getUnits,
+  getProvisions,
+  getPayments,
+  getPayDetList,
+} from "./CarteraCommons";
 import { sendReceiptEmail } from "./SendReceiptEmail";
 
 // configuration
@@ -74,26 +79,8 @@ export class CarteraServer {
     user: string
   ): Promise<CarteraProvision[]> {
     const UNITS: string[] | number[] = [
-      101,
-      102,
-      103,
-      104,
-      201,
-      202,
-      203,
-      204,
-      301,
-      302,
-      303,
-      304,
-      401,
-      402,
-      403,
-      404,
-      501,
-      502,
-      503,
-      504,
+      101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304, 401, 402, 403,
+      404, 501, 502, 503, 504,
     ];
 
     return this.generateProvisions(year, month, UNITS, user);
@@ -380,13 +367,14 @@ export class CarteraServer {
                 if (remaining) {
                   // remaining is less than payment
                   // TODO: should apply the rest of the payment to subsequent provisions
-                  const amountLeft = await this.applyRemainingPaymentToSubsequentProvisions(
-                    payment.cpy_amount - amount,
-                    payment,
-                    provision,
-                    provisionList,
-                    paymentsApplied
-                  );
+                  const amountLeft =
+                    await this.applyRemainingPaymentToSubsequentProvisions(
+                      payment.cpy_amount - amount,
+                      payment,
+                      provision,
+                      provisionList,
+                      paymentsApplied
+                    );
 
                   console.log(
                     `payment with id ${payment.cpy_id} has a remaining of ${amountLeft} that was not applied to a provision`
@@ -408,10 +396,8 @@ export class CarteraServer {
   initialProvisionBatchHandler(node: iNode) {
     const { batchInfo, user } = node.request.body;
 
-    const provisionList: CarteraProvision[] = this.transformBatchInfoToProvision(
-      batchInfo,
-      user
-    );
+    const provisionList: CarteraProvision[] =
+      this.transformBatchInfoToProvision(batchInfo, user);
 
     const apiCarteraProvision: ApiModule = new ApiModule(
       new CarteraProvision()
@@ -981,7 +967,7 @@ export class CarteraServer {
   rebuildPendingPaymentsForMonthHandler(node: iNode) {
     const { year, month, unit, future } = node.request.query as any;
 
-    console.log('--running here');
+    console.log("--running here");
 
     this.rebuildPendingPaymentsForMonth(
       parseInt(year, 10),
@@ -1026,17 +1012,16 @@ export class CarteraServer {
     let provisionList: CarteraProvision[] = [];
 
     const limitDate: Date = new Date(year, month, 1); // next month
-    const allProvisions: CarteraProvision[] = (
-      await getProvisions()
-    ).filter((prov) => (unit ? prov.cpr_id_unit === unit : true));
+    const allProvisions: CarteraProvision[] = (await getProvisions()).filter(
+      (prov) => (unit ? prov.cpr_id_unit === unit : true)
+    );
 
-    const allPayDet: CarteraPayDet[] = (
-      await getPayDetList()
-    ).filter((paydet) =>
-      unit
-        ? paydet.cpd_id_unit === unit &&
-          paydet.cpd_date_payment.getTime() < limitDate.getTime()
-        : paydet.cpd_date_payment.getTime() < limitDate.getTime()
+    const allPayDet: CarteraPayDet[] = (await getPayDetList()).filter(
+      (paydet) =>
+        unit
+          ? paydet.cpd_id_unit === unit &&
+            paydet.cpd_date_payment.getTime() < limitDate.getTime()
+          : paydet.cpd_date_payment.getTime() < limitDate.getTime()
     );
 
     provisionList = allProvisions.map((p) => {
@@ -1128,10 +1113,8 @@ export class CarteraServer {
         return a.cpr_id_unit > b.cpr_id_unit ? 1 : -1;
       });
 
-    const nonIdentifiedPaymentList = await this.getNonIdentifiedPaymentsForMonth(
-      year,
-      month
-    );
+    const nonIdentifiedPaymentList =
+      await this.getNonIdentifiedPaymentsForMonth(year, month);
 
     return Promise.resolve({
       pendingProvisionList,
@@ -2251,7 +2234,9 @@ export class CarteraServer {
                   ]
                 } ${DateUtils.getMonthNameSpanish(
                   this.getYearMonthFromProvisionCodeReference(concept).month
-                )} ${this.getYearMonthFromProvisionCodeReference(concept).year} ${unit === CODE_NONE ? "000" : unit}`,
+                )} ${
+                  this.getYearMonthFromProvisionCodeReference(concept).year
+                } ${unit === CODE_NONE ? "000" : unit}`,
           mov_notes: `${payId}||${concept}|${
             unit === CODE_NONE ? "000" : unit
           }`,
@@ -2280,9 +2265,10 @@ export class CarteraServer {
     return code_reference.split("|")[0];
   }
 
-  getYearMonthFromProvisionCodeReference(
-    code_reference: string
-  ): { year: number; month: number } {
+  getYearMonthFromProvisionCodeReference(code_reference: string): {
+    year: number;
+    month: number;
+  } {
     const result = code_reference
       .split("|")[1]
       .split("-")
@@ -2393,7 +2379,7 @@ export class CarteraServer {
         
         UNION ALL
         
-        SELECT 
+        (SELECT 
         mov_desc as concept,
         mov_amount as amount,
         'expense' as type
@@ -2401,7 +2387,7 @@ export class CarteraServer {
         WHERE 
         ${config.dateFilter}
         and mov_id_account = '${config.account_id}'
-        and mov_ctg_type = 1`,
+        and mov_ctg_type = 1 ORDER BY mov_date_add asc)`,
       })
       .then((response) =>
         response.map((e) => ({
@@ -2469,21 +2455,29 @@ export class CarteraServer {
       });
   }
 
-  savePaymentAndPayDetHandler(node: iNode) {
+  async savePaymentAndPayDetHandler(node: iNode) {
     // payDetList: [{ "<provision_id>": <payment_amount> }, ...]
-    const { payment, payDetList, payDetFolioList } = node.request.body;
+    const {
+      payment,
+      payDetList,
+      payDetFolioList,
+      registerMovement = true,
+    } = node.request.body;
 
-    this.savePaymentAndPayDet(payment, payDetList, payDetFolioList).then(
-      (data) => {
-        node.response.end(
-          JSON.stringify({
-            success: true,
-            payment: Utils.entityToRawTableFields(data.payment),
-            payDetList: data.payDetList.map(Utils.entityToRawTableFields),
-          })
-        );
-      }
-    );
+    return await this.savePaymentAndPayDet(
+      payment,
+      payDetList,
+      payDetFolioList,
+      registerMovement
+    ).then((data) => {
+      return node.response.end(
+        JSON.stringify({
+          success: true,
+          payment: Utils.entityToRawTableFields(data.payment),
+          payDetList: data.payDetList.map(Utils.entityToRawTableFields),
+        })
+      );
+    });
   }
 
   buildMatchHint(date: Date | string, unit: string | number): string {
@@ -2501,7 +2495,8 @@ export class CarteraServer {
   async savePaymentAndPayDet(
     { paymentType, date, amount, unit, description, user, paymentId },
     payDetList: any,
-    payDetFolioList: any
+    payDetFolioList: any,
+    registerMovement: boolean = true
   ): Promise<{
     payment: CarteraPayment;
     payDetList: CarteraPayDet[];
@@ -2524,9 +2519,8 @@ export class CarteraServer {
         paymentInstance.cpy_date,
         unit
       );
-      paymentInstance.cpy_date_identification = DateUtils.stringDateToDate(
-        date
-      );
+      paymentInstance.cpy_date_identification =
+        DateUtils.stringDateToDate(date);
       paymentInstance.cpy_date_mod = DateUtils.newDateUpToSeconds();
     } else {
       // create payment
@@ -2639,11 +2633,13 @@ export class CarteraServer {
       },
       paymentInstance
     ).then(async (response) => {
-      await this.registerMonthlyIncome(
-        paymentInstance.cpy_date_identification.getFullYear(),
-        paymentInstance.cpy_date_identification.getMonth() + 1,
-        user
-      );
+      if (registerMovement) {
+        await this.registerMonthlyIncome(
+          paymentInstance.cpy_date_identification.getFullYear(),
+          paymentInstance.cpy_date_identification.getMonth() + 1,
+          user
+        );
+      }
 
       return Promise.resolve({
         payment: paymentInstance,
@@ -2686,28 +2682,36 @@ export class CarteraServer {
         .map((provision) => ({
           provision,
           previousPayDetList: payDetList
-            .filter( // Provisions that had a payment up until provided month
+            .filter(
+              // Provisions that had a payment up until provided month
               (pd) =>
                 pd.cpd_id_provision === provision.cpr_id &&
                 pd.cpd_date_payment.getTime() < initialDate.getTime()
             )
             .sort((a, b) =>
               a.cpd_date.getTime() > b.cpd_date.getTime() ? 1 : -1
-            ).concat(provisionList
-              .filter( // Normal provisions that have a payed amount for following months
-                (item) =>
-                  item.cpr_id_unit === provision.cpr_id_unit &&
-                  finalDate.getTime() <= item.cpr_date.getTime() &&
-                  item.cpr_date.getDate() === 1 &&
-                  item.cpr_code_reference.includes("cuota-normal|") &&
-                  item.cpr_payed > 0
-              )
-              .map((item) => {
-                return payDetList.find(
-                  (pd) => pd.cpd_id_provision === item.cpr_id
-                );
-              })
-              .filter(item => item.cpd_date_payment.getTime() < initialDate.getTime())),
+            )
+            .concat(
+              provisionList
+                .filter(
+                  // Normal provisions that have a payed amount for following months
+                  (item) =>
+                    item.cpr_id_unit === provision.cpr_id_unit &&
+                    finalDate.getTime() <= item.cpr_date.getTime() &&
+                    item.cpr_date.getDate() === 1 &&
+                    item.cpr_code_reference.includes("cuota-normal|") &&
+                    item.cpr_payed > 0
+                )
+                .map((item) => {
+                  return payDetList.find(
+                    (pd) => pd.cpd_id_provision === item.cpr_id
+                  );
+                })
+                .filter(
+                  (item) =>
+                    item.cpd_date_payment.getTime() < initialDate.getTime()
+                )
+            ),
           paymentList: paymentList
             .filter(
               (item) =>
@@ -2844,8 +2848,11 @@ export class CarteraServer {
   }
 
   async getProvisionPayedReceiptListHandler(node: iNode) {
-    const { year = null, month = null, folio = null } = node.request
-      .query as any;
+    const {
+      year = null,
+      month = null,
+      folio = null,
+    } = node.request.query as any;
 
     let listing;
     if (folio) {
@@ -2867,9 +2874,10 @@ export class CarteraServer {
     );
   }
 
-  generateReceiptHash(
-    provision: CarteraProvision
-  ): { iv: string; encryptedData: string } {
+  generateReceiptHash(provision: CarteraProvision): {
+    iv: string;
+    encryptedData: string;
+  } {
     const crypto = new Crypto();
     const { cpr_id_unit, cpr_code_reference, cpr_amount } = provision;
     const structure = `${cpr_id_unit}||${cpr_code_reference}||${cpr_amount}`;

@@ -86,10 +86,12 @@ export class TasksComponent implements OnInit {
     optMoveTimetrackingToAvailableSlotWhenDone: false,
     optHideScrollbarsInRecord: false,
     optShowTaskToolbar: false,
+    optUseColumnsForRecords: false,
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
   public nextTasks: any[];
+  public pinnedTasks: any[];
   public focusedTask: {
     task: Task;
     element: HTMLElement;
@@ -106,13 +108,42 @@ export class TasksComponent implements OnInit {
 
   public viewData: {
     selectedFilter: string;
+    pinnedRecords: Array<string>;
+    dayDistributionChart: {
+      chartData: any[];
+      chartLabels: string[];
+      chartOptions: any;
+      chartLegend: boolean;
+      chartType: string;
+    };
   } = {
     selectedFilter: "all",
+    pinnedRecords: [],
+    dayDistributionChart: {
+      chartData: [{ data: [] }],
+      chartLabels: [],
+      chartOptions: {
+        responsive: true,
+        scales: {
+          y: {
+            type: "time",
+            time: {
+              displayFormats: {
+                minute: "HH:mm",
+              },
+            },
+          },
+        },
+      },
+      chartLegend: true,
+      chartType: "pie",
+    },
   };
 
   public CONSTANTS = {
     filters: [
       { id: "all", name: "All" },
+      { id: "today-and-urgent", name: "Today and Urgent" },
       { id: "next", name: "Next To Do Today" },
       { id: "due-today", name: "Due Today" },
       { id: "today", name: "Added Today" },
@@ -174,6 +205,24 @@ export class TasksComponent implements OnInit {
   // handlers for TaskToolbar
   public handlersForTaskToolbar = {};
 
+  // chart open tasks count EOD
+  public configChartOpenCountEOD = {
+    type: "line",
+    data: [],
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Open Count EOD",
+        },
+      },
+    },
+  };
+
   constructor(
     tasksCore: TasksCore,
     private sync: SyncAPI,
@@ -195,6 +244,7 @@ export class TasksComponent implements OnInit {
       };
     }
     this.nextTasks = [];
+    this.pinnedTasks = [];
     this.updateState();
     this.fetchTasks();
     // this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
@@ -316,6 +366,12 @@ export class TasksComponent implements OnInit {
         )
         .filter((t) =>
           this.viewData.selectedFilter === "next" ? t["inNextToDo"] : true
+        )
+        .filter((t) =>
+          this.viewData.selectedFilter === "today-and-urgent"
+            ? today0.getTime() === new Date(t.tsk_date_due).getTime() ||
+              (t.tsk_qualifiers && t.tsk_qualifiers.includes("urgent"))
+            : true
         )
         .filter((t) =>
           this.viewData.selectedFilter === "due-today"
@@ -455,6 +511,10 @@ export class TasksComponent implements OnInit {
     // indicators array
     this.calculateIndicators();
 
+    this.configChartOpenCountEOD.data = this.state.indicators.find(
+      (i) => i.name === "All Open Count"
+    ).values;
+
     // identify not synced tasks
     this.tasksNotInSync();
 
@@ -512,6 +572,49 @@ export class TasksComponent implements OnInit {
       }
     });
     this.projectNextTasksDates();
+
+    // Pinned tasks
+    if (this.pinnedTasks.length === 0) {
+      this.pinnedTasks.push({
+        estimatedDuration: 0,
+        tasks: [],
+      });
+    } else {
+      this.pinnedTasks[0].tasks = [];
+    }
+    if (this.tasks.length && typeof window.localStorage !== "undefined") {
+      let pinnedTasksIds = JSON.parse(localStorage.getItem("PinnedTasks"));
+      if (pinnedTasksIds) {
+        pinnedTasksIds.forEach((id: string) => {
+          let nt = this.tasks.find(
+            (e: any) =>
+              e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
+          );
+          if (nt) {
+            this.pinnedTasks[0].tasks.push(nt);
+            // add a badge
+            nt["inPinnedToDo"] = true;
+          }
+        });
+        // We set them again to filter out done tasks
+        localStorage.setItem(
+          "PinnedTasks",
+          JSON.stringify(this.pinnedTasks[0].tasks.map((e: any) => e.tsk_id))
+        );
+      }
+    }
+
+    this.pinnedTasks[0].estimatedDuration = 0;
+    this.pinnedTasks[0].tasks.forEach((t: any) => {
+      if (t.tsk_ctg_status === this.taskStatus.OPEN) {
+        this.pinnedTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+      } else {
+        let index = this.pinnedTasks[0].tasks.findIndex(
+          (e: any) => e.tsk_id === t.tsk_id
+        );
+        this.pinnedTasks[0].tasks.splice(index, 1);
+      }
+    });
 
     // Calculate difference between last task closed and current time
     const lastTTEntryFromDay = this.lastTTEntryFromDay(today);
@@ -713,6 +816,10 @@ export class TasksComponent implements OnInit {
       // detect 'r'
       this.asNextToDo(t, false);
     }
+    if (event.altKey && event.key === "p") {
+      // detect 'p'
+      this.togglePinnedToDo(t);
+    }
     if (event.altKey && event.keyCode == 84) {
       // detect 't'
       this.adjustTimeTracking(t, true);
@@ -814,6 +921,46 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  /**
+   * Jumps cursor up and below the current task in the pinned task listing
+   * modifying order based in localStorage saved pinned tasks.
+   * @param event keyboard event to handle
+   */
+  pinnedTaskKeyDown(event: KeyboardEvent) {
+    const parent = event.target["parentNode"];
+
+    if (event.altKey && event.keyCode == 38) {
+      // detect move up
+      this.taskMoveUp(parent, (t1, t2) =>
+        this.interchangePinnedTaskOrder(t1, t2)
+      );
+      setTimeout(() => {
+        this.focusElement(
+          `#pinnedToDoTodayList #${parent.id} span.task-text[contenteditable=true]`
+        );
+      }, 100);
+    }
+    if (event.altKey && event.keyCode == 40) {
+      // detect move down
+      this.taskMoveDown(parent, (t1, t2) =>
+        this.interchangePinnedTaskOrder(t1, t2)
+      );
+      if (parent.nextElementSibling && parent.nextElementSibling.id) {
+        this.focusElement(
+          `#pinnedToDoTodayList #${parent.id} span.task-text[contenteditable=true]`
+        );
+      }
+    }
+    if (!event.altKey && event.keyCode == 38) {
+      // detect jump up
+      this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (!event.altKey && event.keyCode == 40) {
+      // detect jump down
+      this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+  }
+
   etaKeyDown(event: KeyboardEvent) {
     const parent = event.target["parentNode"];
 
@@ -855,7 +1002,8 @@ export class TasksComponent implements OnInit {
       // if dateDone is happening before last time tracking date, use last time tracking date instead
       const lastDateDoneEntryFromDay =
         this.lastDateDoneEntryFromDay(new Date()) ||
-        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1));
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -2));
       if (dateDone.getTime() < lastDateDoneEntryFromDay.getTime()) {
         dateDone = DateUtils.addSeconds(lastDateDoneEntryFromDay, 1);
       }
@@ -956,6 +1104,32 @@ export class TasksComponent implements OnInit {
     // update localStorage
     localStorage.setItem("NextTasks", JSON.stringify(currentNextTasks));
     this.projectNextTasksDates();
+  }
+
+  /**
+   * Interchanges tasks order and updates it in the pinned tasks listing.
+   * @param tsk_id1 task id to be interchanged
+   * @param tsk_id2 task id to be interchanged
+   */
+  interchangePinnedTaskOrder(tsk_id1: string, tsk_id2: string) {
+    let currentPinnedTasks =
+      localStorage && JSON.parse(localStorage.getItem("PinnedTasks"));
+
+    let index1 = currentPinnedTasks.findIndex((e) => e === tsk_id1);
+    let index2 = currentPinnedTasks.findIndex((e) => e === tsk_id2);
+    // swap localStorage array
+    [currentPinnedTasks[index1], currentPinnedTasks[index2]] = [
+      currentPinnedTasks[index2],
+      currentPinnedTasks[index1],
+    ];
+    // swap memory array
+    [this.pinnedTasks[0].tasks[index1], this.pinnedTasks[0].tasks[index2]] = [
+      this.pinnedTasks[0].tasks[index2],
+      this.pinnedTasks[0].tasks[index1],
+    ];
+
+    // update localStorage
+    localStorage.setItem("PinnedTasks", JSON.stringify(currentPinnedTasks));
   }
 
   taskJumpUp(current: any, selector: string) {
@@ -1950,6 +2124,13 @@ export class TasksComponent implements OnInit {
     let table = <any>[];
     let records = <any>[];
     let closedTodayTasks = this.state.closedTodayTasks;
+
+    if (closedTodayTasks.length === 0) {
+      // if there are no tasks for Today, try Yesterday
+      // it will work until there's closed tasks for Today
+      closedTodayTasks = this.state.closedYesterdayTasks;
+    }
+
     closedTodayTasks.forEach((t: any) => {
       if (table.indexOf(t.tsk_id_record) === -1) {
         table.push(t.tsk_id_record);
@@ -1987,7 +2168,19 @@ export class TasksComponent implements OnInit {
       r.percentageReal = Math.round((r.real * 100) / totalReal) / 100;
     });
 
-    this.reports.dayDistribution = records;
+    if (records.length) {
+      this.reports.dayDistribution = records;
+      this.viewData.dayDistributionChart.chartData = [
+        { data: records.map(({ eta }) => eta), label: "ETA" },
+        {
+          data: records.map(({ real }) => Math.round(real / 60)),
+          label: "Real",
+        },
+      ];
+      this.viewData.dayDistributionChart.chartLabels = records.map(
+        ({ record, percentageEta }) => `${record} (${percentageEta * 100}%)`
+      );
+    }
   }
 
   editDateDone(t: any, event: KeyboardEvent) {
@@ -2688,6 +2881,25 @@ export class TasksComponent implements OnInit {
     );
   }
 
+  togglePinnedToDo(t: any) {
+    let p = this.pinnedTasks[0].tasks;
+    let index = p.findIndex((e: any) => e.tsk_id === t.tsk_id);
+    if (index === -1) {
+      p.push(t);
+      this.pinnedTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+      t["inPinnedToDo"] = true;
+    } else {
+      p.splice(index, 1);
+      this.pinnedTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
+      t["inPinnedToDo"] = false;
+    }
+
+    localStorage.setItem(
+      "PinnedTasks",
+      JSON.stringify(p.map((e: any) => e.tsk_id))
+    );
+  }
+
   setTaskNotes(task: any, event: KeyboardEvent) {
     const newNotes = event.target["value"];
 
@@ -2853,6 +3065,10 @@ export class TasksComponent implements OnInit {
   }
 
   clearNextTasks() {
+    this.nextTasks[0].tasks.forEach((t) => {
+      t["inNextToDo"] = false;
+    });
+
     this.nextTasks = [];
     this.nextTasks.push({
       estimatedDuration: 0,
@@ -2862,6 +3078,19 @@ export class TasksComponent implements OnInit {
     localStorage.setItem(
       "NextTasks",
       JSON.stringify(this.nextTasks[0].tasks.map((e: any) => e.tsk_id))
+    );
+  }
+
+  clearPinnedTasks() {
+    this.pinnedTasks = [];
+    this.pinnedTasks.push({
+      estimatedDuration: 0,
+      tasks: [],
+    });
+
+    localStorage.setItem(
+      "PinnedTasks",
+      JSON.stringify(this.pinnedTasks[0].tasks.map((e: any) => e.tsk_id))
     );
   }
 
@@ -2912,5 +3141,55 @@ export class TasksComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  togglePinRecord(recordName: string) {
+    const foundIndex = this.viewData.pinnedRecords.findIndex(
+      (p) => p === recordName
+    );
+
+    if (foundIndex !== -1) {
+      this.viewData.pinnedRecords.splice(foundIndex, 1);
+    } else {
+      this.viewData.pinnedRecords.push(recordName);
+    }
+  }
+
+  isRecordPinned(recordName: string): boolean {
+    return !!this.viewData.pinnedRecords.find((p) => p === recordName);
+  }
+
+  recordStyle(recordName: string, attribute: string): string {
+    const isPinned = this.viewData.pinnedRecords.find((p) => p === recordName);
+
+    if (
+      (isPinned || this.options.optUseColumnsForRecords) &&
+      attribute === "height"
+    ) {
+      return "initial";
+    }
+
+    switch (attribute) {
+      case "width": {
+        return this.options.optRecordWidth !==
+          this.defaultOptions.optRecordWidth ||
+          this.options.optRecordHeight !== this.defaultOptions.optRecordHeight
+          ? this.options.optRecordWidth + "px"
+          : this.defaultOptions.optRecordWidth;
+      }
+      case "height": {
+        return this.options.optHideScrollbarsInRecord
+          ? "initial"
+          : this.options.optRecordWidth !==
+              this.defaultOptions.optRecordWidth ||
+            this.options.optRecordHeight !== this.defaultOptions.optRecordHeight
+          ? this.options.optRecordHeight + "px"
+          : this.defaultOptions.optRecordHeight;
+      }
+      default: {
+      }
+    }
+
+    return "";
   }
 }

@@ -88,6 +88,7 @@ export class SyncCustom {
 
       const result: Promise<any> = q.server[q.action](q.model, q.pk);
       resultPromiseList.push(result);
+      console.log("-- [SyncCustom.syncAll] Promise triggered");
 
       result.then(
         (response: {
@@ -96,6 +97,7 @@ export class SyncCustom {
           data?: any;
           pk: any;
         }) => {
+          console.log("-- [SyncCustom.syncAll] Promise resolved");
           response.pk = q.pk;
 
           if (q.callback) {
@@ -107,15 +109,26 @@ export class SyncCustom {
       );
     });
 
-    Promise.all(resultPromiseList).then((list) => {
-      const response = {
-        success: true,
-        message: "sync completed",
-        result: queue.map((q: syncItem) => q.result),
-      };
+    Promise.all(resultPromiseList)
+      .then((list) => {
+        const response = {
+          success: true,
+          message: "sync completed",
+          result: queue.map((q: syncItem) => q.result),
+        };
 
-      node.response.end(JSON.stringify(response));
-    });
+        node.response.end(JSON.stringify(response));
+      })
+      .catch((error) => {
+        console.error("error on sync", error);
+        node.response.end(
+          JSON.stringify({
+            success: false,
+            message: "sync failed",
+            result: null,
+          })
+        );
+      });
   };
 
   _list = (node: iNode) => {
@@ -159,6 +172,10 @@ export class SyncCustom {
     let construct;
     let server;
 
+    console.log("-- [SyncCustom.parseEntity] entity about to be resolved", {
+      entity,
+    });
+
     switch (entity) {
       case "Task": {
         construct = (base: any) => new Task(base);
@@ -196,6 +213,8 @@ export class SyncCustom {
         throw new Error(`sync failed due to entity ${entity} is not supported`);
       }
     }
+
+    console.log("-- [SyncCustom.parseEntity] entity resolved correctly");
 
     return {
       construct,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
 import { Activity } from "../../crosscommon/entities/Activity";
@@ -16,10 +16,11 @@ import { Task } from "src/crosscommon/entities/Task";
 import { NotificationService } from "../common/notification.service";
 import { TaskCore } from "../task/task.core";
 import { SyncAPI } from "../common/sync.api";
+import { getTextForLang } from "./activity.lang";
 
 import { AuthenticationService } from "../common/authentication.service";
 
-const ALL_STATUS = [
+const ALL_STATUS_CODES = [
   "CAPTURED",
   "BACKLOG",
   "OPEN",
@@ -28,25 +29,21 @@ const ALL_STATUS = [
   "CLOSED",
 ];
 
-const TEXT = {
-  STATUS_CAPTURED: {
-    es: "CAPTURADO",
-    en: "CAPTURED",
-  },
-};
-// TEXT.STATUS_CAPTURED.es
-const getTextForLang = (lang: string = "en") => {
-  return {
-    ...Object.entries(([key, value]) => ({ [key]: value[lang] })),
-  };
-};
-// const TEXT = getTextForLang(lang);
-// TEXT.STATUS_CAPTURED
+const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
+const ALL_STATUS_TEXT = [
+  TEXT.STATUS_CAPTURED,
+  TEXT.STATUS_BACKLOG,
+  TEXT.STATUS_OPEN,
+  TEXT.STATUS_IN_PROGRESS,
+  TEXT.STATUS_VERIFICATION,
+  TEXT.STATUS_CLOSED,
+];
 
 @Component({
   selector: "activity",
   templateUrl: "./activity.template.html",
   styleUrls: ["./activity.css"],
+  encapsulation: ViewEncapsulation.None, // This helped consuming CSS from another components by importing in CSS files
   providers: [ActivityService, TimelineService, KeyvalService, TaskCore],
 })
 export class ActivityComponent implements OnInit {
@@ -62,6 +59,8 @@ export class ActivityComponent implements OnInit {
       act_txt_status: string;
       items: Activity[];
     }>;
+    projectList: string[];
+    selectedProject: string;
   } = {
     TEXT: {},
     activityList: [],
@@ -70,16 +69,20 @@ export class ActivityComponent implements OnInit {
     timelineKey: "activity|",
     keyvalList: [],
     activityGroups: [],
+    projectList: ["ALL"],
+    selectedProject: "ALL",
   };
 
   public model: {
     id: string;
     keyval: Keyval[];
     tasks: Task[];
+    additional: any;
   } = {
     id: null,
     keyval: [],
     tasks: [],
+    additional: {},
   };
   public common: CommonComponent<Activity> = null;
   public tasks: Task[] = [];
@@ -105,38 +108,139 @@ export class ActivityComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     this.common = new CommonComponent<Activity>();
-    this.titleService.setTitle("Kanban Activities");
+    this.titleService.setTitle(TEXT.ACTIVITIES_TITLE);
+  }
+
+  render(fetchFromRemote: boolean = false) {
+    const pipeline = [];
+
+    if (fetchFromRemote) {
+      pipeline.push(
+        // Get Timeline
+        this.timelineService
+          .getTimelineForRecord(this.viewData.timelineKey)
+          .then(({ timeline }) => {
+            this.viewData.timelineList = timeline;
+          })
+      );
+
+      pipeline.push(
+        this.activityService.getAll().then((list) => {
+          this.viewData.activityList = list;
+
+          // get project id's
+          this.viewData.projectList = this.viewData.activityList.reduce(
+            (prev, current) => {
+              const projectId = current.act_tasks_tag.split("-")[0];
+              const found = prev.find((p) => p === projectId);
+
+              if (!found && projectId) {
+                prev.push(projectId);
+              }
+              return prev;
+            },
+            ["ALL"]
+          );
+        })
+      );
+
+      pipeline.push(
+        // TODO: Get only keyval for open activities
+        this.keyvalService.getAll().then((list) => {
+          this.viewData.keyvalList = list;
+        })
+      );
+
+      pipeline.push(
+        // TODO: Get all tasks
+        this.tasksService.getTasks().then((tasks: Task[]) => {
+          this.tasks = tasks;
+        })
+      );
+    }
+
+    Promise.all(pipeline).then(() => {
+      this.viewData.activityList.forEach((a) => {
+        const tagTasks = this.tasks.filter(
+          (t) => t.tsk_tags && t.tsk_tags.includes(a.act_tasks_tag)
+        );
+
+        a["additional"] = {
+          tasks: tagTasks.sort(this.sortTasks),
+          timeline: this.viewData.timelineList.filter(
+            (t) =>
+              t.tim_id_record === this.viewData.timelineKey + a.act_id &&
+              !t.tim_tags.includes("note")
+          ),
+          notes: this.viewData.timelineList.filter(
+            (t) =>
+              t.tim_id_record === this.viewData.timelineKey + a.act_id &&
+              t.tim_tags.includes("note") &&
+              !t.tim_tags.includes("note-hidden")
+          ),
+          notesHidden: this.viewData.timelineList.filter(
+            (t) =>
+              t.tim_id_record === this.viewData.timelineKey + a.act_id &&
+              t.tim_tags.includes("note-hidden")
+          ),
+          keyvalItems: this.viewData.keyvalList.filter((item) =>
+            this.findById(item, "key_id", a.act_id)
+          ),
+          health: "activity-health-undetermined",
+          lastTimeline: null,
+        };
+
+        if (a.additional.timeline?.length > 0) {
+          const sorted = a.additional.timeline.filter(
+            (t: Timeline) => !t.tim_tags.includes("note")
+          );
+
+          sorted.sort((a: Timeline, b: Timeline) => {
+            if (
+              new Date(a.tim_date).getTime() > new Date(b.tim_date).getTime()
+            ) {
+              return 1;
+            }
+            return -1;
+          });
+          a.additional.lastTimeline = sorted.at(-1);
+          a.additional.health = this.determineHealth(a.additional.lastTimeline);
+        }
+      });
+
+      this.generateViewData();
+    });
+  }
+
+  determineHealth(timeline: Timeline): string {
+    if (!timeline) {
+      return "activity-health-undetermined";
+    }
+    if (
+      new Date(timeline.tim_date).getTime() >=
+      DateUtils.addDays(DateUtils.dateOnly(), -7).getTime()
+    ) {
+      return "activity-health-green";
+    }
+    if (
+      new Date(timeline.tim_date).getTime() >=
+      DateUtils.addDays(DateUtils.dateOnly(), -15).getTime()
+    ) {
+      return "activity-health-yellow";
+    }
+    if (
+      new Date(timeline.tim_date).getTime() >=
+      DateUtils.addDays(DateUtils.dateOnly(), -30).getTime()
+    ) {
+      return "activity-health-orange";
+    }
+    return "activity-health-red";
   }
 
   ngOnInit() {
     this.viewData.TEXT = getTextForLang();
     this.taskService = new TaskCore(this.syncService, this.handlers);
-
-    const pipeline = [
-      this.activityService.getAll().then((list) => {
-        this.viewData.activityList = list;
-      }),
-      // TODO: Get only keyval for open activities
-      this.keyvalService.getAll().then((list) => {
-        this.viewData.keyvalList = list;
-      }),
-      // TODO: Get all tasks
-      this.tasksService.getTasks().then((tasks: Task[]) => {
-        this.tasks = tasks;
-        this.viewData.activityList.forEach((a) => {
-          const tagTasks = tasks.filter(
-            (t) => t.tsk_tags && t.tsk_tags.includes(a.act_tasks_tag)
-          );
-
-          a["additional"] = {
-            tasks: tagTasks.sort(this.sortTasks),
-          };
-        });
-      }),
-    ];
-    Promise.all(pipeline).then(() => {
-      this.generateViewData();
-    });
+    this.render(true);
   }
 
   groupByProperty(
@@ -146,6 +250,28 @@ export class ActivityComponent implements OnInit {
   ): Array<any> {
     return list.reduce((response, item) => {
       const group = response.find((g) => g.key === item[key]);
+
+      if (item[key] === 6) {
+        // keep only activities that were closed within current month
+        const currentMonthDate: Date = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+        );
+        const closedDate: Date = item.additional?.keyvalItems?.find(
+          (k) => k.key_name === "ACT_DATE_TO_CLOSED"
+        )
+          ? DateUtils.stringDateToDate(
+              item.additional?.keyvalItems?.find(
+                (k) => k.key_name === "ACT_DATE_TO_CLOSED"
+              ).key_value
+            )
+          : null;
+        if (!closedDate || closedDate.getTime() < currentMonthDate.getTime()) {
+          // skip this one, is an old activity
+          return response;
+        }
+      }
 
       if (group) {
         group.items.push(item);
@@ -162,9 +288,13 @@ export class ActivityComponent implements OnInit {
 
   generateViewData() {
     this.viewData.activityGroups = this.groupByProperty(
-      this.viewData.activityList,
+      this.viewData.selectedProject !== "ALL"
+        ? this.viewData.activityList.filter((a) =>
+            a.act_tasks_tag.startsWith(this.viewData.selectedProject)
+          )
+        : this.viewData.activityList,
       "act_ctg_status",
-      (e) => ({ act_txt_status: ALL_STATUS[e.act_ctg_status - 1] })
+      (e) => ({ act_txt_status: ALL_STATUS_TEXT[e.act_ctg_status - 1] })
     ).sort((a, b) => (a.key > b.key ? 1 : -1));
   }
 
@@ -230,7 +360,7 @@ export class ActivityComponent implements OnInit {
           };
 
           const newItem = await this.activityService.newItem(item);
-          newItem.act_txt_status = ALL_STATUS[newItem.act_ctg_status - 1];
+          newItem.act_txt_status = ALL_STATUS_TEXT[newItem.act_ctg_status - 1];
           this.generateViewData();
           return newItem;
         },
@@ -287,35 +417,13 @@ export class ActivityComponent implements OnInit {
     }
   }
 
-  setModelDetails(id: string, form: NgForm) {
+  setModelDetails(id: string, form?: NgForm) {
     let model: Activity;
-    if (!this.viewData.showItemForm) {
-      this.viewData.showItemForm = !this.viewData.showItemForm;
-    }
 
     // Set activity
     model = this.viewData.activityList.find((item) =>
       this.findById(item, "act_id", id)
     );
-    this.model.id = model["act_id"]; // to tell the form that this is an edition
-
-    // Get Timeline
-    this.timelineService
-      .getTimeline(this.viewData.timelineKey + this.model.id)
-      .then(({ timeline }) => {
-        this.viewData.timelineList = timeline;
-      });
-
-    // Fill form
-    setTimeout(() => {
-      // form.controls["fProjectId"].setValue(model["act_id_project"]);
-      form.controls["fName"].setValue(model["act_name"]);
-      // form.controls["fDescription"].setValue(model["act_description"]);
-      form.controls["fTags"].setValue(model["act_tags"]);
-      form.controls["fTasksTag"].setValue(model["act_tasks_tag"]);
-      // form.controls["fCloseComment"].setValue(model["act_close_comment"]);
-      // form.controls["fCtgStatus"].setValue(model["act_ctg_status"]);
-    }, 0);
 
     // Get Keyval
     this.model.keyval = this.viewData.keyvalList.filter((item) =>
@@ -331,9 +439,44 @@ export class ActivityComponent implements OnInit {
 
         this.model.tasks = tagTasks.sort(this.sortTasks);
 
-        model["additional"] = {
+        this.model.additional = {
           tasks: this.model.tasks,
+          timeline: this.viewData.timelineList.filter(
+            (t) =>
+              t.tim_id_record === this.viewData.timelineKey + model["act_id"] &&
+              !t.tim_tags.includes("note")
+          ),
+          notes: this.viewData.timelineList.filter(
+            (t) =>
+              t.tim_id_record === this.viewData.timelineKey + model.act_id &&
+              t.tim_tags.includes("note") &&
+              !t.tim_tags.includes("note-hidden")
+          ),
+          notesHidden: this.viewData.timelineList.filter(
+            (t) =>
+              t.tim_id_record === this.viewData.timelineKey + model.act_id &&
+              t.tim_tags.includes("note-hidden")
+          ),
+          lastTimeline: null,
         };
+
+        this.model.id = model["act_id"]; // to tell the form that this is an edition
+        if (!this.viewData.showItemForm) {
+          this.viewData.showItemForm = !this.viewData.showItemForm;
+        }
+
+        // Fill form
+        setTimeout(() => {
+          if (form) {
+            // form.controls["fProjectId"].setValue(model["act_id_project"]);
+            form.controls["fName"].setValue(model["act_name"]);
+            // form.controls["fDescription"].setValue(model["act_description"]);
+            form.controls["fTags"].setValue(model["act_tags"]);
+            form.controls["fTasksTag"].setValue(model["act_tasks_tag"]);
+            // form.controls["fCloseComment"].setValue(model["act_close_comment"]);
+            // form.controls["fCtgStatus"].setValue(model["act_ctg_status"]);
+          }
+        }, 0);
       });
     }
   }
@@ -355,8 +498,8 @@ export class ActivityComponent implements OnInit {
       throw new Error("Activity not found");
     }
 
-    if (ALL_STATUS.includes(status)) {
-      item.act_ctg_status = ALL_STATUS.indexOf(status) + 1;
+    if (ALL_STATUS_CODES.includes(status)) {
+      item.act_ctg_status = ALL_STATUS_CODES.indexOf(status) + 1;
       item.act_date_mod = DateUtils.newDateUpToSeconds();
 
       // augment with Keyval info
@@ -409,7 +552,7 @@ export class ActivityComponent implements OnInit {
 
       this.activityService
         .updateItem(removeUnusedPayload(item))
-        .then((response) => {
+        .then(async (response) => {
           Object.entries(item["keyvalItems"]).forEach(([key, value]) => {
             const k = new Keyval();
 
@@ -423,7 +566,14 @@ export class ActivityComponent implements OnInit {
             this.viewData.keyvalList.push(k);
           });
 
-          this.generateViewData();
+          await this.tasksService.getTasks().then((tasks: Task[]) => {
+            const tagTasks = tasks.filter(
+              (t) => t.tsk_tags && t.tsk_tags.includes(item.act_tasks_tag)
+            );
+            item.additional.tasks = tagTasks;
+          });
+
+          this.render(false);
 
           this.notificationService.notifyWithOptions(
             "Activity was updated successfuly",
@@ -464,5 +614,19 @@ export class ActivityComponent implements OnInit {
         tasks: [t],
       };
     }
+  }
+
+  /**
+   * Receives new Timeline and appends them to current Activity and to existing Activities
+   * @param $event timeline emmited by the Timeline component
+   */
+  handleNewTimeline($event: { timeline: Timeline }) {
+    // $event => { timeline: Timeline }
+    this.viewData.timelineList.push($event.timeline);
+    this.model.additional.timeline.push($event.timeline);
+  }
+
+  onChangeProject(selectedProject: string) {
+    this.render(false);
   }
 }

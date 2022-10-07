@@ -25,3 +25,21 @@ span.task-unexpected {
 .task-record-collapsed {
   display: inline-block;
 }
+
+.task-record-use-columns {
+  columns: 1;
+}
+
+@media (min-width: 504px) {
+  .task-record-use-columns {
+    columns: 3;
+    max-width: 100% !important;
+  }
+}
+
+@media (min-width: 1036px) {
+  .task-record-use-columns {
+    columns: 5;
+    max-width: 100% !important;
+  }
+}

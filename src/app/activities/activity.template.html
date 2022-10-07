@@ -1,8 +1,23 @@
 <div>
-  <strong>Activity</strong>
+  <strong>Activities</strong>
+
+  <span class="field hide-on-print">
+    <label for="fSelectedProject" class="label-left">Project</label>
+    <select
+      name="fSelectedProject"
+      id="fSelectedProject"
+      class="field-select"
+      [(ngModel)]="viewData.selectedProject"
+      (change)="onChangeProject(viewData.selectedProject)"
+    >
+      <option *ngFor="let opt of viewData.projectList" value="{{ opt }}">
+        {{ opt }}
+      </option>
+    </select>
+  </span>
 
   <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
-    <button type="button" (click)="toggleShowItemForm()">
+    <button type="button" (click)="toggleShowItemForm()" class="hide-on-print">
       {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
     </button>
 
@@ -63,9 +78,13 @@
 
     <hr />
 
-    <span> Timeline </span>
+    <span
+      ><strong>
+        Timeline (x{{model.additional?.timeline?.length}})
+      </strong></span
+    >
 
-    <div *ngFor="let t of viewData.timelineList">
+    <div *ngFor="let t of model.additional?.timeline">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
     </div>
 
@@ -74,18 +93,36 @@
       (onNewItem)="handleNewTimeline($event)"
     ></timeline>
 
-    <span> Tasks </span>
+    <span><strong> Notes (x{{model.additional?.notes?.length}}) </strong></span>
+
+    <div *ngFor="let t of model.additional?.notes">
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
+    </div>
+
+    <span
+      ><strong>
+        Notes hidden (x{{model.additional?.notesHidden?.length}})
+      </strong></span
+    >
+
+    <div *ngFor="let t of model.additional?.notesHidden">
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
+    </div>
 
     <div>
-      <div *ngFor="let item of model.tasks">
-        <task
-          [task]="item"
-          [handlers]="handlers"
-          [options]="{
-          optShowRecordNameInline: true,
-          optShowBadgeIfTaskIsInBacklog: true
-        }"
-        ></task>
+      <span> Tasks </span>
+
+      <div>
+        <div *ngFor="let item of model.tasks">
+          <task
+            [task]="item"
+            [handlers]="handlers"
+            [options]="{
+            optShowRecordNameInline: true,
+            optShowBadgeIfTaskIsInBacklog: true
+          }"
+          ></task>
+        </div>
       </div>
     </div>
   </div>
@@ -102,6 +139,7 @@
       <div class="card-list">
         <div *ngFor="let item of group.items" class="card-item-container">
           <div class="activity-card-header">
+            <span class="status-block {{item?.additional?.health}}"></span>
             <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
             <span class="activity-name">{{ item.act_name }}</span>
             <br />
@@ -158,6 +196,25 @@
                 Add new task
               </button>
             </span>
+          </div>
+
+          <div *ngIf="item.additional.lastTimeline">
+            <span
+              ><strong>
+                Último Estatus (x{{item.additional.timeline.length}})
+              </strong></span
+            >
+
+            <div>
+              - {{ item.additional.lastTimeline.tim_date | date: "yyyy-MM-dd" }}
+              | {{ item.additional.lastTimeline.tim_description }}
+            </div>
+
+            <hr *ngIf="item['additional']?.tasks?.length > 0" />
+          </div>
+
+          <div *ngIf="item['additional']?.tasks?.length > 0">
+            <span><strong> Actividades </strong></span>
           </div>
 
           <div *ngFor="let t of item['additional'].tasks">

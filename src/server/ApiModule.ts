@@ -18,13 +18,18 @@ export class ApiModule {
     let sql: string = sqlMotor.toSelectSQL(params);
     let array: iEntity[] = [];
 
-    if (data.username && m.metadata.fields.find((field) => field.dbName === `${m.metadata.prefix}_id_user`)) {
+    if (
+      data.username &&
+      m.metadata.fields.find(
+        (field) => field.dbName === `${m.metadata.prefix}_id_user`
+      )
+    ) {
       sql += `${params ? " and " : " where "}${m.metadata.prefix}_id_user = '${
         data.username
       }'`;
     }
 
-    return connection.runSql(sql).then(response => {
+    return connection.runSql(sql).then((response) => {
       if (!response.err) {
         array = response.rows;
         console.log(`api list query returned ${array.length} rows`);
@@ -41,8 +46,8 @@ export class ApiModule {
       const connection: iConnection = ConnectionService.getConnection();
       // Assign data from request
       m.metadata.fields
-        .filter(f => f.isTableField)
-        .forEach(f => {
+        .filter((f) => f.isTableField)
+        .forEach((f) => {
           m[f.dbName] = data.body[f.dbName];
         });
       const sqlMotor: MoSQL = new MoSQL(m);
@@ -55,7 +60,7 @@ export class ApiModule {
 
       return connection
         .runSql(verifyExistsSQL)
-        .then(response => {
+        .then((response) => {
           if (response.err) {
             //console.log(`got this error trying to validate if this ${strName} already exists`,err);
             return false;
@@ -68,26 +73,22 @@ export class ApiModule {
             return response;
           }
         })
-        .then(response => {
+        .then((response) => {
           if (!response) {
             return {
               success: false,
-              message: `${
-                m.metadata.tableName
-              } already exists. id: ${recordName}`
+              message: `${m.metadata.tableName} already exists. id: ${recordName}`,
             };
           }
 
           sql = sqlMotor.toInsertSQL();
 
-          return connection.runSql(sql).then(responseCreate => {
+          return connection.runSql(sql).then((responseCreate) => {
             connection.close();
             if (responseCreate.err) {
               return {
                 success: false,
-                message: `Error on ${
-                  m.metadata.tableName
-                } creation. id: ${recordName}`
+                message: `Error on ${m.metadata.tableName} creation. id: ${recordName}`,
               };
             } else {
               let resultAfterInsertOK: any;
@@ -103,15 +104,13 @@ export class ApiModule {
                         resultAfterInsertOK
                           ? `, afterInsertOk: ${resultAfterInsertOK.message}`
                           : ""
-                      }`
+                      }`,
                     };
                   });
               }
               return {
                 success: true,
-                message: `${
-                  m.metadata.tableName
-                } created correctly. id: ${recordName}`
+                message: `${m.metadata.tableName} created correctly. id: ${recordName}`,
               };
             }
           });
@@ -127,63 +126,63 @@ export class ApiModule {
   ): Promise<any> => {
     let m: iEntity = model ? model : this.model;
     const arePKProvided = (pk: string[], values: string[]): boolean => {
-      return pk.every(f => values.indexOf(f) !== -1);
+      return pk.every((f) => values.indexOf(f) !== -1);
     };
     const pkInRequest = arePKProvided(
-      m.metadata.fields.filter(f => f.isPK).map(f => f.dbName),
+      m.metadata.fields.filter((f) => f.isPK).map((f) => f.dbName),
       Object.keys(data.pk)
     );
     if (data.body && pkInRequest) {
       let sql: string = "";
+      console.log("-- [ApiModule.update] grab a DB connection");
       const connection: iConnection = connectionInstance
         ? connectionInstance
         : ConnectionService.getConnection();
       const baseModel: iEntity = { ...m };
       // Assign data from request
       m.metadata.fields
-        .filter(f => f.isTableField)
-        .forEach(f => {
+        .filter((f) => f.isTableField)
+        .forEach((f) => {
           m[f.dbName] = data.body[f.dbName];
         });
       const sqlMotor: MoSQL = new MoSQL(m);
       const recordName: string = m.recordName();
 
-      return connection.runSql(sqlMotor.toSelectPKSQL()).then(response => {
+      console.log("-- [ApiModule.update] verify record exists");
+
+      return connection.runSql(sqlMotor.toSelectPKSQL()).then((response) => {
+        console.log("-- [ApiModule.update] after verification sql runs");
         if (response.err) {
           console.log(
             `You try an update on a task that does not exist in the server. id: ${recordName}`
           );
           // create it
-          this.create(data, hooks).then(responseCreate => {
-            let msg = `You tried to update on a ${
-              m.metadata.tableName
-            } that does not exist in the server. id: ${recordName}. Tried to create it.`;
+          this.create(data, hooks).then((responseCreate) => {
+            let msg = `You tried to update on a ${m.metadata.tableName} that does not exist in the server. id: ${recordName}. Tried to create it.`;
             return {
               success: responseCreate.success,
-              message: `${msg} ${responseCreate.message}`
+              message: `${msg} ${responseCreate.message}`,
             };
           });
         }
 
         if (!response.err && response.rows.length > 0) {
           m.metadata.fields
-            .filter(f => f.isTableField)
-            .forEach(f => {
+            .filter((f) => f.isTableField)
+            .forEach((f) => {
               baseModel[f.dbName] = response.rows[0][f.dbName];
             });
         }
         if (sqlMotor.toChangesObject(m, baseModel).length > 0) {
           sql = sqlMotor.toUpdateSQL(m, baseModel);
-          return connection.runSql(sql).then(responseUpdate => {
+          return connection.runSql(sql).then((responseUpdate) => {
             if (!connectionInstance) {
               connection.close();
             }
             if (responseUpdate.err) {
               return {
                 success: false,
-                message: `Error on ${
-                  m.metadata.tableName
-                } modification. id: ${recordName}`
+                message: `Error on ${m.metadata.tableName} modification. id: ${recordName}`,
               };
             } else {
               if (hooks && hooks.afterUpdateOK) {
@@ -198,15 +197,13 @@ export class ApiModule {
                         resultAfterUpdateOk
                           ? `, afterUpdateOk: ${resultAfterUpdateOk.message}`
                           : ""
-                      }`
+                      }`,
                     };
                   });
               }
               return {
                 success: true,
-                message: `${
-                  m.metadata.tableName
-                } updated correctly. id: ${recordName}`
+                message: `${m.metadata.tableName} updated correctly. id: ${recordName}`,
               };
             }
           });
@@ -224,15 +221,13 @@ export class ApiModule {
                     resultAfterUpdateOk
                       ? `, afterUpdateOk: ${resultAfterUpdateOk.message}`
                       : ""
-                  }`
+                  }`,
                 };
               });
           }
           return {
             success: true,
-            message: `${
-              m.metadata.tableName
-            } updated correctly. id: ${recordName}`
+            message: `${m.metadata.tableName} updated correctly. id: ${recordName}`,
           };
         }
       });
@@ -242,10 +237,10 @@ export class ApiModule {
   delete = (data: any, hooks: any, model?: iEntity): Promise<any> => {
     let m: iEntity = model ? model : this.model;
     const arePKProvided = (pk: string[], values: string[]): boolean => {
-      return pk.every(f => values.indexOf(f) !== -1);
+      return pk.every((f) => values.indexOf(f) !== -1);
     };
     const pkInRequest = arePKProvided(
-      m.metadata.fields.filter(f => f.isPK).map(f => f.dbName),
+      m.metadata.fields.filter((f) => f.isPK).map((f) => f.dbName),
       Object.keys(data.pk)
     );
     if (pkInRequest) {
@@ -254,14 +249,14 @@ export class ApiModule {
 
       // Assign data from request
       m.metadata.fields
-        .filter(f => f.isPK)
-        .forEach(f => {
+        .filter((f) => f.isPK)
+        .forEach((f) => {
           m[f.dbName] = data.pk[f.dbName];
         });
       const sqlMotor: MoSQL = new MoSQL(m);
       const recordName: string = m.recordName();
 
-      return connection.runSql(sqlMotor.toSelectPKSQL()).then(response => {
+      return connection.runSql(sqlMotor.toSelectPKSQL()).then((response) => {
         if (response.err) {
           console.log(
             `There was an error trying to look for the record with id: ${recordName}`
@@ -269,21 +264,19 @@ export class ApiModule {
 
           return {
             success: false,
-            message: "Deletion found an error looking for the record."
+            message: "Deletion found an error looking for the record.",
           };
         }
 
         if (!response.err && response.rows.length > 0) {
           sql = sqlMotor.toDeleteSQL(m);
 
-          return connection.runSql(sql).then(responseDelete => {
+          return connection.runSql(sql).then((responseDelete) => {
             connection.close();
             if (responseDelete.err) {
               return {
                 success: false,
-                message: `Error on ${
-                  m.metadata.tableName
-                } record deletion. id: ${recordName}`
+                message: `Error on ${m.metadata.tableName} record deletion. id: ${recordName}`,
               };
             } else {
               if (hooks && hooks.afterDeleteOK) {
@@ -298,15 +291,13 @@ export class ApiModule {
                         resultAfterDeleteOk
                           ? `, afterDeleteOk: ${resultAfterDeleteOk.message}`
                           : ""
-                      }`
+                      }`,
                     };
                   });
               }
               return {
                 success: true,
-                message: `${
-                  m.metadata.tableName
-                } deleted correctly. id: ${recordName}`
+                message: `${m.metadata.tableName} deleted correctly. id: ${recordName}`,
               };
             }
           });
@@ -317,7 +308,7 @@ export class ApiModule {
 
           return {
             success: true,
-            message: "Deletion did not find a record to delete."
+            message: "Deletion did not find a record to delete.",
           };
         }
       });
@@ -338,7 +329,7 @@ export class ApiModule {
     }
     let array: iEntity[] = [];
 
-    return connection.runSql(sql).then(response => {
+    return connection.runSql(sql).then((response) => {
       if (!response.err) {
         array = response.rows;
         console.log(`api list with SQL query returned ${array.length} rows`);
@@ -367,7 +358,7 @@ export class ApiModule {
         })
       )
     )
-      .then(array => {
+      .then((array) => {
         let obj = {};
         data.queue.forEach((item: any, index: number) => {
           obj[item.name] = array[index].rows;
@@ -375,7 +366,7 @@ export class ApiModule {
         connection.close();
         return obj;
       })
-      .catch(err => {
+      .catch((err) => {
         connection.close();
         return {};
       });
@@ -392,8 +383,8 @@ export class ApiModule {
           // map items to entities
           // Assign data from request
           m.metadata.fields
-            .filter(f => f.isTableField)
-            .forEach(f => {
+            .filter((f) => f.isTableField)
+            .forEach((f) => {
               m[f.dbName] = item[f.dbName];
             });
           return { ...m };
@@ -404,20 +395,18 @@ export class ApiModule {
           return {
             model: model,
             sqlSelect: sqlMotor.toSelectPKSQL(),
-            sqlInsert: sqlMotor.toInsertSQL()
+            sqlInsert: sqlMotor.toInsertSQL(),
           };
         })
         .map((item: any) => {
           // map entities to promises
           const recordName: string = item.model.recordName();
 
-          return connection.runSql(item.sqlInsert).then(responseCreate => {
+          return connection.runSql(item.sqlInsert).then((responseCreate) => {
             if (responseCreate.err) {
               return {
                 success: false,
-                message: `Error on ${
-                  m.metadata.tableName
-                } creation. id: ${recordName}`
+                message: `Error on ${m.metadata.tableName} creation. id: ${recordName}`,
               };
             } else {
               let resultAfterInsertOK: any;
@@ -433,15 +422,13 @@ export class ApiModule {
                         resultAfterInsertOK
                           ? `, afterInsertOk: ${resultAfterInsertOK.message}`
                           : ""
-                      }`
+                      }`,
                     };
                   });
               }
               return {
                 success: true,
-                message: `${
-                  m.metadata.tableName
-                } created correctly. id: ${recordName}`
+                message: `${m.metadata.tableName} created correctly. id: ${recordName}`,
               };
             }
           });

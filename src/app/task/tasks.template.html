@@ -185,6 +185,12 @@
     [checked]="options.optHideScrollbarsInRecord"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
+  <checkbox-option
+    label="Use columns and full width for records (useful when record has too much items)"
+    optionId="optUseColumnsForRecords"
+    [checked]="options.optUseColumnsForRecords"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
   <div>
     <input
       type="number"
@@ -782,34 +788,55 @@
         'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
         'hidden': item.collapsed
       }"
+      [ngStyle]="{
+        'background-color': isRecordPinned(item.header) ? 'antiquewhite' : 'transparent',
+        'max-width': options.optUseColumnsForRecords ? '100%' : undefined
+      }"
     >
-      <div>
-        <button
-          class="button-link no-underline"
-          (click)="toggleCollapsedRecord(item, true)"
-        >
-          <strong>- {{ item.header }}</strong>
-        </button>
-        | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
-        60) }})
-        <span *ngIf="countTasksDone(item.header) > 0">
-          |
-          <span
-            class="task-done"
-            title="tasks done today from this record list"
+      <div
+        [ngStyle]="{
+        'display': 'flex',
+        'justify-content': 'space-between'
+      }"
+      >
+        <span>
+          <button
+            class="button-link no-underline"
+            (click)="toggleCollapsedRecord(item, true)"
           >
-            {{ countTasksDone(item.header) }}
+            <strong>- {{ item.header }}</strong>
+          </button>
+          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
+          60) }})
+          <span *ngIf="countTasksDone(item.header) > 0">
+            |
+            <span
+              class="task-done"
+              title="tasks done today from this record list"
+            >
+              {{ countTasksDone(item.header) }}
+            </span>
           </span>
+        </span>
+        <span
+          (click)="togglePinRecord(item.header)"
+          [ngStyle]="{
+          'cursor': 'pointer',
+          'border': isRecordPinned(item.header) ? '1px solid grey' : '0'
+        }"
+        >
+          📌
         </span>
       </div>
       <div
         class="task-record-items"
         [ngClass]="{
-          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight
+          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight,
+          'task-record-use-columns': options.optUseColumnsForRecords && item.tasks.length >= 20
         }"
         [ngStyle]="{
-          'max-width': (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordWidth + 'px' : defaultOptions.optRecordWidth,
-          'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)
+          'max-width': recordStyle(item.header, 'width'),
+          'max-height': recordStyle(item.header, 'height')
         }"
       >
         <div
@@ -923,6 +950,13 @@
               src="/assets/icons/energy.svg"
               alt="In Next To Do Today listing"
               title="In Next To Do Today listing"
+            />
+          </span>
+          <span class="task-pinned-todo-icon" *ngIf="t.inPinnedToDo">
+            <img
+              src="/assets/icons/energy.svg"
+              alt="In Pinned To Do listing"
+              title="In Pinned To Do listing"
             />
           </span>
           <span
@@ -1244,6 +1278,179 @@
     </div>
   </div>
 </div>
+<div id="pinnedToDoTodayList" *ngIf="pinnedTasks[0].tasks.length">
+  <hr />
+  <div class="task-open-task-list-container">
+    <div *ngFor="let item of pinnedTasks" class="task-record">
+      <div>
+        <button
+          class="button-link no-underline"
+          (click)="toggleOption('optCollapsePinnedTasks')"
+        >
+          <strong
+            >{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To
+            Do</strong
+          >
+        </button>
+        | {{ item.tasks.length }}
+        <time-format
+          format="([H]h[m]m)"
+          [value]="item.estimatedDuration"
+        ></time-format>
+      </div>
+      <div
+        *ngIf="!options.optCollapsePinnedTasks"
+        [ngClass]="{
+        'columns-3': pinnedTasks[0].tasks.length > 10
+      }"
+      >
+        <div
+          *ngFor="let t of item.tasks; let count = index"
+          data-id="{{ t.tsk_id }}"
+        >
+          <input
+            type="checkbox"
+            id="{{ t.tsk_id }}"
+            (click)="taskCheckboxHandler(t, $event)"
+          />
+          <span
+            *ngIf="t.tsk_total_time_spent !== 0"
+            [ngClass]="{
+              'task-open-with-tt':
+                t.tsk_ctg_status === this.taskStatus.OPEN &&
+                t.tsk_time_history.length > 0
+            }"
+            >[{{ t.tsk_time_history.length }}/{{
+            formatTime(t.tsk_total_time_spent) }}]
+            <span *ngIf="t.tsk_ctg_in_process !== 2">
+              [<span
+                class="tt-start"
+                contenteditable="true"
+                spellcheck="false"
+                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
+                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
+                .tsh_date_start | date: "HH:mm:ss" }}</span
+              >
+              -
+              <span
+                class="tt-end"
+                contenteditable="true"
+                spellcheck="false"
+                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
+                >{{ t.tsk_time_history[t.tsk_time_history.length -
+                1].tsh_date_end | date: "HH:mm:ss" }}</span
+              >]
+            </span>
+          </span>
+          <span *ngIf="t.tsk_ctg_in_process === 2">
+            [<span
+              contenteditable="true"
+              spellcheck="false"
+              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
+              >{{ t.tsk_time_history[t.tsk_time_history.length -
+              1].tsh_date_start | date: "HH:mm:ss" }}</span
+            >]
+          </span>
+          <span
+            (click)="toggleTimeMode()"
+            class="clickable"
+            title="click to toggle timer mode"
+          >
+            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
+            }}
+          </span>
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
+            >&#9733;</span
+          >
+          <span
+            class="task-qualifier-icon task-qualifier-urgent"
+            *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
+            >&#33;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('people') !== -1"
+          >
+            <img
+              src="/assets/icons/people.svg"
+              alt="Requires reaching out people"
+              title="Requires reaching out people"
+            />
+          </span>
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('mobile') !== -1"
+          >
+            <img
+              src="/assets/icons/smartphone.svg"
+              alt="Can be done using phone"
+              title="Can be done using phone"
+            />
+          </span>
+          <span
+            class="task-qualifier-icon task-qualifier-flag"
+            *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1"
+            >&#9873;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
+            >&#10006;</span
+          >
+          <span
+            contenteditable="true"
+            spellcheck="false"
+            (keyup)="taskEdit(t, $event)"
+            (keydown)="pinnedTaskKeyDown($event)"
+            [ngClass]="{
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
+              'task-in-process': t.tsk_ctg_in_process === 2,
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
+              'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
+            }"
+            (blur)="commandOnTask(t, $event)"
+            class="editable task-text"
+            >{{ t.tsk_name }}</span
+          >&nbsp;<span
+            [attr.contenteditable]="options.optAllowToEditETA"
+            spellcheck="false"
+            (blur)="taskEstimatedDurationEdit(t, $event)"
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
+            class="task-eta"
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
+          ><span> [{{t.tsk_id_record}}] </span>
+          <span *ngIf="t.tsk_tags" class="task-tags">
+            <span
+              *ngFor="let tag of t.tsk_tags.split(' ')"
+              (click)="showTagStats(tag)"
+              class="tag"
+            >
+              #{{ tag }}
+            </span>
+          </span>
+          <span *ngIf="t.tsk_schedule_date_start"
+            ><strong
+              >(start at {{ formatDateTime(t.tsk_schedule_date_start)
+              }})</strong
+            ></span
+          >
+          <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays"
+            >{{ taskAge(t) }}</span
+          >
+          <span *ngIf="t.not_sync">(Not in sync)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="tagInfo" *ngIf="tagInfo.display === true">
   <button (click)="tagInfo.display = false">hide</button>
   <strong>Tag Information</strong>
@@ -1477,6 +1684,18 @@
         <td>{{ r.percentageReal }}</td>
       </tr>
     </table>
+
+    <canvas
+      *ngIf="viewData.dayDistributionChart.chartData[0].data.length > 0"
+      id="dayDistributionChart"
+      baseChart
+      [datasets]="viewData.dayDistributionChart.chartData"
+      [labels]="viewData.dayDistributionChart.chartLabels"
+      [options]="viewData.dayDistributionChart.chartOptions"
+      [legend]="viewData.dayDistributionChart.chartLegend"
+      [chartType]="viewData.dayDistributionChart.chartType"
+    >
+    </canvas>
   </div>
 </div>
 <div *ngIf="options.optShowQualifiersTotals">

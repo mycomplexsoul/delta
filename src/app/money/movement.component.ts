@@ -843,7 +843,7 @@ export class MovementComponent implements OnInit {
           let valueToSet = null;
 
           if (f.value === "_date") {
-            if (value !== null) {
+            if (value !== null && prefix !== "pre") {
               valueToSet = DateUtils.dateToStringDate(new Date(value));
             } else {
               valueToSet = DateUtils.dateToStringDate(new Date());

@@ -10,6 +10,60 @@
   {{ viewData.showGenerateProvisionsSection ? 'Hide Generate Provisions' :
   'Generate Provisions' }}
 </button>
+<button
+  (click)="viewData.showBatchPaymentsSection = !viewData.showBatchPaymentsSection"
+>
+  {{ viewData.showBatchPaymentsSection ? 'Hide Batch Payments' : 'Batch
+  Payments' }}
+</button>
+
+<div *ngIf="viewData.showBatchPaymentsSection">
+  <span class="field">
+    <label for="fBatchPaymentInput" class="label-left"
+      >Batch Payment Input</label
+    >
+    <textarea
+      name="batchPaymentInput"
+      placeholder="Write a payment per line..."
+      class="task-multiple"
+      (keyup)="inputKeyUpHandler($event)"
+      [(ngModel)]="model.batchPaymentInput"
+      spellcheck="false"
+    ></textarea>
+  </span>
+
+  <button (click)="parseBatchPayments(model.batchPaymentInput)">
+    Parse batch payments
+  </button>
+
+  <div>
+    <table>
+      <tr *ngFor="let p of viewData.appliedPayments; let counter = index">
+        <td>
+          #{{counter + 1}} {{p.unit}} {{p.date | date: "yyyy-MM-dd" }}
+          {{p.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td>
+          <div *ngFor="let d of p.payDet">
+            {{d.provision.cpr_code_reference}} - {{d.provision.cpr_remaining |
+            currency: "USD":"symbol-narrow":"1.2-2"}} - {{d.amount | currency:
+            "USD":"symbol-narrow":"1.2-2"}} - {{d.folio}}
+            <span *ngIf="d.provision.cpr_remaining < d.amount"
+              ><strong>don't match! too high!</strong></span
+            >
+          </div>
+        </td>
+        <td>
+          <span *ngIf="p.applied">SAVED!</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <button (click)="saveBatchPayments()" *ngIf="viewData.appliedPayments.length">
+    Save batch payments
+  </button>
+</div>
 
 <div *ngIf="viewData.showGenerateReportSection">
   <span class="field">
@@ -36,7 +90,9 @@
     </select>
   </span>
 
-  <button (click)="openReport(model.report, model.period)">Open Report</button>
+  <button (click)="openReport(model.report, '' + model.period)">
+    Open Report
+  </button>
 </div>
 
 <div *ngIf="viewData.showGenerateProvisionsSection">

@@ -54,6 +54,8 @@ export class CarteraComponent implements OnInit {
     showGenerateReportSection: boolean;
     showGenerateProvisionsSection: boolean;
     nextMonthWithProvisionsToGenerate: Array<any>;
+    showBatchPaymentsSection: boolean;
+    appliedPayments: Array<any>;
   } = {
     showItemForm: false,
     showPayDetList: false,
@@ -85,6 +87,8 @@ export class CarteraComponent implements OnInit {
     showGenerateReportSection: false,
     showGenerateProvisionsSection: false,
     nextMonthWithProvisionsToGenerate: [],
+    showBatchPaymentsSection: false,
+    appliedPayments: [],
   };
   public model: {
     _paymentType: string;
@@ -98,6 +102,7 @@ export class CarteraComponent implements OnInit {
     report: string;
     nextPeriod: string;
     resetForm: boolean;
+    batchPaymentInput: string;
   } = {
     _paymentType: "normal",
     _dateType: "current",
@@ -110,6 +115,7 @@ export class CarteraComponent implements OnInit {
     report: null,
     nextPeriod: null,
     resetForm: true,
+    batchPaymentInput: null,
   };
   private payDetModel: any = {};
   private payDetFolioModel: any = {};
@@ -632,5 +638,287 @@ export class CarteraComponent implements OnInit {
           title: "Cartera",
         });
       });
+  }
+
+  /**
+   * Syntax: Unit|MonthIdentificationRule|Amount|Details
+   * Where:
+   * MonthIdentificationRule = fragment.split('-').length === 2 ? "Year-Month" : Month
+   * Details = [Detail] with ";" separator
+   * Detail = MonthIdentificationRule[+Amount(default:1480)]
+   */
+  parseBatchPayments(rawInput: string) {
+    const parseDayOfMonth = (raw: number): Date =>
+      DateUtils.stringDateToDate(
+        `${DateUtils.dateOnly().getFullYear()}-${DateUtils.fillString(
+          DateUtils.dateOnly().getMonth() + 1,
+          2,
+          -1,
+          "0"
+        )}-${DateUtils.fillString(raw, 2, -1, "0")}`
+      );
+
+    const parseMonthRule = (
+      raw: string
+    ): { year: number; month: number; isPenalty: boolean } => {
+      const parsed = raw.split("-");
+      const result = {
+        year: new Date().getFullYear(),
+        month: 0,
+        isPenalty: parsed.length === 3,
+      };
+
+      if (parsed.length > 1) {
+        result.year = parseInt(parsed[0]);
+        result.month = parseInt(parsed[1]);
+      }
+      if (parsed.length === 1) {
+        result.month = parseInt(parsed[0]);
+      }
+
+      return result;
+    };
+
+    type paymentRule = {
+      unit: number | string;
+      date: Date;
+      amount: number;
+      details: Array<{
+        year: number;
+        month: number;
+        isPenalty: boolean;
+        amount: number;
+      }>;
+    };
+
+    const parsedInput: Array<paymentRule> = rawInput
+      .split("\n") // separate rows
+      .map((row): paymentRule => {
+        const parts = row.split("|");
+
+        return {
+          unit: parts[0],
+          date: parseDayOfMonth(parseInt(parts[1])),
+          amount: parseFloat(parts[2]),
+          details:
+            parts.length === 3
+              ? []
+              : parts[3].split(";").map(
+                  (
+                    detail: string
+                  ): {
+                    year: number;
+                    month: number;
+                    isPenalty: boolean;
+                    amount: number;
+                  } => {
+                    const parsedDetail = detail.split("+");
+
+                    return {
+                      ...parseMonthRule(parsedDetail[0]),
+                      amount:
+                        parsedDetail.length === 2
+                          ? parseFloat(parsedDetail[1])
+                          : 1480,
+                    };
+                  }
+                ),
+        };
+      })
+      .sort((a, b) => {
+        if (a.date.getTime() > b.date.getTime()) {
+          return 1;
+        }
+        if (a.date.getTime() < b.date.getTime()) {
+          return -1;
+        }
+        if (a.unit > b.unit) {
+          return 1;
+        }
+        return -1;
+      });
+
+    console.log("--parsedInput", parsedInput);
+
+    let nextFolio = 1;
+    this.viewData.appliedPayments = [];
+    this.viewData.appliedPayments = parsedInput.map((i) => {
+      const payDetList = {};
+      const payDetFolioList = {};
+      const payDet = [];
+      let provision: CarteraProvision = null;
+      if (i.details.length > 0) {
+        // add payDet until amount is filled
+        i.details.forEach((current) => {
+          provision = this.viewData.pendingProvisionList.find(
+            (prov) =>
+              prov.cpr_type ===
+                (current.isPenalty ? "cuota-penalidad" : "cuota-normal") &&
+              prov.cpr_year === current.year &&
+              prov.cpr_month === current.month &&
+              prov.cpr_id_unit === String(i.unit)
+          );
+
+          if (provision) {
+            payDetList[provision.cpr_id] = current.amount;
+            payDet.push({
+              provision,
+              provId: provision.cpr_id,
+              amount: current.amount,
+            });
+          } else {
+            // if provision was not found, try in the future provisions listing
+            provision = this.viewData.futureProvisionList.find(
+              (prov) =>
+                prov.cpr_type ===
+                  (current.isPenalty ? "cuota-penalidad" : "cuota-normal") &&
+                prov.cpr_year === current.year &&
+                prov.cpr_month === current.month &&
+                prov.cpr_id_unit === String(i.unit)
+            );
+
+            if (provision) {
+              payDetList[provision.cpr_id] = current.amount;
+              payDet.push({
+                provision,
+                provId: provision.cpr_id,
+                amount: current.amount,
+              });
+            }
+          }
+
+          // if payment is complete for this provision, generate folio
+          if (payDetList[provision.cpr_id] === provision.cpr_remaining) {
+            nextFolio = nextFolio + 1;
+
+            payDetFolioList[
+              provision.cpr_id
+            ] = `${DateUtils.getMonthNameSpanish(
+              DateUtils.dateOnly().getMonth() + 1
+            )
+              .substr(0, 3)
+              .toUpperCase()}${
+              DateUtils.dateOnly().getFullYear() % 100
+            }-${Utils.pad(nextFolio, "0", 3, -1)}`;
+
+            payDet[payDet.length - 1].folio = payDetFolioList[provision.cpr_id];
+          }
+          if (payDetList[provision.cpr_id] > provision.cpr_remaining) {
+            this.notificationService.notify(
+              `Payment not configured correctly, paying ${
+                payDetList[provision.cpr_id]
+              } and remaining ${provision.cpr_remaining} don't match`
+            );
+          }
+        });
+      } else {
+        // no details, add a single payDet for a single payment
+        const provision = this.viewData.pendingProvisionList.find(
+          (prov) =>
+            prov.cpr_type === "cuota-normal" &&
+            prov.cpr_year === i.date.getFullYear() &&
+            prov.cpr_month === i.date.getMonth() + 1 &&
+            prov.cpr_id_unit === String(i.unit)
+        );
+
+        payDetList[provision.cpr_id] = i.amount;
+        payDet.push({
+          provision,
+          provId: provision.cpr_id,
+          amount: i.amount,
+        });
+
+        if (payDetList[provision.cpr_id] === provision.cpr_remaining) {
+          nextFolio = nextFolio + 1;
+
+          payDetFolioList[provision.cpr_id] = `${DateUtils.getMonthNameSpanish(
+            DateUtils.dateOnly().getMonth() + 1
+          )
+            .substr(0, 3)
+            .toUpperCase()}${
+            DateUtils.dateOnly().getFullYear() % 100
+          }-${Utils.pad(nextFolio, "0", 3, -1)}`;
+        }
+
+        payDet[payDet.length - 1].folio = payDetFolioList[provision.cpr_id];
+      }
+
+      console.log("--payment batch data", {
+        i,
+        payDet,
+        payDetList,
+        payDetFolioList,
+      });
+      this.viewData.appliedPayments.push({
+        ...i,
+        payDet,
+        payDetList,
+        payDetFolioList,
+      });
+
+      return {
+        ...i,
+        payDet,
+        payDetList,
+        payDetFolioList,
+      };
+    });
+
+    console.log(
+      "--this.viewData.appliedPayments",
+      this.viewData.appliedPayments
+    );
+  }
+
+  async saveBatchPayments() {
+    for (const i of this.viewData.appliedPayments) {
+      console.log("--scheduling payment", i);
+
+      await this.carteraService
+        .createPayment(
+          "normal",
+          i.date,
+          i.amount,
+          i.unit,
+          `Cuota de Mantenimiento ${DateUtils.getMonthNameSpanish(
+            i.date.getMonth() + 1
+          )} ${i.date.getFullYear()}`,
+          null,
+          i.payDetList,
+          i.payDetFolioList
+        )
+        .then((response) => {
+          i.applied = true;
+          this.notificationService.notify(
+            `Payment created successfully for unit ${i.unit}`,
+            "Cartera"
+          );
+          // save up folios into provisions
+          Object.keys(i.payDetFolioList).forEach((id) => {
+            const prov = this.viewData.pendingProvisionList.find(
+              (p) => p.cpr_id === id
+            );
+            prov.cpr_folio = i.payDetFolioList[id] || null;
+          });
+        });
+    }
+
+    try {
+      await this.carteraService.registerMonthlyIncome(
+        new Date().getFullYear(),
+        new Date().getMonth() + 1
+      );
+
+      this.notificationService.notify(
+        "Monthly income was registered successfully",
+        "Cartera"
+      );
+    } catch (error) {
+      console.error("Failed to register monthly income", error);
+      this.notificationService.notify(
+        "Monthly income failed to register, try again later",
+        "Cartera"
+      );
+    }
   }
 }

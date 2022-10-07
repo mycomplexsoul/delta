@@ -24,6 +24,7 @@ export class MoSQL {
     in: "in",
     lt: "<",
     ge: ">=",
+    lk: "like",
   };
 
   constructor(model?: iEntity) {

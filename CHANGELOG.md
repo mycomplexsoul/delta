@@ -27,11 +27,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.13.10 (2021-07-28) -- In Progress --
+## v1.13.11 (2021-08-28) -- In Progress --
+
+- [AppTasks][new] Added Pinned record and the ability to add tasks to this record
+- [AppTasks][new] Added chart for day distribution tasks
+- [AppTasks][new] Added "Today and urgent" filter
+- [AppTasks][new] Added button to "Pin" (keep all tasks visible) a record, which allows to see all tasks listed without scrollbars
+- [AppCartera][new] Added "Batch Payments" to use simple syntax to register multiple payments
+- [AppCartera][fix] Fixed batch movement income register
+- [AppCartera][new] Allowed to preview batch payments input to verify values
+
+## v1.13.10 (2021-07-28)
 
 - [AppTasks][new] `TaskComponent` - Add parse task code to task.core component
 - [AppCommon][new] `NotificationComponent` - Group notifications with same text, for the `RemindersComponent` convenience
 - [AppCommon][new] Dark Mode - Initial styling using CSS variables
+- [AppCommon][dep] Upgrade dependencies
+- [AppKanban][new] Add languages for displayed texts
+- [AppKanban][new] Add timeline notes and timeline hidden notes
+- [AppKanban][new] Add project filter and filter based on selection
+- [AppKanban][mod] Only fetch from remote in limited cases, but rebuilt UI using same logic
+- [AppKanban][new] Add an age indicator to know when an activity is getting old
+- [AppTasks][new] Add flag to use columns for records with more than 30 tasks
 
 ## v1.13.9 (2021-06-28)
 

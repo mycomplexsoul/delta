@@ -18,13 +18,14 @@ export class CarteraService {
     pendingProvisionList: [],
     futureProvisionList: [],
     nonIdentifiedPaymentList: [],
-    lastFolio: 0
+    lastFolio: 0,
   };
   private config = {
     api: {
       list: "/api/external/cartera/rebuild-pending-payments-month",
-      create: "/api/external/cartera/payment"
-    }
+      create: "/api/external/cartera/payment",
+      registerMonthlyIncome: "/api/external/cartera/register-monthly-income",
+    },
   };
 
   constructor(
@@ -42,12 +43,12 @@ export class CarteraService {
       futureProvisionList: [],
       nonIdentifiedPaymentList: [],
       timelineList: [],
-      lastFolio: 0
+      lastFolio: 0,
     };
 
     return this.sync
       .get(`${this.config.api.list}?year=${year}&month=${month}&future=1`)
-      .then(data => {
+      .then((data) => {
         this.data = {
           pendingProvisionList: data.pendingProvisionList.map(
             (d: any): CarteraProvision => new CarteraProvision(d)
@@ -58,11 +59,11 @@ export class CarteraService {
           nonIdentifiedPaymentList: data.nonIdentifiedPaymentList.map(
             (d: any): CarteraPayment => new CarteraPayment(d)
           ),
-          lastFolio: data.lastFolio
+          lastFolio: data.lastFolio,
         };
         return this.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return defaultData;
       });
   }
@@ -89,24 +90,33 @@ export class CarteraService {
           unit,
           description,
           paymentId,
-          user: this.authenticationService.currentUserValue.username
+          user: this.authenticationService.currentUserValue.username,
         },
         payDetList,
-        payDetFolioList
+        payDetFolioList,
+        registerMovement: false,
       })
-      .then(data => {
+      .then((data) => {
         return {
           payment: new CarteraPayment(data.payment),
           payDetList: data.payDetList.map(
             (d: any): CarteraPayDet => new CarteraPayDet(d)
-          )
+          ),
         };
       })
-      .catch(err => {
+      .catch((err) => {
         return {
           payment: null,
-          payDetList: []
+          payDetList: [],
         };
       });
+  }
+
+  async registerMonthlyIncome(year: number, month: number) {
+    return await this.sync.post(this.config.api.registerMonthlyIncome, {
+      year,
+      month,
+      user: this.authenticationService.currentUserValue.username,
+    });
   }
 }

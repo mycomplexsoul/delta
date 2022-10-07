@@ -301,7 +301,8 @@ textarea.task-multiple {
   padding-right: 2px;
 }
 .task-qualifier-icon img,
-.task-next-todo-icon img {
+.task-next-todo-icon img,
+.task-pinned-todo-icon img {
   width: 12px;
   height: 12px;
   vertical-align: text-top;
@@ -313,7 +314,8 @@ textarea.task-multiple {
 .task-qualifier-flag {
   color: red;
 }
-.task-next-todo-icon {
+.task-next-todo-icon,
+.task-pinned-todo-icon {
   padding-right: 2px;
 }
 .clickable {
@@ -679,6 +681,10 @@ link {
   page-break-before: always;
 }
 
+.page-break-before-auto {
+  page-break-before: auto;
+}
+
 .hide-on-print {
   display: block;
 }
@@ -726,7 +732,8 @@ link {
   background-color: #ffa7a7;
 }
 
-#nextToDoTodayList .task-record {
+#nextToDoTodayList .task-record,
+#pinnedToDoTodayList .task-record {
   max-width: 100%;
   max-height: none;
 }
@@ -824,3 +831,11 @@ kbd {
   box-shadow: inset 7px 10px 12px #f0f0f0;
 }
 /* #endregion */
+
+.status-block {
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+  display: inline-block;
+  border: 1px solid gray;
+}
