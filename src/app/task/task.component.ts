@@ -44,7 +44,15 @@ export class TaskComponent implements OnInit {
     onShowTagStats?: (tag: string, event: Event) => void;
     onGetTaskAgeClass?: (tag: string) => void;
     onGetTaskAge?: (tag: string) => void;
-    onEvent?: ({ type: string, task: Task, changes: any }) => void;
+    onEvent?: ({
+      type,
+      task,
+      changes,
+    }: {
+      type: string;
+      task: Task;
+      changes: any;
+    }) => void;
   } = {
     onViewTaskDetails: null,
     onTaskMarkAsDone: noop,

@@ -14,7 +14,7 @@ const ALL_TASK_STATUS = {
 @Injectable()
 export class TaskCore {
   tasks: any;
-  public onTaskEvent: EventEmitter<{ type: String; task: Task; changes: any }> =
+  public onTaskEvent: EventEmitter<{ type: string; task: Task; changes: any }> =
     new EventEmitter(true);
 
   constructor(private syncService: SyncAPI, private componentHandlers: any) {}
