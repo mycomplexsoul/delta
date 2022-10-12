@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { routing } from "./app.routing";
 
-import { ChartsModule } from "ng2-charts";
+import { NgChartsModule } from "ng2-charts";
 
 import { AppComponent } from "./app.component";
 import { TasksComponent } from "./task/tasks.component";
@@ -71,10 +71,10 @@ import { TaskToolbarComponent } from "./task/task-toolbar.component";
     ReactiveFormsModule,
     HttpClientModule,
     routing,
-    ChartsModule,
+    NgChartsModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: environment.production
-    })
+      enabled: environment.production,
+    }),
   ],
   declarations: [
     AppComponent,
@@ -112,7 +112,7 @@ import { TaskToolbarComponent } from "./task/task-toolbar.component";
     TypeGeneratorComponent,
     AlertComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
   ], // parent & child components
   bootstrap: [AppComponent], // only parent components
   providers: [
@@ -125,7 +125,7 @@ import { TaskToolbarComponent } from "./task/task-toolbar.component";
     TasksCore,
     TaskCore,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-  ]
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
 })
 export class AppModule {}

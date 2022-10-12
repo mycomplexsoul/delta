@@ -27,7 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.13.11 (2021-08-28) -- In Progress --
+## v1.13.12 (2021-09-28) -- In Progress --
+
+- [AppCommon][mod] Upgrade all dependencies
+
+## v1.13.11 (2021-08-28)
 
 - [AppTasks][new] Added Pinned record and the ability to add tasks to this record
 - [AppTasks][new] Added chart for day distribution tasks
