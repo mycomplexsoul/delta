@@ -1840,27 +1840,13 @@ export class TasksComponent implements OnInit {
     useVoice = false,
     minimalUI = false,
   }) {
-    const not = window["Notification"];
-    if (not && not.permission !== "denied") {
-      not.requestPermission(function (status: string) {
-        // send browser notification
-        // status is "granted", if accepted by user
-        const n = new not(title, {
-          body,
-          icon,
-        });
-      });
-    }
     // send in-window notification
     this.notificationService.notifyWithOptions(body, {
       title,
       hideIn,
       minimalUI: true,
+      voice: useVoice,
     });
-    // notify with speech :-D
-    if (useVoice) {
-      this.speechText(body);
-    }
   }
 
   setUnpostpone(t: any) {

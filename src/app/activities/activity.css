@@ -29,11 +29,31 @@
   margin: 0 0 5px 0;
 }
 
+.card-item-container {
+  page-break-inside: avoid;
+  page-break-before: auto;
+}
+
 @media print {
+  .card-list {
+    /* override "flex" since it does not play nice with print report */
+    display: block;
+  }
+
   .card-item-container {
     width: 100%;
-    page-break-inside: avoid;
-    page-break-before: auto;
+  }
+
+  task input[type="checkbox"] {
+    appearance: none;
+  }
+
+  task input[type="checkbox"]::before {
+    content: "-";
+  }
+
+  .task-eta, .task-tags, .task-record-name, .activity-card-options-group {
+    display: none;
   }
 }
 

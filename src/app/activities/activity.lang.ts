@@ -1,7 +1,11 @@
 const TEXT = {
-  ACTIVITIES_TITLE: {
-    en: "Kanban Activities",
-    es: "Kanban Actividades",
+  ACTIVITIES_PAGE_TITLE: {
+    en: "Activities Report",
+    es: "Reporte de Actividades",
+  },
+  ACTIVITIES_REPORT_TITLE: {
+    en: "Activities Report from",
+    es: "Reporte de Actividades al",
   },
   STATUS_CAPTURED: {
     en: "CAPTURED",

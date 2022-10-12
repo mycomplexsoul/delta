@@ -61,6 +61,7 @@ export class ActivityComponent implements OnInit {
     }>;
     projectList: string[];
     selectedProject: string;
+    reportDate: Date;
   } = {
     TEXT: {},
     activityList: [],
@@ -71,6 +72,7 @@ export class ActivityComponent implements OnInit {
     activityGroups: [],
     projectList: ["ALL"],
     selectedProject: "ALL",
+    reportDate: DateUtils.dateOnly(),
   };
 
   public model: {
@@ -108,7 +110,11 @@ export class ActivityComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     this.common = new CommonComponent<Activity>();
-    this.titleService.setTitle(TEXT.ACTIVITIES_TITLE);
+    this.titleService.setTitle(
+      `${DateUtils.dateToStringDate(DateUtils.dateOnly())} ${
+        TEXT.ACTIVITIES_PAGE_TITLE
+      }`
+    );
   }
 
   render(fetchFromRemote: boolean = false) {
@@ -238,7 +244,7 @@ export class ActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.viewData.TEXT = getTextForLang();
+    this.viewData.TEXT = getTextForLang("es");
     this.taskService = new TaskCore(this.syncService, this.handlers);
     this.render(true);
   }
@@ -579,6 +585,7 @@ export class ActivityComponent implements OnInit {
             "Activity was updated successfuly",
             {
               title: "Activities",
+              native: false,
             }
           );
         });

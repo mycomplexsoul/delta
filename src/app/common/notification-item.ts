@@ -10,6 +10,8 @@ type NotificationItem = {
   showHeader: boolean;
   hideIn: number;
   minimalUI: boolean;
+  native: boolean;
+  voice: boolean;
 };
 
 export { NotificationStatus, NotificationItem };

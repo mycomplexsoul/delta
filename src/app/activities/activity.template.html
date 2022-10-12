@@ -1,5 +1,8 @@
 <div>
-  <strong>Activities</strong>
+  <h1 class="page-title text-align-center">
+    {{ viewData.TEXT.ACTIVITIES_REPORT_TITLE }} {{ viewData.reportDate | date:
+    "yyyy-MM-dd" }}
+  </h1>
 
   <span class="field hide-on-print">
     <label for="fSelectedProject" class="label-left">Project</label>
@@ -142,91 +145,99 @@
             <span class="status-block {{item?.additional?.health}}"></span>
             <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
             <span class="activity-name">{{ item.act_name }}</span>
-            <br />
-            <span>[{{ group.act_txt_status }}]</span>
 
-            <span (click)="item.showOptions = !item.showOptions">
-              {{ item.showOptions ? "-" : "+" }}
-            </span>
+            <div class="activity-card-options-group">
+              <span class="activity-status-text"
+                >[{{ group.act_txt_status }}]</span
+              >
 
-            <span class="activity-badge-new" *ngIf="item.isNew">new</span>
-            <span class="activity-badge-edited" *ngIf="item.isEdited"
-              >edited</span
-            >
+              <span
+                class="activity-options-toggle"
+                (click)="item.showOptions = !item.showOptions"
+              >
+                {{ item.showOptions ? "-" : "+" }}
+              </span>
+              <span class="activity-badge-new" *ngIf="item.isNew">new</span>
+              <span class="activity-badge-edited" *ngIf="item.isEdited"
+                >edited</span
+              >
 
-            <span *ngIf="item.showOptions">
-              <br />
-              <button (click)="setModelDetails(item.act_id, itemForm)">
-                details
-              </button>
-              <button
-                *ngIf="item.act_ctg_status === 1"
-                (click)="changeStatus(item.act_id, 'BACKLOG')"
-              >
-                To Backlog
-              </button>
-              <button
-                *ngIf="item.act_ctg_status === 2"
-                (click)="changeStatus(item.act_id, 'OPEN')"
-              >
-                To Open
-              </button>
-              <button
-                *ngIf="item.act_ctg_status === 3"
-                (click)="changeStatus(item.act_id, 'IN PROGRESS')"
-              >
-                To In Progress
-              </button>
-              <button
-                *ngIf="item.act_ctg_status === 4"
-                (click)="changeStatus(item.act_id, 'VERIFICATION')"
-              >
-                To Verification
-              </button>
-              <button
-                *ngIf="item.act_ctg_status === 5"
-                (click)="changeStatus(item.act_id, 'CLOSED')"
-              >
-                To Closed
-              </button>
-              <button
-                *ngIf="item.act_ctg_status !== 6"
-                (click)="addNewTask(item)"
-              >
-                Add new task
-              </button>
-            </span>
+              <span *ngIf="item.showOptions">
+                <br />
+                <button (click)="setModelDetails(item.act_id, itemForm)">
+                  details
+                </button>
+                <button
+                  *ngIf="item.act_ctg_status === 1"
+                  (click)="changeStatus(item.act_id, 'BACKLOG')"
+                >
+                  To Backlog
+                </button>
+                <button
+                  *ngIf="item.act_ctg_status === 2"
+                  (click)="changeStatus(item.act_id, 'OPEN')"
+                >
+                  To Open
+                </button>
+                <button
+                  *ngIf="item.act_ctg_status === 3"
+                  (click)="changeStatus(item.act_id, 'IN PROGRESS')"
+                >
+                  To In Progress
+                </button>
+                <button
+                  *ngIf="item.act_ctg_status === 4"
+                  (click)="changeStatus(item.act_id, 'VERIFICATION')"
+                >
+                  To Verification
+                </button>
+                <button
+                  *ngIf="item.act_ctg_status === 5"
+                  (click)="changeStatus(item.act_id, 'CLOSED')"
+                >
+                  To Closed
+                </button>
+                <button
+                  *ngIf="item.act_ctg_status !== 6"
+                  (click)="addNewTask(item)"
+                >
+                  Add new task
+                </button>
+              </span>
+            </div>
           </div>
 
-          <div *ngIf="item.additional.lastTimeline">
-            <span
-              ><strong>
-                Último Estatus (x{{item.additional.timeline.length}})
-              </strong></span
-            >
+          <div class="activity-card-body">
+            <div *ngIf="item.additional.lastTimeline">
+              <span
+                ><strong>
+                  Último Estatus (x{{item.additional.timeline.length}})
+                </strong></span
+              >
 
-            <div>
-              - {{ item.additional.lastTimeline.tim_date | date: "yyyy-MM-dd" }}
-              | {{ item.additional.lastTimeline.tim_description }}
+              <div>
+                - {{ item.additional.lastTimeline.tim_date | date: "yyyy-MM-dd"
+                }} | {{ item.additional.lastTimeline.tim_description }}
+              </div>
+
+              <hr *ngIf="item['additional']?.tasks?.length > 0" />
             </div>
 
-            <hr *ngIf="item['additional']?.tasks?.length > 0" />
-          </div>
+            <div *ngIf="item['additional']?.tasks?.length > 0">
+              <span><strong> Actividades </strong></span>
+            </div>
 
-          <div *ngIf="item['additional']?.tasks?.length > 0">
-            <span><strong> Actividades </strong></span>
-          </div>
-
-          <div *ngFor="let t of item['additional'].tasks">
-            <task
-              [task]="t"
-              [handlers]="handlers"
-              [options]="{
-              optShowRecordNameInline: true,
-              optShowBadgeIfTaskIsInBacklog: true,
-              optShowTimeTrackingHistory: false
-            }"
-            ></task>
+            <div *ngFor="let t of item['additional'].tasks">
+              <task
+                [task]="t"
+                [handlers]="handlers"
+                [options]="{
+                optShowRecordNameInline: true,
+                optShowBadgeIfTaskIsInBacklog: true,
+                optShowTimeTrackingHistory: false
+              }"
+              ></task>
+            </div>
           </div>
         </div>
       </div>

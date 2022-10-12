@@ -19,7 +19,9 @@ export class NotificationService {
     date: Date = new Date(),
     status: NotificationStatus = "queue",
     showHeader: boolean = false,
-    minimalUI: boolean = false
+    minimalUI: boolean = false,
+    native: boolean = true,
+    voice: boolean = true
   ) {
     const id: string = Utils.hashId("not", 32);
     const notification: NotificationItem = {
@@ -32,6 +34,8 @@ export class NotificationService {
       title,
       showHeader,
       minimalUI,
+      native,
+      voice,
     };
     this.queue.push(notification);
     this.provider.next(notification);
@@ -53,6 +57,8 @@ export class NotificationService {
       status = "queue",
       showHeader = false,
       minimalUI = true,
+      native = true,
+      voice = true,
     }
   ): NotificationItem {
     const id: string = Utils.hashId("not", 32);
@@ -66,6 +72,8 @@ export class NotificationService {
       title,
       showHeader,
       minimalUI,
+      native,
+      voice,
     };
 
     this.queue.push(notification);

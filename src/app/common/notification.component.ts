@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NotificationItem } from "./notification-item";
 import { NotificationService } from "./notification.service";
 import { Subscription } from "rxjs";
+import { TextToSpeech } from "./speechRecognition";
 
 @Component({
   selector: "notification",
@@ -11,6 +12,7 @@ import { Subscription } from "rxjs";
 export class NotificationComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   public notificationList: NotificationItem[] = [];
+  private speech = new TextToSpeech();
 
   constructor(private notificationService: NotificationService) {}
 
@@ -29,6 +31,25 @@ export class NotificationComponent implements OnInit, OnDestroy {
           item.count = found.count + 1;
         }
         this.notificationList.push(item);
+
+        if (item.native) {
+          const not = window["Notification"];
+          if (not && not.permission !== "denied") {
+            not.requestPermission(function (status: string) {
+              // send browser notification
+              // status is "granted", if accepted by user
+              const n = new not(item.title, {
+                body: item.message,
+                icon: "favicon.ico", // TODO: Parametrize icon for notifications
+              });
+            });
+          }
+        }
+
+        if (item.voice) {
+          // notify with speech :-D
+          this.speech.textToSpeechVoice(item.message);
+        }
 
         if (item.hideIn) {
           setTimeout(() => this.onClose(item), item.hideIn);

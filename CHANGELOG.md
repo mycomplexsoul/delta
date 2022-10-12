@@ -36,6 +36,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [AppCartera][new] Added "Batch Payments" to use simple syntax to register multiple payments
 - [AppCartera][fix] Fixed batch movement income register
 - [AppCartera][new] Allowed to preview batch payments input to verify values
+- [AppKanban][mod] Improve styles and internationalization texts
+- [AppKanban][fix] Fix print styles
+- [AppCommon][mod] Refactor Notification component to centralize native notifications and voice notifications
 
 ## v1.13.10 (2021-07-28)
 
