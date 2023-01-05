@@ -19,7 +19,7 @@ import { NotificationService } from "../common/notification.service";
   selector: "balance",
   templateUrl: "./balance.template.html",
   styleUrls: ["./balance.css"],
-  providers: [BalanceService, MovementService]
+  providers: [BalanceService, MovementService],
 })
 export class BalanceComponent implements OnInit {
   public viewData: {
@@ -63,7 +63,7 @@ export class BalanceComponent implements OnInit {
       expenseCount: number;
       incomeCount: number;
       transferCount: number;
-    }
+    };
   } = {
     balance: [],
     movements: [],
@@ -75,56 +75,56 @@ export class BalanceComponent implements OnInit {
     monthlyExpenseChart: {
       chartData: [
         {
-          data: []
-        }
+          data: [],
+        },
       ],
       chartLabels: [],
       chartOptions: {
-        responsive: true
+        responsive: true,
       },
       chartLegend: true,
-      chartType: "pie"
+      chartType: "pie",
     },
     monthlyIncomeChart: {
       chartData: [
         {
-          data: []
-        }
+          data: [],
+        },
       ],
       chartLabels: [],
       chartOptions: {
-        responsive: true
+        responsive: true,
       },
       chartLegend: true,
-      chartType: "pie"
+      chartType: "pie",
     },
     showOptions: false,
     monthlyExpenseVsIncomeChart: {
       chartType: "bar",
       chartData: [
         {
-          data: []
-        }
+          data: [],
+        },
       ],
-      chartLabels: []
+      chartLabels: [],
     },
     monthlyExpenseComparisonChart: {
       chartType: "line",
       chartData: [
         {
-          data: []
-        }
+          data: [],
+        },
       ],
-      chartLabels: []
+      chartLabels: [],
     },
     monthlyExpenseComparisonFoodChart: {
       chartType: "line",
       chartData: [
         {
-          data: []
-        }
+          data: [],
+        },
       ],
-      chartLabels: []
+      chartLabels: [],
     },
     selectedTotal: 0,
     selectedIncome: 0,
@@ -140,8 +140,8 @@ export class BalanceComponent implements OnInit {
       movementCount: 0,
       expenseCount: 0,
       incomeCount: 0,
-      transferCount: 0
-    }
+      transferCount: 0,
+    },
   };
   public model: {
     iterable: number;
@@ -156,12 +156,12 @@ export class BalanceComponent implements OnInit {
     month: 12,
     selectedBalance: null,
     movementListingView: "compact",
-    selectedMonthName: null
+    selectedMonthName: null,
   };
   public state: {
     movementList: Movement[];
   } = {
-    movementList: []
+    movementList: [],
   };
 
   constructor(
@@ -190,10 +190,10 @@ export class BalanceComponent implements OnInit {
         new Date().getFullYear() * 100 + (new Date().getMonth() + 1);
     }
     this.parseIterable();
-      
+
     this.balanceService.getAll().then((list: Array<Balance>) => {
       this.viewData.balance = list;
-  
+
       this.viewData.monthBalance = this.filterMonthBalance();
       this.viewData.balanceDistribution = this.balanceDistribution(
         this.viewData.monthBalance
@@ -201,18 +201,20 @@ export class BalanceComponent implements OnInit {
 
       // TODO: add list of year/months of balance for combo box
       this.viewData.monthList = this.balanceService.monthList();
-  
+
       if (shouldCheckForCurrentBalance) {
         this.checkCurrentBalance(list);
       }
-  
+
       this.monthlyIncomeVsExpense();
     });
     this.movementService.getAll().then((list: Array<Movement>) => {
       this.state.movementList = list;
       this.monthlyTotals();
     });
-    this.notificationService.notifyWithOptions('Data refreshed correctly', { title: 'Balance' });
+    this.notificationService.notifyWithOptions("Data refreshed correctly", {
+      title: "Balance",
+    });
     return null;
   }
 
@@ -236,17 +238,17 @@ export class BalanceComponent implements OnInit {
 
   balanceDistribution(monthBalance: Balance[]) {
     return [...Array(7).keys()]
-      .map(i => ({
+      .map((i) => ({
         type: i,
         total: monthBalance
-          .filter(b => b.bal_ctg_account_type === i)
+          .filter((b) => b.bal_ctg_account_type === i)
           .reduce((sum, current) => sum + current.bal_final, 0),
         name:
-          monthBalance.find(b => b.bal_ctg_account_type === i) &&
-          monthBalance.find(b => b.bal_ctg_account_type === i)
-            .bal_txt_account_type
+          monthBalance.find((b) => b.bal_ctg_account_type === i) &&
+          monthBalance.find((b) => b.bal_ctg_account_type === i)
+            .bal_txt_account_type,
       }))
-      .filter(t => t.name);
+      .filter((t) => t.name);
   }
 
   parseIterable() {
@@ -259,7 +261,7 @@ export class BalanceComponent implements OnInit {
     this.viewData.monthBalance = this.filterMonthBalance();
     if (this.model.selectedBalance) {
       this.model.selectedBalance = this.viewData.balance.find(
-        b =>
+        (b) =>
           b.bal_id_account === this.model.selectedBalance.bal_id_account &&
           b.bal_year === this.model.year &&
           b.bal_month === this.model.month
@@ -297,10 +299,8 @@ export class BalanceComponent implements OnInit {
 
   renderMovements(balance: Balance, event: Event) {
     event && event.preventDefault && event.preventDefault();
-    const url = `/api/movements/average-balance?account=${
-      balance.bal_id_account
-    }&checkday=true&year=${balance.bal_year}&month=${balance.bal_month}`;
-    this.syncService.get(url).then(response => {
+    const url = `/api/movements/average-balance?account=${balance.bal_id_account}&checkday=true&year=${balance.bal_year}&month=${balance.bal_month}`;
+    this.syncService.get(url).then((response) => {
       this.viewData.averageBalanceInfo = response;
       this.viewData.averageBalanceInfo.startingDate = new Date(
         this.viewData.averageBalanceInfo.startingDate
@@ -308,19 +308,18 @@ export class BalanceComponent implements OnInit {
       this.viewData.averageBalanceInfo.finalDate = new Date(
         this.viewData.averageBalanceInfo.finalDate
       );
-      this.viewData.averageBalanceInfo.dailyBalance = this.viewData.averageBalanceInfo.dailyBalance.map(
-        (balance, index) => ({
+      this.viewData.averageBalanceInfo.dailyBalance =
+        this.viewData.averageBalanceInfo.dailyBalance.map((balance, index) => ({
           date: DateUtils.addDays(
             this.viewData.averageBalanceInfo.startingDate,
             index
           ),
-          balance
-        })
-      );
+          balance,
+        }));
     });
     this.movementService.getAll().then((list: Array<Movement>) => {
       let ref = balance.bal_year * 100 + balance.bal_month;
-      this.viewData.movements = list.filter(m => {
+      this.viewData.movements = list.filter((m) => {
         let movRef =
           new Date(m.mov_date).getFullYear() * 100 +
           (new Date(m.mov_date).getMonth() + 1);
@@ -347,7 +346,7 @@ export class BalanceComponent implements OnInit {
   monthlyTotals() {
     this.parseIterable();
     const movementList: Movement[] = this.state.movementList.filter(
-      item =>
+      (item) =>
         item.mov_date.getFullYear() === this.model.year &&
         item.mov_date.getMonth() + 1 === this.model.month
     );
@@ -357,16 +356,22 @@ export class BalanceComponent implements OnInit {
     this.viewData.movementsPerSelectedCategories = [];
 
     this.viewData.movementSummary.movementCount = movementList.length;
-    this.viewData.movementSummary.expenseCount = movementList.filter(m => m.mov_ctg_type === 1).length;
-    this.viewData.movementSummary.incomeCount = movementList.filter(m => m.mov_ctg_type === 2).length;
-    this.viewData.movementSummary.transferCount = movementList.filter(m => m.mov_ctg_type === 3).length;
+    this.viewData.movementSummary.expenseCount = movementList.filter(
+      (m) => m.mov_ctg_type === 1
+    ).length;
+    this.viewData.movementSummary.incomeCount = movementList.filter(
+      (m) => m.mov_ctg_type === 2
+    ).length;
+    this.viewData.movementSummary.transferCount = movementList.filter(
+      (m) => m.mov_ctg_type === 3
+    ).length;
 
     const data = {
       income: movementList
-        .filter(item => item.mov_ctg_type === 2)
+        .filter((item) => item.mov_ctg_type === 2)
         .reduce((previous, item) => {
           const categoryGroup: T = previous.find(
-            x => x.title === item.mov_txt_category
+            (x) => x.title === item.mov_txt_category
           );
           if (categoryGroup) {
             categoryGroup.movements.push(item);
@@ -375,16 +380,16 @@ export class BalanceComponent implements OnInit {
             previous.push({
               title: item.mov_txt_category,
               movements: [item],
-              total: item.mov_amount
+              total: item.mov_amount,
             });
           }
           return previous;
         }, []),
       expenses: movementList
-        .filter(item => item.mov_ctg_type === 1)
+        .filter((item) => item.mov_ctg_type === 1)
         .reduce((previous, item) => {
           const categoryGroup: T = previous.find(
-            x => x.title === item.mov_txt_category
+            (x) => x.title === item.mov_txt_category
           );
           if (categoryGroup) {
             categoryGroup.movements.push(item);
@@ -393,19 +398,19 @@ export class BalanceComponent implements OnInit {
             previous.push({
               title: item.mov_txt_category,
               movements: [item],
-              total: item.mov_amount
+              total: item.mov_amount,
             });
           }
           return previous;
-        }, [])
+        }, []),
     };
 
     // include totals
-    data.income.forEach(item => {
+    data.income.forEach((item) => {
       item["total"] = item.movements.reduce((p, x) => p + x.mov_amount, 0);
     });
 
-    data.expenses.forEach(item => {
+    data.expenses.forEach((item) => {
       item["total"] = item.movements.reduce((p, x) => p + x.mov_amount, 0);
     });
     console.log("monthlyTotals", data);
@@ -413,39 +418,51 @@ export class BalanceComponent implements OnInit {
     // get category listing
     const { monthCount } = this.viewData;
     const { year, month } = this.model;
-    const initialDate: Date = DateUtils.addMonths(new Date(year, month - 1, 1, 0, 0, 0), -1 * monthCount);
+    const initialDate: Date = DateUtils.addMonths(
+      new Date(year, month - 1, 1, 0, 0, 0),
+      -1 * monthCount
+    );
     const finalDate: Date = new Date(year, month + 1, 1);
     let categoryList: Category[] = [];
 
-    this.state.movementList.filter(
-        m => m.mov_date.getTime() >= initialDate.getTime() &&
-        finalDate.getTime() > m.mov_date.getTime()
-        && m.mov_ctg_type === 1
-      ).map(m => new Category({
-        mct_id: m.mov_id_category,
-        mct_name: m.mov_txt_category
-    })).forEach(c => {
-      if (!categoryList.find(cat => cat.mct_id === c.mct_id)) {
-        categoryList.push(c);
-      }
-    });
-    categoryList = categoryList.sort((a, b) => a.mct_name > b.mct_name ? 1 : -1);
+    this.state.movementList
+      .filter(
+        (m) =>
+          m.mov_date.getTime() >= initialDate.getTime() &&
+          finalDate.getTime() > m.mov_date.getTime() &&
+          m.mov_ctg_type === 1
+      )
+      .map(
+        (m) =>
+          new Category({
+            mct_id: m.mov_id_category,
+            mct_name: m.mov_txt_category,
+          })
+      )
+      .forEach((c) => {
+        if (!categoryList.find((cat) => cat.mct_id === c.mct_id)) {
+          categoryList.push(c);
+        }
+      });
+    categoryList = categoryList.sort((a, b) =>
+      a.mct_name > b.mct_name ? 1 : -1
+    );
     this.viewData.categoryList = categoryList;
 
     const chartExpenses = this.viewData.monthlyExpenseChart;
     chartExpenses.chartData = [
-      { data: data.expenses.map(item => item.total), label: "Expenses" }
+      { data: data.expenses.map((item) => item.total), label: "Expenses" },
     ];
     chartExpenses.chartLabels = data.expenses.map(
-      item => `${item.title} (${item.movements.length})`
+      (item) => `${item.title} (${item.movements.length})`
     );
 
     const chartIncome = this.viewData.monthlyIncomeChart;
     chartIncome.chartData = [
-      { data: data.income.map(item => item.total), label: "Income" }
+      { data: data.income.map((item) => item.total), label: "Income" },
     ];
     chartIncome.chartLabels = data.income.map(
-      item => `${item.title} (${item.movements.length})`
+      (item) => `${item.title} (${item.movements.length})`
     );
 
     this.monthlyExpenseComparison();
@@ -458,7 +475,7 @@ export class BalanceComponent implements OnInit {
     const parsedMonth: number = this.model.iterable % 100;
     return {
       parsedYear,
-      parsedMonth
+      parsedMonth,
     };
   }
 
@@ -469,11 +486,13 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/rebuild", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: this.authenticationService.currentUserValue.username
+        user: this.authenticationService.currentUserValue.username,
       })
       .then(this.fetchBalance.bind(this))
       .then(() => {
-          this.notificationService.notify('Rebuild finished correctly, balances are updated');
+        this.notificationService.notify(
+          "Rebuild finished correctly, balances are updated"
+        );
       });
   }
 
@@ -484,11 +503,13 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/transfer", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: this.authenticationService.currentUserValue.username
+        user: this.authenticationService.currentUserValue.username,
       })
       .then(this.fetchBalance.bind(this))
       .then(() => {
-          this.notificationService.notify('Transfer finished correctly, balances are updated');
+        this.notificationService.notify(
+          "Transfer finished correctly, balances are updated"
+        );
       });
   }
 
@@ -499,11 +520,13 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/rebuild-and-transfer", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: this.authenticationService.currentUserValue.username
+        user: this.authenticationService.currentUserValue.username,
       })
       .then(this.fetchBalance.bind(this))
       .then(() => {
-          this.notificationService.notify('Rebuild and transfer finished correctly, balances are updated');
+        this.notificationService.notify(
+          "Rebuild and transfer finished correctly, balances are updated"
+        );
       });
   }
 
@@ -514,18 +537,20 @@ export class BalanceComponent implements OnInit {
       .post("/api/balance/rebuild-and-transfer-range", {
         year: model.parsedYear,
         month: model.parsedMonth,
-        user: this.authenticationService.currentUserValue.username
+        user: this.authenticationService.currentUserValue.username,
       })
       .then(this.fetchBalance.bind(this))
       .then(() => {
-          this.notificationService.notify('Rebuild and transfer finished correctly, balances are updated');
+        this.notificationService.notify(
+          "Rebuild and transfer finished correctly, balances are updated"
+        );
       });
   }
 
   monthlyIncomeVsExpense() {
     this.parseIterable();
     const capitalAccountId: string = "1";
-    const itemCount: number = 12;
+    const itemCount: number = 18;
     const monthList: {
       iterable: number;
       year: number;
@@ -536,45 +561,45 @@ export class BalanceComponent implements OnInit {
       .reverse();
     const capitalBalanceMonthly: Balance[] = this.balanceService
       .list()
-      .filter(b => b.bal_id_account === capitalAccountId);
+      .filter((b) => b.bal_id_account === capitalAccountId);
     const graphData = {
-      chartLabels: monthList.map(m => m.name),
+      chartLabels: monthList.map((m) => m.name),
       chartData: [
         {
           label: `Income`,
           backgroundColor: "rgb(54, 162, 235)",
           borderColor: "rgb(54, 162, 235)",
           data: monthList.map(
-            m =>
+            (m) =>
               capitalBalanceMonthly.find(
-                b => b.bal_year === m.year && b.bal_month === m.month
+                (b) => b.bal_year === m.year && b.bal_month === m.month
               ).bal_withdrawals
-          )
+          ),
         },
         {
           label: `Expenses`,
           backgroundColor: "rgb(255, 99, 132)",
           borderColor: "rgb(255, 99, 132)",
           data: monthList.map(
-            m =>
+            (m) =>
               capitalBalanceMonthly.find(
-                b => b.bal_year === m.year && b.bal_month === m.month
+                (b) => b.bal_year === m.year && b.bal_month === m.month
               ).bal_charges
-          )
+          ),
         },
         {
           label: `Final`,
           backgroundColor: "rgb(75, 192, 192)",
           borderColor: "rgb(75, 192, 192)",
           data: monthList.map(
-            m =>
+            (m) =>
               capitalBalanceMonthly.find(
-                b => b.bal_year === m.year && b.bal_month === m.month
+                (b) => b.bal_year === m.year && b.bal_month === m.month
               ).bal_final * -1
-          )
-        }
+          ),
+        },
       ],
-      chartType: "pie"
+      chartType: "bar",
     };
 
     this.viewData.monthlyExpenseVsIncomeChart = graphData;
@@ -595,13 +620,13 @@ export class BalanceComponent implements OnInit {
 
     const existsBalanceForCurrentMonth: boolean =
       balanceList.filter(
-        b => b.bal_year * 100 + b.bal_month === currentMonthIterable
+        (b) => b.bal_year * 100 + b.bal_month === currentMonthIterable
       ).length > 0;
 
     if (!existsBalanceForCurrentMonth) {
       const existsBalanceForPreviousMonth: boolean =
         balanceList.filter(
-          b => b.bal_year * 100 + b.bal_month === previousMonthIterable
+          (b) => b.bal_year * 100 + b.bal_month === previousMonthIterable
         ).length > 0;
 
       if (existsBalanceForPreviousMonth) {
@@ -611,12 +636,27 @@ export class BalanceComponent implements OnInit {
     }
   }
 
-  selectMovement({value: movement, event}: {value: Movement, event: Event}) {
-    const factor = event.target['checked'] ? 1 : -1;
-    if (movement.mov_ctg_type === 1 || (movement.mov_ctg_type === 3 && movement.mov_id_account === this.model.selectedBalance.bal_id_account)) {
+  selectMovement({
+    value: movement,
+    event,
+  }: {
+    value: Movement;
+    event: Event;
+  }) {
+    const factor = event.target["checked"] ? 1 : -1;
+    if (
+      movement.mov_ctg_type === 1 ||
+      (movement.mov_ctg_type === 3 &&
+        movement.mov_id_account === this.model.selectedBalance.bal_id_account)
+    ) {
       this.viewData.selectedExpense += factor * movement.mov_amount;
     }
-    if (movement.mov_ctg_type === 2 || (movement.mov_ctg_type === 3 && movement.mov_id_account_to === this.model.selectedBalance.bal_id_account)) {
+    if (
+      movement.mov_ctg_type === 2 ||
+      (movement.mov_ctg_type === 3 &&
+        movement.mov_id_account_to ===
+          this.model.selectedBalance.bal_id_account)
+    ) {
       this.viewData.selectedIncome += factor * movement.mov_amount;
     }
 
@@ -641,13 +681,13 @@ export class BalanceComponent implements OnInit {
 
     const data = this.viewData.comparisonMonthlyExpense;
     const graphData = {
-      chartLabels: data.dailyTotals.map(d => d.day),
-      chartData: [...Array(monthCount + 1).keys()].map(i => ({
+      chartLabels: data.dailyTotals.map((d) => d.day),
+      chartData: [...Array(monthCount + 1).keys()].map((i) => ({
         label: `${DateUtils.getMonthName((this.model.month - i + 12) % 12)} ${
           this.model.year
         } ${
           data.dailyTotals.map(
-            t => `$${t[`expenseMonth${i}`]} (${t[`expenseMonthCount${i}`]})`
+            (t) => `$${t[`expenseMonth${i}`]} (${t[`expenseMonthCount${i}`]})`
           )[
             DateUtils.lastDayInMonth(
               this.model.year,
@@ -656,11 +696,11 @@ export class BalanceComponent implements OnInit {
           ]
         }`,
         fill: false,
-        data: data.dailyTotals.map(t => t[`expenseMonth${i}`])
+        data: data.dailyTotals.map((t) => t[`expenseMonth${i}`]),
       })),
-      chartType: "line"
+      chartType: "line",
     };
-    console.log('-- graphData', graphData);
+    console.log("-- graphData", graphData);
 
     this.viewData.monthlyExpenseComparisonChart = graphData;
   }
@@ -674,8 +714,10 @@ export class BalanceComponent implements OnInit {
       this.model.year,
       this.model.month,
       monthCount,
-      m =>
-        !!this.viewData.selectedCategories.find(c => c.mct_id === m.mov_id_category)
+      (m) =>
+        !!this.viewData.selectedCategories.find(
+          (c) => c.mct_id === m.mov_id_category
+        )
     );
     console.log(
       "comparison day by day food",
@@ -684,38 +726,46 @@ export class BalanceComponent implements OnInit {
 
     const data = this.viewData.comparisonMonthlyExpenseFood;
     const graphData = {
-      chartLabels: data.dailyTotals.map(d => d.day),
-      chartData: [...Array(monthCount + 1).keys()].map(i => ({
-        label: `${DateUtils.getMonthName(((this.model.month - i + 12) % 12 === 0) ? 12 : (this.model.month - i + 12) % 12 )} ${
-          this.model.year
-        } ${
+      chartLabels: data.dailyTotals.map((d) => d.day),
+      chartData: [...Array(monthCount + 1).keys()].map((i) => ({
+        label: `${DateUtils.getMonthName(
+          (this.model.month - i + 12) % 12 === 0
+            ? 12
+            : (this.model.month - i + 12) % 12
+        )} ${this.model.year} ${
           data.dailyTotals.map(
-            t => `${t[`expenseMonth${i}`]} (${t[`expenseMonthCount${i}`]})`
+            (t) => `${t[`expenseMonth${i}`]} (${t[`expenseMonthCount${i}`]})`
           )[
             DateUtils.lastDayInMonth(
               this.model.year,
-              (this.model.month - i + 12) % 12 === 0 ? 12 : (this.model.month - i + 12) % 12
+              (this.model.month - i + 12) % 12 === 0
+                ? 12
+                : (this.model.month - i + 12) % 12
             ) - 1
           ]
         }`,
         fill: false,
-        data: data.dailyTotals.map(t => t[`expenseMonth${i}`])
+        data: data.dailyTotals.map((t) => t[`expenseMonth${i}`]),
       })),
-      chartType: "line"
+      chartType: "line",
     };
 
     this.viewData.monthlyExpenseComparisonFoodChart = graphData;
   }
 
   toggleCategorySelection(id: string, event: Event) {
-    if (event.target['checked']) {
-      if (!this.viewData.selectedCategories.find(c => c.mct_id === id)) {
-        this.viewData.selectedCategories.push(this.viewData.categoryList.find(c => c.mct_id === id));
+    if (event.target["checked"]) {
+      if (!this.viewData.selectedCategories.find((c) => c.mct_id === id)) {
+        this.viewData.selectedCategories.push(
+          this.viewData.categoryList.find((c) => c.mct_id === id)
+        );
       }
-    }
-    else {
-      if (this.viewData.selectedCategories.find(c => c.mct_id === id)) {
-        this.viewData.selectedCategories.splice(this.viewData.selectedCategories.findIndex(c => c.mct_id === id), 1);
+    } else {
+      if (this.viewData.selectedCategories.find((c) => c.mct_id === id)) {
+        this.viewData.selectedCategories.splice(
+          this.viewData.selectedCategories.findIndex((c) => c.mct_id === id),
+          1
+        );
       }
     }
 
@@ -723,18 +773,23 @@ export class BalanceComponent implements OnInit {
     const initialDate: Date = new Date(year, month - 1, 1);
     const finalDate: Date = new Date(year, month, 1);
 
-    this.viewData.movementsPerSelectedCategories = this.state.movementList.filter(m => 
-      m.mov_date.getTime() >= initialDate.getTime() &&
-      m.mov_date.getTime() < finalDate.getTime() &&
-      m.mov_ctg_type === 1 &&
-      !!this.viewData.selectedCategories.find(c => c.mct_id === m.mov_id_category));
-    
+    this.viewData.movementsPerSelectedCategories =
+      this.state.movementList.filter(
+        (m) =>
+          m.mov_date.getTime() >= initialDate.getTime() &&
+          m.mov_date.getTime() < finalDate.getTime() &&
+          m.mov_ctg_type === 1 &&
+          !!this.viewData.selectedCategories.find(
+            (c) => c.mct_id === m.mov_id_category
+          )
+      );
+
     this.monthlyExpenseComparisonFood();
   }
 
   selectAllCategories() {
     this.viewData.categoryList.forEach(({ mct_id }) => {
-      document.querySelector(`input[type=checkbox]#cat${mct_id}`)['click']();
+      document.querySelector(`input[type=checkbox]#cat${mct_id}`)["click"]();
     });
   }
 }

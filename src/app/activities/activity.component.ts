@@ -59,7 +59,11 @@ export class ActivityComponent implements OnInit {
       act_txt_status: string;
       items: Activity[];
     }>;
-    projectList: string[];
+    projectList: Array<{
+      id: string;
+      name: string;
+      count: number;
+    }>;
     selectedProject: string;
     reportDate: Date;
   } = {
@@ -70,7 +74,13 @@ export class ActivityComponent implements OnInit {
     timelineKey: "activity|",
     keyvalList: [],
     activityGroups: [],
-    projectList: ["ALL"],
+    projectList: [
+      {
+        id: "ALL",
+        name: "ALL",
+        count: 0,
+      },
+    ],
     selectedProject: "ALL",
     reportDate: DateUtils.dateOnly(),
   };
@@ -138,14 +148,26 @@ export class ActivityComponent implements OnInit {
           this.viewData.projectList = this.viewData.activityList.reduce(
             (prev, current) => {
               const projectId = current.act_tasks_tag.split("-")[0];
-              const found = prev.find((p) => p === projectId);
+              const found = prev.find((p) => p.id === projectId);
 
               if (!found && projectId) {
-                prev.push(projectId);
+                prev.push({
+                  id: projectId,
+                  name: projectId,
+                  count: this.viewData.activityList.filter((a) =>
+                    a.act_tasks_tag.startsWith(projectId)
+                  ).length,
+                });
               }
               return prev;
             },
-            ["ALL"]
+            [
+              {
+                id: "ALL",
+                name: "ALL",
+                count: this.viewData.activityList.length,
+              },
+            ]
           );
         })
       );
@@ -173,11 +195,16 @@ export class ActivityComponent implements OnInit {
 
         a["additional"] = {
           tasks: tagTasks.sort(this.sortTasks),
-          timeline: this.viewData.timelineList.filter(
-            (t) =>
-              t.tim_id_record === this.viewData.timelineKey + a.act_id &&
-              !t.tim_tags.includes("note")
-          ),
+          timeline: this.viewData.timelineList
+            .filter(
+              (t) =>
+                t.tim_id_record === this.viewData.timelineKey + a.act_id &&
+                !t.tim_tags.includes("note")
+            )
+            .map((t) => {
+              t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
+              return t;
+            }),
           notes: this.viewData.timelineList.filter(
             (t) =>
               t.tim_id_record === this.viewData.timelineKey + a.act_id &&
@@ -367,7 +394,7 @@ export class ActivityComponent implements OnInit {
 
           const newItem = await this.activityService.newItem(item);
           newItem.act_txt_status = ALL_STATUS_TEXT[newItem.act_ctg_status - 1];
-          this.generateViewData();
+          this.render(false);
           return newItem;
         },
         onFinalExecution: () => {
@@ -447,11 +474,17 @@ export class ActivityComponent implements OnInit {
 
         this.model.additional = {
           tasks: this.model.tasks,
-          timeline: this.viewData.timelineList.filter(
-            (t) =>
-              t.tim_id_record === this.viewData.timelineKey + model["act_id"] &&
-              !t.tim_tags.includes("note")
-          ),
+          timeline: this.viewData.timelineList
+            .filter(
+              (t) =>
+                t.tim_id_record ===
+                  this.viewData.timelineKey + model["act_id"] &&
+                !t.tim_tags.includes("note")
+            )
+            .map((t) => {
+              t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
+              return t;
+            }),
           notes: this.viewData.timelineList.filter(
             (t) =>
               t.tim_id_record === this.viewData.timelineKey + model.act_id &&

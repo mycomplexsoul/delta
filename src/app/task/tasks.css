@@ -20,6 +20,9 @@ span.task-priority {
 span.task-unexpected {
   background-color: var(--task-q-unexpected);
 }
+span.task-critical {
+  background-color: var(--task-q-critical);
+}
 /* #endregion */
 
 .task-record-collapsed {

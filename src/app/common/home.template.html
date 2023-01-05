@@ -4,7 +4,7 @@
 Diagnostic information from your device
 <div>Memory: {{ viewData.device.deviceMemory }}</div>
 <div>Logical processors: {{ viewData.device.hardwareConcurrency }}</div>
-<div>Network: {{ viewData.device.connection.effectiveType }}</div>
+<div>Network: {{ viewData.device?.connection?.effectiveType }}</div>
 <div>Browser language: {{ viewData.device.language }}</div>
 <div>Platform: {{ viewData.device.platform }}</div>
 <div>User Agent: {{ viewData.device.userAgent }}</div>

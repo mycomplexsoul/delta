@@ -13,8 +13,8 @@
       [(ngModel)]="viewData.selectedProject"
       (change)="onChangeProject(viewData.selectedProject)"
     >
-      <option *ngFor="let opt of viewData.projectList" value="{{ opt }}">
-        {{ opt }}
+      <option *ngFor="let opt of viewData.projectList" value="{{ opt.id }}">
+        {{ opt.name }} ({{ opt.count }})
       </option>
     </select>
   </span>
@@ -88,7 +88,8 @@
     >
 
     <div *ngFor="let t of model.additional?.timeline">
-      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+      <span [innerHtml]="item.additional.lastTimeline.tim_description"></span>
     </div>
 
     <timeline
@@ -99,7 +100,8 @@
     <span><strong> Notes (x{{model.additional?.notes?.length}}) </strong></span>
 
     <div *ngFor="let t of model.additional?.notes">
-      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+      <span [innerHtml]="item.additional.lastTimeline.tim_description"></span>
     </div>
 
     <span
@@ -109,7 +111,8 @@
     >
 
     <div *ngFor="let t of model.additional?.notesHidden">
-      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} | {{ t.tim_description }}
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+      <span [innerHtml]="item.additional.lastTimeline.tim_description"></span>
     </div>
 
     <div>
@@ -217,7 +220,10 @@
 
               <div>
                 - {{ item.additional.lastTimeline.tim_date | date: "yyyy-MM-dd"
-                }} | {{ item.additional.lastTimeline.tim_description }}
+                }} |
+                <span
+                  [innerHtml]="item.additional.lastTimeline.tim_description"
+                ></span>
               </div>
 
               <hr *ngIf="item['additional']?.tasks?.length > 0" />

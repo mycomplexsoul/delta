@@ -11,6 +11,8 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
 import { TextToSpeech } from "../common/speechRecognition";
 import { autogrowSetup } from "../common/autogrow";
+// format dates used in charts
+import "chartjs-adapter-date-fns";
 
 @Component({
   selector: "tasks",
@@ -128,22 +130,28 @@ export class TasksComponent implements OnInit {
           y: {
             type: "time",
             time: {
+              unit: "minute",
               displayFormats: {
                 minute: "HH:mm",
               },
+            },
+            adapters: {
+              date: "date-fns",
             },
           },
         },
       },
       chartLegend: true,
-      chartType: "pie",
+      chartType: "bar",
     },
   };
 
   public CONSTANTS = {
     filters: [
       { id: "all", name: "All" },
-      { id: "today-and-urgent", name: "Today and Urgent" },
+      { id: "today-and-urgent", name: "Today and Urgent/Critical" },
+      { id: "pinned", name: "Pinned Records and Tasks" },
+      { id: "pinned-and-urgent", name: "Pinned and Urgent/Critical" },
       { id: "next", name: "Next To Do Today" },
       { id: "due-today", name: "Due Today" },
       { id: "today", name: "Added Today" },
@@ -153,6 +161,7 @@ export class TasksComponent implements OnInit {
       { id: "in-progress", name: "In Progress" },
       { id: "qualifiers", name: "Have Qualifiers" },
       { id: "not-today", name: "Not Added Today" },
+      { id: "q-critical", name: "Critical (c)" },
       { id: "q-star", name: "Star (2)" },
       { id: "q-highlight", name: "Highlight (3)" },
       { id: "q-priority", name: "Priority (4)" },
@@ -370,7 +379,23 @@ export class TasksComponent implements OnInit {
         .filter((t) =>
           this.viewData.selectedFilter === "today-and-urgent"
             ? today0.getTime() === new Date(t.tsk_date_due).getTime() ||
-              (t.tsk_qualifiers && t.tsk_qualifiers.includes("urgent"))
+              (t.tsk_qualifiers && t.tsk_qualifiers.includes("urgent")) ||
+              (t.tsk_qualifiers && t.tsk_qualifiers.includes("critical")) ||
+              t.tsk_ctg_in_process === 2
+            : true
+        )
+        .filter((t) =>
+          this.viewData.selectedFilter === "pinned"
+            ? this.isRecordPinned(t.tsk_id_record) || t.inPinnedToDo
+            : true
+        )
+        .filter((t) =>
+          this.viewData.selectedFilter === "pinned-and-urgent"
+            ? this.isRecordPinned(t.tsk_id_record) ||
+              t.inPinnedToDo ||
+              (t.tsk_qualifiers && t.tsk_qualifiers.includes("urgent")) ||
+              (t.tsk_qualifiers && t.tsk_qualifiers.includes("critical")) ||
+              t.tsk_ctg_in_process === 2
             : true
         )
         .filter((t) =>
@@ -803,6 +828,10 @@ export class TasksComponent implements OnInit {
     if (event.altKey && optIncludesKey(event.key, ".")) {
       // detect '.'
       this.markTaskAs(t, "mobile");
+    }
+    if (event.altKey && optIncludesKey(event.key, "c")) {
+      // detect 'c'
+      this.markTaskAs(t, "critical");
     }
     if (event.altKey && event.keyCode == 107) {
       // detect '+'
@@ -2164,7 +2193,8 @@ export class TasksComponent implements OnInit {
         },
       ];
       this.viewData.dayDistributionChart.chartLabels = records.map(
-        ({ record, percentageEta }) => `${record} (${percentageEta * 100}%)`
+        ({ record, percentageEta }) =>
+          `${record} (${Math.round(percentageEta * 100)}%)`
       );
     }
   }
@@ -3138,6 +3168,10 @@ export class TasksComponent implements OnInit {
       this.viewData.pinnedRecords.splice(foundIndex, 1);
     } else {
       this.viewData.pinnedRecords.push(recordName);
+    }
+
+    if (this.viewData.selectedFilter !== "all") {
+      this.updateState();
     }
   }
 

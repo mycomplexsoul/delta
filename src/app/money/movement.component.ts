@@ -396,7 +396,12 @@ export class MovementComponent implements OnInit {
         this.services.movement.newItem(m, () => {
           this.retrieveAccountsAndBalance();
           const body = "Movement saved correctly";
-          this.notificationService.notify(body, "Movements", 10000);
+          this.notificationService.notifyWithOptions(body, {
+            title: "Movements",
+            hideIn: 10000,
+            native: false,
+            voice: false,
+          });
         });
         m["isNew"] = true; // flag to render as new on UI
         console.log("this is the movement", m);

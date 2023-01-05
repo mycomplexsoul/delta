@@ -14,6 +14,7 @@
   --task-q-important: #f9b97c;
   --task-q-priority: yellow;
   --task-q-unexpected: #81d4fa;
+  --task-q-critical: #ff8686;
   /* Cards component */
   --card-item-container: lightgray;
 }

@@ -138,7 +138,8 @@
       'task-important': task.tsk_qualifiers.indexOf('important') !== -1,
       'task-unexpected': task.tsk_qualifiers.indexOf('unexpected') !== -1,
       'task-progressed': task.tsk_qualifiers.indexOf('progressed') !== -1,
-      'task-directions': task.tsk_qualifiers.indexOf('directions') !== -1
+      'task-directions': task.tsk_qualifiers.indexOf('directions') !== -1,
+      'task-critical': task.tsk_qualifiers.indexOf('critical') !== -1
     }"
     (keyup)="handlerTaskKeyUp(task, $event)"
     (blur)="handlerTaskBlur(task, $event)"

@@ -56,6 +56,7 @@ export class CarteraComponent implements OnInit {
     nextMonthWithProvisionsToGenerate: Array<any>;
     showBatchPaymentsSection: boolean;
     appliedPayments: Array<any>;
+    parsedTotalPayed: number;
   } = {
     showItemForm: false,
     showPayDetList: false,
@@ -89,6 +90,7 @@ export class CarteraComponent implements OnInit {
     nextMonthWithProvisionsToGenerate: [],
     showBatchPaymentsSection: false,
     appliedPayments: [],
+    parsedTotalPayed: 0,
   };
   public model: {
     _paymentType: string;
@@ -648,10 +650,13 @@ export class CarteraComponent implements OnInit {
    * Detail = MonthIdentificationRule[+Amount(default:1480)]
    */
   parseBatchPayments(rawInput: string) {
+    const baseYear = DateUtils.dateOnly().getFullYear();
+    const baseMonth = DateUtils.dateOnly().getMonth() + 1;
+
     const parseDayOfMonth = (raw: number): Date =>
       DateUtils.stringDateToDate(
-        `${DateUtils.dateOnly().getFullYear()}-${DateUtils.fillString(
-          DateUtils.dateOnly().getMonth() + 1,
+        `${baseYear}-${DateUtils.fillString(
+          baseMonth,
           2,
           -1,
           "0"
@@ -663,7 +668,7 @@ export class CarteraComponent implements OnInit {
     ): { year: number; month: number; isPenalty: boolean } => {
       const parsed = raw.split("-");
       const result = {
-        year: new Date().getFullYear(),
+        year: baseYear,
         month: 0,
         isPenalty: parsed.length === 3,
       };
@@ -740,7 +745,7 @@ export class CarteraComponent implements OnInit {
 
     console.log("--parsedInput", parsedInput);
 
-    let nextFolio = 1;
+    let nextFolio = 0;
     this.viewData.appliedPayments = [];
     this.viewData.appliedPayments = parsedInput.map((i) => {
       const payDetList = {};
@@ -793,13 +798,14 @@ export class CarteraComponent implements OnInit {
 
             payDetFolioList[
               provision.cpr_id
-            ] = `${DateUtils.getMonthNameSpanish(
-              DateUtils.dateOnly().getMonth() + 1
-            )
+            ] = `${DateUtils.getMonthNameSpanish(baseMonth)
               .substr(0, 3)
-              .toUpperCase()}${
-              DateUtils.dateOnly().getFullYear() % 100
-            }-${Utils.pad(nextFolio, "0", 3, -1)}`;
+              .toUpperCase()}${baseYear % 100}-${Utils.pad(
+              nextFolio,
+              "0",
+              3,
+              -1
+            )}`;
 
             payDet[payDet.length - 1].folio = payDetFolioList[provision.cpr_id];
           }
@@ -835,9 +841,12 @@ export class CarteraComponent implements OnInit {
             DateUtils.dateOnly().getMonth() + 1
           )
             .substr(0, 3)
-            .toUpperCase()}${
-            DateUtils.dateOnly().getFullYear() % 100
-          }-${Utils.pad(nextFolio, "0", 3, -1)}`;
+            .toUpperCase()}${baseYear % 100}-${Utils.pad(
+            nextFolio,
+            "0",
+            3,
+            -1
+          )}`;
         }
 
         payDet[payDet.length - 1].folio = payDetFolioList[provision.cpr_id];
@@ -867,6 +876,11 @@ export class CarteraComponent implements OnInit {
     console.log(
       "--this.viewData.appliedPayments",
       this.viewData.appliedPayments
+    );
+
+    this.viewData.parsedTotalPayed = this.viewData.appliedPayments.reduce(
+      (total, current) => total + current.amount,
+      0
     );
   }
 
@@ -900,6 +914,7 @@ export class CarteraComponent implements OnInit {
             );
             prov.cpr_folio = i.payDetFolioList[id] || null;
           });
+          return true;
         });
     }
 

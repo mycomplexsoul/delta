@@ -57,6 +57,14 @@
           <span *ngIf="p.applied">SAVED!</span>
         </td>
       </tr>
+      <tr>
+        <td></td>
+        <td>
+          Total: {{ viewData.parsedTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+        <td></td>
+      </tr>
     </table>
   </div>
 

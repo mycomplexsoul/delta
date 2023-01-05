@@ -971,7 +971,8 @@
               'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
+              'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             (focus)="setFocus(t, $event); setTaskSelected(t)"
@@ -1241,7 +1242,8 @@
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
+              'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             class="editable task-text"
@@ -1414,7 +1416,8 @@
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
+              'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             class="editable task-text"
@@ -1693,7 +1696,7 @@
       [labels]="viewData.dayDistributionChart.chartLabels"
       [options]="viewData.dayDistributionChart.chartOptions"
       [legend]="viewData.dayDistributionChart.chartLegend"
-      [chartType]="viewData.dayDistributionChart.chartType"
+      [type]="viewData.dayDistributionChart.chartType"
     >
     </canvas>
   </div>
