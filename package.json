@@ -1,6 +1,6 @@
 {
   "name": "delta",
-  "version": "1.13.11",
+  "version": "1.14.0",
   "scripts": {
     "ng": "ng",
     "build": "ng build --configuration development && node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap && node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap",
@@ -77,8 +77,8 @@
     "zone.js": "0.12.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.2.5",
-    "@angular/cli": "14.2.10",
+    "@angular-devkit/build-angular": "^15.0.0",
+    "@angular/cli": "15.0.4",
     "@angular/compiler-cli": "15.0.4",
     "@angular/language-service": "15.0.4",
     "@types/chart.js": "2.9.37",
