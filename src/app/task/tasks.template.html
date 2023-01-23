@@ -790,7 +790,7 @@
       }"
       [ngStyle]="{
         'background-color': isRecordPinned(item.header) ? 'antiquewhite' : 'transparent',
-        'max-width': options.optUseColumnsForRecords ? '100%' : undefined
+        'max-width': options.optUseColumnsForRecords || (isRecordPinned(item.header) && item.tasks.length >= 20) ? '100%' : undefined
       }"
     >
       <div
@@ -832,7 +832,7 @@
         class="task-record-items"
         [ngClass]="{
           'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight,
-          'task-record-use-columns': options.optUseColumnsForRecords && item.tasks.length >= 20
+          'task-record-use-columns': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20
         }"
         [ngStyle]="{
           'max-width': recordStyle(item.header, 'width'),

@@ -17,13 +17,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let title of titles">
-        <td>{{ title }}</td>
+      <tr *ngFor="let item of viewData.reminders">
+        <td>{{ item.title }}</td>
         <td>
-          <input type="time" />
+          <input type="time" [value]="item.startTimeFormatted" />
         </td>
         <td>
-          <input type="text" />
+          <input type="text" [value]="item.schedule" />
+          <span>{{item.nextOcurrence | date: "yyyy-MM-dd HH:mm" }}</span>
           <button>apply changes</button>
         </td>
       </tr>

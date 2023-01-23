@@ -1,5 +1,15 @@
 @import "../CarteraReportsCommon.css";
 
+@media screen {
+  .page-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
 @media screen, print {
   * {
     font-family: sans-serif;

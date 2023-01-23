@@ -555,8 +555,8 @@ export class CarteraServer {
       cont: [
         {
           f: "cpr_payed",
-          op: "eq",
-          val: 0,
+          op: "lt",
+          val: 1400, // TODO: Use current payment amount - 10%
         },
         {
           f: "cpr_date",
@@ -2703,12 +2703,19 @@ export class CarteraServer {
                     item.cpr_payed > 0
                 )
                 .map((item) => {
+                  if (
+                    !payDetList.find(
+                      (pd) => pd.cpd_id_provision === item.cpr_id
+                    )
+                  ) {
+                    console.log("--item empty", item);
+                  }
                   return payDetList.find(
                     (pd) => pd.cpd_id_provision === item.cpr_id
                   );
                 })
                 .filter(
-                  (item) =>
+                  (item: CarteraPayDet) =>
                     item.cpd_date_payment.getTime() < initialDate.getTime()
                 )
             ),

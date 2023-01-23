@@ -154,8 +154,10 @@ export class ActivityComponent implements OnInit {
                 prev.push({
                   id: projectId,
                   name: projectId,
-                  count: this.viewData.activityList.filter((a) =>
-                    a.act_tasks_tag.startsWith(projectId)
+                  count: this.viewData.activityList.filter(
+                    (a) =>
+                      a.act_tasks_tag.startsWith(projectId) &&
+                      a.act_ctg_status < 6
                   ).length,
                 });
               }
@@ -165,7 +167,9 @@ export class ActivityComponent implements OnInit {
               {
                 id: "ALL",
                 name: "ALL",
-                count: this.viewData.activityList.length,
+                count: this.viewData.activityList.filter(
+                  (a) => a.act_ctg_status < 6
+                ).length,
               },
             ]
           );

@@ -1,7 +1,5 @@
-<div *ngIf="!viewData.folio">
-  <h1 class="page-title text-align-center">
-    {{viewData.title}}
-  </h1>
+<div *ngIf="!viewData.folio" class="page-container">
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
 
   <table class="receipt-top-block">
     <thead>
@@ -54,14 +52,12 @@
 
 <div
   *ngFor="let item of viewData.paymentReportData; let count = index"
-  class="receipt-item receipt-top-block"
+  class="receipt-item receipt-top-block page-container"
   [ngClass]="{
     'page-break-before': !viewData.folio || (viewData.paymentReportData.length > 1 && count > 0)
   }"
 >
-  <h1 class="page-title text-align-center">
-    Recibo de pago
-  </h1>
+  <h1 class="page-title text-align-center">Recibo de pago</h1>
 
   <div class="receipt-header receipt-top-block padding-all-3">
     <div>
@@ -135,9 +131,7 @@
         </td>
       </tr>
       <tr>
-        <td class="padding-all-3 text-align-center">
-          Comité de Vigilancia
-        </td>
+        <td class="padding-all-3 text-align-center">Comité de Vigilancia</td>
       </tr>
     </table>
   </div>
@@ -149,8 +143,8 @@
     <br />
     <div>Cadena de Verificación: {{item.hash}}</div>
   </div>
-</div>
 
-<div class="hide-on-print">
-  <button (click)="generatePDFReceipt()">Descargar recibo</button>
+  <div class="hide-on-print">
+    <button (click)="generatePDFReceipt()">Descargar recibo</button>
+  </div>
 </div>

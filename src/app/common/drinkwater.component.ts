@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NotificationService } from "./notification.service";
 import { DateUtils } from "src/crosscommon/DateUtility";
 
@@ -7,8 +7,17 @@ import { DateUtils } from "src/crosscommon/DateUtility";
   templateUrl: "./drinkwater.template.html",
   providers: [],
 })
-export class DrinkWaterComponent {
+export class DrinkWaterComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}
+
+  ngOnInit(): void {
+    this.viewData.reminders.forEach((reminder) => {
+      reminder.startTimeFormatted = DateUtils.formatTime(
+        reminder.startTime * 60,
+        "[HH]:[mm]"
+      );
+    });
+  }
 
   /////////////////////////////
   public titles = [
@@ -29,6 +38,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 30,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Lipstick",
@@ -36,6 +46,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 240,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Downloads state",
@@ -43,6 +54,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 120,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Get up",
@@ -50,6 +62,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 90,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Slack Globant",
@@ -57,6 +70,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 270,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Solar protector",
@@ -64,6 +78,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 240,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Clean teeth",
@@ -71,6 +86,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 360,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Kiss Lau",
@@ -78,6 +94,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 360,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Tweetdeck",
@@ -85,6 +102,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 30,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
       {
         title: "Speak English",
@@ -92,6 +110,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule: 120,
         nextOcurrence: null,
+        startTimeFormatted: null,
       },
     ],
   };
@@ -122,6 +141,7 @@ export class DrinkWaterComponent {
         started: false,
         schedule,
         nextOcurrence: null,
+        startTimeFormatted: null,
       });
     }
   }

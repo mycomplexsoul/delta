@@ -89,7 +89,7 @@
 
     <div *ngFor="let t of model.additional?.timeline">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
-      <span [innerHtml]="item.additional.lastTimeline.tim_description"></span>
+      <span [innerHtml]="t.tim_description"></span>
     </div>
 
     <timeline
@@ -101,7 +101,7 @@
 
     <div *ngFor="let t of model.additional?.notes">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
-      <span [innerHtml]="item.additional.lastTimeline.tim_description"></span>
+      <span [innerHtml]="t.tim_description"></span>
     </div>
 
     <span
@@ -112,7 +112,7 @@
 
     <div *ngFor="let t of model.additional?.notesHidden">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
-      <span [innerHtml]="item.additional.lastTimeline.tim_description"></span>
+      <span [innerHtml]="t.tim_description"></span>
     </div>
 
     <div>
