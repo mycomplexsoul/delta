@@ -33,6 +33,10 @@ span.task-critical {
   columns: 1;
 }
 
+.task-record-background {
+  background-color: var(--task-record-background);
+}
+
 @media (min-width: 504px) {
   .task-record-use-columns {
     columns: 3;

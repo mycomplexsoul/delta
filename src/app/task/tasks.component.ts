@@ -536,9 +536,9 @@ export class TasksComponent implements OnInit {
     // indicators array
     this.calculateIndicators();
 
-    this.configChartOpenCountEOD.data = this.state.indicators.find(
-      (i) => i.name === "All Open Count"
-    ).values;
+    this.configChartOpenCountEOD.data =
+      this.state.indicators.find((i) => i.name === "All Open Count")?.values ||
+      [];
 
     // identify not synced tasks
     this.tasksNotInSync();
@@ -1474,12 +1474,12 @@ export class TasksComponent implements OnInit {
     return dom;
   }
 
-  inputKeyUpHandler(event: KeyboardEvent) {
+  inputKeyUpHandler(event: KeyboardEvent, { showBatchAdd = false }) {
     if (event.keyCode === 40 && !this.showBatchAdd) {
       // Down arrow
       this.focusElement("span[contenteditable=true]");
     }
-    if (event.keyCode == 113) {
+    if (event.keyCode == 113 || showBatchAdd) {
       // detect "F2" = toggle Batch Add
       this.showBatchAdd = !this.showBatchAdd;
 

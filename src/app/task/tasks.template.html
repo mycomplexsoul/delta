@@ -7,7 +7,7 @@
     autocomplete="off"
     autofocus="true"
     *ngIf="!showBatchAdd"
-    (keyup)="inputKeyUpHandler($event)"
+    (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"
     [(ngModel)]="tsk_name"
   />
   <div class="grow-wrap" *ngIf="showBatchAdd">
@@ -15,7 +15,7 @@
       name="tsk_multiple_name"
       placeholder="Write a task per line..."
       class="task-multiple"
-      (keyup)="inputKeyUpHandler($event)"
+      (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"
       [(ngModel)]="tsk_multiple_name"
       spellcheck="false"
     ></textarea>
@@ -30,6 +30,9 @@
   </button>
   <button (click)="toggleViewPostponed()" *ngIf="state.postponedTasksCount">
     {{ viewPostponed ? "hide" : "show" }} postponed
+  </button>
+  <button (click)="inputKeyUpHandler($event, { showBatchAdd: true })">
+    {{ showBatchAdd ? "hide" : "show" }} batch add
   </button>
   <button (click)="toggleViewOptions()">
     {{ viewOptions ? "hide" : "show" }} options
@@ -786,10 +789,10 @@
       class="task-record"
       [ngClass]="{
         'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
-        'hidden': item.collapsed
+        'hidden': item.collapsed,
+        'task-record-background': isRecordPinned(item.header)
       }"
       [ngStyle]="{
-        'background-color': isRecordPinned(item.header) ? 'antiquewhite' : 'transparent',
         'max-width': options.optUseColumnsForRecords || (isRecordPinned(item.header) && item.tasks.length >= 20) ? '100%' : undefined
       }"
     >

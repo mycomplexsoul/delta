@@ -27,10 +27,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.0 (2023-01-28) -- In Progress --
+## v1.14.1 (2023-02-28) -- In Progress --
 
-- [AppCommon][mod] Upgrade all dependencies
-- [AppCartera][mod] Cartera Receipt Report - Applied max width to report on screen
-- [AppTasks][mod] Pinned records use full width and columns if applicable
-- [AppKanban][fix] Show correct item count per project in filter selector
-- [AppReminders][mod] Render items in dialog with current config
+## v1.14.0 (2023-01-28)
+
+1. [AppCommon][mod] Upgrade all dependencies
+2. [AppCartera][mod] Cartera Receipt Report - Applied max width to report on screen
+3. [AppTasks][mod] Pinned records use full width and columns if applicable
+4. [AppKanban][fix] Show correct item count per project in filter selector
+5. [AppReminders][mod] Render items in dialog with current config
+6. [AppCommon][mod] Login page - Add styles for error messages
+7. [AppTasks][mod] Fix dark mode styles
+8. [AppTasks][new] Add a button to show/hide batch add taks, for mobile

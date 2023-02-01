@@ -8,6 +8,7 @@
   /* Task */
   --task-st-in-progress: blue;
   --task-st-backlog: #e9bef1;
+  --task-record-background: antiquewhite;
   /* Task Qualifiers */
   --task-q-directions: #efbfff;
   --task-q-highlighted: #ddd;
@@ -17,6 +18,8 @@
   --task-q-critical: #ff8686;
   /* Cards component */
   --card-item-container: lightgray;
+  /* Notifications */
+  --notification-background: antiquewhite;
 }
 
 [data-theme="dark"] {
@@ -26,14 +29,18 @@
   /* Task */
   --task-st-in-progress: white;
   --task-st-backlog: rgb(233 190 241 / 40%);
+  --task-record-background: #281904;
   /* Task Qualifiers */
   --task-q-directions: rgb(239 191 255 / 35%);
   --task-q-highlighted: rgb(221 221 221 / 15%);
   --task-q-important: rgb(249 185 124 / 50%);
   --task-q-priority: rgb(255 255 0 / 35%);
   --task-q-unexpected: rgb(129 212 250 / 45%);
+  --task-q-critical: #701414;
   /* Cards component */
   --card-item-container: #606060;
+  /* Notifications */
+  --notification-background: #281904;
 }
 /* #endregion */
 
