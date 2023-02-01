@@ -39,3 +39,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 6. [AppCommon][mod] Login page - Add styles for error messages
 7. [AppTasks][mod] Fix dark mode styles
 8. [AppTasks][new] Add a button to show/hide batch add taks, for mobile
+9. [AppCommon][fix] Upgrade dependencies to fix compilation error
