@@ -66,6 +66,16 @@ export class ActivityComponent implements OnInit {
     }>;
     selectedProject: string;
     reportDate: Date;
+    selectedLayout: string;
+    layoutList: Array<{
+      id: string;
+      name: string;
+    }>;
+    showTimeline: boolean;
+    showActivities: boolean;
+    nextFolioList: Array<string>;
+    healthGroup: Array<any>;
+    sortGroupsDescending: boolean;
   } = {
     TEXT: {},
     activityList: [],
@@ -83,6 +93,30 @@ export class ActivityComponent implements OnInit {
     ],
     selectedProject: "ALL",
     reportDate: DateUtils.dateOnly(),
+    selectedLayout: "all",
+    layoutList: [
+      {
+        id: "all",
+        name: "All details",
+      },
+      {
+        id: "timeline-only",
+        name: "Timeline only",
+      },
+      {
+        id: "activities-only",
+        name: "Activities only",
+      },
+      {
+        id: "title-only",
+        name: "Titles only",
+      },
+    ],
+    showTimeline: true,
+    showActivities: true,
+    nextFolioList: [],
+    healthGroup: [],
+    sortGroupsDescending: true,
   };
 
   public model: {
@@ -125,6 +159,14 @@ export class ActivityComponent implements OnInit {
         TEXT.ACTIVITIES_PAGE_TITLE
       }`
     );
+    const searchParams = new URLSearchParams(window.location.search);
+    const selectedProject = searchParams.get("selectedProject");
+    if (selectedProject) {
+      this.viewData.selectedProject = selectedProject;
+    }
+    if (searchParams.get("sortDescending") === "false") {
+      this.viewData.sortGroupsDescending = false;
+    }
   }
 
   render(fetchFromRemote: boolean = false) {
@@ -245,8 +287,71 @@ export class ActivityComponent implements OnInit {
         }
       });
 
+      this.viewData.healthGroup = this.generateHealthGroupData(
+        this.viewData.activityList,
+        this.viewData.selectedProject
+      );
+
       this.generateViewData();
+      if (this.model.id) {
+        this.viewData.nextFolioList = [];
+      } else {
+        this.viewData.nextFolioList = Object.entries(
+          this.obtainLastFolioByProject()
+        ).map(([k, v]) => v);
+      }
     });
+  }
+
+  generateHealthGroupData(activityList: Activity[], selectedProject: string) {
+    const data = [
+      {
+        label: "Actualizado hace menos de 7 días",
+        className: "activity-health-green",
+        count: 0,
+      },
+      {
+        label: "Actualizado hace menos de 15 días",
+        className: "activity-health-yellow",
+        count: 0,
+      },
+      {
+        label: "Actualizado hace menos de 30 días",
+        className: "activity-health-orange",
+        count: 0,
+      },
+      {
+        label: "Actualizado hace 30 días o más",
+        className: "activity-health-red",
+        count: 0,
+      },
+      {
+        label: "Sin estatus registrado",
+        className: "activity-health-undetermined",
+        count: 0,
+      },
+    ];
+
+    data.forEach((d) => {
+      d["items"] = activityList.filter(
+        (a) =>
+          (selectedProject !== "ALL"
+            ? a.act_tasks_tag.startsWith(selectedProject)
+            : true) &&
+          a.additional.health === d.className &&
+          a.act_ctg_status !== 6
+      );
+      d.count = activityList.filter(
+        (a) =>
+          (selectedProject !== "ALL"
+            ? a.act_tasks_tag.startsWith(selectedProject)
+            : true) &&
+          a.additional.health === d.className &&
+          a.act_ctg_status !== 6
+      ).length;
+    });
+
+    return data;
   }
 
   determineHealth(timeline: Timeline): string {
@@ -332,7 +437,9 @@ export class ActivityComponent implements OnInit {
         : this.viewData.activityList,
       "act_ctg_status",
       (e) => ({ act_txt_status: ALL_STATUS_TEXT[e.act_ctg_status - 1] })
-    ).sort((a, b) => (a.key > b.key ? 1 : -1));
+    ).sort((a, b) =>
+      a.key > b.key && !this.viewData.sortGroupsDescending ? 1 : -1
+    );
   }
 
   toggleShowItemForm() {
@@ -398,12 +505,12 @@ export class ActivityComponent implements OnInit {
 
           const newItem = await this.activityService.newItem(item);
           newItem.act_txt_status = ALL_STATUS_TEXT[newItem.act_ctg_status - 1];
-          this.render(false);
           return newItem;
         },
         onFinalExecution: () => {
           this.viewData.showItemForm = false;
           this.model.id = null;
+          this.render(false);
         },
       });
     }
@@ -668,9 +775,67 @@ export class ActivityComponent implements OnInit {
     // $event => { timeline: Timeline }
     this.viewData.timelineList.push($event.timeline);
     this.model.additional.timeline.push($event.timeline);
+    this.render(false);
   }
 
   onChangeProject(selectedProject: string) {
     this.render(false);
+  }
+
+  onChangeLayout(selectedLayout: string) {
+    this.viewData.showTimeline = ["all", "timeline-only"].includes(
+      selectedLayout
+    );
+    this.viewData.showActivities = ["all", "activities-only"].includes(
+      selectedLayout
+    );
+
+    this.render(false);
+  }
+
+  obtainLastFolioByProject(): Array<any> {
+    const { activityList, projectList, selectedProject } = this.viewData;
+    const folioList: any = activityList.reduce(
+      (folios, act) => {
+        const [proj, folio] = act.act_tasks_tag.split("-");
+        const maxFolio = parseInt(folios[proj].split("-")[1]);
+
+        if (maxFolio <= parseInt(folio)) {
+          // instead of using this folio we generate the next one
+          if (proj === "UIP") {
+            // UIP uses numeric folio
+            folios[proj] = `${proj}-${parseInt(folio) + 1}`;
+          } else {
+            // all other projects use year-based folio
+            folios[proj] = `${proj}-${DateUtils.fillString(
+              parseInt(folio) + 1,
+              5 - folio.length,
+              -1,
+              "0"
+            )}`;
+          }
+        }
+
+        return folios;
+      },
+      projectList
+        .filter(({ id }) => id !== "ALL")
+        .map(({ id }) => id)
+        .reduce((projects, id) => {
+          projects[id] = `${id}-${DateUtils.fillString(1, 5, -1, "0")}`;
+
+          return projects;
+        }, {})
+    );
+
+    if (selectedProject !== "ALL") {
+      return [folioList[selectedProject]];
+    }
+    return folioList;
+  }
+
+  setFolioFromSuggestion(folio: string, form: NgForm) {
+    form.controls["fTasksTag"].setValue(folio);
+    return false;
   }
 }

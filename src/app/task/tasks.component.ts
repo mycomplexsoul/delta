@@ -473,8 +473,7 @@ export class TasksComponent implements OnInit {
       .filter(
         (t) =>
           t.tsk_ctg_status == this.taskStatus.CLOSED &&
-          new Date(t.tsk_date_done) >= today0 &&
-          new Date(t.tsk_date_done) <= tomorrow0
+          new Date(t.tsk_date_done) >= today0
       )
       .sort(sortByClosedDate);
     this.state.closedYesterdayTasks = this.tasks
@@ -1032,7 +1031,8 @@ export class TasksComponent implements OnInit {
       const lastDateDoneEntryFromDay =
         this.lastDateDoneEntryFromDay(new Date()) ||
         this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
-        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -2));
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -2)) ||
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -3));
       if (dateDone.getTime() < lastDateDoneEntryFromDay.getTime()) {
         dateDone = DateUtils.addSeconds(lastDateDoneEntryFromDay, 1);
       }
@@ -1052,13 +1052,18 @@ export class TasksComponent implements OnInit {
     const useTimeTrackingDate: boolean =
       shiftKeyWasUsed ||
       (!!this.options.optUseEndTTDateAsDoneDate &&
-        t &&
-        t["tsk_time_history"] &&
-        t["tsk_time_history"][t["tsk_time_history"].length - 1] &&
-        t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_end &&
-        new Date(
-          t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_end
-        ).getTime() > new Date().getTime());
+        t["tsk_time_history"]?.[t["tsk_time_history"].length - 1]
+          ?.tsh_date_end &&
+        (new Date(
+          t["tsk_time_history"]?.[
+            t["tsk_time_history"].length - 1
+          ]?.tsh_date_end
+        ).getTime() > new Date().getTime() ||
+          new Date(
+            t["tsk_time_history"]?.[
+              t["tsk_time_history"].length - 1
+            ]?.tsh_date_end
+          ).getTime() < DateUtils.dateOnly().getTime()));
     return useTimeTrackingDate;
   }
 
@@ -2989,6 +2994,14 @@ export class TasksComponent implements OnInit {
       tt = this.lastTTEntryFromDay(
         this.services.dateUtils.dateOnly(
           this.services.dateUtils.addDays(new Date(), -2)
+        )
+      );
+    }
+    if (!tt) {
+      // no task, try 3 days earlier
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(
+          this.services.dateUtils.addDays(new Date(), -3)
         )
       );
     }

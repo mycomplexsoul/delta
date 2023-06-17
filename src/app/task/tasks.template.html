@@ -672,7 +672,7 @@
         'task-in-process': t.tsk_ctg_in_process === 2,
         'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
         'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
-        'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1
+        'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1
       }"
       (blur)="commandOnTask(t, $event)"
       class="editable"
@@ -973,7 +973,7 @@
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
               'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
-              'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
               'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
               'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
             }"
@@ -1128,6 +1128,9 @@
         <div
           *ngFor="let t of item.tasks; let count = index"
           data-id="{{ t.tsk_id }}"
+          [ngClass]="{
+            'task-item-in-process': t.tsk_ctg_in_process === 2
+          }"
         >
           <hr
             *ngIf="t['projectedDate'].getHours() < 2 && count > 0 && item.tasks[count-1]['projectedDate'].getHours() >= 23"
@@ -1241,7 +1244,7 @@
               'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
               'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
               'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
-              'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
@@ -1415,7 +1418,7 @@
               'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
               'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
               'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
-              'task-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,

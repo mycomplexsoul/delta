@@ -3,9 +3,10 @@ import { FieldDefinition } from "../crosscommon/FieldDefinition";
 import { MoGen } from "../crosscommon/MoGen";
 import { DateUtils } from "../crosscommon/DateUtility";
 import { Utils } from "../crosscommon/Utility";
+import instantiate from "./InstantiateModule";
 
 export class MoSQL {
-  model: iEntity = null;
+  model: iEntity | null = null;
   constants: any = {
     _null: "null",
     _integer: "integer",
@@ -28,10 +29,10 @@ export class MoSQL {
   };
 
   constructor(model?: iEntity) {
-    this.model = model;
+    this.model = model || null;
   }
 
-  decideModel(model: iEntity) {
+  decideModel(model: iEntity | null) {
     if (model) {
       // use model
       return model;
@@ -322,12 +323,13 @@ export class MoSQL {
     const m: iEntity = this.decideModel(model);
     let sql: string = "";
 
-    console.log("raw criteria", criteria);
-    if (criteria) {
-      console.log("parse criteria", this.parseSQLCriteria(criteria));
-      sql = this.criteriaToSQL(this.parseSQLCriteria(criteria), m);
-      console.log("sql criteria", sql);
+    if (Array.isArray(criteria)) {
+      sql = this.simpleCriteriaWithGroupsToSQL(criteria, m);
     }
+    if (typeof criteria === "string") {
+      sql = this.criteriaToSQL(this.parseSQLCriteria(criteria), m);
+    }
+    console.log("toSelectSQL():: input/output", { criteria, sql });
 
     sql = `select * from ${m.metadata.viewName}${sql ? ` where ${sql}` : ""}`;
     return sql;
@@ -437,9 +439,9 @@ export class MoSQL {
         completeFieldName = fieldName;
       }
       if (model.metadata.fields.find((f) => f.dbName === completeFieldName)) {
-        let dbType: string = model.metadata.fields.find(
-          (f) => f.dbName === completeFieldName
-        ).dbType;
+        let dbType: string =
+          model.metadata.fields.find((f) => f.dbName === completeFieldName)
+            ?.dbType || "";
         if (groupConcat === "AND") {
           sql = this.concatAnd(
             sql,
@@ -464,6 +466,102 @@ export class MoSQL {
       } else {
         // field not found inside this Entity, skip it
       }
+    });
+
+    return sql ? `(${sql})` : "";
+  };
+
+  /**
+   * Simpler form to build sql statements.
+   * Structure of the criteria object:
+   *  [
+   *    {
+   *      "group": "AND",
+   *      "fieldName|operator": "value",
+   *      "fieldName|operator": "value"
+   *    },
+   *    {
+   *      "group": "OR",
+   *      "fieldName|operator": "value",
+   *      "fieldName|operator": "value",
+   *      "subgroup": { // TODO: Add support for subgroups
+   *         "group": "AND",
+   *        "fieldName|operator": "value",
+   *        "fieldName|operator": "value",
+   *      }
+   *    },
+   *  ]
+   *
+   * @param criteria
+   * @param model
+   * @returns
+   */
+  simpleCriteriaWithGroupsToSQL = (
+    criteria: any[],
+    model: iEntity,
+    groupConcat: string = "AND"
+  ): string => {
+    let sql: string = "";
+    let groupRelation: string = "AND";
+
+    criteria.forEach((group) => {
+      Object.keys(group).forEach((key: any) => {
+        if (key === "group") {
+          groupRelation = group[key];
+          return;
+        }
+
+        let completeFieldName: string = "";
+        const [fieldName, operator = "eq"] = key.split("|");
+        const value = group[key];
+
+        if (value === undefined) {
+          return;
+        }
+
+        if (key[0] === "_") {
+          // field name starts with an underscore, append prefix
+          completeFieldName = model.metadata.prefix + fieldName;
+        } else {
+          completeFieldName = fieldName;
+        }
+        if (model.metadata.fields.find((f) => f.dbName === completeFieldName)) {
+          let dbType: string =
+            model.metadata.fields.find((f) => f.dbName === completeFieldName)
+              ?.dbType || "";
+          if (groupRelation === "AND") {
+            sql = this.concatAnd(
+              sql,
+              this.formatValueForSQL(
+                dbType,
+                value,
+                completeFieldName,
+                this.OPERATORS[operator]
+              )
+            );
+          } else {
+            sql = this.concatOr(
+              sql,
+              this.formatValueForSQL(
+                dbType,
+                value,
+                completeFieldName,
+                this.OPERATORS[operator]
+              )
+            );
+          }
+        } else {
+          // field not found inside this Entity, skip it
+        }
+
+        console.log("simpleCriteriaWithGroupsToSQL():: input/output", {
+          input: group,
+          output: sql,
+        });
+      });
+      // if (sql !== "") {
+      //  sql = `${sql ? `(${sql}) AND ` : ""}(${sql})`;
+      // }
     });
 
     return sql ? `(${sql})` : "";

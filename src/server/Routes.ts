@@ -58,7 +58,7 @@ const entitiesWithAuth = [
   { url: "/timeline", handler: TimelineRoute.router },
   { url: "/keyval", handler: KeyvalRoute.router },
 
-  { url: "/sync", handler: SyncRoute.router }
+  { url: "/sync", handler: SyncRoute.router },
 ];
 
 const authMiddleware = (req, res, next) => {
@@ -67,7 +67,7 @@ const authMiddleware = (req, res, next) => {
   if (!token) {
     res.status(401).send({
       operationResult: false,
-      message: "An authentication token is needed"
+      message: "An authentication token is needed",
     });
     return false;
   }
@@ -78,7 +78,7 @@ const authMiddleware = (req, res, next) => {
     if (err) {
       res.status(401).send({
         operationResult: false,
-        message: "Invalid token"
+        message: "Invalid token",
       });
     } else {
       req.userData = user;
@@ -98,6 +98,7 @@ router.use("/external/links", LinkRouteExternal.router);
 router.use("/external/movement", MovementRouteExternal.router);
 router.use("/external/cartera", CarteraRoute.router);
 router.use("/external/cartera-ext", CarteraRouteExternal.router);
+router.use("/external/activities", ActivityRoute.router);
 
 // Routing for internals
 router.use("/type-generator", TypeGenerator.router);

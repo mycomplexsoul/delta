@@ -9,7 +9,7 @@ export class CommonComponent<T> {
     onFindExpression,
     onAssignForCreate,
     onNewItemService,
-    onFinalExecution
+    onFinalExecution,
   }: {
     form: NgForm;
     listing: T[];
@@ -22,16 +22,15 @@ export class CommonComponent<T> {
 
     // new item
     const item: T = onAssignForCreate(formValues);
-    onNewItemService(item).then(item => {
-      const listItem = listing.find(e => onFindExpression(e, item));
+    onNewItemService(item).then((item) => {
+      const listItem = listing.find((e) => onFindExpression(e, item));
       if (listItem) {
         listItem["isNew"] = true;
       } else {
         listing.push(item);
       }
+      onFinalExecution(item);
     });
-
-    onFinalExecution(item);
   }
 
   updateItem({
@@ -41,7 +40,7 @@ export class CommonComponent<T> {
     onFindExpression,
     onAssignForEdit,
     onUpdateItemService,
-    onFinalExecution
+    onFinalExecution,
   }: {
     form: NgForm | { value: any };
     model: any; // model
@@ -78,8 +77,9 @@ export class CommonComponent<T> {
    */
   newId<R extends iEntity>(type: { new (): R }, fieldName: string): string {
     const m: iEntity = new type();
-    const length: number = m.metadata.fields.find(f => f.dbName === fieldName)
-      .size;
+    const length: number = m.metadata.fields.find(
+      (f) => f.dbName === fieldName
+    ).size;
     return Utils.hashId(m.metadata.prefix, length);
   }
 }

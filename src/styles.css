@@ -9,27 +9,37 @@
   --task-st-in-progress: blue;
   --task-st-backlog: #e9bef1;
   --task-record-background: antiquewhite;
+  /* Task in progress */
+  --task-item-in-process-background-color: lightblue;
+  --task-item-in-process-border: 1px solid blue;
   /* Task Qualifiers */
   --task-q-directions: #efbfff;
   --task-q-highlighted: #ddd;
   --task-q-important: #f9b97c;
   --task-q-priority: yellow;
   --task-q-unexpected: #81d4fa;
-  --task-q-critical: #ff8686;
+  --task-q-critical: #ffa9a9;
+  --task-q-progressed: #a2ffa9;
   /* Cards component */
   --card-item-container: lightgray;
   /* Notifications */
   --notification-background: antiquewhite;
+  /* Next To Do Section */
+  --task-time-ahead: #afff94;
+  --task-time-behind: #ffa9a9;
 }
 
 [data-theme="dark"] {
-  --text-color: #d4d4d4;
+  --text-color: #c7c7c7;
   --background-color: #1e1e1e;
   --nav-background-color: #101010;
   /* Task */
   --task-st-in-progress: white;
   --task-st-backlog: rgb(233 190 241 / 40%);
   --task-record-background: #281904;
+  /* Task in progress */
+  --task-item-in-process-background-color: #00c0ff52;
+  --task-item-in-process-border: 1px solid yellow;
   /* Task Qualifiers */
   --task-q-directions: rgb(239 191 255 / 35%);
   --task-q-highlighted: rgb(221 221 221 / 15%);
@@ -37,10 +47,14 @@
   --task-q-priority: rgb(255 255 0 / 35%);
   --task-q-unexpected: rgb(129 212 250 / 45%);
   --task-q-critical: #701414;
+  --task-q-progressed: #41ad49b3;
   /* Cards component */
   --card-item-container: #606060;
   /* Notifications */
   --notification-background: #281904;
+  /* Next To Do Section */
+  --task-time-ahead: #afff94;
+  --task-time-behind: #701414;
 }
 /* #endregion */
 
@@ -301,9 +315,6 @@ textarea.task-multiple {
 }
 .tag:hover {
   cursor: pointer;
-}
-.task-progressed {
-  background-color: #a2ffa9;
 }
 .task-qualifier-icon {
   padding-right: 2px;
@@ -730,14 +741,6 @@ link {
 
 .input-invalid {
   border: 1px solid red;
-}
-
-.task-next-time-ahead {
-  background-color: #afff94;
-}
-
-.task-next-time-behind {
-  background-color: #ffa7a7;
 }
 
 #nextToDoTodayList .task-record,

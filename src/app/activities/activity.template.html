@@ -19,6 +19,21 @@
     </select>
   </span>
 
+  <span class="field hide-on-print">
+    <label for="fSelectedLayout" class="label-left">Layout</label>
+    <select
+      name="fSelectedLayout"
+      id="fSelectedLayout"
+      class="field-select"
+      [(ngModel)]="viewData.selectedLayout"
+      (change)="onChangeLayout(viewData.selectedLayout)"
+    >
+      <option *ngFor="let opt of viewData.layoutList" value="{{ opt.id }}">
+        {{ opt.name }}
+      </option>
+    </select>
+  </span>
+
   <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
     <button type="button" (click)="toggleShowItemForm()" class="hide-on-print">
       {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
@@ -63,6 +78,14 @@
           class="field-input field-input-medium"
           ngModel
         />
+        <div>
+          <button
+            *ngFor="let f of viewData.nextFolioList"
+            (click)="setFolioFromSuggestion(f, itemForm)"
+          >
+            {{f}}
+          </button>
+        </div>
       </span>
 
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
@@ -130,6 +153,21 @@
           ></task>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div>
+    <div>Leyenda de colores</div>
+    <div *ngFor="let h of viewData.healthGroup">
+      <span
+        [ngClass]="[
+        'status-block',
+        h.className
+      ]"
+      ></span>
+      <span class="activity-name"
+        >{{ h.label }} ({{ h.count }} actividades)</span
+      >
     </div>
   </div>
 
@@ -211,7 +249,7 @@
           </div>
 
           <div class="activity-card-body">
-            <div *ngIf="item.additional.lastTimeline">
+            <div *ngIf="item.additional.lastTimeline && viewData.showTimeline">
               <span
                 ><strong>
                   Último Estatus (x{{item.additional.timeline.length}})
@@ -229,20 +267,22 @@
               <hr *ngIf="item['additional']?.tasks?.length > 0" />
             </div>
 
-            <div *ngIf="item['additional']?.tasks?.length > 0">
+            <div
+              *ngIf="item['additional']?.tasks?.length > 0 && viewData.showActivities"
+            >
               <span><strong> Actividades </strong></span>
-            </div>
 
-            <div *ngFor="let t of item['additional'].tasks">
-              <task
-                [task]="t"
-                [handlers]="handlers"
-                [options]="{
-                optShowRecordNameInline: true,
-                optShowBadgeIfTaskIsInBacklog: true,
-                optShowTimeTrackingHistory: false
-              }"
-              ></task>
+              <div *ngFor="let t of item['additional'].tasks">
+                <task
+                  [task]="t"
+                  [handlers]="handlers"
+                  [options]="{
+                  optShowRecordNameInline: true,
+                  optShowBadgeIfTaskIsInBacklog: true,
+                  optShowTimeTrackingHistory: false
+                }"
+                ></task>
+              </div>
             </div>
           </div>
         </div>

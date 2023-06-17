@@ -13,8 +13,8 @@ export class ApiServer {
     const { username } = node.request["userData"];
     this.list({
       q: node.request.query["q"],
-      username
-    }).then(response => {
+      username,
+    }).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -25,8 +25,14 @@ export class ApiServer {
     return api.list(query);
   };
 
+  listServer = (filter: Array<any>): Promise<any> => {
+    const api: ApiModule = new ApiModule(this.model);
+
+    return api.listServer(filter);
+  };
+
   createRequestHandler = (node: iNode, hooks: any = {}) => {
-    this.create(node.request.body, hooks).then(response => {
+    this.create(node.request.body, hooks).then((response) => {
       node.response.end(JSON.stringify(response));
     });
   };
@@ -38,9 +44,11 @@ export class ApiServer {
   };
 
   updateRequestHandler = (node: iNode, hooks: any = {}) => {
-    this.update(node.request.body, node.request.params, hooks).then(response => {
-      node.response.end(JSON.stringify(response));
-    });
+    this.update(node.request.body, node.request.params, hooks).then(
+      (response) => {
+        node.response.end(JSON.stringify(response));
+      }
+    );
   };
 
   update = (body: any, pk: any, hooks: any = {}): Promise<any> => {
@@ -50,9 +58,9 @@ export class ApiServer {
   };
 
   deleteRequestHandler = async (node: iNode) => {
-    this.delete(node.request.params).then(response => {
+    this.delete(node.request.params).then((response) => {
       node.response.end(JSON.stringify(response));
-    });    
+    });
   };
 
   delete = (pk: any): Promise<any> => {

@@ -1,4 +1,9 @@
-<div id="{{ task.tsk_id }}">
+<div
+  id="{{ task.tsk_id }}"
+  [ngClass]="{
+    'task-item-in-process': task.tsk_ctg_in_process === 2
+  }"
+>
   <input
     type="checkbox"
     [checked]="task.tsk_ctg_status === 3"
@@ -137,7 +142,7 @@
       'task-priority': task.tsk_qualifiers.indexOf('priority') !== -1,
       'task-important': task.tsk_qualifiers.indexOf('important') !== -1,
       'task-unexpected': task.tsk_qualifiers.indexOf('unexpected') !== -1,
-      'task-progressed': task.tsk_qualifiers.indexOf('progressed') !== -1,
+      'task-q-progressed': task.tsk_qualifiers.indexOf('progressed') !== -1,
       'task-directions': task.tsk_qualifiers.indexOf('directions') !== -1,
       'task-critical': task.tsk_qualifiers.indexOf('critical') !== -1
     }"

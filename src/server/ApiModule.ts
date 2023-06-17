@@ -39,6 +39,30 @@ export class ApiModule {
     });
   };
 
+  /**
+   * Method to run a SQL query to get entity listing, but providing
+   * filter arguments as an object
+   * @param filter Array An Array of objects that can be converted into SQL with #MoSQL.simpleCriteriaToSQL() method
+   * @param model iEntity Data object
+   * @returns Listing
+   */
+  listServer = (filter: Array<any>, model?: iEntity): Promise<iEntity[]> => {
+    let m: iEntity = model ? model : this.model;
+    let connection: iConnection = ConnectionService.getConnection();
+    let sqlMotor: MoSQL = new MoSQL(m);
+    let sql: string = sqlMotor.toSelectSQL(filter, m);
+    let array: iEntity[] = [];
+
+    return connection.runSql(sql).then((response) => {
+      if (!response.err) {
+        array = response.rows;
+        console.log(`api list query returned ${array.length} rows`);
+      }
+      connection.close();
+      return array;
+    });
+  };
+
   create = (data: any, hooks: any, model?: iEntity): Promise<any> => {
     let m: iEntity = model ? model : this.model;
     if (data.body) {

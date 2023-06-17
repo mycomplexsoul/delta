@@ -9,4 +9,6 @@ ApiRoute.get(router, "/", server.listRequestHandler);
 ApiRoute.post(router, "/", server.createRequestHandler);
 ApiRoute.post(router, "/:act_id", server.updateRequestHandler);
 
+ApiRoute.get(router, "/list", server.listWithMetadataRequestHandler);
+
 export { router };

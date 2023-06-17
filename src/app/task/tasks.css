@@ -8,20 +8,47 @@ span.task-in-process {
 span.task-directions {
   background-color: var(--task-q-directions);
 }
+[data-theme="dark"] span.task-directions {
+  background-color: transparent;
+  color: var(--task-q-directions);
+}
 span.task-highlighted {
   background-color: var(--task-q-highlighted);
+}
+[data-theme="dark"] span.task-highlighted {
+  background-color: transparent;
+  color: var(--task-q-highlighted);
 }
 span.task-important {
   background-color: var(--task-q-important);
 }
+:host-context([data-theme="dark"]) span.task-important {
+  background-color: transparent;
+  color: var(--task-q-important);
+}
 span.task-priority {
   background-color: var(--task-q-priority);
+}
+[data-theme=dark] span.task-priority {
+  background-color: transparent;
+  color: var(--task-q-priority);
 }
 span.task-unexpected {
   background-color: var(--task-q-unexpected);
 }
+[data-theme="dark"] span.task-unexpected {
+  background-color: transparent;
+  color: var(--task-q-unexpected);
+}
 span.task-critical {
   background-color: var(--task-q-critical);
+}
+span.task-q-progressed {
+  background-color: var(--task-q-progressed);
+}
+.task-item-in-process {
+  background: var(--task-item-in-process-background-color);
+  border: var(--task-item-in-process-border);
 }
 /* #endregion */
 
@@ -35,6 +62,14 @@ span.task-critical {
 
 .task-record-background {
   background-color: var(--task-record-background);
+}
+
+.task-next-time-ahead {
+  background-color: var(--task-time-ahead);
+}
+
+.task-next-time-behind {
+  background-color: var(--task-time-behind);
 }
 
 @media (min-width: 504px) {

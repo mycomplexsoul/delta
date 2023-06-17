@@ -11,10 +11,11 @@ export class ActivityService {
   private config = {
     storageKey: "activities",
     api: {
-      list: "/api/activities",
+      list: "/api/activities", // TODO: remove
+      listing: "/api/activities/list",
       create: "/api/activities",
-      update: "/api/activities/:id"
-    }
+      update: "/api/activities/:id",
+    },
   };
 
   constructor(
@@ -32,12 +33,28 @@ export class ActivityService {
     };
     return this.sync
       .get(`${this.config.api.list}`)
-      .then(data => {
+      .then((data) => {
         this.data = data.map((d: any): Activity => new Activity(d));
         this.data = this.data.sort(sort);
         return this.data;
       })
-      .catch(err => {
+      .catch((err) => {
+        return [];
+      });
+  }
+
+  async getAll2() {
+    const sort = (a: Activity, b: Activity) => {
+      return a.act_date_mod.getTime() > b.act_date_mod.getTime() ? 1 : -1;
+    };
+    return this.sync
+      .get(`${this.config.api.listing}`)
+      .then((data) => {
+        this.data = data.map((d: any): Activity => new Activity(d));
+        this.data = this.data.sort(sort);
+        return this.data;
+      })
+      .catch((err) => {
         return [];
       });
   }
@@ -52,7 +69,7 @@ export class ActivityService {
 
     return this.sync
       .post(this.config.api.create, Utils.removeMetadataFromEntity(baseItem))
-      .then(response => {
+      .then((response) => {
         if (response.success) {
           this.data.push(baseItem);
         } else {
@@ -61,7 +78,7 @@ export class ActivityService {
         }
         return baseItem;
       })
-      .catch(err => {
+      .catch((err) => {
         // Append it to the listing but flag it as non-synced yet
         baseItem["sync"] = false;
         this.data.push(baseItem);
@@ -71,7 +88,7 @@ export class ActivityService {
 
   updateItem(item: Activity): Promise<Activity> {
     const updateLocal = () => {
-      const index = this.data.findIndex(e => e.act_id === item.act_id);
+      const index = this.data.findIndex((e) => e.act_id === item.act_id);
       if (index !== -1) {
         this.data[index] = item;
       }
@@ -82,14 +99,14 @@ export class ActivityService {
         this.config.api.update.replace(":id", item.act_id),
         Utils.removeMetadataFromEntity(item)
       )
-      .then(response => {
+      .then((response) => {
         if (!response.success) {
           item["sync"] = false;
         }
         updateLocal();
         return item;
       })
-      .catch(err => {
+      .catch((err) => {
         // Append it to the listing but flag it as non-synced yet
         console.log("error on update", err);
         item["sync"] = false;

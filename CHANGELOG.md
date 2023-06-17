@@ -27,7 +27,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.1 (2023-02-28) -- In Progress --
+## v1.14.2 (2023-03-28) -- In Progress --
+
+## v1.14.1 (2023-02-28)
+
+1. [AppTasks][mod] Emphasize dark mode styles for tasks app
+2. [AppKanban][new] Added a layout selector to display more/less information for each activity
+3. [AppKanban][new] Calculate and use next folio for project
+4. [AppKanban][new] Added health group information to provide meaning of colors and total count
+5. [AppKanban][new] Added a feature to sort groups by descending status order
+6. [AppTasks][mod] Added the possibility to adjust time tracking up to 3 days earlier
+7. [AppCommon][new] ApiModule - Added new `listServer()` method to get an entity listing with simple filters, use it on server side
+8. [AppCommon][new] InstantiateModule - Added new `parseIntoObjectTree()` method to create a parent listing with additional related child-listings
+9. [AppCommon][mod] InstantiateModule - Changed `instantiateFromString()` method to create an Entity with metadata or not
+10. [AppCommon][mod] MoSQL - Added new `simpleCriteriaWithGroupsToSQL()` method to simplify building sql statements with object structure
 
 ## v1.14.0 (2023-01-28)
 
