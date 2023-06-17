@@ -8,7 +8,7 @@ const wakeLockHandler = function () {
     const requestWakeLock = () => {
       const controller = new AbortController();
       const signal = controller.signal;
-      window["WakeLock"].request("screen", { signal }).catch((e) => {
+      window["WakeLock"]["request"]("screen", { signal }).catch((e) => {
         if (e.name === "AbortError") {
           console.log("Wake Lock was aborted");
         } else {
