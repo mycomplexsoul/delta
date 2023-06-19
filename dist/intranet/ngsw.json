@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1687185113225,
+  "timestamp": 1687185266152,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -42,7 +42,8 @@
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
         "/assets/icons/people.svg",
-        "/assets/icons/smartphone.svg"
+        "/assets/icons/smartphone.svg",
+        "/assets/images/firma-comite.png"
       ],
       "patterns": []
     }
@@ -63,6 +64,7 @@
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/assets/icons/people.svg": "8449e2e3731a3fafc26c80c0d785b9b0fbe3c0bd",
     "/assets/icons/smartphone.svg": "13031b9b8dbe1959b13cabc2bc5b62ecd4b8642a",
+    "/assets/images/firma-comite.png": "a82c28413f5f5cbbd5feba6e9f0b9afd23b1bc4a",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
     "/index.html": "6d531e2298acafb1bb4531921a06119452c960af",
     "/main.25e67789e51fe6ca.js": "3682583d8d028e55d1a9d5ef76d6961fe30e9565",
