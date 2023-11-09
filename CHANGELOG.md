@@ -27,7 +27,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.3 (2023-07-28) -- In Progress --
+## v1.14.4 (2023-11-28) -- In Progress --
+
+1. [AppCommon] Upgrade to Angular v17
+2. [AppCommon] Upgrade dependencies
+
+## v1.14.3 (2023-07-28)
 
 1. [AppCommon][fix] Fixed battery level property which prevented rendering
 2. [AppMoney][mod] Movements - Added support for `reimburse-*` to reimburse income movements

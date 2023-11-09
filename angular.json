@@ -87,18 +87,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "intranet:build"
+            "buildTarget": "intranet:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "intranet:build:production"
+              "buildTarget": "intranet:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "intranet:build"
+            "buildTarget": "intranet:build"
           }
         },
         "test": {
