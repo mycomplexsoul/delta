@@ -34,11 +34,12 @@ export class DrinkWaterComponent implements OnInit {
     reminders: [
       {
         title: "Water",
-        startTime: 9 * 60,
+        startTime: 9 * 60 + 5,
         started: false,
         schedule: 30,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Lipstick",
@@ -47,6 +48,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 240,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Downloads state",
@@ -55,6 +57,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 120,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Get up",
@@ -63,6 +66,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 90,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Slack Globant",
@@ -71,6 +75,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 270,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Solar protector",
@@ -79,6 +84,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 240,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Clean teeth",
@@ -87,6 +93,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 360,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Kiss Lau",
@@ -95,14 +102,16 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 360,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
-        title: "Tweetdeck",
+        title: "Twitter",
         startTime: 10 * 60 + 35,
         started: false,
         schedule: 30,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
       {
         title: "Speak English",
@@ -111,6 +120,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule: 120,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       },
     ],
   };
@@ -142,6 +152,7 @@ export class DrinkWaterComponent implements OnInit {
         schedule,
         nextOcurrence: null,
         startTimeFormatted: null,
+        timeoutReference: null,
       });
     }
   }
@@ -187,7 +198,7 @@ export class DrinkWaterComponent implements OnInit {
 
     // schedule reminder notification for the next ocurrence
     // TODO: refactor to a proper timerService implementation to track all timers
-    setTimeout(() => {
+    reminder.timeoutReference = setTimeout(() => {
       this.notificationService.notifyWithOptions(reminder.title, {
         title: "Reminders",
         hideIn: 0,
@@ -220,5 +231,20 @@ export class DrinkWaterComponent implements OnInit {
     document.documentElement.style.colorScheme = "light dark";
     document.documentElement.setAttribute("data-theme", "dark");
     return;
+  }
+
+  stopReminders() {
+    const { reminders } = this.viewData;
+
+    reminders.forEach((reminder) => {
+      reminder.nextOcurrence = null;
+      if (reminder.timeoutReference) {
+        clearTimeout(reminder.timeoutReference);
+      }
+    });
+  }
+
+  clearReminderNotifications() {
+    this.notificationService.removeAll();
   }
 }

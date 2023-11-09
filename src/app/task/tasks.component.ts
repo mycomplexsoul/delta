@@ -118,6 +118,7 @@ export class TasksComponent implements OnInit {
       chartLegend: boolean;
       chartType: string;
     };
+    nextToDoCutlineForAddedTasks: number;
   } = {
     selectedFilter: "all",
     pinnedRecords: [],
@@ -144,6 +145,7 @@ export class TasksComponent implements OnInit {
       chartLegend: true,
       chartType: "bar",
     },
+    nextToDoCutlineForAddedTasks: 0,
   };
 
   public CONSTANTS = {
@@ -204,6 +206,8 @@ export class TasksComponent implements OnInit {
   // handlers for Closed Yesterday
   public handlersForClosedYesterday = {
     onViewTaskDetails: (task: Task) => this.setSelected(task),
+    onTaskMarkAsDone: (task: Task, event: any) =>
+      this.markTaskAsDone(task, event),
     onEvent: (event: { changes: any }) => {
       console.log("received an update", event);
       if (event.changes.tsk_ctg_status === 3) {
@@ -318,8 +322,8 @@ export class TasksComponent implements OnInit {
         this.showBatchAdd = false;
         setTimeout(() => this.updateState(), 100);
         if (this.options.optAddNewTasksToNextTasks && added.length) {
-          added.forEach((a) => {
-            this.asNextToDo(a, true);
+          [...added].reverse().forEach((a) => {
+            this.asNextToDo(a, true, true);
           });
         }
       }
@@ -538,6 +542,18 @@ export class TasksComponent implements OnInit {
     this.configChartOpenCountEOD.data =
       this.state.indicators.find((i) => i.name === "All Open Count")?.values ||
       [];
+
+    // use added count for today to add a line in next to do section
+    const addedToday = this.state.indicators.find(
+      (i) => i.name === "Added Count"
+    )?.values;
+    const closedToday = this.state.indicators.find(
+      (i) => i.name === "Closed Count"
+    )?.values;
+    if (addedToday?.length && closedToday?.length) {
+      this.viewData.nextToDoCutlineForAddedTasks =
+        addedToday[addedToday.length - 1] - closedToday[closedToday.length - 1];
+    }
 
     // identify not synced tasks
     this.tasksNotInSync();
@@ -1224,8 +1240,12 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  focusElement(selector: string) {
-    document.querySelector(selector)["focus"]();
+  focusElement(selector: string, delay: number = 0) {
+    const focus = () => document.querySelector(selector)["focus"]();
+    if (delay > 0) {
+      setTimeout(focus, delay);
+    }
+    focus();
   }
 
   taskJumpDown(current: any, selector: string) {
@@ -1276,6 +1296,11 @@ export class TasksComponent implements OnInit {
 
   taskToggleTimeTracking(task: any, dom: HTMLElement) {
     if (task.tsk_ctg_in_process === 1) {
+      const nextTasks: Task[] = this.nextTasks[0].tasks;
+      const lastInProgressIndex = nextTasks.findLastIndex(
+        (e: Task) => e.tsk_ctg_in_process === 2
+      );
+
       // not in progress
       task.tsk_ctg_in_process = 2;
       this.updateTask(task.tsk_id, {
@@ -1284,6 +1309,42 @@ export class TasksComponent implements OnInit {
       // show timer
       this.showTimer(task, dom);
       this.services.tasksCore.addTimeTracking(task);
+
+      if (!task["inNextToDo"]) {
+        // task is not in Next To Do, add it
+        this.asNextToDo(task, true);
+      }
+
+      // ensure this is at the top, following any other in progress task
+      const index = nextTasks.findIndex((e: Task) => e.tsk_id === task.tsk_id);
+
+      // set task after last in progress
+      if (lastInProgressIndex === -1) {
+        // nothing in progress, task is not the first, we move it to top
+        if (index > 0) {
+          nextTasks.splice(index, 1);
+          nextTasks.unshift(task);
+        }
+        // we do nothing is task is already on top
+      } else {
+        // something is in progress, move it after last in progress task
+        if (lastInProgressIndex !== index) {
+          nextTasks.splice(index, 1);
+          nextTasks.splice(lastInProgressIndex + 1, 0, task);
+        }
+        // else task is already where it should be
+      }
+      this.projectNextTasksDates();
+      // set focus
+      this.focusElement(
+        `#nextToDoTodayList #${task.tsk_id} span.task-text[contenteditable=true]`,
+        100
+      );
+
+      localStorage.setItem(
+        "NextTasks",
+        JSON.stringify(nextTasks.map((e: Task) => e.tsk_id))
+      );
     } else {
       // already in progress
       task.tsk_ctg_in_process = 1;
@@ -1819,6 +1880,50 @@ export class TasksComponent implements OnInit {
         "]"
       );
     }
+
+    const replacements = {
+      "[/MONTH-YEAR]": () =>
+        `${DateUtils.getMonthNameSpanish(
+          DateUtils.getCurrentMonth()
+        )} ${DateUtils.getCurrentYear()}`,
+      "[/EN-MONTH-YEAR]": () =>
+        `${DateUtils.getMonthName(
+          DateUtils.getCurrentMonth()
+        )} ${DateUtils.getCurrentYear()}`,
+      "[/PREV-MONTH-YEAR]": () =>
+        `${DateUtils.getMonthNameSpanish(
+          DateUtils.getCurrentMonth() === 1
+            ? 12
+            : DateUtils.getCurrentMonth() - 1
+        )} ${DateUtils.getCurrentYear()}`,
+      "[/EN-PREV-MONTH-YEAR]": () =>
+        `${DateUtils.getMonthName(
+          DateUtils.getCurrentMonth() === 1
+            ? 12
+            : DateUtils.getCurrentMonth() - 1
+        )} ${DateUtils.getCurrentYear()}`,
+      "[/NEXT-MONTH-YEAR]": () =>
+        `${DateUtils.getMonthNameSpanish(
+          DateUtils.getCurrentMonth() === 12
+            ? 1
+            : DateUtils.getCurrentMonth() + 1
+        )} ${DateUtils.getCurrentYear()}`,
+      "[/EN-NEXT-MONTH-YEAR]": () =>
+        `${DateUtils.getMonthName(
+          DateUtils.getCurrentMonth() === 12
+            ? 1
+            : DateUtils.getCurrentMonth() + 1
+        )} ${DateUtils.getCurrentYear()}`,
+    };
+
+    Object.keys(replacements).forEach((token) => {
+      if (command.indexOf(token) !== -1) {
+        this.updateTask(t.tsk_id, {
+          tsk_name: t.tsk_name.replace(token, replacements[token](t)),
+        });
+        this.updateState();
+      }
+    });
 
     // token to look up and method that returns the changes to apply
     // * important: remember these tokens apply just one at a time
@@ -2878,12 +2983,16 @@ export class TasksComponent implements OnInit {
     // karma
   }
 
-  asNextToDo(t: any, add: boolean) {
+  asNextToDo(t: any, add: boolean, addAtBeggining: boolean = false) {
     let p = this.nextTasks[0].tasks;
     let index = p.findIndex((e: any) => e.tsk_id === t.tsk_id);
     if (add) {
       if (index === -1) {
-        p.push(t);
+        if (addAtBeggining) {
+          p.unshift(t);
+        } else {
+          p.push(t);
+        }
         this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
         t["inNextToDo"] = true;
         this.projectNextTasksDates();

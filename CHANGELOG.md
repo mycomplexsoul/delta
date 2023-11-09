@@ -27,7 +27,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.2 (2023-03-28) -- In Progress --
+## v1.14.3 (2023-07-28) -- In Progress --
+
+1. [AppCommon][fix] Fixed battery level property which prevented rendering
+2. [AppMoney][mod] Movements - Added support for `reimburse-*` to reimburse income movements
+3. [AppMoney][mod] Movements - Added support for single line pasted movements so that we can expand on the data, format is: DATE | DESCRIPTION | AMOUNT | ACCOUNT | PLACE | CATEGORY | TAGS | NOTES
+4. [AppTasks][new] Support replacement of `[/MONTH-YEAR]` for its current values, all supported strings:
+
+- `[/MONTH-YEAR]`
+- `[/EN-MONTH-YEAR]`
+- `[/PREV-MONTH-YEAR]`
+- `[/EN-PREV-MONTH-YEAR]`
+- `[/NEXT-MONTH-YEAR]`
+- `[/EN-NEXT-MONTH-YEAR]`
+
+## v1.14.2 (2023-06-28)
+
+1. [AppCommon][mod] Upgrade dependencies
+2. [AppCommon][mod] Upgrade to Angular v16
+3. [AppKanban][new] Allow to pass an activity from an advanced status into an old one
+4. [AppTasks][new] Push an in progress task on top of Next to do today section, after other in progress tasks
+5. [AppTasks][new] When adding tasks in batch and you want them to be added to Next To Do section, add them at the beginning instead of at the end
+6. [AppTasks][new] Show a cutline on the Next To Do section to show how many tasks user needs to finish to close the same number of tasks added today
+7. [AppKanban][new] Show a single task when description is the same for multiple tasks
+8. [AppCartera][new] Added form to generate extraordinary provisions for a given period and amount
+9. [AppCartera][mod] Payment Report - Added support for extraordinary provisions
+10. [AppCommon][mod] Reminders - Added button to stop reminders timeouts
 
 ## v1.14.1 (2023-02-28)
 

@@ -58,6 +58,7 @@
           name="fDescription"
           id="fDescription"
           class="field-input movement-input-description"
+          (blur)="onDescriptionBlurHandler($event.target.value, newMovementForm)"
           ngModel
         />
         <span *ngIf="newMovementForm.value.fDescription">

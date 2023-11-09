@@ -1,19 +1,15 @@
 <div class="page-container">
-  <h1 class="page-title text-align-center">
-    {{viewData.title}}
-  </h1>
-  
-  <div class="text-align-center width-100-pct print-only">
-    Página 1 de 1
-  </div>
-  
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
+
+  <div class="text-align-center width-100-pct print-only">Página 1 de 1</div>
+
   <table class="payment-listing width-100-pct-print-only desktop-only">
     <thead>
       <tr>
         <th>#</th>
         <th>Unidad</th>
         <th *ngIf="viewData.layout === 'print'">Firma Condomino</th>
-        <th>A favor</th>
+        <th>Saldo</th>
         <th>Fecha</th>
         <th>Monto</th>
         <th>Concepto / Observaciones</th>
@@ -21,7 +17,7 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let item of viewData.paymentReportData; let counter = index"
+        *ngFor="let item of viewData.paymentReportData.provisionList; let counter = index"
         class="payment-listing-row"
       >
         <td
@@ -41,8 +37,9 @@
         <td
           class="padding-all-3 text-align-right vertical-align-top payment-report-in-favor"
         >
-          <span *ngIf="item.previousPayDetTotal">
-            {{item.previousPayDetTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+          <span *ngIf="item.previousPayDetTotal && !viewData.extraordinary">
+            {{item.previousPayDetTotal | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
           </span>
         </td>
         <td
@@ -53,7 +50,7 @@
             date: "yyyy-MM-dd"}}
           </span>
           <span
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
+            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print' && !viewData.extraordinary"
           >
             {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +
             viewData.month }}-___
@@ -68,19 +65,18 @@
         }"
         >
           <span *ngIf="item.paymentList.length > 0">
-            {{item.paymentList.length && item.totalPayment |
-            currency: "USD":"symbol-narrow":"1.2-2"}}
+            {{item.paymentList.length && item.totalPayment | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
           </span>
           <span
             *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
           >
             <input type="checkbox" />
             <span>
-              {{ 1480 | currency: "USD":"symbol-narrow":"1.2-2"}}
+              {{ item.provision.cpr_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
             </span>
-            <span>
-              ó otro: $_______
-            </span>
+            <span> / otro: $_______ </span>
           </span>
         </td>
         <td class="padding-all-3 vertical-align-top">
@@ -88,7 +84,8 @@
             <div *ngFor="let pay of item.paymentList; let payIndex = index">
               <div *ngFor="let det of pay.payDetList">
                 <span *ngIf="item.paymentList.length > 1">
-                  => {{pay.payment.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+                  => {{pay.payment.cpy_amount | currency:
+                  "USD":"symbol-narrow":"1.2-2"}}
                 </span>
                 <span *ngIf="pay.payDetList.length > 1">
                   + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
@@ -98,8 +95,8 @@
                   {{det.cpd_concept}}
                 </span>
                 <span *ngIf="item.paymentList.length > 1">
-                  ({{item.paymentList.length && pay.payment.cpy_date |
-                    date: "yyyy-MM-dd"}})
+                  ({{item.paymentList.length && pay.payment.cpy_date | date:
+                  "yyyy-MM-dd"}})
                 </span>
               </div>
             </div>
@@ -109,7 +106,8 @@
           >
             <input type="checkbox" *ngIf="!item.isCurrentProvisionPayed" />
             <span *ngIf="!item.isCurrentProvisionPayed">
-              Mantto {{ viewData.displayYearMonth }}
+              {{ viewData.extraordinary ? viewData.displayYearMonth : 'Mantto '
+              + viewData.displayYearMonth }}
             </span>
             <span *ngIf="item.isCurrentProvisionPayed">
               (Cuota de este mes cubierta)
@@ -124,7 +122,9 @@
         <td class="padding-all-3"></td>
         <td class="padding-all-3" *ngIf="viewData.layout === 'print'"></td>
         <td class="padding-all-3 text-align-right width-80">
-          {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+          <span *ngIf="!viewData.extraordinary">
+            {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
         </td>
         <td class="padding-all-3 text-align-center">Total</td>
         <td class="padding-all-3 text-align-right width-80">
@@ -148,7 +148,7 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let item of viewData.paymentReportData; let counter = index"
+        *ngFor="let item of viewData.paymentReportData.provisionList; let counter = index"
         class="payment-listing-row"
       >
         <td
@@ -170,22 +170,23 @@
         }"
         >
           <span *ngIf="item.paymentList.length > 0">
-            {{item.paymentList.length && item.totalPayment |
-            currency: "USD":"symbol-narrow":"1.2-2"}}
+            {{item.paymentList.length && item.totalPayment | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
           </span>
           <span
             *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
           >
             <input type="checkbox" />
             <span>
-              {{ 1480 | currency: "USD":"symbol-narrow":"1.2-2"}}
+              {{ item.provision.cpr_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
             </span>
-            <span>
-              ó otro: $_______
-            </span>
+            <span> / otro: $_______ </span>
           </span>
         </td>
-        <td class="padding-all-3 vertical-align-top payment-listing-description">
+        <td
+          class="padding-all-3 vertical-align-top payment-listing-description"
+        >
           <span *ngIf="item.paymentList.length > 0">
             {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
             date: "yyyy-MM-dd"}}
@@ -200,7 +201,8 @@
             <div *ngFor="let pay of item.paymentList; let payIndex = index">
               <div *ngFor="let det of pay.payDetList">
                 <span *ngIf="item.paymentList.length > 1">
-                  => {{pay.payment.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+                  => {{pay.payment.cpy_amount | currency:
+                  "USD":"symbol-narrow":"1.2-2"}}
                 </span>
                 <span *ngIf="pay.payDetList.length > 1">
                   + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
@@ -210,22 +212,21 @@
                   {{det.cpd_concept}}
                 </span>
                 <span *ngIf="item.paymentList.length > 1">
-                  ({{item.paymentList.length && pay.payment.cpy_date |
-                    date: "yyyy-MM-dd"}})
+                  ({{item.paymentList.length && pay.payment.cpy_date | date:
+                  "yyyy-MM-dd"}})
                 </span>
               </div>
             </div>
           </div>
           <span *ngIf="item.previousPayDetTotal">
-            A Favor: {{item.previousPayDetTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+            Saldo: {{item.previousPayDetTotal | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
           </span>
           <div
             *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
           >
             <input type="checkbox" />
-            <span>
-              Mantto {{ viewData.displayYearMonth }}
-            </span>
+            <span> Mantto {{ viewData.displayYearMonth }} </span>
           </div>
         </td>
       </tr>
@@ -240,7 +241,10 @@
           </span>
         </td>
         <td class="padding-all-3">
-          <span>Total A Favor: {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}</span>
+          <span
+            >Total Saldo: {{viewData.previousTotal | currency:
+            "USD":"symbol-narrow":"1.2-2"}}</span
+          >
         </td>
       </tr>
     </tfoot>

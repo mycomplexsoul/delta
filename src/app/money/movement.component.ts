@@ -417,11 +417,11 @@ export class MovementComponent implements OnInit {
         let localEntries: Array<Entry> = [];
         localEntries = this.generateEntriesForMovement(m);
 
-        console.log("these are all entries", this.services.entry.list);
+        // console.log("these are all entries", this.services.entry.list);
 
         // add to balance
         this.services.balance.add(localEntries);
-        console.log("these are all balance", this.services.balance.list);
+        // console.log("these are all balance", this.services.balance.list);
 
         // if the movement has `reimburse-50` budget flag
         // add a new movement based on this one with specific changes
@@ -473,7 +473,7 @@ export class MovementComponent implements OnInit {
     const reimburse: Movement = new Movement(base);
     reimburse.mov_desc = `${descPrefix}${base.mov_desc}${descSufix}`;
     reimburse.mov_amount = newAmount;
-    reimburse.mov_ctg_type = 2;
+    reimburse.mov_ctg_type = base.mov_ctg_type === 1 ? 2 : 1;
     reimburse.mov_id_account = ACCOUNT_FOR_REIMBURSE;
     reimburse.mov_txt_account = this.viewData.accounts.find(
       (acc) => acc.acc_id === ACCOUNT_FOR_REIMBURSE
@@ -996,6 +996,48 @@ export class MovementComponent implements OnInit {
       this.viewData.movements = this.getLastestMovements(
         this.services.movement.list()
       );
+    }
+  }
+
+  onDescriptionBlurHandler(description: string, form: NgForm) {
+    const parts = description?.split("|").map((p) => p.trim());
+
+    if (parts.length === 8) {
+      form.controls["fMovementFlowType"].setValue("custom");
+      const amount = parseFloat(parts[2].replace("$", "").replaceAll(",", ""));
+      form.controls["fAmount"].setValue(Math.abs(amount));
+      if (amount < 0) {
+        // expense
+        this.model.type = 1;
+        if (form.controls["fMovementType"]) {
+          form.controls["fMovementType"].setValue(1);
+        }
+      } else {
+        // income
+        this.model.type = 2;
+        if (form.controls["fMovementType"]) {
+          form.controls["fMovementType"].setValue(2);
+        }
+      }
+      form.controls["fDate"].setValue(parts[0]);
+      form.controls["fDescription"].setValue(parts[1]);
+      // get account by name
+      const account = this.viewData.accounts.find(
+        (e) => e.acc_name === parts[3]
+      );
+      form.controls["fAccount"].setValue(account.acc_id);
+      // form.controls["fAccountTo"].setValue(null);
+
+      const place = this.viewData.places.find((e) => e.mpl_name === parts[4]);
+      form.controls["fPlace"].setValue(place.mpl_id);
+
+      const category = this.viewData.categories.find(
+        (e) => e.mct_name === parts[5]
+      );
+      form.controls["fCategory"].setValue(category.mct_id);
+
+      form.controls["fBudget"].setValue(parts[6]);
+      form.controls["fNotes"].setValue(parts[7]);
     }
   }
 }

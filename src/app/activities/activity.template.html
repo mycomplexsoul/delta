@@ -209,19 +209,19 @@
                   details
                 </button>
                 <button
-                  *ngIf="item.act_ctg_status === 1"
+                  *ngIf="item.act_ctg_status === 1 || item.act_ctg_status === 3"
                   (click)="changeStatus(item.act_id, 'BACKLOG')"
                 >
                   To Backlog
                 </button>
                 <button
-                  *ngIf="item.act_ctg_status === 2"
+                  *ngIf="item.act_ctg_status === 2 || item.act_ctg_status === 4"
                   (click)="changeStatus(item.act_id, 'OPEN')"
                 >
                   To Open
                 </button>
                 <button
-                  *ngIf="item.act_ctg_status === 3"
+                  *ngIf="item.act_ctg_status === 3 || item.act_ctg_status === 5"
                   (click)="changeStatus(item.act_id, 'IN PROGRESS')"
                 >
                   To In Progress
@@ -272,9 +272,9 @@
             >
               <span><strong> Actividades </strong></span>
 
-              <div *ngFor="let t of item['additional'].tasks">
+              <div *ngFor="let t of item['additional'].uniqueTasks">
                 <task
-                  [task]="t"
+                  [task]="t.task"
                   [handlers]="handlers"
                   [options]="{
                   optShowRecordNameInline: true,

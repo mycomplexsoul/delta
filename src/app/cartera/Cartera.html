@@ -26,7 +26,6 @@
       name="batchPaymentInput"
       placeholder="Write a payment per line..."
       class="task-multiple"
-      (keyup)="inputKeyUpHandler($event)"
       [(ngModel)]="model.batchPaymentInput"
       spellcheck="false"
     ></textarea>
@@ -120,6 +119,41 @@
       Generate Provisions for selected period
     </button>
   </span>
+
+  <p>For Extraordinary Provisions</p>
+
+  <span class="field">
+    <label for="fPeriod" class="label-left">Period</label>
+    <select
+      [(ngModel)]="model.extraPeriod"
+      name="fExtraPeriod"
+      id="fExtraPeriod"
+    >
+      <option
+        *ngFor="let opt of viewData.nextMonthsForExtraordinaryProvisions"
+        value="{{ opt.iterable }}"
+        selected="true"
+      >
+        {{ opt.name }}
+      </option>
+    </select>
+  </span>
+
+  <span class="field">
+    <label for="fAmount" class="label-left">Amount</label>
+    <input
+      type="text"
+      [(ngModel)]="model.extraAmount"
+      name="fExtraAmount"
+      id="fExtraAmount"
+    />
+  </span>
+
+  <button
+    (click)="generateExtraordinaryProvisionsForMonth(model.extraPeriod, model.extraAmount)"
+  >
+    Generate Extraordinary Provisions for selected period
+  </button>
 </div>
 
 <form #newItemForm="ngForm" (ngSubmit)="newItem(newItemForm)">

@@ -1,13 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { CarteraProvision } from "../../../crosscommon/entities/CarteraProvision";
 import {
   PaymentReportService,
-  iPaymentReportData
+  iPaymentReportData,
 } from "./PaymentReportService";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { Title } from "@angular/platform-browser";
-import { CarteraPayDet } from "src/crosscommon/entities/CarteraPayDet";
 
 const UNIT_LABEL = "Departamento";
 
@@ -15,11 +13,11 @@ const UNIT_LABEL = "Departamento";
   selector: "payment-report",
   templateUrl: "./PaymentReport.html",
   styleUrls: ["./PaymentReport.css"],
-  providers: [PaymentReportService]
+  providers: [PaymentReportService],
 })
 export class PaymentReportComponent implements OnInit {
   public viewData: {
-    paymentReportData: iPaymentReportData[];
+    paymentReportData: iPaymentReportData;
     title: string;
     year: number;
     month: number;
@@ -28,8 +26,12 @@ export class PaymentReportComponent implements OnInit {
     total: number;
     layout: string;
     unit: string;
+    extraordinary: boolean;
   } = {
-    paymentReportData: [],
+    paymentReportData: {
+      provisionList: [],
+      unitBalance: {},
+    },
     title: null,
     year: 0,
     month: 0,
@@ -37,7 +39,8 @@ export class PaymentReportComponent implements OnInit {
     previousTotal: 0,
     total: 0,
     layout: null, // print, report (default), report-reference
-    unit: null
+    unit: null,
+    extraordinary: false,
   };
 
   parseQueryString() {
@@ -47,10 +50,15 @@ export class PaymentReportComponent implements OnInit {
     this.viewData.month = parseInt(query.get("month"), 10);
     this.viewData.layout = query.get("layout") || "report";
     this.viewData.unit = query.get("unit") || null;
+    this.viewData.extraordinary = !!query.get("extraordinary");
 
-    this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
-      this.viewData.month
-    )} ${this.viewData.year}`;
+    if (this.viewData.extraordinary) {
+      this.viewData.displayYearMonth = "Cuota Extraordinaria";
+    } else {
+      this.viewData.displayYearMonth = `${DateUtils.getMonthNameSpanish(
+        this.viewData.month
+      )} ${this.viewData.year}`;
+    }
   }
 
   constructor(
@@ -59,7 +67,7 @@ export class PaymentReportComponent implements OnInit {
   ) {
     this.parseQueryString();
     this.viewData.title = `Recaudación ${this.viewData.displayYearMonth} FFJ78`;
-    if (this.viewData.layout === 'print') {
+    if (this.viewData.layout === "print") {
       titleService.setTitle(`Formato de ${this.viewData.title}`);
     } else {
       titleService.setTitle(this.viewData.title);
@@ -86,15 +94,22 @@ export class PaymentReportComponent implements OnInit {
     this.viewData.total = 0;
 
     this.paymentReportService
-      .getPaymentsForMonth(this.viewData.year, this.viewData.month)
-      .then((response: iPaymentReportData[]) => {
+      .getPaymentsForMonth(
+        this.viewData.year,
+        this.viewData.month,
+        this.viewData.extraordinary
+      )
+      .then((response: iPaymentReportData) => {
         if (this.viewData.unit) {
-          this.viewData.paymentReportData = response.filter(e => e.provision.cpr_id_unit === this.viewData.unit);
+          this.viewData.paymentReportData.provisionList =
+            response.provisionList.filter(
+              (e) => e.provision.cpr_id_unit === this.viewData.unit
+            );
         } else {
           this.viewData.paymentReportData = response;
         }
 
-        this.viewData.paymentReportData.forEach(item => {
+        this.viewData.paymentReportData.provisionList.forEach((item) => {
           if (item.previousPayDetList.length) {
             item["previousPayDetTotal"] = item.previousPayDetList.reduce(
               (total, current) => total + current.cpd_amount,
@@ -110,15 +125,33 @@ export class PaymentReportComponent implements OnInit {
 
           // total sum, excluding condoned payments
           this.viewData.total += item.paymentList.reduce(
-            (total, current) => total + (current.payment.cpy_ctg_type === 1 ? current.payment.cpy_amount : 0),
+            (total, current) =>
+              total +
+              (current.payment.cpy_ctg_type === 1
+                ? current.payment.cpy_amount
+                : 0),
             0
           );
 
           //
-          item['totalPayment'] = item.paymentList
-            .reduce((total, current) => total + (current.payment.cpy_ctg_type === 1 ? current.payment.cpy_amount : 0), 0)
+          item["totalPayment"] = item.paymentList.reduce(
+            (total, current) =>
+              total +
+              (current.payment.cpy_ctg_type === 1
+                ? current.payment.cpy_amount
+                : 0),
+            0
+          );
 
-          item['isCurrentProvisionPayed'] = item.provision.cpr_remaining === 0;
+          item["isCurrentProvisionPayed"] = item.provision.cpr_remaining === 0;
+          if (
+            !item["previousPayDetTotal"] &&
+            response.unitBalance[item.provision.cpr_id_unit]
+          ) {
+            item["previousPayDetTotal"] =
+              response.unitBalance[item.provision.cpr_id_unit];
+            this.viewData.previousTotal += item["previousPayDetTotal"];
+          }
         });
       });
   }

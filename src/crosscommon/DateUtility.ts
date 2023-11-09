@@ -485,6 +485,14 @@ class DateUtility {
 
     return s;
   }
+
+  getCurrentMonth() {
+    return new Date().getMonth() + 1;
+  }
+
+  getCurrentYear() {
+    return new Date().getFullYear();
+  }
 }
 
 export let DateUtils = new DateUtility();

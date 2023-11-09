@@ -749,6 +749,10 @@ link {
   max-height: none;
 }
 
+.next-to-do-cutline {
+  border: 1px dashed rgb(0, 111, 32);
+}
+
 #openTaskList {
   clear: both;
 }

@@ -54,6 +54,7 @@ export class CarteraComponent implements OnInit {
     showGenerateReportSection: boolean;
     showGenerateProvisionsSection: boolean;
     nextMonthWithProvisionsToGenerate: Array<any>;
+    nextMonthsForExtraordinaryProvisions: Array<any>;
     showBatchPaymentsSection: boolean;
     appliedPayments: Array<any>;
     parsedTotalPayed: number;
@@ -88,6 +89,7 @@ export class CarteraComponent implements OnInit {
     showGenerateReportSection: false,
     showGenerateProvisionsSection: false,
     nextMonthWithProvisionsToGenerate: [],
+    nextMonthsForExtraordinaryProvisions: [],
     showBatchPaymentsSection: false,
     appliedPayments: [],
     parsedTotalPayed: 0,
@@ -103,6 +105,8 @@ export class CarteraComponent implements OnInit {
     period: string;
     report: string;
     nextPeriod: string;
+    extraPeriod: string;
+    extraAmount: number;
     resetForm: boolean;
     batchPaymentInput: string;
   } = {
@@ -116,6 +120,8 @@ export class CarteraComponent implements OnInit {
     period: null,
     report: null,
     nextPeriod: null,
+    extraPeriod: null,
+    extraAmount: 0,
     resetForm: true,
     batchPaymentInput: null,
   };
@@ -284,14 +290,21 @@ export class CarteraComponent implements OnInit {
         );
 
         // Determine next month without provisions if we need to generate future provisions
-        const year =
-          this.viewData.futureProvisionList[
-            this.viewData.futureProvisionList.length - 1
-          ].cpr_year;
-        const month =
-          this.viewData.futureProvisionList[
-            this.viewData.futureProvisionList.length - 1
-          ].cpr_month;
+        // we start with current month, targeting that next month is the one that needs generation
+        let month = DateUtils.dateOnly().getMonth() + 1;
+        let year = DateUtils.dateOnly().getFullYear();
+        if (this.viewData.futureProvisionList.length) {
+          // but we also check if we already have future months, then grab the last one
+          year =
+            this.viewData.futureProvisionList[
+              this.viewData.futureProvisionList.length - 1
+            ].cpr_year;
+          month =
+            this.viewData.futureProvisionList[
+              this.viewData.futureProvisionList.length - 1
+            ].cpr_month;
+        }
+        // now we're covered, get that next month
         const nextMonthIterable = DateUtils.getIterableNextMonth(year, month);
         this.viewData.nextMonthWithProvisionsToGenerate.push({
           iterable: nextMonthIterable.iterable,
@@ -302,6 +315,21 @@ export class CarteraComponent implements OnInit {
         });
         // since it's always 1 period, we assign it early to have it ready
         this.model.nextPeriod = String(nextMonthIterable.iterable);
+
+        // Periods for extraordinary provision generation
+        const baseMonth = DateUtils.getIterableCurrentMonth(year, month);
+        const baseMonth1 = DateUtils.getIterableNextMonth(year, month);
+        this.viewData.nextMonthsForExtraordinaryProvisions = [
+          baseMonth,
+          baseMonth1,
+          DateUtils.getIterableNextMonth(baseMonth1.year, baseMonth1.month),
+        ].map((item, index) => ({
+          iterable: item.iterable,
+          name: `${DateUtils.getMonthNameSpanish(item.month)} ${item.year}`,
+          selected: index === 0,
+        }));
+
+        this.model.extraPeriod = String(baseMonth.iterable);
       });
   }
 
@@ -614,7 +642,7 @@ export class CarteraComponent implements OnInit {
   }
 
   generateProvisionsForMonth(period: string) {
-    const year = period.substring(0, 4);
+    const year = parseInt(period.substring(0, 4), 10);
     const month = parseInt(period.substring(4, 6), 10);
     const url = "/api/external/cartera/generate-provisions";
 
@@ -639,6 +667,63 @@ export class CarteraComponent implements OnInit {
         this.notificationService.notifyWithOptions(message, {
           title: "Cartera",
         });
+        // update period if user wants to keep generating provisions
+        const nextMonthIterable = DateUtils.getIterableNextMonth(year, month);
+        this.viewData.nextMonthWithProvisionsToGenerate = [
+          {
+            iterable: nextMonthIterable.iterable,
+            name: `${DateUtils.getMonthNameSpanish(nextMonthIterable.month)} ${
+              nextMonthIterable.year
+            }`,
+            selected: true,
+          },
+        ];
+        // since it's always 1 period, we assign it early to have it ready
+        this.model.nextPeriod = String(nextMonthIterable.iterable);
+      });
+  }
+
+  generateExtraordinaryProvisionsForMonth(period: string) {
+    const year = parseInt(period.substring(0, 4), 10);
+    const month = parseInt(period.substring(4, 6), 10);
+    const url = "/api/external/cartera/generate-provisions";
+
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        year: year,
+        month: month,
+        user: this.authenticationService.currentUserValue.username,
+        extraordinary: true,
+        amount: this.model.extraAmount,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        let message = "Error generating provisions, try again later";
+        if (response.success) {
+          message = "Provisions generated correctly";
+        }
+        this.notificationService.notifyWithOptions(message, {
+          title: "Cartera",
+        });
+        /* // update period if user wants to keep generating provisions
+        const nextMonthIterable = DateUtils.getIterableNextMonth(year, month);
+        this.viewData.nextMonthWithProvisionsToGenerate = [
+          {
+            iterable: nextMonthIterable.iterable,
+            name: `${DateUtils.getMonthNameSpanish(nextMonthIterable.month)} ${
+              nextMonthIterable.year
+            }`,
+            selected: true,
+          },
+        ];
+        // since it's always 1 period, we assign it early to have it ready
+        this.model.nextPeriod = String(nextMonthIterable.iterable); */
       });
   }
 
@@ -651,7 +736,7 @@ export class CarteraComponent implements OnInit {
    */
   parseBatchPayments(rawInput: string) {
     const baseYear = DateUtils.dateOnly().getFullYear();
-    const baseMonth = DateUtils.dateOnly().getMonth() + 1;
+    const baseMonth = DateUtils.dateOnly().getMonth();
 
     const parseDayOfMonth = (raw: number): Date =>
       DateUtils.stringDateToDate(
@@ -792,8 +877,29 @@ export class CarteraComponent implements OnInit {
             }
           }
 
+          if (!provision) {
+            // provision not found
+            this.notificationService.notify(
+              `Error: Provision that you want to pay was not found, unit ${i.unit} period: ${current.year}-${current.month} penalty: ${current.isPenalty}`
+            );
+            console.error(
+              "--provision not found, verify since a folio may not be assigned properly",
+              {
+                payDetList,
+                provision,
+                parsedPayment: i,
+                current,
+                pendingProvisions: this.viewData.pendingProvisionList,
+                futureProvisions: this.viewData.futureProvisionList,
+              }
+            );
+          }
+
           // if payment is complete for this provision, generate folio
-          if (payDetList[provision.cpr_id] === provision.cpr_remaining) {
+          if (
+            payDetList[provision.cpr_id] &&
+            payDetList[provision.cpr_id] === provision.cpr_remaining
+          ) {
             nextFolio = nextFolio + 1;
 
             payDetFolioList[
@@ -809,7 +915,11 @@ export class CarteraComponent implements OnInit {
 
             payDet[payDet.length - 1].folio = payDetFolioList[provision.cpr_id];
           }
-          if (payDetList[provision.cpr_id] > provision.cpr_remaining) {
+
+          if (
+            !payDetList[provision.cpr_id] ||
+            payDetList[provision.cpr_id] > provision.cpr_remaining
+          ) {
             this.notificationService.notify(
               `Payment not configured correctly, paying ${
                 payDetList[provision.cpr_id]
@@ -838,7 +948,7 @@ export class CarteraComponent implements OnInit {
           nextFolio = nextFolio + 1;
 
           payDetFolioList[provision.cpr_id] = `${DateUtils.getMonthNameSpanish(
-            DateUtils.dateOnly().getMonth() + 1
+            baseMonth
           )
             .substr(0, 3)
             .toUpperCase()}${baseYear % 100}-${Utils.pad(

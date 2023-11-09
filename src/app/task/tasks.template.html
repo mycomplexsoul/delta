@@ -1135,6 +1135,10 @@
           <hr
             *ngIf="t['projectedDate'].getHours() < 2 && count > 0 && item.tasks[count-1]['projectedDate'].getHours() >= 23"
           />
+          <hr
+            *ngIf="count > 0 && count === viewData.nextToDoCutlineForAddedTasks"
+            class="next-to-do-cutline"
+          />
           <input
             type="checkbox"
             id="{{ t.tsk_id }}"
@@ -1142,8 +1146,8 @@
           />
           <span
             [ngClass]="{
-            'task-next-time-ahead': count === 0 && t['projectedDate'].getTime() >= getDate().getTime(),
-            'task-next-time-behind': count === 0 && getDate().getTime() > t['projectedDate'].getTime()
+            'task-next-time-ahead': t['projectedDate'].getTime() >= getDate().getTime(),
+            'task-next-time-behind': getDate().getTime() > t['projectedDate'].getTime()
           }"
             >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
           </span>

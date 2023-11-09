@@ -241,6 +241,25 @@ export class ActivityComponent implements OnInit {
 
         a["additional"] = {
           tasks: tagTasks.sort(this.sortTasks),
+          uniqueTasks: tagTasks
+            .sort(this.sortTasks)
+            .reduce(
+              (result: Array<{ count: number; task: Task }>, current: Task) => {
+                const found = result.find(
+                  (e) => e.task.tsk_name === current.tsk_name
+                );
+                if (found) {
+                  found.count += 1;
+                } else {
+                  result.push({
+                    count: 1,
+                    task: current,
+                  });
+                }
+                return result;
+              },
+              []
+            ),
           timeline: this.viewData.timelineList
             .filter(
               (t) =>
@@ -505,6 +524,7 @@ export class ActivityComponent implements OnInit {
 
           const newItem = await this.activityService.newItem(item);
           newItem.act_txt_status = ALL_STATUS_TEXT[newItem.act_ctg_status - 1];
+          // this.viewData.activityList.push(newItem);
           return newItem;
         },
         onFinalExecution: () => {

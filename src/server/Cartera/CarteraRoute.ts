@@ -11,32 +11,35 @@ router.post("/generate-provisions", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.generateAllProvisionsForMonthHandler(node);
 });
 
 /**
  * Allows to register multiple payments in batch mode
+ * TODO: Deprecate this route and all the related code
+ * @deprecated
  */
 router.post("/batch-payment", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.registerBatchPaymentsHandler(node);
 });
 
 /**
  * Used to load initial/existing provisions in batch
+ * TODO: Deprecate this route and all the related code
  * @deprecated Single use
  */
 router.post("/initial-provision-batch", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.initialProvisionBatchHandler(node);
 });
@@ -49,7 +52,7 @@ router.post("/generate-penalization-missing-payment", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.generatePenalizationForMissingPaymentHandler(node);
 });
@@ -61,7 +64,7 @@ router.post("/generate-penalization-unit", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.generatePenalizationForUnitHandler(node);
 });
@@ -73,7 +76,7 @@ router.post("/assign-payment", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.assignPaymentHandler(node);
 });
@@ -85,7 +88,7 @@ router.get("/payment-listing", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.getPaymentApplicationListingHandler(node);
 });
@@ -97,7 +100,7 @@ router.get("/provision-payment-listing", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.getProvisionPaymentListingHandler(node);
 });
@@ -116,7 +119,7 @@ router.get("/rebuild-pending-payments-month", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.rebuildPendingPaymentsForMonthHandler(node);
 });
@@ -129,7 +132,7 @@ router.get("/unit-status-for-month", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.unitStatusForMonthHandler(node);
 });
@@ -143,7 +146,7 @@ router.post("/change-concept-to-spanish", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.changeConceptToSpanishHandler(node);
 });
@@ -157,7 +160,7 @@ router.post("/register-monthly-income", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.registerMonthlyIncomeHandler(node);
 });
@@ -169,7 +172,7 @@ router.get("/results-for-month", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.resultsForMonthHandler(node);
 });
@@ -181,7 +184,7 @@ router.post("/payment", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.savePaymentAndPayDetHandler(node);
 });
@@ -193,7 +196,7 @@ router.get("/provision-payed-receipt", (req, res) => {
   let server: CarteraServer = new CarteraServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.getProvisionPayedReceiptListHandler(node);
 });

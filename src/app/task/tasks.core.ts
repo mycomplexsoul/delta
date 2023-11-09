@@ -22,7 +22,7 @@ export class TasksCore {
   constructor(
     private authenticationService: AuthenticationService,
     private http: HttpClient,
-    private sync: SyncAPI,
+    private sync: SyncAPI
   ) {
     let tasks: Array<Task> = this.tasksFromStorage();
     this.data.taskList = tasks;
@@ -33,23 +33,21 @@ export class TasksCore {
 
   getAll(): Promise<Array<Task>> {
     return this.sync.get(`/api/tasks/list-open`).then((data) => {
-      this.data.taskList = data.tasks.map(
-        (d: any): Task => {
-          let item: Task = new Task(d);
-          item["tsk_time_history"] =
-            data.timetracking.filter((tt: TaskTimeTracking) => {
-              return tt.tsh_id === item.tsk_id;
-            }) || [];
-          if (item["tsk_time_history"].length) {
-            item["tsk_time_history"].sort(
-              (a: TaskTimeTracking, b: TaskTimeTracking) => {
-                return a.tsh_num_secuential < b.tsh_num_secuential ? 1 : -1;
-              }
-            );
-          }
-          return item;
+      this.data.taskList = data.tasks.map((d: any): Task => {
+        let item: Task = new Task(d);
+        item["tsk_time_history"] =
+          data.timetracking.filter((tt: TaskTimeTracking) => {
+            return tt.tsh_id === item.tsk_id;
+          }) || [];
+        if (item["tsk_time_history"].length) {
+          item["tsk_time_history"].sort(
+            (a: TaskTimeTracking, b: TaskTimeTracking) => {
+              return a.tsh_num_secuential < b.tsh_num_secuential ? 1 : -1;
+            }
+          );
         }
-      );
+        return item;
+      });
       return this.data.taskList;
     });
   }
@@ -136,15 +134,11 @@ export class TasksCore {
       {
         tokenStr: "[DATE]",
         replaceMethod: () =>
-          this.dateWithFormat(DateUtils.dateOnly()).substring(
-            0,
-            10
-          ),
+          this.dateWithFormat(DateUtils.dateOnly()).substring(0, 10),
       },
       {
         tokenStr: "[DATETIME]",
-        replaceMethod: () =>
-          this.dateWithFormat(DateUtils.dateOnly()),
+        replaceMethod: () => this.dateWithFormat(DateUtils.dateOnly()),
       },
     ];
     tokens.forEach((token) => {
@@ -197,9 +191,7 @@ export class TasksCore {
           parseInt(parts[0].split(":")[0]) * 60 +
           parseInt(parts[0].split(":")[1]);
         task.tsk_schedule_date_start = new Date(
-          this.dateOnly(
-            DateUtils.newDateUpToSeconds()
-          ).getTime() +
+          this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
             min * 60 * 1000
         );
         task.tsk_estimated_duration = this.parseTime(parts[1]);
@@ -234,15 +226,11 @@ export class TasksCore {
           parseInt(parts[1].split(":")[0]) * 60 +
           parseInt(parts[1].split(":")[1]);
         task.tsk_schedule_date_start = new Date(
-          this.dateOnly(
-            DateUtils.newDateUpToSeconds()
-          ).getTime() +
+          this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
             min1 * 60 * 1000
         );
         task.tsk_schedule_date_end = new Date(
-          this.dateOnly(
-            DateUtils.newDateUpToSeconds()
-          ).getTime() +
+          this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
             min2 * 60 * 1000
         );
         task.tsk_estimated_duration =
@@ -266,9 +254,7 @@ export class TasksCore {
           parseInt(expression.split(":")[0]) * 60 +
           parseInt(expression.split(":")[1]);
         task.tsk_schedule_date_start = new Date(
-          this.dateOnly(
-            DateUtils.newDateUpToSeconds()
-          ).getTime() +
+          this.dateOnly(DateUtils.newDateUpToSeconds()).getTime() +
             min * 60 * 1000
         );
         parsed = true;
@@ -475,9 +461,8 @@ export class TasksCore {
 
           t.tsk_ctg_rep_type = repetitionTypeValues.indexOf(repetitionBasis);
           t.tsk_ctg_repeats = t.tsk_ctg_rep_type > 0 ? 2 : 1;
-          t.tsk_ctg_rep_after_completion = completionValues.indexOf(
-            completionCriteria
-          );
+          t.tsk_ctg_rep_after_completion =
+            completionValues.indexOf(completionCriteria);
           t.tsk_ctg_rep_end = repetitionEndValues.indexOf(terminationCriteria);
           if (terminationValue && patternDate.test(terminationValue)) {
             t.tsk_rep_date_end = new Date(
@@ -496,14 +481,12 @@ export class TasksCore {
           t.tsk_rep_iteration = 1;
           t.tsk_rep_frequency = frequency;
           if (repetitionBasis === "each") {
-            t.tsk_ctg_rep_frequency_rule = frequencyRuleValues.indexOf(
-              frequencyRule
-            );
+            t.tsk_ctg_rep_frequency_rule =
+              frequencyRuleValues.indexOf(frequencyRule);
           }
           if (repetitionBasis === "onDay") {
-            t.tsk_ctg_rep_frequency_rule = weekdaysValues.indexOf(
-              frequencyRule
-            );
+            t.tsk_ctg_rep_frequency_rule =
+              weekdaysValues.indexOf(frequencyRule);
           }
           if (repetitionBasis === "weekdays") {
             t.tsk_rep_weekdays = frequencyRule;
@@ -564,8 +547,7 @@ export class TasksCore {
       tsk_rep_frequency: task.tsk_rep_frequency || 0,
       tsk_ctg_rep_frequency_rule: task.tsk_ctg_rep_frequency_rule || 0,
       tsk_rep_weekdays: task.tsk_rep_weekdays || "",
-      tsk_date_add:
-        task.tsk_date_add || DateUtils.newDateUpToSeconds(),
+      tsk_date_add: task.tsk_date_add || DateUtils.newDateUpToSeconds(),
       tsk_date_mod: DateUtils.newDateUpToSeconds(),
       tsk_ctg_status: task.tsk_ctg_status,
     };
@@ -1098,11 +1080,13 @@ export class TasksCore {
     this.tasksToStorage();
   }
 
-  replaceTokenInText(tsk_name: string, expression: string) {
+  replaceTokenInText(
+    tsk_name: string,
+    expression: string,
+    replacement: string = ""
+  ) {
     let r = tsk_name;
-    r = r.replace(expression + " ", "");
-    r = r.replace(" " + expression, "");
-    r = r.replace(expression, "");
+    r = r.replace(expression, replacement).trim();
     return r;
   }
 
@@ -1110,7 +1094,8 @@ export class TasksCore {
     task: any,
     method: Function,
     token: string,
-    tokenEnd: string = " "
+    tokenEnd: string = " ",
+    replacement: string = ""
   ) {
     while (task.tsk_name.indexOf(token) !== -1) {
       let endPosition =
@@ -1124,7 +1109,8 @@ export class TasksCore {
 
       task.tsk_name = this.replaceTokenInText(
         task.tsk_name,
-        token + expression + (tokenEnd === " " ? "" : tokenEnd)
+        token + expression + (tokenEnd === " " ? "" : tokenEnd),
+        replacement
       );
 
       method(task, expression);

@@ -83,7 +83,11 @@ export class NotificationService {
   }
 
   remove(item: NotificationItem) {
-    const index = this.queue.findIndex(({ id }) => id);
+    const index = this.queue.findIndex(({ id }) => id === item.id);
     this.queue.splice(index, 1);
+  }
+
+  removeAll() {
+    this.queue = [];
   }
 }
