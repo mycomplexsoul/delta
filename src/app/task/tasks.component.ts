@@ -1045,6 +1045,7 @@ export class TasksComponent implements OnInit {
       );
       // if dateDone is happening before last time tracking date, use last time tracking date instead
       const lastDateDoneEntryFromDay =
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), 1)) ||
         this.lastDateDoneEntryFromDay(new Date()) ||
         this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
         this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -2)) ||
@@ -3087,9 +3088,18 @@ export class TasksComponent implements OnInit {
   }
 
   adjustTimeTracking(t: Task, triggerUpdateTask: boolean) {
+    // try peeking into tomorrow if today already finished ;-)
     let tt = this.lastTTEntryFromDay(
-      this.services.dateUtils.dateOnly(new Date())
+      this.services.dateUtils.dateOnly(
+        this.services.dateUtils.addDays(new Date(), 1)
+      )
     );
+    if (!tt) {
+      // no task tomorrow, try today
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(new Date())
+      );
+    }
     if (!tt) {
       // no task today, try yesterday
       tt = this.lastTTEntryFromDay(

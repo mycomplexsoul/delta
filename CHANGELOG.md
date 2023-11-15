@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 1. [AppCommon] Upgrade to Angular v17
 2. [AppCommon] Upgrade dependencies
+3. [AppTasks][mod] Support closing tasks that flow into next day so that time tracking slots get assigned correctly
 
 ## v1.14.3 (2023-07-28)
 

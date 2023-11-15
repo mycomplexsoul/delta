@@ -80,3 +80,11 @@
 .status-block {
   margin-right: 5px;
 }
+
+summary {
+  display: block;
+}
+
+summary:hover {
+  cursor: pointer;
+}
