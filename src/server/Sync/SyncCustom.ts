@@ -33,8 +33,9 @@ export class SyncCustom {
    *          model: { tsk_id: ... },
    *          pk: { tsk_id: ... }, // only for update and delete
    *          callback: function({success, message, data}),
-   *          status: 'queue|processed|error',
+   *          status: 'queue|processed|error', // TODO: this may not be needed for contract, only for response
    *          entity: 'Task'
+   *          // TODO: add 'transaction' as boolean for use cases where we need all to success, also add rollback actions on server
    *      }
    *  ]
    * }
@@ -47,8 +48,10 @@ export class SyncCustom {
    *          success: boolean,
    *          message: string,
    *          recordName: string,
-   *          data: { tsk_id: ... }
+   *          data: { tsk_id: ... } // TODO: rename to 'model'
    *          pk: { tsk_id: ... }
+   *          // TODO: add statusCode: 'SUCCESS|ERROR'
+   *          // entity: string,
    *      }
    *  ]
    * }
@@ -58,7 +61,7 @@ export class SyncCustom {
     let resultPromiseList: any[] = [];
 
     queue.forEach((q: syncItem) => {
-      if (q.status !== "queue") {
+      if (q.status !== "queue") { //TODO: is this really needed? deprecate status in request, process everything
         return false;
       }
 
@@ -70,6 +73,7 @@ export class SyncCustom {
           success: false,
           message: `sync failed due to entity ${q.entity} is not supported`,
           pk: q.pk,
+          // TODO: complete contract for error
         };
         return false;
       }
@@ -100,7 +104,7 @@ export class SyncCustom {
           console.log("-- [SyncCustom.syncAll] Promise resolved");
           response.pk = q.pk;
 
-          if (q.callback) {
+          if (q.callback) { // TODO: is this needed? if so, add it to the contract
             q.callback(response);
           }
 
@@ -168,6 +172,7 @@ export class SyncCustom {
     });
   };
 
+  // TODO: Move to its own file
   parseEntity(entity: string): { construct: (b: any) => iEntity; server: any } {
     let construct;
     let server;
