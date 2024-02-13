@@ -173,7 +173,7 @@
 
   <div class="card-group-list width-100-pct">
     <div *ngFor="let group of viewData.activityGroups" class="card-group-item">
-      <details open>
+      <details [attr.open]="group.key !== 6 ? 'true' : null">
         <summary>
           <div class="card-group-header">
             <span class="card-group-header-title"

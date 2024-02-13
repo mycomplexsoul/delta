@@ -52,8 +52,8 @@ const mapCodeWithDescription = {
   [CODE_NONE]: mapConceptWithDescription["None"],
 };
 
-const PROVISION_AMOUNT = 1480;
-const PENALIZATION_AMOUNT = 148;
+const PROVISION_AMOUNT = 1500; // starting from November 2023
+const PENALIZATION_AMOUNT = 150;
 
 export class CarteraServer {
   generateAllProvisionsForMonthHandler(node: iNode) {
@@ -124,7 +124,17 @@ export class CarteraServer {
     return Promise.all(allProvisions);
   }
 
-  buildConcept(conceptPrefix: string, year: number, month: number) {
+  buildConcept(
+    conceptPrefix: string,
+    year: number,
+    month: number,
+    extra: boolean = false
+  ) {
+    if (extra) {
+      return `${conceptPrefix} Cuota Extraordinaria ${DateUtils.getMonthNameSpanish(
+        month
+      )} ${year}`;
+    }
     return `${conceptPrefix} ${DateUtils.getMonthNameSpanish(month)} ${year}`;
   }
 
@@ -881,25 +891,28 @@ export class CarteraServer {
   }
 
   generatePenalizationForUnitHandler(node: iNode) {
-    const { year, month, unit, user } = node.request.body;
+    const { year, month, unit, user, extra = false } = node.request.body;
 
-    this.generatePenalizationForUnit(year, month, unit, user).then((list) => {
-      node.response.end(
-        JSON.stringify({
-          success: true,
-          provisionList: list.map((provision) =>
-            Utils.entityToRawTableFields(provision)
-          ),
-        })
-      );
-    });
+    this.generatePenalizationForUnit(year, month, unit, user, extra).then(
+      (list) => {
+        node.response.end(
+          JSON.stringify({
+            success: true,
+            provisionList: list.map((provision) =>
+              Utils.entityToRawTableFields(provision)
+            ),
+          })
+        );
+      }
+    );
   }
 
   async generatePenalizationForUnit(
     year: number,
     month: number,
     unit: string,
-    user: string
+    user: string,
+    extra: boolean = false
   ) {
     const apiCarteraProvision: ApiModule = new ApiModule(
       new CarteraProvision()
@@ -920,11 +933,12 @@ export class CarteraServer {
       .then((items) => items.map((item) => new CarteraProvision(item)));
 
     const penalizationList: CarteraProvision[] = [];
+    const provisionCode = extra ? CODE_EXTRA_PENALIZATION : CODE_PENALIZATION;
     const provision = provisionList.find(
       (p) =>
         p.cpr_id_unit === unit &&
         p.cpr_code_reference ===
-          `cuota-penalidad|${year}-${Utils.pad(month, "0", 2, -1)}`
+          `${provisionCode}|${year}-${Utils.pad(month, "0", 2, -1)}`
     );
     if (provision) {
       return penalizationList;
@@ -935,20 +949,20 @@ export class CarteraServer {
         cpr_id: Utils.hashIdForEntity(new CarteraProvision(), "cpr_id"),
         cpr_id_unit: unit,
         cpr_date: new Date(year, month - 1, 16),
-        cpr_concept: this.buildConcept("Penalización", year, month),
-        cpr_code_reference: `cuota-penalidad|${year}-${Utils.pad(
+        cpr_concept: this.buildConcept("Penalización", year, month, extra),
+        cpr_code_reference: `${provisionCode}|${year}-${Utils.pad(
           month,
           "0",
           2,
           -1
         )}`,
-        cpr_amount: 148,
+        cpr_amount: PENALIZATION_AMOUNT,
         cpr_condoned: 0,
         cpr_payed: 0,
-        cpr_remaining: 148,
+        cpr_remaining: PENALIZATION_AMOUNT,
         cpr_id_user: user,
         cpr_folio: null,
-        cpr_type: "cuota-penalidad",
+        cpr_type: provisionCode,
         cpr_year: year,
         cpr_month: month,
         cpr_date_add: DateUtils.newDateUpToSeconds(),
@@ -2826,7 +2840,7 @@ export class CarteraServer {
         ...provisionList
           .filter(
             (p) =>
-              p.cpr_year * 100 + p.cpr_month >=
+              p.cpr_year * 100 + p.cpr_month >
                 Number(year) * 100 + Number(month) && p.cpr_payed > 0
           )
           .reduce((totals, current) => {

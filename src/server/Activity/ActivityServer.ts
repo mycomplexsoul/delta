@@ -8,6 +8,7 @@ import { Timeline } from "../../crosscommon/entities/Timeline";
 import { Task } from "../../crosscommon/entities/Task";
 import instantiate from "../InstantiateModule";
 import { iEntity } from "../../crosscommon/iEntity";
+import { Keyval } from "../../crosscommon/entities/Keyval";
 
 export class ActivityServer {
   private api: ApiServer = new ApiServer(new Activity());
@@ -78,6 +79,7 @@ export class ActivityServer {
   listWithMetadataRequestHandler = (node: iNode) => {
     const timelineServer = new ApiServer(new Timeline());
     const taskServer = new ApiServer(new Task());
+    const keyvalServer = new ApiServer(new Keyval());
 
     const { username } = node.request?.["userData"] || {};
 
@@ -110,10 +112,16 @@ export class ActivityServer {
           "tsk_tags|ne": "",
         },
       ]),
+      keyvalServer.listServer([
+        {
+          group: "AND",
+          _id_username: username,
+        },
+      ]),
     ];
 
     return Promise.all(promises).then((responses: Array<Array<any>>) => {
-      const [activityList, timelineList, taskList] = responses;
+      const [activityList, timelineList, taskList, keyvalList] = responses;
 
       const response = {
         date: new Date(),
@@ -142,6 +150,13 @@ export class ActivityServer {
                   instantiate.instantiateFromString("Task", t, true) as Task
               )
               .filter((t: Task) => t.tsk_tags.includes(a.act_tasks_tag));
+
+            a.additional.keyvalITems = keyvalList
+              .map(
+                (e) =>
+                  instantiate.instantiateFromString("Keyval", e, true) as Keyval
+              )
+              .filter((e: Keyval) => e.key_id === a.act_id);
 
             return a;
           }),

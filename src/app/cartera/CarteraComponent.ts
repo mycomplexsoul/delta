@@ -303,6 +303,17 @@ export class CarteraComponent implements OnInit {
             this.viewData.futureProvisionList[
               this.viewData.futureProvisionList.length - 1
             ].cpr_month;
+        } else {
+          // no future provisions, let's confirm if we have for current month
+          // else we need to generate for current month
+          if (
+            !this.viewData.pendingProvisionList.filter(
+              (prov) => prov.cpr_year === year && prov.cpr_month === month
+            ).length
+          ) {
+            year = DateUtils.getIterablePreviousMonth(year, month).year;
+            month = DateUtils.getIterablePreviousMonth(year, month).month;
+          }
         }
         // now we're covered, get that next month
         const nextMonthIterable = DateUtils.getIterableNextMonth(year, month);
@@ -736,7 +747,7 @@ export class CarteraComponent implements OnInit {
    */
   parseBatchPayments(rawInput: string) {
     const baseYear = DateUtils.dateOnly().getFullYear();
-    const baseMonth = DateUtils.dateOnly().getMonth();
+    const baseMonth = DateUtils.dateOnly().getMonth() + 1;
 
     const parseDayOfMonth = (raw: number): Date =>
       DateUtils.stringDateToDate(
@@ -788,7 +799,7 @@ export class CarteraComponent implements OnInit {
 
         return {
           unit: parts[0],
-          date: parseDayOfMonth(parseInt(parts[1])),
+          date: parseDayOfMonth(parseInt(parts[1])), // TODO: Add support to provide MonthDayIdentificationRule to provide month and day
           amount: parseFloat(parts[2]),
           details:
             parts.length === 3
@@ -830,7 +841,7 @@ export class CarteraComponent implements OnInit {
 
     console.log("--parsedInput", parsedInput);
 
-    let nextFolio = 0;
+    let nextFolio = this.lastFolio;
     this.viewData.appliedPayments = [];
     this.viewData.appliedPayments = parsedInput.map((i) => {
       const payDetList = {};
@@ -936,6 +947,13 @@ export class CarteraComponent implements OnInit {
             prov.cpr_month === i.date.getMonth() + 1 &&
             prov.cpr_id_unit === String(i.unit)
         );
+
+        if (!provision) {
+          console.error("no provision found", {
+            payment: i,
+            pendingProvisionList: this.viewData.pendingProvisionList,
+          });
+        }
 
         payDetList[provision.cpr_id] = i.amount;
         payDet.push({

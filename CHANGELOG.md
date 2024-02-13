@@ -27,11 +27,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.4 (2023-11-28) -- In Progress --
+## v1.14.5 (2024-01-28) -- In Progress --
+
+1. [AppCartera][new] `/api/external/cartera/generate-penalization-unit` - Generate penalization for unit on demand for extraordinary provisions
+2. [AppCartera][mod] update provision amount constant to 1500
+3. [AppKanban][mod] Use new endpoint to consume data to display Kanban activities WIP
+4. [AppCartera][fix] Cartera page - generate provisions - Fallback to generate provisions when there are not provisions for current month
+5. [AppCartera][fix] Cartera page - batch payments - use last folio from server response
+6. [AppCartera][fix] Cartera page - batch payments - log error to console when no provision is found for a provided payment intent
+7. [AppCartera][mod] Results report - add names
+8. [AppTasks][mod] Next To Do - sort tasks by In Progress
+
+## v1.14.4 (2023-11-28)
 
 1. [AppCommon] Upgrade to Angular v17
 2. [AppCommon] Upgrade dependencies
 3. [AppTasks][mod] Support closing tasks that flow into next day so that time tracking slots get assigned correctly
+4. [AppKanban][new] Add accordion behavior to activity groups to be able to open/close them by clicking on the header
 
 ## v1.14.3 (2023-07-28)
 

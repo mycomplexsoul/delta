@@ -581,17 +581,34 @@ export class TasksComponent implements OnInit {
     if (this.tasks.length && typeof window.localStorage !== "undefined") {
       let nextTasksIds = JSON.parse(localStorage.getItem("NextTasks"));
       if (nextTasksIds) {
-        nextTasksIds.forEach((id: string) => {
-          let nt = this.tasks.find(
-            (e: any) =>
-              e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
-          );
-          if (nt) {
-            this.nextTasks[0].tasks.push(nt);
+        let skipSort = false;
+        this.nextTasks[0].tasks = nextTasksIds
+          .map((id: string) => {
+            // filter to open tasks only
+            const nt = this.tasks.find(
+              (e: Task) =>
+                e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
+            );
+
             // add a badge
-            nt["inNextToDo"] = true;
-          }
-        });
+            if (nt) {
+              nt["inNextToDo"] = true;
+            } else {
+              skipSort = true;
+            }
+
+            return nt;
+          })
+          .filter((e) => e);
+
+        if (skipSort) {
+          // only sort if there is no task being closed
+          this.nextTasks[0].tasks.sort((a, b) => {
+            // put in progress tasks at the top
+            return a.tsk_ctg_in_process > b.tsk_ctg_in_process ? -1 : 1;
+          });
+        }
+
         // We set them again to filter out done tasks
         localStorage.setItem(
           "NextTasks",
@@ -665,20 +682,13 @@ export class TasksComponent implements OnInit {
 
     if (this.focusedTask.task) {
       if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
-        // console.log('trying to set focus for task',this.focusedTask);
-        //let f: HTMLElement = document.getElementById(this.focusedTask.tsk_id).querySelector('span.task-text[contenteditable=true]');
-        //f['tabIndex'] = -1;
         setTimeout(() => {
-          // this.focusedTask.element.focus();
           document
             .querySelector(
               `#${this.focusedTask.task.tsk_id} span.editable.task-text`
             )
-            ["focus"]();
-          // console.log('focus should be set now');
-          //     f.focus();
+            ?.["focus"]();
         }, 600);
-      } else {
       }
     }
 

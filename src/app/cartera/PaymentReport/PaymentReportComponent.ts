@@ -93,6 +93,8 @@ export class PaymentReportComponent implements OnInit {
     this.viewData.previousTotal = 0;
     this.viewData.total = 0;
 
+    const baseDate = new Date(this.viewData.year, this.viewData.month - 1, 1);
+
     this.paymentReportService
       .getPaymentsForMonth(
         this.viewData.year,
@@ -100,6 +102,7 @@ export class PaymentReportComponent implements OnInit {
         this.viewData.extraordinary
       )
       .then((response: iPaymentReportData) => {
+        // filter unit when provided, else use all provisions
         if (this.viewData.unit) {
           this.viewData.paymentReportData.provisionList =
             response.provisionList.filter(
@@ -109,7 +112,10 @@ export class PaymentReportComponent implements OnInit {
           this.viewData.paymentReportData = response;
         }
 
+        // when we are reporting current month, we filter out payments done during this month
+
         this.viewData.paymentReportData.provisionList.forEach((item) => {
+          // when there are payments, calculate total of payments for this provision
           if (item.previousPayDetList.length) {
             item["previousPayDetTotal"] = item.previousPayDetList.reduce(
               (total, current) => total + current.cpd_amount,

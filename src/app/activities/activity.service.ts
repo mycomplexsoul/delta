@@ -49,10 +49,10 @@ export class ActivityService {
     };
     return this.sync
       .get(`${this.config.api.listing}`)
-      .then((data) => {
-        this.data = data.map((d: any): Activity => new Activity(d));
-        this.data = this.data.sort(sort);
-        return this.data;
+      .then((response) => {
+        let newData = response.data.map((d: any): Activity => new Activity(d));
+        newData = newData.sort(sort);
+        return newData;
       })
       .catch((err) => {
         return [];

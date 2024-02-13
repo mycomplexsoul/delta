@@ -19,6 +19,15 @@ import { SyncAPI } from "../common/sync.api";
 import { getTextForLang } from "./activity.lang";
 
 import { AuthenticationService } from "../common/authentication.service";
+import {
+  calculateHealth,
+  calculateNotes,
+  calculateNotesHidden,
+  calculateTimelineOnly,
+  calculateUniqueTasks,
+  sortTasks,
+  tagTasks,
+} from "./activity.logic";
 
 const ALL_STATUS_CODES = [
   "CAPTURED",
@@ -182,6 +191,55 @@ export class ActivityComponent implements OnInit {
           })
       );
 
+      this.activityService.getAll2().then((list) => {
+        console.log("activity new endpoint data", { list });
+
+        type activityAdditionalSchema = {
+          // raw data
+          keyvalItems: Keyval[];
+          tasks: Task[];
+          timeline: Timeline[];
+          // calculated from raw data
+          uniqueTasks: Task[];
+          timelineOnly: Timeline[];
+          notes: Timeline[];
+          notesHidden: Timeline[];
+          lastTimeline: Timeline;
+          health: string;
+        };
+
+        // schema from server is: { additional: { keyvalItems, tasks, timeline } }
+        // need to add/calculate: { additional: { uniqueTasks, timelineOnly, notes, notesHidden, lastTimeline, health } }
+        const completeList = list.map(
+          (e: { act_id: string; additional: activityAdditionalSchema }) => ({
+            ...e,
+            additional: {
+              ...e.additional,
+              uniqueTasks: calculateUniqueTasks(e.additional.tasks),
+              timelineOnly: calculateTimelineOnly(
+                e.additional.timeline,
+                this.viewData.timelineKey,
+                e.act_id
+              ),
+              notes: calculateNotes(
+                e.additional.timeline,
+                this.viewData.timelineKey,
+                e.act_id
+              ),
+              notesHidden: calculateNotesHidden(
+                e.additional.timeline,
+                this.viewData.timelineKey,
+                e.act_id
+              ),
+              lastTimeline: e.additional.timeline?.at(-1),
+              health: calculateHealth(e.additional.timeline?.at(-1)),
+            },
+          })
+        );
+
+        console.log("completeList", completeList);
+      });
+
       pipeline.push(
         this.activityService.getAll().then((list) => {
           this.viewData.activityList = list;
@@ -235,54 +293,29 @@ export class ActivityComponent implements OnInit {
 
     Promise.all(pipeline).then(() => {
       this.viewData.activityList.forEach((a) => {
-        const tagTasks = this.tasks.filter(
-          (t) => t.tsk_tags && t.tsk_tags.includes(a.act_tasks_tag)
-        );
+        // @migrated
+        const tagTaskList = tagTasks(this.tasks, a.act_tasks_tag);
 
         a["additional"] = {
-          tasks: tagTasks.sort(this.sortTasks),
-          uniqueTasks: tagTasks
-            .sort(this.sortTasks)
-            .reduce(
-              (result: Array<{ count: number; task: Task }>, current: Task) => {
-                const found = result.find(
-                  (e) => e.task.tsk_name === current.tsk_name
-                );
-                if (found) {
-                  found.count += 1;
-                } else {
-                  result.push({
-                    count: 1,
-                    task: current,
-                  });
-                }
-                return result;
-              },
-              []
-            ),
-          timeline: this.viewData.timelineList
-            .filter(
-              (t) =>
-                t.tim_id_record === this.viewData.timelineKey + a.act_id &&
-                !t.tim_tags.includes("note")
-            )
-            .map((t) => {
-              t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
-              return t;
-            }),
-          notes: this.viewData.timelineList.filter(
-            (t) =>
-              t.tim_id_record === this.viewData.timelineKey + a.act_id &&
-              t.tim_tags.includes("note") &&
-              !t.tim_tags.includes("note-hidden")
-          ),
-          notesHidden: this.viewData.timelineList.filter(
-            (t) =>
-              t.tim_id_record === this.viewData.timelineKey + a.act_id &&
-              t.tim_tags.includes("note-hidden")
-          ),
+          tasks: tagTaskList.sort(sortTasks),
           keyvalItems: this.viewData.keyvalList.filter((item) =>
             this.findById(item, "key_id", a.act_id)
+          ),
+          timeline: calculateTimelineOnly(
+            this.viewData.timelineList,
+            this.viewData.timelineKey,
+            a.act_id
+          ),
+          uniqueTasks: calculateUniqueTasks(tagTaskList),
+          notes: calculateNotes(
+            this.viewData.timelineList,
+            this.viewData.timelineKey,
+            a.act_id
+          ),
+          notesHidden: calculateNotesHidden(
+            this.viewData.timelineList,
+            this.viewData.timelineKey,
+            a.act_id
           ),
           health: "activity-health-undetermined",
           lastTimeline: null,
@@ -302,7 +335,7 @@ export class ActivityComponent implements OnInit {
             return -1;
           });
           a.additional.lastTimeline = sorted.at(-1);
-          a.additional.health = this.determineHealth(a.additional.lastTimeline);
+          a.additional.health = calculateHealth(a.additional.timeline);
         }
       });
 
@@ -373,31 +406,6 @@ export class ActivityComponent implements OnInit {
     return data;
   }
 
-  determineHealth(timeline: Timeline): string {
-    if (!timeline) {
-      return "activity-health-undetermined";
-    }
-    if (
-      new Date(timeline.tim_date).getTime() >=
-      DateUtils.addDays(DateUtils.dateOnly(), -7).getTime()
-    ) {
-      return "activity-health-green";
-    }
-    if (
-      new Date(timeline.tim_date).getTime() >=
-      DateUtils.addDays(DateUtils.dateOnly(), -15).getTime()
-    ) {
-      return "activity-health-yellow";
-    }
-    if (
-      new Date(timeline.tim_date).getTime() >=
-      DateUtils.addDays(DateUtils.dateOnly(), -30).getTime()
-    ) {
-      return "activity-health-orange";
-    }
-    return "activity-health-red";
-  }
-
   ngOnInit() {
     this.viewData.TEXT = getTextForLang("es");
     this.taskService = new TaskCore(this.syncService, this.handlers);
@@ -456,8 +464,10 @@ export class ActivityComponent implements OnInit {
         : this.viewData.activityList,
       "act_ctg_status",
       (e) => ({ act_txt_status: ALL_STATUS_TEXT[e.act_ctg_status - 1] })
-    ).sort((a, b) =>
-      a.key > b.key && !this.viewData.sortGroupsDescending ? 1 : -1
+    ).toSorted(
+      (a, b) =>
+        (Number(a.key) > Number(b.key) ? 1 : -1) *
+        (this.viewData.sortGroupsDescending ? -1 : 1)
     );
   }
 
@@ -546,41 +556,6 @@ export class ActivityComponent implements OnInit {
     form.reset();
   }
 
-  sortTasks(a: Task, b: Task) {
-    if (a.tsk_date_done) {
-      if (b.tsk_date_done) {
-        if (a.tsk_date_done.getTime() > b.tsk_date_done.getTime()) {
-          return 1;
-        }
-        if (a.tsk_date_done.getTime() < b.tsk_date_done.getTime()) {
-          return -1;
-        }
-        if (a.tsk_date_done.getTime() === b.tsk_date_done.getTime()) {
-          return 0;
-        }
-      } else {
-        // a is finished => goes first, b is open => goes last
-        return -1;
-      }
-    } else {
-      if (b.tsk_date_done) {
-        // a is open => goes last, b is finished => goes first
-        return 1;
-      } else {
-        // a and b are open, order by task order
-        if (a.tsk_order > b.tsk_order) {
-          return 1;
-        }
-        if (a.tsk_order < b.tsk_order) {
-          return -1;
-        }
-        if (a.tsk_order === b.tsk_order) {
-          return 0;
-        }
-      }
-    }
-  }
-
   setModelDetails(id: string, form?: NgForm) {
     let model: Activity;
 
@@ -601,7 +576,7 @@ export class ActivityComponent implements OnInit {
           (t) => t.tsk_tags && t.tsk_tags.includes(model.act_tasks_tag)
         );
 
-        this.model.tasks = tagTasks.sort(this.sortTasks);
+        this.model.tasks = tagTasks.sort(sortTasks);
 
         this.model.additional = {
           tasks: this.model.tasks,
