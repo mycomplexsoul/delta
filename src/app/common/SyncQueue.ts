@@ -1,10 +1,10 @@
 export interface SyncQueue {
-    action: string
-    , model: any
+    action: string // 'create|update|delete"
+    , model: any // iEntity
     , pk: any
     , entity: string
-    , status: string
-    , callback: Function
-    , recordName?: Function
-    , matchMethod?: Function
+    , status: string // queue
+    , callback: Function // called after sync, can handle success/error scenarios
+    , recordName?: Function // calculated when not present
+    , matchMethod?: Function // default comparison when not provided
 }
