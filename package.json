@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.0",
-    "@angular/cli": "17.0.0",
+    "@angular/cli": "17.2.0",
     "@angular/compiler-cli": "17.0.1",
     "@angular/language-service": "17.0.1",
     "@types/chart.js": "2.9.37",
