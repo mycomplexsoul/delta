@@ -335,7 +335,7 @@ export class ActivityComponent implements OnInit {
             return -1;
           });
           a.additional.lastTimeline = sorted.at(-1);
-          a.additional.health = calculateHealth(a.additional.timeline);
+          a.additional.health = calculateHealth(a.additional.lastTimeline);
         }
       });
 

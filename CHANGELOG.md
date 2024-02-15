@@ -27,7 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.5 (2024-01-28) -- In Progress --
+## v1.14.6 (2024-02-28) -- In Progress --
+
+1. [AppCommon][mod] Update dependencies
+
+## v1.14.5 (2024-01-28)
 
 1. [AppCartera][new] `/api/external/cartera/generate-penalization-unit` - Generate penalization for unit on demand for extraordinary provisions
 2. [AppCartera][mod] update provision amount constant to 1500

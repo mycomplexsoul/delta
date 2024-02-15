@@ -104,7 +104,7 @@ export class DrinkWaterComponent implements OnInit {
         startTimeFormatted: null,
         timeoutReference: null,
       },
-      {
+      /* {
         title: "Twitter",
         startTime: 10 * 60 + 35,
         started: false,
@@ -112,7 +112,7 @@ export class DrinkWaterComponent implements OnInit {
         nextOcurrence: null,
         startTimeFormatted: null,
         timeoutReference: null,
-      },
+      }, */
       {
         title: "Speak English",
         startTime: 10 * 60 + 45,
