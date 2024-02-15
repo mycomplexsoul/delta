@@ -85,7 +85,7 @@
     "@types/express": "4.17.17",
     "@types/express-serve-static-core": "^4.17.33",
     "@types/jasmine": "~4.3.0",
-    "@types/jasminewd2": "2.0.10",
+    "@types/jasminewd2": "2.0.13",
     "@types/mocha": "10.0.6",
     "chai": "4.4.1",
     "codelyzer": "^0.0.28",
