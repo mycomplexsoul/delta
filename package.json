@@ -58,7 +58,7 @@
     "@angular/platform-browser-dynamic": "17.2.1",
     "@angular/router": "17.2.1",
     "@angular/service-worker": "17.2.1",
-    "@types/node": "18.18.9",
+    "@types/node": "18.19.17",
     "chart.js": "4.3.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "core-js": "3.36.0",
