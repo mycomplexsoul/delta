@@ -87,7 +87,7 @@
     "@types/jasmine": "~4.6.0",
     "@types/jasminewd2": "2.0.13",
     "@types/mocha": "10.0.6",
-    "chai": "4.4.1",
+    "chai": "5.1.0",
     "codelyzer": "^0.0.28",
     "istanbul": "0.4.5",
     "jasmine-core": "~5.1.0",
