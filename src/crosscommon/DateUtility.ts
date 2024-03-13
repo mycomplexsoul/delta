@@ -1,4 +1,17 @@
 class DateUtility {
+  daysForLocale = (
+    localeName: "en" | "es" = "en",
+    weekday: "long" | "short" | "narrow" = "long"
+  ) => {
+    const { format } = new Intl.DateTimeFormat(localeName, { weekday });
+    return [...Array(7).keys()]
+      .map((day) => format(new Date(Date.UTC(2021, 5, day))))
+      .map((d) => {
+        const n = d[0].toUpperCase() + d.substring(1);
+        return n;
+      });
+  };
+
   elapsedTime(date1: Date, date2: Date): number {
     // return diff in seconds
     if (date1 && date2) {
@@ -158,6 +171,10 @@ class DateUtility {
       "Diciembre",
     ];
     return months[month - 1];
+  }
+
+  getDayName(day: number, lang = "en") {
+    const days: string[] = [];
   }
 
   getIterableNextMonth(year: number, month: number) {

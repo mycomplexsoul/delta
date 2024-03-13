@@ -29,6 +29,20 @@ import {
   tagTasks,
 } from "./activity.logic";
 
+type activityAdditionalSchema = {
+  // raw data
+  keyvalItems: Keyval[];
+  tasks: Task[];
+  timeline: Timeline[];
+  // calculated from raw data
+  uniqueTasks: Task[];
+  timelineOnly: Timeline[];
+  notes: Timeline[];
+  notesHidden: Timeline[];
+  lastTimeline: Timeline;
+  health: string;
+};
+
 const ALL_STATUS_CODES = [
   "CAPTURED",
   "BACKLOG",
@@ -85,6 +99,13 @@ export class ActivityComponent implements OnInit {
     nextFolioList: Array<string>;
     healthGroup: Array<any>;
     sortGroupsDescending: boolean;
+    timelineGroup: {
+      days: Array<{
+        date: Date;
+        dayName: string;
+        activityList: Array<Activity>;
+      }>;
+    };
   } = {
     TEXT: {},
     activityList: [],
@@ -126,6 +147,9 @@ export class ActivityComponent implements OnInit {
     nextFolioList: [],
     healthGroup: [],
     sortGroupsDescending: true,
+    timelineGroup: {
+      days: [],
+    },
   };
 
   public model: {
@@ -178,40 +202,27 @@ export class ActivityComponent implements OnInit {
     }
   }
 
-  render(fetchFromRemote: boolean = false) {
-    const pipeline = [];
+  async render(fetchFromRemote: boolean = false) {
+    // const pipeline = [];
 
     if (fetchFromRemote) {
-      pipeline.push(
+      /* pipeline.push(
         // Get Timeline
         this.timelineService
           .getTimelineForRecord(this.viewData.timelineKey)
           .then(({ timeline }) => {
             this.viewData.timelineList = timeline;
           })
-      );
+      ); */
 
-      this.activityService.getAll2().then((list) => {
-        console.log("activity new endpoint data", { list });
+      await this.activityService
+        .getAll2()
+        .then((data: { activity: Activity[]; timeline: Timeline[] }) => {
+          const { activity: activityList, timeline: timelineList } = data;
 
-        type activityAdditionalSchema = {
-          // raw data
-          keyvalItems: Keyval[];
-          tasks: Task[];
-          timeline: Timeline[];
-          // calculated from raw data
-          uniqueTasks: Task[];
-          timelineOnly: Timeline[];
-          notes: Timeline[];
-          notesHidden: Timeline[];
-          lastTimeline: Timeline;
-          health: string;
-        };
-
-        // schema from server is: { additional: { keyvalItems, tasks, timeline } }
-        // need to add/calculate: { additional: { uniqueTasks, timelineOnly, notes, notesHidden, lastTimeline, health } }
-        const completeList = list.map(
-          (e: { act_id: string; additional: activityAdditionalSchema }) => ({
+          // schema from server is: { additional: { keyvalItems, tasks, timeline } }
+          // need to add/calculate: { additional: { uniqueTasks, timelineOnly, notes, notesHidden, lastTimeline, health } }
+          this.viewData.activityList = activityList.map((e: Activity) => ({
             ...e,
             additional: {
               ...e.additional,
@@ -234,125 +245,150 @@ export class ActivityComponent implements OnInit {
               lastTimeline: e.additional.timeline?.at(-1),
               health: calculateHealth(e.additional.timeline?.at(-1)),
             },
-          })
-        );
+          }));
 
-        console.log("completeList", completeList);
-      });
+          const dayList = DateUtils.daysForLocale("es");
 
-      pipeline.push(
-        this.activityService.getAll().then((list) => {
-          this.viewData.activityList = list;
+          this.viewData.timelineGroup = timelineList.reduce((result, t) => {
+            const date = DateUtils.dateOnly(t.tim_date);
+            const day = result.days.find(
+              (d) => d.date.getTime() === date.getTime()
+            );
+            const relatedActivity = this.viewData.activityList.find(
+              ({ act_id }) => act_id === t.tim_id_record.split("|")[1]
+            );
 
-          // get project id's
-          this.viewData.projectList = this.viewData.activityList.reduce(
-            (prev, current) => {
-              const projectId = current.act_tasks_tag.split("-")[0];
-              const found = prev.find((p) => p.id === projectId);
+            t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
 
-              if (!found && projectId) {
-                prev.push({
-                  id: projectId,
-                  name: projectId,
-                  count: this.viewData.activityList.filter(
-                    (a) =>
-                      a.act_tasks_tag.startsWith(projectId) &&
-                      a.act_ctg_status < 6
-                  ).length,
-                });
+            if (!day) {
+              result.days.push({
+                date,
+                dayName: dayList[date.getDay()],
+                activityList: [
+                  {
+                    ...relatedActivity,
+                    additional: {
+                      timeline: [t],
+                    },
+                  },
+                ],
+              });
+            } else {
+              const foundActivity = day.activityList.find(
+                ({ act_id }) => act_id === relatedActivity.act_id
+              );
+              if (foundActivity) {
+                foundActivity.additional.timeline.push(t);
               }
-              return prev;
-            },
-            [
-              {
-                id: "ALL",
-                name: "ALL",
-                count: this.viewData.activityList.filter(
-                  (a) => a.act_ctg_status < 6
-                ).length,
-              },
-            ]
-          );
-        })
-      );
+              if (!foundActivity) {
+                const copy = { ...relatedActivity };
+                copy.additional = {
+                  timeline: [t],
+                };
+                day.activityList.push(copy);
+              }
+            }
 
-      pipeline.push(
-        // TODO: Get only keyval for open activities
-        this.keyvalService.getAll().then((list) => {
-          this.viewData.keyvalList = list;
-        })
-      );
+            result.days = result.days.sort((a, b) =>
+              a.date.getTime() > b.date.getTime() ? -1 : 1
+            );
 
-      pipeline.push(
-        // TODO: Get all tasks
-        this.tasksService.getTasks().then((tasks: Task[]) => {
-          this.tasks = tasks;
-        })
+            return result;
+          }, this.viewData.timelineGroup);
+
+          console.log("--timelineGroup", this.viewData.timelineGroup);
+        });
+
+      // get project id's
+      this.viewData.projectList = this.viewData.activityList.reduce(
+        (prev, current) => {
+          const projectId = current.act_tasks_tag.split("-")[0];
+          const found = prev.find((p) => p.id === projectId);
+
+          if (!found && projectId) {
+            prev.push({
+              id: projectId,
+              name: projectId,
+              count: this.viewData.activityList.filter(
+                (a) =>
+                  a.act_tasks_tag.startsWith(projectId) && a.act_ctg_status < 6
+              ).length,
+            });
+          }
+          return prev;
+        },
+        [
+          {
+            id: "ALL",
+            name: "ALL",
+            count: this.viewData.activityList.filter(
+              (a) => a.act_ctg_status < 6
+            ).length,
+          },
+        ]
       );
     }
 
-    Promise.all(pipeline).then(() => {
-      this.viewData.activityList.forEach((a) => {
-        // @migrated
-        const tagTaskList = tagTasks(this.tasks, a.act_tasks_tag);
+    this.viewData.activityList.forEach((a) => {
+      // @migrated
+      const tagTaskList = tagTasks(this.tasks, a.act_tasks_tag);
 
-        a["additional"] = {
-          tasks: tagTaskList.sort(sortTasks),
-          keyvalItems: this.viewData.keyvalList.filter((item) =>
-            this.findById(item, "key_id", a.act_id)
-          ),
-          timeline: calculateTimelineOnly(
-            this.viewData.timelineList,
-            this.viewData.timelineKey,
-            a.act_id
-          ),
-          uniqueTasks: calculateUniqueTasks(tagTaskList),
-          notes: calculateNotes(
-            this.viewData.timelineList,
-            this.viewData.timelineKey,
-            a.act_id
-          ),
-          notesHidden: calculateNotesHidden(
-            this.viewData.timelineList,
-            this.viewData.timelineKey,
-            a.act_id
-          ),
-          health: "activity-health-undetermined",
-          lastTimeline: null,
-        };
+      /* a["additional"] = {
+        tasks: tagTaskList.sort(sortTasks),
+        keyvalItems: this.viewData.keyvalList.filter((item) =>
+          this.findById(item, "key_id", a.act_id)
+        ),
+        timeline: calculateTimelineOnly(
+          this.viewData.timelineList,
+          this.viewData.timelineKey,
+          a.act_id
+        ),
+        uniqueTasks: calculateUniqueTasks(tagTaskList),
+        notes: calculateNotes(
+          this.viewData.timelineList,
+          this.viewData.timelineKey,
+          a.act_id
+        ),
+        notesHidden: calculateNotesHidden(
+          this.viewData.timelineList,
+          this.viewData.timelineKey,
+          a.act_id
+        ),
+        health: "activity-health-undetermined",
+        lastTimeline: null,
+      }; */
 
-        if (a.additional.timeline?.length > 0) {
-          const sorted = a.additional.timeline.filter(
-            (t: Timeline) => !t.tim_tags.includes("note")
-          );
+      /* if (a.additional.timeline?.length > 0) {
+        const sorted = a.additional.timeline.filter(
+          (t: Timeline) => !t.tim_tags.includes("note")
+        );
 
-          sorted.sort((a: Timeline, b: Timeline) => {
-            if (
-              new Date(a.tim_date).getTime() > new Date(b.tim_date).getTime()
-            ) {
-              return 1;
-            }
-            return -1;
-          });
-          a.additional.lastTimeline = sorted.at(-1);
-          a.additional.health = calculateHealth(a.additional.lastTimeline);
-        }
-      });
-
-      this.viewData.healthGroup = this.generateHealthGroupData(
-        this.viewData.activityList,
-        this.viewData.selectedProject
-      );
-
-      this.generateViewData();
-      if (this.model.id) {
-        this.viewData.nextFolioList = [];
-      } else {
-        this.viewData.nextFolioList = Object.entries(
-          this.obtainLastFolioByProject()
-        ).map(([k, v]) => v);
-      }
+        sorted.sort((a: Timeline, b: Timeline) => {
+          if (
+            new Date(a.tim_date).getTime() > new Date(b.tim_date).getTime()
+          ) {
+            return 1;
+          }
+          return -1;
+        });
+        a.additional.lastTimeline = sorted.at(-1);
+        a.additional.health = calculateHealth(a.additional.lastTimeline);
+      } */
     });
+
+    this.viewData.healthGroup = this.generateHealthGroupData(
+      this.viewData.activityList,
+      this.viewData.selectedProject
+    );
+
+    this.generateViewData();
+    if (this.model.id) {
+      this.viewData.nextFolioList = [];
+    } else {
+      this.viewData.nextFolioList = Object.entries(
+        this.obtainLastFolioByProject()
+      ).map(([k, v]) => v);
+    }
   }
 
   generateHealthGroupData(activityList: Activity[], selectedProject: string) {

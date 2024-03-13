@@ -4,6 +4,9 @@ import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { AuthenticationService } from "../common/authentication.service";
+import { Keyval } from "src/crosscommon/entities/Keyval";
+import { Task } from "src/crosscommon/entities/Task";
+import { Timeline } from "src/crosscommon/entities/Timeline";
 
 @Injectable()
 export class ActivityService {
@@ -50,11 +53,26 @@ export class ActivityService {
     return this.sync
       .get(`${this.config.api.listing}`)
       .then((response) => {
-        let newData = response.data.map((d: any): Activity => new Activity(d));
-        newData = newData.sort(sort);
+        const newData = {
+          activity: response.data.activity
+            .map((d: any): Activity => {
+              const e = new Activity(d);
+              e.additional = {
+                keyvalItems: d.additional.keyvalItems.map((k) => new Keyval(k)),
+                tasks: d.additional.tasks.map((k) => new Task(k)),
+                timeline: d.additional.timeline.map((k) => new Timeline(k)),
+              };
+              return e;
+            })
+            .sort(sort),
+          timeline: response.data.timeline.map(
+            (t: any): Timeline => new Timeline(t)
+          ),
+        };
         return newData;
       })
       .catch((err) => {
+        console.log("Error parsing activity data", err);
         return [];
       });
   }

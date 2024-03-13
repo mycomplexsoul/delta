@@ -683,15 +683,21 @@ export class BalanceComponent implements OnInit {
     const graphData = {
       chartLabels: data.dailyTotals.map((d) => d.day),
       chartData: [...Array(monthCount + 1).keys()].map((i) => ({
-        label: `${DateUtils.getMonthName((this.model.month - i + 12) % 12)} ${
-          this.model.year
+        label: `${DateUtils.getMonthName(
+          (this.model.month - i + 12) % 12 === 0
+            ? 12
+            : (this.model.month - i + 12) % 12
+        )} ${
+          this.model.month - i > 0 ? this.model.year : this.model.year - 1
         } ${
           data.dailyTotals.map(
             (t) => `$${t[`expenseMonth${i}`]} (${t[`expenseMonthCount${i}`]})`
           )[
             DateUtils.lastDayInMonth(
               this.model.year,
-              (this.model.month - i + 12) % 12
+              (this.model.month - i + 12) % 12 === 0
+                ? 12
+                : (this.model.month - i + 12) % 12
             ) - 1
           ]
         }`,
@@ -732,7 +738,9 @@ export class BalanceComponent implements OnInit {
           (this.model.month - i + 12) % 12 === 0
             ? 12
             : (this.model.month - i + 12) % 12
-        )} ${this.model.year} ${
+        )} ${
+          this.model.month - i > 0 ? this.model.year : this.model.year - 1
+        } ${
           data.dailyTotals.map(
             (t) => `${t[`expenseMonth${i}`]} (${t[`expenseMonthCount${i}`]})`
           )[

@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## v1.14.6 (2024-02-28) -- In Progress --
 
 1. [AppCommon][mod] Update dependencies
+2. [AppKanban][new] Added Timeline section that shows latest timeline events
+3. [AppMoney][fix] Balance component - Fix correct year for December previous year
+4. [AppCommon][mod] Update dependencies
 
 ## v1.14.5 (2024-01-28)
 

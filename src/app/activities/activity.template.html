@@ -297,4 +297,27 @@
       </details>
     </div>
   </div>
+
+  <div class="timeline-list">
+    <h2>Línea de tiempo</h2>
+
+    <div>Secuencia de actividades en orden cronológico</div>
+
+    <div *ngFor="let d of viewData.timelineGroup.days">
+      <h3>{{ d.date | date: "yyyy-MM-dd" }} {{ d.dayName }}</h3>
+
+      <div class="timeline-list-activity" *ngFor="let a of d.activityList">
+        <div class="timeline-list-activity-header">
+          + {{ a.act_tasks_tag }} - {{a.act_name}}
+        </div>
+
+        <div *ngFor="let t of a.additional.timeline">
+          <div class="timeline-list-item">
+            - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+            <span [innerHtml]="t.tim_description"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

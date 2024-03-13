@@ -76,7 +76,7 @@ export class ActivityServer {
   };
   update = this.api.update;
 
-  listWithMetadataRequestHandler = (node: iNode) => {
+  listWithMetadataRequestHandler = async (node: iNode) => {
     const timelineServer = new ApiServer(new Timeline());
     const taskServer = new ApiServer(new Task());
     const keyvalServer = new ApiServer(new Keyval());
@@ -122,44 +122,65 @@ export class ActivityServer {
 
     return Promise.all(promises).then((responses: Array<Array<any>>) => {
       const [activityList, timelineList, taskList, keyvalList] = responses;
+      const currentMonth =
+        new Date().getFullYear() * 100 + new Date().getMonth() - 1;
+      const parsedTimelineList = timelineList
+        .map(
+          (t) =>
+            instantiate.instantiateFromString("Timeline", t, true) as Timeline
+        )
+        .filter((t: Timeline) => t.tim_id_record.startsWith("activity|"));
 
       const response = {
         date: new Date(),
-        data: activityList
-          .map(
-            (a) =>
-              instantiate.instantiateFromString("Activity", a, true) as Activity
-          )
-          .map((a: Activity) => {
-            a.additional.timeline = timelineList
-              .map(
-                (t) =>
-                  instantiate.instantiateFromString(
-                    "Timeline",
-                    t,
-                    true
-                  ) as Timeline
-              )
-              .filter((t: Timeline) =>
+        data: {
+          activity: activityList
+            .map(
+              (a) =>
+                instantiate.instantiateFromString(
+                  "Activity",
+                  a,
+                  true
+                ) as Activity
+            )
+            .map((a: Activity) => {
+              a.additional.timeline = parsedTimelineList.filter((t: Timeline) =>
                 t.tim_id_record.startsWith("activity|" + a.act_id)
               );
 
-            a.additional.tasks = taskList
-              .map(
-                (t) =>
-                  instantiate.instantiateFromString("Task", t, true) as Task
-              )
-              .filter((t: Task) => t.tsk_tags.includes(a.act_tasks_tag));
+              a.additional.tasks = taskList
+                .map(
+                  (t) =>
+                    instantiate.instantiateFromString("Task", t, true) as Task
+                )
+                .filter((t: Task) => t.tsk_tags.includes(a.act_tasks_tag));
 
-            a.additional.keyvalITems = keyvalList
-              .map(
-                (e) =>
-                  instantiate.instantiateFromString("Keyval", e, true) as Keyval
-              )
-              .filter((e: Keyval) => e.key_id === a.act_id);
+              a.additional.keyvalItems = keyvalList
+                .map(
+                  (e) =>
+                    instantiate.instantiateFromString(
+                      "Keyval",
+                      e,
+                      true
+                    ) as Keyval
+                )
+                .filter((e: Keyval) => e.key_id === a.act_id);
 
-            return a;
-          }),
+              return a;
+            }),
+          timeline: parsedTimelineList
+            .sort((a, b) =>
+              new Date(a.tim_date).getTime() > new Date(b.tim_date).getTime()
+                ? -1
+                : 1
+            )
+            .filter(
+              (t) =>
+                new Date(t.tim_date).getFullYear() * 100 +
+                  new Date(t.tim_date).getMonth() >=
+                currentMonth
+            ),
+        },
       };
 
       return node.response.end(JSON.stringify(response));

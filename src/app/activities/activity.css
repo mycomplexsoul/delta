@@ -88,3 +88,30 @@ summary {
 summary:hover {
   cursor: pointer;
 }
+
+.timeline-list h3 {
+  font-weight: bold;
+}
+
+.timeline-list .timeline-list-activity {
+  border: 1px solid #818181;
+  padding: 10px 0;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.timeline-list .timeline-list-activity-header {
+  font-weight: bold;
+  margin: 5px 0px 10px 20px;
+}
+
+.timeline-list .timeline-list-item {
+  margin-left: 40px;
+}
+
+@media (min-width: 504px) and (max-width: 1024px) {
+  .task-record-use-columns {
+    columns: 3;
+    max-width: 100% !important;
+  }
+}
