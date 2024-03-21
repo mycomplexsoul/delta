@@ -323,7 +323,7 @@ export class TasksComponent implements OnInit {
         setTimeout(() => this.updateState(), 100);
         if (this.options.optAddNewTasksToNextTasks && added.length) {
           [...added].reverse().forEach((a) => {
-            this.asNextToDo(a, true, true);
+            this.asNextToDo(a, true, "START");
           });
         }
       }
@@ -862,11 +862,15 @@ export class TasksComponent implements OnInit {
       // detect '+'
       this.focusElement("input[name=tsk_name]");
     }
-    if (event.altKey && event.keyCode == 78) {
+    if (event.altKey && optIncludesKey(event.key, "n")) {
       // detect 'n'
       this.asNextToDo(t, true);
     }
-    if (event.altKey && event.keyCode == 82) {
+    if (event.altKey && optIncludesKey(event.key, "N")) {
+      // detect 'N'
+      this.asNextToDo(t, true, "AFTER_IN_PROGRESS");
+    }
+    if (event.altKey && optIncludesKey(event.key, "r")) {
       // detect 'r'
       this.asNextToDo(t, false);
     }
@@ -2994,19 +2998,47 @@ export class TasksComponent implements OnInit {
     // karma
   }
 
-  asNextToDo(t: any, add: boolean, addAtBeggining: boolean = false) {
-    let p = this.nextTasks[0].tasks;
+  asNextToDo(
+    t: any,
+    add: boolean,
+    positionToAdd: "START" | "END" | "AFTER_IN_PROGRESS" = "END"
+  ) {
+    let p: Task[] = this.nextTasks[0].tasks;
     let index = p.findIndex((e: any) => e.tsk_id === t.tsk_id);
     if (add) {
       if (index === -1) {
-        if (addAtBeggining) {
-          p.unshift(t);
-        } else {
-          p.push(t);
+        switch (positionToAdd) {
+          case "START": {
+            p.unshift(t);
+            break;
+          }
+          case "AFTER_IN_PROGRESS": {
+            const lastInProgressIndex = p.filter(
+              (t) => t.tsk_ctg_in_process === 2
+            ).length;
+            p.splice(lastInProgressIndex, 0, t);
+            break;
+          }
+          case "END": {
+            p.push(t);
+            break;
+          }
         }
+
         this.nextTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
         t["inNextToDo"] = true;
         this.projectNextTasksDates();
+      } else {
+        if (positionToAdd === "AFTER_IN_PROGRESS") {
+          // move task right after in progress tasks
+          const lastInProgressIndex = p.filter(
+            (e) => e.tsk_ctg_in_process === 2
+          ).length;
+          const index = p.findIndex((e) => e.tsk_id === t.tsk_id);
+          p.splice(index, 1); // remove this task, since it is currently in NextToDo
+          p.splice(lastInProgressIndex, 0, t); // Add it after in progress tasks or top if none
+          this.projectNextTasksDates();
+        }
       }
     } else {
       if (index !== -1) {

@@ -98,7 +98,7 @@
     </div>
     <span> Details </span>
 
-    <div *ngFor="let k of model.keyval">
+    <div *ngFor="let k of model.activity.additional?.keyvalItems">
       {{ k.key_name }} / {{ k.key_value }}
     </div>
 
@@ -106,11 +106,11 @@
 
     <span
       ><strong>
-        Timeline (x{{model.additional?.timeline?.length}})
+        Timeline (x{{model.activity.additional?.timeline?.length}})
       </strong></span
     >
 
-    <div *ngFor="let t of model.additional?.timeline">
+    <div *ngFor="let t of model.activity.additional?.timeline">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
       <span [innerHtml]="t.tim_description"></span>
     </div>
@@ -120,20 +120,24 @@
       (onNewItem)="handleNewTimeline($event)"
     ></timeline>
 
-    <span><strong> Notes (x{{model.additional?.notes?.length}}) </strong></span>
+    <span
+      ><strong>
+        Notes (x{{model.activity.additional?.notes?.length}})
+      </strong></span
+    >
 
-    <div *ngFor="let t of model.additional?.notes">
+    <div *ngFor="let t of model.activity.additional?.notes">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
       <span [innerHtml]="t.tim_description"></span>
     </div>
 
     <span
       ><strong>
-        Notes hidden (x{{model.additional?.notesHidden?.length}})
+        Notes hidden (x{{model.activity.additional?.notesHidden?.length}})
       </strong></span
     >
 
-    <div *ngFor="let t of model.additional?.notesHidden">
+    <div *ngFor="let t of model.activity.additional?.notesHidden">
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
       <span [innerHtml]="t.tim_description"></span>
     </div>
@@ -142,7 +146,7 @@
       <span> Tasks </span>
 
       <div>
-        <div *ngFor="let item of model.tasks">
+        <div *ngFor="let item of model.activity.additional?.tasks">
           <task
             [task]="item"
             [handlers]="handlers"

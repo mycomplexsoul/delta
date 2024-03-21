@@ -4,13 +4,15 @@ import { SyncQueue } from "./SyncQueue";
 import { BehaviorSubject } from "rxjs";
 import { Utils } from "src/crosscommon/Utility";
 
+const DELAY_TO_SYNC = 10000;
+
 @Injectable()
 export class SyncAPI {
   public queue: Array<SyncQueue> = [];
   //private apiRoot: string = 'http://10.230.9.78:8081';
   private headers = new HttpHeaders({
     "Content-Type": "application/json",
-    "Access-Control-Allow-Headers": "Content-Type"
+    "Access-Control-Allow-Headers": "Content-Type",
   });
   private options = { headers: this.headers };
   private version = "v1.3";
@@ -27,12 +29,10 @@ export class SyncAPI {
 
     if (this.queue.length > 0) {
       this.log(
-        `Found in storage ${
-          this.queue.length
-        } requests, trying to process queue if possible`
+        `Found in storage ${this.queue.length} requests, trying to process queue if possible`
       );
       this.log("Current queue", this.queue);
-      this.isOnline().then(online => {
+      this.isOnline().then((online) => {
         if (online) {
           //this.processQueue();
           this.syncQueue();
@@ -67,7 +67,7 @@ export class SyncAPI {
       callback,
       recordName,
       matchMethod,
-      status: "queue" // this is ignored
+      status: "queue", // this is ignored
     };
     this.handleRequest([queueItem]);
   }
@@ -92,7 +92,7 @@ export class SyncAPI {
       callback,
       recordName,
       matchMethod,
-      status: "queue" // this is ignored
+      status: "queue", // this is ignored
     };
     return queueItem;
   }
@@ -128,15 +128,15 @@ export class SyncAPI {
       this.addToQueue(e);
     });
     // notify with fictional status 'syncing', in reality it does not exists
-    this.notifyStatus(this.queue.map(d => ({ ...d, status: "syncing" })));
+    this.notifyStatus(this.queue.map((d) => ({ ...d, status: "syncing" })));
 
-    this.isOnline().then(online => {
+    this.isOnline().then((online) => {
       if (online) {
         this.currentOperation = setTimeout(() => {
           //this.processQueue();
           this.syncQueue();
           this.currentOperation = null;
-        }, 5000);
+        }, DELAY_TO_SYNC);
         this.log("Scheduled sync with timer id", this.currentOperation);
       }
     });
@@ -173,7 +173,7 @@ export class SyncAPI {
     this.queue.push({
       ...queueItem,
       recordName,
-      status: "queue"
+      status: "queue",
     });
 
     this.log(
@@ -188,7 +188,7 @@ export class SyncAPI {
     ) {
       let nav = navigator.onLine;
       this.log(`Your navigator reports online status as: ${nav}`);
-      return this.isServerReachable().then(data => {
+      return this.isServerReachable().then((data) => {
         // some request to BE
         this.log(`Tried to contact the server, answer was`, data);
         this.lastOnlineStamp = new Date();
@@ -206,10 +206,10 @@ export class SyncAPI {
     return this.http
       .get("/status")
       .toPromise()
-      .then(data => {
+      .then((data) => {
         return true;
       })
-      .catch(err => {
+      .catch((err) => {
         return false;
       });
   }
@@ -219,11 +219,11 @@ export class SyncAPI {
       `${this.logPrefix} Status is ${
         this.queue.length
       } elements in the queue, ${
-        this.queue.filter(q => q.status === "processed").length
+        this.queue.filter((q) => q.status === "processed").length
       } processed, ${
-        this.queue.filter(q => q.status === "queue").length
+        this.queue.filter((q) => q.status === "queue").length
       } not yet processed, ${
-        this.queue.filter(q => q.status === "error").length
+        this.queue.filter((q) => q.status === "error").length
       } with error`
     );
   }
@@ -240,9 +240,9 @@ export class SyncAPI {
     if (typeof window.localStorage !== "undefined") {
       localStorage.setItem(
         "Sync",
-        JSON.stringify(this.queue.filter(q => q.status !== "processed"))
+        JSON.stringify(this.queue.filter((q) => q.status !== "processed"))
       );
-      this.queue = this.queue.filter(q => q.status !== "processed");
+      this.queue = this.queue.filter((q) => q.status !== "processed");
     }
   }
 
@@ -268,11 +268,11 @@ export class SyncAPI {
 
       // all keys from o1 should exist on o2 and their values must match
       const test1 = keys1.every(
-        k1 => keys2.find(k2 => k2 === k1) && o1[k1] === o2[k1]
+        (k1) => keys2.find((k2) => k2 === k1) && o1[k1] === o2[k1]
       );
       // same for o2
       const test2 = keys2.every(
-        k2 => keys1.find(k1 => k1 === k2) && o2[k2] === o1[k2]
+        (k2) => keys1.find((k1) => k1 === k2) && o2[k2] === o1[k2]
       );
 
       return test1 && test2;
@@ -285,7 +285,7 @@ export class SyncAPI {
     return this.http
       .post("/api/sync", { queue: dataToSend }, this.options)
       .toPromise()
-      .then(data => {
+      .then((data) => {
         const response = data;
         this.log("Processed sync, response was", response);
 
@@ -305,7 +305,7 @@ export class SyncAPI {
         this.toStorage();
         this.notifyStatus();
       })
-      .catch(err => {
+      .catch((err) => {
         this.log("Error for request", err);
         //q.status = 'error';
         this.queueStatus();
@@ -322,26 +322,26 @@ export class SyncAPI {
     return this.http
       .post(url, payload, this.options)
       .toPromise()
-      .then(data => data);
+      .then((data) => data);
   }
 
   delete(url: string, payload: any): Promise<any> {
     const options = {
       ...this.options,
       params: Utils.getPKFromEntity(payload),
-      body: Utils.removeMetadataFromEntity(payload)
+      body: Utils.removeMetadataFromEntity(payload),
     };
     return this.http
       .delete(url, options)
       .toPromise()
-      .then(data => data);
+      .then((data) => data);
   }
 
   get(url: string): Promise<any> {
     return this.http
       .get(url, this.options)
       .toPromise()
-      .then(data => data);
+      .then((data) => data);
   }
 
   notifyStatus(data: SyncQueue[] = this.queue) {

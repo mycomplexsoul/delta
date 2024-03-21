@@ -115,3 +115,8 @@ summary:hover {
     max-width: 100% !important;
   }
 }
+
+.activity-details {
+  border: 1px solid black;
+  padding: 10px;
+}

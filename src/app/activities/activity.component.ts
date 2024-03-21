@@ -154,14 +154,10 @@ export class ActivityComponent implements OnInit {
 
   public model: {
     id: string;
-    keyval: Keyval[];
-    tasks: Task[];
-    additional: any;
+    activity: Activity;
   } = {
     id: null,
-    keyval: [],
-    tasks: [],
-    additional: {},
+    activity: null,
   };
   public common: CommonComponent<Activity> = null;
   public tasks: Task[] = [];
@@ -593,28 +589,29 @@ export class ActivityComponent implements OnInit {
   }
 
   setModelDetails(id: string, form?: NgForm) {
-    let model: Activity;
+    // let act: Activity;
 
     // Set activity
-    model = this.viewData.activityList.find((item) =>
+    this.model.activity = this.viewData.activityList.find((item) =>
       this.findById(item, "act_id", id)
     );
 
     // Get Keyval
-    this.model.keyval = this.viewData.keyvalList.filter((item) =>
+    /* this.model.keyval = this.viewData.keyvalList.filter((item) =>
       this.findById(item, "key_id", id)
-    );
+    ); */
 
     // get tasks
-    if (model.act_tasks_tag) {
+    if (this.model.activity.act_tasks_tag) {
       this.tasksService.getTasks().then((tasks: Task[]) => {
-        const tagTasks = tasks.filter(
+        /* const tagTasks = tasks.filter(
           (t) => t.tsk_tags && t.tsk_tags.includes(model.act_tasks_tag)
-        );
+        ); */
 
-        this.model.tasks = tagTasks.sort(sortTasks);
+        /* this.model.tasks = tagTasks.sort(sortTasks); */
 
-        this.model.additional = {
+        /* this.model.additional = {
+          ...this.model.additional,
           tasks: this.model.tasks,
           timeline: this.viewData.timelineList
             .filter(
@@ -639,9 +636,9 @@ export class ActivityComponent implements OnInit {
               t.tim_tags.includes("note-hidden")
           ),
           lastTimeline: null,
-        };
+        }; */
 
-        this.model.id = model["act_id"]; // to tell the form that this is an edition
+        this.model.id = this.model.activity.act_id; // to tell the form that this is an edition
         if (!this.viewData.showItemForm) {
           this.viewData.showItemForm = !this.viewData.showItemForm;
         }
@@ -649,14 +646,17 @@ export class ActivityComponent implements OnInit {
         // Fill form
         setTimeout(() => {
           if (form) {
-            // form.controls["fProjectId"].setValue(model["act_id_project"]);
-            form.controls["fName"].setValue(model["act_name"]);
-            // form.controls["fDescription"].setValue(model["act_description"]);
-            form.controls["fTags"].setValue(model["act_tags"]);
-            form.controls["fTasksTag"].setValue(model["act_tasks_tag"]);
-            // form.controls["fCloseComment"].setValue(model["act_close_comment"]);
-            // form.controls["fCtgStatus"].setValue(model["act_ctg_status"]);
+            // form.controls["fProjectId"].setValue(this.model.activity["act_id_project"]);
+            form.controls["fName"].setValue(this.model.activity["act_name"]);
+            // form.controls["fDescription"].setValue(this.model.activity["act_description"]);
+            form.controls["fTags"].setValue(this.model.activity["act_tags"]);
+            form.controls["fTasksTag"].setValue(
+              this.model.activity["act_tasks_tag"]
+            );
+            // form.controls["fCloseComment"].setValue(this.model.activity["act_close_comment"]);
+            // form.controls["fCtgStatus"].setValue(this.model.activity["act_ctg_status"]);
           }
+          console.log("--activity found to show details", this.model);
         }, 0);
       });
     }
@@ -805,7 +805,7 @@ export class ActivityComponent implements OnInit {
   handleNewTimeline($event: { timeline: Timeline }) {
     // $event => { timeline: Timeline }
     this.viewData.timelineList.push($event.timeline);
-    this.model.additional.timeline.push($event.timeline);
+    this.model.activity.additional.timeline.push($event.timeline);
     this.render(false);
   }
 

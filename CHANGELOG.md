@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 2. [AppKanban][new] Added Timeline section that shows latest timeline events
 3. [AppMoney][fix] Balance component - Fix correct year for December previous year
 4. [AppCommon][mod] Update dependencies
+5. [AppKanban][fix] Fix detail view by pointing to correct data
+6. [AppTasks][new] NextToDo section - Allow to add a task as next to do but insert it after in progress tasks, with a keyboard shortcut
 
 ## v1.14.5 (2024-01-28)
 
