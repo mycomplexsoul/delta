@@ -303,14 +303,28 @@
     <button type="button" (click)="selectAllCategories()">
       select all categories
     </button>
-    <span *ngFor="let c of viewData.categoryList">
-      <input
-        type="checkbox"
-        [id]="'cat' + c.mct_id"
-        (click)="toggleCategorySelection(c.mct_id, $event)"
-      />
-      <label [for]="'cat' + c.mct_id">{{ c.mct_name}}</label>
-    </span>
+    <div>
+      Total Expenses {{ viewData.totalExpenses | currency:
+      "USD":"symbol-narrow":"1.2-2" }}
+    </div>
+    <div>
+      Total Selected Categories {{ viewData.totalSelectedCategories | currency:
+      "USD":"symbol-narrow":"1.2-2" }}
+    </div>
+    <div class="balance-category-list">
+      <div *ngFor="let c of viewData.totalsByCategory">
+        <input
+          type="checkbox"
+          [id]="'cat' + c.category.mct_id"
+          (click)="toggleCategorySelection(c.category.mct_id, $event)"
+          [checked]="c.selected"
+        />
+        <label [for]="'cat' + c.category.mct_id"
+          >{{ c.category.mct_name}} ({{ c.total | currency:
+          "USD":"symbol-narrow":"1.2-2" }})</label
+        >
+      </div>
+    </div>
 
     <movement-listing
       [movementList]="viewData.movementsPerSelectedCategories"

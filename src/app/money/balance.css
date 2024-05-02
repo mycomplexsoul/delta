@@ -49,3 +49,13 @@
 .balance-row-crypto td:first-child .no-button {
   color: darkgreen;
 }
+
+.balance-category-list {
+  columns: 2;
+}
+
+@media (min-width: 504px) {
+  .balance-category-list {
+    columns: 4;
+  }
+}

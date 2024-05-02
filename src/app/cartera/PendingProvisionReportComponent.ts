@@ -7,7 +7,8 @@ import { Title } from "@angular/platform-browser";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 
 const CUOTA_NORMAL = "cuota-normal";
-const PROVISION_AMOUNT = 1480;
+const OLD_PROVISION_AMOUNT = 1480;
+const PROVISION_AMOUNT = 1500;
 
 @Component({
   selector: "pending-payments-report",
@@ -105,8 +106,12 @@ export class PendingProvisionReportComponent implements OnInit {
         } = response;
 
         if (this.viewData.unit) {
-          this.viewData.pendingProvisionList = pendingProvisionList.filter(e => e.cpr_id_unit === this.viewData.unit);
-          this.viewData.futureProvisionList = futureProvisionList.filter(e => e.cpr_id_unit === this.viewData.unit);
+          this.viewData.pendingProvisionList = pendingProvisionList.filter(
+            (e) => e.cpr_id_unit === this.viewData.unit
+          );
+          this.viewData.futureProvisionList = futureProvisionList.filter(
+            (e) => e.cpr_id_unit === this.viewData.unit
+          );
           this.viewData.nonIdentifiedPaymentList = [];
           this.viewData.timelineList = [];
         } else {
@@ -154,7 +159,8 @@ export class PendingProvisionReportComponent implements OnInit {
             // the ones that are normal provisions and that doesn't have any payments
             const isNormalProvision =
               current.cpr_code_reference.split("|")[0] === CUOTA_NORMAL &&
-              current.cpr_remaining === PROVISION_AMOUNT;
+              (current.cpr_remaining === PROVISION_AMOUNT ||
+                current.cpr_remaining === OLD_PROVISION_AMOUNT);
 
             if (found) {
               found.remaining += current.cpr_remaining;

@@ -64,6 +64,13 @@ export class BalanceComponent implements OnInit {
       incomeCount: number;
       transferCount: number;
     };
+    totalsByCategory: Array<{
+      category: Category;
+      selected: boolean;
+      total: number;
+    }>;
+    totalExpenses: number;
+    totalSelectedCategories: number;
   } = {
     balance: [],
     movements: [],
@@ -142,6 +149,9 @@ export class BalanceComponent implements OnInit {
       incomeCount: 0,
       transferCount: 0,
     },
+    totalsByCategory: [],
+    totalExpenses: 0,
+    totalSelectedCategories: 0,
   };
   public model: {
     iterable: number;
@@ -758,20 +768,63 @@ export class BalanceComponent implements OnInit {
       chartType: "line",
     };
 
+    this.viewData.totalsByCategory = this.viewData.categoryList
+      .map((category) => ({
+        category,
+        selected: false,
+        total: totalExpenseByDate(
+          this.state.movementList,
+          this.model.year,
+          this.model.month,
+          1,
+          (m) => category.mct_id === m.mov_id_category
+        ).dailyTotals.at(
+          DateUtils.lastDayInMonth(this.model.year, this.model.month) - 1
+        )[`expenseMonth0`],
+      }))
+      .sort((a, b) => {
+        if (a.total > b.total) {
+          return -1;
+        }
+        if (a.total < b.total) {
+          return 1;
+        }
+        return a.category.mct_name > b.category.mct_name ? 1 : -1;
+      });
+
+    this.viewData.totalExpenses = this.viewData.totalsByCategory.reduce(
+      (total, current) => {
+        return total + current.total;
+      },
+      0
+    );
+
+    this.viewData.totalSelectedCategories = 0;
+    // replicate selected categories
+    this.viewData.selectedCategories.forEach((s) => {
+      const c = this.viewData.totalsByCategory.find(
+        (e) => e.category.mct_id === s.mct_id
+      );
+      c.selected = true;
+      this.viewData.totalSelectedCategories += c.total;
+    });
+
     this.viewData.monthlyExpenseComparisonFoodChart = graphData;
   }
 
   toggleCategorySelection(id: string, event: Event) {
+    const findCategory = (c: Category) => c.mct_id === id;
+
     if (event.target["checked"]) {
-      if (!this.viewData.selectedCategories.find((c) => c.mct_id === id)) {
+      if (!this.viewData.selectedCategories.find(findCategory)) {
         this.viewData.selectedCategories.push(
-          this.viewData.categoryList.find((c) => c.mct_id === id)
+          this.viewData.categoryList.find(findCategory)
         );
       }
     } else {
-      if (this.viewData.selectedCategories.find((c) => c.mct_id === id)) {
+      if (this.viewData.selectedCategories.find(findCategory)) {
         this.viewData.selectedCategories.splice(
-          this.viewData.selectedCategories.findIndex((c) => c.mct_id === id),
+          this.viewData.selectedCategories.findIndex(findCategory),
           1
         );
       }

@@ -27,7 +27,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.6 (2024-02-28) -- In Progress --
+## v1.14.7 (2024-03-28) -- In Progress --
+
+1. [AppCommon][mod] Update dependencies
+2. [AppMoney][mod] Balance page - Add totals to category totals graph
+3. [AppMoney][mod] Balance page - Expenses by category graph - Updated layout to show 4 columns on desktop and 2 columns on mobile
+4. [AppCartera][mod] Pending Provison Report - Update quota to current value
+5. [AppTasks][mod] Only add time tracking to tasks that have ETA when generating time tracking for a task marked as done
+
+## v1.14.6 (2024-02-28)
 
 1. [AppCommon][mod] Update dependencies
 2. [AppKanban][new] Added Timeline section that shows latest timeline events

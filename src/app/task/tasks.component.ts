@@ -1042,7 +1042,10 @@ export class TasksComponent implements OnInit {
       this.taskToggleTimeTracking(t, this.getTaskDOMElement(t.tsk_id));
     }
     // if option is enabled: move task time tracking to available slot
-    if (this.options.optMoveTimetrackingToAvailableSlotWhenDone) {
+    if (
+      this.options.optMoveTimetrackingToAvailableSlotWhenDone &&
+      t.tsk_estimated_duration > 0
+    ) {
       this.adjustTimeTracking(t, false);
     }
     const {

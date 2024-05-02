@@ -1,6 +1,6 @@
 {
   "name": "delta",
-  "version": "1.14.6",
+  "version": "1.14.7",
   "scripts": {
     "ng": "ng",
     "build": "ng build --configuration development && node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap && node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap",
