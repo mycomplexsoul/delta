@@ -59,7 +59,7 @@
     "@angular/router": "17.3.12",
     "@angular/service-worker": "17.3.12",
     "@types/node": "18.19.31",
-    "chart.js": "4.4.2",
+    "chart.js": "4.4.8",
     "chartjs-adapter-date-fns": "^3.0.0",
     "core-js": "3.41.0",
     "cors": "2.8.5",
