@@ -290,6 +290,31 @@ const generateHealthGroupData = (
   return data;
 };
 
+const calculateProjectList = (activityList: Activity[]) =>
+  activityList.reduce(
+    (prev, current) => {
+      const projectId = current.act_tasks_tag.split("-")[0];
+      const found = prev.find((p) => p.id === projectId);
+      if (!found && projectId) {
+        prev.push({
+          id: projectId,
+          name: projectId,
+          count: activityList.filter(
+            (a) => a.act_tasks_tag.startsWith(projectId) && a.act_ctg_status < 6
+          ).length,
+        });
+      }
+      return prev;
+    },
+    [
+      {
+        id: "ALL",
+        name: "ALL",
+        count: activityList.filter((a) => a.act_ctg_status < 6).length,
+      },
+    ]
+  );
+
 export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
@@ -305,4 +330,5 @@ export {
   groupByProperty,
   calculateActivityGroups,
   generateHealthGroupData,
+  calculateProjectList,
 };

@@ -34,6 +34,7 @@ import {
   ALL_STATUS_CODES,
   calculateActivityGroups,
   generateHealthGroupData,
+  calculateProjectList,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -81,32 +82,7 @@ export class ActivityComponent implements OnInit {
       name: string;
       count: number;
     }>
-  >(() =>
-    this.activityList().reduce(
-      (prev, current) => {
-        const projectId = current.act_tasks_tag.split("-")[0];
-        const found = prev.find((p) => p.id === projectId);
-        if (!found && projectId) {
-          prev.push({
-            id: projectId,
-            name: projectId,
-            count: this.activityList().filter(
-              (a) =>
-                a.act_tasks_tag.startsWith(projectId) && a.act_ctg_status < 6
-            ).length,
-          });
-        }
-        return prev;
-      },
-      [
-        {
-          id: "ALL",
-          name: "ALL",
-          count: this.activityList().filter((a) => a.act_ctg_status < 6).length,
-        },
-      ]
-    )
-  );
+  >(() => calculateProjectList(this.activityList()));
 
   public viewData: {
     TEXT: any;
