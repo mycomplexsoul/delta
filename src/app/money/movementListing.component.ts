@@ -5,10 +5,11 @@ import { Balance } from "src/crosscommon/entities/Balance";
 const LAYOUTS: string[] = ["cards", "compact", "grid"];
 
 @Component({
-  selector: "movement-listing",
-  templateUrl: "./movementListing.template.html",
-  styleUrls: ["./movementListing.css"],
-  providers: []
+    selector: "movement-listing",
+    templateUrl: "./movementListing.template.html",
+    styleUrls: ["./movementListing.css"],
+    providers: [],
+    standalone: false
 })
 export class MovementListingComponent {
   @Input() selectedView: string = LAYOUTS[0];

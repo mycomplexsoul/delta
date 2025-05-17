@@ -20,15 +20,16 @@ import { startSpeechRecognition } from "../common/speechRecognition";
 import { autogrowSetup } from '../common/autogrow';
 
 @Component({
-  selector: "multimedia",
-  templateUrl: "./multimedia.template.html",
-  styleUrls: ["./multimedia.css"],
-  providers: [
-    MultimediaService,
-    MultimediaDetService,
-    MultimediaViewService,
-    SyncAPI
-  ]
+    selector: "multimedia",
+    templateUrl: "./multimedia.template.html",
+    styleUrls: ["./multimedia.css"],
+    providers: [
+        MultimediaService,
+        MultimediaDetService,
+        MultimediaViewService,
+        SyncAPI
+    ],
+    standalone: false
 })
 export class MultimediaComponent {
   public viewData: {

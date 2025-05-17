@@ -3,8 +3,9 @@ import { SyncQueue } from "./SyncQueue";
 import { SyncAPI } from "./sync.api";
 
 @Component({
-  selector: "sync",
-  templateUrl: "./sync.template.html"
+    selector: "sync",
+    templateUrl: "./sync.template.html",
+    standalone: false
 })
 export class SyncComponent implements OnInit {
   public viewData: {

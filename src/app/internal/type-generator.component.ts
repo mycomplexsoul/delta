@@ -6,10 +6,11 @@ import { NgForm } from "@angular/forms";
 import { TypeGeneratorService } from "./type-generator.service";
 
 @Component({
-  selector: "type-generator",
-  templateUrl: "./type-generator.template.html",
-  styleUrls: ["./type-generator.css"],
-  providers: [TypeGeneratorService]
+    selector: "type-generator",
+    templateUrl: "./type-generator.template.html",
+    styleUrls: ["./type-generator.css"],
+    providers: [TypeGeneratorService],
+    standalone: false
 })
 export class TypeGeneratorComponent implements OnInit {
   private user: string = "anon";

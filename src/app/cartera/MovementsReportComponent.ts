@@ -6,10 +6,11 @@ import { Movement } from "../../crosscommon/entities/Movement";
 import { Utils } from "../../crosscommon/Utility";
 
 @Component({
-  selector: "movements-report",
-  templateUrl: "./MovementsReport.html",
-  styleUrls: ["./MovementsReport.css"],
-  providers: [MovementService],
+    selector: "movements-report",
+    templateUrl: "./MovementsReport.html",
+    styleUrls: ["./MovementsReport.css"],
+    providers: [MovementService],
+    standalone: false
 })
 export class MovementsReportComponent implements OnInit {
   public viewData: {

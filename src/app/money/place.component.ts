@@ -8,9 +8,10 @@ import { MovementService } from "./movement.service";
 import { Movement } from "../../crosscommon/entities/Movement";
 
 @Component({
-  selector: "place",
-  templateUrl: "./place.template.html",
-  providers: [PlaceService, MovementService]
+    selector: "place",
+    templateUrl: "./place.template.html",
+    providers: [PlaceService, MovementService],
+    standalone: false
 })
 export class PlaceComponent implements OnInit {
   public viewData: {

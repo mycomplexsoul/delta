@@ -7,10 +7,11 @@ import { DateUtils } from "../../crosscommon/DateUtility";
 import { TimelineService } from "./TimelineService";
 
 @Component({
-  selector: "timeline",
-  templateUrl: "./TimelineTemplate.html",
-  styleUrls: ["./Timeline.css"],
-  providers: [TimelineService]
+    selector: "timeline",
+    templateUrl: "./TimelineTemplate.html",
+    styleUrls: ["./Timeline.css"],
+    providers: [TimelineService],
+    standalone: false
 })
 export class TimelineComponent {
   @Input() recordId: string = "general";

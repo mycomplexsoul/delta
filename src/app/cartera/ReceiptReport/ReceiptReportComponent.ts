@@ -26,10 +26,11 @@ const mapCodeWithDescription = {
 };
 
 @Component({
-  selector: "receipt-report",
-  templateUrl: "./ReceiptReport.html",
-  styleUrls: ["./ReceiptReport.css"],
-  providers: [ReceiptReportService],
+    selector: "receipt-report",
+    templateUrl: "./ReceiptReport.html",
+    styleUrls: ["./ReceiptReport.css"],
+    providers: [ReceiptReportService],
+    standalone: false
 })
 export class ReceiptReportComponent implements OnInit {
   public viewData: {

@@ -9,10 +9,11 @@ import { CarteraPayDet } from "src/crosscommon/entities/CarteraPayDet";
 const UNIT_LABEL = "Departamento";
 
 @Component({
-  selector: "unit-status-report",
-  templateUrl: "./UnitStatusReport.html",
-  styleUrls: ["./UnitStatusReport.css"],
-  providers: [UnitStatusService],
+    selector: "unit-status-report",
+    templateUrl: "./UnitStatusReport.html",
+    styleUrls: ["./UnitStatusReport.css"],
+    providers: [UnitStatusService],
+    standalone: false
 })
 export class UnitStatusReportComponent implements OnInit {
   public viewData: {

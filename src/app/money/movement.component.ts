@@ -24,17 +24,18 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
 
 @Component({
-  selector: "movement",
-  templateUrl: "./movement.template.html",
-  providers: [
-    AccountService,
-    CategoryService,
-    PlaceService,
-    MovementService,
-    EntryService,
-    BalanceService,
-    PresetService,
-  ],
+    selector: "movement",
+    templateUrl: "./movement.template.html",
+    providers: [
+        AccountService,
+        CategoryService,
+        PlaceService,
+        MovementService,
+        EntryService,
+        BalanceService,
+        PresetService,
+    ],
+    standalone: false
 })
 export class MovementComponent implements OnInit {
   private accounts: Array<Account> = [];

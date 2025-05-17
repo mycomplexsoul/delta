@@ -10,10 +10,11 @@ import { Title } from "@angular/platform-browser";
 const UNIT_LABEL = "Departamento";
 
 @Component({
-  selector: "payment-report",
-  templateUrl: "./PaymentReport.html",
-  styleUrls: ["./PaymentReport.css"],
-  providers: [PaymentReportService],
+    selector: "payment-report",
+    templateUrl: "./PaymentReport.html",
+    styleUrls: ["./PaymentReport.css"],
+    providers: [PaymentReportService],
+    standalone: false
 })
 export class PaymentReportComponent implements OnInit {
   public viewData: {

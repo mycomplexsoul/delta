@@ -9,10 +9,11 @@ import { User } from "./user-login.model";
 import { AuthenticationService } from "./authentication.service";
 
 @Component({
-  selector: "menu",
-  templateUrl: "./menu.template.html",
-  styleUrls: ["./menu.css"],
-  providers: [LoginService]
+    selector: "menu",
+    templateUrl: "./menu.template.html",
+    styleUrls: ["./menu.css"],
+    providers: [LoginService],
+    standalone: false
 })
 export class MenuComponent implements OnInit {
   public viewData: {

@@ -15,10 +15,11 @@ import { autogrowSetup } from "../common/autogrow";
 import "chartjs-adapter-date-fns";
 
 @Component({
-  selector: "tasks",
-  templateUrl: "./tasks.template.html",
-  styleUrls: ["./tasks.css"],
-  providers: [TasksCore, TaskIndicator],
+    selector: "tasks",
+    templateUrl: "./tasks.template.html",
+    styleUrls: ["./tasks.css"],
+    providers: [TasksCore, TaskIndicator],
+    standalone: false
 })
 export class TasksComponent implements OnInit {
   public item: any;

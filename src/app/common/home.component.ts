@@ -7,7 +7,10 @@ import { UserService } from "./user-login.service";
 import { AuthenticationService } from "./authentication.service";
 import { TextToSpeech } from "./speechRecognition";
 
-@Component({ templateUrl: "./home.template.html" })
+@Component({
+    templateUrl: "./home.template.html",
+    standalone: false
+})
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   currentUserSubscription: Subscription;

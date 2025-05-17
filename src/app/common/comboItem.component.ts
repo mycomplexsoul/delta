@@ -4,7 +4,8 @@ import { NgForm } from '@angular/forms';
 @Component({
     selector: 'combo-item',
     templateUrl: './comboItem.template.html',
-    providers: [ ]
+    providers: [],
+    standalone: false
 })
 export class ComboItemComponent {
     public viewAddForm: boolean = false;

@@ -10,9 +10,10 @@ import { NotificationService } from "../common/notification.service";
 import { requestResult } from "../common/requestResult";
 
 @Component({
-  selector: "category",
-  templateUrl: "./category.template.html",
-  providers: [CategoryService, MovementService]
+    selector: "category",
+    templateUrl: "./category.template.html",
+    providers: [CategoryService, MovementService],
+    standalone: false
 })
 export class CategoryComponent implements OnInit {
   public viewData: {

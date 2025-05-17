@@ -13,9 +13,10 @@ import { Category } from "src/crosscommon/entities/Category";
 import { Place } from "src/crosscommon/entities/Place";
 
 @Component({
-  selector: "preset",
-  templateUrl: "./preset.template.html",
-  providers: [PresetService, AccountService, CategoryService, PlaceService]
+    selector: "preset",
+    templateUrl: "./preset.template.html",
+    providers: [PresetService, AccountService, CategoryService, PlaceService],
+    standalone: false
 })
 export class PresetComponent implements OnInit {
   public viewData: {

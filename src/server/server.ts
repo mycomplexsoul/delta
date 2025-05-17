@@ -60,22 +60,31 @@ app.use(function (req, res) {
   const log = (msg: string) => {
     console.log(new Date(), msg);
   };
-  const files = ["/runtime", "/polyfills", "/styles", "/vendor", "/main"];
-  const expandedFiles = []
-    .concat(files.map((f) => `${f}-es2015.js`))
+  const files: string[] = [
+    "/runtime",
+    "/polyfills",
+    "/styles",
+    "/vendor",
+    "/main",
+    "/chunk",
+    "/assets",
+  ];
+  const expandedFiles: string[] = ([] as string[])
+    .concat(files.map((f) => f))
+    /* .concat(files.map((f) => `${f}-es2015.js`))
     .concat(files.map((f) => `${f}-es2015.js.map`))
     .concat(files.map((f) => `${f}-es5.js`))
-    .concat(files.map((f) => `${f}-es5.js.map`))
+    .concat(files.map((f) => `${f}-es5.js.map`)) */
     .concat(["/favicon.ico", "/manifest.webmanifest"]);
   // Use res.sendfile, as it streams instead of reading the file into memory.
-  const index = path.join(__dirname, "../../dist/intranet/index.html");
-  if (expandedFiles.indexOf(req.url) !== -1) {
+  const index = path.join(__dirname, "../../dist/intranet/browser/index.html");
+  if (expandedFiles.some((file) => req.url.startsWith(file))) {
     // TODO: move this to FE build
-    const file = path.join(__dirname, `../../dist/intranet${req.url}`);
+    const file = path.join(__dirname, `../../dist/intranet/browser${req.url}`);
     log(`Answering request with: ${file}`);
     res.sendFile(file);
   } else {
-    log(`Answering request with: ${index}`);
+    log(`Answering request for asset ${req.url} with: ${index}`);
     res.sendFile(index);
   }
 });

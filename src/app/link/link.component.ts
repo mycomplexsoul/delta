@@ -10,10 +10,11 @@ import { NotificationService } from "../common/notification.service";
 import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
-  selector: "link",
-  templateUrl: "./link.template.html",
-  styleUrls: ["./link.css"],
-  providers: [LinkService]
+    selector: "link",
+    templateUrl: "./link.template.html",
+    styleUrls: ["./link.css"],
+    providers: [LinkService],
+    standalone: false
 })
 export class LinkComponent implements OnInit {
   public viewData: {

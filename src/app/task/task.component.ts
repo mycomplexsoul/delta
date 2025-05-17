@@ -8,10 +8,11 @@ const defaults = {};
 const noop = () => {};
 
 @Component({
-  selector: "task",
-  templateUrl: "./task.template.html",
-  styleUrls: ["./task.css"],
-  providers: [],
+    selector: "task",
+    templateUrl: "./task.template.html",
+    styleUrls: ["./task.css"],
+    providers: [],
+    standalone: false
 })
 export class TaskComponent implements OnInit {
   public format: string = "yyyy-MM-dd HH:mm:ss";

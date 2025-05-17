@@ -3,9 +3,10 @@ import { NotificationService } from "./notification.service";
 import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
-  selector: "drink-water",
-  templateUrl: "./drinkwater.template.html",
-  providers: [],
+    selector: "drink-water",
+    templateUrl: "./drinkwater.template.html",
+    providers: [],
+    standalone: false
 })
 export class DrinkWaterComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}

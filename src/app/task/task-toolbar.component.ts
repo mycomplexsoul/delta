@@ -4,10 +4,11 @@ import { TaskCore } from "./task.core";
 import { SyncAPI } from "../common/sync.api";
 
 @Component({
-  selector: "task-toolbar",
-  templateUrl: "./task-toolbar.template.html",
-  styleUrls: ["./task-toolbar.css"],
-  providers: [],
+    selector: "task-toolbar",
+    templateUrl: "./task-toolbar.template.html",
+    styleUrls: ["./task-toolbar.css"],
+    providers: [],
+    standalone: false
 })
 export class TaskToolbarComponent implements OnInit {
   @Input() task: Task = null;

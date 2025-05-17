@@ -8,7 +8,10 @@ import { AuthenticationService } from "./authentication.service";
 
 import { SyncAPI } from "./sync.api";
 
-@Component({ templateUrl: "./login.template.html", styleUrls: ["./login.css"] })
+@Component({
+    templateUrl: "./login.template.html", styleUrls: ["./login.css"],
+    standalone: false
+})
 export class LoginComponent implements OnInit {
   loginForm: UntypedFormGroup;
   loading = false;

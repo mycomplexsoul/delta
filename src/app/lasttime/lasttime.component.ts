@@ -11,10 +11,11 @@ import { LastTimeHistory } from "src/crosscommon/entities/LastTimeHistory";
 import { LastTimeHistoryService } from "./lasttimehistory.service";
 
 @Component({
-  selector: "lasttime",
-  templateUrl: "./lasttime.template.html",
-  styleUrls: ["./lasttime.css"],
-  providers: [LastTimeService, LastTimeHistoryService]
+    selector: "lasttime",
+    templateUrl: "./lasttime.template.html",
+    styleUrls: ["./lasttime.css"],
+    providers: [LastTimeService, LastTimeHistoryService],
+    standalone: false
 })
 export class LastTimeComponent implements OnInit {
   public viewData: {

@@ -16,10 +16,11 @@ import { totalExpenseByDate } from "./movement.indicators";
 import { NotificationService } from "../common/notification.service";
 
 @Component({
-  selector: "balance",
-  templateUrl: "./balance.template.html",
-  styleUrls: ["./balance.css"],
-  providers: [BalanceService, MovementService],
+    selector: "balance",
+    templateUrl: "./balance.template.html",
+    styleUrls: ["./balance.css"],
+    providers: [BalanceService, MovementService],
+    standalone: false
 })
 export class BalanceComponent implements OnInit {
   public viewData: {

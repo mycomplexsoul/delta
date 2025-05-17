@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: "checkbox-option",
-  templateUrl: "./checkbox-option.template.html",
-  providers: []
+    selector: "checkbox-option",
+    templateUrl: "./checkbox-option.template.html",
+    providers: [],
+    standalone: false
 })
 export class CheckboxOptionComponent {
   @Input() checked: boolean = false;

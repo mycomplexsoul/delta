@@ -5,10 +5,11 @@ import { Title } from "@angular/platform-browser";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 
 @Component({
-  selector: "results-report",
-  templateUrl: "./ResultsReport.html",
-  styleUrls: ["./ResultsReport.css"],
-  providers: [ResultsReportService]
+    selector: "results-report",
+    templateUrl: "./ResultsReport.html",
+    styleUrls: ["./ResultsReport.css"],
+    providers: [ResultsReportService],
+    standalone: false
 })
 export class ResultsReportComponent implements OnInit {
   public viewData: {

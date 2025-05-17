@@ -5,9 +5,10 @@ import { Subscription } from "rxjs";
 import { TextToSpeech } from "./speechRecognition";
 
 @Component({
-  selector: "notification",
-  styleUrls: ["./notification.css"],
-  templateUrl: "./notification.template.html",
+    selector: "notification",
+    styleUrls: ["./notification.css"],
+    templateUrl: "./notification.template.html",
+    standalone: false
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   private subscription: Subscription;

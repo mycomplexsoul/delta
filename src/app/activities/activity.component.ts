@@ -63,11 +63,12 @@ const ALL_STATUS_TEXT = [
 ];
 
 @Component({
-  selector: "activity",
-  templateUrl: "./activity.template.html",
-  styleUrls: ["./activity.css"],
-  encapsulation: ViewEncapsulation.None, // This helped consuming CSS from another components by importing in CSS files
-  providers: [ActivityService, TimelineService, KeyvalService, TaskCore],
+    selector: "activity",
+    templateUrl: "./activity.template.html",
+    styleUrls: ["./activity.css"],
+    encapsulation: ViewEncapsulation.None, // This helped consuming CSS from another components by importing in CSS files
+    providers: [ActivityService, TimelineService, KeyvalService, TaskCore],
+    standalone: false
 })
 export class ActivityComponent implements OnInit {
   public viewData: {

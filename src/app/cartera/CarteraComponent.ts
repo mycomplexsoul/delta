@@ -17,10 +17,11 @@ const UNIT_LIST: string[] | number[] = [
 ];
 
 @Component({
-  selector: "cartera",
-  templateUrl: "./Cartera.html",
-  styleUrls: ["./Cartera.css"],
-  providers: [CarteraService],
+    selector: "cartera",
+    templateUrl: "./Cartera.html",
+    styleUrls: ["./Cartera.css"],
+    providers: [CarteraService],
+    standalone: false
 })
 export class CarteraComponent implements OnInit {
   public viewData: {

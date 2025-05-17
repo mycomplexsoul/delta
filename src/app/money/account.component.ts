@@ -8,9 +8,10 @@ import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 
 @Component({
-  selector: "account",
-  templateUrl: "./account.template.html",
-  providers: [AccountService]
+    selector: "account",
+    templateUrl: "./account.template.html",
+    providers: [AccountService],
+    standalone: false
 })
 export class AccountComponent implements OnInit {
   public accountList: Array<Account> = [];

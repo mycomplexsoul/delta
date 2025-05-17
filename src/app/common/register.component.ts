@@ -7,7 +7,10 @@ import { AlertService } from "./alert.service";
 import { UserService } from "./user-login.service";
 import { AuthenticationService } from "./authentication.service";
 
-@Component({ templateUrl: "./register.template.html" })
+@Component({
+    templateUrl: "./register.template.html",
+    standalone: false
+})
 export class RegisterComponent implements OnInit {
   registerForm: UntypedFormGroup;
   loading = false;

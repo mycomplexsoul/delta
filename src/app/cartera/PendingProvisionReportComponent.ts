@@ -11,10 +11,11 @@ const OLD_PROVISION_AMOUNT = 1480;
 const PROVISION_AMOUNT = 1500;
 
 @Component({
-  selector: "pending-payments-report",
-  templateUrl: "./PendingProvisionReport.html",
-  styleUrls: ["./PendingProvisionReport.css"],
-  providers: [PendingProvisionService],
+    selector: "pending-payments-report",
+    templateUrl: "./PendingProvisionReport.html",
+    styleUrls: ["./PendingProvisionReport.css"],
+    providers: [PendingProvisionService],
+    standalone: false
 })
 export class PendingProvisionReportComponent implements OnInit {
   public viewData: {
