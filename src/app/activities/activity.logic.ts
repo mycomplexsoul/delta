@@ -1,6 +1,30 @@
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { Task } from "../../crosscommon/entities/Task";
 import { Timeline } from "../../crosscommon/entities/Timeline";
+import { Keyval } from "../../crosscommon/entities/Keyval";
+
+type activityAdditionalSchema = {
+  // raw data
+  keyvalItems: Keyval[];
+  tasks: Task[];
+  timeline: Timeline[];
+  // calculated from raw data
+  uniqueTasks: Task[];
+  timelineOnly: Timeline[];
+  notes: Timeline[];
+  notesHidden: Timeline[];
+  lastTimeline: Timeline;
+  health: string;
+};
+
+const ALL_STATUS_CODES = [
+  "CAPTURED",
+  "BACKLOG",
+  "OPEN",
+  "IN PROGRESS",
+  "VERIFICATION",
+  "CLOSED",
+];
 
 const tagTasks = (tasks: Task[], tag: string) =>
   tasks.filter((t) => t.tsk_tags && t.tsk_tags.includes(tag));
@@ -133,6 +157,8 @@ const calculateHealth = (timeline: Timeline): string => {
 };
 
 export {
+  activityAdditionalSchema,
+  ALL_STATUS_CODES,
   tagTasks,
   sortTasks,
   calculateUniqueTasks,

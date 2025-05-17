@@ -53,7 +53,10 @@ export class ActivityService {
     return this.sync
       .get(`${this.config.api.listing}`)
       .then((response) => {
-        const newData = {
+        const newData: {
+          activity: Activity[];
+          timeline: Timeline[];
+        } = {
           activity: response.data.activity
             .map((d: any): Activity => {
               const e = new Activity(d);
@@ -73,7 +76,10 @@ export class ActivityService {
       })
       .catch((err) => {
         console.log("Error parsing activity data", err);
-        return [];
+        return {} as {
+          activity: Activity[];
+          timeline: Timeline[];
+        };
       });
   }
 

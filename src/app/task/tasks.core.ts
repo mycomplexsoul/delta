@@ -991,6 +991,7 @@ export class TasksCore {
       })
       .catch((err) => {
         console.log(err);
+        return [] as Task[];
       });
   }
 

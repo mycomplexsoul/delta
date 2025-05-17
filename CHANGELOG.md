@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## v1.14.8 (2025-05-28) -- In Progress --
 
 1. [AppCommon] Updated to Angular v18
+2. [AppCommon] Updated to Angular v19
+3. [AppKanban][mod] Refactored activityList to signals
 
 ## v1.14.8 (2025-04-28)
 

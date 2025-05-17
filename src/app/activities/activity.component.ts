@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, signal, ViewEncapsulation } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
 import { Activity } from "../../crosscommon/entities/Activity";
@@ -27,30 +27,8 @@ import {
   calculateUniqueTasks,
   sortTasks,
   tagTasks,
+  ALL_STATUS_CODES,
 } from "./activity.logic";
-
-type activityAdditionalSchema = {
-  // raw data
-  keyvalItems: Keyval[];
-  tasks: Task[];
-  timeline: Timeline[];
-  // calculated from raw data
-  uniqueTasks: Task[];
-  timelineOnly: Timeline[];
-  notes: Timeline[];
-  notesHidden: Timeline[];
-  lastTimeline: Timeline;
-  health: string;
-};
-
-const ALL_STATUS_CODES = [
-  "CAPTURED",
-  "BACKLOG",
-  "OPEN",
-  "IN PROGRESS",
-  "VERIFICATION",
-  "CLOSED",
-];
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
 const ALL_STATUS_TEXT = [
@@ -63,17 +41,19 @@ const ALL_STATUS_TEXT = [
 ];
 
 @Component({
-    selector: "activity",
-    templateUrl: "./activity.template.html",
-    styleUrls: ["./activity.css"],
-    encapsulation: ViewEncapsulation.None, // This helped consuming CSS from another components by importing in CSS files
-    providers: [ActivityService, TimelineService, KeyvalService, TaskCore],
-    standalone: false
+  selector: "activity",
+  templateUrl: "./activity.template.html",
+  styleUrls: ["./activity.css"],
+  encapsulation: ViewEncapsulation.None, // This helped consuming CSS from another components by importing in CSS files
+  providers: [ActivityService, TimelineService, KeyvalService, TaskCore],
+  standalone: false,
 })
 export class ActivityComponent implements OnInit {
+  // UI state
+  public activityList = signal<Activity[]>([]);
+
   public viewData: {
     TEXT: any;
-    activityList: Activity[];
     showItemForm: boolean;
     timelineList: Timeline[];
     timelineKey: string;
@@ -109,7 +89,6 @@ export class ActivityComponent implements OnInit {
     };
   } = {
     TEXT: {},
-    activityList: [],
     showItemForm: false,
     timelineList: [],
     timelineKey: "activity|",
@@ -154,13 +133,13 @@ export class ActivityComponent implements OnInit {
   };
 
   public model: {
-    id: string;
-    activity: Activity;
+    id: string | null;
+    activity: Activity | null;
   } = {
     id: null,
     activity: null,
   };
-  public common: CommonComponent<Activity> = null;
+  public common: CommonComponent<Activity> | null = null;
   public tasks: Task[] = [];
 
   // handlers for TaskComponent
@@ -171,7 +150,26 @@ export class ActivityComponent implements OnInit {
         .map((t) => t.tsk_order)
         .reduce((prev, current) => (prev < current ? current : prev), 0) + 1,
   };
-  private taskService: TaskCore = null;
+  private taskService: TaskCore | null = null;
+
+  setTitle() {
+    this.titleService.setTitle(
+      `${DateUtils.dateToStringDate(DateUtils.dateOnly())} ${
+        TEXT.ACTIVITIES_PAGE_TITLE
+      }`
+    );
+  }
+
+  setSelectedProject() {
+    const searchParams = new URLSearchParams(window.location.search);
+    const selectedProject = searchParams.get("selectedProject");
+    if (selectedProject) {
+      this.viewData.selectedProject = selectedProject;
+    }
+    if (searchParams.get("sortDescending") === "false") {
+      this.viewData.sortGroupsDescending = false;
+    }
+  }
 
   constructor(
     private activityService: ActivityService,
@@ -184,34 +182,12 @@ export class ActivityComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     this.common = new CommonComponent<Activity>();
-    this.titleService.setTitle(
-      `${DateUtils.dateToStringDate(DateUtils.dateOnly())} ${
-        TEXT.ACTIVITIES_PAGE_TITLE
-      }`
-    );
-    const searchParams = new URLSearchParams(window.location.search);
-    const selectedProject = searchParams.get("selectedProject");
-    if (selectedProject) {
-      this.viewData.selectedProject = selectedProject;
-    }
-    if (searchParams.get("sortDescending") === "false") {
-      this.viewData.sortGroupsDescending = false;
-    }
+    this.setTitle();
+    this.setSelectedProject();
   }
 
   async render(fetchFromRemote: boolean = false) {
-    // const pipeline = [];
-
     if (fetchFromRemote) {
-      /* pipeline.push(
-        // Get Timeline
-        this.timelineService
-          .getTimelineForRecord(this.viewData.timelineKey)
-          .then(({ timeline }) => {
-            this.viewData.timelineList = timeline;
-          })
-      ); */
-
       await this.activityService
         .getAll2()
         .then((data: { activity: Activity[]; timeline: Timeline[] }) => {
@@ -219,30 +195,32 @@ export class ActivityComponent implements OnInit {
 
           // schema from server is: { additional: { keyvalItems, tasks, timeline } }
           // need to add/calculate: { additional: { uniqueTasks, timelineOnly, notes, notesHidden, lastTimeline, health } }
-          this.viewData.activityList = activityList.map((e: Activity) => ({
-            ...e,
-            additional: {
-              ...e.additional,
-              uniqueTasks: calculateUniqueTasks(e.additional.tasks),
-              timelineOnly: calculateTimelineOnly(
-                e.additional.timeline,
-                this.viewData.timelineKey,
-                e.act_id
-              ),
-              notes: calculateNotes(
-                e.additional.timeline,
-                this.viewData.timelineKey,
-                e.act_id
-              ),
-              notesHidden: calculateNotesHidden(
-                e.additional.timeline,
-                this.viewData.timelineKey,
-                e.act_id
-              ),
-              lastTimeline: e.additional.timeline?.at(-1),
-              health: calculateHealth(e.additional.timeline?.at(-1)),
-            },
-          }));
+          this.activityList.set(
+            activityList.map((e: Activity) => ({
+              ...e,
+              additional: {
+                ...e.additional,
+                uniqueTasks: calculateUniqueTasks(e.additional.tasks),
+                timelineOnly: calculateTimelineOnly(
+                  e.additional.timeline,
+                  this.viewData.timelineKey,
+                  e.act_id
+                ),
+                notes: calculateNotes(
+                  e.additional.timeline,
+                  this.viewData.timelineKey,
+                  e.act_id
+                ),
+                notesHidden: calculateNotesHidden(
+                  e.additional.timeline,
+                  this.viewData.timelineKey,
+                  e.act_id
+                ),
+                lastTimeline: e.additional.timeline?.at(-1),
+                health: calculateHealth(e.additional.timeline?.at(-1)),
+              },
+            }))
+          );
 
           const dayList = DateUtils.daysForLocale("es");
 
@@ -251,7 +229,7 @@ export class ActivityComponent implements OnInit {
             const day = result.days.find(
               (d) => d.date.getTime() === date.getTime()
             );
-            const relatedActivity = this.viewData.activityList.find(
+            const relatedActivity = this.activityList().find(
               ({ act_id }) => act_id === t.tim_id_record.split("|")[1]
             );
 
@@ -272,7 +250,7 @@ export class ActivityComponent implements OnInit {
               });
             } else {
               const foundActivity = day.activityList.find(
-                ({ act_id }) => act_id === relatedActivity.act_id
+                ({ act_id }) => act_id === relatedActivity?.act_id
               );
               if (foundActivity) {
                 foundActivity.additional.timeline.push(t);
@@ -297,7 +275,7 @@ export class ActivityComponent implements OnInit {
         });
 
       // get project id's
-      this.viewData.projectList = this.viewData.activityList.reduce(
+      this.viewData.projectList = this.activityList().reduce(
         (prev, current) => {
           const projectId = current.act_tasks_tag.split("-")[0];
           const found = prev.find((p) => p.id === projectId);
@@ -306,7 +284,7 @@ export class ActivityComponent implements OnInit {
             prev.push({
               id: projectId,
               name: projectId,
-              count: this.viewData.activityList.filter(
+              count: this.activityList().filter(
                 (a) =>
                   a.act_tasks_tag.startsWith(projectId) && a.act_ctg_status < 6
               ).length,
@@ -318,63 +296,19 @@ export class ActivityComponent implements OnInit {
           {
             id: "ALL",
             name: "ALL",
-            count: this.viewData.activityList.filter(
-              (a) => a.act_ctg_status < 6
-            ).length,
+            count: this.activityList().filter((a) => a.act_ctg_status < 6)
+              .length,
           },
         ]
       );
     }
 
-    this.viewData.activityList.forEach((a) => {
-      // @migrated
-      const tagTaskList = tagTasks(this.tasks, a.act_tasks_tag);
-
-      /* a["additional"] = {
-        tasks: tagTaskList.sort(sortTasks),
-        keyvalItems: this.viewData.keyvalList.filter((item) =>
-          this.findById(item, "key_id", a.act_id)
-        ),
-        timeline: calculateTimelineOnly(
-          this.viewData.timelineList,
-          this.viewData.timelineKey,
-          a.act_id
-        ),
-        uniqueTasks: calculateUniqueTasks(tagTaskList),
-        notes: calculateNotes(
-          this.viewData.timelineList,
-          this.viewData.timelineKey,
-          a.act_id
-        ),
-        notesHidden: calculateNotesHidden(
-          this.viewData.timelineList,
-          this.viewData.timelineKey,
-          a.act_id
-        ),
-        health: "activity-health-undetermined",
-        lastTimeline: null,
-      }; */
-
-      /* if (a.additional.timeline?.length > 0) {
-        const sorted = a.additional.timeline.filter(
-          (t: Timeline) => !t.tim_tags.includes("note")
-        );
-
-        sorted.sort((a: Timeline, b: Timeline) => {
-          if (
-            new Date(a.tim_date).getTime() > new Date(b.tim_date).getTime()
-          ) {
-            return 1;
-          }
-          return -1;
-        });
-        a.additional.lastTimeline = sorted.at(-1);
-        a.additional.health = calculateHealth(a.additional.lastTimeline);
-      } */
+    this.activityList().forEach((a) => {
+      tagTasks(this.tasks, a.act_tasks_tag);
     });
 
     this.viewData.healthGroup = this.generateHealthGroupData(
-      this.viewData.activityList,
+      this.activityList(),
       this.viewData.selectedProject
     );
 
@@ -449,52 +383,73 @@ export class ActivityComponent implements OnInit {
     list: Activity[],
     key: string,
     properties?: (e: Activity) => any
-  ): Array<any> {
-    return list.reduce((response, item) => {
-      const group = response.find((g) => g.key === item[key]);
+  ): {
+    key: string;
+    act_ctg_status: number;
+    act_txt_status: string;
+    items: Activity[];
+    [key: string]: any;
+  }[] {
+    return list.reduce(
+      (
+        response: Array<{
+          key: string;
+          act_ctg_status: number;
+          act_txt_status: string;
+          items: Activity[];
+          [key: string]: any;
+        }>,
+        item
+      ) => {
+        const group = response.find((g) => g.key === item[key]);
 
-      if (item[key] === 6) {
-        // keep only activities that were closed within current month
-        const currentMonthDate: Date = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          1
-        );
-        const closedDate: Date = item.additional?.keyvalItems?.find(
-          (k) => k.key_name === "ACT_DATE_TO_CLOSED"
-        )
-          ? DateUtils.stringDateToDate(
-              item.additional?.keyvalItems?.find(
-                (k) => k.key_name === "ACT_DATE_TO_CLOSED"
-              ).key_value
-            )
-          : null;
-        if (!closedDate || closedDate.getTime() < currentMonthDate.getTime()) {
-          // skip this one, is an old activity
-          return response;
+        if (item[key] === 6) {
+          // keep only activities that were closed within current month
+          const currentMonthDate: Date = new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            1
+          );
+          const closedDate: Date = item.additional?.keyvalItems?.find(
+            (k) => k.key_name === "ACT_DATE_TO_CLOSED"
+          )
+            ? DateUtils.stringDateToDate(
+                item.additional?.keyvalItems?.find(
+                  (k) => k.key_name === "ACT_DATE_TO_CLOSED"
+                ).key_value
+              )
+            : null;
+          if (
+            !closedDate ||
+            closedDate.getTime() < currentMonthDate.getTime()
+          ) {
+            // skip this one, is an old activity
+            return response;
+          }
         }
-      }
 
-      if (group) {
-        group.items.push(item);
-      } else {
-        response.push({
-          key: item[key],
-          ...properties(item),
-          items: [item],
-        });
-      }
-      return response;
-    }, []);
+        if (group) {
+          group.items.push(item);
+        } else {
+          response.push({
+            key: item[key],
+            ...properties?.(item),
+            items: [item],
+          });
+        }
+        return response;
+      },
+      []
+    );
   }
 
   generateViewData() {
     this.viewData.activityGroups = this.groupByProperty(
       this.viewData.selectedProject !== "ALL"
-        ? this.viewData.activityList.filter((a) =>
+        ? this.activityList().filter((a) =>
             a.act_tasks_tag.startsWith(this.viewData.selectedProject)
           )
-        : this.viewData.activityList,
+        : this.activityList(),
       "act_ctg_status",
       (e) => ({ act_txt_status: ALL_STATUS_TEXT[e.act_ctg_status - 1] })
     ).toSorted(
@@ -514,10 +469,10 @@ export class ActivityComponent implements OnInit {
   newItem(form: NgForm) {
     if (this.model.id) {
       // edit item
-      this.common.updateItem({
+      this.common?.updateItem({
         form,
         model: this.model,
-        listing: this.viewData.activityList,
+        listing: this.activityList(),
         onFindExpression: (item) =>
           this.findById(item, "act_id", this.model.id),
         onAssignForEdit: (item, formValues) => {
@@ -540,9 +495,9 @@ export class ActivityComponent implements OnInit {
       });
     } else {
       // new item
-      this.common.newItem({
+      this.common?.newItem({
         form,
-        listing: this.viewData.activityList,
+        listing: this.activityList(),
         onFindExpression: (item, newItem) =>
           this.findById(item, "act_id", newItem.act_id),
         onAssignForCreate: (formValues) => {
@@ -578,7 +533,7 @@ export class ActivityComponent implements OnInit {
       });
     }
 
-    this.common.resetForm(form, () => {
+    this.common?.resetForm(form, () => {
       this.model.id = null;
     });
     this.viewData.showItemForm = false;
@@ -593,53 +548,14 @@ export class ActivityComponent implements OnInit {
     // let act: Activity;
 
     // Set activity
-    this.model.activity = this.viewData.activityList.find((item) =>
+    this.model.activity = this.activityList().find((item) =>
       this.findById(item, "act_id", id)
     );
 
-    // Get Keyval
-    /* this.model.keyval = this.viewData.keyvalList.filter((item) =>
-      this.findById(item, "key_id", id)
-    ); */
-
     // get tasks
-    if (this.model.activity.act_tasks_tag) {
+    if (this.model.activity?.act_tasks_tag) {
       this.tasksService.getTasks().then((tasks: Task[]) => {
-        /* const tagTasks = tasks.filter(
-          (t) => t.tsk_tags && t.tsk_tags.includes(model.act_tasks_tag)
-        ); */
-
-        /* this.model.tasks = tagTasks.sort(sortTasks); */
-
-        /* this.model.additional = {
-          ...this.model.additional,
-          tasks: this.model.tasks,
-          timeline: this.viewData.timelineList
-            .filter(
-              (t) =>
-                t.tim_id_record ===
-                  this.viewData.timelineKey + model["act_id"] &&
-                !t.tim_tags.includes("note")
-            )
-            .map((t) => {
-              t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
-              return t;
-            }),
-          notes: this.viewData.timelineList.filter(
-            (t) =>
-              t.tim_id_record === this.viewData.timelineKey + model.act_id &&
-              t.tim_tags.includes("note") &&
-              !t.tim_tags.includes("note-hidden")
-          ),
-          notesHidden: this.viewData.timelineList.filter(
-            (t) =>
-              t.tim_id_record === this.viewData.timelineKey + model.act_id &&
-              t.tim_tags.includes("note-hidden")
-          ),
-          lastTimeline: null,
-        }; */
-
-        this.model.id = this.model.activity.act_id; // to tell the form that this is an edition
+        this.model.id = this.model.activity?.act_id; // to tell the form that this is an edition
         if (!this.viewData.showItemForm) {
           this.viewData.showItemForm = !this.viewData.showItemForm;
         }
@@ -648,11 +564,11 @@ export class ActivityComponent implements OnInit {
         setTimeout(() => {
           if (form) {
             // form.controls["fProjectId"].setValue(this.model.activity["act_id_project"]);
-            form.controls["fName"].setValue(this.model.activity["act_name"]);
+            form.controls["fName"].setValue(this.model.activity?.["act_name"]);
             // form.controls["fDescription"].setValue(this.model.activity["act_description"]);
-            form.controls["fTags"].setValue(this.model.activity["act_tags"]);
+            form.controls["fTags"].setValue(this.model.activity?.["act_tags"]);
             form.controls["fTasksTag"].setValue(
-              this.model.activity["act_tasks_tag"]
+              this.model.activity?.["act_tasks_tag"]
             );
             // form.controls["fCloseComment"].setValue(this.model.activity["act_close_comment"]);
             // form.controls["fCtgStatus"].setValue(this.model.activity["act_ctg_status"]);
@@ -672,7 +588,7 @@ export class ActivityComponent implements OnInit {
       throw new Error("id should not be empty");
     }
 
-    const item: Activity = this.viewData.activityList.find(
+    const item: Activity | undefined = this.activityList().find(
       ({ act_id }) => act_id === id
     );
 
@@ -779,7 +695,7 @@ export class ActivityComponent implements OnInit {
       GAM: "Business",
       VEN: "Business",
     };
-    const t = this.taskService.createTask(
+    const t = this.taskService?.createTask(
       {
         tsk_name: `[${
           TAG_TO_RECORD_MAP[item.act_tasks_tag.split("-")[0].toUpperCase()]
@@ -806,7 +722,7 @@ export class ActivityComponent implements OnInit {
   handleNewTimeline($event: { timeline: Timeline }) {
     // $event => { timeline: Timeline }
     this.viewData.timelineList.push($event.timeline);
-    this.model.activity.additional.timeline.push($event.timeline);
+    this.model.activity?.additional.timeline.push($event.timeline);
     this.render(false);
   }
 
@@ -826,8 +742,8 @@ export class ActivityComponent implements OnInit {
   }
 
   obtainLastFolioByProject(): Array<any> {
-    const { activityList, projectList, selectedProject } = this.viewData;
-    const folioList: any = activityList.reduce(
+    const { projectList, selectedProject } = this.viewData;
+    const folioList: any = this.activityList().reduce(
       (folios, act) => {
         const [proj, folio] = act.act_tasks_tag.split("-");
         const maxFolio = parseInt(folios[proj].split("-")[1]);
