@@ -2,6 +2,7 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 import { Task } from "../../crosscommon/entities/Task";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 import { Keyval } from "../../crosscommon/entities/Keyval";
+import { Activity } from "src/crosscommon/entities/Activity";
 
 type activityAdditionalSchema = {
   // raw data
@@ -156,6 +157,85 @@ const calculateHealth = (timeline: Timeline): string => {
   return "activity-health-red";
 };
 
+const groupByProperty = (
+  list: Activity[],
+  key: string,
+  properties?: (e: Activity) => any
+): {
+  key: string;
+  act_ctg_status: number;
+  act_txt_status: string;
+  items: Activity[];
+  [key: string]: any;
+}[] => {
+  return list.reduce(
+    (
+      response: Array<{
+        key: string;
+        act_ctg_status: number;
+        act_txt_status: string;
+        items: Activity[];
+        [key: string]: any;
+      }>,
+      item
+    ) => {
+      const group = response.find((g) => g.key === item[key]);
+
+      if (item[key] === 6) {
+        // keep only activities that were closed within current month
+        const currentMonthDate: Date = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+        );
+        const closedDate: Date = item.additional?.keyvalItems?.find(
+          (k: Keyval) => k.key_name === "ACT_DATE_TO_CLOSED"
+        )
+          ? DateUtils.stringDateToDate(
+              item.additional?.keyvalItems?.find(
+                (k: Keyval) => k.key_name === "ACT_DATE_TO_CLOSED"
+              ).key_value
+            )
+          : null;
+        if (!closedDate || closedDate.getTime() < currentMonthDate.getTime()) {
+          // skip this one, is an old activity
+          return response;
+        }
+      }
+
+      if (group) {
+        group.items.push(item);
+      } else {
+        response.push({
+          key: item[key],
+          ...properties?.(item),
+          items: [item],
+        });
+      }
+      return response;
+    },
+    []
+  );
+};
+
+const calculateActivityGroups = (
+  activityList: Activity[],
+  selectedProject: string,
+  sortGroupsDescending: boolean,
+  ALL_STATUS_TEXT: string[]
+) => {
+  return groupByProperty(
+    selectedProject !== "ALL"
+      ? activityList.filter((a) => a.act_tasks_tag.startsWith(selectedProject))
+      : activityList,
+    "act_ctg_status",
+    (e) => ({ act_txt_status: ALL_STATUS_TEXT[e.act_ctg_status - 1] })
+  ).toSorted(
+    (a, b) =>
+      (Number(a.key) > Number(b.key) ? 1 : -1) * (sortGroupsDescending ? -1 : 1)
+  );
+};
+
 export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
@@ -168,4 +248,6 @@ export {
   sortTimelineList,
   calculateLastTimeline,
   calculateHealth,
+  groupByProperty,
+  calculateActivityGroups,
 };

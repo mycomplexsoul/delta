@@ -1,4 +1,10 @@
-import { Component, OnInit, signal, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  computed,
+  OnInit,
+  signal,
+  ViewEncapsulation,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
 import { Activity } from "../../crosscommon/entities/Activity";
@@ -28,6 +34,7 @@ import {
   sortTasks,
   tagTasks,
   ALL_STATUS_CODES,
+  calculateActivityGroups,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -53,16 +60,27 @@ export class ActivityComponent implements OnInit {
   public activityList = signal<Activity[]>([]);
   public showItemForm = signal(false);
 
+  // Computed UI state
+  public activityGroups = computed<
+    Array<{
+      act_ctg_status: number;
+      act_txt_status: string;
+      items: Activity[];
+    }>
+  >(() =>
+    calculateActivityGroups(
+      this.activityList(),
+      this.viewData.selectedProject,
+      this.viewData.sortGroupsDescending,
+      ALL_STATUS_TEXT
+    )
+  );
+
   public viewData: {
     TEXT: any;
     timelineList: Timeline[];
     timelineKey: string;
     keyvalList: Keyval[];
-    activityGroups: Array<{
-      act_ctg_status: number;
-      act_txt_status: string;
-      items: Activity[];
-    }>;
     projectList: Array<{
       id: string;
       name: string;
@@ -92,7 +110,6 @@ export class ActivityComponent implements OnInit {
     timelineList: [],
     timelineKey: "activity|",
     keyvalList: [],
-    activityGroups: [],
     projectList: [
       {
         id: "ALL",
@@ -311,7 +328,6 @@ export class ActivityComponent implements OnInit {
       this.viewData.selectedProject
     );
 
-    this.generateViewData();
     if (this.model.id) {
       this.viewData.nextFolioList = [];
     } else {
@@ -439,22 +455,6 @@ export class ActivityComponent implements OnInit {
         return response;
       },
       []
-    );
-  }
-
-  generateViewData() {
-    this.viewData.activityGroups = this.groupByProperty(
-      this.viewData.selectedProject !== "ALL"
-        ? this.activityList().filter((a) =>
-            a.act_tasks_tag.startsWith(this.viewData.selectedProject)
-          )
-        : this.activityList(),
-      "act_ctg_status",
-      (e) => ({ act_txt_status: ALL_STATUS_TEXT[e.act_ctg_status - 1] })
-    ).toSorted(
-      (a, b) =>
-        (Number(a.key) > Number(b.key) ? 1 : -1) *
-        (this.viewData.sortGroupsDescending ? -1 : 1)
     );
   }
 
