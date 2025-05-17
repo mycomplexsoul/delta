@@ -150,7 +150,7 @@ export class CarteraServer {
       cpr_id_unit: unitId,
       cpr_date: new Date(year, month - 1, 1),
       cpr_concept: extraordinary
-        ? "Cuota Extraordinaria"
+        ? this.buildConcept("Cuota Extraordinaria", year, month)
         : this.buildConcept("Cuota de Mantenimiento", year, month),
       cpr_code_reference: `${
         extraordinary ? CODE_EXTRA : CODE_NORMAL
@@ -614,10 +614,10 @@ export class CarteraServer {
             2,
             -1
           )}`,
-          cpr_amount: 148,
+          cpr_amount: 150,
           cpr_condoned: 0,
           cpr_payed: 0,
-          cpr_remaining: 148,
+          cpr_remaining: 150,
           cpr_id_user: user,
           cpr_folio: null,
           cpr_type: "cuota-penalidad",

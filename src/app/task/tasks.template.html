@@ -18,7 +18,16 @@
       (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"
       [(ngModel)]="tsk_multiple_name"
       spellcheck="false"
+      autofocus="true"
     ></textarea>
+    <label for="target_date">Target date</label>
+    <input
+      type="date"
+      id="target_date"
+      name="target_date"
+      style="width: fit-content"
+      [(ngModel)]="targetDate"
+    />
   </div>
   <button
     type="submit"
@@ -46,10 +55,10 @@
   <div *ngIf="viewETABeforeAdd">
     <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>
     <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>
-    <span *ngFor="let r of state.beforeAddETA">
+    <div *ngFor="let r of state.beforeAddETA">
       [{{ r.record }}: {{ formatTime(r.totalETA * 60) }} /
       {{r.totalETAPercentage}}%]
-    </span>
+    </div>
   </div>
 </form>
 <div *ngIf="viewOptions">
@@ -1118,6 +1127,9 @@
             'task-next-time-behind': 0 <= differenceLastClosedToRealTime
           }"
         ></time-format>
+        <span *ngIf="state.inProgressTasksCount > 0">
+          | {{ state.inProgressTasksCount }} in progress
+        </span>
       </div>
       <div
         *ngIf="!options.optCollapseNextTasks"

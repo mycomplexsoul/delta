@@ -27,7 +27,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.7 (2024-03-28) -- In Progress --
+## v1.14.8 (2025-04-30) -- In Progress --
+
+1. [AppCartera][mod] Improved period detection on batch payments interpreter
+2. [AppCartera][mod] ResultsReport css improvements to print in single page
+3. [AppCartera][mod] ResultsReport show sign list only on desktop, mobile gets hidden
+4. [AppTasks][new] Added target date for batch new tasks
+5. [AppTasks][new] Added in progress count to Next To Do section
+6. [AppCartera][mod] Added proper provision concept for extraordinary provisions
+
+## v1.14.7 (2024-03-28)
 
 1. [AppCommon][mod] Update dependencies
 2. [AppMoney][mod] Balance page - Add totals to category totals graph

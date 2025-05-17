@@ -31,11 +31,16 @@
   }
 
   .results-summary {
-    margin-top: 100px;
+    margin-top: 50px;
+  }
+
+  .results-top-block,
+  .results-movements {
+    margin-top: 20px;
   }
 
   .results-top-block-50 {
-    margin-top: 50px;
+    margin-top: 20px;
   }
 
   .results-sign-list table {
@@ -61,16 +66,5 @@
 @media (max-width: 504px) {
   .results-summary table {
     width: 50%;
-  }
-}
-
-@media print {
-  .results-top-block,
-  .results-movements {
-    margin-top: 50px;
-  }
-
-  .results-top-block-50 {
-    margin-top: 20px;
   }
 }

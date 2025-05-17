@@ -74,7 +74,7 @@ export class TasksCore {
     return T[T.length - 1];
   }
 
-  batchAddTasks(tasks: Array<any>, options: any) {
+  batchAddTasks(tasks: Array<any>, options: any, tsk_date_due: Date = null) {
     let T = this.data.taskList;
     let parsedTask: any;
     let list: Array<any> = [];
@@ -89,6 +89,7 @@ export class TasksCore {
         parsedTask = this.parseTask(
           {
             tsk_date_add: DateUtils.newDateUpToSeconds(),
+            tsk_date_due,
             tsk_name: text,
           },
           options
@@ -297,7 +298,9 @@ export class TasksCore {
         task.tsk_ctg_status = 1; // BACKLOG
       } else {
         task.tsk_ctg_status = 2; // OPEN
-        task.tsk_date_due = DateUtils.dateOnly(new Date());
+        if (!task.tsk_date_due) {
+          task.tsk_date_due = DateUtils.dateOnly(new Date());
+        }
       }
     }
 

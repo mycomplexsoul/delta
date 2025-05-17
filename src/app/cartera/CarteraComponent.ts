@@ -328,6 +328,8 @@ export class CarteraComponent implements OnInit {
         this.model.nextPeriod = String(nextMonthIterable.iterable);
 
         // Periods for extraordinary provision generation
+        month = DateUtils.dateOnly().getMonth() + 1;
+        year = DateUtils.dateOnly().getFullYear();
         const baseMonth = DateUtils.getIterableCurrentMonth(year, month);
         const baseMonth1 = DateUtils.getIterableNextMonth(year, month);
         this.viewData.nextMonthsForExtraordinaryProvisions = [
@@ -749,14 +751,19 @@ export class CarteraComponent implements OnInit {
     const baseYear = DateUtils.dateOnly().getFullYear();
     const baseMonth = DateUtils.dateOnly().getMonth() + 1;
 
-    const parseDayOfMonth = (raw: number): Date =>
+    const parseDayOfMonth = (raw: string[]): Date =>
       DateUtils.stringDateToDate(
-        `${baseYear}-${DateUtils.fillString(
-          baseMonth,
+        `${raw.length === 3 ? raw[0] : baseYear}-${DateUtils.fillString(
+          raw.length === 3 ? raw[1] : raw.length === 2 ? raw[0] : baseMonth,
           2,
           -1,
           "0"
-        )}-${DateUtils.fillString(raw, 2, -1, "0")}`
+        )}-${DateUtils.fillString(
+          raw.length === 3 ? raw[2] : raw.length === 2 ? raw[1] : raw[0],
+          2,
+          -1,
+          "0"
+        )}`
       );
 
     const parseMonthRule = (
@@ -799,7 +806,7 @@ export class CarteraComponent implements OnInit {
 
         return {
           unit: parts[0],
-          date: parseDayOfMonth(parseInt(parts[1])), // TODO: Add support to provide MonthDayIdentificationRule to provide month and day
+          date: parseDayOfMonth(parts[1].split("-")),
           amount: parseFloat(parts[2]),
           details:
             parts.length === 3

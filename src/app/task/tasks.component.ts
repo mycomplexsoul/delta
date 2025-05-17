@@ -39,6 +39,7 @@ export class TasksComponent implements OnInit {
   public delayOnUpdateState: number = 100;
   public groupHeader: string;
   public timers: any = {};
+  public targetDate: string;
 
   public viewPostponed: boolean = false;
   public viewReportsWeek: boolean = false;
@@ -310,12 +311,17 @@ export class TasksComponent implements OnInit {
         form.controls.tsk_name.reset();
       }
     } else {
+      const { target_date } = form.value;
+      const targetDate: Date = target_date
+        ? new Date(target_date.split("-"))
+        : this.services.dateUtils.dateOnly();
       // Batch add
       let t: any;
       if (form.value.tsk_multiple_name) {
         const added = this.services.tasksCore.batchAddTasks(
           form.value.tsk_multiple_name.split("\n"),
-          this.options
+          this.options,
+          targetDate
         );
         this.tasks = this.services.tasksCore.tasks();
         form.controls.tsk_multiple_name.reset();
@@ -520,6 +526,11 @@ export class TasksComponent implements OnInit {
         (t.tsk_date_view_until
           ? new Date(t.tsk_date_view_until) > today
           : false)
+    ).length;
+
+    // count how many tasks are in progress
+    this.state.inProgressTasksCount = this.tasks.filter(
+      (t) => t.tsk_ctg_in_process === 2
     ).length;
 
     // Indicators
@@ -1066,8 +1077,12 @@ export class TasksComponent implements OnInit {
         this.lastDateDoneEntryFromDay(new Date()) ||
         this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
         this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -2)) ||
-        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -3));
-      if (dateDone.getTime() < lastDateDoneEntryFromDay.getTime()) {
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -3)) ||
+        this.lastDateDoneEntryFromDay(DateUtils.addDays(new Date(), -4));
+      if (
+        lastDateDoneEntryFromDay !== null &&
+        dateDone.getTime() < lastDateDoneEntryFromDay.getTime()
+      ) {
         dateDone = DateUtils.addSeconds(lastDateDoneEntryFromDay, 1);
       }
     }
@@ -1568,6 +1583,11 @@ export class TasksComponent implements OnInit {
       this.showBatchAdd = !this.showBatchAdd;
 
       autogrowSetup({ componentWillBeVisible: this.showBatchAdd });
+      // set target date to today
+      const targetDateInput = document.querySelector(
+        "#target_date"
+      ) as HTMLInputElement;
+      targetDateInput.value = DateUtils.formatDate(DateUtils.dateOnly());
 
       this.viewETABeforeAdd = false;
       setTimeout(() => {
@@ -1614,6 +1634,10 @@ export class TasksComponent implements OnInit {
           totalTasksWritten++;
         }
       });
+      // sort by time desc
+      totalPerRecord = totalPerRecord.sort((a, b) =>
+        a.totalETA >= b.totalETA ? -1 : 1
+      );
       // Calculate totals in percentage form
       Object.keys(totalPerRecord).forEach((e) => {
         totalPerRecord[e].totalETAPercentage =
@@ -3169,6 +3193,14 @@ export class TasksComponent implements OnInit {
         )
       );
     }
+    if (!tt) {
+      // no task, try 4 days earlier
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(
+          this.services.dateUtils.addDays(new Date(), -4)
+        )
+      );
+    }
     const calcRandomFinish = (estimated) =>
       (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
     if (tt && t["tsk_time_history"].length) {
@@ -3240,6 +3272,11 @@ export class TasksComponent implements OnInit {
         projectionDate.getTime() + t.tsk_estimated_duration * 60 * 1000
       );
     });
+
+    // count how many tasks are in progress
+    this.state.inProgressTasksCount = this.tasks.filter(
+      (t) => t.tsk_ctg_in_process === 2
+    ).length;
   }
 
   removeQualifiersFromTask(t: Task) {

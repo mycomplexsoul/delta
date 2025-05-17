@@ -58,6 +58,14 @@
 }
 /* #endregion */
 
+/*
+TODO: Review how to use light-dark https://x.com/argyleink/status/1773387209925869752?s=09 because it gets mixed for dark mode and light mode
+:root {
+  color-scheme: light dark;
+  --task-time-ahead: light-dark(#afff94, #afff94);
+  --task-time-behind: light-dark(#ffa9a9, #701414);
+}*/
+
 /* #region Master Styles */
 h1 {
   color: #369;
