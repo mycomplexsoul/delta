@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1747507693419,
+  "timestamp": 1747510855951,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -19,9 +19,9 @@
         "/chunk-TXDUYLVM.js",
         "/favicon.ico",
         "/index.html",
-        "/main-4CR2KTGU.js",
+        "/main-D6S36HB7.js",
         "/manifest.webmanifest",
-        "/polyfills-N42GERQG.js",
+        "/polyfills-ICJLJU4D.js",
         "/styles-PPKNAAAL.css"
       ],
       "patterns": []
@@ -45,7 +45,8 @@
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
         "/assets/icons/people.svg",
-        "/assets/icons/smartphone.svg"
+        "/assets/icons/smartphone.svg",
+        "/assets/images/firma-comite.png"
       ],
       "patterns": []
     }
@@ -64,6 +65,7 @@
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/assets/icons/people.svg": "8449e2e3731a3fafc26c80c0d785b9b0fbe3c0bd",
     "/assets/icons/smartphone.svg": "13031b9b8dbe1959b13cabc2bc5b62ecd4b8642a",
+    "/assets/images/firma-comite.png": "a82c28413f5f5cbbd5feba6e9f0b9afd23b1bc4a",
     "/chunk-7YWLATDR.js": "2a6e77e8cb581d26bcf1f3e853e2161ac196bccd",
     "/chunk-I5KACP3P.js": "2a8a8a20ce2d4060bf2a4cda538f04d344a9c5fc",
     "/chunk-KYOWWSXE.js": "d3ffa32df45be05f47024be11122adae884668aa",
@@ -71,10 +73,10 @@
     "/chunk-QKQMOMIC.js": "36704ddffcfd3a136fcd8f6332ff79c68e0c684a",
     "/chunk-TXDUYLVM.js": "536ac469f4fcc7b704f94eb4cf6263f835bd6803",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "f0ab4c8651f3b739efe07ccde2f6137fad5a719a",
-    "/main-4CR2KTGU.js": "0ff0d0f60ac4044c7a6a71e7d619b4a62e51a3e8",
+    "/index.html": "330b1330255950b4ec82569f11c12f3278f0114d",
+    "/main-D6S36HB7.js": "df06203f9ae3e80dc2b9876e9f462530b1e1894e",
     "/manifest.webmanifest": "f007557c731ca82b5c8546a06399847411e838d7",
-    "/polyfills-N42GERQG.js": "a6227982d993a675430dfb90b76934ba61944716",
+    "/polyfills-ICJLJU4D.js": "e0955022cfb11b672c7169b456a18248d98ba5a5",
     "/styles-PPKNAAAL.css": "c0596480c4b3cf0237f8416d258a48733935b601"
   },
   "navigationUrls": [

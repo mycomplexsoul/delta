@@ -36,10 +36,10 @@
 
   <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
     <button type="button" (click)="toggleShowItemForm()" class="hide-on-print">
-      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+      {{ showItemForm() ? "Hide Form" : "New Item" }}
     </button>
 
-    <div id="newItemFormSection" *ngIf="viewData.showItemForm">
+    <div id="newItemFormSection" *ngIf="showItemForm()">
       <span class="field" *ngIf="model.id">
         <label for="id" class="label-left">Id</label>
         <span type="text" name="id" id="id" class="field-input-small"

@@ -51,10 +51,10 @@ const ALL_STATUS_TEXT = [
 export class ActivityComponent implements OnInit {
   // UI state
   public activityList = signal<Activity[]>([]);
+  public showItemForm = signal(false);
 
   public viewData: {
     TEXT: any;
-    showItemForm: boolean;
     timelineList: Timeline[];
     timelineKey: string;
     keyvalList: Keyval[];
@@ -89,7 +89,6 @@ export class ActivityComponent implements OnInit {
     };
   } = {
     TEXT: {},
-    showItemForm: false,
     timelineList: [],
     timelineKey: "activity|",
     keyvalList: [],
@@ -133,7 +132,7 @@ export class ActivityComponent implements OnInit {
   };
 
   public model: {
-    id: string | null;
+    id: string | null | undefined;
     activity: Activity | null;
   } = {
     id: null,
@@ -460,10 +459,10 @@ export class ActivityComponent implements OnInit {
   }
 
   toggleShowItemForm() {
-    if (this.viewData.showItemForm) {
+    if (this.showItemForm()) {
       this.model.id = null;
     }
-    this.viewData.showItemForm = !this.viewData.showItemForm;
+    this.showItemForm.set(!this.showItemForm());
   }
 
   newItem(form: NgForm) {
@@ -478,13 +477,9 @@ export class ActivityComponent implements OnInit {
         onAssignForEdit: (item, formValues) => {
           const newItem = new Activity(item);
 
-          // newItem.act_id_project = formValues.fProjectId;
           newItem.act_name = formValues.fName;
-          // newItem.act_description = formValues.fDescription;
           newItem.act_tags = formValues.fTags;
           newItem.act_tasks_tag = formValues.fTasksTag;
-          // newItem.act_close_comment = formValues.fCloseComment;
-          // newItem.act_ctg_status = formValues.fCtgStatus;
 
           return newItem;
         },
@@ -513,7 +508,6 @@ export class ActivityComponent implements OnInit {
           return newItem;
         },
         onNewItemService: async (item) => {
-          // augment with Keyval info
           item["keyvalItems"] = {
             ACT_DATE_REQUESTED: DateUtils.formatDate(
               DateUtils.newDateUpToSeconds()
@@ -522,11 +516,10 @@ export class ActivityComponent implements OnInit {
 
           const newItem = await this.activityService.newItem(item);
           newItem.act_txt_status = ALL_STATUS_TEXT[newItem.act_ctg_status - 1];
-          // this.viewData.activityList.push(newItem);
           return newItem;
         },
         onFinalExecution: () => {
-          this.viewData.showItemForm = false;
+          this.showItemForm.set(false);
           this.model.id = null;
           this.render(false);
         },
@@ -536,7 +529,7 @@ export class ActivityComponent implements OnInit {
     this.common?.resetForm(form, () => {
       this.model.id = null;
     });
-    this.viewData.showItemForm = false;
+    this.showItemForm.set(false);
   }
 
   resetForm(form: NgForm) {
@@ -545,42 +538,34 @@ export class ActivityComponent implements OnInit {
   }
 
   setModelDetails(id: string, form?: NgForm) {
-    // let act: Activity;
+    // Ensure model.activity is assigned a valid value or null
+    this.model.activity =
+      this.activityList().find((item) => this.findById(item, "act_id", id)) ||
+      null;
 
-    // Set activity
-    this.model.activity = this.activityList().find((item) =>
-      this.findById(item, "act_id", id)
-    );
-
-    // get tasks
     if (this.model.activity?.act_tasks_tag) {
       this.tasksService.getTasks().then((tasks: Task[]) => {
-        this.model.id = this.model.activity?.act_id; // to tell the form that this is an edition
-        if (!this.viewData.showItemForm) {
-          this.viewData.showItemForm = !this.viewData.showItemForm;
+        this.model.id = this.model.activity?.act_id;
+        if (!this.showItemForm()) {
+          this.showItemForm.set(!this.showItemForm());
         }
 
-        // Fill form
         setTimeout(() => {
           if (form) {
-            // form.controls["fProjectId"].setValue(this.model.activity["act_id_project"]);
             form.controls["fName"].setValue(this.model.activity?.["act_name"]);
-            // form.controls["fDescription"].setValue(this.model.activity["act_description"]);
             form.controls["fTags"].setValue(this.model.activity?.["act_tags"]);
             form.controls["fTasksTag"].setValue(
               this.model.activity?.["act_tasks_tag"]
             );
-            // form.controls["fCloseComment"].setValue(this.model.activity["act_close_comment"]);
-            // form.controls["fCtgStatus"].setValue(this.model.activity["act_ctg_status"]);
           }
-          console.log("--activity found to show details", this.model);
-        }, 0);
+        }, 100);
       });
     }
   }
 
-  findById(item: iEntity, field: string, id: string) {
-    return item[field] === id;
+  // Ensure findById handles null or undefined
+  findById(item: any, key: string, value: string | null | undefined): boolean {
+    return item[key] === value;
   }
 
   changeStatus(id: string, status: string): void {
