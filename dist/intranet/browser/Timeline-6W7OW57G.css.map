@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/common/Timeline.css"],
+  "sourcesContent": [".timeline-input-description {\r\n  width: 100%;\r\n  height: 100px;\r\n}\r\n\r\n@media (min-width: 505px) {\r\n  .timeline-input-description {\r\n    width: 60%;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC;AACC,SAAO;AACP,UAAQ;AACV;AAEA,OAAO,CAAC,SAAS,EAAE;AACjB,GAND;AAOG,WAAO;AACT;AACF;",
+  "names": []
+}

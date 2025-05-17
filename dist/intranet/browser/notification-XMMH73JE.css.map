@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/common/notification.css"],
+  "sourcesContent": [".notification-area {\r\n  position: fixed;\r\n  bottom: 0;\r\n  right: 0;\r\n  width: 100%;\r\n}\r\n\r\n@media (min-width: 505px) {\r\n  .notification-area {\r\n    width: 30%;\r\n  }\r\n}\r\n\r\n.notification-item {\r\n  border: 1px solid gray;\r\n  padding: 10px;\r\n  border-radius: 10px 10px;\r\n  background-color: var(--notification-background);\r\n  margin-bottom: 10px;\r\n  margin-left: 10px;\r\n  margin-right: 10px;\r\n}\r\n\r\n.notification-head {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-content: center;\r\n}\r\n\r\n.notification-footer {\r\n  display: flex;\r\n  justify-content: flex-end;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC;AACC,YAAU;AACV,UAAQ;AACR,SAAO;AACP,SAAO;AACT;AAEA,OAAO,CAAC,SAAS,EAAE;AACjB,GARD;AASG,WAAO;AACT;AACF;AAEA,CAAC;AACC,UAAQ,IAAI,MAAM;AAClB,WAAS;AACT,iBAAe,KAAK;AACpB,oBAAkB,IAAI;AACtB,iBAAe;AACf,eAAa;AACb,gBAAc;AAChB;AAEA,CAAC;AACC,WAAS;AACT,mBAAiB;AACjB,iBAAe;AACjB;AAEA,CAAC;AACC,WAAS;AACT,mBAAiB;AACnB;",
+  "names": []
+}

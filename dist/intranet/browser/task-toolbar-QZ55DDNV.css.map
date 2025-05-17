@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/task/task-toolbar.css"],
+  "sourcesContent": [".task-toolbar {\r\n  position: fixed;\r\n  bottom: 0;\r\n  left: 0;\r\n  background-color: var(--background-color);\r\n  width: 100%;\r\n  height: auto;\r\n  border-top: 1px solid black;\r\n}\r\n\r\n.task-toolbar-content {\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n  font-size: 200%;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC;AACC,YAAU;AACV,UAAQ;AACR,QAAM;AACN,oBAAkB,IAAI;AACtB,SAAO;AACP,UAAQ;AACR,cAAY,IAAI,MAAM;AACxB;AAEA,CAAC;AACC,WAAS;AACT,mBAAiB;AACjB,eAAa;AACb,aAAW;AACb;",
+  "names": []
+}

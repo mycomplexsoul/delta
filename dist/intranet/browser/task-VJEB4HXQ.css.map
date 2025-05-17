@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/task/task.css"],
+  "sourcesContent": ["span.task-badge-status-backlog {\r\n  background: var(--task-st-backlog);\r\n  margin-left: 5px;\r\n  padding: 0px 5px;\r\n}\r\n\r\nspan.task-unexpected {\r\n  background-color: var(--task-q-unexpected);\r\n}"],
+  "mappings": ";AAAA,IAAI,CAAC;AACH,cAAY,IAAI;AAChB,eAAa;AACb,WAAS,IAAI;AACf;AAEA,IAAI,CAAC;AACH,oBAAkB,IAAI;AACxB;",
+  "names": []
+}

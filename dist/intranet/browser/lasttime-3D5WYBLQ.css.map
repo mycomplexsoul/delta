@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/lasttime/lasttime.css"],
+  "sourcesContent": [".lasttime-list {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    flex: 1;\r\n}\r\n\r\n.lasttime-item-container {\r\n    border: 1px solid lightgray;\r\n    margin: 5px;\r\n    padding: 5px;\r\n    display: block;\r\n    width: 100%;\r\n    cursor: pointer;\r\n}\r\n\r\n@media (min-width: 505px) {\r\n    .lasttime-item-container {\r\n        width: 350px;\r\n    }\r\n}\r\n\r\n.lasttime-value {\r\n    font-weight: bold;\r\n}\r\n\r\n\r\n.lasttime-age-0 {\r\n    color: black;\r\n}\r\n.lasttime-age-1-ago {\r\n    color: rgb(107, 0, 0);\r\n}\r\n.lasttime-age-2-ago {\r\n    color: brown;\r\n}\r\n.lasttime-age-10-ago {\r\n    color: red;\r\n}\r\n.lasttime-age-1-left {\r\n    color: gray;\r\n}\r\n.lasttime-age-2-left {\r\n    color: green;\r\n}\r\n.lasttime-age-10-left {\r\n    color: blue;\r\n}"],
+  "mappings": ";AAAA,CAAC;AACG,WAAS;AACT,aAAW;AACX,QAAM;AACV;AAEA,CAAC;AACG,UAAQ,IAAI,MAAM;AAClB,UAAQ;AACR,WAAS;AACT,WAAS;AACT,SAAO;AACP,UAAQ;AACZ;AAEA,OAAO,CAAC,SAAS,EAAE;AACf,GAVH;AAWO,WAAO;AACX;AACJ;AAEA,CAAC;AACG,eAAa;AACjB;AAGA,CAAC;AACG,SAAO;AACX;AACA,CAAC;AACG,SAAO,IAAI,GAAG,EAAE,CAAC,EAAE;AACvB;AACA,CAAC;AACG,SAAO;AACX;AACA,CAAC;AACG,SAAO;AACX;AACA,CAAC;AACG,SAAO;AACX;AACA,CAAC;AACG,SAAO;AACX;AACA,CAAC;AACG,SAAO;AACX;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/money/movementListing.css"],
+  "sourcesContent": [".movements-listing-row:nth-child(even) {\r\n    background-color: lightgrey;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC,qBAAqB;AAClB,oBAAkB;AACtB;",
+  "names": []
+}

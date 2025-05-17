@@ -27,7 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.8 (2025-04-30) -- In Progress --
+## v1.14.8 (2025-05-28) -- In Progress --
+
+1. [AppCommon] Updated to Angular v18
+
+## v1.14.8 (2025-04-28)
 
 1. [AppCartera][mod] Improved period detection on batch payments interpreter
 2. [AppCartera][mod] ResultsReport css improvements to print in single page

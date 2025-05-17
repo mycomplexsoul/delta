@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/cartera/CarteraReportsCommon.css", "src/app/cartera/UnitStatusReport.css"],
+  "sourcesContent": ["@media screen, print {\r\n  thead tr,\r\n  tfoot tr {\r\n    background-color: #d0e4f5;\r\n  }\r\n\r\n  thead tr,\r\n  tbody tr,\r\n  tfoot tr {\r\n    border-top: 1px solid black;\r\n  }\r\n\r\n  thead tr th,\r\n  tfoot tr td {\r\n    font-weight: bold;\r\n  }\r\n\r\n  table {\r\n    border: 1px solid black;\r\n    border-collapse: collapse;\r\n    border-spacing: 0;\r\n  }\r\n}\r\n\r\n@media print {\r\n  body {\r\n    font-size: 5pt;\r\n  }\r\n\r\n  .padding-all-3 {\r\n    padding: 0px 3px;\r\n  }\r\n\r\n  .page-title {\r\n    margin: 0;\r\n    display: block;\r\n  }\r\n}\r\n", "@import \"./CarteraReportsCommon.css\";\r\n\r\n@media screen, print {\r\n  * {\r\n    font-family: sans-serif;\r\n  }\r\n\r\n  .unit-status-listing-row:nth-child(even) {\r\n    background-color: #e0e0e0;\r\n  }\r\n\r\n  .unit-status-highlight {\r\n    background-color: #5cdeb2;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,OAAO,MAAM,EAAE;AACb,QAAM;AAAA,EACN,MAAM;AACJ,sBAAkB;AACpB;AAEA,QAAM;AAAA,EACN,MAAM;AAAA,EACN,MAAM;AACJ,gBAAY,IAAI,MAAM;AACxB;AAEA,QAAM,GAAG;AAAA,EACT,MAAM,GAAG;AACP,iBAAa;AACf;AAEA;AACE,YAAQ,IAAI,MAAM;AAClB,qBAAiB;AACjB,oBAAgB;AAClB;AACF;AAEA,OAAO;AACL;AACE,eAAW;AACb;AAEA,GAAC;AACC,aAAS,IAAI;AACf;AAEA,GAAC;AACC,YAAQ;AACR,aAAS;AACX;AACF;;;ACnCA,OAAO,MAAM,EAAE;AACb;AACE,iBAAa;AACf;AAEA,GAAC,uBAAuB;AACtB,sBAAkB;AACpB;AAEA,GAAC;AACC,sBAAkB;AACpB;AACF;",
+  "names": []
+}
