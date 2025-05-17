@@ -11,14 +11,13 @@ import { Activity } from "../../crosscommon/entities/Activity";
 import { ActivityService } from "./activity.service";
 import { KeyvalService } from "./keyval.service";
 import { NgForm } from "@angular/forms";
-import { iEntity } from "src/crosscommon/iEntity";
 import { CommonComponent } from "../common/common.component";
-import { DateUtils } from "src/crosscommon/DateUtility";
+import { DateUtils } from "../../crosscommon/DateUtility";
 import { TimelineService } from "../common/TimelineService";
-import { Timeline } from "src/crosscommon/entities/Timeline";
-import { Keyval } from "src/crosscommon/entities/Keyval";
+import { Timeline } from "../../crosscommon/entities/Timeline";
+import { Keyval } from "../../crosscommon/entities/Keyval";
 import { TasksCore } from "../task/tasks.core";
-import { Task } from "src/crosscommon/entities/Task";
+import { Task } from "../../crosscommon/entities/Task";
 import { NotificationService } from "../common/notification.service";
 import { TaskCore } from "../task/task.core";
 import { SyncAPI } from "../common/sync.api";
@@ -31,10 +30,10 @@ import {
   calculateNotesHidden,
   calculateTimelineOnly,
   calculateUniqueTasks,
-  sortTasks,
   tagTasks,
   ALL_STATUS_CODES,
   calculateActivityGroups,
+  generateHealthGroupData,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -76,16 +75,44 @@ export class ActivityComponent implements OnInit {
     )
   );
 
+  public projectList = computed<
+    Array<{
+      id: string;
+      name: string;
+      count: number;
+    }>
+  >(() =>
+    this.activityList().reduce(
+      (prev, current) => {
+        const projectId = current.act_tasks_tag.split("-")[0];
+        const found = prev.find((p) => p.id === projectId);
+        if (!found && projectId) {
+          prev.push({
+            id: projectId,
+            name: projectId,
+            count: this.activityList().filter(
+              (a) =>
+                a.act_tasks_tag.startsWith(projectId) && a.act_ctg_status < 6
+            ).length,
+          });
+        }
+        return prev;
+      },
+      [
+        {
+          id: "ALL",
+          name: "ALL",
+          count: this.activityList().filter((a) => a.act_ctg_status < 6).length,
+        },
+      ]
+    )
+  );
+
   public viewData: {
     TEXT: any;
     timelineList: Timeline[];
     timelineKey: string;
     keyvalList: Keyval[];
-    projectList: Array<{
-      id: string;
-      name: string;
-      count: number;
-    }>;
     selectedProject: string;
     reportDate: Date;
     selectedLayout: string;
@@ -110,13 +137,6 @@ export class ActivityComponent implements OnInit {
     timelineList: [],
     timelineKey: "activity|",
     keyvalList: [],
-    projectList: [
-      {
-        id: "ALL",
-        name: "ALL",
-        count: 0,
-      },
-    ],
     selectedProject: "ALL",
     reportDate: DateUtils.dateOnly(),
     selectedLayout: "all",
@@ -261,7 +281,7 @@ export class ActivityComponent implements OnInit {
                     additional: {
                       timeline: [t],
                     },
-                  },
+                  } as Activity,
                 ],
               });
             } else {
@@ -272,7 +292,7 @@ export class ActivityComponent implements OnInit {
                 foundActivity.additional.timeline.push(t);
               }
               if (!foundActivity) {
-                const copy = { ...relatedActivity };
+                const copy = { ...relatedActivity } as Activity;
                 copy.additional = {
                   timeline: [t],
                 };
@@ -289,41 +309,13 @@ export class ActivityComponent implements OnInit {
 
           console.log("--timelineGroup", this.viewData.timelineGroup);
         });
-
-      // get project id's
-      this.viewData.projectList = this.activityList().reduce(
-        (prev, current) => {
-          const projectId = current.act_tasks_tag.split("-")[0];
-          const found = prev.find((p) => p.id === projectId);
-
-          if (!found && projectId) {
-            prev.push({
-              id: projectId,
-              name: projectId,
-              count: this.activityList().filter(
-                (a) =>
-                  a.act_tasks_tag.startsWith(projectId) && a.act_ctg_status < 6
-              ).length,
-            });
-          }
-          return prev;
-        },
-        [
-          {
-            id: "ALL",
-            name: "ALL",
-            count: this.activityList().filter((a) => a.act_ctg_status < 6)
-              .length,
-          },
-        ]
-      );
     }
 
     this.activityList().forEach((a) => {
       tagTasks(this.tasks, a.act_tasks_tag);
     });
 
-    this.viewData.healthGroup = this.generateHealthGroupData(
+    this.viewData.healthGroup = generateHealthGroupData(
       this.activityList(),
       this.viewData.selectedProject
     );
@@ -335,57 +327,6 @@ export class ActivityComponent implements OnInit {
         this.obtainLastFolioByProject()
       ).map(([k, v]) => v);
     }
-  }
-
-  generateHealthGroupData(activityList: Activity[], selectedProject: string) {
-    const data = [
-      {
-        label: "Actualizado hace menos de 7 días",
-        className: "activity-health-green",
-        count: 0,
-      },
-      {
-        label: "Actualizado hace menos de 15 días",
-        className: "activity-health-yellow",
-        count: 0,
-      },
-      {
-        label: "Actualizado hace menos de 30 días",
-        className: "activity-health-orange",
-        count: 0,
-      },
-      {
-        label: "Actualizado hace 30 días o más",
-        className: "activity-health-red",
-        count: 0,
-      },
-      {
-        label: "Sin estatus registrado",
-        className: "activity-health-undetermined",
-        count: 0,
-      },
-    ];
-
-    data.forEach((d) => {
-      d["items"] = activityList.filter(
-        (a) =>
-          (selectedProject !== "ALL"
-            ? a.act_tasks_tag.startsWith(selectedProject)
-            : true) &&
-          a.additional.health === d.className &&
-          a.act_ctg_status !== 6
-      );
-      d.count = activityList.filter(
-        (a) =>
-          (selectedProject !== "ALL"
-            ? a.act_tasks_tag.startsWith(selectedProject)
-            : true) &&
-          a.additional.health === d.className &&
-          a.act_ctg_status !== 6
-      ).length;
-    });
-
-    return data;
   }
 
   ngOnInit() {
@@ -425,15 +366,16 @@ export class ActivityComponent implements OnInit {
             new Date().getMonth(),
             1
           );
-          const closedDate: Date = item.additional?.keyvalItems?.find(
-            (k) => k.key_name === "ACT_DATE_TO_CLOSED"
-          )
-            ? DateUtils.stringDateToDate(
-                item.additional?.keyvalItems?.find(
-                  (k) => k.key_name === "ACT_DATE_TO_CLOSED"
-                ).key_value
-              )
-            : null;
+          const closedDate: Date | null | undefined =
+            item.additional?.keyvalItems?.find(
+              (k) => k.key_name === "ACT_DATE_TO_CLOSED"
+            )
+              ? DateUtils.stringDateToDate(
+                  item.additional?.keyvalItems?.find(
+                    (k) => k.key_name === "ACT_DATE_TO_CLOSED"
+                  ).key_value
+                )
+              : null;
           if (
             !closedDate ||
             closedDate.getTime() < currentMonthDate.getTime()
@@ -727,12 +669,11 @@ export class ActivityComponent implements OnInit {
   }
 
   obtainLastFolioByProject(): Array<any> {
-    const { projectList, selectedProject } = this.viewData;
+    const { selectedProject } = this.viewData;
     const folioList: any = this.activityList().reduce(
       (folios, act) => {
         const [proj, folio] = act.act_tasks_tag.split("-");
         const maxFolio = parseInt(folios[proj].split("-")[1]);
-
         if (maxFolio <= parseInt(folio)) {
           // instead of using this folio we generate the next one
           if (proj === "UIP") {
@@ -748,15 +689,13 @@ export class ActivityComponent implements OnInit {
             )}`;
           }
         }
-
         return folios;
       },
-      projectList
+      this.projectList()
         .filter(({ id }) => id !== "ALL")
         .map(({ id }) => id)
         .reduce((projects, id) => {
           projects[id] = `${id}-${DateUtils.fillString(1, 5, -1, "0")}`;
-
           return projects;
         }, {})
     );

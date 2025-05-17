@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 2. [AppCommon] Updated to Angular v19
 3. [AppKanban][mod] Refactored activityList to signals
 4. [AppKanban][mod] Refactored showItemForm state to signals
+5. [AppKanban][mod] Refactored activityGroups state to computed signal
+6. [AppKanban][mod] Refactored projectList state to computed signal
+7. [AppKanban][fix] Fixed linter issues
 
 ## v1.14.8 (2025-04-28)
 

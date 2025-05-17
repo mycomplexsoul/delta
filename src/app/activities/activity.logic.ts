@@ -236,6 +236,60 @@ const calculateActivityGroups = (
   );
 };
 
+const generateHealthGroupData = (
+  activityList: Activity[],
+  selectedProject: string
+) => {
+  const data = [
+    {
+      label: "Actualizado hace menos de 7 días",
+      className: "activity-health-green",
+      count: 0,
+    },
+    {
+      label: "Actualizado hace menos de 15 días",
+      className: "activity-health-yellow",
+      count: 0,
+    },
+    {
+      label: "Actualizado hace menos de 30 días",
+      className: "activity-health-orange",
+      count: 0,
+    },
+    {
+      label: "Actualizado hace 30 días o más",
+      className: "activity-health-red",
+      count: 0,
+    },
+    {
+      label: "Sin estatus registrado",
+      className: "activity-health-undetermined",
+      count: 0,
+    },
+  ];
+
+  data.forEach((d) => {
+    d["items"] = activityList.filter(
+      (a) =>
+        (selectedProject !== "ALL"
+          ? a.act_tasks_tag.startsWith(selectedProject)
+          : true) &&
+        a.additional.health === d.className &&
+        a.act_ctg_status !== 6
+    );
+    d.count = activityList.filter(
+      (a) =>
+        (selectedProject !== "ALL"
+          ? a.act_tasks_tag.startsWith(selectedProject)
+          : true) &&
+        a.additional.health === d.className &&
+        a.act_ctg_status !== 6
+    ).length;
+  });
+
+  return data;
+};
+
 export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
@@ -250,4 +304,5 @@ export {
   calculateHealth,
   groupByProperty,
   calculateActivityGroups,
+  generateHealthGroupData,
 };

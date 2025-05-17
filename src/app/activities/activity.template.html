@@ -13,7 +13,7 @@
       [(ngModel)]="viewData.selectedProject"
       (change)="onChangeProject(viewData.selectedProject)"
     >
-      <option *ngFor="let opt of viewData.projectList" value="{{ opt.id }}">
+      <option *ngFor="let opt of projectList()" value="{{ opt.id }}">
         {{ opt.name }} ({{ opt.count }})
       </option>
     </select>
