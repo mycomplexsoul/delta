@@ -15,11 +15,11 @@ import { autogrowSetup } from "../common/autogrow";
 import "chartjs-adapter-date-fns";
 
 @Component({
-    selector: "tasks",
-    templateUrl: "./tasks.template.html",
-    styleUrls: ["./tasks.css"],
-    providers: [TasksCore, TaskIndicator],
-    standalone: false
+  selector: "tasks",
+  templateUrl: "./tasks.template.html",
+  styleUrls: ["./tasks.css"],
+  providers: [TasksCore, TaskIndicator],
+  standalone: false,
 })
 export class TasksComponent implements OnInit {
   public item: any;
@@ -1584,16 +1584,16 @@ export class TasksComponent implements OnInit {
       this.showBatchAdd = !this.showBatchAdd;
 
       autogrowSetup({ componentWillBeVisible: this.showBatchAdd });
-      // set target date to today
-      const targetDateInput = document.querySelector(
-        "#target_date"
-      ) as HTMLInputElement;
-      targetDateInput.value = DateUtils.formatDate(DateUtils.dateOnly());
 
       this.viewETABeforeAdd = false;
       setTimeout(() => {
         if (this.showBatchAdd) {
           this.focusElement("textarea[name=tsk_multiple_name]");
+          // set target date to today
+          const targetDateInput = document.querySelector(
+            "#target_date"
+          ) as HTMLInputElement;
+          targetDateInput.value = DateUtils.formatDate(DateUtils.dateOnly());
         } else {
           this.focusElement("input[name=tsk_name]");
         }

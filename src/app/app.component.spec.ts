@@ -1,21 +1,17 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { RouterModule, Routes } from '@angular/router';
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { AppComponent } from "./app.component";
+import { RouterModule, Routes } from "@angular/router";
 
-describe('AppComponent', () => {
-  beforeEach(async(() => {
+describe("AppComponent", () => {
+  beforeEach(waitForAsync(() => {
     const appRoutes: Routes = [];
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot(appRoutes)
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [RouterModule.forRoot(appRoutes)],
+      declarations: [AppComponent],
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
+  it("should create the app", () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
@@ -24,7 +20,7 @@ describe('AppComponent', () => {
   it(`should have as title 'intranet'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('intranet');
+    expect(app.title).toEqual("intranet");
   });
 
   /*it('should render title in a h1 tag', () => {
