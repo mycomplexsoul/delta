@@ -1,8 +1,8 @@
-import { DateUtils } from "src/crosscommon/DateUtility";
+import { DateUtils } from "../../crosscommon/DateUtility";
 import { Task } from "../../crosscommon/entities/Task";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 import { Keyval } from "../../crosscommon/entities/Keyval";
-import { Activity } from "src/crosscommon/entities/Activity";
+import { Activity } from "../../crosscommon/entities/Activity";
 
 type activityAdditionalSchema = {
   // raw data
@@ -26,6 +26,8 @@ const ALL_STATUS_CODES = [
   "VERIFICATION",
   "CLOSED",
 ];
+
+const TIMELINE_KEY = "activity|";
 
 const tagTasks = (tasks: Task[], tag: string) =>
   tasks.filter((t) => t.tsk_tags && t.tsk_tags.includes(tag));
@@ -188,15 +190,16 @@ const groupByProperty = (
           new Date().getMonth(),
           1
         );
-        const closedDate: Date = item.additional?.keyvalItems?.find(
-          (k: Keyval) => k.key_name === "ACT_DATE_TO_CLOSED"
-        )
-          ? DateUtils.stringDateToDate(
-              item.additional?.keyvalItems?.find(
-                (k: Keyval) => k.key_name === "ACT_DATE_TO_CLOSED"
-              ).key_value
-            )
-          : null;
+        const closedDate: Date | null | undefined =
+          item.additional?.keyvalItems?.find(
+            (k: Keyval) => k.key_name === "ACT_DATE_TO_CLOSED"
+          )
+            ? DateUtils.stringDateToDate(
+                item.additional?.keyvalItems?.find(
+                  (k: Keyval) => k.key_name === "ACT_DATE_TO_CLOSED"
+                ).key_value
+              )
+            : null;
         if (!closedDate || closedDate.getTime() < currentMonthDate.getTime()) {
           // skip this one, is an old activity
           return response;
@@ -318,6 +321,7 @@ const calculateProjectList = (activityList: Activity[]) =>
 export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
+  TIMELINE_KEY,
   tagTasks,
   sortTasks,
   calculateUniqueTasks,

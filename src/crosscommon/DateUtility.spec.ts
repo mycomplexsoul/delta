@@ -221,4 +221,35 @@ describe("DateUtility", () => {
       expect(result.pattern).toBe("HH:mm");
     });
   });
+
+  describe("daysForLocale(localeName, weekday)", () => {
+    it("should return 7 days for English long names", () => {
+      const days = DateUtils.daysForLocale("en", "long");
+      expect(days.length).toBe(7);
+      expect(days[0]).toBe("Sunday");
+      expect(days[6]).toBe("Saturday");
+    });
+    it("should return 7 days for Spanish long names", () => {
+      const days = DateUtils.daysForLocale("es", "long");
+      expect(days.length).toBe(7);
+      expect(days[0]).toBe("Domingo");
+      expect(days[6]).toBe("Sábado");
+    });
+    it("should return short names in English", () => {
+      const days = DateUtils.daysForLocale("en", "short");
+      expect(days[0].length).toBeLessThanOrEqual(3);
+      expect(days[0]).toMatch(/^S/); // Sunday -> S
+    });
+    it("should return short names in Spanish", () => {
+      const days = DateUtils.daysForLocale("es", "short");
+      expect(days[0].length).toBeLessThanOrEqual(3);
+      expect(days[0]).toMatch(/^D/); // Domingo -> D
+    });
+    it("should capitalize the first letter", () => {
+      const days = DateUtils.daysForLocale("es", "long");
+      days.forEach((d) => {
+        expect(d[0]).toBe(d[0].toUpperCase());
+      });
+    });
+  });
 });

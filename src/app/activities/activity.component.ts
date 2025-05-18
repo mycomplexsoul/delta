@@ -35,6 +35,7 @@ import {
   calculateActivityGroups,
   generateHealthGroupData,
   calculateProjectList,
+  TIMELINE_KEY,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -87,8 +88,6 @@ export class ActivityComponent implements OnInit {
 
   public viewData: {
     TEXT: any;
-    timelineKey: string;
-    keyvalList: Keyval[];
     selectedProject: string;
     reportDate: Date;
     selectedLayout: string;
@@ -110,8 +109,6 @@ export class ActivityComponent implements OnInit {
     };
   } = {
     TEXT: {},
-    timelineKey: "activity|",
-    keyvalList: [],
     selectedProject: "ALL",
     reportDate: DateUtils.dateOnly(),
     selectedLayout: "all",
@@ -214,17 +211,17 @@ export class ActivityComponent implements OnInit {
                 uniqueTasks: calculateUniqueTasks(e.additional.tasks),
                 timelineOnly: calculateTimelineOnly(
                   e.additional.timeline,
-                  this.viewData.timelineKey,
+                  TIMELINE_KEY,
                   e.act_id
                 ),
                 notes: calculateNotes(
                   e.additional.timeline,
-                  this.viewData.timelineKey,
+                  TIMELINE_KEY,
                   e.act_id
                 ),
                 notesHidden: calculateNotesHidden(
                   e.additional.timeline,
-                  this.viewData.timelineKey,
+                  TIMELINE_KEY,
                   e.act_id
                 ),
                 lastTimeline: e.additional.timeline?.at(-1),
@@ -308,71 +305,6 @@ export class ActivityComponent implements OnInit {
     this.viewData.TEXT = getTextForLang("es");
     this.taskService = new TaskCore(this.syncService, this.handlers);
     this.render(true);
-  }
-
-  groupByProperty(
-    list: Activity[],
-    key: string,
-    properties?: (e: Activity) => any
-  ): {
-    key: string;
-    act_ctg_status: number;
-    act_txt_status: string;
-    items: Activity[];
-    [key: string]: any;
-  }[] {
-    return list.reduce(
-      (
-        response: Array<{
-          key: string;
-          act_ctg_status: number;
-          act_txt_status: string;
-          items: Activity[];
-          [key: string]: any;
-        }>,
-        item
-      ) => {
-        const group = response.find((g) => g.key === item[key]);
-
-        if (item[key] === 6) {
-          // keep only activities that were closed within current month
-          const currentMonthDate: Date = new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            1
-          );
-          const closedDate: Date | null | undefined =
-            item.additional?.keyvalItems?.find(
-              (k) => k.key_name === "ACT_DATE_TO_CLOSED"
-            )
-              ? DateUtils.stringDateToDate(
-                  item.additional?.keyvalItems?.find(
-                    (k) => k.key_name === "ACT_DATE_TO_CLOSED"
-                  ).key_value
-                )
-              : null;
-          if (
-            !closedDate ||
-            closedDate.getTime() < currentMonthDate.getTime()
-          ) {
-            // skip this one, is an old activity
-            return response;
-          }
-        }
-
-        if (group) {
-          group.items.push(item);
-        } else {
-          response.push({
-            key: item[key],
-            ...properties?.(item),
-            items: [item],
-          });
-        }
-        return response;
-      },
-      []
-    );
   }
 
   toggleShowItemForm() {
@@ -563,7 +495,7 @@ export class ActivityComponent implements OnInit {
             k.key_date_mod = DateUtils.newDateUpToSeconds();
             k.key_ctg_status = 1;
 
-            this.viewData.keyvalList.push(k);
+            item.additional.keyvalItems?.push(k);
           });
 
           await this.tasksService.getTasks().then((tasks: Task[]) => {
