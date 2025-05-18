@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  model,
   OnInit,
   signal,
   ViewEncapsulation,
@@ -36,6 +37,7 @@ import {
   generateHealthGroupData,
   calculateProjectList,
   TIMELINE_KEY,
+  LAYOUT_LIST,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -57,10 +59,15 @@ const ALL_STATUS_TEXT = [
   standalone: false,
 })
 export class ActivityComponent implements OnInit {
+  public REPORT_DATE = DateUtils.dateOnly();
+  public LAYOUT_LIST = LAYOUT_LIST;
+
   // UI state
   public activityList = signal<Activity[]>([]);
   public showItemForm = signal(false);
   public timelineList = signal<Timeline[]>([]);
+  public selectedProject = model<string>("ALL");
+  public selectedLayout = model<string>("all");
 
   // Computed UI state
   public activityGroups = computed<
@@ -72,7 +79,7 @@ export class ActivityComponent implements OnInit {
   >(() =>
     calculateActivityGroups(
       this.activityList(),
-      this.viewData.selectedProject,
+      this.selectedProject(),
       this.viewData.sortGroupsDescending,
       ALL_STATUS_TEXT
     )
@@ -88,13 +95,6 @@ export class ActivityComponent implements OnInit {
 
   public viewData: {
     TEXT: any;
-    selectedProject: string;
-    reportDate: Date;
-    selectedLayout: string;
-    layoutList: Array<{
-      id: string;
-      name: string;
-    }>;
     showTimeline: boolean;
     showActivities: boolean;
     nextFolioList: Array<string>;
@@ -109,27 +109,6 @@ export class ActivityComponent implements OnInit {
     };
   } = {
     TEXT: {},
-    selectedProject: "ALL",
-    reportDate: DateUtils.dateOnly(),
-    selectedLayout: "all",
-    layoutList: [
-      {
-        id: "all",
-        name: "All details",
-      },
-      {
-        id: "timeline-only",
-        name: "Timeline only",
-      },
-      {
-        id: "activities-only",
-        name: "Activities only",
-      },
-      {
-        id: "title-only",
-        name: "Titles only",
-      },
-    ],
     showTimeline: true,
     showActivities: true,
     nextFolioList: [],
@@ -162,7 +141,7 @@ export class ActivityComponent implements OnInit {
 
   setTitle() {
     this.titleService.setTitle(
-      `${DateUtils.dateToStringDate(DateUtils.dateOnly())} ${
+      `${DateUtils.dateToStringDate(this.REPORT_DATE)} ${
         TEXT.ACTIVITIES_PAGE_TITLE
       }`
     );
@@ -172,7 +151,7 @@ export class ActivityComponent implements OnInit {
     const searchParams = new URLSearchParams(window.location.search);
     const selectedProject = searchParams.get("selectedProject");
     if (selectedProject) {
-      this.viewData.selectedProject = selectedProject;
+      this.selectedProject.set(selectedProject);
     }
     if (searchParams.get("sortDescending") === "false") {
       this.viewData.sortGroupsDescending = false;
@@ -289,7 +268,7 @@ export class ActivityComponent implements OnInit {
 
     this.viewData.healthGroup = generateHealthGroupData(
       this.activityList(),
-      this.viewData.selectedProject
+      this.selectedProject()
     );
 
     if (this.model.id) {
@@ -561,6 +540,7 @@ export class ActivityComponent implements OnInit {
   }
 
   onChangeProject(selectedProject: string) {
+    this.selectedProject.set(selectedProject);
     this.render(false);
   }
 
@@ -571,12 +551,11 @@ export class ActivityComponent implements OnInit {
     this.viewData.showActivities = ["all", "activities-only"].includes(
       selectedLayout
     );
-
     this.render(false);
   }
 
   obtainLastFolioByProject(): Array<any> {
-    const { selectedProject } = this.viewData;
+    const { selectedProject } = this;
     const folioList: any = this.activityList().reduce(
       (folios, act) => {
         const [proj, folio] = act.act_tasks_tag.split("-");
@@ -607,8 +586,8 @@ export class ActivityComponent implements OnInit {
         }, {})
     );
 
-    if (selectedProject !== "ALL") {
-      return [folioList[selectedProject]];
+    if (this.selectedProject() !== "ALL") {
+      return [folioList[this.selectedProject()]];
     }
     return folioList;
   }

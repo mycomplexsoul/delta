@@ -29,6 +29,13 @@ const ALL_STATUS_CODES = [
 
 const TIMELINE_KEY = "activity|";
 
+const LAYOUT_LIST = [
+  { id: "all", name: "All details" },
+  { id: "timeline-only", name: "Timeline only" },
+  { id: "activities-only", name: "Activities only" },
+  { id: "title-only", name: "Titles only" },
+];
+
 const tagTasks = (tasks: Task[], tag: string) =>
   tasks.filter((t) => t.tsk_tags && t.tsk_tags.includes(tag));
 
@@ -322,6 +329,7 @@ export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
   TIMELINE_KEY,
+  LAYOUT_LIST,
   tagTasks,
   sortTasks,
   calculateUniqueTasks,

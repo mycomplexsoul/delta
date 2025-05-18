@@ -1,6 +1,6 @@
 <div>
   <h1 class="page-title text-align-center">
-    {{ viewData.TEXT.ACTIVITIES_REPORT_TITLE }} {{ viewData.reportDate | date:
+    {{ viewData.TEXT.ACTIVITIES_REPORT_TITLE }} {{ REPORT_DATE | date:
     "yyyy-MM-dd" }}
   </h1>
 
@@ -10,8 +10,8 @@
       name="fSelectedProject"
       id="fSelectedProject"
       class="field-select"
-      [(ngModel)]="viewData.selectedProject"
-      (change)="onChangeProject(viewData.selectedProject)"
+      [(ngModel)]="selectedProject"
+      (ngModelChange)="onChangeProject($event)"
     >
       <option *ngFor="let opt of projectList()" value="{{ opt.id }}">
         {{ opt.name }} ({{ opt.count }})
@@ -25,10 +25,10 @@
       name="fSelectedLayout"
       id="fSelectedLayout"
       class="field-select"
-      [(ngModel)]="viewData.selectedLayout"
-      (change)="onChangeLayout(viewData.selectedLayout)"
+      [(ngModel)]="selectedLayout"
+      (ngModelChange)="onChangeLayout($event)"
     >
-      <option *ngFor="let opt of viewData.layoutList" value="{{ opt.id }}">
+      <option *ngFor="let opt of LAYOUT_LIST" value="{{ opt.id }}">
         {{ opt.name }}
       </option>
     </select>

@@ -90,7 +90,14 @@ class DateUtility {
       return null;
     }
     if (!(date instanceof Date)) {
-      date = new Date(date);
+      // when yyyy-MM-dd, parse manually to avoid timezone slipping
+      if (typeof date === "string" && /\d{4}-\d{2}-\d{2}$/.test(date)) {
+        const [year, month, day] = date.split("-").map(Number);
+        date = new Date(year, month - 1, day);
+      } else {
+        // may lead to timezone slipping, make sure it has time stamp included
+        date = new Date(date);
+      }
     }
     const day: number = date.getDate();
     const month: number = date.getMonth();

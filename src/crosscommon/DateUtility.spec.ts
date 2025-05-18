@@ -31,6 +31,13 @@ describe("DateUtility", () => {
 
       expect(DateUtils.elapsedTime(date1, date2)).toBe(expected);
     });
+
+    describe("elapsedTime(date1, date2) edge cases", () => {
+      it("should return 0 when a date is falsy", () => {
+        const date = new Date(2022, 4, 7, 12, 0, 0);
+        expect(DateUtils.elapsedTime(date, null)).toBe(0);
+      });
+    });
   });
 
   describe("elapsedDays(date1, date2) => number", () => {
@@ -61,6 +68,13 @@ describe("DateUtility", () => {
       expect(only.getMinutes()).toBe(0);
       expect(only.getSeconds()).toBe(0);
     });
+
+    it("should return current date with time set to 00:00:00", () => {
+      const only = DateUtils.dateOnly();
+      expect(only.getHours()).toBe(0);
+      expect(only.getMinutes()).toBe(0);
+      expect(only.getSeconds()).toBe(0);
+    });
   });
 
   describe("addDays(base, days)", () => {
@@ -79,6 +93,17 @@ describe("DateUtility", () => {
     it("should format date as dd/MM/yyyy", () => {
       const date = new Date(2022, 4, 7);
       expect(DateUtils.formatDate(date, "dd/MM/yyyy")).toBe("07/05/2022");
+    });
+    it("should return null if date is null", () => {
+      expect(DateUtils.formatDate(null)).toBeNull();
+    });
+    it("should format a date string convertible to Date", () => {
+      expect(DateUtils.formatDate("2022-05-07")).toBe("2022-05-07");
+    });
+    it("should format a date string convertible to Date", () => {
+      expect(
+        DateUtils.formatDate("2022-05-07 13:00:00", "yyyy-MM-dd HH:mm:ss")
+      ).toBe("2022-05-07 13:00:00");
     });
   });
 
@@ -250,6 +275,32 @@ describe("DateUtility", () => {
       days.forEach((d) => {
         expect(d[0]).toBe(d[0].toUpperCase());
       });
+    });
+  });
+
+  describe("fillString(data, length, direction, fillChar)", () => {
+    it("should pad to the right by default (direction=1)", () => {
+      expect(DateUtils.fillString("abc", 5)).toBe("abc  ");
+    });
+    it("should pad to the left when direction=-1", () => {
+      expect(DateUtils.fillString("abc", 5, -1)).toBe("  abc");
+    });
+    it("should pad to the right when direction=1", () => {
+      expect(DateUtils.fillString("abc", 5, 1)).toBe("abc  ");
+    });
+    it("should use custom fillChar", () => {
+      expect(DateUtils.fillString("abc", 6, 1, "0")).toBe("abc000");
+      expect(DateUtils.fillString("abc", 6, -1, "0")).toBe("000abc");
+    });
+    it("should return the same string if already long enough", () => {
+      expect(DateUtils.fillString("abcdef", 3)).toBe("abcdef");
+    });
+    it("should work with numbers", () => {
+      expect(DateUtils.fillString(42, 4, -1, "0")).toBe("0042");
+      expect(DateUtils.fillString(42, 4, 1, "0")).toBe("4200");
+    });
+    it("should handle empty string", () => {
+      expect(DateUtils.fillString("", 3, 1, "*")).toBe("***");
     });
   });
 });
