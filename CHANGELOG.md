@@ -27,17 +27,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.14.8 (2025-05-28) -- In Progress --
+## v1.14.9 (2025-05-28) -- In Progress --
+
+1. [AppCommon][new] Added coverage report for frontend
+2. [AppCommon][new] Added unit tests for DateUtility.ts
+3. [AppKanban][mod] Refactored `timelineList` to signal
+
+## v1.14.8 (2025-04-28)
 
 1. [AppCommon] Updated to Angular v18
 2. [AppCommon] Updated to Angular v19
-3. [AppKanban][mod] Refactored activityList to signals
-4. [AppKanban][mod] Refactored showItemForm state to signals
-5. [AppKanban][mod] Refactored activityGroups state to computed signal
-6. [AppKanban][mod] Refactored projectList state to computed signal
+3. [AppKanban][mod] Refactored `activityList` to signals
+4. [AppKanban][mod] Refactored `showItemForm` state to signals
+5. [AppKanban][mod] Refactored `activityGroups` state to computed signal
+6. [AppKanban][mod] Refactored `projectList` state to computed signal
 7. [AppKanban][fix] Fixed linter issues
 
-## v1.14.8 (2025-04-28)
+## v1.14.8 (2025-03-28)
 
 1. [AppCartera][mod] Improved period detection on batch payments interpreter
 2. [AppCartera][mod] ResultsReport css improvements to print in single page

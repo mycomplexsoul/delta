@@ -59,6 +59,7 @@ export class ActivityComponent implements OnInit {
   // UI state
   public activityList = signal<Activity[]>([]);
   public showItemForm = signal(false);
+  public timelineList = signal<Timeline[]>([]);
 
   // Computed UI state
   public activityGroups = computed<
@@ -86,7 +87,6 @@ export class ActivityComponent implements OnInit {
 
   public viewData: {
     TEXT: any;
-    timelineList: Timeline[];
     timelineKey: string;
     keyvalList: Keyval[];
     selectedProject: string;
@@ -110,7 +110,6 @@ export class ActivityComponent implements OnInit {
     };
   } = {
     TEXT: {},
-    timelineList: [],
     timelineKey: "activity|",
     keyvalList: [],
     selectedProject: "ALL",
@@ -624,7 +623,7 @@ export class ActivityComponent implements OnInit {
    */
   handleNewTimeline($event: { timeline: Timeline }) {
     // $event => { timeline: Timeline }
-    this.viewData.timelineList.push($event.timeline);
+    this.timelineList.update((list) => [...list, $event.timeline]);
     this.model.activity?.additional.timeline.push($event.timeline);
     this.render(false);
   }

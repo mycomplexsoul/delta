@@ -14,7 +14,8 @@
     "test": "npm run test:backend && npm run test:frontend",
     "test:frontend": "ng test",
     "test:backend": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'src/server/**/*.ts'",
-    "coverage:node": "node ./node_modules/nyc/bin/nyc npm run test:node",
+    "coverage:node": "node ./node_modules/nyc/bin/nyc npm run test:backend",
+    "coverage:frontend": "ng test --code-coverage --watch=false --karma-config=karma.conf.js",
     "e2e": "ng e2e",
     "open:coverage": "start ./coverage/index.html"
   },
