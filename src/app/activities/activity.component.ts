@@ -39,6 +39,8 @@ import {
   TIMELINE_KEY,
   LAYOUT_LIST,
   calculateTimelineGroup,
+  obtainLastFolioByProject,
+  aggregateActivityList,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -181,32 +183,7 @@ export class ActivityComponent implements OnInit {
 
           // schema from server is: { additional: { keyvalItems, tasks, timeline } }
           // need to add/calculate: { additional: { uniqueTasks, timelineOnly, notes, notesHidden, lastTimeline, health } }
-          this.activityList.set(
-            activityList.map((e: Activity) => ({
-              ...e,
-              additional: {
-                ...e.additional,
-                uniqueTasks: calculateUniqueTasks(e.additional.tasks),
-                timelineOnly: calculateTimelineOnly(
-                  e.additional.timeline,
-                  TIMELINE_KEY,
-                  e.act_id
-                ),
-                notes: calculateNotes(
-                  e.additional.timeline,
-                  TIMELINE_KEY,
-                  e.act_id
-                ),
-                notesHidden: calculateNotesHidden(
-                  e.additional.timeline,
-                  TIMELINE_KEY,
-                  e.act_id
-                ),
-                lastTimeline: e.additional.timeline?.at(-1),
-                health: calculateHealth(e.additional.timeline?.at(-1)),
-              },
-            }))
-          );
+          this.activityList.set(aggregateActivityList(activityList));
           this.timelineList.set(timelineList);
         });
     }
@@ -224,7 +201,11 @@ export class ActivityComponent implements OnInit {
       this.viewData.nextFolioList = [];
     } else {
       this.viewData.nextFolioList = Object.entries(
-        this.obtainLastFolioByProject()
+        obtainLastFolioByProject(
+          this.activityList(),
+          this.projectList(),
+          this.selectedProject()
+        )
       ).map(([k, v]) => v);
     }
   }
@@ -494,44 +475,6 @@ export class ActivityComponent implements OnInit {
 
   onChangeLayout(selectedLayout: string) {
     this.render(false);
-  }
-
-  obtainLastFolioByProject(): Array<any> {
-    const { selectedProject } = this;
-    const folioList: any = this.activityList().reduce(
-      (folios, act) => {
-        const [proj, folio] = act.act_tasks_tag.split("-");
-        const maxFolio = parseInt(folios[proj].split("-")[1]);
-        if (maxFolio <= parseInt(folio)) {
-          // instead of using this folio we generate the next one
-          if (proj === "UIP") {
-            // UIP uses numeric folio
-            folios[proj] = `${proj}-${parseInt(folio) + 1}`;
-          } else {
-            // all other projects use year-based folio
-            folios[proj] = `${proj}-${DateUtils.fillString(
-              parseInt(folio) + 1,
-              5 - folio.length,
-              -1,
-              "0"
-            )}`;
-          }
-        }
-        return folios;
-      },
-      this.projectList()
-        .filter(({ id }) => id !== "ALL")
-        .map(({ id }) => id)
-        .reduce((projects, id) => {
-          projects[id] = `${id}-${DateUtils.fillString(1, 5, -1, "0")}`;
-          return projects;
-        }, {})
-    );
-
-    if (this.selectedProject() !== "ALL") {
-      return [folioList[this.selectedProject()]];
-    }
-    return folioList;
   }
 
   setFolioFromSuggestion(folio: string, form: NgForm) {

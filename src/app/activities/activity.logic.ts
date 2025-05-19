@@ -380,6 +380,77 @@ const calculateTimelineGroup = (
   return group;
 };
 
+const obtainLastFolioByProject = (
+  activityList: Activity[],
+  projectList: Array<{
+    id: string;
+    name: string;
+    count: number;
+  }>,
+  selectedProject: string
+): Record<string, string> => {
+  const folioList: Record<string, string> = activityList.reduce(
+    (folios, act) => {
+      const [proj, folio] = act.act_tasks_tag.split("-");
+      const maxFolio = parseInt(folios[proj].split("-")[1]);
+      if (maxFolio <= parseInt(folio)) {
+        // instead of using this folio we generate the next one
+        if (proj === "UIP") {
+          // UIP uses numeric folio
+          folios[proj] = `${proj}-${parseInt(folio) + 1}`;
+        } else {
+          // all other projects use year-based folio
+          folios[proj] = `${proj}-${DateUtils.fillString(
+            parseInt(folio) + 1,
+            5 - folio.length,
+            -1,
+            "0"
+          )}`;
+        }
+      }
+      return folios;
+    },
+    projectList
+      .filter(({ id }) => id !== "ALL")
+      .map(({ id }) => id)
+      .reduce((projects, id) => {
+        projects[id] = `${id}-${DateUtils.fillString(1, 5, -1, "0")}`;
+        return projects;
+      }, {})
+  );
+
+  if (selectedProject !== "ALL") {
+    return {
+      [selectedProject]: folioList[selectedProject],
+    };
+  }
+  return folioList;
+};
+
+// schema from server is: { additional: { keyvalItems, tasks, timeline } }
+// need to add/calculate: { additional: { uniqueTasks, timelineOnly, notes
+const aggregateActivityList = (activityList: Activity[]) =>
+  activityList.map((e: Activity) => ({
+    ...e,
+    additional: {
+      ...e.additional,
+      uniqueTasks: calculateUniqueTasks(e.additional.tasks),
+      timelineOnly: calculateTimelineOnly(
+        e.additional.timeline,
+        TIMELINE_KEY,
+        e.act_id
+      ),
+      notes: calculateNotes(e.additional.timeline, TIMELINE_KEY, e.act_id),
+      notesHidden: calculateNotesHidden(
+        e.additional.timeline,
+        TIMELINE_KEY,
+        e.act_id
+      ),
+      lastTimeline: e.additional.timeline?.at(-1),
+      health: calculateHealth(e.additional.timeline?.at(-1)),
+    },
+  }));
+
 export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
@@ -399,4 +470,6 @@ export {
   generateHealthGroupData,
   calculateProjectList,
   calculateTimelineGroup,
+  obtainLastFolioByProject,
+  aggregateActivityList,
 };
