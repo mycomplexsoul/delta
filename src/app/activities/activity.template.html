@@ -258,15 +258,12 @@
             </div>
 
             <div class="activity-card-body">
-              <div
-                *ngIf="item.additional.lastTimeline && viewData.showTimeline"
-              >
+              <div *ngIf="item.additional.lastTimeline && showTimeline()">
                 <span
                   ><strong>
                     Último Estatus (x{{item.additional.timeline.length}})
                   </strong></span
                 >
-
                 <div>
                   - {{ item.additional.lastTimeline.tim_date | date:
                   "yyyy-MM-dd" }} |
@@ -279,7 +276,7 @@
               </div>
 
               <div
-                *ngIf="item['additional']?.tasks?.length > 0 && viewData.showActivities"
+                *ngIf="item['additional']?.tasks?.length > 0 && showActivities()"
               >
                 <span><strong> Actividades </strong></span>
 
@@ -307,7 +304,7 @@
 
     <div>Secuencia de actividades en orden cronológico</div>
 
-    <div *ngFor="let d of viewData.timelineGroup.days">
+    <div *ngFor="let d of timelineGroup().days">
       <h3>{{ d.date | date: "yyyy-MM-dd" }} {{ d.dayName }}</h3>
 
       <div class="timeline-list-activity" *ngFor="let a of d.activityList">

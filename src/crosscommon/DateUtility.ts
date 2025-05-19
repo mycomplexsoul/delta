@@ -181,7 +181,29 @@ class DateUtility {
   }
 
   getDayName(day: number, lang = "en") {
-    const days: string[] = [];
+    const daysEn = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const daysEs = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+    ];
+    if (day < 0 || day > 6) return undefined;
+    if (lang === "es") {
+      return daysEs[day];
+    }
+    return daysEn[day];
   }
 
   getIterableNextMonth(year: number, month: number) {

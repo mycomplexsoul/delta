@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 3. [AppKanban][mod] Refactored `timelineList` to signal
 4. [AppKanban][mod] Refactored `TIMELINE_KEY` to constant
 5. [AppKanban][mod] Removed `keyvalList` since it is not used
+6. [AppKanban][mod] Refactored `timelineGroup` to computed signal
 
 ## v1.14.9 (2025-04-28)
 

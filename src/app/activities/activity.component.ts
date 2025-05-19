@@ -38,6 +38,7 @@ import {
   calculateProjectList,
   TIMELINE_KEY,
   LAYOUT_LIST,
+  calculateTimelineGroup,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -70,6 +71,12 @@ export class ActivityComponent implements OnInit {
   public selectedLayout = model<string>("all");
 
   // Computed UI state
+  public showTimeline = computed(() =>
+    ["all", "timeline-only"].includes(this.selectedLayout())
+  );
+  public showActivities = computed(() =>
+    ["all", "activities-only"].includes(this.selectedLayout())
+  );
   public activityGroups = computed<
     Array<{
       act_ctg_status: number;
@@ -84,7 +91,6 @@ export class ActivityComponent implements OnInit {
       ALL_STATUS_TEXT
     )
   );
-
   public projectList = computed<
     Array<{
       id: string;
@@ -92,31 +98,24 @@ export class ActivityComponent implements OnInit {
       count: number;
     }>
   >(() => calculateProjectList(this.activityList()));
+  public timelineGroup = computed<{
+    days: Array<{
+      date: Date;
+      dayName: string;
+      activityList: Activity[];
+    }>;
+  }>(() => calculateTimelineGroup(this.timelineList(), this.activityList()));
 
   public viewData: {
     TEXT: any;
-    showTimeline: boolean;
-    showActivities: boolean;
     nextFolioList: Array<string>;
     healthGroup: Array<any>;
     sortGroupsDescending: boolean;
-    timelineGroup: {
-      days: Array<{
-        date: Date;
-        dayName: string;
-        activityList: Array<Activity>;
-      }>;
-    };
   } = {
     TEXT: {},
-    showTimeline: true,
-    showActivities: true,
     nextFolioList: [],
     healthGroup: [],
     sortGroupsDescending: true,
-    timelineGroup: {
-      days: [],
-    },
   };
 
   public model: {
@@ -208,57 +207,7 @@ export class ActivityComponent implements OnInit {
               },
             }))
           );
-
-          const dayList = DateUtils.daysForLocale("es");
-
-          this.viewData.timelineGroup = timelineList.reduce((result, t) => {
-            const date = DateUtils.dateOnly(t.tim_date);
-            const day = result.days.find(
-              (d) => d.date.getTime() === date.getTime()
-            );
-            const relatedActivity = this.activityList().find(
-              ({ act_id }) => act_id === t.tim_id_record.split("|")[1]
-            );
-
-            t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
-
-            if (!day) {
-              result.days.push({
-                date,
-                dayName: dayList[date.getDay()],
-                activityList: [
-                  {
-                    ...relatedActivity,
-                    additional: {
-                      timeline: [t],
-                    },
-                  } as Activity,
-                ],
-              });
-            } else {
-              const foundActivity = day.activityList.find(
-                ({ act_id }) => act_id === relatedActivity?.act_id
-              );
-              if (foundActivity) {
-                foundActivity.additional.timeline.push(t);
-              }
-              if (!foundActivity) {
-                const copy = { ...relatedActivity } as Activity;
-                copy.additional = {
-                  timeline: [t],
-                };
-                day.activityList.push(copy);
-              }
-            }
-
-            result.days = result.days.sort((a, b) =>
-              a.date.getTime() > b.date.getTime() ? -1 : 1
-            );
-
-            return result;
-          }, this.viewData.timelineGroup);
-
-          console.log("--timelineGroup", this.viewData.timelineGroup);
+          this.timelineList.set(timelineList);
         });
     }
 
@@ -540,17 +489,10 @@ export class ActivityComponent implements OnInit {
   }
 
   onChangeProject(selectedProject: string) {
-    this.selectedProject.set(selectedProject);
     this.render(false);
   }
 
   onChangeLayout(selectedLayout: string) {
-    this.viewData.showTimeline = ["all", "timeline-only"].includes(
-      selectedLayout
-    );
-    this.viewData.showActivities = ["all", "activities-only"].includes(
-      selectedLayout
-    );
     this.render(false);
   }
 

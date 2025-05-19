@@ -325,6 +325,61 @@ const calculateProjectList = (activityList: Activity[]) =>
     ]
   );
 
+const calculateTimelineGroup = (
+  timelineList: Timeline[],
+  activityList: Activity[]
+) => {
+  const dayList = DateUtils.daysForLocale("es");
+  const group = {
+    days: [] as Array<{
+      date: Date;
+      dayName: string;
+      activityList: Activity[];
+    }>,
+  };
+  timelineList.forEach((t) => {
+    const date = DateUtils.dateOnly(t.tim_date);
+    let day = group.days.find((d) => d.date.getTime() === date.getTime());
+    const relatedActivity = activityList.find(
+      ({ act_id }) => act_id === t.tim_id_record.split("|")[1]
+    );
+    t.tim_description = t.tim_description.replace(/\n/g, "<br/>");
+    if (!day) {
+      group.days.push({
+        date,
+        dayName: dayList[date.getDay()],
+        activityList: [
+          {
+            ...relatedActivity,
+            additional: {
+              ...relatedActivity?.additional,
+              timeline: [t],
+            },
+          } as Activity,
+        ],
+      });
+    } else {
+      const foundActivity = day.activityList.find(
+        ({ act_id }) => act_id === relatedActivity?.act_id
+      );
+      if (foundActivity) {
+        foundActivity.additional.timeline.push(t);
+      } else {
+        const copy = { ...relatedActivity } as Activity;
+        copy.additional = {
+          ...relatedActivity?.additional,
+          timeline: [t],
+        };
+        day.activityList.push(copy);
+      }
+    }
+  });
+  group.days = group.days.sort((a, b) =>
+    a.date.getTime() > b.date.getTime() ? -1 : 1
+  );
+  return group;
+};
+
 export {
   activityAdditionalSchema,
   ALL_STATUS_CODES,
@@ -343,4 +398,5 @@ export {
   calculateActivityGroups,
   generateHealthGroupData,
   calculateProjectList,
+  calculateTimelineGroup,
 };

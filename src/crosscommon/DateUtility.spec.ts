@@ -303,4 +303,90 @@ describe("DateUtility", () => {
       expect(DateUtils.fillString("", 3, 1, "*")).toBe("***");
     });
   });
+
+  describe("getDayName(day, lang)", () => {
+    it("should return correct English day name for 0-6", () => {
+      expect(DateUtils.getDayName(0)).toBe("Sunday");
+      expect(DateUtils.getDayName(1)).toBe("Monday");
+      expect(DateUtils.getDayName(6)).toBe("Saturday");
+    });
+    it("should return correct Spanish day name for 0-6", () => {
+      expect(DateUtils.getDayName(0, "es")).toBe("Domingo");
+      expect(DateUtils.getDayName(1, "es")).toBe("Lunes");
+      expect(DateUtils.getDayName(6, "es")).toBe("Sábado");
+    });
+    it("should handle out-of-range day numbers", () => {
+      expect(DateUtils.getDayName(-1)).toBeUndefined();
+      expect(DateUtils.getDayName(7)).toBeUndefined();
+    });
+  });
+
+  describe("getIterableNextMonth(year, month)", () => {
+    it("should return next month in same year", () => {
+      const result = DateUtils.getIterableNextMonth(2025, 5);
+      expect(result).toEqual({ year: 2025, month: 6, iterable: 202506 });
+    });
+    it("should roll over to next year if month is December", () => {
+      const result = DateUtils.getIterableNextMonth(2025, 12);
+      expect(result).toEqual({ year: 2026, month: 1, iterable: 202601 });
+    });
+  });
+
+  describe("getIterablePreviousMonth(year, month)", () => {
+    it("should return previous month in same year", () => {
+      const result = DateUtils.getIterablePreviousMonth(2025, 5);
+      expect(result).toEqual({ year: 2025, month: 4, iterable: 202504 });
+    });
+    it("should roll over to previous year if month is January", () => {
+      const result = DateUtils.getIterablePreviousMonth(2025, 1);
+      expect(result).toEqual({ year: 2024, month: 12, iterable: 202412 });
+    });
+  });
+
+  describe("getIterableCurrentMonth(year, month)", () => {
+    it("should return correct structure for year and month", () => {
+      const result = DateUtils.getIterableCurrentMonth(2025, 5);
+      expect(result).toEqual({ year: 2025, month: 5, iterable: 202505 });
+    });
+  });
+
+  describe("getTimeOnlyInSeconds(date)", () => {
+    it("should return seconds since midnight", () => {
+      const date = new Date(2025, 4, 18, 1, 2, 3); // 01:02:03
+      expect(DateUtils.getTimeOnlyInSeconds(date)).toBe(3723);
+    });
+    it("should return 0 for midnight", () => {
+      const date = new Date(2025, 4, 18, 0, 0, 0);
+      expect(DateUtils.getTimeOnlyInSeconds(date)).toBe(0);
+    });
+  });
+
+  describe("stringDateToDate(date)", () => {
+    it("should parse yyyy-MM-dd string to Date", () => {
+      const d = DateUtils.stringDateToDate("2025-05-18");
+      expect(d).toBeInstanceOf(Date);
+      expect(d.getFullYear()).toBe(2025);
+      expect(d.getMonth()).toBe(4);
+      expect(d.getDate()).toBe(18);
+    });
+    it("should return undefined for invalid string", () => {
+      expect(DateUtils.stringDateToDate("not-a-date")).toBeUndefined();
+    });
+  });
+
+  describe("getCurrentMonth()", () => {
+    it("should return the current month (1-12)", () => {
+      const month = DateUtils.getCurrentMonth();
+      expect(month).toBeGreaterThanOrEqual(1);
+      expect(month).toBeLessThanOrEqual(12);
+    });
+  });
+
+  describe("getCurrentYear()", () => {
+    it("should return the current year", () => {
+      const year = DateUtils.getCurrentYear();
+      expect(year).toBeGreaterThan(2000);
+      expect(year).toBeLessThan(3000);
+    });
+  });
 });
