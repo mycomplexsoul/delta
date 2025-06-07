@@ -83,7 +83,7 @@
     "@angular/compiler-cli": "19.2.11",
     "@angular/language-service": "19.2.11",
     "@types/chart.js": "2.9.41",
-    "@types/express": "4.17.21",
+    "@types/express": "4.17.23",
     "@types/express-serve-static-core": "^4.17.33",
     "@types/jasmine": "~4.6.0",
     "@types/jasminewd2": "2.0.13",
