@@ -116,7 +116,7 @@
     </div>
 
     <timeline
-      [recordId]="viewData.timelineKey + model.id"
+      [recordId]="TIMELINE_KEY + model.id"
       (onNewItem)="handleNewTimeline($event)"
     ></timeline>
 
@@ -276,7 +276,7 @@
               </div>
 
               <div
-                *ngIf="item['additional']?.tasks?.length > 0 && showActivities()"
+                *ngIf="item['additional']?.uniqueTasks?.length > 0 && showActivities()"
               >
                 <span><strong> Actividades </strong></span>
 

@@ -3,6 +3,7 @@ import * as express from "express";
 import * as Routes from "./Routes";
 import * as cors from "cors";
 import { existsSync } from "fs";
+import { imagesRouter } from "./imagesRouter";
 
 const app = express();
 app.use(express.json());
@@ -50,11 +51,41 @@ app.get("/metadata", (req, res) => {
   );
 });
 
-app.options("/api/external/links", cors());
-app.options("/api/external/links/verify", cors());
+app.use(
+  "/api/external/links",
+  cors({
+    origin: "https://x.com",
+    credentials: false,
+  })
+);
+
+app.use(
+  "/api/external/links/verify",
+  cors({
+    origin: "https://x.com",
+    credentials: false,
+  })
+);
+
+app.options(
+  "/api/external/links",
+  cors({
+    origin: "https://x.com",
+    credentials: false,
+  })
+);
+app.options(
+  "/api/external/links/verify",
+  cors({
+    origin: "https://x.com",
+    credentials: false,
+  })
+);
+app.use("/api/external/links/:lnk_id", cors());
 app.options("/api/external/links/:lnk_id", cors());
 
 app.use("/api", Routes.router);
+app.use("/images", imagesRouter);
 
 app.use(function (req, res) {
   const log = (msg: string) => {

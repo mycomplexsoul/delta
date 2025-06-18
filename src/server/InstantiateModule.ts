@@ -28,6 +28,7 @@ import { CarteraPayment } from "../crosscommon/entities/CarteraPayment";
 import { CarteraPayDet } from "../crosscommon/entities/CarteraPayDet";
 import { CarteraUnit } from "../crosscommon/entities/CarteraUnit";
 import { Timeline } from "../crosscommon/entities/Timeline";
+import { Budget } from "../crosscommon/entities/Budget";
 
 const entityNameModelMap = {
   Catalog: (d: any) => new Catalog(d),
@@ -45,6 +46,7 @@ const entityNameModelMap = {
   Entry: (d: any) => new Entry(d),
   Balance: (d: any) => new Balance(d),
   Preset: (d: any) => new Preset(d),
+  Budget: (d: any) => new Budget(d),
   // LastTime
   LastTime: (d: any) => new LastTime(d),
   LastTimeHistory: (d: any) => new LastTimeHistory(d),

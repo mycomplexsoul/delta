@@ -686,7 +686,9 @@ export class TasksComponent implements OnInit {
     });
 
     // Calculate difference between last task closed and current time
-    const lastTTEntryFromDay = this.lastTTEntryFromDay(today);
+    const lastTTEntryFromDay =
+      this.lastTTEntryFromDay(today) ||
+      this.lastTTEntryFromDay(DateUtils.addDays(new Date(), -1));
     this.differenceLastClosedToRealTime = DateUtils.elapsedTime(
       new Date(),
       lastTTEntryFromDay
@@ -1222,7 +1224,7 @@ export class TasksComponent implements OnInit {
       previous.querySelector(selector).focus();
     } else {
       // pivot if there's hidden elements until there's not a hidden element
-      let recordPivot = current.parentNode.parentNode.previousElementSibling;
+      let recordPivot = current.parentNode?.parentNode?.previousElementSibling;
       while (
         recordPivot &&
         recordPivot.classList.contains("hidden") &&
@@ -1231,7 +1233,8 @@ export class TasksComponent implements OnInit {
         recordPivot = recordPivot.previousElementSibling;
       }
 
-      let pivot = recordPivot && recordPivot.lastElementChild.lastElementChild;
+      let pivot =
+        recordPivot && recordPivot?.lastElementChild?.lastElementChild;
       while (pivot && pivot.classList.contains("hidden")) {
         pivot = pivot.previousElementSibling;
       }
@@ -1291,7 +1294,7 @@ export class TasksComponent implements OnInit {
     ) {
       next.querySelector(selector).focus();
     } else {
-      let nextRecord = current.parentNode.parentNode.nextElementSibling;
+      let nextRecord = current.parentNode?.parentNode?.nextElementSibling;
 
       while (
         nextRecord &&
@@ -2549,7 +2552,9 @@ export class TasksComponent implements OnInit {
   }
 
   timeTrackingQuickEdit(task: any, event: KeyboardEvent, target: string) {
-    let newValue: string = event.target["textContent"].trim();
+    event.preventDefault();
+    event.stopPropagation();
+    let newValue: string = event.target?.["textContent"].trim();
     if (
       newValue.length === 8 &&
       /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/.test(newValue)
@@ -2599,14 +2604,14 @@ export class TasksComponent implements OnInit {
           this.hideTimer(task, dom);
           this.showTimer(task, dom);
         }
-        // //this.calculateTotalTimeSpentToday();
+        // this.calculateTotalTimeSpentToday();
         this.triggerEvent(
           "updateTimeTracking",
           task.tsk_time_history[task.tsk_time_history.length - 1]
         );
       }
     }
-    let parent = event.target["parentNode"]["parentNode"]["parentNode"];
+    let parent = event.target?.["parentNode"]["parentNode"]["parentNode"];
     if (!event.altKey && event.keyCode == 38) {
       // detect jump up
       this.taskJumpUp(parent, `span.tt-${target}[contenteditable=true]`);
@@ -2615,6 +2620,7 @@ export class TasksComponent implements OnInit {
       // detect jump down
       this.taskJumpDown(parent, `span.tt-${target}[contenteditable=true]`);
     }
+    return false;
   }
 
   toggleOptionById({ checked, optionId }) {
@@ -3264,8 +3270,11 @@ export class TasksComponent implements OnInit {
 
   projectNextTasksDates() {
     // start of projection is either current date or last TT end date
+    // or last TT end date from a day before
     let projectionDate: Date =
-      this.lastTTEntryFromDay(new Date()) || new Date();
+      this.lastTTEntryFromDay(new Date()) ||
+      this.lastTTEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
+      new Date();
 
     this.nextTasks[0].tasks.forEach((t: any) => {
       t.projectedDate = new Date(projectionDate);

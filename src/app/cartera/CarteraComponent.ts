@@ -10,18 +10,18 @@ import { Utils } from "src/crosscommon/Utility";
 import { AuthenticationService } from "../common/authentication.service";
 
 const CUOTA_NORMAL = "cuota-normal";
-const PROVISION_AMOUNT = 1480;
+const PROVISION_AMOUNT = 2000;
 const UNIT_LIST: string[] | number[] = [
   101, 102, 103, 104, 201, 202, 203, 204, 301, 302, 303, 304, 401, 402, 403,
   404, 501, 502, 503, 504,
 ];
 
 @Component({
-    selector: "cartera",
-    templateUrl: "./Cartera.html",
-    styleUrls: ["./Cartera.css"],
-    providers: [CarteraService],
-    standalone: false
+  selector: "cartera",
+  templateUrl: "./Cartera.html",
+  styleUrls: ["./Cartera.css"],
+  providers: [CarteraService],
+  standalone: false,
 })
 export class CarteraComponent implements OnInit {
   public viewData: {
@@ -828,7 +828,7 @@ export class CarteraComponent implements OnInit {
                       amount:
                         parsedDetail.length === 2
                           ? parseFloat(parsedDetail[1])
-                          : 1480,
+                          : PROVISION_AMOUNT,
                     };
                   }
                 ),

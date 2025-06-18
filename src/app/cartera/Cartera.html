@@ -102,6 +102,8 @@
   </button>
 </div>
 
+<cartera-send-receipts></cartera-send-receipts>
+
 <div *ngIf="viewData.showGenerateProvisionsSection">
   <span class="field">
     <label for="fPeriod" class="label-left">Period</label>
@@ -280,10 +282,10 @@
           [disabled]="viewData.showPayDetList || model._paymentType === 'nonidentified' || model._paymentType === 'identification'"
           (change)="setDescription(model.fAmount, model.fDate)"
         />&nbsp;<button
-          (click)="model.fAmount = 1480;setDescription(model.fAmount, model.fDate)"
+          (click)="model.fAmount = 2000;setDescription(model.fAmount, model.fDate)"
           *ngIf="!model.fAmount"
         >
-          $1,480</button
+          $2,000</button
         >&nbsp;<button
           (click)="model.fAmount = 1500;setDescription(model.fAmount, model.fDate)"
           *ngIf="!model.fAmount"

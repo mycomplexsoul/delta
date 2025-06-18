@@ -1,0 +1,97 @@
+{
+    "name": "Budget"
+    , "namespace": "Money"
+    , "removeMeans": "DELETION"
+    , "authNeeded": true
+    , "displayOnMenu": true
+    , "prefix": "bud"
+    , "permissionsTemplate": "permissions_all"
+    , "specialFeatures": [
+        "HEADERS(Budget,Budget)"
+        , "TABLE_NAME(BUDGET)"
+        , "VIEW_NAME(VIBUDGET)"
+    ]
+    , "fields": [
+        {
+            "templateId": "integer"
+            , "dbName": "bud_year"
+            , "isPK": true
+            , "dbComment": "Year of the budget record where the budget was defined"
+            , "entName": "Year"
+            , "displayName": "Year"
+            , "isRecordName": true
+        },{
+            "templateId": "integer"
+            , "dbName": "bud_month"
+            , "isPK": true
+            , "dbComment": "Month of the budget record where the budget was defined"
+            , "entName": "Month"
+            , "displayName": "Month"
+            , "isRecordName": true
+        },{
+            "templateId": "integer"
+            , "dbName": "bud_id_category"
+            , "isPK": true
+            , "dbComment": "Category identifier for the budget record, matches with category id"
+            , "entName": "BudgetCategory"
+            , "captureRequired": true
+            , "displayName": "Budget Category"
+        },{
+            "templateId": "integer"
+            , "dbName": "bud_ctg_type"
+            , "dbComment": "Type of Budget (Expense, Income)"
+            , "entName": "BudgetType"
+            , "captureRequired": true
+            , "displayName": "Budget Type"
+            , "catalogId": "BUDGET_TYPE"
+        },{
+            "templateId": "double"
+            , "dbName": "bud_expected_amount"
+            , "dbComment": "Expected Amount of the budget"
+            , "entName": "ExpectedAmount"
+            , "captureRequired": true
+            , "displayName": "Expected Amount"
+            , "isRecordName": true
+        },{
+            "templateId": "double"
+            , "dbName": "bud_real_amount"
+            , "dbComment": "Real Amount of the budget"
+            , "entName": "RealAmount"
+            , "captureRequired": false
+            , "displayName": "Real Amount"
+            , "isRecordName": true
+        },{
+            "templateId": "string"
+            , "dbName": "bud_id_user"
+            , "size": 50
+            , "dbComment": "User who this budget belongs to"
+            , "entName": "User"
+            , "displayName": "User"
+        },{
+            "templateId": "creationDate"
+        },{
+            "templateId": "modificationDate"
+        },{
+            "templateId": "status"
+            , "catalogId": "RECORD_STATUS"
+        },{
+            "templateId": "table"
+            , "dbName": "bud_txt_category"
+            , "size": 100
+            , "originTable": "CATEGORY"
+            , "linkedField": "mct_name"
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_type"
+            , "isRecordName": true
+        },{
+            "templateId": "catalog"
+            , "linkedField": "_ctg_status"
+        }
+    ]
+    , "view": [{
+        "joinType": "LEFT"
+        , "joinTable": "CATEGORY"
+        , "joinStatement": "bud_id_category = mct_id and bud_id_user = mct_id_user"
+    }]
+}

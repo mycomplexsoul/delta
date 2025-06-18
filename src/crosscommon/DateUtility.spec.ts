@@ -198,6 +198,24 @@ describe("DateUtility", () => {
         "01:01:01"
       );
     });
+    it("should return null if date is null", () => {
+      expect(DateUtils.formatTimestamp(null)).toBeNull();
+    });
+    it("should use default format if format is undefined", () => {
+      const date = new Date(2025, 5, 19, 14, 30, 45); // 2025-06-19 14:30:45
+      expect(DateUtils.formatTimestamp(date)).toBe("2025-06-19 14:30:45");
+    });
+    it("should handle string date input", () => {
+      const strDate = "2025-06-19T14:30:45";
+      expect(
+        DateUtils.formatTimestamp(strDate, "[yyyy]-[MM]-[dd] [HH]:[mm]:[ss]")
+      ).toBe("2025-06-19 14:30:45");
+    });
+    it("should handle number input as seconds and use formatTime", () => {
+      expect(DateUtils.formatTimestamp(3661, "[HH]:[mm]:[ss]")).toBe(
+        "01:01:01"
+      );
+    });
   });
 
   describe("parseTime(duration)", () => {

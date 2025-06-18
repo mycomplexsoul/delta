@@ -70,13 +70,13 @@
     <!-- #endregion -->
   </span>
   <span *ngIf="task.tsk_date_done && options.optShowTimeTrackingHistory"
-    >(Done at:
+    >({{ TEXT.FINISHED_AT }}:
     <span contenteditable="true" spellcheck="false"
       >{{ task.tsk_date_done | date: format }}</span
     >)&nbsp;</span
   >
   <span *ngIf="task.tsk_date_done && !options.optShowTimeTrackingHistory"
-    >(Done at:
+    >({{ TEXT.FINISHED_AT }}:
     <span contenteditable="true" spellcheck="false"
       >{{ task.tsk_date_done | date: 'yyyy-MM-dd' }}</span
     >)&nbsp;</span

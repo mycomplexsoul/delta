@@ -334,4 +334,31 @@
       (onSelectMovement)="selectMovement($event)"
     ></movement-listing>
   </div>
+
+  <div class="budget-table-container">
+    <h3>Presupuesto por Categoría</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Presupuesto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of budgetPerCategory()">
+          <td>{{ cat.name }}</td>
+          <td>{{ cat.value | currency:'USD':'symbol-narrow':'1.2-2' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <th>
+            {{ totalBudgetForAllCategories() | currency:
+            'USD':'symbol-narrow':'1.2-2' }}
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 </div>

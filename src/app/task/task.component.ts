@@ -3,16 +3,17 @@ import { Task } from "../../crosscommon/entities/Task";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { TaskCore } from "./task.core";
 import { SyncAPI } from "../common/sync.api";
+import { getTextForLang } from "./task.lang";
 
 const defaults = {};
 const noop = () => {};
 
 @Component({
-    selector: "task",
-    templateUrl: "./task.template.html",
-    styleUrls: ["./task.css"],
-    providers: [],
-    standalone: false
+  selector: "task",
+  templateUrl: "./task.template.html",
+  styleUrls: ["./task.css"],
+  providers: [],
+  standalone: false,
 })
 export class TaskComponent implements OnInit {
   public format: string = "yyyy-MM-dd HH:mm:ss";
@@ -22,6 +23,7 @@ export class TaskComponent implements OnInit {
     CLOSED: 3,
     CANCELLED: 4,
   };
+  public TEXT: Record<string, string> = getTextForLang("es");
 
   @Input() task: Task = null;
   @Input() record: string = null; // record grouping name in a list, null means it was not passed

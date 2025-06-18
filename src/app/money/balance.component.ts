@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, signal, computed } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
 // types
@@ -10,19 +10,41 @@ import { Category } from "../../crosscommon/entities/Category";
 import { BalanceService } from "./balance.service";
 import { MovementService } from "./movement.service";
 import { SyncAPI } from "../common/sync.api";
-import { DateUtils } from "src/crosscommon/DateUtility";
+import { DateUtils } from "../../crosscommon/DateUtility";
 import { AuthenticationService } from "../common/authentication.service";
 import { totalExpenseByDate } from "./movement.indicators";
 import { NotificationService } from "../common/notification.service";
 
 @Component({
-    selector: "balance",
-    templateUrl: "./balance.template.html",
-    styleUrls: ["./balance.css"],
-    providers: [BalanceService, MovementService],
-    standalone: false
+  selector: "balance",
+  templateUrl: "./balance.template.html",
+  styleUrls: ["./balance.css"],
+  providers: [BalanceService, MovementService],
+  standalone: false,
 })
 export class BalanceComponent implements OnInit {
+  public movements = signal<Movement[]>([]);
+  public budgetPerCategory = signal<
+    Array<{ name: string; value: number; total: number }>
+  >(
+    []
+    /* Object.entries(
+      (cfgJson as any).money.budget as Record<string, number>
+    ).reduce(
+      (
+        obj: Array<{ name: string; value: number; total: number }>,
+        [name, value]
+      ) => {
+        return [...obj, { name, value, total: 0 }];
+      },
+      []
+    ) */
+  );
+  public totalBudgetForAllCategories = computed(() => {
+    const budget = this.budgetPerCategory();
+    return budget.reduce((sum: number, val) => sum + val.value, 0);
+  });
+
   public viewData: {
     balance: Array<Balance>;
     movements: Array<Movement>;

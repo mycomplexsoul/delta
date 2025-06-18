@@ -29,12 +29,23 @@
   margin: 0 0 5px 0;
 }
 
-.card-item-container {
+.card-group-item:first-child {
+  page-break-inside: initial;
+  page-break-before: initial;
+}
+
+.card-group-item,
+.card-item-container,
+.timeline-list {
   page-break-inside: avoid;
   page-break-before: auto;
 }
 
 @media print {
+  body {
+    font-size: 9px !important;
+  }
+
   .card-list {
     /* override "flex" since it does not play nice with print report */
     display: block;
@@ -54,6 +65,29 @@
 
   .task-eta, .task-tags, .task-record-name, .activity-card-options-group {
     display: none;
+  }
+
+  task .task-in-process {
+    font-style: normal;
+    font-weight: normal;
+    color: initial;
+  }
+
+  task .task-item-in-process {
+    background: initial;
+    border: none;
+  }
+
+  span.task-unexpected,
+  .task-q-progressed,
+  .task-directions,
+  .task-highlighted {
+    background-color: initial !important;
+  }
+
+  task .task-qualifier-urgent,
+  .task-badge-status-backlog {
+    display: none !important;
   }
 }
 

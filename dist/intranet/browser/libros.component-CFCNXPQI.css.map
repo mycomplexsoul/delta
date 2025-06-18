@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/libros.component.css"],
+  "sourcesContent": [".libros-container {\r\n  max-width: 700px;\r\n  margin: 2rem auto;\r\n  background: #fff;\r\n  border-radius: 16px;\r\n  box-shadow: 0 4px 24px rgba(0,0,0,0.08);\r\n  padding: 2rem 2.5rem;\r\n  font-family: 'Segoe UI', Arial, sans-serif;\r\n}\r\nh1 {\r\n  text-align: center;\r\n  color: #2d3a4a;\r\n  margin-bottom: 2rem;\r\n}\r\n.testamento {\r\n  margin-bottom: 2rem;\r\n}\r\nh2 {\r\n  color: #1976d2;\r\n  border-bottom: 2px solid #e3e8ee;\r\n  padding-bottom: 0.5rem;\r\n  margin-bottom: 1rem;\r\n}\r\nul {\r\n  columns: 2;\r\n  -webkit-columns: 2;\r\n  -moz-columns: 2;\r\n  gap: 2rem;\r\n  list-style: decimal inside;\r\n  padding: 0;\r\n}\r\nli {\r\n  padding: 0.3rem 0;\r\n  color: #374151;\r\n  font-size: 1.08rem;\r\n  border-radius: 4px;\r\n  transition: background 0.2s;\r\n}\r\nli:hover {\r\n  background: #f0f4fa;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC;AACC,aAAW;AACX,UAAQ,KAAK;AACb,cAAY;AACZ,iBAAe;AACf,cAAY,EAAE,IAAI,KAAK,KAAK,CAAC,EAAC,CAAC,EAAC,CAAC,EAAC;AAClC,WAAS,KAAK;AACd;AAAA,IAAa,UAAU;AAAA,IAAE,KAAK;AAAA,IAAE;AAClC;AACA;AACE,cAAY;AACZ,SAAO;AACP,iBAAe;AACjB;AACA,CAAC;AACC,iBAAe;AACjB;AACA;AACE,SAAO;AACP,iBAAe,IAAI,MAAM;AACzB,kBAAgB;AAChB,iBAAe;AACjB;AACA;AACE,WAAS;AACT,mBAAiB;AACjB,gBAAc;AACd,OAAK;AACL,cAAY,QAAQ;AACpB,WAAS;AACX;AACA;AACE,WAAS,OAAO;AAChB,SAAO;AACP,aAAW;AACX,iBAAe;AACf,cAAY,WAAW;AACzB;AACA,EAAE;AACA,cAAY;AACd;",
+  "names": []
+}

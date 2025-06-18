@@ -32,6 +32,10 @@ import { PaymentReportComponent } from "./cartera/PaymentReport/PaymentReportCom
 import { ReceiptReportComponent } from "./cartera/ReceiptReport/ReceiptReportComponent";
 
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
+import { CarouselComponent } from "./carousel.component";
+import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.component";
+import { LibrosComponent } from "./libros.component";
+import { CvComponent } from "./cv/cv.component";
 
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -39,106 +43,123 @@ const appRoutes: Routes = [
   {
     path: "tasks",
     component: TasksComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "account",
     component: AccountComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "movement",
     component: MovementComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "balance",
     component: BalanceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "categories",
     component: CategoryComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "places",
     component: PlaceComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "presets",
     component: PresetComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "login",
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: "cfg",
-    component: CfgComponent
+    component: CfgComponent,
   },
   {
     path: "lasttime",
     component: LastTimeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "multimedia",
     component: MultimediaComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "links",
     component: LinkComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "activities",
     component: ActivityComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: "cartera-pending-payments",
-    component: PendingProvisionReportComponent
+    component: PendingProvisionReportComponent,
   },
   {
     path: "cartera-unit-status",
-    component: UnitStatusReportComponent
+    component: UnitStatusReportComponent,
   },
   {
     path: "cartera-results",
-    component: ResultsReportComponent
+    component: ResultsReportComponent,
   },
   {
     path: "cartera-movements",
-    component: MovementsReportComponent
+    component: MovementsReportComponent,
   },
   {
     path: "cartera",
-    component: CarteraComponent
+    component: CarteraComponent,
   },
   {
     path: "cartera-payment-report",
-    component: PaymentReportComponent
+    component: PaymentReportComponent,
   },
   {
     path: "receipt-report",
-    component: ReceiptReportComponent
+    component: ReceiptReportComponent,
   },
   {
     path: "type-generator",
     component: TypeGeneratorComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "carousel",
+    component: CarouselComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "plan-salvacion",
+    component: PlanSalvacionComponent,
+  },
+  {
+    path: "libros",
+    component: LibrosComponent,
+  },
+  {
+    path: "cv",
+    component: CvComponent,
   },
   {
     path: "",
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   { path: "register", component: RegisterComponent },
-  { path: "**", redirectTo: "" }
+  { path: "**", redirectTo: "" },
   // { path: '**', component: PageNotFoundComponent }
 ];
 

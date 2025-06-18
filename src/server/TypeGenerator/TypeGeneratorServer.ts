@@ -19,6 +19,7 @@ export class TypeGeneratorServer {
     "Entry",
     "Balance",
     "Preset",
+    "Budget",
     // LastTime
     "LastTime",
     "LastTimeHistory",
@@ -40,12 +41,12 @@ export class TypeGeneratorServer {
     "Timeline",
     // Permissions
     "Profile",
-    "Permission"
+    "Permission",
   ];
 
   config = (node: iNode) => {
     const response = {
-      entities: this.entities
+      entities: this.entities,
     };
     node.response.end(JSON.stringify(response));
   };
@@ -63,7 +64,7 @@ export class TypeGeneratorServer {
     node.response.end(
       JSON.stringify({
         success: true,
-        message: `Successfully generated File types for the entities: ${message}`
+        message: `Successfully generated File types for the entities: ${message}`,
       })
     );
   };

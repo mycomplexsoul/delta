@@ -26,21 +26,16 @@ import { getTextForLang } from "./activity.lang";
 
 import { AuthenticationService } from "../common/authentication.service";
 import {
-  calculateHealth,
-  calculateNotes,
-  calculateNotesHidden,
-  calculateTimelineOnly,
-  calculateUniqueTasks,
   tagTasks,
   ALL_STATUS_CODES,
   calculateActivityGroups,
   generateHealthGroupData,
   calculateProjectList,
-  TIMELINE_KEY,
   LAYOUT_LIST,
   calculateTimelineGroup,
   obtainLastFolioByProject,
   aggregateActivityList,
+  calculateLastTimeline,
 } from "./activity.logic";
 
 const TEXT: any = getTextForLang("es"); // TODO: Add lang config toggle
@@ -64,6 +59,7 @@ const ALL_STATUS_TEXT = [
 export class ActivityComponent implements OnInit {
   public REPORT_DATE = DateUtils.dateOnly();
   public LAYOUT_LIST = LAYOUT_LIST;
+  public TIMELINE_KEY = "activity|";
 
   // UI state
   public activityList = signal<Activity[]>([]);
@@ -331,13 +327,13 @@ export class ActivityComponent implements OnInit {
       throw new Error("id should not be empty");
     }
 
-    const item: Activity | undefined = this.activityList().find(
-      ({ act_id }) => act_id === id
-    );
-
-    if (!item) {
+    const idx = this.activityList().findIndex(({ act_id }) => act_id === id);
+    if (idx === -1) {
       throw new Error("Activity not found");
     }
+
+    // Clone activity to avoid direct mutations
+    const item = new Activity(this.activityList()[idx]);
 
     if (ALL_STATUS_CODES.includes(status)) {
       item.act_ctg_status = ALL_STATUS_CODES.indexOf(status) + 1;
@@ -386,7 +382,7 @@ export class ActivityComponent implements OnInit {
       changes[item.act_ctg_status - 1]();
 
       const removeUnusedPayload = (item: Activity): Activity => {
-        const copy = new Activity(item);
+        const copy = new Activity(item, { includeAdditional: false });
         copy["keyvalItems"] = item["keyvalItems"];
         return copy;
       };
@@ -412,6 +408,13 @@ export class ActivityComponent implements OnInit {
               (t) => t.tsk_tags && t.tsk_tags.includes(item.act_tasks_tag)
             );
             item.additional.tasks = tagTasks;
+          });
+
+          // Actualizar la signal activityList con la actividad modificada
+          this.activityList.update((list) => {
+            const newList = [...list];
+            newList[idx] = item;
+            return newList;
           });
 
           this.render(false);
@@ -464,8 +467,13 @@ export class ActivityComponent implements OnInit {
    */
   handleNewTimeline($event: { timeline: Timeline }) {
     // $event => { timeline: Timeline }
+    if (this.model.activity) {
+      this.model.activity.additional.timeline.push($event.timeline);
+      this.model.activity.additional.lastTimeline = calculateLastTimeline(
+        this.model.activity?.additional.timeline
+      );
+    }
     this.timelineList.update((list) => [...list, $event.timeline]);
-    this.model.activity?.additional.timeline.push($event.timeline);
     this.render(false);
   }
 

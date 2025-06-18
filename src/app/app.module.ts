@@ -2,7 +2,11 @@ import { BrowserModule, Title } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from "@angular/common/http";
 
 import { routing } from "./app.routing";
 
@@ -52,6 +56,7 @@ import { MovementsReportComponent } from "./cartera/MovementsReportComponent";
 import { CarteraComponent } from "./cartera/CarteraComponent";
 import { PaymentReportComponent } from "./cartera/PaymentReport/PaymentReportComponent";
 import { ReceiptReportComponent } from "./cartera/ReceiptReport/ReceiptReportComponent";
+import { CarteraSendReceiptsComponent } from "./cartera/CarteraSendReceiptsComponent";
 
 import { AlertComponent } from "./common/alert.component";
 import { JwtInterceptor } from "./common/jwt.interceptor";
@@ -63,63 +68,76 @@ import { environment } from "../environments/environment";
 import { TasksCore } from "./task/tasks.core";
 import { TaskCore } from "./task/task.core";
 import { TaskToolbarComponent } from "./task/task-toolbar.component";
+import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.component";
+import { LibrosComponent } from "./libros.component";
+import { CvComponent } from "./cv/cv.component";
 
-@NgModule({ declarations: [
-        AppComponent,
-        TasksComponent,
-        TaskComponent,
-        TaskToolbarComponent,
-        AccountComponent,
-        MovementComponent,
-        BalanceComponent,
-        CategoryComponent,
-        PlaceComponent,
-        PresetComponent,
-        MovementListingComponent,
-        ComboItemComponent,
-        CheckboxOptionComponent,
-        DrinkWaterComponent,
-        TimeFormatComponent,
-        NotificationComponent,
-        TimelineComponent,
-        MenuComponent,
-        SyncComponent,
-        LoginComponent,
-        CfgComponent,
-        LastTimeComponent,
-        MultimediaComponent,
-        LinkComponent,
-        ActivityComponent,
-        PendingProvisionReportComponent,
-        UnitStatusReportComponent,
-        ResultsReportComponent,
-        MovementsReportComponent,
-        CarteraComponent,
-        PaymentReportComponent,
-        ReceiptReportComponent,
-        TypeGeneratorComponent,
-        AlertComponent,
-        HomeComponent,
-        RegisterComponent,
-    ], // parent & child components
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        routing,
-        NgChartsModule,
-        ServiceWorkerModule.register("ngsw-worker.js", {
-            enabled: environment.production,
-        })], providers: [
-        DateCommon,
-        StorageService,
-        EntryService,
-        SyncAPI,
-        UtilsCommon,
-        Title,
-        TasksCore,
-        TaskCore,
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
+@NgModule({
+  declarations: [
+    AppComponent,
+    TasksComponent,
+    TaskComponent,
+    TaskToolbarComponent,
+    AccountComponent,
+    MovementComponent,
+    BalanceComponent,
+    CategoryComponent,
+    PlaceComponent,
+    PresetComponent,
+    MovementListingComponent,
+    ComboItemComponent,
+    CheckboxOptionComponent,
+    DrinkWaterComponent,
+    TimeFormatComponent,
+    NotificationComponent,
+    TimelineComponent,
+    MenuComponent,
+    SyncComponent,
+    LoginComponent,
+    CfgComponent,
+    LastTimeComponent,
+    MultimediaComponent,
+    LinkComponent,
+    ActivityComponent,
+    PendingProvisionReportComponent,
+    UnitStatusReportComponent,
+    ResultsReportComponent,
+    MovementsReportComponent,
+    CarteraComponent,
+    PaymentReportComponent,
+    ReceiptReportComponent,
+    TypeGeneratorComponent,
+    AlertComponent,
+    HomeComponent,
+    RegisterComponent,
+  ], // parent & child components
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    routing,
+    NgChartsModule,
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production,
+    }),
+    CarteraSendReceiptsComponent,
+    PlanSalvacionComponent,
+    LibrosComponent,
+    CvComponent,
+  ],
+  providers: [
+    DateCommon,
+    StorageService,
+    EntryService,
+    SyncAPI,
+    UtilsCommon,
+    Title,
+    TasksCore,
+    TaskCore,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
+})
 export class AppModule {}

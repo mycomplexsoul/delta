@@ -52,8 +52,10 @@ const mapCodeWithDescription = {
   [CODE_NONE]: mapConceptWithDescription["None"],
 };
 
-const PROVISION_AMOUNT = 1500; // starting from November 2023
-const PENALIZATION_AMOUNT = 150;
+// starting from November 2023: $1500
+// starting from June 2025: $2000
+const PROVISION_AMOUNT = 2000;
+const PENALIZATION_AMOUNT = 200;
 
 export class CarteraServer {
   generateAllProvisionsForMonthHandler(node: iNode) {
@@ -62,7 +64,7 @@ export class CarteraServer {
       month,
       user,
       extraordinary = false,
-      amount = 1500,
+      amount = PROVISION_AMOUNT,
     } = node.request.body;
 
     this.generateAllProvisionsForMonth(
@@ -131,9 +133,7 @@ export class CarteraServer {
     extra: boolean = false
   ) {
     if (extra) {
-      return `${conceptPrefix} Cuota Extraordinaria ${DateUtils.getMonthNameSpanish(
-        month
-      )} ${year}`;
+      return `${conceptPrefix} ${DateUtils.getMonthNameSpanish(month)} ${year}`;
     }
     return `${conceptPrefix} ${DateUtils.getMonthNameSpanish(month)} ${year}`;
   }

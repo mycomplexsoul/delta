@@ -38,6 +38,7 @@ import { CarteraPayDet } from '../crosscommon/entities/CarteraPayDet';
 import { Timeline } from '../crosscommon/entities/Timeline';
 import { Profile } from '../crosscommon/entities/Profile';
 import { Permission } from '../crosscommon/entities/Permission';
+import { Budget } from '../crosscommon/entities/Budget';
 
 export class InstallModule {
     install = () => {
@@ -53,8 +54,9 @@ export class InstallModule {
             , new Link()
             , new Activity(), new Keyval()
             , new CarteraProvision(), new CarteraPayment(), new CarteraPayDet()
-            , new Timeline()*/
-            new Profile(), new Permission()
+            , new Timeline()
+            , new Profile(), new Permission()*/
+            new Budget()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {
