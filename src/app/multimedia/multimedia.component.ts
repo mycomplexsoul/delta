@@ -17,19 +17,20 @@ import { SyncQueue } from "../common/SyncQueue";
 import { CommonComponent } from "../common/common.component";
 
 import { startSpeechRecognition } from "../common/speechRecognition";
-import { autogrowSetup } from '../common/autogrow';
+import { autogrowSetup } from "../common/autogrow";
+import { NotificationService } from "../common/notification.service";
 
 @Component({
-    selector: "multimedia",
-    templateUrl: "./multimedia.template.html",
-    styleUrls: ["./multimedia.css"],
-    providers: [
-        MultimediaService,
-        MultimediaDetService,
-        MultimediaViewService,
-        SyncAPI
-    ],
-    standalone: false
+  selector: "multimedia",
+  templateUrl: "./multimedia.template.html",
+  styleUrls: ["./multimedia.css"],
+  providers: [
+    MultimediaService,
+    MultimediaDetService,
+    MultimediaViewService,
+    SyncAPI,
+  ],
+  standalone: false,
 })
 export class MultimediaComponent {
   public viewData: {
@@ -69,7 +70,7 @@ export class MultimediaComponent {
     fMediaType: 1,
     fSeason: 1,
     fYear: new Date().getFullYear(),
-    fCurrentEp: "1"
+    fCurrentEp: "1",
   };
   public epModel: {
     id: string;
@@ -106,14 +107,14 @@ export class MultimediaComponent {
     fNotes: null,
     fNextEpId: null,
     mediaUrl: null,
-    _DateViewedType: "current"
+    _DateViewedType: "current",
   };
   private MEDIA_AGE = {
     oldest: 30,
     old: 15,
     normal: 7,
     recent: 1,
-    today: 0
+    today: 0,
   };
 
   public common: CommonComponent<Multimedia> = null;
@@ -123,11 +124,12 @@ export class MultimediaComponent {
     private multimediaDetService: MultimediaDetService,
     private multimediaViewService: MultimediaViewService,
     private syncService: SyncAPI,
-    private titleService: Title
+    private titleService: Title,
+    private notificationService: NotificationService
   ) {
     this.titleService.setTitle("Multimedia");
     this.common = new CommonComponent<Multimedia>();
-    this.multimediaService.getAll().then(data => {
+    this.multimediaService.getAll().then((data) => {
       this.viewData.multimediaList = this.calculateAge(data);
     });
     const det = this.multimediaDetService.getAll();
@@ -145,13 +147,13 @@ export class MultimediaComponent {
         {
           f: "ctg_id",
           op: "eq",
-          val: "MULTIMEDIA_MEDIA_TYP" // TODO: fix database length for field ctg_name
-        }
-      ]
+          val: "MULTIMEDIA_MEDIA_TYP", // TODO: fix database length for field ctg_name
+        },
+      ],
     });
     this.syncService
       .get(`/api/sync?entity=Catalog&q=${mediaTypes}`)
-      .then(data => {
+      .then((data) => {
         this.viewData.mediaTypeList = data.list;
       });
 
@@ -161,13 +163,13 @@ export class MultimediaComponent {
         {
           f: "ctg_id",
           op: "eq",
-          val: "MULTIMEDIA_PLATFORM" // TODO: fix database length for field ctg_name
-        }
-      ]
+          val: "MULTIMEDIA_PLATFORM", // TODO: fix database length for field ctg_name
+        },
+      ],
     });
     this.syncService
       .get(`/api/sync?entity=Catalog&q=${platformQuery}`)
-      .then(data => {
+      .then((data) => {
         this.viewData.platformList = data.list;
       });
   }
@@ -190,7 +192,7 @@ export class MultimediaComponent {
         form,
         model: this.model,
         listing: this.viewData.multimediaList,
-        onFindExpression: item => this.findById(item, this.model.id),
+        onFindExpression: (item) => this.findById(item, this.model.id),
         onAssignForEdit: (item, formValues) => {
           const newItem = new Multimedia(item);
 
@@ -204,10 +206,10 @@ export class MultimediaComponent {
 
           return newItem;
         },
-        onUpdateItemService: item => this.multimediaService.updateItem(item),
+        onUpdateItemService: (item) => this.multimediaService.updateItem(item),
         onFinalExecution: () => {
           this.model.id = null;
-        }
+        },
       });
     } else {
       // new item
@@ -216,7 +218,7 @@ export class MultimediaComponent {
         listing: this.viewData.multimediaList,
         onFindExpression: (item, newItem) =>
           this.findById(item, newItem.mma_id),
-        onAssignForCreate: formValues => {
+        onAssignForCreate: (formValues) => {
           const newItem = new Multimedia({
             mma_title: formValues.fTitle,
             mma_ctg_media_type: formValues.fMediaType,
@@ -225,17 +227,17 @@ export class MultimediaComponent {
             mma_current_ep: formValues.fCurrentEp,
             mma_total_ep: formValues.fTotalEp || 0,
             mma_url: formValues.fUrl,
-            mma_ctg_status: formValues.fCtgStatus || 1
+            mma_ctg_status: formValues.fCtgStatus || 1,
           });
           return newItem;
         },
-        onNewItemService: item => {
+        onNewItemService: (item) => {
           return this.multimediaService.newItem(item);
         },
         onFinalExecution: () => {
           this.viewData.showCreateForm = false;
           this.model.id = null;
-        }
+        },
       });
     }
 
@@ -261,7 +263,9 @@ export class MultimediaComponent {
       this.viewData.showCreateForm = !this.viewData.showCreateForm;
     }
 
-    model = this.viewData.multimediaList.find(item => this.findById(item, id));
+    model = this.viewData.multimediaList.find((item) =>
+      this.findById(item, id)
+    );
     this.model.id = model.mma_id; // to tell the form that this is an edition
 
     setTimeout(() => {
@@ -295,7 +299,7 @@ export class MultimediaComponent {
     // Peek into previous ep and use that if it's posterior to media year
     const previousEpisodes = this.multimediaDetService
       .list()
-      .filter(e => e.mmd_id === item.mma_id)
+      .filter((e) => e.mmd_id === item.mma_id)
       .sort((a, b) => (a.mmd_date_add < b.mmd_date_add ? 1 : -1));
     if (previousEpisodes.length > 0) {
       const previousEp: MultimediaDet = previousEpisodes[0];
@@ -309,7 +313,7 @@ export class MultimediaComponent {
     const detFound = this.multimediaDetService
       .list()
       .find(
-        e => e.mmd_id === item.mma_id && e.mmd_id_ep === item.mma_current_ep
+        (e) => e.mmd_id === item.mma_id && e.mmd_id_ep === item.mma_current_ep
       );
     if (detFound) {
       this.epModel.fEpTitle = detFound.mmd_ep_title;
@@ -321,7 +325,7 @@ export class MultimediaComponent {
     const viewFound = this.multimediaViewService
       .list()
       .find(
-        e => e.mmv_id === item.mma_id && e.mmv_id_ep === item.mma_current_ep
+        (e) => e.mmv_id === item.mma_id && e.mmv_id_ep === item.mma_current_ep
       );
     if (viewFound) {
       this.epModel.isViewed = true;
@@ -342,7 +346,7 @@ export class MultimediaComponent {
     // if next ep is beyond last ep, set it as the last ep
     const numericNextEpId: number = Number.parseFloat(this.epModel.fNextEpId);
     const numericLastEpId: number = Number.parseFloat(
-      this.multimediaService.list().find(e => e.mma_id === item.mma_id)
+      this.multimediaService.list().find((e) => e.mma_id === item.mma_id)
         .mma_total_ep
     );
     if (numericLastEpId !== 0 && numericNextEpId > numericLastEpId) {
@@ -365,7 +369,7 @@ export class MultimediaComponent {
     // Peek if this Det item is already created
     const detList = this.multimediaDetService.list();
     const existingDetItem = detList.find(
-      e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
+      (e) => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
     );
 
     if (existingDetItem) {
@@ -382,7 +386,7 @@ export class MultimediaComponent {
 
       // Update viewData
       const index = this.viewData.multimediaDetList.findIndex(
-        e => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
+        (e) => e.mmd_id === this.epModel.id && e.mmd_id_ep === this.epModel.epId
       );
       if (index === -1) {
         this.viewData.multimediaDetList.push(item);
@@ -430,7 +434,7 @@ export class MultimediaComponent {
 
       // Updates Media item
       const media = this.viewData.multimediaList.find(
-        item => item.mma_id === this.epModel.id
+        (item) => item.mma_id === this.epModel.id
       );
       const isFinished: boolean = media.mma_current_ep === media.mma_total_ep;
       if (!isFinished) {
@@ -466,11 +470,22 @@ export class MultimediaComponent {
       }
     }
 
+    if (queue.length > 0) {
+      queue[queue.length - 1].callback = (model: any, response: any) => {
+        if (response.success) {
+          this.notificationService.notify(
+            "Multimedia item updated successfully"
+          );
+        } else {
+          this.notificationService.notify("Error updating multimedia item");
+        }
+      };
+    }
     this.syncService.multipleRequest(queue);
     this.resetEpForm(form);
     this.viewData.showCreateEpForm = false;
     this.renderDetListing(this.viewData.multimediaDetList, null);
-    document.querySelector('.multimedia-listing-section').scrollIntoView();
+    document.querySelector(".multimedia-listing-section").scrollIntoView();
   }
 
   calculateNextEp(currentEp: string): string {
@@ -495,20 +510,20 @@ export class MultimediaComponent {
     this.viewData.showDetList = !!id;
     if (id) {
       this.viewData.detListTitle = this.viewData.multimediaList.find(
-        item => item.mma_id === id
+        (item) => item.mma_id === id
       ).mma_title;
     } else {
       this.viewData.detListTitle = null;
     }
     this.viewData.multimediaDetList = id
-      ? list.filter(item => item.mmd_id === id)
+      ? list.filter((item) => item.mmd_id === id)
       : list.sort(this.sortMultimediaDet);
 
     this.viewData.multimediaDetList = this.viewData.multimediaDetList.filter(
-      item => {
+      (item) => {
         const ref: MultimediaDet = item;
         const found: MultimediaView = this.viewData.multimediaViewList.find(
-          e => e.mmv_id === item.mmd_id && e.mmv_id_ep === item.mmd_id_ep
+          (e) => e.mmv_id === item.mmd_id && e.mmv_id_ep === item.mmd_id_ep
         );
         ref["viewedDate"] = found ? found.mmv_date_viewed : null;
         return !!found;
@@ -523,35 +538,36 @@ export class MultimediaComponent {
 
     const multimediaDetListWithGroups = [];
     const diffDates: Date[] = [];
-    this.viewData.multimediaDetList.forEach(d => {
+    this.viewData.multimediaDetList.forEach((d) => {
       const dayViewed: Date = DateUtils.dateOnly(d["viewedDate"]);
-      const found = diffDates.find(e => e.getTime() === dayViewed.getTime());
+      const found = diffDates.find((e) => e.getTime() === dayViewed.getTime());
       if (!found) {
         diffDates.push(dayViewed);
         multimediaDetListWithGroups.push({
           date: dayViewed,
           items: this.viewData.multimediaDetList
             .filter(
-              m =>
+              (m) =>
                 DateUtils.dateOnly(m["viewedDate"]).getTime() ===
                 dayViewed.getTime()
             )
-            .map(d => {
+            .map((d) => {
               d["viewedInfo"] = this.viewData.multimediaViewList.find(
-                v => v.mmv_id === d.mmd_id && v.mmv_id_ep === d.mmd_id_ep
+                (v) => v.mmv_id === d.mmd_id && v.mmv_id_ep === d.mmd_id_ep
               );
               return d;
-            })
+            }),
         });
       }
     });
     this.viewData.multimediaDetListWithGroups = multimediaDetListWithGroups;
     // latest viewed item is the first one of the first listing always because of ordering
-    this.viewData.latestViewedDate = multimediaDetListWithGroups[0].items[0].viewedDate;
+    this.viewData.latestViewedDate =
+      multimediaDetListWithGroups[0].items[0].viewedDate;
   }
 
   showDetListing(id: string) {
-    this.multimediaDetService.getAll().then(data => {
+    this.multimediaDetService.getAll().then((data) => {
       this.renderDetListing(data, id);
     });
   }
@@ -560,12 +576,12 @@ export class MultimediaComponent {
     const ageInDays = (base: Date) => DateUtils.elapsedDays(new Date(), base);
     const classname = (age: number) => {
       const entry = Object.entries(this.MEDIA_AGE).find(
-        entry => entry[1] <= age
+        (entry) => entry[1] <= age
       );
       return entry[0];
     };
 
-    return list.map(item => {
+    return list.map((item) => {
       const t = item;
       t["age"] = ageInDays(t.mma_date_mod);
       t["ageClassname"] = `multimedia-${classname(t["age"])}`;
@@ -605,7 +621,8 @@ export class MultimediaComponent {
     if (info && info.includes("|")) {
       const splitted: string[] = info.split("|");
 
-      if (splitted.length === 5) { // from imdb
+      if (splitted.length === 5) {
+        // from imdb
         this.epModel.fEpTitle = splitted[0];
         this.epModel.fAltEpTitle = splitted[1] || "";
         this.epModel.fYear = Number.parseInt(splitted[2]);
@@ -613,7 +630,8 @@ export class MultimediaComponent {
         this.epModel.fSummary = splitted[4] || "";
       }
 
-      if (splitted.length === 3) { // from netflix
+      if (splitted.length === 3) {
+        // from netflix
         this.epModel.fEpTitle = splitted[0];
         this.epModel.fSummary = splitted[1] || "";
         this.epModel.fPlatform = Number.parseInt(splitted[2]) || 1;
@@ -625,7 +643,7 @@ export class MultimediaComponent {
 
   dictate() {
     startSpeechRecognition()
-      .then(text => {
+      .then((text) => {
         this.epModel.fNotes = text;
       })
       .catch(console.log);
@@ -633,8 +651,8 @@ export class MultimediaComponent {
   }
 
   setDateViewedInModel(date: Date, event: Event) {
-    const btn = document.getElementById('fDateViewedTypeCustom');
-    if (btn && this.epModel._DateViewedType !== 'custom') {
+    const btn = document.getElementById("fDateViewedTypeCustom");
+    if (btn && this.epModel._DateViewedType !== "custom") {
       btn.click();
     }
     this.epModel.fDateViewed = DateUtils.dateToStringDate(date);
@@ -647,11 +665,13 @@ export class MultimediaComponent {
   }
 
   submitOnEnter(event: KeyboardEvent, newEpForm: NgForm) {
-    if (event.key === 'Enter') {
-      const mediaItem = this.viewData.multimediaList.find(m => m.mma_id === this.epModel.id);
+    if (event.key === "Enter") {
+      const mediaItem = this.viewData.multimediaList.find(
+        (m) => m.mma_id === this.epModel.id
+      );
       this.newEpItem(newEpForm);
 
-      if (event.key === 'Enter' && event.shiftKey) {
+      if (event.key === "Enter" && event.shiftKey) {
         setTimeout(() => {
           this.showNewEpForm(mediaItem);
         }, 200);

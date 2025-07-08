@@ -72,6 +72,26 @@ span.task-q-progressed {
   background-color: var(--task-time-behind);
 }
 
+.task-columns-1 {
+  columns: 1;
+}
+
+.task-columns-3 {
+  columns: 3;
+}
+
+.task-columns-5 {
+  columns: 5;
+}
+
+.task-columns-8 {
+  columns: 8 !important;
+}
+
+.task-columns-10 {
+  columns: 10 !important;
+}
+
 @media (min-width: 504px) {
   .task-record-use-columns {
     columns: 3;

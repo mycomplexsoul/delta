@@ -844,7 +844,9 @@
         class="task-record-items"
         [ngClass]="{
           'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight,
-          'task-record-use-columns': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20
+          'task-record-use-columns': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20,
+          'task-columns-8': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 60,
+          'task-columns-10': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 100
         }"
         [ngStyle]="{
           'max-width': recordStyle(item.header, 'width'),

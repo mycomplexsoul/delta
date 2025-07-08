@@ -1,0 +1,9 @@
+<div class="cartera-send-receipts">
+  <label for="periodSelect">Periodo</label>
+  <select id="periodSelect" [(ngModel)]="selectedPeriod">
+    <ng-container *ngFor="let opt of periodOptions">
+      <option [value]="opt.value">{{ opt.label }}</option>
+    </ng-container>
+  </select>
+  <button (click)="sendReceipts()" [disabled]="loading">Enviar recibos</button>
+</div>

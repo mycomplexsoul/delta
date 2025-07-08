@@ -14,6 +14,7 @@ import { BalanceComponent } from "./money/balance.component";
 import { CategoryComponent } from "./money/category.component";
 import { PlaceComponent } from "./money/place.component";
 import { PresetComponent } from "./money/preset.component";
+import { BudgetListComponent } from "./money/budget-list.component";
 
 import { LastTimeComponent } from "./lasttime/lasttime.component";
 
@@ -152,6 +153,11 @@ const appRoutes: Routes = [
   {
     path: "cv",
     component: CvComponent,
+  },
+  {
+    path: "budget",
+    component: BudgetListComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "",

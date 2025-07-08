@@ -687,6 +687,7 @@ export class TasksComponent implements OnInit {
 
     // Calculate difference between last task closed and current time
     const lastTTEntryFromDay =
+      this.lastTTEntryFromDay(DateUtils.addDays(new Date(), 1)) ||
       this.lastTTEntryFromDay(today) ||
       this.lastTTEntryFromDay(DateUtils.addDays(new Date(), -1));
     this.differenceLastClosedToRealTime = DateUtils.elapsedTime(
@@ -697,11 +698,20 @@ export class TasksComponent implements OnInit {
     if (this.focusedTask.task) {
       if (this.focusedTask.task.tsk_ctg_status === this.taskStatus.OPEN) {
         setTimeout(() => {
-          document
-            .querySelector(
-              `#${this.focusedTask.task.tsk_id} span.editable.task-text`
-            )
-            ?.["focus"]();
+          const baseSelector = `#${this.focusedTask.task.tsk_id} span.editable.task-text`;
+          const taskInNexToDo = document.querySelector(
+            `#nextToDoTodayList ${baseSelector}`
+          ) as HTMLSpanElement;
+          if (taskInNexToDo) {
+            taskInNexToDo.focus();
+          } else {
+            const taskInOpenTasks = document.querySelector(
+              baseSelector
+            ) as HTMLSpanElement;
+            if (taskInOpenTasks) {
+              taskInOpenTasks.focus();
+            }
+          }
         }, 600);
       }
     }
@@ -876,6 +886,15 @@ export class TasksComponent implements OnInit {
       // detect '+'
       this.focusElement("input[name=tsk_name]");
     }
+    if (event.altKey && event.shiftKey && event.keyCode == 107) {
+      // detect '+'
+      const firstTaskInNextToDo = this.nextTasks?.[0]?.tasks[0];
+      if (firstTaskInNextToDo) {
+        this.focusElement(
+          `#nextToDoTodayList #${firstTaskInNextToDo.tsk_id} span.task-text[contenteditable=true]`
+        );
+      }
+    }
     if (event.altKey && optIncludesKey(event.key, "n")) {
       // detect 'n'
       this.asNextToDo(t, true);
@@ -909,7 +928,7 @@ export class TasksComponent implements OnInit {
         // this.taskToggleTimeTracking(task, parent);
         document
           .querySelector(`#${task.tsk_id} input[type=checkbox]`)
-          ["click"]();
+          ?.["click"]();
       });
       // start current task time tracking
       this.taskToggleTimeTracking(t, parent);
@@ -925,7 +944,7 @@ export class TasksComponent implements OnInit {
    * @param event keyboard event to handle
    */
   taskKeyDown(event: KeyboardEvent) {
-    const parent = event.target["parentNode"];
+    const parent = event.target?.["parentNode"];
 
     if (event.altKey && event.keyCode == 38) {
       // detect move up
@@ -951,6 +970,12 @@ export class TasksComponent implements OnInit {
       // detect jump down
       this.taskRecordJumpDown(parent, "span.task-text[contenteditable=true]");
     }
+    if (event.altKey && event.key === "PageDown") {
+      // detect 'Alt + Page Down' = jump to the same task in the NextToDo section
+      this.focusElement(
+        `#nextToDoTodayList #${parent.id} span.task-text[contenteditable=true]`
+      );
+    }
   }
 
   /**
@@ -959,7 +984,7 @@ export class TasksComponent implements OnInit {
    * @param event keyboard event to handle
    */
   nextTaskKeyDown(event: KeyboardEvent) {
-    const parent = event.target["parentNode"];
+    const parent = event.target?.["parentNode"];
 
     if (event.altKey && event.keyCode == 38) {
       // detect move up
@@ -990,6 +1015,12 @@ export class TasksComponent implements OnInit {
     if (!event.altKey && event.keyCode == 40) {
       // detect jump down
       this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+    if (event.altKey && event.key === "PageUp") {
+      // detect 'Alt + Page Up' = jump to the same task in the Open Tasks section
+      this.focusElement(
+        `#openTaskList #${parent.id} span.task-text[contenteditable=true]`
+      );
     }
   }
 
@@ -1094,6 +1125,24 @@ export class TasksComponent implements OnInit {
       tsk_date_done: dateDone,
     });
     setTimeout(() => {
+      // if there is another task in progress, focus that one, but let the updateState() call take care of the focus
+      const nextTaskFromNextToDo = this.obtainNextTaskFromNextToDo(t);
+      if (nextTaskFromNextToDo) {
+        this.focusedTask.task = nextTaskFromNextToDo;
+        /* this.focusElement(
+          `#nextToDoTodayList #${previousTaskFromNextToDo.tsk_id} span.editable.task-text`
+        ); */
+      } else {
+        // otherwise focus the first task in the next to do list
+        const firstTask = this.nextTasks[0].tasks[0];
+        if (firstTask) {
+          this.focusedTask.task = firstTask;
+          /* this.focusElement(
+            `#nextToDoTodayList #${firstTask.tsk_id} span.editable.task-text`,
+            100
+          ); */
+        }
+      }
       this.updateState();
       // remove notification if any
       this.removeScheduledNotification(t);
@@ -1199,7 +1248,7 @@ export class TasksComponent implements OnInit {
    */
   interchangePinnedTaskOrder(tsk_id1: string, tsk_id2: string) {
     let currentPinnedTasks =
-      localStorage && JSON.parse(localStorage.getItem("PinnedTasks"));
+      localStorage && JSON.parse(localStorage.getItem("PinnedTasks") || "[]");
 
     let index1 = currentPinnedTasks.findIndex((e) => e === tsk_id1);
     let index2 = currentPinnedTasks.findIndex((e) => e === tsk_id2);
@@ -1278,11 +1327,14 @@ export class TasksComponent implements OnInit {
   }
 
   focusElement(selector: string, delay: number = 0) {
-    const focus = () => document.querySelector(selector)["focus"]();
-    if (delay > 0) {
-      setTimeout(focus, delay);
+    const element = document.querySelector(selector) as HTMLElement;
+    if (element) {
+      const focus = () => element.focus();
+      if (delay > 0) {
+        setTimeout(focus, delay);
+      }
+      focus();
     }
-    focus();
   }
 
   taskJumpDown(current: any, selector: string) {
@@ -1801,6 +1853,30 @@ export class TasksComponent implements OnInit {
     }
   }
 
+  obtainPreviousTaskFromNextToDo(t: Task): Task | undefined {
+    const taskIndex = this.nextTasks[0]["tasks"].findIndex(
+      (e: Task) => e.tsk_id === t.tsk_id
+    );
+    if (taskIndex === -1 || taskIndex === 0) {
+      // task is not in next tasks or is the first one, so return the first one
+      return this.nextTasks[0]["tasks"][0];
+    }
+    const task = this.nextTasks[0]["tasks"][taskIndex - 1];
+    return task;
+  }
+
+  obtainNextTaskFromNextToDo(t: Task): Task | undefined {
+    const taskIndex = this.nextTasks[0]["tasks"].findIndex(
+      (e: Task) => e.tsk_id === t.tsk_id
+    );
+    if (taskIndex === -1) {
+      // task is not in next tasks, so return the first one
+      return this.nextTasks[0]["tasks"][0];
+    }
+    const task = this.nextTasks[0]["tasks"][taskIndex + 1];
+    return task;
+  }
+
   commandOnTask(t: any, event: KeyboardEvent) {
     if (t.tsk_name !== event.target["textContent"]) {
       this.updateTask(t.tsk_id, {
@@ -1912,7 +1988,7 @@ export class TasksComponent implements OnInit {
       );
     }
     if (command.indexOf("$[") !== -1) {
-      // set url
+      // set qualifiers
       this.services.tasksCore.doThisWithAToken(
         t,
         (t: Task, expression: string) => {
@@ -1923,6 +1999,46 @@ export class TasksComponent implements OnInit {
           this.updateState();
         },
         "$[",
+        "]"
+      );
+    }
+    if (command.indexOf("[+") !== -1) {
+      // set start date if in progress
+      this.services.tasksCore.doThisWithAToken(
+        t,
+        (t: Task, expression: string) => {
+          if (t.tsk_ctg_in_process !== 2) {
+            // if task is not in progress, we cannot set start date
+            return;
+          }
+          const previousTask = this.obtainPreviousTaskFromNextToDo(t);
+          if (!previousTask || previousTask.tsk_ctg_in_process !== 2) {
+            // previous task is not in progress, we cannot set start date
+            return;
+          }
+          let previousTaskTime = new Date(
+            previousTask["tsk_time_history"][
+              previousTask["tsk_time_history"].length - 1
+            ][`tsh_date_start`]
+          );
+          const newTime = DateUtils.formatTimestamp(
+            DateUtils.addMinutes(previousTaskTime, parseInt(expression)),
+            "[HH]:[mm]:[ss]"
+          );
+          this.timeTrackingQuickEditLogic(t, newTime, "start");
+          // this.updateState();
+          const currentTask = this.nextTasks[0]["tasks"].find(
+            (e: Task) => e.tsk_id === t.tsk_id
+          );
+          if (currentTask) {
+            const original = `${currentTask.tsk_name}`;
+            currentTask.tsk_name = t.tsk_name + ".";
+            setTimeout(() => {
+              currentTask.tsk_name = original;
+            }, 100);
+          }
+        },
+        "[+",
         "]"
       );
     }
@@ -2551,10 +2667,8 @@ export class TasksComponent implements OnInit {
     this[view] = !this[view];
   }
 
-  timeTrackingQuickEdit(task: any, event: KeyboardEvent, target: string) {
-    event.preventDefault();
-    event.stopPropagation();
-    let newValue: string = event.target?.["textContent"].trim();
+  timeTrackingQuickEditLogic(task: any, newTimeValue: string, target: string) {
+    let newValue: string = newTimeValue;
     if (
       newValue.length === 8 &&
       /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/.test(newValue)
@@ -2611,6 +2725,17 @@ export class TasksComponent implements OnInit {
         );
       }
     }
+  }
+
+  timeTrackingQuickEdit(task: any, event: KeyboardEvent, target: string) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.timeTrackingQuickEditLogic(
+      task,
+      event.target?.["textContent"].trim(),
+      target
+    );
+
     let parent = event.target?.["parentNode"]["parentNode"]["parentNode"];
     if (!event.altKey && event.keyCode == 38) {
       // detect jump up
@@ -3272,6 +3397,7 @@ export class TasksComponent implements OnInit {
     // start of projection is either current date or last TT end date
     // or last TT end date from a day before
     let projectionDate: Date =
+      this.lastTTEntryFromDay(DateUtils.addDays(new Date(), 1)) ||
       this.lastTTEntryFromDay(new Date()) ||
       this.lastTTEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
       new Date();
