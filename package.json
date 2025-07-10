@@ -61,7 +61,7 @@
     "@angular/router": "19.2.11",
     "@angular/service-worker": "19.2.11",
     "@types/cors": "^2.8.18",
-    "@types/node": "18.19.31",
+    "@types/node": "20.19.7",
     "chart.js": "4.4.2",
     "chartjs-adapter-date-fns": "^3.0.0",
     "core-js": "3.41.0",
