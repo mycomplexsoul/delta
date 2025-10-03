@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1751933301925,
+  "timestamp": 1759099923066,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -19,7 +19,7 @@
         "/chunk-TXDUYLVM.js",
         "/favicon.ico",
         "/index.html",
-        "/main-M56AII6X.js",
+        "/main-54HGFXG5.js",
         "/manifest.webmanifest",
         "/polyfills-ICJLJU4D.js",
         "/styles-PPKNAAAL.css"
@@ -36,6 +36,7 @@
       "urls": [
         "/assets/icons/close.svg",
         "/assets/icons/energy.svg",
+        "/assets/icons/fire.svg",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -45,6 +46,7 @@
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
         "/assets/icons/people.svg",
+        "/assets/icons/pin.svg",
         "/assets/icons/smartphone.svg",
         "/assets/images/firma-comite.png"
       ],
@@ -55,6 +57,7 @@
   "hashTable": {
     "/assets/icons/close.svg": "1bfb9c54d1bb8514bc4916158b10357d488eb94a",
     "/assets/icons/energy.svg": "5a84324cff6e0fbd22661e415087b051663629e4",
+    "/assets/icons/fire.svg": "ea0cc171e9d2cf55e62668fd816b2928a3bd5e22",
     "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -64,6 +67,7 @@
     "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/assets/icons/people.svg": "8449e2e3731a3fafc26c80c0d785b9b0fbe3c0bd",
+    "/assets/icons/pin.svg": "cc72305ae192e6177c0fdc232c55502e6ff50df0",
     "/assets/icons/smartphone.svg": "13031b9b8dbe1959b13cabc2bc5b62ecd4b8642a",
     "/assets/images/firma-comite.png": "a82c28413f5f5cbbd5feba6e9f0b9afd23b1bc4a",
     "/chunk-7YWLATDR.js": "2a6e77e8cb581d26bcf1f3e853e2161ac196bccd",
@@ -73,8 +77,8 @@
     "/chunk-QKQMOMIC.js": "36704ddffcfd3a136fcd8f6332ff79c68e0c684a",
     "/chunk-TXDUYLVM.js": "536ac469f4fcc7b704f94eb4cf6263f835bd6803",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "e792376b4dc8fc95af567de5a75b7c695f7fb60b",
-    "/main-M56AII6X.js": "2929d52c6072bb721f16fee6fd25ce03df665bcb",
+    "/index.html": "d1048e5899898ccc93ba887450c1ea20079b2088",
+    "/main-54HGFXG5.js": "e279e5554da1ec457c0c4f51e3fc09e61fc4447a",
     "/manifest.webmanifest": "f007557c731ca82b5c8546a06399847411e838d7",
     "/polyfills-ICJLJU4D.js": "e0955022cfb11b672c7169b456a18248d98ba5a5",
     "/styles-PPKNAAAL.css": "c0596480c4b3cf0237f8416d258a48733935b601"

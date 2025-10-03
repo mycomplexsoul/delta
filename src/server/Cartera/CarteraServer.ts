@@ -132,10 +132,9 @@ export class CarteraServer {
     month: number,
     extra: boolean = false
   ) {
-    if (extra) {
-      return `${conceptPrefix} ${DateUtils.getMonthNameSpanish(month)} ${year}`;
-    }
-    return `${conceptPrefix} ${DateUtils.getMonthNameSpanish(month)} ${year}`;
+    return `${conceptPrefix} ${
+      extra ? "Extraordinaria " : ""
+    }${DateUtils.getMonthNameSpanish(month)} ${year}`;
   }
 
   generateProvision(

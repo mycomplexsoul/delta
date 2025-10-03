@@ -705,12 +705,12 @@ export class TasksComponent implements OnInit {
           if (taskInNexToDo) {
             taskInNexToDo.focus();
           } else {
-            const taskInOpenTasks = document.querySelector(
-              baseSelector
-            ) as HTMLSpanElement;
-            if (taskInOpenTasks) {
-              taskInOpenTasks.focus();
-            }
+            // const taskInOpenTasks = document.querySelector(
+            //   baseSelector
+            // ) as HTMLSpanElement;
+            // if (taskInOpenTasks) {
+            //   taskInOpenTasks.focus();
+            // }
           }
         }, 600);
       }

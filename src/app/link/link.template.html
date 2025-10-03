@@ -72,24 +72,100 @@
     <input (keyup)="filter($event)" placeholder="Filter" />
   </div>
 
-  <div class="card-list">
-    <div *ngFor="let item of viewData.linkList" class="card-item-container">
-      <span class="link-url">{{ item.lnk_url }}</span>
-      <br />
-      <span>Tags: {{ item.lnk_tags }}</span>
-      <br />
-      <span>Date Mod: {{ item.lnk_date_mod | date: "yyyy-MM-dd HH:mm" }}</span>
-      <span (click)="item.showOptions = !item.showOptions">
-        {{ item.showOptions ? "-" : "+" }}
-      </span>
+  <button (click)="toggleMainLinks()">
+    {{ showMainLinks ? 'Ocultar links' : 'Mostrar links' }}
+  </button>
 
-      <span class="link-badge-new" *ngIf="item.isNew">new</span>
-      <span class="link-badge-edited" *ngIf="item.isEdited">edited</span>
+  <div *ngIf="showMainLinks">
+    <div class="card-list">
+      <div *ngFor="let item of viewData.linkList" class="card-item-container">
+        <span class="link-url">{{ item.lnk_url }}</span>
+        <br />
+        <span>Tags: {{ item.lnk_tags }}</span>
+        <br />
+        <span
+          >Date Mod: {{ item.lnk_date_mod | date: "yyyy-MM-dd HH:mm" }}</span
+        >
+        <span (click)="item.showOptions = !item.showOptions">
+          {{ item.showOptions ? "-" : "+" }}
+        </span>
 
-      <span *ngIf="item.showOptions">
-        <button (click)="setModelDetails(item.lnk_id, itemForm)">edit</button>
-        <button (click)="copyAndUpdateItem(item)">copy</button>
-      </span>
+        <span class="link-badge-new" *ngIf="item.isNew">new</span>
+        <span class="link-badge-edited" *ngIf="item.isEdited">edited</span>
+
+        <span *ngIf="item.showOptions">
+          <button (click)="setModelDetails(item.lnk_id, itemForm)">edit</button>
+          <button (click)="copyAndUpdateItem(item)">copy</button>
+        </span>
+      </div>
     </div>
+  </div>
+
+  <button (click)="toggleBatchSection()">
+    {{ showBatchSection ? 'Hide batch add' : 'Show batch add' }}
+  </button>
+
+  <div *ngIf="showBatchSection" style="margin-top: 16px">
+    <label for="batchTextarea">Multiple links</label><br />
+    <textarea
+      id="batchTextarea"
+      [(ngModel)]="batchTextarea"
+      style="width: 500px; height: 300px"
+    ></textarea
+    ><br />
+    <button (click)="addLinksBatch()">Add links</button>
+  </div>
+
+  <hr />
+
+  <label>
+    Minutes between copies:
+    <input
+      type="number"
+      min="1"
+      [(ngModel)]="delayedCopyMinutes"
+      [disabled]="delayedCopyActive"
+    />
+  </label>
+  <button (click)="launchDelayedCopy()" [disabled]="delayedCopyActive">
+    Launch delayed copy
+  </button>
+  <button (click)="stopDelayedCopy()" [disabled]="!delayedCopyActive">
+    Stop delayed copy
+  </button>
+  <div>
+    <strong>Pendientes por copiar: {{ pendingLinksCount() }}</strong>
+  </div>
+
+  <div
+    *ngIf="delayedCopyActive || delayedCopyTable.length > 0"
+    style="margin-top: 16px"
+  >
+    <div *ngIf="delayedCopyActive">
+      <strong>Next copy in: {{ getDelayedCopyTimeLeft() }}</strong>
+    </div>
+    <table border="1" style="margin-top: 8px">
+      <thead>
+        <tr>
+          <th>Link</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of delayedCopyTable">
+          <td>{{ row.link.lnk_url }}</td>
+          <td>
+            <span *ngIf="row.copied">&#10003; Copied</span>
+            <span *ngIf="!row.copied">Pending</span>
+          </td>
+          <td>
+            <button *ngIf="!row.copied" (click)="copyLinkNow(row.link)">
+              Copy now
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

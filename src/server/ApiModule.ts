@@ -172,7 +172,10 @@ export class ApiModule {
       const sqlMotor: MoSQL = new MoSQL(m);
       const recordName: string = m.recordName();
 
-      console.log("-- [ApiModule.update] verify record exists");
+      console.log("-- [ApiModule.update] verify record exists", {
+        m,
+        pk: data.pk,
+      });
 
       return connection.runSql(sqlMotor.toSelectPKSQL()).then((response) => {
         console.log("-- [ApiModule.update] after verification sql runs");

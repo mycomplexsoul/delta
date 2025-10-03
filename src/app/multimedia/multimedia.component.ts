@@ -481,7 +481,7 @@ export class MultimediaComponent {
         }
       };
     }
-    this.syncService.multipleRequest(queue);
+    this.syncService.multipleRequest(queue, { syncImmediately: true });
     this.resetEpForm(form);
     this.viewData.showCreateEpForm = false;
     this.renderDetListing(this.viewData.multimediaDetList, null);

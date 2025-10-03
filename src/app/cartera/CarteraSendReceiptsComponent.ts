@@ -50,8 +50,8 @@ export class CarteraSendReceiptsComponent implements OnInit {
       return;
     }
     // Parse year and month from selectedPeriod (format: YYYYMM)
-    const year = this.selectedPeriod.substring(0, 4);
-    const month = this.selectedPeriod.substring(4, 6);
+    const year = Number.parseInt(this.selectedPeriod.substring(0, 4), 10);
+    const month = Number.parseInt(this.selectedPeriod.substring(4, 6), 10);
     this.loading = true;
     this.sendReceiptService
       .sendReceipts(year, month)

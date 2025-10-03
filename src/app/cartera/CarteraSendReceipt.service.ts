@@ -5,7 +5,7 @@ import { SyncAPI } from "../common/sync.api";
 export class CarteraSendReceiptService {
   constructor(private sync: SyncAPI) {}
 
-  sendReceipts(year: string, month: string): Promise<any> {
+  sendReceipts(year: number, month: number): Promise<any> {
     // ! TODO: use internal route and remove external route access since it will deprecate it
     return this.sync.post("/api/external/cartera-ext/send-receipts-email", {
       year,

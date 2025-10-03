@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   let server: LinkServer = new LinkServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.listRequestHandler(node);
 });
@@ -17,16 +17,21 @@ router.post("/", (req, res) => {
   let server: LinkServer = new LinkServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.createRequestHandler(node);
+});
+
+router.post("/batch", (req, res) => {
+  let server: LinkServer = new LinkServer();
+  server.batchAddLinks(req, res);
 });
 
 router.post("/:lnk_id", (req, res) => {
   let server: LinkServer = new LinkServer();
   let node: iNode = {
     request: req,
-    response: res
+    response: res,
   };
   server.updateRequestHandler(node);
 });

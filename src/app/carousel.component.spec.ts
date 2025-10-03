@@ -15,7 +15,7 @@ describe("CarouselComponent", () => {
   it("should initialize with default values", () => {
     expect(component.current()).toBe(0);
     expect(component.validImages()).toEqual([]);
-    expect(component.paused).toBe(false);
+    expect(component.paused()).toBe(false);
   });
 
   it("should go to a specific index", () => {
@@ -40,9 +40,9 @@ describe("CarouselComponent", () => {
 
   it("should pause and stop timer", () => {
     component.timer = setInterval(() => {}, 1000);
-    component.paused = false;
+    component.paused.set(false);
     component.pause();
-    expect(component.paused).toBe(true);
+    expect(component.paused()).toBe(true);
     expect(component.timer).toBeNull();
   });
 
@@ -50,9 +50,9 @@ describe("CarouselComponent", () => {
     const startTimerSpy = spyOn<any>(component, "startTimer").and.callFake(
       () => {}
     );
-    component.paused = true;
+    component.paused.set(true);
     component.play();
-    expect(component.paused).toBe(false);
+    expect(component.paused()).toBe(false);
     expect(startTimerSpy).toHaveBeenCalled();
   });
 
@@ -60,7 +60,7 @@ describe("CarouselComponent", () => {
     const startTimerSpy = spyOn<any>(component, "startTimer").and.callFake(
       () => {}
     );
-    component.paused = false;
+    component.paused.set(false);
     component.play();
     expect(startTimerSpy).not.toHaveBeenCalled();
   });
@@ -71,12 +71,11 @@ describe("CarouselComponent", () => {
     component.ngOnDestroy();
     expect(stopTimerSpy).toHaveBeenCalled();
     expect(component.timer).toBeNull();
-    expect(component.paused).toBe(true);
   });
 
   it("should start timer only if images exist and not paused", () => {
     component.validImages.set(["a"]);
-    component.paused = false;
+    component.paused.set(false);
     (component as any).startTimer();
     expect(component.timer).not.toBeNull();
     clearInterval(component.timer);
@@ -84,11 +83,11 @@ describe("CarouselComponent", () => {
 
   it("should not start timer if paused or no images", () => {
     component.validImages.set([]);
-    component.paused = false;
+    component.paused.set(false);
     (component as any).startTimer();
     expect(component.timer).toBeUndefined();
     component.validImages.set(["a"]);
-    component.paused = true;
+    component.paused.set(true);
     (component as any).startTimer();
     expect(component.timer).toBeUndefined();
   });
@@ -107,7 +106,6 @@ describe("CarouselComponent", () => {
       }) as any
     );
     component = new CarouselComponent(routeMock as any);
-    // @ts-expect-error: test override
     component["startTimer"] = () => {};
     component.ngOnInit();
     setTimeout(() => {

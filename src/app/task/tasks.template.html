@@ -802,7 +802,7 @@
         'task-record-background': isRecordPinned(item.header)
       }"
       [ngStyle]="{
-        'max-width': options.optUseColumnsForRecords || (isRecordPinned(item.header) && item.tasks.length >= 20) ? '100%' : undefined
+        'max-width': options.optUseColumnsForRecords || (isRecordPinned(item.header) && item.tasks.length >= 20) ? (item.tasks.length >= 30 ? '100%' : '40%') : undefined
       }"
     >
       <div
@@ -845,6 +845,7 @@
         [ngClass]="{
           'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight,
           'task-record-use-columns': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20,
+          'task-columns-3': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20 && item.tasks.length <= 30,
           'task-columns-8': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 60,
           'task-columns-10': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 100
         }"
@@ -920,14 +921,20 @@
             }}
           </span>
           <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
-            >&#9733;</span
+            class="task-q-critical"
+            *ngIf="t.tsk_qualifiers.indexOf('critical') !== -1"
+            title="Critical task"
+            >🔥</span
           >
           <span
             class="task-qualifier-icon task-qualifier-urgent"
             *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
             >&#33;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
+            >&#9733;</span
           >
           <span
             class="task-qualifier-icon"
@@ -968,7 +975,7 @@
           </span>
           <span class="task-pinned-todo-icon" *ngIf="t.inPinnedToDo">
             <img
-              src="/assets/icons/energy.svg"
+              src="/assets/icons/pin.svg"
               alt="In Pinned To Do listing"
               title="In Pinned To Do listing"
             />
@@ -986,7 +993,6 @@
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
               'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
-              'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             (focus)="setFocus(t, $event); setTaskSelected(t)"
@@ -1212,14 +1218,20 @@
             }}
           </span>
           <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
-            >&#9733;</span
+            class="task-q-critical"
+            *ngIf="t.tsk_qualifiers.indexOf('critical') !== -1"
+            title="Critical task"
+            >🔥</span
           >
           <span
             class="task-qualifier-icon task-qualifier-urgent"
             *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
             >&#33;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
+            >&#9733;</span
           >
           <span
             class="task-qualifier-icon"
@@ -1266,8 +1278,7 @@
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
-              'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             class="editable task-text"
@@ -1386,14 +1397,20 @@
             }}
           </span>
           <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
-            >&#9733;</span
+            class="task-q-critical"
+            *ngIf="t.tsk_qualifiers.indexOf('critical') !== -1"
+            title="Critical task"
+            >🔥</span
           >
           <span
             class="task-qualifier-icon task-qualifier-urgent"
             *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
             >&#33;</span
+          >
+          <span
+            class="task-qualifier-icon"
+            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
+            >&#9733;</span
           >
           <span
             class="task-qualifier-icon"
@@ -1440,8 +1457,7 @@
               'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
               'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
               'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
-              'task-critical': t.tsk_qualifiers.indexOf('critical') !== -1
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
             }"
             (blur)="commandOnTask(t, $event)"
             class="editable task-text"

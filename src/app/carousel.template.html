@@ -11,8 +11,12 @@
     </div>
     <div class="carousel-controls">
       <button (click)="prev()" title="Anterior">⏮️</button>
-      <button *ngIf="!paused()" (click)="pause()" title="Pausar">⏸️</button>
-      <button *ngIf="paused()" (click)="play()" title="Reanudar">▶️</button>
+      <ng-container *ngIf="paused() === false">
+        <button (click)="pause()" title="Pausar">⏸️</button>
+      </ng-container>
+      <ng-container *ngIf="paused() === true">
+        <button (click)="play()" title="Reanudar">▶️</button>
+      </ng-container>
       <button (click)="next()" title="Siguiente">⏭️</button>
       <label style="margin-left: 16px; font-size: 1rem">
         Intervalo (seg):
