@@ -3431,14 +3431,21 @@ export class TasksComponent implements OnInit {
   }
 
   clearNextTasks() {
+    const preserveInProgressTasks = true; // TODO: move into a setting
+    const remainingTasks = this.nextTasks[0].tasks.filter(
+      (t) => t.tsk_ctg_in_process === 2
+    );
+
     this.nextTasks[0].tasks.forEach((t) => {
-      t["inNextToDo"] = false;
+      t["inNextToDo"] = preserveInProgressTasks
+        ? remainingTasks.find((rt) => rt.tsk_id === t.tsk_id) !== undefined
+        : false;
     });
 
     this.nextTasks = [];
     this.nextTasks.push({
       estimatedDuration: 0,
-      tasks: [],
+      tasks: preserveInProgressTasks ? remainingTasks : [],
     });
 
     localStorage.setItem(
