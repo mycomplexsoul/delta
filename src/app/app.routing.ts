@@ -14,7 +14,7 @@ import { BalanceComponent } from "./money/balance.component";
 import { CategoryComponent } from "./money/category.component";
 import { PlaceComponent } from "./money/place.component";
 import { PresetComponent } from "./money/preset.component";
-import { BudgetListComponent } from "./money/budget-list.component";
+// import { BudgetListComponent } from "./money/budget-list.component";
 
 import { LastTimeComponent } from "./lasttime/lasttime.component";
 
@@ -35,8 +35,8 @@ import { ReceiptReportComponent } from "./cartera/ReceiptReport/ReceiptReportCom
 import { TypeGeneratorComponent } from "./internal/type-generator.component";
 import { CarouselComponent } from "./carousel.component";
 import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.component";
-import { LibrosComponent } from "./libros.component";
-import { CvComponent } from "./cv/cv.component";
+/* import { LibrosComponent } from "./libros.component";
+import { CvComponent } from "./cv/cv.component"; */
 
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -146,19 +146,19 @@ const appRoutes: Routes = [
     path: "plan-salvacion",
     component: PlanSalvacionComponent,
   },
-  {
+  /* {
     path: "libros",
     component: LibrosComponent,
   },
   {
     path: "cv",
     component: CvComponent,
-  },
-  {
+  }, */
+  /* {
     path: "budget",
     component: BudgetListComponent,
     canActivate: [AuthGuard],
-  },
+  }, */
   {
     path: "",
     component: HomeComponent,

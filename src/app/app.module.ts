@@ -1,4 +1,5 @@
 import { BrowserModule, Title } from "@angular/platform-browser";
+import { CommonModule, CurrencyPipe } from "@angular/common";
 import { NgModule } from "@angular/core";
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -69,8 +70,6 @@ import { TasksCore } from "./task/tasks.core";
 import { TaskCore } from "./task/task.core";
 import { TaskToolbarComponent } from "./task/task-toolbar.component";
 import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.component";
-import { LibrosComponent } from "./libros.component";
-import { CvComponent } from "./cv/cv.component";
 
 @NgModule({
   declarations: [
@@ -114,6 +113,7 @@ import { CvComponent } from "./cv/cv.component";
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     routing,
@@ -123,8 +123,8 @@ import { CvComponent } from "./cv/cv.component";
     }),
     CarteraSendReceiptsComponent,
     PlanSalvacionComponent,
-    LibrosComponent,
-    CvComponent,
+    // LibrosComponent,
+    // CvComponent,
   ],
   providers: [
     DateCommon,
@@ -135,6 +135,7 @@ import { CvComponent } from "./cv/cv.component";
     Title,
     TasksCore,
     TaskCore,
+    CurrencyPipe,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     provideHttpClient(withInterceptorsFromDi()),
