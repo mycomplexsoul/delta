@@ -107,16 +107,26 @@ export class SyncAPI {
   /**
    * Adds multiple requests to the queue and process them when server is reachable.
    */
-  multipleRequest(list: SyncQueue[]) {
+  multipleRequest(
+    list: SyncQueue[],
+    { syncImmediately }: { syncImmediately: boolean } = {
+      syncImmediately: false,
+    }
+  ) {
     this.log(`Handling new multiple requests`);
-    this.handleRequest(list);
+    this.handleRequest(list, { syncImmediately });
   }
 
   /**
    * Internal method that adds a request list to the queue and process it when server is reachable.
    * For API purposes use either `request` or `multipleRequest` instead of this one.
    */
-  private handleRequest(list: SyncQueue[]) {
+  private handleRequest(
+    list: SyncQueue[],
+    { syncImmediately }: { syncImmediately: boolean } = {
+      syncImmediately: false,
+    }
+  ) {
     if (this.currentOperation) {
       this.log(
         "Cancelling sync operation with timer id",
@@ -132,11 +142,14 @@ export class SyncAPI {
 
     this.isOnline().then((online) => {
       if (online) {
-        this.currentOperation = setTimeout(() => {
-          //this.processQueue();
-          this.syncQueue();
-          this.currentOperation = null;
-        }, DELAY_TO_SYNC);
+        this.currentOperation = setTimeout(
+          () => {
+            //this.processQueue();
+            this.syncQueue();
+            this.currentOperation = null;
+          },
+          syncImmediately ? 100 : DELAY_TO_SYNC
+        );
         this.log("Scheduled sync with timer id", this.currentOperation);
       }
     });

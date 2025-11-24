@@ -4,6 +4,7 @@ import { SyncAPI } from "../common/sync.api";
 import { Utils } from "../../crosscommon/Utility";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { AuthenticationService } from "../common/authentication.service";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class LinkService {
@@ -13,13 +14,15 @@ export class LinkService {
     api: {
       list: "/api/links",
       create: "/api/links",
-      update: "/api/links/:id"
-    }
+      update: "/api/links/:id",
+      batch: "api/links/batch",
+    },
   };
 
   constructor(
     private authenticationService: AuthenticationService,
-    private sync: SyncAPI
+    private sync: SyncAPI,
+    private http: HttpClient
   ) {}
 
   list(): Array<Link> {
@@ -32,12 +35,12 @@ export class LinkService {
     };
     return this.sync
       .get(`${this.config.api.list}`)
-      .then(data => {
+      .then((data) => {
         this.data = data.map((d: any): Link => new Link(d));
         this.data = this.data.sort(sort);
         return this.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return [];
       });
   }
@@ -53,12 +56,12 @@ export class LinkService {
       lnk_id_user: this.authenticationService.currentUserValue.username,
       lnk_date_add: DateUtils.newDateUpToSeconds(),
       lnk_date_mod: DateUtils.newDateUpToSeconds(),
-      lnk_ctg_status: 1
+      lnk_ctg_status: 1,
     });
 
     return this.sync
       .post(this.config.api.create, newItem)
-      .then(response => {
+      .then((response) => {
         if (response.success) {
           this.data.push(newItem);
         } else {
@@ -67,7 +70,7 @@ export class LinkService {
         }
         return newItem;
       })
-      .catch(err => {
+      .catch((err) => {
         // Append it to the listing but flag it as non-synced yet
         newItem["sync"] = false;
         this.data.push(newItem);
@@ -77,7 +80,7 @@ export class LinkService {
 
   updateItem(item: Link): Promise<Link> {
     const updateLocal = () => {
-      const index = this.data.findIndex(e => e.lnk_id === item.lnk_id);
+      const index = this.data.findIndex((e) => e.lnk_id === item.lnk_id);
       if (index !== -1) {
         this.data[index] = item;
       }
@@ -88,19 +91,27 @@ export class LinkService {
         this.config.api.update.replace(":id", item.lnk_id),
         Utils.entityToRawTableFields(item)
       )
-      .then(response => {
+      .then((response) => {
         if (!response.success) {
           item["sync"] = false;
         }
         updateLocal();
         return item;
       })
-      .catch(err => {
+      .catch((err) => {
         // Append it to the listing but flag it as non-synced yet
         console.log("error on update", err);
         item["sync"] = false;
         updateLocal();
         return item;
       });
+  }
+
+  newItemsBatch(links: Link[]): Promise<{ success: boolean; message: string }> {
+    return this.http
+      .post<{ success: boolean; message: string }>(this.config.api.batch, {
+        links,
+      })
+      .toPromise();
   }
 }

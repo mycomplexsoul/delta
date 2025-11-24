@@ -43,6 +43,9 @@ span.task-unexpected {
 span.task-critical {
   background-color: var(--task-q-critical);
 }
+span.task-q-critical {
+  padding-right: 2px;
+}
 span.task-q-progressed {
   background-color: var(--task-q-progressed);
 }
@@ -77,7 +80,7 @@ span.task-q-progressed {
 }
 
 .task-columns-3 {
-  columns: 3;
+  columns: 3 !important;
 }
 
 .task-columns-5 {

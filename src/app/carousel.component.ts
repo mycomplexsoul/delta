@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { NgIf, NgFor } from "@angular/common";
 
 export const ROTATION_INTERVAL = 5; // segundos
 
@@ -8,6 +9,8 @@ export const ROTATION_INTERVAL = 5; // segundos
   selector: "app-carousel",
   templateUrl: "./carousel.template.html",
   styleUrls: ["./carousel.component.css"],
+  standalone: true,
+  imports: [NgIf, NgFor],
 })
 export class CarouselComponent implements OnInit, OnDestroy {
   @Input() interval?: number;
@@ -18,7 +21,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
   validImages = signal<string[]>([]);
   paused = signal(false);
   rotationInterval = signal(ROTATION_INTERVAL);
-  private timer: any;
+  timer: any;
   private col: string = "default";
 
   constructor(private route: ActivatedRoute) {}

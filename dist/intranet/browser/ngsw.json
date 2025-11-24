@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1759464103841,
+  "timestamp": 1764027618576,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -19,7 +19,7 @@
         "/chunk-VINDIVLH.js",
         "/favicon.ico",
         "/index.html",
-        "/main-RQDRAHA2.js",
+        "/main-7RJJ7STH.js",
         "/manifest.webmanifest",
         "/polyfills-X5JGC2BV.js",
         "/styles-PPKNAAAL.css"
@@ -45,6 +45,7 @@
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
         "/assets/icons/people.svg",
+        "/assets/icons/pin.svg",
         "/assets/icons/smartphone.svg"
       ],
       "patterns": []
@@ -63,6 +64,7 @@
     "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/assets/icons/people.svg": "8449e2e3731a3fafc26c80c0d785b9b0fbe3c0bd",
+    "/assets/icons/pin.svg": "cc72305ae192e6177c0fdc232c55502e6ff50df0",
     "/assets/icons/smartphone.svg": "13031b9b8dbe1959b13cabc2bc5b62ecd4b8642a",
     "/chunk-7YWLATDR.js": "2a6e77e8cb581d26bcf1f3e853e2161ac196bccd",
     "/chunk-HVLOVUQ3.js": "15017627f3e476204af51d4b4c24a8be593cf5fe",
@@ -71,8 +73,8 @@
     "/chunk-TXDUYLVM.js": "536ac469f4fcc7b704f94eb4cf6263f835bd6803",
     "/chunk-VINDIVLH.js": "a27085422f8147d8a357b0734034fd51471f4c42",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "f08bbc2357a7fbd71e4b91683fbb74d0c1699479",
-    "/main-RQDRAHA2.js": "40a9be3318bf6fda93508467eec5f7e133dffa51",
+    "/index.html": "1f5012be2c03fbd55029d62eca11f3bcd2273435",
+    "/main-7RJJ7STH.js": "abdba9d625cf3283847dfa3f49d1a83987dbd29d",
     "/manifest.webmanifest": "a56d3f02a85d83f035bb549bf1ff87abba9887fe",
     "/polyfills-X5JGC2BV.js": "f81ed1816cbaec8e42db0f6b690c0d45caa44cdd",
     "/styles-PPKNAAAL.css": "c0596480c4b3cf0237f8416d258a48733935b601"
