@@ -32,7 +32,7 @@ jobs:
         continue-on-error: true
 
       - name: Build Angular application
-        run: ng build --configuration development
+        run: npm run build
 
       - name: Compile TypeScript backend
         run: node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap
