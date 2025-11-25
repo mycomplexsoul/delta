@@ -11,6 +11,11 @@ class ConfigModule {
    * Loads a file from file system and returns content as JSON object.
    */
   loadJSON = (file: string) => {
+    if (!fs.existsSync(file + ".json")) {
+      console.error(new Error(`Configuration file ${file}.json not found`));
+      return {};
+    }
+
     let obj = JSON.parse(fs.readFileSync(file + ".json", "utf8"));
     return obj;
   };
