@@ -28,13 +28,13 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build Angular application
-        run: npm run build
+        run: npm run build:prod
 
       - name: Compile TypeScript backend
-        run: node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap
+        run: node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap --skipLibCheck
 
       - name: Compile backend tests
-        run: node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap
+        run: node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap --skipLibCheck
 
       - name: Run backend tests
         run: npm run test:backend
