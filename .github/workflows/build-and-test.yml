@@ -53,6 +53,20 @@ jobs:
           name: coverage-reports
           path: coverage/
 
+      - name: Install Playwright dependencies
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run e2e
+        continue-on-error: true
+
+      - name: Upload E2E test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-test-results
+          path: playwright-report/
+
       - name: Comment PR with test results
         if: github.event_name == 'pull_request' && always()
         uses: actions/github-script@v7
@@ -62,5 +76,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '✅ Build and tests completed. Check the artifacts for coverage reports.'
+              body: '✅ Build, unit tests, and E2E tests completed.\n\n📊 Artifacts:\n- Coverage reports: check coverage-reports artifact\n- E2E test results: check e2e-test-results artifact'
             })
