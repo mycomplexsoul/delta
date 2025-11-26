@@ -12,7 +12,7 @@ class ConfigModule {
    */
   loadJSON = (file: string) => {
     if (!fs.existsSync(file + ".json")) {
-      console.error(new Error(`Configuration file ${file}.json not found`));
+      console.log(new Error(`Configuration file ${file}.json not found`));
       return {};
     }
 
