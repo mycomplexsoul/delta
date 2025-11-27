@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as path from "path";
 
 class ConfigModule {
   config = {};
@@ -11,13 +12,23 @@ class ConfigModule {
    * Loads a file from file system and returns content as JSON object.
    */
   loadJSON = (file: string) => {
-    if (!fs.existsSync(file + ".json")) {
-      console.log(new Error(`Configuration file ${file}.json not found`));
+    const fullPath = path.resolve(file + ".json");
+    try {
+      if (!fs.existsSync(fullPath)) {
+        console.log(new Error(`Configuration file ${file}.json not found`));
+        return {};
+      }
+    } catch (err) {
       return {};
     }
 
-    let obj = JSON.parse(fs.readFileSync(file + ".json", "utf8"));
-    return obj;
+    try {
+      let obj = JSON.parse(fs.readFileSync(fullPath, "utf8"));
+      return obj;
+    } catch (err) {
+      console.log(err);
+      return {};
+    }
   };
 
   loadConfig = () => {
@@ -29,12 +40,12 @@ class ConfigModule {
   ): any | string | null => {
     if (match) {
       const pieces: string[] = match.split(".");
-      let matched = { ...this.config };
+      let matched: Record<string, any> | undefined = { ...this.config };
       pieces.forEach((p) => {
-        if (matched[p]) {
+        if (matched?.[p]) {
           matched = matched[p];
         }
-        return null;
+        matched = undefined;
       });
       return matched;
     }
