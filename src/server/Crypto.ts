@@ -1,11 +1,19 @@
 import * as crypto from "crypto";
 import { configModule } from "./ConfigModule";
 const algorithm = "aes-256-cbc";
-const key = Buffer.from(
-  configModule.getConfigValue("encryption.private"),
-  "hex"
-); // crypto.randomBytes(32);
-const iv = Buffer.from(configModule.getConfigValue("encryption.public"), "hex"); // crypto.randomBytes(16);
+const areEncryptionKeysSet =
+  configModule.getConfigValue("encryption.private") &&
+  configModule.getConfigValue("encryption.public");
+let key: Buffer<ArrayBuffer> | undefined = undefined;
+let iv: Buffer<ArrayBuffer> | undefined = undefined;
+
+if (areEncryptionKeysSet) {
+  key = Buffer.from(
+    configModule.getConfigValue("encryption.private"),
+    "hex"
+  ); // crypto.randomBytes(32);
+  iv = Buffer.from(configModule.getConfigValue("encryption.public"), "hex"); // crypto.randomBytes(16);
+}
 
 const SALT_LENGTH: number = 100;
 
@@ -47,7 +55,7 @@ export class Crypto {
    * Hashes a password with a new created salt for user creation or
    * If salt is provided, uses provided salt to rebuild the hash
    */
-  saltHashPassword = (userpassword: string, saltToVerify: string = null) => {
+  saltHashPassword = (userpassword: string, saltToVerify: string | null = null) => {
     const salt: string = saltToVerify
       ? saltToVerify
       : this.genRandomString(SALT_LENGTH);
@@ -57,6 +65,9 @@ export class Crypto {
   };
 
   encrypt = (text: any) => {
+    if (!areEncryptionKeysSet) {
+      return null;
+    }
     let cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(key), iv);
     let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -64,6 +75,9 @@ export class Crypto {
   };
 
   decrypt = (text: any) => {
+    if (!areEncryptionKeysSet) {
+      return null;
+    }
     let iv = Buffer.from(text.iv, "hex");
     let encryptedText = Buffer.from(text.encryptedData, "hex");
     let decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(key), iv);
