@@ -4,14 +4,16 @@ class DateUtility {
     weekday: "long" | "short" | "narrow" = "long"
   ) => {
     const { format } = new Intl.DateTimeFormat(localeName, { weekday });
-    // January 2, 2023 was a Sunday (UTC getUTCDay() = 0)
-    const baseSunday = new Date(Date.UTC(2023, 0, 2));
-    return [...Array(7).keys()]
-      .map((day) => {
-        const date = new Date(baseSunday);
-        date.setUTCDate(2 + day);
-        return format(date);
-      })
+    // Create dates using local time to avoid timezone issues
+    // January 1, 2023 at 12:00 noon local time starts on Sunday
+    const days = [];
+    // Start from a known Sunday: January 1, 2023 was a Sunday
+    // Use year 2023, month 0 (Jan), day 1 with noon time to minimize timezone edge cases
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(2023, 0, 1 + i, 12, 0, 0);
+      days.push(format(date));
+    }
+    return days
       .map((d) => {
         const n = d[0].toUpperCase() + d.substring(1);
         return n;
