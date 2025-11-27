@@ -4,8 +4,14 @@ class DateUtility {
     weekday: "long" | "short" | "narrow" = "long"
   ) => {
     const { format } = new Intl.DateTimeFormat(localeName, { weekday });
+    // January 2, 2023 was a Sunday (UTC getUTCDay() = 0)
+    const baseSunday = new Date(Date.UTC(2023, 0, 2));
     return [...Array(7).keys()]
-      .map((day) => format(new Date(Date.UTC(2021, 5, day))))
+      .map((day) => {
+        const date = new Date(baseSunday);
+        date.setUTCDate(2 + day);
+        return format(date);
+      })
       .map((d) => {
         const n = d[0].toUpperCase() + d.substring(1);
         return n;
