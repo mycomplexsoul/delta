@@ -67,7 +67,7 @@
     "core-js": "3.41.0",
     "cors": "^2.8.5",
     "date-fns": "^2.29.3",
-    "express": "4.21.2",
+    "express": "5.2.0",
     "html2canvas": "^1.0.0-rc.5",
     "jsonwebtoken": "^9.0.0",
     "jspdf": "^3.0.1",
