@@ -27,13 +27,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <hr/>
 
-## v1.15.0 (2025-11-28) -- In Progress --
+## v1.16.0 (2026-05-28) -- In Progress --
+
+1. [AppCommon] Updated to Angular v21
+
+## v1.15.0 (2025-11-28)
 
 1. [AppCommon] Updated to Angular v20
 2. [AppCommon] Added Playwright to project and run e2e tests
 3. [AppCommon] Added workflow for GitHub actions to run build, unit tests and e2e
 
-## v1.14.10 (2025-05-28) -- In Progress --
+## v1.14.10 (2025-05-28)
 
 1. [AppCommon][new] Added coverage report for frontend
 2. [AppCommon][new] Added unit tests for DateUtility.ts

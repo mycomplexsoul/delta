@@ -3,14 +3,13 @@ import { FormsModule } from "@angular/forms";
 import { NotificationService } from "../common/notification.service";
 import { CarteraSendReceiptService } from "./CarteraSendReceipt.service";
 import { ActivatedRoute } from "@angular/router";
-import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "cartera-send-receipts",
   templateUrl: "./CarteraSendReceipt.html",
   standalone: true,
   providers: [CarteraSendReceiptService],
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
 })
 export class CarteraSendReceiptsComponent implements OnInit {
   public periodOptions: { value: string; label: string }[] = [];

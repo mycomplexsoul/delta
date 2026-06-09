@@ -9,14 +9,16 @@
       {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
     </button>
 
-    <div id="newItemFormSection" *ngIf="viewData.showItemForm">
-      <span class="field" *ngIf="model.id">
+    @if (viewData.showItemForm) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="field-input-small">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
       </span>
-
+      }
       <span class="field">
         <label for="fName" class="label-left">Name</label>
         <input
@@ -27,42 +29,52 @@
           ngModel
         />
       </span>
-
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
-      <button type="button" class="btn-secondary" (click)="deleteItem(model.id)"
-        *ngIf="viewData.selectedCategory && viewData.selectedCategory['movementList'] && viewData.selectedCategory['movementList'].length === 0"
-        >Delete</button>
+      @if (viewData.selectedCategory &&
+      viewData.selectedCategory['movementList'] &&
+      viewData.selectedCategory['movementList'].length === 0) {
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="deleteItem(model.id)"
+      >
+        Delete
+      </button>
+      }
     </div>
-    
-    <div *ngIf="viewData.showItemForm">
+    } @if (viewData.showItemForm) {
+    <div>
+      @if (viewData.selectedCategory) {
       <movement-listing
         [movementList]="viewData.selectedCategory['movementList']"
         [selectedBalance]="viewData.selectedCategory"
         selectedView="compact"
-        *ngIf="viewData.selectedCategory"
       ></movement-listing>
-
-      <span>
-        Replace uses of this category with a different one
-      </span>
+      }
+      <span> Replace uses of this category with a different one </span>
       <select
         name="replaceCategoryId"
         id="replaceCategoryId"
         class="field-select"
         [(ngModel)]="replaceCategoryId"
       >
-        <option *ngFor="let opt of viewData.replaceCategoryList"
-          [value]="opt.mct_id"
-        >{{ opt.mct_name }}</option>
+        @for (opt of viewData.replaceCategoryList; track opt) {
+        <option [value]="opt.mct_id">{{ opt.mct_name }}</option>
+        }
       </select>
-
-      <button type="button" (click)="applyCategoryReplacement(model.id, replaceCategoryId)">Apply replacement</button>
+      <button
+        type="button"
+        (click)="applyCategoryReplacement(model.id, replaceCategoryId)"
+      >
+        Apply replacement
+      </button>
     </div>
+    }
   </form>
 
   <div class="card-list">
+    @for (item of viewData.categoryList; track item) {
     <div
-      *ngFor="let item of viewData.categoryList"
       class="card-item-container"
       (click)="setModelDetails(item.mct_id, itemForm)"
     >
@@ -71,15 +83,18 @@
       Used: {{ item.movementList && item.movementList.length }}
       <br />
       <span>Status: {{ item.mct_txt_status }}</span>
-
-      <span class="category-badge-new" *ngIf="item.isNew">new</span>
-      <span class="category-badge-edited" *ngIf="item.isEdited">edited</span>
+      @if (item.isNew) {
+      <span class="category-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="category-badge-edited">edited</span>
+      }
       <!--
-                  <span *ngIf="item.showOptions">
-                    <button (click)="archiveRecord(item)">archive</button>
-                    <button (click)="editNotes(item)">edit notes</button>
-                    <button (click)="viewHistory(item)">view history</button>
-                </span>    -->
+          <span *ngIf="item.showOptions">
+            <button (click)="archiveRecord(item)">archive</button>
+            <button (click)="editNotes(item)">edit notes</button>
+            <button (click)="viewHistory(item)">view history</button>
+          </span>    -->
     </div>
+    }
   </div>
 </div>

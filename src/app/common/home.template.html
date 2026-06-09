@@ -24,10 +24,12 @@ Diagnostic information from your device
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let e of viewData.localStorageUsage.details">
+      @for (e of viewData.localStorageUsage.details; track e) {
+      <tr>
         <td>{{e.item}}</td>
         <td>{{e.usedInKB}}</td>
       </tr>
+      }
     </tbody>
     <tfoot>
       <tr>

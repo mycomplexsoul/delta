@@ -17,7 +17,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of viewData.reminders">
+      @for (item of viewData.reminders; track item) {
+      <tr>
         <td>{{ item.title }}</td>
         <td>
           <input type="time" [value]="item.startTimeFormatted" />
@@ -28,6 +29,7 @@
           <button>apply changes</button>
         </td>
       </tr>
+      }
     </tbody>
   </table>
 

@@ -9,14 +9,16 @@
       {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
     </button>
 
-    <div id="newItemFormSection" *ngIf="viewData.showItemForm">
-      <span class="field" *ngIf="model.id">
+    @if (viewData.showItemForm) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="field-input-small">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
       </span>
-
+      }
       <span class="field">
         <label for="fName" class="label-left">Name</label>
         <input
@@ -26,7 +28,6 @@
           ngModel
         />
       </span>
-
       <input
         type="radio"
         name="fMovementFlowType"
@@ -45,7 +46,6 @@
         value="transfer"
       />
       <label for="fMovementFlowTypeTransfer">Transfer</label>
-
       <span class="field">
         <label for="fDescription" class="label-left">Description</label>
         <input
@@ -70,24 +70,22 @@
       <span class="field">
         <label for="fAccount" class="label-left">Account</label>
         <select name="fAccount" id="fAccount" class="field-select" ngModel>
-          <option
-            *ngFor="let opt of viewData.accountList"
-            value="{{ opt.acc_id }}"
-            >{{ opt.acc_name }}</option
-          >
+          @for (opt of viewData.accountList; track opt) {
+          <option value="{{ opt.acc_id }}">{{ opt.acc_name }}</option>
+          }
         </select>
       </span>
-      <span class="field" *ngIf="isTransfer">
+      @if (isTransfer) {
+      <span class="field">
         <label for="fAccountTo" class="label-left">Account To</label>
         <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
-          <option
-            *ngFor="let opt of viewData.accountList"
-            value="{{ opt.acc_id }}"
-            >{{ opt.acc_name }}</option
-          >
+          @for (opt of viewData.accountList; track opt) {
+          <option value="{{ opt.acc_id }}">{{ opt.acc_name }}</option>
+          }
         </select>
       </span>
-      <span class="field" *ngIf="!isTransfer">
+      } @if (!isTransfer) {
+      <span class="field">
         <input
           type="radio"
           [value]="1"
@@ -96,7 +94,6 @@
           [(ngModel)]="model.type"
         />
         <label for="fMovementType_1" class="label-radio">Expense</label>
-
         <input
           type="radio"
           [value]="2"
@@ -106,11 +103,13 @@
         />
         <label for="fMovementType_2" class="label-radio">Income</label>
       </span>
+      }
       <span class="field">
         <label for="fDate" class="label-left">Movement Date</label>
         <input type="date" name="fDate" [(ngModel)]="model.date" />
       </span>
-      <span class="field" *ngIf="!isTransfer">
+      @if (!isTransfer) {
+      <span class="field">
         <label for="fPlace" class="label-left">Place</label>
         <select
           name="fPlace"
@@ -118,19 +117,22 @@
           class="field-select"
           [(ngModel)]="model.place"
         >
+          @for (opt of viewData.placeList; track opt) {
           <option
-            *ngFor="let opt of viewData.placeList"
             [value]="opt.mpl_id"
             [selected]="opt.mpl_id === itemForm.value.fPlace"
-            >{{ opt.mpl_name }}</option
           >
+            {{ opt.mpl_name }}
+          </option>
+          }
         </select>
         <combo-item
           [name]="place"
           [addNewItem]="addNewPlaceForUser"
         ></combo-item>
       </span>
-      <span class="field" *ngIf="!isTransfer">
+      } @if (!isTransfer) {
+      <span class="field">
         <label for="fCategory" class="label-left">Category</label>
         <select
           name="fCategory"
@@ -138,18 +140,21 @@
           class="field-select"
           [(ngModel)]="model.category"
         >
+          @for (opt of viewData.categoryList; track opt) {
           <option
-            *ngFor="let opt of viewData.categoryList"
             [value]="opt.mct_id"
             [selected]="opt.mct_id === itemForm.value.fCategory"
-            >{{ opt.mct_name }}</option
           >
+            {{ opt.mct_name }}
+          </option>
+          }
         </select>
         <combo-item
           [name]="category"
           [addNewItem]="addNewCategoryForUser"
         ></combo-item>
       </span>
+      }
       <span class="field">
         <label for="fBudget" class="field-input label-left">Tags</label>
         <input
@@ -170,14 +175,14 @@
           ngModel
         />
       </span>
-
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
+    }
   </form>
 
   <div class="card-list">
+    @for (item of viewData.presetList; track item) {
     <div
-      *ngFor="let item of viewData.presetList"
       class="card-item-container"
       (click)="setModelDetails(item.pre_id, itemForm)"
     >
@@ -190,43 +195,48 @@
           'movement-amount-transfer': item.pre_ctg_type === 3
         }"
       >
-        <span *ngIf="item.pre_txt_type === 'EXPENSE'">-</span>
-        <span *ngIf="item.pre_txt_type === 'INCOME'">+</span>
-        <span>{{
-          item.pre_amount | currency: "USD":"symbol-narrow":"1.2-2"
-        }}</span>
+        @if (item.pre_txt_type === 'EXPENSE') {
+        <span>-</span>
+        } @if (item.pre_txt_type === 'INCOME') {
+        <span>+</span>
+        }
+        <span
+          >{{ item.pre_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span
+        >
       </span>
       <span class="movement-account">[{{ item.pre_txt_account }}]</span>
-      <span class="movement-account" *ngIf="item.pre_txt_account_to">
-        -> [{{ item.pre_txt_account_to }}]</span
-      ><br />
+      @if (item.pre_txt_account_to) {
+      <span class="movement-account"> -> [{{ item.pre_txt_account_to }}]</span>
+      }<br />
       <span class="movement-date"
         >[{{ item.pre_date | date: "yyyy-MM-dd" }}]</span
       >
       <span class="movement-description">{{ item.pre_desc }}</span>
       <br />
-      <span class="movement-category" *ngIf="item.pre_txt_category">{{
-        item.pre_txt_category
-      }}</span>
-      <span class="movement-place" *ngIf="item.pre_txt_place">
-        | {{ item.pre_txt_place }}</span
-      >
-      <span class="movement-budget" *ngIf="item.pre_budget">
-        | #[{{ item.pre_budget }}]</span
-      >
-      <br *ngIf="item.pre_ctg_type === 1 || item.pre_ctg_type === 2" />
+      @if (item.pre_txt_category) {
+      <span class="movement-category">{{ item.pre_txt_category }}</span>
+      } @if (item.pre_txt_place) {
+      <span class="movement-place"> | {{ item.pre_txt_place }}</span>
+      } @if (item.pre_budget) {
+      <span class="movement-budget"> | #[{{ item.pre_budget }}]</span>
+      } @if (item.pre_ctg_type === 1 || item.pre_ctg_type === 2) {
+      <br />
+      }
       <span class="movement-notes">{{ item.pre_notes }}</span>
-      <span class="movement-status" *ngIf="false">{{
-        item.pre_txt_status
-      }}</span>
-      <span class="movement-badge-new" *ngIf="item.isNew">new</span>
-      <span class="movement-badge-edited" *ngIf="item.isEdited">edited</span>
+      @if (false) {
+      <span class="movement-status">{{ item.pre_txt_status }}</span>
+      } @if (item.isNew) {
+      <span class="movement-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="movement-badge-edited">edited</span>
+      }
       <!--
-              <span *ngIf="item.showOptions">
-                <button (click)="archiveRecord(item)">archive</button>
-                <button (click)="editNotes(item)">edit notes</button>
-                <button (click)="viewHistory(item)">view history</button>
-            </span>    -->
+                                      <span *ngIf="item.showOptions">
+                                        <button (click)="archiveRecord(item)">archive</button>
+                                        <button (click)="editNotes(item)">edit notes</button>
+                                        <button (click)="viewHistory(item)">view history</button>
+                                      </span>    -->
     </div>
+    }
   </div>
 </div>

@@ -3,14 +3,17 @@
     {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}
   </button>
 
-  <div *ngIf="viewData.showCreateForm">
+  @if (viewData.showCreateForm) {
+  <div>
     <div>
-      <span class="field" *ngIf="model.id">
+      @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="lasttime-input-id">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="lasttime-input-id"
+          >{{ model.id }}</span
+        >
       </span>
+      }
       <span class="field">
         <label for="fName" class="label-left">Name</label>
         <input
@@ -62,18 +65,17 @@
           ngModel
         />
       </span>
-
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
   </div>
+  }
 </form>
 
-<div *ngIf="viewData.historyList.length">
+@if (viewData.historyList.length) {
+<div>
   Showing history for: {{ viewData.historyMetadata.lst_name }}
   <br />
-  <button (click)="hideHistory()">
-    Hide History
-  </button>
+  <button (click)="hideHistory()">Hide History</button>
   <table>
     <tr>
       <td>#</td>
@@ -81,14 +83,17 @@
       <td>Notes</td>
       <td>Date Mod</td>
     </tr>
-    <tr *ngFor="let item of viewData.historyList">
+    @for (item of viewData.historyList; track item) {
+    <tr>
       <td>{{ item.lth_num_sequential }}</td>
       <td>{{ item.lth_value }}</td>
       <td>{{ item.lth_notes }}</td>
       <td>{{ item.lth_date_mod | date: "yyyy-MM-dd HH:mm" }}</td>
     </tr>
+    }
   </table>
 </div>
+}
 
 <div>
   {{ viewData.lastTime.length }} items.
@@ -105,7 +110,8 @@
 </div>
 
 <div class="lasttime-list">
-  <div *ngFor="let item of viewData.lastTime" class="lasttime-item-container">
+  @for (item of viewData.lastTime; track item) {
+  <div class="lasttime-item-container">
     <span class="lasttime-name">{{ item.lst_name }}:</span>
     <span
       contenteditable="true"
@@ -127,20 +133,23 @@
     </span>
     <br />
     <span class="lasttime-tags"> #[{{ item.lst_tags }}] </span>
-    <span class="lasttime-notes">
-      {{ item.lst_notes }}
-    </span>
-    <span class="lasttime-badge-archived" *ngIf="item.lst_ctg_status === 3"
-      >archived</span
-    >
-    <span class="lasttime-badge-new" *ngIf="item.isNew">new</span>
-    <span class="lasttime-badge-edited" *ngIf="item.isEdited">edited</span>
+    <span class="lasttime-notes"> {{ item.lst_notes }} </span>
+    @if (item.lst_ctg_status === 3) {
+    <span class="lasttime-badge-archived">archived</span>
+    } @if (item.isNew) {
+    <span class="lasttime-badge-new">new</span>
+    } @if (item.isEdited) {
+    <span class="lasttime-badge-edited">edited</span>
+    }
     <br />
-    <span *ngIf="item.showOptions">
+    @if (item.showOptions) {
+    <span>
       <button (click)="setModelDetails(item, newForm)">details</button>
       <button (click)="archiveRecord(item)">archive</button>
       <button (click)="editNotes(item)">edit notes</button>
       <button (click)="viewHistory(item)">view history</button>
     </span>
+    }
   </div>
+  }
 </div>

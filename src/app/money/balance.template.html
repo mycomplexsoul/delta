@@ -2,7 +2,8 @@
   <button (click)="viewData.showOptions = !viewData.showOptions">
     {{ viewData.showOptions ? "Hide" : "Show" }} Options
   </button>
-  <div class="balance-options" *ngIf="viewData.showOptions">
+  @if (viewData.showOptions) {
+  <div class="balance-options">
     <button (click)="rebuild()">Rebuild</button>
     <button (click)="transfer()">Transfer</button>
     <button (click)="rebuildAndTransfer()">Rebuild & Transfer</button>
@@ -10,6 +11,7 @@
       Rebuild & Transfer Until Current Month
     </button>
   </div>
+  }
   <br />
   <strong>Balance</strong>
 
@@ -21,9 +23,9 @@
       id="fMonth"
       (change)="reloadBalance()"
     >
-      <option *ngFor="let opt of viewData.monthList" value="{{ opt.iterable }}">
-        {{ opt.name }}
-      </option>
+      @for (opt of viewData.monthList; track opt) {
+      <option value="{{ opt.iterable }}">{{ opt.name }}</option>
+      }
     </select>
 
     <button (click)="refreshData()">Refresh data</button>
@@ -48,8 +50,8 @@
         <th class="desktop-only">Withdrawals</th>
         <th>Final</th>
       </tr>
+      @for (b of viewData.monthBalance; track b) {
       <tr
-        *ngFor="let b of viewData.monthBalance"
         class="balance-row"
         [ngClass]="{
         'balance-row-debit': b.bal_ctg_account_type === 1,
@@ -77,7 +79,8 @@
               {{ b.bal_txt_account }}
             </button>
           </span>
-          <div *ngIf="b.showOptions">
+          @if (b.showOptions) {
+          <div>
             <button
               type="button"
               (click)="renderMovements(b, $event); b.showOptions = false;"
@@ -85,6 +88,7 @@
               details
             </button>
           </div>
+          }
         </td>
         <td class="text-align-right padding-all-5 desktop-only">
           {{ b.bal_initial | currency: "USD":"symbol-narrow":"1.2-2" }}
@@ -106,6 +110,7 @@
           {{ b.bal_final | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
       </tr>
+      }
     </table>
   </div>
 
@@ -116,7 +121,8 @@
         <th>Account Type</th>
         <th>Final</th>
       </tr>
-      <tr *ngFor="let b of viewData.balanceDistribution" class="balance-row">
+      @for (b of viewData.balanceDistribution; track b) {
+      <tr class="balance-row">
         <td>{{ b.name }}</td>
         <td
           class="text-align-right padding-all-5"
@@ -129,6 +135,7 @@
           {{ b.total | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
       </tr>
+      }
     </table>
   </div>
 
@@ -140,7 +147,8 @@
     <div>Transfer count: {{ viewData.movementSummary.transferCount }}</div>
   </div>
 
-  <div *ngIf="model.selectedBalance">
+  @if (model.selectedBalance) {
+  <div>
     <button
       type="button"
       (click)="model.selectedBalance = null; viewData.movements = [];"
@@ -158,25 +166,20 @@
     <div>
       <div>
         Average Balance: {{ viewData.averageBalanceInfo.averageBalance |
-        currency: "USD":"symbol-narrow":"1.2-2" }}
-        <span
-          *ngIf="
-            viewData.averageBalanceInfo.averageBalance >=
-            viewData.averageBalanceInfo.averageMinBalance
-          "
-        >
+        currency: "USD":"symbol-narrow":"1.2-2" }} @if (
+        viewData.averageBalanceInfo.averageBalance >=
+        viewData.averageBalanceInfo.averageMinBalance ) {
+        <span>
           &gt;= {{ viewData.averageBalanceInfo.averageMinBalance | currency:
           "USD":"symbol-narrow":"1.2-2" }}
         </span>
-        <span
-          *ngIf="
-            viewData.averageBalanceInfo.averageBalance <
-            viewData.averageBalanceInfo.averageMinBalance
-          "
-        >
+        } @if ( viewData.averageBalanceInfo.averageBalance <
+        viewData.averageBalanceInfo.averageMinBalance ) {
+        <span>
           &lt; {{ viewData.averageBalanceInfo.averageMinBalance | currency:
           "USD":"symbol-narrow":"1.2-2" }}
         </span>
+        }
       </div>
       <div>
         Date Range: {{ viewData.averageBalanceInfo.startingDate | date:
@@ -186,35 +189,35 @@
       <button (click)="toggleDailyBalance()">
         {{ viewData.showDailyBalance ? "Hide" : "Show" }} daily balance
       </button>
-      <div *ngIf="viewData.showDailyBalance">
+      @if (viewData.showDailyBalance) {
+      <div>
         <table>
           <tr>
             <th class="padding-all-5 width-80">Date</th>
             <th class="padding-all-5 width-100">Balance</th>
           </tr>
-          <tr
-            class="movements-listing-row"
-            *ngFor="let m of viewData.averageBalanceInfo.dailyBalance"
-          >
+          @for (m of viewData.averageBalanceInfo.dailyBalance; track m) {
+          <tr class="movements-listing-row">
             <td class="padding-all-5">{{ m.date | date: "yyyy-MM-dd" }}</td>
             <td class="padding-all-5 text-align-right">
               {{ m.balance | currency: "USD":"symbol-narrow":"1.2-2" }}
             </td>
           </tr>
+          }
         </table>
       </div>
+      }
     </div>
   </div>
-
+  } @if (viewData.movements.length) {
   <movement-listing
     [movementList]="viewData.movements"
     [selectedBalance]="model.selectedBalance"
     selectedView="compact"
-    *ngIf="viewData.movements.length"
     (onSelectMovement)="selectMovement($event)"
   ></movement-listing>
-
-  <div *ngIf="viewData.selectedTotal !== 0">
+  } @if (viewData.selectedTotal !== 0) {
+  <div>
     <table>
       <thead>
         <tr>
@@ -249,6 +252,7 @@
       </tfoot>
     </table>
   </div>
+  }
 
   <canvas
     id="monthlyExpenseChart"
@@ -312,7 +316,8 @@
       "USD":"symbol-narrow":"1.2-2" }}
     </div>
     <div class="balance-category-list">
-      <div *ngFor="let c of viewData.totalsByCategory">
+      @for (c of viewData.totalsByCategory; track c) {
+      <div>
         <input
           type="checkbox"
           [id]="'cat' + c.category.mct_id"
@@ -324,15 +329,17 @@
           "USD":"symbol-narrow":"1.2-2" }})</label
         >
       </div>
+      }
     </div>
 
+    @if (viewData.movementsPerSelectedCategories.length) {
     <movement-listing
       [movementList]="viewData.movementsPerSelectedCategories"
       [selectedBalance]="model.selectedBalance"
       selectedView="compact"
-      *ngIf="viewData.movementsPerSelectedCategories.length"
       (onSelectMovement)="selectMovement($event)"
     ></movement-listing>
+    }
   </div>
 
   <div class="budget-table-container">
@@ -345,10 +352,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let cat of budgetPerCategory()">
+        @for (cat of budgetPerCategory(); track cat) {
+        <tr>
           <td>{{ cat.name }}</td>
           <td>{{ cat.value | currency:'USD':'symbol-narrow':'1.2-2' }}</td>
         </tr>
+        }
       </tbody>
       <tfoot>
         <tr>

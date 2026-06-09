@@ -1,5 +1,5 @@
+@if (message) {
 <div
-  *ngIf="message"
   [ngClass]="{
     alert: message,
     'alert-success': message.type === 'success',
@@ -8,3 +8,4 @@
 >
   {{ message.text }}
 </div>
+}

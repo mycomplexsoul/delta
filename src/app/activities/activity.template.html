@@ -13,9 +13,9 @@
       [(ngModel)]="selectedProject"
       (ngModelChange)="onChangeProject($event)"
     >
-      <option *ngFor="let opt of projectList()" value="{{ opt.id }}">
-        {{ opt.name }} ({{ opt.count }})
-      </option>
+      @for (opt of projectList(); track opt) {
+      <option value="{{ opt.id }}">{{ opt.name }} ({{ opt.count }})</option>
+      }
     </select>
   </span>
 
@@ -28,9 +28,9 @@
       [(ngModel)]="selectedLayout"
       (ngModelChange)="onChangeLayout($event)"
     >
-      <option *ngFor="let opt of LAYOUT_LIST" value="{{ opt.id }}">
-        {{ opt.name }}
-      </option>
+      @for (opt of LAYOUT_LIST; track opt) {
+      <option value="{{ opt.id }}">{{ opt.name }}</option>
+      }
     </select>
   </span>
 
@@ -39,14 +39,16 @@
       {{ showItemForm() ? "Hide Form" : "New Item" }}
     </button>
 
-    <div id="newItemFormSection" *ngIf="showItemForm()">
-      <span class="field" *ngIf="model.id">
+    @if (showItemForm()) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
         <span type="text" name="id" id="id" class="field-input-small"
           >{{ model.id }}</span
         >
       </span>
-
+      }
       <span class="field">
         <label for="fName" class="label-left">Name</label>
         <input
@@ -57,7 +59,6 @@
           ngModel
         />
       </span>
-
       <span class="field">
         <label for="fTags" class="label-left">Tags</label>
         <input
@@ -68,7 +69,6 @@
           ngModel
         />
       </span>
-
       <span class="field">
         <label for="fTasksTag" class="label-left">Tasks Tag</label>
         <input
@@ -79,74 +79,68 @@
           ngModel
         />
         <div>
-          <button
-            *ngFor="let f of viewData.nextFolioList"
-            (click)="setFolioFromSuggestion(f, itemForm)"
-          >
-            {{f}}
-          </button>
+          @for (f of viewData.nextFolioList; track f) {
+          <button (click)="setFolioFromSuggestion(f, itemForm)">{{f}}</button>
+          }
         </div>
       </span>
-
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
+    }
   </form>
 
-  <div class="activity-details" *ngIf="model.id">
+  @if (model.id) {
+  <div class="activity-details">
     <div class="activity-actions">
       <button (click)="changeStatus(model.id, 'CLOSED')">Close Activity</button>
     </div>
     <span> Details </span>
-
-    <div *ngFor="let k of model.activity.additional?.keyvalItems">
-      {{ k.key_name }} / {{ k.key_value }}
-    </div>
-
+    @for (k of model.activity.additional?.keyvalItems; track k) {
+    <div>{{ k.key_name }} / {{ k.key_value }}</div>
+    }
     <hr />
-
     <span
       ><strong>
         Timeline (x{{model.activity.additional?.timeline?.length}})
       </strong></span
     >
-
-    <div *ngFor="let t of model.activity.additional?.timeline">
+    @for (t of model.activity.additional?.timeline; track t) {
+    <div>
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
       <span [innerHtml]="t.tim_description"></span>
     </div>
-
+    }
     <timeline
       [recordId]="TIMELINE_KEY + model.id"
       (onNewItem)="handleNewTimeline($event)"
     ></timeline>
-
     <span
       ><strong>
         Notes (x{{model.activity.additional?.notes?.length}})
       </strong></span
     >
-
-    <div *ngFor="let t of model.activity.additional?.notes">
+    @for (t of model.activity.additional?.notes; track t) {
+    <div>
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
       <span [innerHtml]="t.tim_description"></span>
     </div>
-
+    }
     <span
       ><strong>
         Notes hidden (x{{model.activity.additional?.notesHidden?.length}})
       </strong></span
     >
-
-    <div *ngFor="let t of model.activity.additional?.notesHidden">
+    @for (t of model.activity.additional?.notesHidden; track t) {
+    <div>
       - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
       <span [innerHtml]="t.tim_description"></span>
     </div>
-
+    }
     <div>
       <span> Tasks </span>
-
       <div>
-        <div *ngFor="let item of model.activity.additional?.tasks">
+        @for (item of model.activity.additional?.tasks; track item) {
+        <div>
           <task
             [task]="item"
             [handlers]="handlers"
@@ -156,13 +150,16 @@
           }"
           ></task>
         </div>
+        }
       </div>
     </div>
   </div>
+  }
 
   <div>
     <div>Leyenda de colores</div>
-    <div *ngFor="let h of viewData.healthGroup">
+    @for (h of viewData.healthGroup; track h) {
+    <div>
       <span
         [ngClass]="[
         'status-block',
@@ -173,10 +170,12 @@
         >{{ h.label }} ({{ h.count }} actividades)</span
       >
     </div>
+    }
   </div>
 
   <div class="card-group-list width-100-pct">
-    <div *ngFor="let group of activityGroups()" class="card-group-item">
+    @for (group of activityGroups(); track group) {
+    <div class="card-group-item">
       <details [attr.open]="group.key !== 6 ? 'true' : null">
         <summary>
           <div class="card-group-header">
@@ -188,77 +187,65 @@
             >
           </div>
         </summary>
-
         <div class="card-list">
-          <div *ngFor="let item of group.items" class="card-item-container">
+          @for (item of group.items; track item) {
+          <div class="card-item-container">
             <div class="activity-card-header">
               <span class="status-block {{item?.additional?.health}}"></span>
               <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
               <span class="activity-name">{{ item.act_name }}</span>
-
               <div class="activity-card-options-group">
                 <span class="activity-status-text"
                   >[{{ group.act_txt_status }}]</span
                 >
-
                 <span
                   class="activity-options-toggle"
                   (click)="item.showOptions = !item.showOptions"
                 >
                   {{ item.showOptions ? "-" : "+" }}
                 </span>
-                <span class="activity-badge-new" *ngIf="item.isNew">new</span>
-                <span class="activity-badge-edited" *ngIf="item.isEdited"
-                  >edited</span
-                >
-
-                <span *ngIf="item.showOptions">
+                @if (item.isNew) {
+                <span class="activity-badge-new">new</span>
+                } @if (item.isEdited) {
+                <span class="activity-badge-edited">edited</span>
+                } @if (item.showOptions) {
+                <span>
                   <br />
                   <button (click)="setModelDetails(item.act_id, itemForm)">
                     details
                   </button>
-                  <button
-                    *ngIf="item.act_ctg_status === 1 || item.act_ctg_status === 3"
-                    (click)="changeStatus(item.act_id, 'BACKLOG')"
-                  >
+                  @if (item.act_ctg_status === 1 || item.act_ctg_status === 3) {
+                  <button (click)="changeStatus(item.act_id, 'BACKLOG')">
                     To Backlog
                   </button>
-                  <button
-                    *ngIf="item.act_ctg_status === 2 || item.act_ctg_status === 4"
-                    (click)="changeStatus(item.act_id, 'OPEN')"
-                  >
+                  } @if (item.act_ctg_status === 2 || item.act_ctg_status === 4)
+                  {
+                  <button (click)="changeStatus(item.act_id, 'OPEN')">
                     To Open
                   </button>
-                  <button
-                    *ngIf="item.act_ctg_status === 3 || item.act_ctg_status === 5"
-                    (click)="changeStatus(item.act_id, 'IN PROGRESS')"
-                  >
+                  } @if (item.act_ctg_status === 3 || item.act_ctg_status === 5)
+                  {
+                  <button (click)="changeStatus(item.act_id, 'IN PROGRESS')">
                     To In Progress
                   </button>
-                  <button
-                    *ngIf="item.act_ctg_status === 4"
-                    (click)="changeStatus(item.act_id, 'VERIFICATION')"
-                  >
+                  } @if (item.act_ctg_status === 4) {
+                  <button (click)="changeStatus(item.act_id, 'VERIFICATION')">
                     To Verification
                   </button>
-                  <button
-                    *ngIf="item.act_ctg_status === 5"
-                    (click)="changeStatus(item.act_id, 'CLOSED')"
-                  >
+                  } @if (item.act_ctg_status === 5) {
+                  <button (click)="changeStatus(item.act_id, 'CLOSED')">
                     To Closed
                   </button>
-                  <button
-                    *ngIf="item.act_ctg_status !== 6"
-                    (click)="addNewTask(item)"
-                  >
-                    Add new task
-                  </button>
+                  } @if (item.act_ctg_status !== 6) {
+                  <button (click)="addNewTask(item)">Add new task</button>
+                  }
                 </span>
+                }
               </div>
             </div>
-
             <div class="activity-card-body">
-              <div *ngIf="item.additional.lastTimeline && showTimeline()">
+              @if (item.additional.lastTimeline && showTimeline()) {
+              <div>
                 <span
                   ><strong>
                     Último Estatus (x{{item.additional.timeline.length}})
@@ -271,16 +258,16 @@
                     [innerHtml]="item.additional.lastTimeline.tim_description"
                   ></span>
                 </div>
-
-                <hr *ngIf="item['additional']?.tasks?.length > 0" />
+                @if (item['additional']?.tasks?.length > 0) {
+                <hr />
+                }
               </div>
-
-              <div
-                *ngIf="item['additional']?.uniqueTasks?.length > 0 && showActivities()"
-              >
+              } @if (item['additional']?.uniqueTasks?.length > 0 &&
+              showActivities()) {
+              <div>
                 <span><strong> Actividades </strong></span>
-
-                <div *ngFor="let t of item['additional'].uniqueTasks">
+                @for (t of item['additional'].uniqueTasks; track t) {
+                <div>
                   <task
                     [task]="t.task"
                     [handlers]="handlers"
@@ -291,12 +278,16 @@
                   }"
                   ></task>
                 </div>
+                }
               </div>
+              }
             </div>
           </div>
+          }
         </div>
       </details>
     </div>
+    }
   </div>
 
   <div class="timeline-list">
@@ -304,21 +295,25 @@
 
     <div>Secuencia de actividades en orden cronológico</div>
 
-    <div *ngFor="let d of timelineGroup().days">
+    @for (d of timelineGroup().days; track d) {
+    <div>
       <h3>{{ d.date | date: "yyyy-MM-dd" }} {{ d.dayName }}</h3>
-
-      <div class="timeline-list-activity" *ngFor="let a of d.activityList">
+      @for (a of d.activityList; track a) {
+      <div class="timeline-list-activity">
         <div class="timeline-list-activity-header">
           + {{ a.act_tasks_tag }} - {{a.act_name}}
         </div>
-
-        <div *ngFor="let t of a.additional.timeline">
+        @for (t of a.additional.timeline; track t) {
+        <div>
           <div class="timeline-list-item">
             - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
             <span [innerHtml]="t.tim_description"></span>
           </div>
         </div>
+        }
       </div>
+      }
     </div>
+    }
   </div>
 </div>

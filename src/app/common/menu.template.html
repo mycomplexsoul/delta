@@ -1,4 +1,5 @@
-<div class="menu-container" *ngIf="currentUser">
+@if (currentUser) {
+<div class="menu-container">
   <div class="menu-header">
     <div class="menu-icon">
       <button (click)="viewData.isOpen = !viewData.isOpen">menu</button>
@@ -10,7 +11,8 @@
       <drink-water></drink-water>
       <sync></sync>
     </div>
-    <div class="menu-overlay" *ngIf="viewData.isOpen" (click)="handleClick()">
+    @if (viewData.isOpen) {
+    <div class="menu-overlay" (click)="handleClick()">
       <div class="menu-section">
         <ul class="menu-items" (keydown.esc)="handleClick()">
           <li>
@@ -94,5 +96,7 @@
         </ul>
       </div>
     </div>
+    }
   </div>
 </div>
+}

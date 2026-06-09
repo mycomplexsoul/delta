@@ -8,7 +8,9 @@
       <tr>
         <th>#</th>
         <th>Unidad</th>
-        <th *ngIf="viewData.layout === 'print'">Firma Condomino</th>
+        @if (viewData.layout === 'print') {
+        <th>Firma Condomino</th>
+        }
         <th>Saldo</th>
         <th>Fecha</th>
         <th>Monto</th>
@@ -16,10 +18,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let item of viewData.paymentReportData.provisionList; let counter = index"
-        class="payment-listing-row"
-      >
+      @for (item of viewData.paymentReportData.provisionList; track item; let
+      counter = $index) {
+      <tr class="payment-listing-row">
         <td
           class="padding-all-3 text-align-center vertical-align-top payment-report-counter"
         >
@@ -30,31 +31,34 @@
         >
           {{item.provision.cpr_id_unit}}
         </td>
-        <td
-          class="padding-all-3 vertical-align-top payment-report-sign"
-          *ngIf="viewData.layout === 'print'"
-        ></td>
+        @if (viewData.layout === 'print') {
+        <td class="padding-all-3 vertical-align-top payment-report-sign"></td>
+        }
         <td
           class="padding-all-3 text-align-right vertical-align-top payment-report-in-favor"
         >
-          <span *ngIf="item.previousPayDetTotal && !viewData.extraordinary">
+          @if (item.previousPayDetTotal && !viewData.extraordinary) {
+          <span>
             {{item.previousPayDetTotal | currency:
             "USD":"symbol-narrow":"1.2-2"}}
           </span>
+          }
         </td>
         <td
           class="padding-all-3 width-80-strict text-align-center vertical-align-top"
         >
-          <span *ngIf="item.paymentList.length > 0">
+          @if (item.paymentList.length > 0) {
+          <span>
             {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
             date: "yyyy-MM-dd"}}
           </span>
-          <span
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print' && !viewData.extraordinary"
-          >
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print' &&
+          !viewData.extraordinary) {
+          <span>
             {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +
             viewData.month }}-___
           </span>
+          }
         </td>
         <td
           class="padding-all-3 vertical-align-top"
@@ -64,13 +68,13 @@
           'payment-report-amount-print': viewData.layout === 'print'
         }"
         >
-          <span *ngIf="item.paymentList.length > 0">
+          @if (item.paymentList.length > 0) {
+          <span>
             {{item.paymentList.length && item.totalPayment | currency:
             "USD":"symbol-narrow":"1.2-2"}}
           </span>
-          <span
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
-          >
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <span>
             <input type="checkbox" />
             <span>
               {{ item.provision.cpr_amount | currency:
@@ -78,59 +82,77 @@
             </span>
             <span> / otro: $_______ </span>
           </span>
+          }
         </td>
         <td class="padding-all-3 vertical-align-top">
-          <div *ngIf="item.paymentList.length > 0">
-            <div *ngFor="let pay of item.paymentList; let payIndex = index">
-              <div *ngFor="let det of pay.payDetList">
-                <span *ngIf="item.paymentList.length > 1">
+          @if (item.paymentList.length > 0) {
+          <div>
+            @for (pay of item.paymentList; track pay; let payIndex = $index) {
+            <div>
+              @for (det of pay.payDetList; track det) {
+              <div>
+                @if (item.paymentList.length > 1) {
+                <span>
                   => {{pay.payment.cpy_amount | currency:
                   "USD":"symbol-narrow":"1.2-2"}}
                 </span>
-                <span *ngIf="pay.payDetList.length > 1">
+                } @if (pay.payDetList.length > 1) {
+                <span>
                   + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
                   {{det.cpd_concept}}
                 </span>
-                <span *ngIf="pay.payDetList.length === 1">
-                  {{det.cpd_concept}}
-                </span>
-                <span *ngIf="item.paymentList.length > 1">
+                } @if (pay.payDetList.length === 1) {
+                <span> {{det.cpd_concept}} </span>
+                } @if (item.paymentList.length > 1) {
+                <span>
                   ({{item.paymentList.length && pay.payment.cpy_date | date:
                   "yyyy-MM-dd"}})
                 </span>
+                }
               </div>
+              }
             </div>
+            }
           </div>
-          <div
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
-          >
-            <input type="checkbox" *ngIf="!item.isCurrentProvisionPayed" />
-            <span *ngIf="!item.isCurrentProvisionPayed">
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <div>
+            @if (!item.isCurrentProvisionPayed) {
+            <input type="checkbox" />
+            } @if (!item.isCurrentProvisionPayed) {
+            <span>
               {{ viewData.extraordinary ? viewData.displayYearMonth : 'Mantto '
               + viewData.displayYearMonth }}
             </span>
-            <span *ngIf="item.isCurrentProvisionPayed">
-              (Cuota de este mes cubierta)
-            </span>
+            } @if (item.isCurrentProvisionPayed) {
+            <span> (Cuota de este mes cubierta) </span>
+            }
           </div>
+          }
         </td>
       </tr>
+      }
     </tbody>
     <tfoot>
       <tr>
         <td class="padding-all-3"></td>
         <td class="padding-all-3"></td>
-        <td class="padding-all-3" *ngIf="viewData.layout === 'print'"></td>
+        @if (viewData.layout === 'print') {
+        <td class="padding-all-3"></td>
+        }
         <td class="padding-all-3 text-align-right width-80">
-          <span *ngIf="!viewData.extraordinary">
+          @if (!viewData.extraordinary) {
+          <span>
             {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
           </span>
+          }
         </td>
         <td class="padding-all-3 text-align-center">Total</td>
         <td class="padding-all-3 text-align-right width-80">
-          <span *ngIf="viewData.total > 0">
+          @if (viewData.total > 0) {
+          <span>
             {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}
           </span>
+          }
         </td>
         <td class="padding-all-3"></td>
       </tr>
@@ -147,10 +169,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let item of viewData.paymentReportData.provisionList; let counter = index"
-        class="payment-listing-row"
-      >
+      @for (item of viewData.paymentReportData.provisionList; track item; let
+      counter = $index) {
+      <tr class="payment-listing-row">
         <td
           class="padding-all-3 text-align-center vertical-align-top payment-report-counter"
         >
@@ -169,13 +190,13 @@
           'payment-report-amount-print': viewData.layout === 'print'
         }"
         >
-          <span *ngIf="item.paymentList.length > 0">
+          @if (item.paymentList.length > 0) {
+          <span>
             {{item.paymentList.length && item.totalPayment | currency:
             "USD":"symbol-narrow":"1.2-2"}}
           </span>
-          <span
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
-          >
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <span>
             <input type="checkbox" />
             <span>
               {{ item.provision.cpr_amount | currency:
@@ -183,62 +204,75 @@
             </span>
             <span> / otro: $_______ </span>
           </span>
+          }
         </td>
         <td
           class="padding-all-3 vertical-align-top payment-listing-description"
         >
-          <span *ngIf="item.paymentList.length > 0">
+          @if (item.paymentList.length > 0) {
+          <span>
             {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
             date: "yyyy-MM-dd"}}
           </span>
-          <span
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
-          >
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <span>
             {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +
             viewData.month }}-___
           </span>
-          <div *ngIf="item.paymentList.length > 0">
-            <div *ngFor="let pay of item.paymentList; let payIndex = index">
-              <div *ngFor="let det of pay.payDetList">
-                <span *ngIf="item.paymentList.length > 1">
+          } @if (item.paymentList.length > 0) {
+          <div>
+            @for (pay of item.paymentList; track pay; let payIndex = $index) {
+            <div>
+              @for (det of pay.payDetList; track det) {
+              <div>
+                @if (item.paymentList.length > 1) {
+                <span>
                   => {{pay.payment.cpy_amount | currency:
                   "USD":"symbol-narrow":"1.2-2"}}
                 </span>
-                <span *ngIf="pay.payDetList.length > 1">
+                } @if (pay.payDetList.length > 1) {
+                <span>
                   + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
                   {{det.cpd_concept}}
                 </span>
-                <span *ngIf="pay.payDetList.length === 1">
-                  {{det.cpd_concept}}
-                </span>
-                <span *ngIf="item.paymentList.length > 1">
+                } @if (pay.payDetList.length === 1) {
+                <span> {{det.cpd_concept}} </span>
+                } @if (item.paymentList.length > 1) {
+                <span>
                   ({{item.paymentList.length && pay.payment.cpy_date | date:
                   "yyyy-MM-dd"}})
                 </span>
+                }
               </div>
+              }
             </div>
+            }
           </div>
-          <span *ngIf="item.previousPayDetTotal">
+          } @if (item.previousPayDetTotal) {
+          <span>
             Saldo: {{item.previousPayDetTotal | currency:
             "USD":"symbol-narrow":"1.2-2"}}
           </span>
-          <div
-            *ngIf="item.paymentList.length === 0 && viewData.layout === 'print'"
-          >
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <div>
             <input type="checkbox" />
             <span> Mantto {{ viewData.displayYearMonth }} </span>
           </div>
+          }
         </td>
       </tr>
+      }
     </tbody>
     <tfoot>
       <tr>
         <td class="padding-all-3"></td>
         <td class="padding-all-3"></td>
         <td class="padding-all-3 text-align-right width-80">
-          <span *ngIf="viewData.total > 0">
+          @if (viewData.total > 0) {
+          <span>
             {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}
           </span>
+          }
         </td>
         <td class="padding-all-3">
           <span

@@ -6,7 +6,8 @@
     {{ viewData.showCreateForm ? "Hide Movement Form" : "New Movement" }}
   </button>
 
-  <div *ngIf="viewData.showCreateForm">
+  @if (viewData.showCreateForm) {
+  <div>
     <input
       type="radio"
       name="fMovementFlowType"
@@ -25,12 +26,13 @@
       value="transfer"
     />
     <label for="fMovementFlowTypeTransfer">Transfer</label>
-
     <div>
-      <h4 *ngIf="isCustom">Custom</h4>
-      <h4 *ngIf="isTransfer">Transfer</h4>
-
-      <span class="field" *ngIf="viewData.presets.length > 1 && !model.id">
+      @if (isCustom) {
+      <h4>Custom</h4>
+      } @if (isTransfer) {
+      <h4>Transfer</h4>
+      } @if (viewData.presets.length > 1 && !model.id) {
+      <span class="field">
         <label for="fPreset" class="label-left">Use a Preset</label>
         <select
           name="fPreset"
@@ -41,16 +43,18 @@
             setModelDetails(model.selectedPreset, newMovementForm, 'pre')
           "
         >
-          <option *ngFor="let opt of viewData.presets" value="{{ opt.pre_id }}">
-            {{ opt.pre_name }}
-          </option>
+          @for (opt of viewData.presets; track opt) {
+          <option value="{{ opt.pre_id }}">{{ opt.pre_name }}</option>
+          }
         </select>
         <hr />
       </span>
-      <span class="field" *ngIf="model.id">
+      } @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
         <span class="movement-input-id">{{ model.id }}</span>
       </span>
+      }
       <span class="field">
         <label for="fDescription" class="label-left">Description</label>
         <input
@@ -61,9 +65,11 @@
           (blur)="onDescriptionBlurHandler($event.target.value, newMovementForm)"
           ngModel
         />
-        <span *ngIf="newMovementForm.value.fDescription">
+        @if (newMovementForm.value.fDescription) {
+        <span>
           {{ newMovementForm.value.fDescription.length }} / 200 characters
         </span>
+        }
       </span>
       <span class="field">
         <label for="fAmount" class="label-left">Amount</label>
@@ -80,28 +86,28 @@
       <span class="field">
         <label for="fAccount" class="label-left">Account</label>
         <select name="fAccount" id="fAccount" class="field-select" ngModel>
-          <option
-            *ngFor="let opt of viewData.accounts"
-            value="{{ opt.acc_id }}"
-          >
+          @for (opt of viewData.accounts; track opt) {
+          <option value="{{ opt.acc_id }}">
             {{ opt.acc_name }} / {{ opt.bal_final | currency:
             "USD":"symbol-narrow":"1.2-2" }}
           </option>
+          }
         </select>
       </span>
-      <span class="field" *ngIf="isTransfer">
+      @if (isTransfer) {
+      <span class="field">
         <label for="fAccountTo" class="label-left">Account To</label>
         <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
-          <option
-            *ngFor="let opt of viewData.accounts"
-            value="{{ opt.acc_id }}"
-          >
+          @for (opt of viewData.accounts; track opt) {
+          <option value="{{ opt.acc_id }}">
             {{ opt.acc_name }} / {{ opt.bal_final | currency:
             "USD":"symbol-narrow":"1.2-2" }}
           </option>
+          }
         </select>
       </span>
-      <span class="field" *ngIf="!isTransfer">
+      } @if (!isTransfer) {
+      <span class="field">
         <input
           type="radio"
           [value]="1"
@@ -110,7 +116,6 @@
           [(ngModel)]="model.type"
         />
         <label for="fMovementType_1" class="label-radio">Expense</label>
-
         <input
           type="radio"
           [value]="2"
@@ -120,11 +125,13 @@
         />
         <label for="fMovementType_2" class="label-radio">Income</label>
       </span>
+      }
       <span class="field">
         <label for="fDate" class="label-left">Movement Date</label>
         <input type="date" name="fDate" [(ngModel)]="model.date" />
       </span>
-      <span class="field" *ngIf="!isTransfer">
+      @if (!isTransfer) {
+      <span class="field">
         <label for="fPlace" class="label-left">Place</label>
         <select
           name="fPlace"
@@ -133,20 +140,22 @@
           [(ngModel)]="model.place"
           (change)="onChangePlace(model.place)"
         >
+          @for (opt of viewData.places; track opt) {
           <option
-            *ngFor="let opt of viewData.places"
             [value]="opt.mpl_id"
             [selected]="opt.mpl_id === newMovementForm.value.fPlace"
           >
             {{ opt.mpl_name }}
           </option>
+          }
         </select>
         <combo-item
           [name]="place"
           [addNewItem]="addNewPlaceForUser"
         ></combo-item>
       </span>
-      <span class="field" *ngIf="!isTransfer">
+      } @if (!isTransfer) {
+      <span class="field">
         <label for="fCategory" class="label-left">Category</label>
         <select
           name="fCategory"
@@ -154,19 +163,21 @@
           class="field-select"
           [(ngModel)]="model.category"
         >
+          @for (opt of viewData.categories; track opt) {
           <option
-            *ngFor="let opt of viewData.categories"
             [value]="opt.mct_id"
             [selected]="opt.mct_id === newMovementForm.value.fCategory"
           >
             {{ opt.mct_name }}
           </option>
+          }
         </select>
         <combo-item
           [name]="category"
           [addNewItem]="addNewCategoryForUser"
         ></combo-item>
       </span>
+      }
       <span class="field">
         <label for="fBudget" class="field-input label-left">Tags</label>
         <input
@@ -176,9 +187,11 @@
           class="field-input movement-input-budget"
           ngModel
         />
-        <span *ngIf="newMovementForm.value.fBudget">
+        @if (newMovementForm.value.fBudget) {
+        <span>
           {{ newMovementForm.value.fBudget.length }} / 50 characters
         </span>
+        }
       </span>
       <span class="field">
         <label for="fNotes" class="label-left">Notes</label>
@@ -189,9 +202,11 @@
           class="field-input movement-input-notes"
           ngModel
         />
-        <span *ngIf="newMovementForm.value.fNotes">
+        @if (newMovementForm.value.fNotes) {
+        <span>
           {{ newMovementForm.value.fNotes.length }} / 200 characters
         </span>
+        }
       </span>
       <span class="field">
         <hr />
@@ -203,7 +218,8 @@
           [(ngModel)]="model.asPreset"
         />
       </span>
-      <span class="field" *ngIf="model.asPreset">
+      @if (model.asPreset) {
+      <span class="field">
         <label for="fName" class="label-left">Preset Name</label>
         <input
           type="text"
@@ -213,6 +229,7 @@
           ngModel
         />
       </span>
+      }
       <span class="field">
         <label for="fResetForm" class="label-left">Reset form after save</label>
         <input
@@ -226,24 +243,26 @@
         {{ model.asPreset ? "Save as Preset" : model.id !== null ? "Update
         Movement" : "Save Movement" }}
       </button>
+      @if (model.id !== null) {
       <button
         type="button"
-        *ngIf="model.id !== null"
         (click)="cancel(model.id)"
         title="Sets status to Cancelled"
       >
         Cancel
       </button>
+      } @if (model.id !== null) {
       <button
         type="button"
-        *ngIf="model.id !== null"
         (click)="deleteMovement(model.id)"
         title="Deletes this movement"
       >
         Delete
       </button>
+      }
     </div>
   </div>
+  }
 </form>
 
 <movement-listing

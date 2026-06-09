@@ -6,7 +6,9 @@
 */
 {
   "compilerOptions": {
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "module": "esnext"
   },
   "files": [],
   "references": [

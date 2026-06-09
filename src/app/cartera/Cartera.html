@@ -17,7 +17,8 @@
   Payments' }}
 </button>
 
-<div *ngIf="viewData.showBatchPaymentsSection">
+@if (viewData.showBatchPaymentsSection) {
+<div>
   <span class="field">
     <label for="fBatchPaymentInput" class="label-left"
       >Batch Payment Input</label
@@ -30,32 +31,36 @@
       spellcheck="false"
     ></textarea>
   </span>
-
   <button (click)="parseBatchPayments(model.batchPaymentInput)">
     Parse batch payments
   </button>
-
   <div>
     <table>
-      <tr *ngFor="let p of viewData.appliedPayments; let counter = index">
+      @for (p of viewData.appliedPayments; track p; let counter = $index) {
+      <tr>
         <td>
           #{{counter + 1}} {{p.unit}} {{p.date | date: "yyyy-MM-dd" }}
           {{p.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
         </td>
         <td>
-          <div *ngFor="let d of p.payDet">
+          @for (d of p.payDet; track d) {
+          <div>
             {{d.provision.cpr_code_reference}} - {{d.provision.cpr_remaining |
             currency: "USD":"symbol-narrow":"1.2-2"}} - {{d.amount | currency:
-            "USD":"symbol-narrow":"1.2-2"}} - {{d.folio}}
-            <span *ngIf="d.provision.cpr_remaining < d.amount"
-              ><strong>don't match! too high!</strong></span
-            >
+            "USD":"symbol-narrow":"1.2-2"}} - {{d.folio}} @if
+            (d.provision.cpr_remaining < d.amount) {
+            <span><strong>don't match! too high!</strong></span>
+            }
           </div>
+          }
         </td>
         <td>
-          <span *ngIf="p.applied">SAVED!</span>
+          @if (p.applied) {
+          <span>SAVED!</span>
+          }
         </td>
       </tr>
+      }
       <tr>
         <td></td>
         <td>
@@ -66,64 +71,50 @@
       </tr>
     </table>
   </div>
-
-  <button (click)="saveBatchPayments()" *ngIf="viewData.appliedPayments.length">
-    Save batch payments
-  </button>
+  @if (viewData.appliedPayments.length) {
+  <button (click)="saveBatchPayments()">Save batch payments</button>
+  }
 </div>
-
-<div *ngIf="viewData.showGenerateReportSection">
+} @if (viewData.showGenerateReportSection) {
+<div>
   <span class="field">
     <label for="fReport" class="label-left">Report</label>
     <select [(ngModel)]="model.report" name="fReport" id="fReport">
-      <option
-        *ngFor="let opt of viewData.reportList"
-        value="{{ opt.iterable }}"
-      >
-        {{ opt.name }}
-      </option>
+      @for (opt of viewData.reportList; track opt) {
+      <option value="{{ opt.iterable }}">{{ opt.name }}</option>
+      }
     </select>
   </span>
-
   <span class="field">
     <label for="fPeriod" class="label-left">Year-Month</label>
     <select [(ngModel)]="model.period" name="fPeriod" id="fPeriod">
-      <option
-        *ngFor="let opt of viewData.periodList"
-        value="{{ opt.iterable }}"
-      >
-        {{ opt.name }}
-      </option>
+      @for (opt of viewData.periodList; track opt) {
+      <option value="{{ opt.iterable }}">{{ opt.name }}</option>
+      }
     </select>
   </span>
-
   <button (click)="openReport(model.report, '' + model.period)">
     Open Report
   </button>
 </div>
+}
 
 <cartera-send-receipts></cartera-send-receipts>
 
-<div *ngIf="viewData.showGenerateProvisionsSection">
+@if (viewData.showGenerateProvisionsSection) {
+<div>
   <span class="field">
     <label for="fPeriod" class="label-left">Period</label>
     <select [(ngModel)]="model.nextPeriod" name="fNextPeriod" id="fNextPeriod">
-      <option
-        *ngFor="let opt of viewData.nextMonthWithProvisionsToGenerate"
-        value="{{ opt.iterable }}"
-        selected="true"
-      >
-        {{ opt.name }}
-      </option>
+      @for (opt of viewData.nextMonthWithProvisionsToGenerate; track opt) {
+      <option value="{{ opt.iterable }}" selected="true">{{ opt.name }}</option>
+      }
     </select>
-
     <button (click)="generateProvisionsForMonth(model.nextPeriod)">
       Generate Provisions for selected period
     </button>
   </span>
-
   <p>For Extraordinary Provisions</p>
-
   <span class="field">
     <label for="fPeriod" class="label-left">Period</label>
     <select
@@ -131,16 +122,11 @@
       name="fExtraPeriod"
       id="fExtraPeriod"
     >
-      <option
-        *ngFor="let opt of viewData.nextMonthsForExtraordinaryProvisions"
-        value="{{ opt.iterable }}"
-        selected="true"
-      >
-        {{ opt.name }}
-      </option>
+      @for (opt of viewData.nextMonthsForExtraordinaryProvisions; track opt) {
+      <option value="{{ opt.iterable }}" selected="true">{{ opt.name }}</option>
+      }
     </select>
   </span>
-
   <span class="field">
     <label for="fAmount" class="label-left">Amount</label>
     <input
@@ -150,13 +136,13 @@
       id="fExtraAmount"
     />
   </span>
-
   <button
     (click)="generateExtraordinaryProvisionsForMonth(model.extraPeriod, model.extraAmount)"
   >
     Generate Extraordinary Provisions for selected period
   </button>
 </div>
+}
 
 <form #newItemForm="ngForm" (ngSubmit)="newItem(newItemForm)">
   <button
@@ -166,7 +152,8 @@
     {{ viewData.showItemForm ? "Hide Payment Form" : "New Payment" }}
   </button>
 
-  <div *ngIf="viewData.showItemForm">
+  @if (viewData.showItemForm) {
+  <div>
     <input
       type="radio"
       name="fPaymentType"
@@ -203,18 +190,17 @@
       value="identification"
     />
     <label for="fPaymentTypeIdentification">Identificación de pago</label>
-
     <div>
-      <h4 *ngIf="model._paymentType === 'normal'">Pago identificado</h4>
-      <h4 *ngIf="model._paymentType === 'nonidentified'">
-        Pago no identificado
-      </h4>
-      <h4 *ngIf="model._paymentType === 'condonation'">Condonación</h4>
-      <h4 *ngIf="model._paymentType === 'identification'">
-        Identificación de pago
-      </h4>
-
-      <span class="field" *ngIf="model._paymentType === 'identification'">
+      @if (model._paymentType === 'normal') {
+      <h4>Pago identificado</h4>
+      } @if (model._paymentType === 'nonidentified') {
+      <h4>Pago no identificado</h4>
+      } @if (model._paymentType === 'condonation') {
+      <h4>Condonación</h4>
+      } @if (model._paymentType === 'identification') {
+      <h4>Identificación de pago</h4>
+      } @if (model._paymentType === 'identification') {
+      <span class="field">
         <label for="fPayment" class="label-left">Pago sin identificar</label>
         <select
           name="fPayment"
@@ -223,29 +209,21 @@
           [(ngModel)]="model.paymentId"
           (change)="setPaymentDetailsInForm(newItemForm, model.paymentId)"
         >
-          <option
-            *ngFor="let opt of viewData.nonIdentifiedPaymentList"
-            value="{{ opt.cpy_id }}"
-          >
+          @for (opt of viewData.nonIdentifiedPaymentList; track opt) {
+          <option value="{{ opt.cpy_id }}">
             {{ opt.cpy_date | date: "yyyy-MM-dd" }} {{ opt.cpy_amount |
             currency: "USD":"symbol-narrow":"1.2-2"}}
           </option>
+          }
         </select>
       </span>
-
+      }
       <span class="field">
-        <label
-          for="fDate"
-          class="label-left"
-          *ngIf="model._paymentType !== 'identification'"
-          >Fecha</label
-        >
-        <label
-          for="fDate"
-          class="label-left"
-          *ngIf="model._paymentType === 'identification'"
-          >Fecha de Identificación</label
-        >
+        @if (model._paymentType !== 'identification') {
+        <label for="fDate" class="label-left">Fecha</label>
+        } @if (model._paymentType === 'identification') {
+        <label for="fDate" class="label-left">Fecha de Identificación</label>
+        }
         <input
           type="radio"
           name="fDateType"
@@ -262,14 +240,10 @@
           value="custom"
         />
         <label for="fDateTypeCustom">Otra fecha</label>
-        <input
-          type="date"
-          name="fDate"
-          [(ngModel)]="model.fDate"
-          *ngIf="model._dateType !== 'current'"
-        />
+        @if (model._dateType !== 'current') {
+        <input type="date" name="fDate" [(ngModel)]="model.fDate" />
+        }
       </span>
-
       <span class="field">
         <label for="fAmount" class="label-left">Amount</label>
         <input
@@ -281,19 +255,20 @@
           [(ngModel)]="model.fAmount"
           [disabled]="viewData.showPayDetList || model._paymentType === 'nonidentified' || model._paymentType === 'identification'"
           (change)="setDescription(model.fAmount, model.fDate)"
-        />&nbsp;<button
+        />&nbsp;@if (!model.fAmount) {
+        <button
           (click)="model.fAmount = 2000;setDescription(model.fAmount, model.fDate)"
-          *ngIf="!model.fAmount"
         >
-          $2,000</button
-        >&nbsp;<button
+          $2,000
+        </button>
+        }&nbsp;@if (!model.fAmount) {
+        <button
           (click)="model.fAmount = 1500;setDescription(model.fAmount, model.fDate)"
-          *ngIf="!model.fAmount"
         >
           $1,500
         </button>
+        }
       </span>
-
       <span class="field">
         <label for="fUnit" class="label-left">Unidad</label>
         <select
@@ -303,9 +278,9 @@
           [(ngModel)]="model.unitId"
           [disabled]="model._paymentType === 'nonidentified' || viewData.showPayDetList"
         >
-          <option *ngFor="let opt of viewData.unitList" value="{{ opt }}">
-            {{ opt }}
-          </option>
+          @for (opt of viewData.unitList; track opt) {
+          <option value="{{ opt }}">{{ opt }}</option>
+          }
         </select>
         &nbsp;<button
           (click)="toggleUnitList()"
@@ -315,7 +290,6 @@
           de pago' }}
         </button>
       </span>
-
       <span class="field">
         <label for="fDescription" class="label-left">Description</label>
         <input
@@ -326,7 +300,7 @@
           [(ngModel)]="model.fDescription"
         />
       </span>
-
+      @if (!viewData.showPayDetList) {
       <button
         type="button"
         id="detailButton"
@@ -335,30 +309,27 @@
         [ngClass]="{
           'hidden': model._paymentType === 'nonidentified'
         }"
-        *ngIf="!viewData.showPayDetList"
       >
         Desglose de pago &gt;
       </button>
-
+      } @if (viewData.showPayDetList) {
       <button
         type="button"
         id="detailBackButton"
         (click)="viewData.showPayDetList = !viewData.showPayDetList"
-        *ngIf="viewData.showPayDetList"
       >
         &lt; Modificar pago
       </button>
-
+      } @if (viewData.showPayDetList) {
       <button
         type="button"
         id="showMoreProvisionsButton"
         (click)="showFutureProvisions(model.unitId)"
-        *ngIf="viewData.showPayDetList"
       >
         Ver Provisiones futuras
       </button>
-
-      <div *ngIf="viewData.showPayDetList">
+      } @if (viewData.showPayDetList) {
+      <div>
         <table
           class="pending-provision-listing desktop-only width-100-pct-print-only"
         >
@@ -375,8 +346,9 @@
             </tr>
           </thead>
           <tbody>
+            @for (provision of viewData.unitPendingProvisionList; track
+            provision; let counter = $index) {
             <tr
-              *ngFor="let provision of viewData.unitPendingProvisionList; let counter = index"
               class="pending-provision-listing-row"
               [ngClass]="{
                 'provision-payed-row': provision.cpr_remaining === 0,
@@ -389,16 +361,18 @@
               </td>
               <td class="padding-all-3">
                 <span> {{provision.cpr_concept}} </span>
-                <span *ngIf="provision.cpr_remaining === 0">
+                @if (provision.cpr_remaining === 0) {
+                <span>
                   <!-- payed row -->
                   [R]
                 </span>
-                <span
-                  *ngIf="isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)"
-                >
+                } @if (isProvisionForCurrentRenderedMonth(provision,
+                viewData.year, viewData.month)) {
+                <span>
                   <!-- added row -->
                   [A]
                 </span>
+                }
               </td>
               <td class="padding-all-3 text-align-right width-80">
                 {{provision.cpr_amount | currency:
@@ -449,6 +423,7 @@
                 />
               </td>
             </tr>
+            }
           </tbody>
           <tfoot>
             <tr>
@@ -477,7 +452,6 @@
             </tr>
           </tfoot>
         </table>
-
         <div>
           <span class="field">
             <label for="fResetForm" class="label-left"
@@ -493,20 +467,22 @@
           </span>
         </div>
       </div>
-
+      } @if (viewData.showPayDetList) {
       <button
         type="submit"
         id="newFormSubmitButton"
         [disabled]="viewData.payDetCaptureStatus !== 'valid'"
-        *ngIf="viewData.showPayDetList"
       >
         Aplicar pago
       </button>
+      }
     </div>
   </div>
+  }
 </form>
 
-<div *ngIf="viewData.showPayDetListAfterPayment">
+@if (viewData.showPayDetListAfterPayment) {
+<div>
   <table
     class="pending-provision-listing desktop-only width-100-pct-print-only"
   >
@@ -522,8 +498,9 @@
       </tr>
     </thead>
     <tbody>
+      @for (provision of viewData.unitPendingProvisionListAfterPayment; track
+      provision; let counter = $index) {
       <tr
-        *ngFor="let provision of viewData.unitPendingProvisionListAfterPayment; let counter = index"
         class="pending-provision-listing-row"
         [ngClass]="{
           'provision-payed-row': provision.cpr_remaining === 0,
@@ -536,16 +513,18 @@
         </td>
         <td class="padding-all-3">
           <span> {{provision.cpr_concept}} </span>
-          <span *ngIf="provision.cpr_remaining === 0">
+          @if (provision.cpr_remaining === 0) {
+          <span>
             <!-- payed row -->
             [R]
           </span>
-          <span
-            *ngIf="isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)"
-          >
+          } @if (isProvisionForCurrentRenderedMonth(provision, viewData.year,
+          viewData.month)) {
+          <span>
             <!-- added row -->
             [A]
           </span>
+          }
         </td>
         <td class="padding-all-3 text-align-right width-80">
           {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
@@ -557,15 +536,18 @@
           {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
         </td>
         <td class="padding-all-3 text-align-right width-80">
-          <span *ngIf="provision.cpr_remaining === 0">
+          @if (provision.cpr_remaining === 0) {
+          <span>
             <a
               [href]="'/receipt-report?folio=' + provision.cpr_folio"
               target="_blank"
               >Ver recibo</a
             >
           </span>
+          }
         </td>
       </tr>
+      }
     </tbody>
     <tfoot>
       <tr>
@@ -594,3 +576,4 @@
     </tfoot>
   </table>
 </div>
+}

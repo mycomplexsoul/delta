@@ -8,7 +8,8 @@
   Showing {{movementList.length}} items.
 </div>
 
-<div *ngIf="showSearch">
+@if (showSearch) {
+<div>
   <label for="fSearch" class="label-left">Search term</label>
   <input
     type="text"
@@ -20,8 +21,8 @@
   />
   <button (click)="handleSearch()">Search</button>
 </div>
-
-<table *ngIf="movementList.length && selectedView === 'grid'">
+} @if (movementList.length && selectedView === 'grid') {
+<table>
   <tr>
     <th>Id</th>
     <th>Date</th>
@@ -36,7 +37,8 @@
     <th>Notes</th>
     <th>Status</th>
   </tr>
-  <tr *ngFor="let m of movementList">
+  @for (m of movementList; track m) {
+  <tr>
     <td>{{ m.mov_id }}</td>
     <td>{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
     <td>{{ m.mov_txt_account }}</td>
@@ -50,16 +52,16 @@
     <td>{{ m.mov_notes }}</td>
     <td>{{ m.mov_txt_status }}</td>
   </tr>
+  }
 </table>
-
-<div *ngIf="movementList.length && selectedView === 'cards'">
+} @if (movementList.length && selectedView === 'cards') {
+<div>
   <div class="movement-list">
-    <div
-      *ngFor="let m of movementList"
-      class="movement-box"
-      (click)="handleClick(m.mov_id)"
-    >
-      <span *ngIf="false">{{ m.mov_id }}<br /></span>
+    @for (m of movementList; track m) {
+    <div class="movement-box" (click)="handleClick(m.mov_id)">
+      @if (false) {
+      <span>{{ m.mov_id }}<br /></span>
+      }
       <span
         [ngClass]="{
           'movement-amount-income': m.mov_ctg_type === 2,
@@ -67,40 +69,45 @@
           'movement-amount-transfer': m.mov_ctg_type === 3
         }"
       >
-        <span *ngIf="m.mov_txt_type === 'EXPENSE'">-</span>
-        <span *ngIf="m.mov_txt_type === 'INCOME'">+</span>
+        @if (m.mov_txt_type === 'EXPENSE') {
+        <span>-</span>
+        } @if (m.mov_txt_type === 'INCOME') {
+        <span>+</span>
+        }
         <span
           >{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span
         >
       </span>
       <span class="movement-account">&nbsp;[{{ m.mov_txt_account }}]</span>
-      <span class="movement-account" *ngIf="m.mov_txt_account_to">
-        -> [{{ m.mov_txt_account_to }}]</span
-      ><br />
+      @if (m.mov_txt_account_to) {
+      <span class="movement-account"> -> [{{ m.mov_txt_account_to }}]</span>
+      }<br />
       <span class="movement-date">[{{ m.mov_date | date: "yyyy-MM-dd" }}]</span>
       <span class="movement-description">&nbsp;{{ m.mov_desc }}</span>
       <br />
-      <span class="movement-category" *ngIf="m.mov_txt_category"
-        >{{ m.mov_txt_category }}</span
-      >
-      <span class="movement-place" *ngIf="m.mov_txt_place">
-        | {{ m.mov_txt_place }}</span
-      >
-      <span class="movement-budget" *ngIf="m.mov_budget">
-        | #[{{ m.mov_budget }}]</span
-      >
-      <br *ngIf="m.mov_ctg_type === 1 || m.mov_ctg_type === 2" />
+      @if (m.mov_txt_category) {
+      <span class="movement-category">{{ m.mov_txt_category }}</span>
+      } @if (m.mov_txt_place) {
+      <span class="movement-place"> | {{ m.mov_txt_place }}</span>
+      } @if (m.mov_budget) {
+      <span class="movement-budget"> | #[{{ m.mov_budget }}]</span>
+      } @if (m.mov_ctg_type === 1 || m.mov_ctg_type === 2) {
+      <br />
+      }
       <span class="movement-notes">{{ m.mov_notes }}</span>
-      <span class="movement-status" *ngIf="m.mov_ctg_status !== 1"
-        >{{ m.mov_txt_status }}</span
-      >
-      <span class="movement-badge-new" *ngIf="m.isNew">new</span>
-      <span class="movement-badge-edited" *ngIf="m.isEdited">edited</span>
+      @if (m.mov_ctg_status !== 1) {
+      <span class="movement-status">{{ m.mov_txt_status }}</span>
+      } @if (m.isNew) {
+      <span class="movement-badge-new">new</span>
+      } @if (m.isEdited) {
+      <span class="movement-badge-edited">edited</span>
+      }
     </div>
+    }
   </div>
 </div>
-
-<div *ngIf="movementList.length && selectedView === 'compact'">
+} @if (movementList.length && selectedView === 'compact') {
+<div>
   <table>
     <tr>
       <th class="padding-all-5">-</th>
@@ -109,10 +116,8 @@
       <th class="padding-all-5">Place</th>
       <th class="padding-all-5">Description</th>
     </tr>
-    <tr
-      class="movements-listing-row vertical-align-top"
-      *ngIf="selectedBalance"
-    >
+    @if (selectedBalance) {
+    <tr class="movements-listing-row vertical-align-top">
       <td class="padding-all-5"></td>
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
@@ -124,32 +129,31 @@
       <td class="padding-all-5"></td>
       <td class="padding-all-5"><strong>INITIAL BALANCE</strong></td>
     </tr>
-    <tr
-      class="movements-listing-row vertical-align-top"
-      *ngFor="let m of movementList"
-    >
+    } @for (m of movementList; track m) {
+    <tr class="movements-listing-row vertical-align-top">
       <td class="padding-all-5">
         <input type="checkbox" (click)="handleSelectMovement(m, $event)" />
       </td>
       <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
-      <td class="padding-all-5 text-align-right" *ngIf="selectedBalance">
+      @if (selectedBalance) {
+      <td class="padding-all-5 text-align-right">
         {{ (m.mov_ctg_type === 1 || (m.mov_ctg_type === 3 && m.mov_id_account
         === selectedBalance.bal_id_account) ? -1 * m.mov_amount : m.mov_amount)
         | currency: "USD":"symbol-narrow":"1.2-2" }}
       </td>
-      <td class="padding-all-5 text-align-right" *ngIf="!selectedBalance">
+      } @if (!selectedBalance) {
+      <td class="padding-all-5 text-align-right">
         {{ (m.mov_ctg_type === 1 ? -1 * m.mov_amount : m.mov_amount) | currency:
         "USD":"symbol-narrow":"1.2-2" }}
       </td>
+      }
       <td class="padding-all-5">
         {{ m.mov_ctg_type === 3 ? "TRANSFER" : m.mov_txt_place }}
       </td>
       <td class="padding-all-5">{{ m.mov_desc }}</td>
     </tr>
-    <tr
-      class="movements-listing-row vertical-align-top"
-      *ngIf="selectedBalance"
-    >
+    } @if (selectedBalance) {
+    <tr class="movements-listing-row vertical-align-top">
       <td class="padding-all-5"></td>
       <td class="padding-all-5"></td>
       <td class="padding-all-5 text-align-right">
@@ -161,5 +165,7 @@
       <td class="padding-all-5"></td>
       <td class="padding-all-5"><strong>FINAL BALANCE</strong></td>
     </tr>
+    }
   </table>
 </div>
+}

@@ -1,4 +1,5 @@
 <form #tasksForm="ngForm">
+  @if (!showBatchAdd) {
   <input
     type="text"
     name="tsk_name"
@@ -6,11 +7,11 @@
     class="task"
     autocomplete="off"
     autofocus="true"
-    *ngIf="!showBatchAdd"
     (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"
     [(ngModel)]="tsk_name"
   />
-  <div class="grow-wrap" *ngIf="showBatchAdd">
+  } @if (showBatchAdd) {
+  <div class="grow-wrap">
     <textarea
       name="tsk_multiple_name"
       placeholder="Write a task per line..."
@@ -29,39 +30,43 @@
       [(ngModel)]="targetDate"
     />
   </div>
-  <button
-    type="submit"
-    (click)="addTask(tasksForm)"
-    id="btnAddTask"
-    *ngIf="(tasksForm.value.tsk_name && !showBatchAdd) || (tasksForm.value.tsk_multiple_name && showBatchAdd)"
-  >
+  } @if ((tasksForm.value.tsk_name && !showBatchAdd) ||
+  (tasksForm.value.tsk_multiple_name && showBatchAdd)) {
+  <button type="submit" (click)="addTask(tasksForm)" id="btnAddTask">
     Add task
   </button>
-  <button (click)="toggleViewPostponed()" *ngIf="state.postponedTasksCount">
+  } @if (state.postponedTasksCount) {
+  <button (click)="toggleViewPostponed()">
     {{ viewPostponed ? "hide" : "show" }} postponed
   </button>
+  }
   <button (click)="inputKeyUpHandler($event, { showBatchAdd: true })">
     {{ showBatchAdd ? "hide" : "show" }} batch add
   </button>
   <button (click)="toggleViewOptions()">
     {{ viewOptions ? "hide" : "show" }} options
   </button>
+  @if (options.optShowLimitedTasksPerRecord) {
   <button
     (click)="options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord"
-    *ngIf="options.optShowLimitedTasksPerRecord"
   >
     {{ options.optLimitTasksPerRecord ? "remove" : "apply" }} limit view
   </button>
-  <div *ngIf="viewETABeforeAdd">
+  } @if (viewETABeforeAdd) {
+  <div>
     <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>
     <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>
-    <div *ngFor="let r of state.beforeAddETA">
+    @for (r of state.beforeAddETA; track r) {
+    <div>
       [{{ r.record }}: {{ formatTime(r.totalETA * 60) }} /
       {{r.totalETAPercentage}}%]
     </div>
+    }
   </div>
+  }
 </form>
-<div *ngIf="viewOptions">
+@if (viewOptions) {
+<div>
   <hr />
   <button (click)="deleteTasks()" class="btn-secondary">
     delete all tasks
@@ -111,7 +116,6 @@
     [checked]="options.optShowQualifiersTotals"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
-
   <div class="task-options-section-title">Customize features</div>
   <checkbox-option
     label="Display days elapsed since task was added"
@@ -225,7 +229,6 @@
     />
     <label>Record listing height (in px, desktop only)</label>
   </div>
-
   <div class="task-options-section-title">Showing / hiding Indicators</div>
   <checkbox-option
     label="Show Indicators Table"
@@ -233,7 +236,8 @@
     [checked]="options.optShowIndicatorsTable"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
-  <div *ngIf="options.optShowIndicatorsTable">
+  @if (options.optShowIndicatorsTable) {
+  <div>
     <checkbox-option
       label="Show Indicator - Open Count"
       optionId="optShowIndicatorOpenCountEOD"
@@ -331,7 +335,7 @@
       (onClick)="toggleOptionById($event); calculateIndicators()"
     ></checkbox-option>
   </div>
-
+  }
   <div>
     <div class="task-options-section-title">Keyboard Shortcuts Reference</div>
     <table>
@@ -453,10 +457,10 @@
       </tbody>
     </table>
   </div>
-
   <div id="optionsMessages"></div>
 </div>
-<div id="taskDetails" class="tasks-details" *ngIf="state.selected">
+} @if (state.selected) {
+<div id="taskDetails" class="tasks-details">
   <img
     src="/assets/icons/close.svg"
     class="close-button-img"
@@ -465,16 +469,18 @@
   <strong>Task Details</strong>
   <br />
   <br />
-  <div *ngIf="!options.optUsePresentationMode">
-    Id: {{ state.selected.tsk_id }}
-  </div>
+  @if (!options.optUsePresentationMode) {
+  <div>Id: {{ state.selected.tsk_id }}</div>
+  }
   <div>Name: {{ state.selected.tsk_name }}</div>
-  <div *ngIf="!options.optUsePresentationMode">
+  @if (!options.optUsePresentationMode) {
+  <div>
     <div>Container: {{ state.selected.tsk_id_container }}</div>
     <div>Record: {{ state.selected.tsk_id_record }}</div>
     <div>Parent: {{ state.selected.tsk_parent }}</div>
     <div>Order: {{ state.selected.tsk_order }}</div>
   </div>
+  }
   <div>
     Notes:
     <br />
@@ -483,14 +489,15 @@
         spellcheck="false"
         (blur)="setTaskNotes(state.selected, $event)"
       >
-{{ state.selected.tsk_notes }}</textarea
+                  {{ state.selected.tsk_notes }}</textarea
       >
-      <span *ngIf="state.selected.tsk_notes.length">
-        {{ state.selected.tsk_notes.length }} / 4000 characters
-      </span>
+      @if (state.selected.tsk_notes.length) {
+      <span> {{ state.selected.tsk_notes.length }} / 4000 characters </span>
+      }
     </div>
   </div>
-  <div *ngIf="state.selected.tsk_date_done">
+  @if (state.selected.tsk_date_done) {
+  <div>
     Date Done:
     <span
       contenteditable="true"
@@ -499,11 +506,14 @@
       >{{ state.selected.tsk_date_done | date: format }}</span
     >
   </div>
-  <div *ngIf="state.selected.tsk_total_time_spent">
+  } @if (state.selected.tsk_total_time_spent) {
+  <div>
     Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}
   </div>
-  <div *ngIf="state.selected.tsk_total_time_spent">
-    <fieldset *ngIf="state.selected.tsk_time_history.length">
+  } @if (state.selected.tsk_total_time_spent) {
+  <div>
+    @if (state.selected.tsk_time_history.length) {
+    <fieldset>
       <legend>Time History</legend>
       <table>
         <tr>
@@ -517,7 +527,8 @@
           <td>Date Mod</td>
           <td>Actions</td>
         </tr>
-        <tr *ngFor="let h of state.selected.tsk_time_history">
+        @for (h of state.selected.tsk_time_history; track h) {
+        <tr>
           <td>{{ h.tsh_num_secuential }}</td>
           <td>{{ h.tsh_name }}</td>
           <td>
@@ -541,21 +552,22 @@
           <td>{{ h.tsh_date_add | date: format }}</td>
           <td>{{ h.tsh_date_mod | date: format }}</td>
           <td>
-            <button
-              *ngIf="h.tsh_date_end"
-              (click)="deleteTimeTracking(state.selected, h)"
-            >
+            @if (h.tsh_date_end) {
+            <button (click)="deleteTimeTracking(state.selected, h)">
               delete
             </button>
+            }
           </td>
         </tr>
+        }
       </table>
     </fieldset>
+    }
   </div>
-  <div *ngIf="!options.optUsePresentationMode">
-    In Progress: {{ state.selected.tsk_ctg_in_process }}
-  </div>
-  <div *ngIf="state.selected.tsk_qualifiers">
+  } @if (!options.optUsePresentationMode) {
+  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>
+  } @if (state.selected.tsk_qualifiers) {
+  <div>
     Qualifiers:
     <span
       contenteditable="true"
@@ -564,7 +576,8 @@
       >{{ state.selected.tsk_qualifiers }}</span
     >
   </div>
-  <div *ngIf="state.selected.tsk_tags">
+  } @if (state.selected.tsk_tags) {
+  <div>
     Tags:
     <span
       contenteditable="true"
@@ -573,11 +586,13 @@
       >{{ state.selected.tsk_tags }}</span
     >
   </div>
+  }
   <div>
     Estimated Duration: {{ formatTime(state.selected.tsk_estimated_duration *
     60, "#h#m") }}
   </div>
-  <div *ngIf="!options.optUsePresentationMode">
+  @if (!options.optUsePresentationMode) {
+  <div>
     <div>
       Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:
       format }}
@@ -592,11 +607,12 @@
     <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>
     <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>
   </div>
-  <div *ngIf="!options.optUsePresentationMode">
-    Status: {{ state.selected.tsk_ctg_status }}
-  </div>
+  } @if (!options.optUsePresentationMode) {
+  <div>Status: {{ state.selected.tsk_ctg_status }}</div>
+  }
 </div>
-<div id="backlogTaskList" *ngIf="options.optShowBacklog">
+} @if (options.optShowBacklog) {
+<div id="backlogTaskList">
   <hr />
   <button
     class="button-link no-underline"
@@ -605,16 +621,16 @@
     <strong>{{ options.optCollapseBacklog ? '+' : '-' }} Backlog</strong>
   </button>
   | {{ state.backlogTasks.length }} lists {{ state.backlogTasksCount }} tasks
+  @if (!options.optCollapseBacklog) {
   <div
-    *ngIf="!options.optCollapseBacklog"
     [ngClass]="{
       'task-open-task-list-container': true,
       'task-open-task-list-container--grid': layout === 'grid',
       'task-open-task-list-container--float': layout === 'float'
     }"
   >
+    @for (item of state.backlogTasks; track item) {
     <div
-      *ngFor="let item of state.backlogTasks"
       class="task-record"
       [ngClass]="{
         'hidden': item.collapsed
@@ -639,8 +655,8 @@
           'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)
         }"
       >
+        @for (t of item.tasks; track t) {
         <task
-          *ngFor="let t of item.tasks"
           [task]="t"
           [groupTasks]="item.tasks"
           containerSelector="#backlogTaskList"
@@ -660,18 +676,24 @@
           'font-size-2': ageFontSizeNormalization(t) + 'px'
         }"
         ></task>
+        }
       </div>
     </div>
+    }
   </div>
+  }
 </div>
-<div id="postponedTaskList" *ngIf="viewPostponed">
+} @if (viewPostponed) {
+<div id="postponedTaskList">
   <strong>Postponed Tasks</strong>
-  <div *ngFor="let t of state.postponedTasks">
-    -
-    <span *ngIf="t.tsk_total_time_spent !== 0"
+  @for (t of state.postponedTasks; track t) {
+  <div>
+    - @if (t.tsk_total_time_spent !== 0) {
+    <span
       >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)
       }}]</span
     >
+    }
     <span
       contenteditable="true"
       spellcheck="false"
@@ -695,9 +717,9 @@
       class="task-eta"
       >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
     >
-    <span *ngIf="t.tsk_schedule_date_start"
-      >(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span
-    >
+    @if (t.tsk_schedule_date_start) {
+    <span>(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span>
+    }
     <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
     <span
       >(postponed until {{ t.tsk_date_view_until | date: "yyyy-MM-dd HH:mm:ss"
@@ -706,8 +728,10 @@
     <button (click)="setSelected(t)">details</button>
     <button (click)="setUnpostpone(t)">see it now</button>
   </div>
+  }
   <hr />
 </div>
+}
 <div id="openTaskList">
   <hr />
   <span>
@@ -717,20 +741,18 @@
     >
       <strong>{{ options.optCollapseOpenTasks ? '+' : '-' }} Open Tasks</strong>
     </button>
-    | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks
-    <span *ngIf="options.optShowSyncButton && !options.optCollapseOpenTasks">
+    | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks @if
+    (options.optShowSyncButton && !options.optCollapseOpenTasks) {
+    <span>
       <button (click)="syncTasks()">sync tasks</button>
     </span>
-    <span
-      *ngIf="options.optShowCollapseRecords && !options.optCollapseOpenTasks"
-    >
+    } @if (options.optShowCollapseRecords && !options.optCollapseOpenTasks) {
+    <span>
       <button (click)="toggleCollapseAllRecords(true)">Collapse all</button>
       <button (click)="toggleCollapseAllRecords(false)">Expand all</button>
     </span>
-    <span
-      class="padding-left-5 padding-right-5"
-      *ngIf="options.optShowFilter && !options.optCollapseOpenTasks"
-    >
+    } @if (options.optShowFilter && !options.optCollapseOpenTasks) {
+    <span class="padding-left-5 padding-right-5">
       Filter
       <select
         name="fFilter"
@@ -739,24 +761,27 @@
         [(ngModel)]="viewData.selectedFilter"
         (change)="updateState()"
       >
+        @for (opt of CONSTANTS.filters; track opt) {
         <option
-          *ngFor="let opt of CONSTANTS.filters"
           [value]="opt.id"
           [selected]="opt.id === viewData.selectedFilter"
         >
           {{ opt.name }}
         </option>
+        }
       </select>
     </span>
+    }
   </span>
-  <div *ngIf="!state.openTasks.length">
+  @if (!state.openTasks.length) {
+  <div>
     <strong
       >No tasks open! Congratulations! Consider reviewing the backlog or add new
       tasks to do.</strong
     >
   </div>
+  } @if (!options.optCollapseOpenTasks) {
   <div
-    *ngIf="!options.optCollapseOpenTasks"
     [ngClass]="{
       'task-open-task-list-container': true,
       'task-open-task-list-container--grid': layout === 'grid',
@@ -764,15 +789,16 @@
     }"
   >
     <div class="task-record-collapsed display-block">
+      @for (item of state.openTasks; track item) {
       <div
-        *ngFor="let item of state.openTasks"
         class="task-record"
         [ngClass]="{
           'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
           'hidden': !item.collapsed
         }"
       >
-        <div *ngIf="item.collapsed">
+        @if (item.collapsed) {
+        <div>
           <button
             class="button-link no-underline"
             (click)="toggleCollapsedRecord(item, false)"
@@ -780,8 +806,8 @@
             <strong>+ {{ item.header }}</strong>
           </button>
           | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
-          60) }})
-          <span *ngIf="countTasksDone(item.header) > 0">
+          60) }}) @if (countTasksDone(item.header) > 0) {
+          <span>
             |
             <span
               class="task-done"
@@ -790,11 +816,14 @@
               {{ countTasksDone(item.header) }}
             </span>
           </span>
+          }
         </div>
+        }
       </div>
+      }
     </div>
+    @for (item of state.openTasks; track item) {
     <div
-      *ngFor="let item of state.openTasks"
       class="task-record"
       [ngClass]="{
         'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
@@ -819,8 +848,8 @@
             <strong>- {{ item.header }}</strong>
           </button>
           | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
-          60) }})
-          <span *ngIf="countTasksDone(item.header) > 0">
+          60) }}) @if (countTasksDone(item.header) > 0) {
+          <span>
             |
             <span
               class="task-done"
@@ -829,6 +858,7 @@
               {{ countTasksDone(item.header) }}
             </span>
           </span>
+          }
         </span>
         <span
           (click)="togglePinRecord(item.header)"
@@ -854,8 +884,8 @@
           'max-height': recordStyle(item.header, 'height')
         }"
       >
+        @for (t of item.tasks; track t; let i = $index) {
         <div
-          *ngFor="let t of item.tasks; let i = index"
           data-id="{{ t.tsk_id }}"
           [ngStyle]="{
             'font-size-2': ageFontSizeNormalization(t) + 'px'
@@ -873,16 +903,17 @@
             id="{{ t.tsk_id }}"
             (click)="taskCheckboxHandler(t, $event)"
           />
+          @if (t.tsk_total_time_spent !== 0) {
           <span
-            *ngIf="t.tsk_total_time_spent !== 0"
             [ngClass]="{
               'task-open-with-tt':
                 t.tsk_ctg_status === this.taskStatus.OPEN &&
                 t.tsk_time_history.length > 0
             }"
             >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}]
-            <span *ngIf="t.tsk_ctg_in_process !== 2">
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
+            2) {
+            <span>
               [<span
                 class="tt-start"
                 contenteditable="true"
@@ -901,8 +932,10 @@
                 1].tsh_date_end | date: "HH:mm:ss" }}</span
               >]
             </span>
+            }
           </span>
-          <span *ngIf="t.tsk_ctg_in_process === 2"
+          } @if (t.tsk_ctg_in_process === 2) {
+          <span
             >[<span
               contenteditable="true"
               spellcheck="false"
@@ -911,8 +944,8 @@
               1].tsh_date_start | date: "HH:mm:ss" }}</span
             >]
           </span>
+          } @if (t.tsk_ctg_in_process === 2) {
           <span
-            *ngIf="t.tsk_ctg_in_process === 2"
             (click)="toggleTimeMode()"
             class="clickable"
             title="click to toggle timer mode"
@@ -920,66 +953,49 @@
             {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
             }}
           </span>
-          <span
-            class="task-q-critical"
-            *ngIf="t.tsk_qualifiers.indexOf('critical') !== -1"
-            title="Critical task"
-            >🔥</span
-          >
-          <span
-            class="task-qualifier-icon task-qualifier-urgent"
-            *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
-            >&#33;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
-            >&#9733;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('people') !== -1"
-          >
+          } @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
+          <span class="task-q-critical" title="Critical task">🔥</span>
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
+          <span class="task-qualifier-icon">&#9733;</span>
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
+          <span class="task-qualifier-icon">
             <img
               src="/assets/icons/people.svg"
               alt="Requires reaching out people"
               title="Requires reaching out people"
             />
           </span>
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('mobile') !== -1"
-          >
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
+          <span class="task-qualifier-icon">
             <img
               src="/assets/icons/smartphone.svg"
               alt="Can be done using phone"
               title="Can be done using phone"
             />
           </span>
-          <span
-            class="task-qualifier-icon task-qualifier-flag"
-            *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1"
-            >&#9873;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
-            >&#10006;</span
-          >
-          <span class="task-next-todo-icon" *ngIf="t.inNextToDo">
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
+          <span class="task-qualifier-icon">&#10006;</span>
+          } @if (t.inNextToDo) {
+          <span class="task-next-todo-icon">
             <img
               src="/assets/icons/energy.svg"
               alt="In Next To Do Today listing"
               title="In Next To Do Today listing"
             />
           </span>
-          <span class="task-pinned-todo-icon" *ngIf="t.inPinnedToDo">
+          } @if (t.inPinnedToDo) {
+          <span class="task-pinned-todo-icon">
             <img
               src="/assets/icons/pin.svg"
               alt="In Pinned To Do listing"
               title="In Pinned To Do listing"
             />
           </span>
+          }
           <span
             contenteditable="true"
             spellcheck="false"
@@ -1001,14 +1017,16 @@
             class="editable task-text"
             >{{ t.tsk_name }}</span
           >
-          <span class="task-link" *ngIf="t.tsk_url"
+          @if (t.tsk_url) {
+          <span class="task-link"
             >&nbsp;<a
               href="{{ t.tsk_url }}"
               title="{{ t.tsk_url }}"
               target="_blank"
               >link</a
             ></span
-          ><span
+          >
+          }<span
             [attr.contenteditable]="options.optAllowToEditETA"
             spellcheck="false"
             (blur)="taskEstimatedDurationEdit(t, $event)"
@@ -1017,38 +1035,40 @@
             class="task-eta"
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
           >
-          <span *ngIf="t.tsk_tags" class="task-tags"
-            >&nbsp;<span
-              *ngFor="let tag of t.tsk_tags.split(' ')"
-              (click)="showTagStats(tag)"
-              class="tag"
-              >#{{ tag }}</span
-            >
+          @if (t.tsk_tags) {
+          <span class="task-tags"
+            >&nbsp;@for (tag of t.tsk_tags.split(' '); track tag) {
+            <span (click)="showTagStats(tag)" class="tag">#{{ tag }}</span>
+            }
           </span>
-          <span *ngIf="t.tsk_schedule_date_start"
+          } @if (t.tsk_schedule_date_start) {
+          <span
             ><strong
               >&nbsp;at {{ formatDateTime(t.tsk_schedule_date_start) }}
               &#9200;</strong
             ></span
-          >&nbsp;<span
-            [ngClass]="taskAgeClass(t)"
-            *ngIf="options.optViewElapsedDays"
-            >{{ taskAge(t) }}</span
           >
-          <span *ngIf="t.not_sync">&#8634;</span>
+          }&nbsp;@if (options.optViewElapsedDays) {
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
+          } @if (t.not_sync) {
+          <span>&#8634;</span>
+          }
         </div>
+        }
       </div>
     </div>
+    }
   </div>
+  }
 </div>
 <br />
 <div id="Info">
   <hr />
-  Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }}
-  <span *ngIf="state.postponedTasksCount">
-    | Postponed: {{ state.postponedTasksCount }}
-  </span>
-  <div *ngIf="!options.optUsePresentationMode">
+  Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }} @if
+  (state.postponedTasksCount) {
+  <span> | Postponed: {{ state.postponedTasksCount }} </span>
+  } @if (!options.optUsePresentationMode) {
+  <div>
     Karma Score:
     <span
       >{{ state.karmaScore }} ({{ state.karmaCount }} / {{
@@ -1058,7 +1078,8 @@
       >{{ isOnline() ? "" : "You are OFFLINE" }}</strong
     >
   </div>
-  <div *ngIf="options.optShowIndicatorsTable" class="task-indicators-container">
+  } @if (options.optShowIndicatorsTable) {
+  <div class="task-indicators-container">
     <div>
       <button
         class="button-link no-underline"
@@ -1069,27 +1090,33 @@
         >
       </button>
     </div>
-    <table class="indicators-table" *ngIf="!options.optCollapseIndicators">
+    @if (!options.optCollapseIndicators) {
+    <table class="indicators-table">
       <tr>
         <td>Indicator</td>
+        @for (c of state.indicatorLabels; track c; let currIndex = $index) {
         <td
-          *ngFor="let c of state.indicatorLabels; let currIndex = index"
           [ngClass]="{
           'desktop-only': currIndex < 3
         }"
         >
           {{ c }}
         </td>
+        }
         <td class="text-align-center">%</td>
       </tr>
-      <tr *ngFor="let indicator of state.indicators">
+      @for (indicator of state.indicators; track indicator) {
+      <tr>
         <td>
           <span> {{ indicator.name }} </span>
-          <span *ngIf="indicator.metric === 'MORE_IS_BETTER'"> &uarr; </span>
-          <span *ngIf="indicator.metric === 'LESS_IS_BETTER'"> &darr; </span>
+          @if (indicator.metric === 'MORE_IS_BETTER') {
+          <span> &uarr; </span>
+          } @if (indicator.metric === 'LESS_IS_BETTER') {
+          <span> &darr; </span>
+          }
         </td>
+        @for (v of indicator.formattedValues; track v; let currIndex = $index) {
         <td
-          *ngFor="let v of indicator.formattedValues; let currIndex = index"
           [ngClass]="{
           'desktop-only': currIndex < 3
         }"
@@ -1101,15 +1128,21 @@
             {{ v }}
           </span>
         </td>
+        }
         <td>{{ indicator.percentageCompleted }}</td>
       </tr>
+      }
     </table>
+    }
   </div>
+  }
 </div>
-<div id="nextToDoTodayList" *ngIf="nextTasks[0].tasks.length">
+@if (nextTasks[0].tasks.length) {
+<div id="nextToDoTodayList">
   <hr />
   <div class="task-open-task-list-container">
-    <div *ngFor="let item of nextTasks" class="task-record">
+    @for (item of nextTasks; track item) {
+    <div class="task-record">
       <div>
         <button
           class="button-link no-underline"
@@ -1135,30 +1168,29 @@
             'task-next-time-behind': 0 <= differenceLastClosedToRealTime
           }"
         ></time-format>
-        <span *ngIf="state.inProgressTasksCount > 0">
-          | {{ state.inProgressTasksCount }} in progress
-        </span>
+        @if (state.inProgressTasksCount > 0) {
+        <span> | {{ state.inProgressTasksCount }} in progress </span>
+        }
       </div>
+      @if (!options.optCollapseNextTasks) {
       <div
-        *ngIf="!options.optCollapseNextTasks"
         [ngClass]="{
         'columns-3': nextTasks[0].tasks.length > 10
       }"
       >
+        @for (t of item.tasks; track t; let count = $index) {
         <div
-          *ngFor="let t of item.tasks; let count = index"
           data-id="{{ t.tsk_id }}"
           [ngClass]="{
             'task-item-in-process': t.tsk_ctg_in_process === 2
           }"
         >
-          <hr
-            *ngIf="t['projectedDate'].getHours() < 2 && count > 0 && item.tasks[count-1]['projectedDate'].getHours() >= 23"
-          />
-          <hr
-            *ngIf="count > 0 && count === viewData.nextToDoCutlineForAddedTasks"
-            class="next-to-do-cutline"
-          />
+          @if (t['projectedDate'].getHours() < 2 && count > 0 &&
+          item.tasks[count-1]['projectedDate'].getHours() >= 23) {
+          <hr />
+          } @if (count > 0 && count === viewData.nextToDoCutlineForAddedTasks) {
+          <hr class="next-to-do-cutline" />
+          }
           <input
             type="checkbox"
             id="{{ t.tsk_id }}"
@@ -1171,16 +1203,17 @@
           }"
             >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
           </span>
+          @if (t.tsk_total_time_spent !== 0) {
           <span
-            *ngIf="t.tsk_total_time_spent !== 0"
             [ngClass]="{
               'task-open-with-tt':
                 t.tsk_ctg_status === this.taskStatus.OPEN &&
                 t.tsk_time_history.length > 0
             }"
             >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}]
-            <span *ngIf="t.tsk_ctg_in_process !== 2">
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
+            2) {
+            <span>
               [<span
                 class="tt-start"
                 contenteditable="true"
@@ -1199,8 +1232,10 @@
                 1].tsh_date_end | date: "HH:mm:ss" }}</span
               >]
             </span>
+            }
           </span>
-          <span *ngIf="t.tsk_ctg_in_process === 2">
+          } @if (t.tsk_ctg_in_process === 2) {
+          <span>
             [<span
               contenteditable="true"
               spellcheck="false"
@@ -1209,6 +1244,7 @@
               1].tsh_date_start | date: "HH:mm:ss" }}</span
             >]
           </span>
+          }
           <span
             (click)="toggleTimeMode()"
             class="clickable"
@@ -1217,52 +1253,33 @@
             {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
             }}
           </span>
-          <span
-            class="task-q-critical"
-            *ngIf="t.tsk_qualifiers.indexOf('critical') !== -1"
-            title="Critical task"
-            >🔥</span
-          >
-          <span
-            class="task-qualifier-icon task-qualifier-urgent"
-            *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
-            >&#33;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
-            >&#9733;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('people') !== -1"
-          >
+          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
+          <span class="task-q-critical" title="Critical task">🔥</span>
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
+          <span class="task-qualifier-icon">&#9733;</span>
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
+          <span class="task-qualifier-icon">
             <img
               src="/assets/icons/people.svg"
               alt="Requires reaching out people"
               title="Requires reaching out people"
             />
           </span>
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('mobile') !== -1"
-          >
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
+          <span class="task-qualifier-icon">
             <img
               src="/assets/icons/smartphone.svg"
               alt="Can be done using phone"
               title="Can be done using phone"
             />
           </span>
-          <span
-            class="task-qualifier-icon task-qualifier-flag"
-            *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1"
-            >&#9873;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
-            >&#10006;</span
-          >
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
+          <span class="task-qualifier-icon">&#10006;</span>
+          }
           <span
             contenteditable="true"
             spellcheck="false"
@@ -1291,34 +1308,38 @@
             class="task-eta"
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
           ><span> [{{t.tsk_id_record}}] </span>
-          <span *ngIf="t.tsk_tags" class="task-tags">
-            <span
-              *ngFor="let tag of t.tsk_tags.split(' ')"
-              (click)="showTagStats(tag)"
-              class="tag"
-            >
-              #{{ tag }}
-            </span>
+          @if (t.tsk_tags) {
+          <span class="task-tags">
+            @for (tag of t.tsk_tags.split(' '); track tag) {
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
+            }
           </span>
-          <span *ngIf="t.tsk_schedule_date_start"
+          } @if (t.tsk_schedule_date_start) {
+          <span
             ><strong
               >(start at {{ formatDateTime(t.tsk_schedule_date_start)
               }})</strong
             ></span
           >
-          <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays"
-            >{{ taskAge(t) }}</span
-          >
-          <span *ngIf="t.not_sync">(Not in sync)</span>
+          } @if (options.optViewElapsedDays) {
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
+          } @if (t.not_sync) {
+          <span>(Not in sync)</span>
+          }
         </div>
+        }
       </div>
+      }
     </div>
+    }
   </div>
 </div>
-<div id="pinnedToDoTodayList" *ngIf="pinnedTasks[0].tasks.length">
+} @if (pinnedTasks[0].tasks.length) {
+<div id="pinnedToDoTodayList">
   <hr />
   <div class="task-open-task-list-container">
-    <div *ngFor="let item of pinnedTasks" class="task-record">
+    @for (item of pinnedTasks; track item) {
+    <div class="task-record">
       <div>
         <button
           class="button-link no-underline"
@@ -1335,31 +1356,30 @@
           [value]="item.estimatedDuration"
         ></time-format>
       </div>
+      @if (!options.optCollapsePinnedTasks) {
       <div
-        *ngIf="!options.optCollapsePinnedTasks"
         [ngClass]="{
         'columns-3': pinnedTasks[0].tasks.length > 10
       }"
       >
-        <div
-          *ngFor="let t of item.tasks; let count = index"
-          data-id="{{ t.tsk_id }}"
-        >
+        @for (t of item.tasks; track t; let count = $index) {
+        <div data-id="{{ t.tsk_id }}">
           <input
             type="checkbox"
             id="{{ t.tsk_id }}"
             (click)="taskCheckboxHandler(t, $event)"
           />
+          @if (t.tsk_total_time_spent !== 0) {
           <span
-            *ngIf="t.tsk_total_time_spent !== 0"
             [ngClass]="{
               'task-open-with-tt':
                 t.tsk_ctg_status === this.taskStatus.OPEN &&
                 t.tsk_time_history.length > 0
             }"
             >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}]
-            <span *ngIf="t.tsk_ctg_in_process !== 2">
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
+            2) {
+            <span>
               [<span
                 class="tt-start"
                 contenteditable="true"
@@ -1378,8 +1398,10 @@
                 1].tsh_date_end | date: "HH:mm:ss" }}</span
               >]
             </span>
+            }
           </span>
-          <span *ngIf="t.tsk_ctg_in_process === 2">
+          } @if (t.tsk_ctg_in_process === 2) {
+          <span>
             [<span
               contenteditable="true"
               spellcheck="false"
@@ -1388,6 +1410,7 @@
               1].tsh_date_start | date: "HH:mm:ss" }}</span
             >]
           </span>
+          }
           <span
             (click)="toggleTimeMode()"
             class="clickable"
@@ -1396,52 +1419,33 @@
             {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
             }}
           </span>
-          <span
-            class="task-q-critical"
-            *ngIf="t.tsk_qualifiers.indexOf('critical') !== -1"
-            title="Critical task"
-            >🔥</span
-          >
-          <span
-            class="task-qualifier-icon task-qualifier-urgent"
-            *ngIf="t.tsk_qualifiers.indexOf('urgent') !== -1"
-            >&#33;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('star') !== -1"
-            >&#9733;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('people') !== -1"
-          >
+          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
+          <span class="task-q-critical" title="Critical task">🔥</span>
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
+          <span class="task-qualifier-icon">&#9733;</span>
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
+          <span class="task-qualifier-icon">
             <img
               src="/assets/icons/people.svg"
               alt="Requires reaching out people"
               title="Requires reaching out people"
             />
           </span>
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('mobile') !== -1"
-          >
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
+          <span class="task-qualifier-icon">
             <img
               src="/assets/icons/smartphone.svg"
               alt="Can be done using phone"
               title="Can be done using phone"
             />
           </span>
-          <span
-            class="task-qualifier-icon task-qualifier-flag"
-            *ngIf="t.tsk_qualifiers.indexOf('flag') !== -1"
-            >&#9873;</span
-          >
-          <span
-            class="task-qualifier-icon"
-            *ngIf="t.tsk_qualifiers.indexOf('blocked') !== -1"
-            >&#10006;</span
-          >
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
+          <span class="task-qualifier-icon">&#10006;</span>
+          }
           <span
             contenteditable="true"
             spellcheck="false"
@@ -1470,39 +1474,42 @@
             class="task-eta"
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
           ><span> [{{t.tsk_id_record}}] </span>
-          <span *ngIf="t.tsk_tags" class="task-tags">
-            <span
-              *ngFor="let tag of t.tsk_tags.split(' ')"
-              (click)="showTagStats(tag)"
-              class="tag"
-            >
-              #{{ tag }}
-            </span>
+          @if (t.tsk_tags) {
+          <span class="task-tags">
+            @for (tag of t.tsk_tags.split(' '); track tag) {
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
+            }
           </span>
-          <span *ngIf="t.tsk_schedule_date_start"
+          } @if (t.tsk_schedule_date_start) {
+          <span
             ><strong
               >(start at {{ formatDateTime(t.tsk_schedule_date_start)
               }})</strong
             ></span
           >
-          <span [ngClass]="taskAgeClass(t)" *ngIf="options.optViewElapsedDays"
-            >{{ taskAge(t) }}</span
-          >
-          <span *ngIf="t.not_sync">(Not in sync)</span>
+          } @if (options.optViewElapsedDays) {
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
+          } @if (t.not_sync) {
+          <span>(Not in sync)</span>
+          }
         </div>
+        }
       </div>
+      }
     </div>
+    }
   </div>
 </div>
-<div id="tagInfo" *ngIf="tagInfo.display === true">
+} @if (tagInfo.display === true) {
+<div id="tagInfo">
   <button (click)="tagInfo.display = false">hide</button>
   <strong>Tag Information</strong>
   <br />Closed Tasks | Estimated: {{
   formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{
   formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{
   formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{
-  formatTime(tagInfo.tasksOpenTotalSpent) }}
-  <div *ngIf="tagInfo.tasks.length > 0">
+  formatTime(tagInfo.tasksOpenTotalSpent) }} @if (tagInfo.tasks.length > 0) {
+  <div>
     <table>
       <tr>
         <td>Name</td>
@@ -1511,18 +1518,22 @@
         <td>Status</td>
         <td>Actions</td>
       </tr>
-      <tr *ngFor="let e of tagInfo.tasks">
+      @for (e of tagInfo.tasks; track e) {
+      <tr>
         <td>{{ e.tsk_name }}</td>
         <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>
         <td>{{ formatTime(e.tsk_total_time_spent) }}</td>
         <td>{{ statusText(e.tsk_ctg_status) }}</td>
         <td><button (click)="setSelected(e)">details</button></td>
       </tr>
+      }
     </table>
   </div>
+  }
   <hr />
 </div>
-<div *ngIf="options.optShowFinishedToday">
+} @if (options.optShowFinishedToday) {
+<div>
   <hr />
   <button
     class="button-link no-underline"
@@ -1532,26 +1543,30 @@
       >{{ options.optCollapseFinishedToday ? '+' : '-' }} Finished Today</strong
     >
   </button>
-  | {{ state.closedTodayTasks.length }} tasks
-  <div *ngIf="!options.optCollapseFinishedToday">
-    <div *ngFor="let item of state.closedTodayTasks; let i = index">
-      <div *ngIf="i < 3 || viewAllFinishedToday">
+  | {{ state.closedTodayTasks.length }} tasks @if
+  (!options.optCollapseFinishedToday) {
+  <div>
+    @for (item of state.closedTodayTasks; track item; let i = $index) {
+    <div>
+      @if (i < 3 || viewAllFinishedToday) {
+      <div>
         <input
           type="checkbox"
           id="{{ item.tsk_id }}"
           checked
           (click)="taskCheckboxHandler(item, $event)"
         />
+        @if (item.tsk_total_time_spent !== 0) {
         <span
-          *ngIf="item.tsk_total_time_spent !== 0"
           [ngClass]="{
             'task-open-with-tt':
               item.tsk_ctg_status === this.taskStatus.OPEN &&
               item.tsk_time_history.length > 0
           }"
           >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent) }}]
-          <span *ngIf="item.tsk_ctg_in_process !== 2">
+          formatTime(item.tsk_total_time_spent) }}] @if (item.tsk_ctg_in_process
+          !== 2) {
+          <span>
             [<span
               class="tt-start"
               contenteditable="true"
@@ -1572,7 +1587,9 @@
               .tsh_date_end | date: "HH:mm:ss" }}</span
             >]
           </span>
+          }
         </span>
+        }
         <span
           >(Done at:
           <span
@@ -1587,22 +1604,22 @@
           }"
           >{{ item.tsk_name }}</span
         >
-        <span *ngIf="item.not_sync">(Not in sync)</span>&nbsp;<button
-          (click)="setSelected(item)"
-        >
-          details
-        </button>
+        @if (item.not_sync) {
+        <span>(Not in sync)</span>
+        }&nbsp;<button (click)="setSelected(item)">details</button>
       </div>
+      }
     </div>
-    <button
-      (click)="toggleView('viewAllFinishedToday')"
-      *ngIf="state.closedTodayTasks.length > 3"
-    >
+    } @if (state.closedTodayTasks.length > 3) {
+    <button (click)="toggleView('viewAllFinishedToday')">
       {{ viewAllFinishedToday ? "Do not show all" : "Show all" }}
     </button>
+    }
   </div>
+  }
 </div>
-<div *ngIf="options.optShowFinishedYesterday">
+} @if (options.optShowFinishedYesterday) {
+<div>
   <hr />
   <button
     class="button-link no-underline"
@@ -1613,10 +1630,13 @@
       Yesterday</strong
     >
   </button>
-  | {{ state.closedYesterdayTasks.length }} tasks
-  <div *ngIf="!options.optCollapseFinishedYesterday">
-    <div *ngFor="let item of state.closedYesterdayTasks; let i = index">
-      <div *ngIf="i < 3 || viewAllFinishedYesterday">
+  | {{ state.closedYesterdayTasks.length }} tasks @if
+  (!options.optCollapseFinishedYesterday) {
+  <div>
+    @for (item of state.closedYesterdayTasks; track item; let i = $index) {
+    <div>
+      @if (i < 3 || viewAllFinishedYesterday) {
+      <div>
         <task
           [task]="item"
           [handlers]="handlersForClosedYesterday"
@@ -1627,16 +1647,18 @@
         }"
         ></task>
       </div>
+      }
     </div>
-    <button
-      (click)="toggleView('viewAllFinishedYesterday')"
-      *ngIf="state.closedYesterdayTasks.length > 3"
-    >
+    } @if (state.closedYesterdayTasks.length > 3) {
+    <button (click)="toggleView('viewAllFinishedYesterday')">
       {{ viewAllFinishedYesterday ? "Do not show all" : "Show all" }}
     </button>
+    }
   </div>
+  }
 </div>
-<div id="closedTaskList" *ngIf="options.optShowClosedTasks">
+} @if (options.optShowClosedTasks) {
+<div id="closedTaskList">
   <hr />
   <button
     class="button-link no-underline"
@@ -1646,14 +1668,17 @@
       >{{ options.optCollapseClosedTasks ? '+' : '-' }} Closed Tasks</strong
     >
   </button>
-  <div *ngIf="!options.optCollapseClosedTasks">
-    <div *ngFor="let group of state.closedTasks">
+  @if (!options.optCollapseClosedTasks) {
+  <div>
+    @for (group of state.closedTasks; track group) {
+    <div>
       <div>
         <br />
         <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>
         &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>
       </div>
-      <div *ngFor="let item of group.tasks">
+      @for (item of group.tasks; track item) {
+      <div>
         -
         <span
           >[{{ item.tsk_time_history.length }}/{{
@@ -1662,24 +1687,25 @@
         <span>[{{ item.tsk_id_record }}]</span>
         <span>{{ item.tsk_name }}</span>
         <!--<span
-          >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"
-          }})</span
-        >-->
-        <span *ngIf="item.tsk_tags" class="task-tags">
-          <span
-            *ngFor="let tag of item.tsk_tags.split(' ')"
-            (click)="showTagStats(tag)"
-            class="tag"
-          >
-            #{{ tag }}
-          </span>
+                                                                                                                                        >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"
+                                                                                                                                        }})</span
+                                                                                                                                        >-->
+        @if (item.tsk_tags) {
+        <span class="task-tags">
+          @for (tag of item.tsk_tags.split(' '); track tag) {
+          <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
+          }
         </span>
-        &nbsp;<button (click)="setSelected(item)">details</button>
+        } &nbsp;<button (click)="setSelected(item)">details</button>
       </div>
+      }
     </div>
+    }
   </div>
+  }
 </div>
-<div *ngIf="options.optShowReportsWeekDistribution">
+} @if (options.optShowReportsWeekDistribution) {
+<div>
   <hr />
   <button
     class="button-link no-underline"
@@ -1690,16 +1716,21 @@
       Distribution Report</strong
     >
   </button>
-  <div *ngIf="!options.optCollapseReportsWeekDistribution">
-    <div *ngFor="let s of reports.week">
+  @if (!options.optCollapseReportsWeekDistribution) {
+  <div>
+    @for (s of reports.week; track s) {
+    <div>
       date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}
       estimated: {{ formatTime(s.estimated * 60) }} spent: {{
       formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time
       Elapsed: {{ formatTime(s.realTimeElapsed) }}
     </div>
+    }
   </div>
+  }
 </div>
-<div *ngIf="options.optShowReportsDayDistribution">
+} @if (options.optShowReportsDayDistribution) {
+<div>
   <hr />
   <button
     class="button-link no-underline"
@@ -1710,7 +1741,8 @@
       Distribution Report</strong
     >
   </button>
-  <div *ngIf="!options.optCollapseReportsDayDistribution">
+  @if (!options.optCollapseReportsDayDistribution) {
+  <div>
     <table>
       <tr>
         <td>Record</td>
@@ -1719,17 +1751,18 @@
         <td>Percentage ETA</td>
         <td>Percentage Real</td>
       </tr>
-      <tr *ngFor="let r of reports.dayDistribution">
+      @for (r of reports.dayDistribution; track r) {
+      <tr>
         <td>{{ r.record }}</td>
         <td>{{ formatTime(r.eta * 60) }}</td>
         <td>{{ formatTime(r.real) }}</td>
         <td>{{ r.percentageEta }}</td>
         <td>{{ r.percentageReal }}</td>
       </tr>
+      }
     </table>
-
+    @if (viewData.dayDistributionChart.chartData[0].data.length > 0) {
     <canvas
-      *ngIf="viewData.dayDistributionChart.chartData[0].data.length > 0"
       id="dayDistributionChart"
       baseChart
       [datasets]="viewData.dayDistributionChart.chartData"
@@ -1739,9 +1772,12 @@
       [type]="viewData.dayDistributionChart.chartType"
     >
     </canvas>
+    }
   </div>
+  }
 </div>
-<div *ngIf="options.optShowQualifiersTotals">
+} @if (options.optShowQualifiersTotals) {
+<div>
   <hr />
   <button
     class="button-link no-underline"
@@ -1752,58 +1788,66 @@
       Totals</strong
     >
   </button>
-  <div *ngIf="!options.optCollapseQualifiersTotals">
+  @if (!options.optCollapseQualifiersTotals) {
+  <div>
     <table>
       <tr>
         <td>Qualifier</td>
         <td>Task Count</td>
         <td>Total ETA</td>
       </tr>
-      <tr *ngFor="let q of reports.qualifierTotals">
+      @for (q of reports.qualifierTotals; track q) {
+      <tr>
         <td>{{ q.qualifier }}</td>
         <td>{{ q.taskCount }}</td>
         <td>{{ formatTime(q.totalETA * 60) }}</td>
       </tr>
+      }
     </table>
   </div>
+  }
 </div>
-
-<div *ngIf="comparisonData">
+} @if (comparisonData) {
+<div>
   Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task
   Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{
   comparisonData.results.length }}
   <table>
-    <tr *ngFor="let c of comparisonData.results">
-      <td *ngFor="let f of c">
+    @for (c of comparisonData.results; track c) {
+    <tr>
+      @for (f of c; track f) {
+      <td>
         displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{
         f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}
         <button (click)="sendFEToBE(c)">Send FE data to BE</button>
       </td>
+      }
     </tr>
+    }
   </table>
 </div>
-
+} @if (selectedTask) {
 <div
   class="task-item-toolbar"
-  *ngIf="selectedTask"
   [ngClass]="{
   'mobile-only': !options.optShowTaskToolbar
 }"
 >
   <div>{{ selectedTask.tsk_name }}</div>
   <div class="task-item-toolbar-content">
+    @if (selectedTask && selectedTask.tsk_ctg_in_process === 1) {
     <span
       class="play-button clickable"
-      *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"
       (click)="toggleTimeTracking(selectedTask, $event)"
       >&#9654;</span
     >
+    } @if (selectedTask && selectedTask.tsk_ctg_in_process === 2) {
     <span
       class="stop-button clickable"
-      *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"
       (click)="toggleTimeTracking(selectedTask, $event)"
       >&#9724;</span
     >
+    }
     <span
       class="adjust-timetracking-button clickable"
       (click)="adjustTimeTracking(selectedTask)"
@@ -1824,6 +1868,7 @@
     >
   </div>
 </div>
+}
 
 <task-toolbar
   [task]="selectedTask"

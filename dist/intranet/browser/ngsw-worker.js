@@ -18,7 +18,10 @@
     return a;
   };
   var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  var __publicField = (obj, key, value) => {
+    __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+    return value;
+  };
 
   // packages/service-worker/worker/src/named-cache-storage.js
   var NamedCacheStorage = class {
@@ -603,18 +606,32 @@ ${error.stack}`;
      * Create a new `Request` based on the specified URL and `RequestInit` options, preserving only
      * metadata that are known to be safe.
      *
-     * Currently, only headers are preserved.
+     * Currently, headers, redirect policy, an explicit `credentials: 'omit'`, and the HTTP cache
+     * mode are preserved.
      *
      * NOTE:
-     *   Things like credential inclusion are intentionally omitted to avoid issues with opaque
-     *   responses.
-     *
+     *   `credentials: 'same-origin'` and `credentials: 'include'` are intentionally not preserved.
+     *   Forwarding `'include'` could leak cookies to cross-origin asset hosts, and forwarding
+     *   `'same-origin'` matches the default `fetch()` behavior so there is nothing to preserve.
+     *   Requests with `cache: 'only-if-cached'` and `mode !== 'same-origin'` are short-circuited
+     *   earlier in `Driver.onFetch()` (they are a known Chrome DevTools quirk), so no special
+     *   handling for that combination is needed here.
      * TODO(gkalpak):
      *   Investigate preserving more metadata. See, also, discussion on preserving `mode`:
-     *   https://github.com/angular/angular/issues/41931#issuecomment-1227601347
+     *   https://github.com/angular/angular/issues/41931#issuecomment-1227601347.
      */
     newRequestWithMetadata(url, options) {
-      return this.adapter.newRequest(url, { headers: options.headers });
+      const init = {
+        headers: options.headers,
+        redirect: options.redirect
+      };
+      if (options.credentials === "omit") {
+        init.credentials = "omit";
+      }
+      if (options.cache !== void 0) {
+        init.cache = options.cache;
+      }
+      return this.adapter.newRequest(url, init);
     }
     /**
      * Construct a cache-busting URL for a given URL.
@@ -851,6 +868,7 @@ ${error.stack}`;
         return table.write("lru", this._lru.state);
       } catch (err) {
         this.debugHandler.log(err, `DataGroup(${this.config.name}@${this.config.version}).syncLru()`);
+        await this.detectStorageFull();
       }
     }
     /**
@@ -964,6 +982,7 @@ ${error.stack}`;
           await this.cacheResponse(req, res, lru, okToCacheOpaque);
         } catch (err) {
           this.debugHandler.log(err, `DataGroup(${this.config.name}@${this.config.version}).safeCacheResponse(${req.url}, status: ${res.status})`);
+          await this.detectStorageFull();
         }
       } catch (e) {
       }
@@ -1054,6 +1073,25 @@ ${error.stack}`;
           status: 504,
           statusText: "Gateway Timeout"
         });
+      }
+    }
+    /**
+     * Detect if storage is full or approaching capacity.
+     * Returns true if storage is at or near capacity.
+     */
+    async detectStorageFull() {
+      try {
+        const estimate = await navigator.storage.estimate();
+        const { quota, usage } = estimate;
+        if (typeof quota !== "number" || typeof usage !== "number") {
+          return;
+        }
+        const usagePercentage = usage / quota * 100;
+        const isStorageFull = usagePercentage >= 95;
+        if (isStorageFull) {
+          this.debugHandler.log("Storage is full or nearly full", `DataGroup(${this.config.name}@${this.config.version}).detectStorageFull()`);
+        }
+      } catch (e) {
       }
     }
   };
@@ -1261,7 +1299,7 @@ ${error.stack}`;
   };
 
   // packages/service-worker/worker/src/debug.js
-  var SW_VERSION = "20.1.3";
+  var SW_VERSION = "21.2.16";
   var DEBUG_LOG_BUFFER_SIZE = 100;
   var DebugHandler = class {
     constructor(driver, adapter2) {
@@ -1457,6 +1495,9 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
     "title",
     "vibrate"
   ];
+  function isLocalhost(scope2) {
+    return /(?:^https?:\/\/)?(?:(?:^|[^\w.])localhost|\[::1\]|127(?:\.\d{1,3}){3})(?::\d+)?(?:\/.*)?$/.test(scope2);
+  }
   var DriverReadyState;
   (function(DriverReadyState2) {
     DriverReadyState2[DriverReadyState2["NORMAL"] = 0] = "NORMAL";
@@ -1541,6 +1582,8 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
         // based on the incorrect assumption that browsers don't support it.
         this.onPushSubscriptionChange(event)
       ));
+      this.scope.addEventListener("messageerror", (event) => this.onMessageError(event));
+      this.scope.addEventListener("unhandledrejection", (event) => this.onUnhandledRejection(event));
       this.debugger = new DebugHandler(this, this.adapter);
       this.idle = new IdleScheduler(this.adapter, IDLE_DELAY, MAX_IDLE_DELAY, this.debugger);
     }
@@ -1614,6 +1657,12 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
     }
     onPushSubscriptionChange(event) {
       event.waitUntil(this.handlePushSubscriptionChange(event));
+    }
+    onMessageError(event) {
+      this.debugger.log(`Message error occurred - data could not be deserialized`, `Driver.onMessageError(origin: ${event.origin})`);
+    }
+    onUnhandledRejection(event) {
+      this.debugger.log(`Unhandled promise rejection occurred`, `Driver.onUnhandledRejection(reason: ${event.reason})`);
     }
     async ensureInitialized(event) {
       if (this.initialized !== null) {
@@ -1959,7 +2008,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ "Content-Type": "text/plain" }
           await this.versionFailed(appVersion, err);
         }
       };
-      if (this.scope.registration.scope.indexOf("://localhost") > -1) {
+      if (isLocalhost(this.scope.registration.scope)) {
         return initialize();
       }
       this.idle.schedule(`initialization(${appVersion.manifestHash})`, initialize);

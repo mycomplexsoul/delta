@@ -1,8 +1,10 @@
 <div>
-  <div *ngFor="let e of viewData.entityList">
+  @for (e of viewData.entityList; track e) {
+  <div>
     <input type="checkbox" [id]="e" (click)="toggleSelection(e)" />
     <label [for]="e">{{e}}</label>
   </div>
+  }
 
   <hr />
   <div>

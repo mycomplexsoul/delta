@@ -12,8 +12,9 @@
 
   <table class="results-movements desktop-only width-100-pct-print-only">
     <tbody>
+      @for (movement of viewData.renderList; track movement; let counter =
+      $index) {
       <tr
-        *ngFor="let movement of viewData.renderList; let counter = index"
         class="results-listing-row"
         [ngClass]="{
             'results-header-row': movement.type === 'header',
@@ -21,34 +22,41 @@
         }"
       >
         <td class="padding-all-3">
-          <span *ngIf="movement.type === 'header'"> {{movement.concept}} </span>
+          @if (movement.type === 'header') {
+          <span> {{movement.concept}} </span>
+          }
         </td>
         <td class="padding-all-3">
-          <span *ngIf="movement.type === 'movement'">
-            {{movement.concept}}
-          </span>
+          @if (movement.type === 'movement') {
+          <span> {{movement.concept}} </span>
+          }
         </td>
         <td class="padding-all-3 text-align-right width-120">
-          <span *ngIf="movement.type === 'total'"> {{movement.concept}} </span>
+          @if (movement.type === 'total') {
+          <span> {{movement.concept}} </span>
+          }
         </td>
         <td
           class="padding-all-3 text-align-right vertical-align-top width-80-strict"
         >
-          <span *ngIf="movement.type === 'header' && counter === 0">
-            Importe
-          </span>
-          <span *ngIf="movement.type !== 'header'">
+          @if (movement.type === 'header' && counter === 0) {
+          <span> Importe </span>
+          } @if (movement.type !== 'header') {
+          <span>
             {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
           </span>
+          }
         </td>
       </tr>
+      }
     </tbody>
   </table>
 
   <table class="results-movements mobile-only width-100-pct">
     <tbody>
+      @for (movement of viewData.renderList; track movement; let counter =
+      $index) {
       <tr
-        *ngFor="let movement of viewData.renderList; let counter = index"
         class="results-listing-row"
         [ngClass]="{
             'results-header-row': movement.type === 'header',
@@ -66,14 +74,16 @@
         <td
           class="padding-all-3 text-align-right vertical-align-top width-80-strict"
         >
-          <span *ngIf="movement.type === 'header' && counter === 0">
-            Importe
-          </span>
-          <span *ngIf="movement.type !== 'header'">
+          @if (movement.type === 'header' && counter === 0) {
+          <span> Importe </span>
+          } @if (movement.type !== 'header') {
+          <span>
             {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
           </span>
+          }
         </td>
       </tr>
+      }
     </tbody>
   </table>
 
@@ -82,16 +92,17 @@
     'results-top-block-50': viewData.timelineList.length > 0
   }"
   >
-    <div class="results-timeline-list" *ngIf="viewData.timelineList.length > 0">
+    @if (viewData.timelineList.length > 0) {
+    <div class="results-timeline-list">
       <div>
         <strong> Observaciones </strong>
       </div>
       <br />
-      <div
-        *ngFor="let t of viewData.timelineList"
-        [innerHTML]="t.tim_description"
-      ></div>
+      @for (t of viewData.timelineList; track t) {
+      <div [innerHTML]="t.tim_description"></div>
+      }
     </div>
+    }
 
     <br />
     <timeline
@@ -155,7 +166,8 @@
     </table>
   </div>
 
-  <div class="results-sign-list desktop-only" *ngIf="viewData.showSigns">
+  @if (viewData.showSigns) {
+  <div class="results-sign-list desktop-only">
     <table>
       <tr>
         <td>
@@ -171,4 +183,5 @@
       </tr>
     </table>
   </div>
+  }
 </div>

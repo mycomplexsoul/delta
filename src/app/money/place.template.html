@@ -9,14 +9,16 @@
       {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
     </button>
 
-    <div id="newItemFormSection" *ngIf="viewData.showItemForm">
-      <span class="field" *ngIf="model.id">
+    @if (viewData.showItemForm) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="field-input-small">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
       </span>
-
+      }
       <span class="field">
         <label for="fName" class="label-left">Name</label>
         <input
@@ -27,14 +29,14 @@
           ngModel
         />
       </span>
-
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
+    }
   </form>
 
   <div class="card-list">
+    @for (item of viewData.placeList; track item) {
     <div
-      *ngFor="let item of viewData.placeList"
       class="card-item-container"
       (click)="setModelDetails(item.mpl_id, itemForm)"
     >
@@ -43,15 +45,18 @@
       Used: {{ item.movementList.length }}
       <br />
       <span>Status: {{ item.mpl_txt_status }}</span>
-
-      <span class="place-badge-new" *ngIf="item.isNew">new</span>
-      <span class="place-badge-edited" *ngIf="item.isEdited">edited</span>
+      @if (item.isNew) {
+      <span class="place-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="place-badge-edited">edited</span>
+      }
       <!--
-            <span *ngIf="item.showOptions">
-              <button (click)="archiveRecord(item)">archive</button>
-              <button (click)="editNotes(item)">edit notes</button>
-              <button (click)="viewHistory(item)">view history</button>
+          <span *ngIf="item.showOptions">
+            <button (click)="archiveRecord(item)">archive</button>
+            <button (click)="editNotes(item)">edit notes</button>
+            <button (click)="viewHistory(item)">view history</button>
           </span>    -->
     </div>
+    }
   </div>
 </div>

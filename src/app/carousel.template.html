@@ -11,12 +11,11 @@
     </div>
     <div class="carousel-controls">
       <button (click)="prev()" title="Anterior">⏮️</button>
-      <ng-container *ngIf="paused() === false">
-        <button (click)="pause()" title="Pausar">⏸️</button>
-      </ng-container>
-      <ng-container *ngIf="paused() === true">
-        <button (click)="play()" title="Reanudar">▶️</button>
-      </ng-container>
+      @if (paused() === false) {
+      <button (click)="pause()" title="Pausar">⏸️</button>
+      } @if (paused() === true) {
+      <button (click)="play()" title="Reanudar">▶️</button>
+      }
       <button (click)="next()" title="Siguiente">⏭️</button>
       <label style="margin-left: 16px; font-size: 1rem">
         Intervalo (seg):
@@ -29,8 +28,8 @@
           style="width: 90px; margin-left: 4px"
         />
       </label>
+      @if (paused()) {
       <span
-        *ngIf="paused()"
         class="carousel-paused-indicator"
         title="Pausado"
         style="
@@ -45,13 +44,16 @@
       >
         <span style="font-size: 1.3em">⏸️</span> Pausa
       </span>
+      }
     </div>
-    <div class="carousel-index-indicator" *ngIf="validImages().length > 0">
+    @if (validImages().length > 0) {
+    <div class="carousel-index-indicator">
       {{ current() + 1 }} / {{ validImages().length }}
     </div>
+    }
     <div style="text-align: center; margin-top: 8px">
+      @for (img of validImages(); track img; let idx = $index) {
       <span
-        *ngFor="let img of validImages(); let idx = index"
         (click)="goTo(idx)"
         [attr.aria-label]="'Ir a la imagen ' + (idx + 1)"
         [ngStyle]="{
@@ -64,6 +66,7 @@
         cursor: 'pointer'
         }"
       ></span>
+      }
     </div>
   </ng-container>
   <ng-template #noImages>

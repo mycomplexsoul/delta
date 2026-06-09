@@ -14,14 +14,16 @@
       {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
     </button>
 
-    <div id="newAccountFormSection" *ngIf="viewData.showItemForm">
-      <span class="field" *ngIf="model.id">
+    @if (viewData.showItemForm) {
+    <div id="newAccountFormSection">
+      @if (model.id) {
+      <span class="field">
         <label for="id" class="label-left">Id</label>
-        <span type="text" name="id" id="id" class="field-input-small">{{
-          model.id
-        }}</span>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
       </span>
-
+      }
       <span class="field">
         <label for="fName" class="label-left">Name</label>
         <input
@@ -32,7 +34,6 @@
           ngModel
         />
       </span>
-
       <span class="field">
         <label for="fType" class="label-left">Type</label>
         <select
@@ -41,15 +42,16 @@
           class="field-select"
           [(ngModel)]="model.fType"
         >
+          @for (opt of viewData.typeList; track opt) {
           <option
-            *ngFor="let opt of viewData.typeList"
             [value]="opt.ctg_sequential"
             [selected]="opt.ctg_sequential === itemForm.value.fType"
-            >{{ opt.ctg_name }}</option
           >
+            {{ opt.ctg_name }}
+          </option>
+          }
         </select>
       </span>
-
       <span class="field">
         <label for="fComment" class="label-left">Comment</label>
         <input
@@ -60,7 +62,6 @@
           ngModel
         />
       </span>
-
       <span class="field">
         <label for="fCheckDay" class="label-left">Check Day</label>
         <input
@@ -75,7 +76,6 @@
           ngModel
         />
       </span>
-
       <span class="field">
         <label for="fAverageMinBalance" class="label-left"
           >Average Min Balance</label
@@ -90,7 +90,6 @@
           ngModel
         />
       </span>
-
       <span class="field">
         <label for="fPaymentDay" class="label-left">Payment Day</label>
         <input
@@ -105,9 +104,9 @@
           ngModel
         />
       </span>
-
       <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
     </div>
+    }
   </form>
 
   <checkbox-option
@@ -118,7 +117,8 @@
   ></checkbox-option>
 
   <div class="card-list">
-    <div *ngFor="let item of viewData.accountList" class="card-item-container">
+    @for (item of viewData.accountList; track item) {
+    <div class="card-item-container">
       <span class="account-name">{{ item.acc_name }}</span>
       <br />
       <span class="account-type">{{ item.acc_txt_type }}</span>
@@ -127,30 +127,35 @@
       </span>
       <br />
       <span> Check day: {{ item.acc_check_day }} </span>
-      <span *ngIf="item.acc_comment"> | Comment: {{ item.acc_comment }}</span>
+      @if (item.acc_comment) {
+      <span> | Comment: {{ item.acc_comment }}</span>
+      }
       <br />
-      <span *ngIf="item.acc_average_min_balance != 0">
-        Average min balance:
-        {{
-          item.acc_average_min_balance | currency: "USD":"symbol-narrow":"1.2-2"
-        }}
+      @if (item.acc_average_min_balance != 0) {
+      <span>
+        Average min balance: {{ item.acc_average_min_balance | currency:
+        "USD":"symbol-narrow":"1.2-2" }}
       </span>
+      }
       <br />
       <span>Payment day: {{ item.acc_payment_day }}</span>
       <br />
       <span>Status: {{ item.acc_txt_status }}</span>
-
-      <span class="general-badge-new" *ngIf="item.isNew">new</span>
-      <span class="general-badge-edited" *ngIf="item.isEdited">edited</span>
+      @if (item.isNew) {
+      <span class="general-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="general-badge-edited">edited</span>
+      }
       <br />
-      <span *ngIf="item.showOptions">
-        <button (click)="setModelDetails(item.acc_id, itemForm)">
-          Edit
-        </button>
+      @if (item.showOptions) {
+      <span>
+        <button (click)="setModelDetails(item.acc_id, itemForm)">Edit</button>
         <button (click)="toggleStatus(item)">
           {{ item.acc_ctg_status === 1 ? "Disable" : "Enable" }}
         </button>
       </span>
+      }
     </div>
+    }
   </div>
 </div>

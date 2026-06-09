@@ -1,6 +1,8 @@
 <div class="notification-area">
-  <div class="notification-item" *ngFor="let item of notificationList">
-    <div class="notification-head" *ngIf="item.showHeader">
+  @for (item of notificationList; track item) {
+  <div class="notification-item">
+    @if (item.showHeader) {
+    <div class="notification-head">
       <span>{{item.title}}</span>
       <time-format
         class="notification-date"
@@ -8,6 +10,7 @@
         format="[HH]:[mm]"
       ></time-format>
     </div>
+    }
     <img
       src="/assets/icons/close.svg"
       class="close-button-img"
@@ -15,16 +18,20 @@
     />
     <div class="notification-body">
       <span> {{ item.message }} </span>
-      <span *ngIf="item.count > 1"> (x{{ item.count }}) </span>
+      @if (item.count > 1) {
+      <span> (x{{ item.count }}) </span>
+      }
     </div>
     <div class="notification-footer">
+      @if (!item.minimalUI) {
       <button
         class="notification-close-button"
         (click)="item.showHeader = !item.showHeader"
-        *ngIf="!item.minimalUI"
       >
         {{item.showHeader ? 'hide details' : 'details'}}
       </button>
+      }
     </div>
   </div>
+  }
 </div>

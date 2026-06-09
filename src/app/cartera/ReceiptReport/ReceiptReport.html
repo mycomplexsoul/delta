@@ -1,6 +1,6 @@
-<div *ngIf="!viewData.folio" class="page-container">
+@if (!viewData.folio) {
+<div class="page-container">
   <h1 class="page-title text-align-center">{{viewData.title}}</h1>
-
   <table class="receipt-top-block">
     <thead>
       <tr>
@@ -15,10 +15,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let item of viewData.paymentReportData; let count = index"
-        class="receipt-item receipt-top-block"
-      >
+      @for (item of viewData.paymentReportData; track item; let count = $index)
+      {
+      <tr class="receipt-item receipt-top-block">
         <td class="padding-all-3 text-align-center">{{count + 1}}</td>
         <td class="padding-all-3 text-align-center">
           {{item.provision.cpr_id_unit}}
@@ -46,19 +45,18 @@
           >
         </td>
       </tr>
+      }
     </tbody>
   </table>
 </div>
-
+} @for (item of viewData.paymentReportData; track item; let count = $index) {
 <div
-  *ngFor="let item of viewData.paymentReportData; let count = index"
   class="receipt-item receipt-top-block page-container"
   [ngClass]="{
     'page-break-before': !viewData.folio || (viewData.paymentReportData.length > 1 && count > 0)
-  }"
+      }"
 >
   <h1 class="page-title text-align-center">Recibo de pago</h1>
-
   <div class="receipt-header receipt-top-block padding-all-3">
     <div>
       <strong>FFJ78</strong>
@@ -70,7 +68,6 @@
       <div>Fecha de Impresión: {{viewData.date | date: "yyyy-MM-dd"}}</div>
     </div>
   </div>
-
   <div class="receipt-information receipt-top-block">
     <div>
       <div>Folio: <strong>{{item.provision.cpr_folio}}</strong></div>
@@ -80,7 +77,6 @@
       <div>Departamento: {{item.provision.cpr_id_unit}}</div>
     </div>
   </div>
-
   <table class="receipt-top-block" cellspacing="0">
     <thead>
       <tr>
@@ -122,7 +118,6 @@
       </tr>
     </tfoot>
   </table>
-
   <div class="receipt-sign-list receipt-top-block">
     <table>
       <tr class="no-border">
@@ -135,7 +130,6 @@
       </tr>
     </table>
   </div>
-
   <div class="receipt-notes">
     <div class="receipt-top-block">
       Nota: El pago de este recibo no lo libera de adeudos anteriores.
@@ -143,8 +137,8 @@
     <br />
     <div>Cadena de Verificación: {{item.hash}}</div>
   </div>
-
   <div class="hide-on-print">
     <button (click)="generatePDFReceipt()">Descargar recibo</button>
   </div>
 </div>
+}
