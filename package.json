@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.2.14",
-    "@angular/cli": "21.2.14",
+    "@angular/cli": "21.2.15",
     "@angular/compiler-cli": "21.2.16",
     "@angular/language-service": "21.2.16",
     "@playwright/test": "^1.56.1",
