@@ -18,15 +18,15 @@ export class UnitStatusService {
     provisionList: [
       {
         provision: null,
-        payDetList: []
-      }
+        payDetList: [],
+      },
     ],
-    paymentList: []
+    paymentList: [],
   };
   private config = {
     api: {
-      list: "/api/external/cartera-ext/unit-status-for-month"
-    }
+      list: "/api/external/cartera/unit-status-for-month",
+    },
   };
 
   constructor(private sync: SyncAPI) {}
@@ -60,12 +60,12 @@ export class UnitStatusService {
       paymentList: CarteraPayment[];
     } = {
       provisionList: [],
-      paymentList: []
+      paymentList: [],
     };
 
     return this.sync
       .get(`${this.config.api.list}?year=${year}&month=${month}&unit=${unit}`)
-      .then(data => {
+      .then((data) => {
         this.data = {
           provisionList: data.provisionList.map(
             (
@@ -77,16 +77,16 @@ export class UnitStatusService {
               provision: new CarteraProvision(d.provision),
               payDetList: d.payDetList.map(
                 (e: any): CarteraPayDet => new CarteraPayDet(e)
-              )
+              ),
             })
           ),
           paymentList: data.paymentList.map(
             (d: any): CarteraPayment => new CarteraPayment(d)
-          )
+          ),
         };
         return this.data;
       })
-      .catch(err => {
+      .catch((err) => {
         return defaultData;
       });
   }

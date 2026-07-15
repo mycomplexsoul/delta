@@ -69,6 +69,7 @@ import { environment } from "../environments/environment";
 import { TasksCore } from "./task/tasks.core";
 import { TaskCore } from "./task/task.core";
 import { TaskToolbarComponent } from "./task/task-toolbar.component";
+import { StopwatchComponent } from "./task/Stopwatch.component";
 import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.component";
 
 @NgModule({
@@ -123,6 +124,7 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
     }),
     CarteraSendReceiptsComponent,
     PlanSalvacionComponent,
+    StopwatchComponent,
     // LibrosComponent,
     // CvComponent,
   ],

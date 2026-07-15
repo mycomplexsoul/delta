@@ -113,6 +113,19 @@ export class MoSQL {
     let d1: Date = typeof date1 === "string" ? new Date(date1) : date1;
     let d2: Date = typeof date2 === "string" ? new Date(date2) : date2;
 
+    let result: boolean = false;
+    try {
+      result = d1.getTime() === d2.getTime();
+    } catch (error) {
+      console.error("Error occurred while comparing dates:", {
+        error,
+        d1,
+        d2,
+      });
+    }
+
+    return result;
+
     return d1.getTime() === d2.getTime();
   }
 

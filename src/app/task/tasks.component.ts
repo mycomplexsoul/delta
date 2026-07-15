@@ -13,6 +13,7 @@ import { TextToSpeech } from "../common/speechRecognition";
 import { autogrowSetup } from "../common/autogrow";
 // format dates used in charts
 import "chartjs-adapter-date-fns";
+import { Utils } from "../../crosscommon/Utility";
 
 @Component({
   selector: "tasks",
@@ -46,6 +47,7 @@ export class TasksComponent implements OnInit {
   public viewReportsWeek: boolean = false;
   public viewReportsDayDistribution: boolean = false;
   public viewOptions: boolean = false;
+  public viewNextOptions: boolean = false;
   public viewQualifierTotals: boolean = false;
   public viewETABeforeAdd: boolean = false;
   public viewAllFinishedToday: boolean = false;
@@ -91,6 +93,7 @@ export class TasksComponent implements OnInit {
     optHideScrollbarsInRecord: false,
     optShowTaskToolbar: false,
     optUseColumnsForRecords: false,
+    optPushStartTimer: false,
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -548,23 +551,35 @@ export class TasksComponent implements OnInit {
         ) / 100;
     }
 
+    const applyIndicatorDerivedState = () => {
+      this.configChartOpenCountEOD.data =
+        this.state.indicators.find((i) => i.name === "All Open Count")
+          ?.values || [];
+
+      // use added count for today to add a line in next to do section
+      const addedToday = this.state.indicators.find(
+        (i) => i.name === "Added Count"
+      )?.values;
+      const closedToday = this.state.indicators.find(
+        (i) => i.name === "Closed Count"
+      )?.values;
+      if (addedToday?.length && closedToday?.length) {
+        this.viewData.nextToDoCutlineForAddedTasks =
+          addedToday[addedToday.length - 1] -
+          closedToday[closedToday.length - 1];
+      }
+    };
+
     // indicators array
-    this.calculateIndicators();
+    const runIndicatorCalculation = () => {
+      this.calculateIndicators();
+      applyIndicatorDerivedState();
+    };
 
-    this.configChartOpenCountEOD.data =
-      this.state.indicators.find((i) => i.name === "All Open Count")?.values ||
-      [];
-
-    // use added count for today to add a line in next to do section
-    const addedToday = this.state.indicators.find(
-      (i) => i.name === "Added Count"
-    )?.values;
-    const closedToday = this.state.indicators.find(
-      (i) => i.name === "Closed Count"
-    )?.values;
-    if (addedToday?.length && closedToday?.length) {
-      this.viewData.nextToDoCutlineForAddedTasks =
-        addedToday[addedToday.length - 1] - closedToday[closedToday.length - 1];
+    if (typeof window !== "undefined" && window.requestAnimationFrame) {
+      window.requestAnimationFrame(runIndicatorCalculation);
+    } else {
+      setTimeout(runIndicatorCalculation, 0);
     }
 
     // identify not synced tasks
@@ -1397,7 +1412,19 @@ export class TasksComponent implements OnInit {
       });
       // show timer
       this.showTimer(task, dom);
-      this.services.tasksCore.addTimeTracking(task);
+      if (this.options.optPushStartTimer) {
+        const lastOpenTTDateEntry: Date | undefined =
+          this.lastOpenTTDateEntryFromDay(new Date()) || undefined;
+        if (lastOpenTTDateEntry) {
+          lastOpenTTDateEntry.setMinutes(lastOpenTTDateEntry.getMinutes() + 15);
+        }
+        this.services.tasksCore.addTimeTracking(task, {
+          tsh_date_start:
+            lastOpenTTDateEntry || this.dateUtils.newDateUpToSeconds(),
+        });
+      } else {
+        this.services.tasksCore.addTimeTracking(task);
+      }
 
       if (!task["inNextToDo"]) {
         // task is not in Next To Do, add it
@@ -1716,6 +1743,101 @@ export class TasksComponent implements OnInit {
 
   toggleViewOptions() {
     this.viewOptions = !this.viewOptions;
+  }
+
+  stopAndClearInProgressTasks() {
+    const inProgress = this.tasks.filter(
+      (t: any) => t.tsk_ctg_in_process === 2
+    );
+
+    if (!inProgress.length) {
+      return;
+    }
+
+    // stop timers and update local state first
+    inProgress.forEach((t: any) => {
+      try {
+        const dom = this.getTaskDOMElement(t.tsk_id);
+        if (dom) {
+          this.hideTimer(t, dom);
+        }
+      } catch (e) {
+        // ignore DOM lookup errors
+      }
+
+      try {
+        this.services.tasksCore.stopTimeTracking(t);
+      } catch (e) {}
+
+      if (this.timers && this.timers[t.tsk_id]) {
+        try {
+          clearInterval(this.timers[t.tsk_id].watch);
+        } catch (e) {}
+        this.timers[t.tsk_id] = undefined;
+      }
+
+      t.tsk_time_history = [];
+      t.tsk_total_time_spent = 0;
+      t.tsk_ctg_in_process = 1;
+    });
+
+    // prepare a single batch request via SyncAPI
+    const syncList = inProgress.map((t: any) => {
+      const model = { ...Utils.removeMetadataFromEntity(t) };
+      // ensure model contains fresh cleared history and totals
+      model.tsk_time_history = [];
+      model.tsk_total_time_spent = 0;
+      model.tsk_ctg_in_process = 1;
+
+      return this.services.sync.asSyncQueue(
+        "update",
+        model,
+        { tsk_id: t.tsk_id },
+        "Task",
+        (modelResp: any, response: any) => {
+          // mark synced locally if needed
+          const local = this.tasks.find(
+            (x: any) => x.tsk_id === modelResp.tsk_id
+          );
+          if (local) {
+            local.not_sync = false;
+          }
+        },
+        (e: any) => e.tsk_id + "",
+        (val: any) => val.tsk_id === t.tsk_id
+      );
+    });
+
+    this.services.sync.multipleRequest(syncList, { syncImmediately: true });
+  }
+
+  async markAllNextToDoAsDone() {
+    const tasksToMark: any[] = [];
+    if (!this.nextTasks || !this.nextTasks.length) {
+      return;
+    }
+    // preserve listed order
+    this.nextTasks.forEach((item: any) => {
+      if (item && item.tasks && item.tasks.length) {
+        item.tasks.forEach((t: any) => tasksToMark.push(t));
+      }
+    });
+
+    for (const t of tasksToMark) {
+      try {
+        if (t.tsk_ctg_status === this.taskStatus.CLOSED) {
+          continue;
+        }
+        // call existing method to mark as done
+        this.markTaskAsDone(t, { target: { checked: true }, shiftKey: false });
+        // wait enough time for updateState() to run and rendering to reflect change
+        await new Promise((resolve) =>
+          setTimeout(resolve, this.delayOnUpdateState + 800)
+        );
+      } catch (e) {
+        // continue on error
+      }
+    }
   }
 
   ageFontSizeNormalization(t: any) {
@@ -2383,6 +2505,33 @@ export class TasksComponent implements OnInit {
         ) {
           lastDate = new Date(t.tsk_date_done);
         }
+      }
+    });
+    if (lastDate === day0) {
+      return null;
+    }
+    return lastDate;
+  }
+
+  lastOpenTTDateEntryFromDay(date: Date) {
+    let day0 = this.services.tasksCore.dateOnly(date);
+    let nextDay0 = this.addDays(day0, 1);
+    let lastDate: Date = day0;
+    let tasksOfTheDay = this.tasks.filter((t: any) => {
+      return (
+        t.tsk_ctg_status !== TaskStatus.CLOSED && t.tsk_ctg_in_process === 2
+      );
+    });
+    tasksOfTheDay.forEach((t: any) => {
+      if (t.tsk_time_history.length) {
+        t.tsk_time_history.forEach((h: any) => {
+          if (
+            new Date(h.tsh_date_start) > lastDate &&
+            day0 < new Date(h.tsh_date_start)
+          ) {
+            lastDate = new Date(h.tsh_date_start);
+          }
+        });
       }
     });
     if (lastDate === day0) {
@@ -3289,17 +3438,37 @@ export class TasksComponent implements OnInit {
   }
 
   adjustTimeTracking(t: Task, triggerUpdateTask: boolean) {
-    // try peeking into tomorrow if today already finished ;-)
+    let randomDiff = 5;
+    // try peeking into 3 days ahead if any ;-)
     let tt = this.lastTTEntryFromDay(
       this.services.dateUtils.dateOnly(
-        this.services.dateUtils.addDays(new Date(), 1)
+        this.services.dateUtils.addDays(new Date(), 3)
       )
     );
+    if (!tt) {
+      // no task 3 days ahead, try 2 days ahead
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(
+          this.services.dateUtils.addDays(new Date(), 2)
+        )
+      );
+      randomDiff = 4;
+    }
+    if (!tt) {
+      // no task 2 days ahead, try tomorrow
+      tt = this.lastTTEntryFromDay(
+        this.services.dateUtils.dateOnly(
+          this.services.dateUtils.addDays(new Date(), 1)
+        )
+      );
+      randomDiff = 3;
+    }
     if (!tt) {
       // no task tomorrow, try today
       tt = this.lastTTEntryFromDay(
         this.services.dateUtils.dateOnly(new Date())
       );
+      randomDiff = 3;
     }
     if (!tt) {
       // no task today, try yesterday
@@ -3308,6 +3477,7 @@ export class TasksComponent implements OnInit {
           this.services.dateUtils.addDays(new Date(), -1)
         )
       );
+      randomDiff = 2;
     }
     if (!tt) {
       // no task today, try 2 days earlier
@@ -3316,6 +3486,7 @@ export class TasksComponent implements OnInit {
           this.services.dateUtils.addDays(new Date(), -2)
         )
       );
+      randomDiff = 2;
     }
     if (!tt) {
       // no task, try 3 days earlier
@@ -3324,6 +3495,7 @@ export class TasksComponent implements OnInit {
           this.services.dateUtils.addDays(new Date(), -3)
         )
       );
+      randomDiff = 1;
     }
     if (!tt) {
       // no task, try 4 days earlier
@@ -3332,9 +3504,10 @@ export class TasksComponent implements OnInit {
           this.services.dateUtils.addDays(new Date(), -4)
         )
       );
+      randomDiff = 1;
     }
-    const calcRandomFinish = (estimated) =>
-      (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
+    const calcRandomFinish = (estimated: number) =>
+      (estimated - randomDiff) * 60 + Math.floor(Math.random() * 10 * 6);
     if (tt && t["tsk_time_history"].length) {
       // task with history
       t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_start =
@@ -3401,11 +3574,17 @@ export class TasksComponent implements OnInit {
       this.lastTTEntryFromDay(new Date()) ||
       this.lastTTEntryFromDay(DateUtils.addDays(new Date(), -1)) ||
       new Date();
+    let projectionDateFromNow: Date = new Date();
 
     this.nextTasks[0].tasks.forEach((t: any) => {
       t.projectedDate = new Date(projectionDate);
       projectionDate = new Date(
         projectionDate.getTime() + t.tsk_estimated_duration * 60 * 1000
+      );
+
+      t.projectedDateFromNow = new Date(projectionDateFromNow);
+      projectionDateFromNow = new Date(
+        projectionDateFromNow.getTime() + t.tsk_estimated_duration * 60 * 1000
       );
     });
 

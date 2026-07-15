@@ -71,7 +71,6 @@
   <button (click)="deleteTasks()" class="btn-secondary">
     delete all tasks
   </button>
-  <button (click)="clearNextTasks()">clear next tasks listing</button>
   <br />
   <div class="task-options-section-title">Showing / hiding sections</div>
   <checkbox-option
@@ -199,6 +198,12 @@
     label="Hide scrollbars for all Record listings when it has too much items"
     optionId="optHideScrollbarsInRecord"
     [checked]="options.optHideScrollbarsInRecord"
+    (onClick)="toggleOptionById($event)"
+  ></checkbox-option>
+  <checkbox-option
+    label="When starting a task in progress, push 15 minutes forward its start timer"
+    optionId="optPushStartTimer"
+    [checked]="options.optPushStartTimer"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
   <checkbox-option
@@ -1137,6 +1142,7 @@
   </div>
   }
 </div>
+<app-stopwatch></app-stopwatch>
 @if (nextTasks[0].tasks.length) {
 <div id="nextToDoTodayList">
   <hr />
@@ -1153,6 +1159,31 @@
             Today</strong
           >
         </button>
+        <button
+          class="button-link no-underline"
+          style="margin-left: 8px"
+          (click)="viewNextOptions = !viewNextOptions"
+        >
+          <strong
+            >{{ viewNextOptions ? 'Hide options' : 'Show options' }}</strong
+          >
+        </button>
+        <div
+          *ngIf="viewNextOptions"
+          class="next-options"
+          style="margin-top: 8px"
+        >
+          <button (click)="clearNextTasks()">Clear listing</button>
+          <button
+            style="margin-left: 8px"
+            (click)="stopAndClearInProgressTasks()"
+          >
+            Stop and clear in-progress tasks
+          </button>
+          <button style="margin-left: 8px" (click)="markAllNextToDoAsDone()">
+            Mark all as done
+          </button>
+        </div>
         | {{ item.tasks.length }}
         <time-format
           format="([H]h[m]m)"
@@ -1204,6 +1235,13 @@
             >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
           </span>
           @if (t.tsk_total_time_spent !== 0) {
+          <span
+            [ngClass]="{
+            'task-next-time-ahead': t['projectedDateFromNow'].getTime() >= getDate().getTime(),
+            'task-next-time-behind': getDate().getTime() > t['projectedDateFromNow'].getTime()
+          }"
+            >&lt;{{t['projectedDateFromNow'] | date: "HH:mm"}}&gt;
+          </span>
           <span
             [ngClass]="{
               'task-open-with-tt':
