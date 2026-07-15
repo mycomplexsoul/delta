@@ -10,6 +10,7 @@
       </span>
       <drink-water></drink-water>
       <sync></sync>
+      <app-omnibox (commandEntered)="onOmniboxCommand($event)"></app-omnibox>
     </div>
     @if (viewData.isOpen) {
     <div class="menu-overlay" (click)="handleClick()">
@@ -83,6 +84,11 @@
               href="/activities"
               >Activities</a
             >
+          </li>
+          <li>
+            <a (click)="handleClick()" routerLink="libros" href="/libros">
+              Libros de la Biblia
+            </a>
           </li>
           <li>
             <span>{{ viewData.username }}</span>

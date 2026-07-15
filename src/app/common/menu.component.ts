@@ -9,11 +9,11 @@ import { User } from "./user-login.model";
 import { AuthenticationService } from "./authentication.service";
 
 @Component({
-    selector: "menu",
-    templateUrl: "./menu.template.html",
-    styleUrls: ["./menu.css"],
-    providers: [LoginService],
-    standalone: false
+  selector: "menu",
+  templateUrl: "./menu.template.html",
+  styleUrls: ["./menu.css"],
+  providers: [LoginService],
+  standalone: false,
 })
 export class MenuComponent implements OnInit {
   public viewData: {
@@ -22,16 +22,16 @@ export class MenuComponent implements OnInit {
     isOpen: boolean;
   } = {
     username: "anon-default",
-    currentTime: null,
-    isOpen: false
+    currentTime: new Date(),
+    isOpen: false,
   };
   public services: {
     loginService: LoginService;
   } = {
-    loginService: null
+    loginService: {} as LoginService,
   };
   private metadata = {
-    appVersion: ""
+    appVersion: "",
   };
   currentUser: User;
   timeInterval: number;
@@ -41,7 +41,7 @@ export class MenuComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private loginService: LoginService
   ) {
-    this.authenticationService.currentUser.subscribe(x => {
+    this.authenticationService.currentUser.subscribe((x) => {
       this.currentUser = x;
       if (this.currentUser) {
         this.viewData.username = this.currentUser.username;
@@ -65,10 +65,10 @@ export class MenuComponent implements OnInit {
       ? this.authenticationService.currentUserValue.username
       : "no-user";
     fetch("/metadata")
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .then(metadata => {
+      .then((metadata) => {
         this.metadata = metadata;
       });
 
@@ -81,5 +81,19 @@ export class MenuComponent implements OnInit {
 
   handleClick() {
     this.viewData.isOpen = false;
+  }
+
+  onOmniboxCommand(command: string) {
+    // Aquí puedes procesar el comando recibido desde el omnibox
+    // Por ejemplo, podrías hacer un switch/case para comandos conocidos
+    if (command === "logout") {
+      this.logout();
+    } else if (command.startsWith("go ")) {
+      const route = command.replace("go ", "").trim();
+      this.router.navigate([`/${route}`]);
+    } else {
+      // Otros comandos personalizados
+      alert("Comando recibido: " + command);
+    }
   }
 }
