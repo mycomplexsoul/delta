@@ -36,6 +36,7 @@
       "urls": [
         "/assets/icons/close.svg",
         "/assets/icons/energy.svg",
+        "/assets/icons/fire.svg",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -46,7 +47,8 @@
         "/assets/icons/icon-96x96.png",
         "/assets/icons/people.svg",
         "/assets/icons/pin.svg",
-        "/assets/icons/smartphone.svg"
+        "/assets/icons/smartphone.svg",
+        "/assets/images/firma-comite.png"
       ],
       "patterns": []
     }
@@ -55,6 +57,7 @@
   "hashTable": {
     "/assets/icons/close.svg": "1bfb9c54d1bb8514bc4916158b10357d488eb94a",
     "/assets/icons/energy.svg": "5a84324cff6e0fbd22661e415087b051663629e4",
+    "/assets/icons/fire.svg": "ea0cc171e9d2cf55e62668fd816b2928a3bd5e22",
     "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",

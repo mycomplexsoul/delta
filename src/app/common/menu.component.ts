@@ -23,13 +23,13 @@ export class MenuComponent implements OnInit {
     isOpen: boolean;
   } = {
     username: "anon-default",
-    currentTime: null,
+    currentTime: new Date(),
     isOpen: false,
   };
   public services: {
     loginService: LoginService;
   } = {
-    loginService: null,
+    loginService: {} as LoginService,
   };
   private metadata = {
     appVersion: "",
@@ -82,5 +82,19 @@ export class MenuComponent implements OnInit {
 
   handleClick() {
     this.viewData.isOpen = false;
+  }
+
+  onOmniboxCommand(command: string) {
+    // Aquí puedes procesar el comando recibido desde el omnibox
+    // Por ejemplo, podrías hacer un switch/case para comandos conocidos
+    if (command === "logout") {
+      this.logout();
+    } else if (command.startsWith("go ")) {
+      const route = command.replace("go ", "").trim();
+      this.router.navigate([`/${route}`]);
+    } else {
+      // Otros comandos personalizados
+      alert("Comando recibido: " + command);
+    }
   }
 }

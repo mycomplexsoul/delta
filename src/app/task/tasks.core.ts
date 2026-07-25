@@ -101,7 +101,6 @@ export class TasksCore {
         task["not_sync"] = true;
         //this.postTask(T[T.length-1]);
         //return T[T.length-1];
-        //console.log("added task:",t);
       }
     });
     this.tasksToStorage();
