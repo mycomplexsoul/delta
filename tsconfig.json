@@ -7,8 +7,9 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
-    "module": "esnext"
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "types": ["node", "mocha", "jasmine"]
   },
   "files": [],
   "references": [
@@ -21,5 +22,8 @@
     {
       "path": "./e2e/tsconfig.e2e.json"
     }
-  ]
+  ],
+  "ts-node": {
+    "project": "./tsconfig.test.json"
+  }
 }

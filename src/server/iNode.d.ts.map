@@ -1,0 +1,1 @@
+{"version":3,"file":"iNode.d.ts","sourceRoot":"./","sources":["src/server/iNode.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAE5C,MAAM,WAAW,KAAK;IAClB,OAAO,EAAE,OAAO,CACf;IAAC,QAAQ,EAAE,QAAQ,CAAA;CACtB"}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 // services
 import { LoginService } from "./login.service";
@@ -9,11 +9,12 @@ import { User } from "./user-login.model";
 import { AuthenticationService } from "./authentication.service";
 
 @Component({
-    selector: "menu",
-    templateUrl: "./menu.template.html",
-    styleUrls: ["./menu.css"],
-    providers: [LoginService],
-    standalone: false
+  selector: "menu",
+  templateUrl: "./menu.template.html",
+  styleUrls: ["./menu.css"],
+  providers: [LoginService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MenuComponent implements OnInit {
   public viewData: {
@@ -23,15 +24,15 @@ export class MenuComponent implements OnInit {
   } = {
     username: "anon-default",
     currentTime: null,
-    isOpen: false
+    isOpen: false,
   };
   public services: {
     loginService: LoginService;
   } = {
-    loginService: null
+    loginService: null,
   };
   private metadata = {
-    appVersion: ""
+    appVersion: "",
   };
   currentUser: User;
   timeInterval: number;
@@ -41,7 +42,7 @@ export class MenuComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private loginService: LoginService
   ) {
-    this.authenticationService.currentUser.subscribe(x => {
+    this.authenticationService.currentUser.subscribe((x) => {
       this.currentUser = x;
       if (this.currentUser) {
         this.viewData.username = this.currentUser.username;
@@ -65,10 +66,10 @@ export class MenuComponent implements OnInit {
       ? this.authenticationService.currentUserValue.username
       : "no-user";
     fetch("/metadata")
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
-      .then(metadata => {
+      .then((metadata) => {
         this.metadata = metadata;
       });
 

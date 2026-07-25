@@ -1,11 +1,12 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
-    selector: "time-format",
-    templateUrl: "./time-format.template.html",
-    providers: [],
-    standalone: false
+  selector: "time-format",
+  templateUrl: "./time-format.template.html",
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class TimeFormatComponent {
   @Input() value: Date | number;

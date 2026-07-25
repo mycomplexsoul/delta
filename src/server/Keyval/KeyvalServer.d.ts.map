@@ -1,0 +1,1 @@
+{"version":3,"file":"KeyvalServer.d.ts","sourceRoot":"./","sources":["src/server/Keyval/KeyvalServer.ts"],"names":[],"mappings":"AAGA,qBAAa,YAAY;IACvB,OAAO,CAAC,GAAG,CAA0C;IAErD,kBAAkB,2CAA+B;IACjD,IAAI,+BAAiB;IAErB,oBAAoB,wDAAiC;IACrD,MAAM,2CAAmB;IAEzB,oBAAoB,wDAAiC;IACrD,MAAM,oDAAmB;CAC1B"}

@@ -1,14 +1,20 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NotificationItem } from "./notification-item";
 import { NotificationService } from "./notification.service";
 import { Subscription } from "rxjs";
 import { TextToSpeech } from "./speechRecognition";
 
 @Component({
-    selector: "notification",
-    styleUrls: ["./notification.css"],
-    templateUrl: "./notification.template.html",
-    standalone: false
+  selector: "notification",
+  styleUrls: ["./notification.css"],
+  templateUrl: "./notification.template.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   private subscription: Subscription;

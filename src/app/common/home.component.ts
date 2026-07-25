@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 
@@ -8,8 +13,9 @@ import { AuthenticationService } from "./authentication.service";
 import { TextToSpeech } from "./speechRecognition";
 
 @Component({
-    templateUrl: "./home.template.html",
-    standalone: false
+  templateUrl: "./home.template.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
@@ -18,16 +24,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   viewData = {
     device: <any>{},
     battery: {
-      level: null
+      level: null,
     },
     localStorageUsage: {
       details: null,
-      totalInKB: null
+      totalInKB: null,
     },
     angularVersion: null,
   };
   model = {
-    textToRead: null
+    textToRead: null,
   };
   speechInstance = new TextToSpeech();
 
@@ -35,11 +41,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private userService: UserService
   ) {
-    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(
-      user => {
+    this.currentUserSubscription =
+      this.authenticationService.currentUser.subscribe((user) => {
         this.currentUser = user;
-      }
-    );
+      });
     this.viewData.device = this.getDeviceInformation();
   }
 
@@ -68,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userService
       .getAll()
       .pipe(first())
-      .subscribe(users => {
+      .subscribe((users) => {
         this.users = users;
       });
   }
@@ -96,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       data.details.push({
         item,
         used,
-        usedInKB: (used / 1024).toFixed(2)
+        usedInKB: (used / 1024).toFixed(2),
       });
     }
 
@@ -111,8 +116,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getAngularVersion() {
-    const element = document.querySelector('app-root');
-    return element ? element.getAttribute('ng-version') : null;
+    const element = document.querySelector("app-root");
+    return element ? element.getAttribute("ng-version") : null;
   }
-  
 }

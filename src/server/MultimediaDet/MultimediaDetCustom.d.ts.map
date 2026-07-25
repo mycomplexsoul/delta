@@ -1,0 +1,1 @@
+{"version":3,"file":"MultimediaDetCustom.d.ts","sourceRoot":"./","sources":["src/server/MultimediaDet/MultimediaDetCustom.ts"],"names":[],"mappings":"AAGA,qBAAa,mBAAmB;IAC9B,OAAO,CAAC,GAAG,CAAiD;IAE5D,kBAAkB,2CAA+B;IACjD,IAAI,+BAAiB;IAErB,oBAAoB,wDAAiC;IACrD,MAAM,2CAAmB;IAEzB,oBAAoB,wDAAiC;IACrD,MAAM,oDAAmB;CAC1B"}

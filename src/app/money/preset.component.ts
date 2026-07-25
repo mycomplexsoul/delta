@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Preset } from "../../crosscommon/entities/Preset";
 import { PresetService } from "./preset.service";
 import { NgForm } from "@angular/forms";
@@ -13,10 +13,11 @@ import { Category } from "src/crosscommon/entities/Category";
 import { Place } from "src/crosscommon/entities/Place";
 
 @Component({
-    selector: "preset",
-    templateUrl: "./preset.template.html",
-    providers: [PresetService, AccountService, CategoryService, PlaceService],
-    standalone: false
+  selector: "preset",
+  templateUrl: "./preset.template.html",
+  providers: [PresetService, AccountService, CategoryService, PlaceService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class PresetComponent implements OnInit {
   public viewData: {
@@ -30,13 +31,13 @@ export class PresetComponent implements OnInit {
     accountList: [],
     categoryList: [],
     placeList: [],
-    showItemForm: false
+    showItemForm: false,
   };
 
   public model: {
     id: string;
   } = {
-    id: null
+    id: null,
   };
   public common: CommonComponent<Preset> = null;
   public _movementFlowType: string = "custom";
@@ -53,7 +54,7 @@ export class PresetComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.presetService.getAll().then(list => {
+    this.presetService.getAll().then((list) => {
       this.viewData.presetList = list;
     });
     this.viewData.accountList = await this.accountService
@@ -72,7 +73,7 @@ export class PresetComponent implements OnInit {
         form,
         model: this.model,
         listing: this.viewData.presetList,
-        onFindExpression: item => this.findById(item, this.model.id),
+        onFindExpression: (item) => this.findById(item, this.model.id),
         onAssignForEdit: (item, formValues) => {
           const newItem = new Preset(item);
           newItem.pre_name = formValues.fName;
@@ -101,10 +102,10 @@ export class PresetComponent implements OnInit {
 
           return newItem;
         },
-        onUpdateItemService: item => this.presetService.updateItem(item),
+        onUpdateItemService: (item) => this.presetService.updateItem(item),
         onFinalExecution: () => {
           this.model.id = null;
-        }
+        },
       });
     } else {
       // new item
@@ -113,7 +114,7 @@ export class PresetComponent implements OnInit {
         listing: this.viewData.presetList,
         onFindExpression: (item, newItem) =>
           this.findById(item, newItem.pre_id),
-        onAssignForCreate: formValues => {
+        onAssignForCreate: (formValues) => {
           const newItem = new Preset();
           newItem.pre_name = formValues.fName;
           newItem.pre_date = formValues.fDate
@@ -140,10 +141,10 @@ export class PresetComponent implements OnInit {
           newItem.pre_ctg_status = 1;
           return newItem;
         },
-        onNewItemService: item => this.presetService.newItem(item),
+        onNewItemService: (item) => this.presetService.newItem(item),
         onFinalExecution: () => {
           this.viewData.showItemForm = false;
-        }
+        },
       });
     }
 
@@ -165,7 +166,7 @@ export class PresetComponent implements OnInit {
     }
     this.resetForm(form);
 
-    model = this.viewData.presetList.find(item => this.findById(item, id));
+    model = this.viewData.presetList.find((item) => this.findById(item, id));
     this.model.id = model["pre_id"]; // to tell the form that this is an edition
 
     setTimeout(() => {

@@ -1,4 +1,9 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NgForm } from "@angular/forms";
 // types
 
@@ -6,34 +11,35 @@ import { NgForm } from "@angular/forms";
 import { TypeGeneratorService } from "./type-generator.service";
 
 @Component({
-    selector: "type-generator",
-    templateUrl: "./type-generator.template.html",
-    styleUrls: ["./type-generator.css"],
-    providers: [TypeGeneratorService],
-    standalone: false
+  selector: "type-generator",
+  templateUrl: "./type-generator.template.html",
+  styleUrls: ["./type-generator.css"],
+  providers: [TypeGeneratorService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class TypeGeneratorComponent implements OnInit {
   private user: string = "anon";
   public viewData: {
     entityList: string[];
   } = {
-    entityList: []
+    entityList: [],
   };
   public services: {
     typeGenerator: TypeGeneratorService;
   } = {
-    typeGenerator: null
+    typeGenerator: null,
   };
   public model: {
     selectedEntityList: string[];
   } = {
-    selectedEntityList: []
+    selectedEntityList: [],
   };
 
   constructor(typeGenerator: TypeGeneratorService) {
     this.services.typeGenerator = typeGenerator;
 
-    this.services.typeGenerator.getAll().then(data => {
+    this.services.typeGenerator.getAll().then((data) => {
       this.viewData.entityList = data.entities;
     });
   }
@@ -41,13 +47,13 @@ export class TypeGeneratorComponent implements OnInit {
   ngOnInit() {}
 
   isChecked(target: string) {
-    return this.model.selectedEntityList.find(s => s === target);
+    return this.model.selectedEntityList.find((s) => s === target);
   }
 
   toggleSelection(target: string) {
     if (this.isChecked(target)) {
       this.model.selectedEntityList = this.model.selectedEntityList.filter(
-        s => s !== target
+        (s) => s !== target
       );
     } else {
       this.model.selectedEntityList.push(target);
@@ -57,7 +63,7 @@ export class TypeGeneratorComponent implements OnInit {
   toggleSelectAll(event: Event) {
     const allChecked = event.target["checked"];
 
-    this.viewData.entityList.forEach(e => {
+    this.viewData.entityList.forEach((e) => {
       const toggleCase =
         (allChecked && !this.isChecked(e)) ||
         (!allChecked && this.isChecked(e));
@@ -71,7 +77,7 @@ export class TypeGeneratorComponent implements OnInit {
   generate() {
     this.services.typeGenerator
       .create({ entities: this.model.selectedEntityList })
-      .then(response => {
+      .then((response) => {
         const messagesContainer = document.getElementById("generator-messages");
         messagesContainer.innerHTML = response.message;
       });
@@ -80,7 +86,7 @@ export class TypeGeneratorComponent implements OnInit {
   check() {
     this.services.typeGenerator
       .check({ entities: this.model.selectedEntityList })
-      .then(response => {
+      .then((response) => {
         const messagesContainer = document.getElementById("generator-messages");
         messagesContainer.innerHTML = response.message;
       });
@@ -89,7 +95,7 @@ export class TypeGeneratorComponent implements OnInit {
   checkDatabase() {
     this.services.typeGenerator
       .checkDatabase({ entities: this.model.selectedEntityList })
-      .then(response => {
+      .then((response) => {
         const messagesContainer = document.getElementById("generator-messages");
         messagesContainer.innerHTML = response.message;
       });

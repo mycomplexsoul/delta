@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Link } from "../../crosscommon/entities/Link";
 import { LinkService } from "./link.service";
 import { NgForm } from "@angular/forms";
@@ -16,6 +16,7 @@ import { computed, signal } from "@angular/core";
   templateUrl: "./link.template.html",
   styleUrls: ["./link.css"],
   providers: [LinkService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LinkComponent implements OnInit {

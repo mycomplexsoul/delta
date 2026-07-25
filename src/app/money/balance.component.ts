@@ -1,4 +1,10 @@
-import { Component, OnInit, signal, computed } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
 // types
@@ -20,6 +26,7 @@ import { NotificationService } from "../common/notification.service";
   templateUrl: "./balance.template.html",
   styleUrls: ["./balance.css"],
   providers: [BalanceService, MovementService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BalanceComponent implements OnInit {

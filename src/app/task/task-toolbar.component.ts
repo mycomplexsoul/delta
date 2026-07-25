@@ -1,14 +1,20 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Task } from "../../crosscommon/entities/Task";
 import { TaskCore } from "./task.core";
 import { SyncAPI } from "../common/sync.api";
 
 @Component({
-    selector: "task-toolbar",
-    templateUrl: "./task-toolbar.template.html",
-    styleUrls: ["./task-toolbar.css"],
-    providers: [],
-    standalone: false
+  selector: "task-toolbar",
+  templateUrl: "./task-toolbar.template.html",
+  styleUrls: ["./task-toolbar.css"],
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class TaskToolbarComponent implements OnInit {
   @Input() task: Task = null;

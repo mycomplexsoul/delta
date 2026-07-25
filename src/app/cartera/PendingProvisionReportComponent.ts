@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CarteraProvision } from "../../crosscommon/entities/CarteraProvision";
 import { PendingProvisionService } from "./PendingProvisionService";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
@@ -11,11 +11,12 @@ const OLD_PROVISION_AMOUNT = 1480;
 const PROVISION_AMOUNT = 1500;
 
 @Component({
-    selector: "pending-payments-report",
-    templateUrl: "./PendingProvisionReport.html",
-    styleUrls: ["./PendingProvisionReport.css"],
-    providers: [PendingProvisionService],
-    standalone: false
+  selector: "pending-payments-report",
+  templateUrl: "./PendingProvisionReport.html",
+  styleUrls: ["./PendingProvisionReport.css"],
+  providers: [PendingProvisionService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class PendingProvisionReportComponent implements OnInit {
   public viewData: {

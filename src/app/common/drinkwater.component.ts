@@ -1,12 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { NotificationService } from "./notification.service";
 import { DateUtils } from "src/crosscommon/DateUtility";
 
 @Component({
-    selector: "drink-water",
-    templateUrl: "./drinkwater.template.html",
-    providers: [],
-    standalone: false
+  selector: "drink-water",
+  templateUrl: "./drinkwater.template.html",
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DrinkWaterComponent implements OnInit {
   constructor(private notificationService: NotificationService) {}

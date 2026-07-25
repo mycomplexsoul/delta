@@ -5,6 +5,7 @@ import {
   OnInit,
   signal,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 
@@ -54,6 +55,7 @@ const ALL_STATUS_TEXT = [
   styleUrls: ["./activity.css"],
   encapsulation: ViewEncapsulation.None, // This helped consuming CSS from another components by importing in CSS files
   providers: [ActivityService, TimelineService, KeyvalService, TaskCore],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ActivityComponent implements OnInit {

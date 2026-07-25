@@ -1,11 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { SyncQueue } from "./SyncQueue";
 import { SyncAPI } from "./sync.api";
 
 @Component({
-    selector: "sync",
-    templateUrl: "./sync.template.html",
-    standalone: false
+  selector: "sync",
+  templateUrl: "./sync.template.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class SyncComponent implements OnInit {
   public viewData: {
@@ -15,15 +16,15 @@ export class SyncComponent implements OnInit {
   } = {
     queue: [],
     message: null,
-    showCheckIcon: false
+    showCheckIcon: false,
   };
 
   constructor(private syncService: SyncAPI) {}
 
   ngOnInit() {
     this.viewData.queue = this.syncService.queue;
-    this.syncService.statusObservableNotifier().subscribe(queue => {
-      this.viewData.queue = queue.map(q => {
+    this.syncService.statusObservableNotifier().subscribe((queue) => {
+      this.viewData.queue = queue.map((q) => {
         q["recordNameString"] = q.recordName && q.recordName(q.model);
         return q;
       });
@@ -58,9 +59,7 @@ export class SyncComponent implements OnInit {
     const errorList = filterWithStatus("error");
 
     if (queueList.length || errorList.length) {
-      this.viewData.message = `${queueList.length} pending, ${
-        errorList.length
-      } with error`;
+      this.viewData.message = `${queueList.length} pending, ${errorList.length} with error`;
     }
   }
 }

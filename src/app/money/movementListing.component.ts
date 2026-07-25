@@ -1,15 +1,22 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Movement } from "src/crosscommon/entities/Movement";
 import { Balance } from "src/crosscommon/entities/Balance";
 
 const LAYOUTS: string[] = ["cards", "compact", "grid"];
 
 @Component({
-    selector: "movement-listing",
-    templateUrl: "./movementListing.template.html",
-    styleUrls: ["./movementListing.css"],
-    providers: [],
-    standalone: false
+  selector: "movement-listing",
+  templateUrl: "./movementListing.template.html",
+  styleUrls: ["./movementListing.css"],
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MovementListingComponent {
   @Input() selectedView: string = LAYOUTS[0];
@@ -35,7 +42,7 @@ export class MovementListingComponent {
 
   handleSelectMovement(movement: Movement, event: Event) {
     if (this.onSelectMovement) {
-      this.onSelectMovement.emit({value: movement, event});
+      this.onSelectMovement.emit({ value: movement, event });
     }
   }
 }

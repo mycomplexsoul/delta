@@ -1,3 +1,4 @@
+/// <reference types="mocha" />
 import { MoSQL } from "./MoSQL";
 import { equal, strictEqual } from "assert";
 const instance = new MoSQL();

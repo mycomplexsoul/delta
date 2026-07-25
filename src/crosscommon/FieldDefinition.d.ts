@@ -1,0 +1,32 @@
+export declare class FieldDefinition {
+    templateId: string;
+    dbName: string;
+    dbType: string;
+    isTableField: boolean;
+    isPK: boolean;
+    size: number;
+    decimal: number;
+    minLength: number;
+    allowNull: boolean;
+    default: string;
+    dbComment: string;
+    catalogId: string;
+    originTable: string;
+    linkedField: string;
+    entName: string;
+    formControl: string;
+    captureRequired: boolean;
+    appearsByDefaultOnGrid: boolean;
+    specialRules: string[];
+    displayName: string;
+    tooltip: string;
+    isRecordName: boolean;
+    gridOrder: number;
+    orderOnNew: number;
+    orderOnDetails: number;
+    orderOnEdit: number;
+    orderOnImport: number;
+    globalOrder: number;
+    value: any;
+}
+//# sourceMappingURL=FieldDefinition.d.ts.map

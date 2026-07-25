@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { MovementService } from "../money/movement.service";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { Title } from "@angular/platform-browser";
@@ -6,11 +6,12 @@ import { Movement } from "../../crosscommon/entities/Movement";
 import { Utils } from "../../crosscommon/Utility";
 
 @Component({
-    selector: "movements-report",
-    templateUrl: "./MovementsReport.html",
-    styleUrls: ["./MovementsReport.css"],
-    providers: [MovementService],
-    standalone: false
+  selector: "movements-report",
+  templateUrl: "./MovementsReport.html",
+  styleUrls: ["./MovementsReport.css"],
+  providers: [MovementService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MovementsReportComponent implements OnInit {
   public viewData: {

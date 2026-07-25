@@ -1,10 +1,17 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 
 @Component({
-    selector: "checkbox-option",
-    templateUrl: "./checkbox-option.template.html",
-    providers: [],
-    standalone: false
+  selector: "checkbox-option",
+  templateUrl: "./checkbox-option.template.html",
+  providers: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CheckboxOptionComponent {
   @Input() checked: boolean = false;

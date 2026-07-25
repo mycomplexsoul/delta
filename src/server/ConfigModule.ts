@@ -44,9 +44,19 @@ class ConfigModule {
       pieces.forEach((p) => {
         if (matched?.[p]) {
           matched = matched[p];
+        } else {
+          matched = undefined;
         }
-        matched = undefined;
       });
+      /*console.log(
+        "-- [ConfigModule.getConfigValue] matched config value for match",
+        {
+          match,
+          matched,
+          pieces,
+          config: this.config,
+        }
+      );*/
       return matched;
     }
     return this.config;

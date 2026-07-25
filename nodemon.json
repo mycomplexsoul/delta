@@ -1,6 +1,16 @@
 {
-  "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules"],
-  "watch": ["src"],
+  "ignore": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts",
+    "**/*.d.ts.map",
+    "**/*.js",
+    "**/*.js.map",
+    "node_modules",
+    "dist",
+    "coverage"
+  ],
+  "watch": ["src", "server.ts", "tsconfig.server.json", "tsconfig.base.json"],
   "exec": "npm run build && npm run start:main",
   "ext": "ts,html,css"
 }

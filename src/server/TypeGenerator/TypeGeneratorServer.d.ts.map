@@ -1,0 +1,1 @@
+{"version":3,"file":"TypeGeneratorServer.d.ts","sourceRoot":"./","sources":["src/server/TypeGenerator/TypeGeneratorServer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,UAAU,CAAC;AAIjC,qBAAa,mBAAmB;IAC9B,QAAQ,EAAE,MAAM,EAAE,CAuChB;IAEF,MAAM,GAAI,MAAM,KAAK,UAKnB;IAEF,MAAM,GAAI,MAAM,KAAK,UAgBnB;IAEF,KAAK,GAAI,MAAM,KAAK,UAelB;IAEF,aAAa,GAAU,MAAM,KAAK,mBAkBhC;CACH"}

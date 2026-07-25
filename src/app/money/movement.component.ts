@@ -1,4 +1,9 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 //import { CurrencyPipe } from '@angular/common';
@@ -24,18 +29,19 @@ import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
 
 @Component({
-    selector: "movement",
-    templateUrl: "./movement.template.html",
-    providers: [
-        AccountService,
-        CategoryService,
-        PlaceService,
-        MovementService,
-        EntryService,
-        BalanceService,
-        PresetService,
-    ],
-    standalone: false
+  selector: "movement",
+  templateUrl: "./movement.template.html",
+  providers: [
+    AccountService,
+    CategoryService,
+    PlaceService,
+    MovementService,
+    EntryService,
+    BalanceService,
+    PresetService,
+  ],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MovementComponent implements OnInit {
   private accounts: Array<Account> = [];

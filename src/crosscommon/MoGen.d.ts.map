@@ -1,0 +1,1 @@
+{"version":3,"file":"MoGen.d.ts","sourceRoot":"./","sources":["src/crosscommon/MoGen.ts"],"names":[],"mappings":"AAAA,cAAM,MAAM;IACV;;;;;;;OAOG;IACH,MAAM,GAAI,OAAO,MAAM,EAAE,uBAAuB,MAAM,YAMpD;IAEF,eAAe,GAAI,KAAK,MAAM,YAAyC;IACvE,qBAAqB,GAAI,KAAK,MAAM,YAAwC;CAC7E;AACD,eAAO,IAAI,KAAK,QAAe,CAAC"}

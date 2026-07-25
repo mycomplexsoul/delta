@@ -1,4 +1,9 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Account } from "../../crosscommon/entities/Account";
 import { AccountService } from "./account.service";
@@ -8,10 +13,11 @@ import { NgForm } from "@angular/forms";
 import { iEntity } from "src/crosscommon/iEntity";
 
 @Component({
-    selector: "account",
-    templateUrl: "./account.template.html",
-    providers: [AccountService],
-    standalone: false
+  selector: "account",
+  templateUrl: "./account.template.html",
+  providers: [AccountService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AccountComponent implements OnInit {
   public accountList: Array<Account> = [];
@@ -24,19 +30,19 @@ export class AccountComponent implements OnInit {
     accountList: [],
     showItemForm: false,
     typeList: [],
-    includeArchived: false
+    includeArchived: false,
   };
   private services: {
     accountService: AccountService;
     syncService: SyncAPI;
   } = {
     accountService: null,
-    syncService: null
+    syncService: null,
   };
   public model: {
     id: string;
   } = {
-    id: null
+    id: null,
   };
 
   constructor(
@@ -58,19 +64,19 @@ export class AccountComponent implements OnInit {
         {
           f: "ctg_id",
           op: "eq",
-          val: "ACCOUNT_TYPES" // TODO: fix database length for field ctg_name
-        }
-      ]
+          val: "ACCOUNT_TYPES", // TODO: fix database length for field ctg_name
+        },
+      ],
     });
     this.services.syncService
       .get(`/api/sync?entity=Catalog&q=${platformQuery}`)
-      .then(data => {
+      .then((data) => {
         this.viewData.typeList = data.list;
       });
   }
 
   ngOnInit() {
-    this.services.accountService.getAll().then(list => {
+    this.services.accountService.getAll().then((list) => {
       this.reloadItems({ checked: this.viewData.includeArchived });
     });
   }
@@ -81,7 +87,7 @@ export class AccountComponent implements OnInit {
     if (this.model.id) {
       // edit
       const existingIndex: number = this.viewData.accountList.findIndex(
-        e => e.acc_id === this.model.id
+        (e) => e.acc_id === this.model.id
       );
       const item: Account = this.viewData.accountList[existingIndex];
 
@@ -107,10 +113,10 @@ export class AccountComponent implements OnInit {
           values.fAverageMinBalance,
           values.fPaymentDay
         )
-        .then(item => {
+        .then((item) => {
           this.viewData.accountList = this.services.accountService.list();
           const listItem = this.viewData.accountList.find(
-            elem => elem.acc_id === item.acc_id
+            (elem) => elem.acc_id === item.acc_id
           );
           listItem["isNew"] = true;
         });
@@ -164,7 +170,7 @@ export class AccountComponent implements OnInit {
     if (includeArchived) {
       this.viewData.accountList = list;
     } else {
-      this.viewData.accountList = list.filter(a => a.acc_ctg_status === 1);
+      this.viewData.accountList = list.filter((a) => a.acc_ctg_status === 1);
     }
   }
 }

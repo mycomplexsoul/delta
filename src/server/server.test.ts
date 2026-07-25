@@ -1,3 +1,4 @@
+/// <reference types="mocha" />
 import app from './server';
 import { equal, ok} from 'assert';
 

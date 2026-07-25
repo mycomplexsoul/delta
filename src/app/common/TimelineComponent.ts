@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 import { NgForm } from "@angular/forms";
 import { Utils } from "../../crosscommon/Utility";
@@ -7,11 +13,12 @@ import { DateUtils } from "../../crosscommon/DateUtility";
 import { TimelineService } from "./TimelineService";
 
 @Component({
-    selector: "timeline",
-    templateUrl: "./TimelineTemplate.html",
-    styleUrls: ["./Timeline.css"],
-    providers: [TimelineService],
-    standalone: false
+  selector: "timeline",
+  templateUrl: "./TimelineTemplate.html",
+  styleUrls: ["./Timeline.css"],
+  providers: [TimelineService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class TimelineComponent {
   @Input() recordId: string = "general";
@@ -20,7 +27,7 @@ export class TimelineComponent {
   public viewData: {
     showForm: boolean;
   } = {
-    showForm: false
+    showForm: false,
   };
   private model: {
     id: string;
@@ -29,7 +36,7 @@ export class TimelineComponent {
   } = {
     id: null,
     date: DateUtils.formatDate(DateUtils.newDateUpToSeconds()),
-    time: DateUtils.timeFromDateAsString(DateUtils.newDateUpToSeconds())
+    time: DateUtils.timeFromDateAsString(DateUtils.newDateUpToSeconds()),
   };
 
   constructor(
@@ -49,7 +56,7 @@ export class TimelineComponent {
       tim_id_user: this.authenticationService.currentUserValue.username,
       tim_date_add: DateUtils.newDateUpToSeconds(),
       tim_date_mod: DateUtils.newDateUpToSeconds(),
-      tim_ctg_status: 1
+      tim_ctg_status: 1,
     });
 
     this.timelineService.create(timeline).then(() => {

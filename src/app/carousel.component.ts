@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
@@ -9,6 +15,7 @@ export const ROTATION_INTERVAL = 5; // segundos
   templateUrl: "./carousel.template.html",
   styleUrls: ["./carousel.component.css"],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [],
 })
 export class CarouselComponent implements OnInit, OnDestroy {

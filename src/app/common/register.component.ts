@@ -1,6 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from "@angular/forms";
 import { first } from "rxjs/operators";
 
 import { AlertService } from "./alert.service";
@@ -8,8 +12,9 @@ import { UserService } from "./user-login.service";
 import { AuthenticationService } from "./authentication.service";
 
 @Component({
-    templateUrl: "./register.template.html",
-    standalone: false
+  templateUrl: "./register.template.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class RegisterComponent implements OnInit {
   registerForm: UntypedFormGroup;
@@ -35,7 +40,7 @@ export class RegisterComponent implements OnInit {
       lastName: ["", Validators.required],
       username: ["", Validators.required],
       email: ["", Validators.required],
-      password: ["", [Validators.required, Validators.minLength(6)]]
+      password: ["", [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -57,11 +62,11 @@ export class RegisterComponent implements OnInit {
       .register(this.registerForm.value)
       .pipe(first())
       .subscribe(
-        data => {
+        (data) => {
           this.alertService.success("Registration successful", true);
           this.router.navigate(["/login"]);
         },
-        error => {
+        (error) => {
           this.alertService.error(error);
           this.loading = false;
         }

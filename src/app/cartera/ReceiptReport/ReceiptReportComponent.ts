@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {
   ReceiptReportService,
   iReceiptReportData,
@@ -26,11 +26,12 @@ const mapCodeWithDescription = {
 };
 
 @Component({
-    selector: "receipt-report",
-    templateUrl: "./ReceiptReport.html",
-    styleUrls: ["./ReceiptReport.css"],
-    providers: [ReceiptReportService],
-    standalone: false
+  selector: "receipt-report",
+  templateUrl: "./ReceiptReport.html",
+  styleUrls: ["./ReceiptReport.css"],
+  providers: [ReceiptReportService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ReceiptReportComponent implements OnInit {
   public viewData: {
@@ -103,7 +104,11 @@ export class ReceiptReportComponent implements OnInit {
         prov.cpr_year,
         prov.cpr_month
       );
-      this.viewData.title = `${this.viewData.folio} Recibo de pago ${prov.cpr_id_unit} - ${mapCodeWithDescription[prov.cpr_type]} ${this.viewData.displayYearMonth}`;
+      this.viewData.title = `${this.viewData.folio} Recibo de pago ${
+        prov.cpr_id_unit
+      } - ${mapCodeWithDescription[prov.cpr_type]} ${
+        this.viewData.displayYearMonth
+      }`;
       this.titleService.setTitle(this.viewData.title);
     }
   }

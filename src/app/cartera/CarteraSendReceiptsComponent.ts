@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NotificationService } from "../common/notification.service";
 import { CarteraSendReceiptService } from "./CarteraSendReceipt.service";
@@ -9,6 +9,7 @@ import { ActivatedRoute } from "@angular/router";
   templateUrl: "./CarteraSendReceipt.html",
   standalone: true,
   providers: [CarteraSendReceiptService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class CarteraSendReceiptsComponent implements OnInit {

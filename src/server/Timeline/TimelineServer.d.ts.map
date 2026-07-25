@@ -1,0 +1,1 @@
+{"version":3,"file":"TimelineServer.d.ts","sourceRoot":"./","sources":["src/server/Timeline/TimelineServer.ts"],"names":[],"mappings":"AAGA,qBAAa,cAAc;IACzB,OAAO,CAAC,GAAG,CAA4C;IAEvD,kBAAkB,2CAA+B;IACjD,IAAI,+BAAiB;IAErB,oBAAoB,wDAAiC;IACrD,MAAM,2CAAmB;IAEzB,oBAAoB,wDAAiC;IACrD,MAAM,oDAAmB;CAC1B"}

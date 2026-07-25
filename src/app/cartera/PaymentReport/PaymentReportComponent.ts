@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {
   PaymentReportService,
   iPaymentReportData,
@@ -10,11 +10,12 @@ import { Title } from "@angular/platform-browser";
 const UNIT_LABEL = "Departamento";
 
 @Component({
-    selector: "payment-report",
-    templateUrl: "./PaymentReport.html",
-    styleUrls: ["./PaymentReport.css"],
-    providers: [PaymentReportService],
-    standalone: false
+  selector: "payment-report",
+  templateUrl: "./PaymentReport.html",
+  styleUrls: ["./PaymentReport.css"],
+  providers: [PaymentReportService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class PaymentReportComponent implements OnInit {
   public viewData: {

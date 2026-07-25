@@ -1,7 +1,7 @@
 import * as path from "path";
-import * as express from "express";
+import express from "express";
 import * as Routes from "./Routes";
-import * as cors from "cors";
+import cors from "cors";
 import { existsSync } from "fs";
 import { imagesRouter } from "./imagesRouter";
 

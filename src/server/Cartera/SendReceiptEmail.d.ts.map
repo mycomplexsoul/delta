@@ -1,0 +1,1 @@
+{"version":3,"file":"SendReceiptEmail.d.ts","sourceRoot":"./","sources":["src/server/Cartera/SendReceiptEmail.ts"],"names":[],"mappings":"AAMA,OAAO,EAAE,KAAK,EAAE,MAAM,UAAU,CAAC;AAiBjC,QAAA,MAAM,gBAAgB,GACpB,MAAM,MAAM,EACZ,OAAO,MAAM,EACb,OAAM,MAAa;;;;;EAuFpB,CAAC;AAEF,iBAAe,4BAA4B,CAAC,IAAI,EAAE,KAAK,iBAWtD;AAED,OAAO,EAAE,gBAAgB,EAAE,4BAA4B,EAAE,CAAC"}

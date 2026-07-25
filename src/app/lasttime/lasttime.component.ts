@@ -1,4 +1,9 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 // types
@@ -11,11 +16,12 @@ import { LastTimeHistory } from "src/crosscommon/entities/LastTimeHistory";
 import { LastTimeHistoryService } from "./lasttimehistory.service";
 
 @Component({
-    selector: "lasttime",
-    templateUrl: "./lasttime.template.html",
-    styleUrls: ["./lasttime.css"],
-    providers: [LastTimeService, LastTimeHistoryService],
-    standalone: false
+  selector: "lasttime",
+  templateUrl: "./lasttime.template.html",
+  styleUrls: ["./lasttime.css"],
+  providers: [LastTimeService, LastTimeHistoryService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class LastTimeComponent implements OnInit {
   public viewData: {
@@ -29,19 +35,19 @@ export class LastTimeComponent implements OnInit {
     showCreateForm: false,
     historyList: [],
     historyMetadata: null,
-    includeArchived: false
+    includeArchived: false,
   };
   public services: {
     lastTime: LastTimeService;
     lastTimeHistory: LastTimeHistoryService;
   } = {
     lastTime: null,
-    lastTimeHistory: null
+    lastTimeHistory: null,
   };
   public model: {
     id: string;
   } = {
-    id: null
+    id: null,
   };
   public filterApplied: string = "";
 
@@ -85,13 +91,13 @@ export class LastTimeComponent implements OnInit {
 
   calculateValidityForAll() {
     let list: LastTime[] = this.services.lastTime.list();
-    list.forEach(item => {
+    list.forEach((item) => {
       this.calculateValidity(item);
     });
 
     list = list.sort(this.sort);
     if (this.filterApplied) {
-      list = list.filter(i => this.criteriaForFilter(i, this.filterApplied));
+      list = list.filter((i) => this.criteriaForFilter(i, this.filterApplied));
     } else {
     }
     this.viewData.lastTime = list;
@@ -103,7 +109,7 @@ export class LastTimeComponent implements OnInit {
     if (this.model.id) {
       // edit
       const existingIndex: number = this.viewData.lastTime.findIndex(
-        e => e.lst_id === this.model.id
+        (e) => e.lst_id === this.model.id
       );
       const item: LastTime = this.viewData.lastTime[existingIndex];
 
@@ -114,7 +120,7 @@ export class LastTimeComponent implements OnInit {
       item.lst_notes = values.fNotes;
 
       await this.services.lastTime.updateItem(item, {
-        noHistory: true
+        noHistory: true,
       });
 
       item["isEdited"] = true; // flag to render as edited on UI
@@ -130,10 +136,10 @@ export class LastTimeComponent implements OnInit {
           values.fTags,
           values.fNotes
         )
-        .then(item => {
+        .then((item) => {
           this.viewData.lastTime = this.services.lastTime.list();
           const listItem = this.viewData.lastTime.find(
-            elem => elem.lst_id === item.lst_id
+            (elem) => elem.lst_id === item.lst_id
           );
           listItem["isNew"] = true;
           this.calculateValidityForAll();
@@ -206,7 +212,7 @@ export class LastTimeComponent implements OnInit {
         }
       }
 
-      this.services.lastTime.updateItem(item).then(response => {
+      this.services.lastTime.updateItem(item).then((response) => {
         this.calculateValidityForAll();
       });
     }
@@ -217,7 +223,7 @@ export class LastTimeComponent implements OnInit {
     item.lst_date_mod = DateUtils.newDateUpToSeconds();
     item["isEdited"] = true;
 
-    this.services.lastTime.updateItem(item).then(response => {
+    this.services.lastTime.updateItem(item).then((response) => {
       this.calculateValidityForAll();
       // this.updateBackupItem(item);
     });
@@ -234,7 +240,7 @@ export class LastTimeComponent implements OnInit {
     if (query) {
       this.viewData.lastTime = this.services.lastTime
         .list()
-        .filter(i => this.criteriaForFilter(i, this.filterApplied));
+        .filter((i) => this.criteriaForFilter(i, this.filterApplied));
     } else {
       this.viewData.lastTime = this.services.lastTime.list().sort(this.sort);
     }
@@ -252,7 +258,7 @@ export class LastTimeComponent implements OnInit {
       item.lst_date_mod = DateUtils.newDateUpToSeconds();
       item["isEdited"] = true;
 
-      this.services.lastTime.updateItem(item).then(response => {
+      this.services.lastTime.updateItem(item).then((response) => {
         this.calculateValidityForAll();
       });
     }
@@ -260,7 +266,7 @@ export class LastTimeComponent implements OnInit {
 
   viewHistory(item: LastTime) {
     this.viewData.historyMetadata = item;
-    this.services.lastTimeHistory.getAll(item.lst_id).then(data => {
+    this.services.lastTimeHistory.getAll(item.lst_id).then((data) => {
       this.viewData.historyList = data.sort((a, b) =>
         new Date(a.lth_date_mod).getTime() < new Date(b.lth_date_mod).getTime()
           ? 1
@@ -280,7 +286,7 @@ export class LastTimeComponent implements OnInit {
 
   reloadItems({ checked: includeArchived }) {
     this.services.lastTime.setIncludeArchived(includeArchived);
-    this.services.lastTime.getAll().then(lastTimeList => {
+    this.services.lastTime.getAll().then((lastTimeList) => {
       this.viewData.lastTime = lastTimeList;
 
       this.calculateValidityForAll();

@@ -1,4 +1,9 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Category } from "../../crosscommon/entities/Category";
 import { CategoryService } from "./category.service";
 import { NgForm } from "@angular/forms";
@@ -10,10 +15,11 @@ import { NotificationService } from "../common/notification.service";
 import { requestResult } from "../common/requestResult";
 
 @Component({
-    selector: "category",
-    templateUrl: "./category.template.html",
-    providers: [CategoryService, MovementService],
-    standalone: false
+  selector: "category",
+  templateUrl: "./category.template.html",
+  providers: [CategoryService, MovementService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CategoryComponent implements OnInit {
   public viewData: {
@@ -27,13 +33,13 @@ export class CategoryComponent implements OnInit {
     movementList: [],
     showItemForm: false,
     replaceCategoryList: [],
-    selectedCategory: null
+    selectedCategory: null,
   };
 
   public model: {
     id: string;
   } = {
-    id: null
+    id: null,
   };
   public replaceCategoryId: string = null;
   public common: CommonComponent<Category> = null;
@@ -41,7 +47,7 @@ export class CategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private movementService: MovementService,
-    private notificationService: NotificationService,
+    private notificationService: NotificationService
   ) {
     this.common = new CommonComponent<Category>();
   }
@@ -49,11 +55,11 @@ export class CategoryComponent implements OnInit {
   ngOnInit() {
     Promise.all([
       this.categoryService.getAll(),
-      this.movementService.getAll()
+      this.movementService.getAll(),
     ]).then(([categoryList, movementList]: [Category[], Movement[]]) => {
       this.viewData.movementList = movementList;
 
-      this.viewData.categoryList = categoryList.map(category => {
+      this.viewData.categoryList = categoryList.map((category) => {
         category["movementList"] = this.addAdditionalDataToItem(
           category,
           movementList
@@ -76,14 +82,14 @@ export class CategoryComponent implements OnInit {
         form,
         model: this.model,
         listing: this.viewData.categoryList,
-        onFindExpression: item => item.mct_id === this.model.id,
+        onFindExpression: (item) => item.mct_id === this.model.id,
         onAssignForEdit: (item, formValues) => {
           const newItem = new Category(item);
           newItem.mct_name = formValues.fName;
           return newItem;
         },
-        onUpdateItemService: item =>
-          this.categoryService.updateItem(item).then(item => {
+        onUpdateItemService: (item) =>
+          this.categoryService.updateItem(item).then((item) => {
             item["movementList"] = this.addAdditionalDataToItem(
               item,
               this.viewData.movementList
@@ -92,7 +98,7 @@ export class CategoryComponent implements OnInit {
           }),
         onFinalExecution: () => {
           this.model.id = null;
-        }
+        },
       });
     } else {
       // new item
@@ -100,16 +106,16 @@ export class CategoryComponent implements OnInit {
         form,
         listing: this.viewData.categoryList,
         onFindExpression: (item, newItem) => item.mct_id === newItem.mct_id,
-        onAssignForCreate: formValues => {
+        onAssignForCreate: (formValues) => {
           const newItem = new Category({
-            mct_name: formValues.fName
+            mct_name: formValues.fName,
           });
           return newItem;
         },
-        onNewItemService: item => this.categoryService.newItem(item),
+        onNewItemService: (item) => this.categoryService.newItem(item),
         onFinalExecution: () => {
           this.viewData.showItemForm = false;
-        }
+        },
       });
     }
 
@@ -130,14 +136,16 @@ export class CategoryComponent implements OnInit {
       this.viewData.showItemForm = !this.viewData.showItemForm;
     }
 
-    this.viewData.selectedCategory = this.viewData.categoryList.find(e => e.mct_id === id);
+    this.viewData.selectedCategory = this.viewData.categoryList.find(
+      (e) => e.mct_id === id
+    );
     model = this.viewData.selectedCategory;
-    
+
     this.model.id = model["mct_id"]; // to tell the form that this is an edition
 
     // fill replacement categories
-    this.viewData.replaceCategoryList = this.viewData.categoryList.filter(c => 
-      c.mct_id !== id
+    this.viewData.replaceCategoryList = this.viewData.categoryList.filter(
+      (c) => c.mct_id !== id
     );
 
     setTimeout(() => {
@@ -146,21 +154,28 @@ export class CategoryComponent implements OnInit {
   }
 
   async applyCategoryReplacement(oldCategoryId: string, newCategoryId: string) {
-    const oldCat = this.viewData.categoryList.find(c => c.mct_id === oldCategoryId);
-    const newCat = this.viewData.categoryList.find(c => c.mct_id === newCategoryId);
+    const oldCat = this.viewData.categoryList.find(
+      (c) => c.mct_id === oldCategoryId
+    );
+    const newCat = this.viewData.categoryList.find(
+      (c) => c.mct_id === newCategoryId
+    );
 
-    const response = await this.categoryService.replaceCategory(oldCategoryId, newCategoryId);
+    const response = await this.categoryService.replaceCategory(
+      oldCategoryId,
+      newCategoryId
+    );
 
     if (response.success) {
       // success applying changes in server, now update client side data
-      oldCat['movementList'].forEach((mov: Movement) => {
+      oldCat["movementList"].forEach((mov: Movement) => {
         mov.mov_id_category = newCategoryId;
         mov.mov_txt_category = newCat.mct_name;
 
-        newCat['movementList'].push(mov);
+        newCat["movementList"].push(mov);
       });
 
-      oldCat['movementList'] = [];
+      oldCat["movementList"] = [];
     }
 
     // notify user of processing result
@@ -168,16 +183,20 @@ export class CategoryComponent implements OnInit {
   }
 
   async deleteItem(categoryId: string) {
-    const item: Category = this.viewData.categoryList.find(e => e.mct_id === categoryId);
+    const item: Category = this.viewData.categoryList.find(
+      (e) => e.mct_id === categoryId
+    );
     const result: requestResult = await this.categoryService.deleteItem(item);
-    
+
     if (result.success) {
-      const itemIndex = this.viewData.categoryList.findIndex(e => e.mct_id === categoryId);
+      const itemIndex = this.viewData.categoryList.findIndex(
+        (e) => e.mct_id === categoryId
+      );
       this.viewData.categoryList.splice(itemIndex, 1);
-      this.notificationService.notify('Category deleted successfully');
+      this.notificationService.notify("Category deleted successfully");
       this.viewData.selectedCategory = null;
     } else {
-      console.log(result.errors, 'Error deleting category');
+      console.log(result.errors, "Error deleting category");
       this.notificationService.notify(result.message);
     }
   }

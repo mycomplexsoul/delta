@@ -1,3 +1,4 @@
+/// <reference types="mocha" />
 import { MoInstallSQL } from "./MoInstallSQL";
 import { equal } from "assert";
 import { Task } from "../crosscommon/entities/Task";

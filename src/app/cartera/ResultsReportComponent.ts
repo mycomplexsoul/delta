@@ -1,15 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ResultsReportService } from "./ResultsReportService";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { Title } from "@angular/platform-browser";
 import { Timeline } from "../../crosscommon/entities/Timeline";
 
 @Component({
-    selector: "results-report",
-    templateUrl: "./ResultsReport.html",
-    styleUrls: ["./ResultsReport.css"],
-    providers: [ResultsReportService],
-    standalone: false
+  selector: "results-report",
+  templateUrl: "./ResultsReport.html",
+  styleUrls: ["./ResultsReport.css"],
+  providers: [ResultsReportService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ResultsReportComponent implements OnInit {
   public viewData: {
@@ -45,7 +46,7 @@ export class ResultsReportComponent implements OnInit {
     month: 0,
     displayYearMonth: null,
     timelineList: [],
-    showSigns: false
+    showSigns: false,
   };
 
   parseQueryString() {
@@ -65,9 +66,7 @@ export class ResultsReportComponent implements OnInit {
     private titleService: Title
   ) {
     this.parseQueryString();
-    this.viewData.title = `Estado de Resultados ${
-      this.viewData.displayYearMonth
-    } FFJ78`;
+    this.viewData.title = `Estado de Resultados ${this.viewData.displayYearMonth} FFJ78`;
     titleService.setTitle(this.viewData.title);
   }
 
@@ -86,7 +85,7 @@ export class ResultsReportComponent implements OnInit {
     this.ResultsReportService.getResultsForMonth(
       this.viewData.year,
       this.viewData.month
-    ).then(response => {
+    ).then((response) => {
       const { movementList, initialBalance, timeline } = response;
 
       this.viewData.movementList = movementList;
@@ -95,11 +94,11 @@ export class ResultsReportComponent implements OnInit {
       // calculate pending totals
       this.viewData.initialBalance = initialBalance;
       this.viewData.incomeTotal = this.sumByField(
-        this.viewData.movementList.filter(e => e.type.includes("income")),
+        this.viewData.movementList.filter((e) => e.type.includes("income")),
         "amount"
       );
       this.viewData.expenseTotal = this.sumByField(
-        this.viewData.movementList.filter(e => e.type.includes("expense")),
+        this.viewData.movementList.filter((e) => e.type.includes("expense")),
         "amount"
       );
       this.viewData.finalBalance =
@@ -121,49 +120,49 @@ export class ResultsReportComponent implements OnInit {
     renderList.push({
       concept: "Ingresos",
       amount: 0,
-      type: "header"
+      type: "header",
     });
 
     this.viewData.movementList
-      .filter(e => e.type.includes("income"))
-      .forEach(e => {
+      .filter((e) => e.type.includes("income"))
+      .forEach((e) => {
         renderList.push({
           ...e,
-          type: "movement"
+          type: "movement",
         });
       });
 
     renderList.push({
       concept: "Total ingresos",
       amount: this.viewData.incomeTotal,
-      type: "total"
+      type: "total",
     });
 
     renderList.push({
       concept: "Egresos",
       amount: 0,
-      type: "header"
+      type: "header",
     });
 
     this.viewData.movementList
-      .filter(e => e.type.includes("expense"))
-      .forEach(e => {
+      .filter((e) => e.type.includes("expense"))
+      .forEach((e) => {
         renderList.push({
           ...e,
-          type: "movement"
+          type: "movement",
         });
       });
 
     renderList.push({
       concept: "Total egresos",
       amount: this.viewData.expenseTotal,
-      type: "total"
+      type: "total",
     });
 
     renderList.push({
       concept: "Balance del periodo",
       amount: this.viewData.incomeTotal - this.viewData.expenseTotal,
-      type: "total"
+      type: "total",
     });
 
     this.viewData.renderList = renderList;

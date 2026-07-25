@@ -1,4 +1,9 @@
-import { Component, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Place } from "../../crosscommon/entities/Place";
 import { PlaceService } from "./place.service";
 import { NgForm } from "@angular/forms";
@@ -8,10 +13,11 @@ import { MovementService } from "./movement.service";
 import { Movement } from "../../crosscommon/entities/Movement";
 
 @Component({
-    selector: "place",
-    templateUrl: "./place.template.html",
-    providers: [PlaceService, MovementService],
-    standalone: false
+  selector: "place",
+  templateUrl: "./place.template.html",
+  providers: [PlaceService, MovementService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class PlaceComponent implements OnInit {
   public viewData: {
@@ -21,13 +27,13 @@ export class PlaceComponent implements OnInit {
   } = {
     placeList: [],
     movementList: [],
-    showItemForm: false
+    showItemForm: false,
   };
 
   public model: {
     id: string;
   } = {
-    id: null
+    id: null,
   };
   public common: CommonComponent<Place> = null;
 
@@ -41,11 +47,11 @@ export class PlaceComponent implements OnInit {
   ngOnInit() {
     Promise.all([
       this.placeService.getAll(),
-      this.movementService.getAll()
+      this.movementService.getAll(),
     ]).then(([placeList, movementList]: [Place[], Movement[]]) => {
       this.viewData.movementList = movementList;
 
-      this.viewData.placeList = placeList.map(place => {
+      this.viewData.placeList = placeList.map((place) => {
         place["movementList"] = movementList.filter(
           ({ mov_id_place }) => mov_id_place === place.mpl_id
         );
@@ -61,16 +67,16 @@ export class PlaceComponent implements OnInit {
         form,
         model: this.model,
         listing: this.viewData.placeList,
-        onFindExpression: item => item.mpl_id === this.model.id,
+        onFindExpression: (item) => item.mpl_id === this.model.id,
         onAssignForEdit: (item, formValues) => {
           const newItem = new Place(item);
           newItem.mpl_name = formValues.fName;
           return newItem;
         },
-        onUpdateItemService: item => this.placeService.updateItem(item),
+        onUpdateItemService: (item) => this.placeService.updateItem(item),
         onFinalExecution: () => {
           this.model.id = null;
-        }
+        },
       });
     } else {
       // new item
@@ -78,16 +84,16 @@ export class PlaceComponent implements OnInit {
         form,
         listing: this.viewData.placeList,
         onFindExpression: (item, newItem) => item.mpl_id === newItem.mpl_id,
-        onAssignForCreate: formValues => {
+        onAssignForCreate: (formValues) => {
           const newItem = new Place({
-            mpl_name: formValues.fName
+            mpl_name: formValues.fName,
           });
           return newItem;
         },
-        onNewItemService: item => this.placeService.newItem(item),
+        onNewItemService: (item) => this.placeService.newItem(item),
         onFinalExecution: () => {
           this.viewData.showItemForm = false;
-        }
+        },
       });
     }
 
@@ -108,7 +114,7 @@ export class PlaceComponent implements OnInit {
       this.viewData.showItemForm = !this.viewData.showItemForm;
     }
 
-    model = this.viewData.placeList.find(e => e.mpl_id === id);
+    model = this.viewData.placeList.find((e) => e.mpl_id === id);
     this.model.id = model["mpl_id"]; // to tell the form that this is an edition
 
     setTimeout(() => {

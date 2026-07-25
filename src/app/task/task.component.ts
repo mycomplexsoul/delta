@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Task } from "../../crosscommon/entities/Task";
 import { DateUtils } from "../../crosscommon/DateUtility";
 import { TaskCore } from "./task.core";
@@ -13,6 +18,7 @@ const noop = () => {};
   templateUrl: "./task.template.html",
   styleUrls: ["./task.css"],
   providers: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TaskComponent implements OnInit {

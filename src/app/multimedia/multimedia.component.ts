@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 // types
@@ -30,6 +30,7 @@ import { NotificationService } from "../common/notification.service";
     MultimediaViewService,
     SyncAPI,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class MultimediaComponent {

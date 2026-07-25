@@ -1,0 +1,1 @@
+{"version":3,"file":"AccountServer.d.ts","sourceRoot":"./","sources":["src/server/Account/AccountServer.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,KAAK,EAAE,MAAM,UAAU,CAAC;AAIjC,qBAAa,aAAa;IACxB,OAAO,CAAC,GAAG,CAA2C;IAEtD,IAAI,GAAI,MAAM,KAAK,UAMjB;IAEF,oBAAoB,qCAAiC;IACrD,MAAM,2CAAmB;IAEzB,oBAAoB,qCAAiC;IACrD,MAAM,oDAAmB;CAC1B"}

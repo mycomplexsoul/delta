@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CarteraProvision } from "../../crosscommon/entities/CarteraProvision";
 import { UnitStatusService } from "./UnitStatusService";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
@@ -9,11 +9,12 @@ import { CarteraPayDet } from "src/crosscommon/entities/CarteraPayDet";
 const UNIT_LABEL = "Departamento";
 
 @Component({
-    selector: "unit-status-report",
-    templateUrl: "./UnitStatusReport.html",
-    styleUrls: ["./UnitStatusReport.css"],
-    providers: [UnitStatusService],
-    standalone: false
+  selector: "unit-status-report",
+  templateUrl: "./UnitStatusReport.html",
+  styleUrls: ["./UnitStatusReport.css"],
+  providers: [UnitStatusService],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class UnitStatusReportComponent implements OnInit {
   public viewData: {
@@ -181,9 +182,10 @@ export class UnitStatusReportComponent implements OnInit {
           (mov.type === "PROVISION" ? -1 * mov.amount : mov.amount);
       });
 
-      this.viewData.finalBalance = this.viewData.movementList[
-        this.viewData.movementList.length - 1
-      ].balance;
+      this.viewData.finalBalance =
+        this.viewData.movementList[
+          this.viewData.movementList.length - 1
+        ].balance;
 
       // set future provisions
       this.viewData.futureProvisionList = this.viewData.provisionList

@@ -1,4 +1,9 @@
-import { Component, OnInit, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { TasksCore } from "./tasks.core";
 import { SyncAPI } from "../common/sync.api";
@@ -19,6 +24,7 @@ import "chartjs-adapter-date-fns";
   templateUrl: "./tasks.template.html",
   styleUrls: ["./tasks.css"],
   providers: [TasksCore, TaskIndicator],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TasksComponent implements OnInit {

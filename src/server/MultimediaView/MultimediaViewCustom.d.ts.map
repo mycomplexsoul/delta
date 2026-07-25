@@ -1,0 +1,1 @@
+{"version":3,"file":"MultimediaViewCustom.d.ts","sourceRoot":"./","sources":["src/server/MultimediaView/MultimediaViewCustom.ts"],"names":[],"mappings":"AAGA,qBAAa,oBAAoB;IAC/B,OAAO,CAAC,GAAG,CAAkD;IAE7D,kBAAkB,2CAA+B;IACjD,IAAI,+BAAiB;IAErB,oBAAoB,wDAAiC;IACrD,MAAM,2CAAmB;IAEzB,oBAAoB,wDAAiC;IACrD,MAAM,oDAAmB;CAC1B"}

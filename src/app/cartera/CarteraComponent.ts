@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CarteraService } from "./CarteraService";
 import { CarteraProvision } from "../../crosscommon/entities/CarteraProvision";
 import { CarteraPayment } from "src/crosscommon/entities/CarteraPayment";
@@ -21,6 +21,7 @@ const UNIT_LIST: string[] | number[] = [
   templateUrl: "./Cartera.html",
   styleUrls: ["./Cartera.css"],
   providers: [CarteraService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CarteraComponent implements OnInit {
