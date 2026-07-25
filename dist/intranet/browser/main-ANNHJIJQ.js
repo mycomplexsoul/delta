@@ -68896,6 +68896,300 @@ NgChartsModule.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
   }, null);
 })();
 
+// src/app/task/Stopwatch.component.ts
+function StopwatchComponent_div_12_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 9)(1, "button", 10);
+    \u0275\u0275listener("click", function StopwatchComponent_div_12_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.start());
+    });
+    \u0275\u0275text(2, "Start");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "button", 10);
+    \u0275\u0275listener("click", function StopwatchComponent_div_12_Template_button_click_3_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.pause());
+    });
+    \u0275\u0275text(4, "Pause");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "button", 6);
+    \u0275\u0275listener("click", function StopwatchComponent_div_12_Template_button_click_5_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.stop());
+    });
+    \u0275\u0275text(6, "Stop");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "button", 6);
+    \u0275\u0275listener("click", function StopwatchComponent_div_12_Template_button_click_7_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.reset());
+    });
+    \u0275\u0275text(8, "Reset");
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275property("disabled", ctx_r1.running);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("disabled", !ctx_r1.running);
+  }
+}
+var StopwatchComponent = class _StopwatchComponent {
+  timer;
+  running = false;
+  startTimestamp = 0;
+  elapsedMs = 0;
+  STORAGE_KEY = "StopwatchTimestamp";
+  showControls = false;
+  keydownHandler;
+  keydownTarget = null;
+  ngOnInit() {
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    if (stored) {
+      const ts = parseInt(stored, 10);
+      if (!isNaN(ts)) {
+        this.startTimestamp = ts;
+        this.running = true;
+        this.timer = setInterval(() => {
+        }, 1e3);
+      }
+    }
+    this.keydownHandler = (e2) => this.handleHotkey(e2);
+    this.keydownTarget = document.body || document;
+    if (this.keydownTarget instanceof EventTarget) {
+      this.keydownTarget.addEventListener("keydown", this.keydownHandler, true);
+    }
+  }
+  get displayTime() {
+    const totalMs = this.running ? Date.now() - this.startTimestamp : this.elapsedMs;
+    let totalSeconds = Math.floor(totalMs / 1e3);
+    let negative = false;
+    if (totalSeconds < 0) {
+      negative = true;
+      totalSeconds = Math.abs(totalSeconds);
+    }
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor(totalSeconds % 3600 / 60);
+    const seconds = totalSeconds % 60;
+    return `${negative ? "-" : ""}${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+  }
+  get readableDate() {
+    if (!this.startTimestamp)
+      return "";
+    const date = new Date(this.startTimestamp);
+    return this.formatFullDate(date);
+  }
+  get timeInputValue() {
+    const date = new Date(this.startTimestamp || Date.now());
+    const h5 = this.pad(date.getHours());
+    const m4 = this.pad(date.getMinutes());
+    const s4 = this.pad(date.getSeconds());
+    return `${h5}:${m4}:${s4}`;
+  }
+  pad(val) {
+    return val < 10 ? "0" + val : val.toString();
+  }
+  formatFullDate(date) {
+    const days = [
+      "Domingo",
+      "Lunes",
+      "Martes",
+      "Mi\xE9rcoles",
+      "Jueves",
+      "Viernes",
+      "S\xE1bado"
+    ];
+    const months = [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ];
+    const dayName = days[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${dayName} ${day} de ${month} de ${year}`;
+  }
+  start() {
+    if (!this.running) {
+      this.running = true;
+      this.startTimestamp = Date.now();
+      this.saveTimestamp();
+      this.timer = setInterval(() => {
+      }, 1e3);
+    }
+  }
+  pause() {
+    if (this.running) {
+      this.elapsedMs += Date.now() - this.startTimestamp;
+      clearInterval(this.timer);
+      this.running = false;
+    }
+  }
+  stop() {
+    this.pause();
+    this.elapsedMs = 0;
+  }
+  reset() {
+    this.elapsedMs = 0;
+    if (this.running) {
+      this.startTimestamp = Date.now();
+      this.saveTimestamp();
+    }
+  }
+  onTimeInput(event) {
+    const val = event.target.value;
+    if (val) {
+      const [h5, m4, s4] = val.split(":").map(Number);
+      const now = /* @__PURE__ */ new Date();
+      now.setHours(h5, m4, s4 || 0, 0);
+      this.startTimestamp = now.getTime();
+      this.saveTimestamp();
+      if (this.running) {
+        this.elapsedMs = Date.now() - this.startTimestamp;
+      }
+    }
+  }
+  addMinutes(minutes) {
+    this.startTimestamp += minutes * 60 * 1e3;
+    this.saveTimestamp();
+  }
+  toggleControls() {
+    this.showControls = !this.showControls;
+  }
+  handleHotkey(e2) {
+    if (e2.ctrlKey && e2.altKey && e2.key.toLowerCase() === "m") {
+      e2.preventDefault();
+      this.addMinutes(15);
+    }
+  }
+  ngOnDestroy() {
+    if (this.keydownHandler && this.keydownTarget) {
+      this.keydownTarget.removeEventListener("keydown", this.keydownHandler);
+    }
+  }
+  saveTimestamp() {
+    localStorage.setItem(this.STORAGE_KEY, this.startTimestamp.toString());
+  }
+  static \u0275fac = function StopwatchComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _StopwatchComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _StopwatchComponent, selectors: [["app-stopwatch"]], decls: 20, vars: 5, consts: [[1, "stopwatch-timestamp-edit"], ["type", "time", "step", "1", 3, "input", "value"], [1, "stopwatch-date"], [1, "stopwatch-container"], [1, "stopwatch-time"], [1, "stopwatch-toggle-and-controls"], [3, "click"], ["class", "stopwatch-controls", 4, "ngIf"], [1, "add-minutes-group"], [1, "stopwatch-controls"], [3, "click", "disabled"]], template: function StopwatchComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "div", 0)(1, "label");
+      \u0275\u0275text(2, "Timestamp inicial:");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(3, "input", 1);
+      \u0275\u0275listener("input", function StopwatchComponent_Template_input_input_3_listener($event) {
+        return ctx.onTimeInput($event);
+      });
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(4, "span", 2);
+      \u0275\u0275text(5);
+      \u0275\u0275elementEnd()();
+      \u0275\u0275elementStart(6, "div", 3)(7, "span", 4);
+      \u0275\u0275text(8);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(9, "div", 5)(10, "button", 6);
+      \u0275\u0275listener("click", function StopwatchComponent_Template_button_click_10_listener() {
+        return ctx.toggleControls();
+      });
+      \u0275\u0275text(11);
+      \u0275\u0275elementEnd();
+      \u0275\u0275template(12, StopwatchComponent_div_12_Template, 9, 2, "div", 7);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(13, "div", 8)(14, "button", 6);
+      \u0275\u0275listener("click", function StopwatchComponent_Template_button_click_14_listener() {
+        return ctx.addMinutes(15);
+      });
+      \u0275\u0275text(15, "+15min");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(16, "button", 6);
+      \u0275\u0275listener("click", function StopwatchComponent_Template_button_click_16_listener() {
+        return ctx.addMinutes(30);
+      });
+      \u0275\u0275text(17, "+30min");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(18, "button", 6);
+      \u0275\u0275listener("click", function StopwatchComponent_Template_button_click_18_listener() {
+        return ctx.addMinutes(60);
+      });
+      \u0275\u0275text(19, "+60min");
+      \u0275\u0275elementEnd()()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(3);
+      \u0275\u0275property("value", ctx.timeInputValue);
+      \u0275\u0275advance(2);
+      \u0275\u0275textInterpolate(ctx.readableDate);
+      \u0275\u0275advance(3);
+      \u0275\u0275textInterpolate(ctx.displayTime);
+      \u0275\u0275advance(3);
+      \u0275\u0275textInterpolate1(" ", ctx.showControls ? "Ocultar" : "Mostrar", " controles ");
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.showControls);
+    }
+  }, dependencies: [CommonModule, NgIf], styles: ["\n.stopwatch-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-toggle-and-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.add-minutes-group[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-left: 8px;\n}\n.stopwatch-time[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  min-width: 90px;\n  text-align: center;\n}\nbutton[_ngcontent-%COMP%] {\n  padding: 4px 10px;\n}\n.stopwatch-timestamp-edit[_ngcontent-%COMP%] {\n  margin-top: 8px;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.stopwatch-timestamp-edit[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 120px;\n  text-align: center;\n}\n.stopwatch-date[_ngcontent-%COMP%] {\n  margin-left: 10px;\n  font-size: 1em;\n  color: #555;\n  min-width: 200px;\n}\n/*# sourceMappingURL=Stopwatch.component-2ZHHWKD5.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(StopwatchComponent, [{
+    type: Component,
+    args: [{ standalone: true, imports: [CommonModule], selector: "app-stopwatch", template: `
+    <div class="stopwatch-timestamp-edit">
+      <label>Timestamp inicial:</label>
+      <input
+        type="time"
+        [value]="timeInputValue"
+        (input)="onTimeInput($event)"
+        step="1"
+      />
+      <span class="stopwatch-date">{{ readableDate }}</span>
+    </div>
+    <div class="stopwatch-container">
+      <span class="stopwatch-time">{{ displayTime }}</span>
+
+      <div class="stopwatch-toggle-and-controls">
+        <button (click)="toggleControls()">
+          {{ showControls ? "Ocultar" : "Mostrar" }} controles
+        </button>
+
+        <div class="stopwatch-controls" *ngIf="showControls">
+          <button (click)="start()" [disabled]="running">Start</button>
+          <button (click)="pause()" [disabled]="!running">Pause</button>
+          <button (click)="stop()">Stop</button>
+          <button (click)="reset()">Reset</button>
+        </div>
+      </div>
+
+      <div class="add-minutes-group">
+        <button (click)="addMinutes(15)">+15min</button>
+        <button (click)="addMinutes(30)">+30min</button>
+        <button (click)="addMinutes(60)">+60min</button>
+      </div>
+    </div>
+  `, styles: ["/* angular:styles/component:css;5c69346132dd46870a41ee918a01ac7d56d3b5080bd2fc2d9b738440ca642a20;C:/data/code/intranet-copy/src/app/task/Stopwatch.component.ts */\n.stopwatch-container {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-toggle-and-controls {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.add-minutes-group {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-left: 8px;\n}\n.stopwatch-time {\n  font-size: 1.2em;\n  min-width: 90px;\n  text-align: center;\n}\nbutton {\n  padding: 4px 10px;\n}\n.stopwatch-timestamp-edit {\n  margin-top: 8px;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.stopwatch-timestamp-edit input {\n  width: 120px;\n  text-align: center;\n}\n.stopwatch-date {\n  margin-left: 10px;\n  font-size: 1em;\n  color: #555;\n  min-width: 200px;\n}\n/*# sourceMappingURL=Stopwatch.component-2ZHHWKD5.css.map */\n"] }]
+  }], null, null);
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(StopwatchComponent, { className: "StopwatchComponent", filePath: "src/app/task/stopwatch.component.ts", lineNumber: 92 });
+})();
+
 // src/app/task/task.core.ts
 var ALL_TASK_STATUS = {
   BACKLOG: 1,
@@ -70690,131 +70984,131 @@ function TasksComponent_Conditional_11_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.state.beforeAddETA);
   }
 }
-function TasksComponent_Conditional_12_Conditional_44_Template(rf, ctx) {
+function TasksComponent_Conditional_12_Conditional_43_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 53);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_1_listener($event) {
+    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 54);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_1_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "checkbox-option", 54);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_2_listener($event) {
+    \u0275\u0275elementStart(2, "checkbox-option", 55);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_2_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "checkbox-option", 55);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_3_listener($event) {
+    \u0275\u0275elementStart(3, "checkbox-option", 56);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_3_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "checkbox-option", 56);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_4_listener($event) {
+    \u0275\u0275elementStart(4, "checkbox-option", 57);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_4_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "checkbox-option", 57);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_5_listener($event) {
+    \u0275\u0275elementStart(5, "checkbox-option", 58);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_5_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "checkbox-option", 58);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_6_listener($event) {
+    \u0275\u0275elementStart(6, "checkbox-option", 59);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_6_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "checkbox-option", 59);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_7_listener($event) {
+    \u0275\u0275elementStart(7, "checkbox-option", 60);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "checkbox-option", 60);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_8_listener($event) {
+    \u0275\u0275elementStart(8, "checkbox-option", 61);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_8_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 61);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_9_listener($event) {
+    \u0275\u0275elementStart(9, "checkbox-option", 62);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 62);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_10_listener($event) {
+    \u0275\u0275elementStart(10, "checkbox-option", 63);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 63);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_11_listener($event) {
+    \u0275\u0275elementStart(11, "checkbox-option", 64);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 64);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_12_listener($event) {
+    \u0275\u0275elementStart(12, "checkbox-option", 65);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 65);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_13_listener($event) {
+    \u0275\u0275elementStart(13, "checkbox-option", 66);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "checkbox-option", 66);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_14_listener($event) {
+    \u0275\u0275elementStart(14, "checkbox-option", 67);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_14_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "checkbox-option", 67);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_15_listener($event) {
+    \u0275\u0275elementStart(15, "checkbox-option", 68);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_15_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "checkbox-option", 68);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_44_Template_checkbox_option_onClick_16_listener($event) {
+    \u0275\u0275elementStart(16, "checkbox-option", 69);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
@@ -70871,506 +71165,505 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     });
     \u0275\u0275text(3, " delete all tasks ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_12_Template_button_click_4_listener() {
+    \u0275\u0275element(4, "br");
+    \u0275\u0275elementStart(5, "div", 26);
+    \u0275\u0275text(6, "Showing / hiding sections");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "checkbox-option", 27);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.clearNextTasks());
+      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
-    \u0275\u0275text(5, "clear next tasks listing");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(6, "br");
-    \u0275\u0275elementStart(7, "div", 26);
-    \u0275\u0275text(8, "Showing / hiding sections");
+    \u0275\u0275elementStart(8, "checkbox-option", 28);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_8_listener($event) {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
+    });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 27);
+    \u0275\u0275elementStart(9, "checkbox-option", 29);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 28);
+    \u0275\u0275elementStart(10, "checkbox-option", 30);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 29);
+    \u0275\u0275elementStart(11, "checkbox-option", 31);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 30);
+    \u0275\u0275elementStart(12, "checkbox-option", 32);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 31);
+    \u0275\u0275elementStart(13, "checkbox-option", 33);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "checkbox-option", 32);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_14_listener($event) {
+    \u0275\u0275elementStart(14, "div", 26);
+    \u0275\u0275text(15, "Customize features");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(16, "checkbox-option", 34);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "checkbox-option", 33);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_15_listener($event) {
+    \u0275\u0275elementStart(17, "checkbox-option", 35);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_17_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "div", 26);
-    \u0275\u0275text(17, "Customize features");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "checkbox-option", 34);
+    \u0275\u0275elementStart(18, "checkbox-option", 36);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_18_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "checkbox-option", 35);
+    \u0275\u0275elementStart(19, "checkbox-option", 37);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_19_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "checkbox-option", 36);
+    \u0275\u0275elementStart(20, "checkbox-option", 38);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_20_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "checkbox-option", 37);
+    \u0275\u0275elementStart(21, "checkbox-option", 39);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_21_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "checkbox-option", 38);
+    \u0275\u0275elementStart(22, "checkbox-option", 40);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_22_listener($event) {
-      \u0275\u0275restoreView(_r9);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(23, "checkbox-option", 39);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_23_listener($event) {
-      \u0275\u0275restoreView(_r9);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "checkbox-option", 40);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_24_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "checkbox-option", 41);
+    \u0275\u0275elementStart(23, "checkbox-option", 41);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_23_listener($event) {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(24, "checkbox-option", 42);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_24_listener($event) {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(25, "checkbox-option", 43);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_25_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "checkbox-option", 42);
+    \u0275\u0275elementStart(26, "checkbox-option", 44);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_26_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(27, "checkbox-option", 43);
+    \u0275\u0275elementStart(27, "checkbox-option", 45);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_27_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "checkbox-option", 44);
+    \u0275\u0275elementStart(28, "checkbox-option", 46);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_28_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "checkbox-option", 45);
+    \u0275\u0275elementStart(29, "checkbox-option", 47);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_29_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "checkbox-option", 46);
+    \u0275\u0275elementStart(30, "checkbox-option", 48);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_30_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(31, "checkbox-option", 47);
+    \u0275\u0275elementStart(31, "checkbox-option", 49);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_31_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "checkbox-option", 48);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_32_listener($event) {
-      \u0275\u0275restoreView(_r9);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(33, "div")(34, "input", 49);
-    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_34_listener($event) {
+    \u0275\u0275elementStart(32, "div")(33, "input", 50);
+    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_33_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.options.optRecordWidth, $event) || (ctx_r1.options.optRecordWidth = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_34_listener($event) {
+    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_33_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.saveOption("optRecordWidth", $event.target.valueAsNumber));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(35, "label");
-    \u0275\u0275text(36, "Record listing width (in px, desktop only, minimum is 200)");
+    \u0275\u0275elementStart(34, "label");
+    \u0275\u0275text(35, "Record listing width (in px, desktop only, minimum is 200)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(37, "div")(38, "input", 50);
-    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_38_listener($event) {
+    \u0275\u0275elementStart(36, "div")(37, "input", 51);
+    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_37_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.options.optRecordHeight, $event) || (ctx_r1.options.optRecordHeight = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_38_listener($event) {
+    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_37_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.saveOption("optRecordHeight", $event.target.valueAsNumber));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(39, "label");
-    \u0275\u0275text(40, "Record listing height (in px, desktop only)");
+    \u0275\u0275elementStart(38, "label");
+    \u0275\u0275text(39, "Record listing height (in px, desktop only)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(41, "div", 26);
-    \u0275\u0275text(42, "Showing / hiding Indicators");
+    \u0275\u0275elementStart(40, "div", 26);
+    \u0275\u0275text(41, "Showing / hiding Indicators");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(43, "checkbox-option", 51);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_43_listener($event) {
+    \u0275\u0275elementStart(42, "checkbox-option", 52);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_42_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(44, TasksComponent_Conditional_12_Conditional_44_Template, 17, 16, "div");
-    \u0275\u0275elementStart(45, "div")(46, "div", 26);
-    \u0275\u0275text(47, "Keyboard Shortcuts Reference");
+    \u0275\u0275conditionalCreate(43, TasksComponent_Conditional_12_Conditional_43_Template, 17, 16, "div");
+    \u0275\u0275elementStart(44, "div")(45, "div", 26);
+    \u0275\u0275text(46, "Keyboard Shortcuts Reference");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(48, "table")(49, "thead")(50, "tr")(51, "th");
-    \u0275\u0275text(52, "Keys");
+    \u0275\u0275elementStart(47, "table")(48, "thead")(49, "tr")(50, "th");
+    \u0275\u0275text(51, "Keys");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(53, "th");
-    \u0275\u0275text(54, "Where");
+    \u0275\u0275elementStart(52, "th");
+    \u0275\u0275text(53, "Where");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(55, "th");
-    \u0275\u0275text(56, "Action");
+    \u0275\u0275elementStart(54, "th");
+    \u0275\u0275text(55, "Action");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(57, "tbody")(58, "tr")(59, "td")(60, "kbd");
-    \u0275\u0275text(61, "F2");
+    \u0275\u0275elementStart(56, "tbody")(57, "tr")(58, "td")(59, "kbd");
+    \u0275\u0275text(60, "F2");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(62, "td");
-    \u0275\u0275text(63, "In task");
+    \u0275\u0275elementStart(61, "td");
+    \u0275\u0275text(62, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(64, "td");
-    \u0275\u0275text(65, "Start/Stop task time tracking");
+    \u0275\u0275elementStart(63, "td");
+    \u0275\u0275text(64, "Start/Stop task time tracking");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(66, "tr")(67, "td")(68, "kbd");
-    \u0275\u0275text(69, "Alt");
+    \u0275\u0275elementStart(65, "tr")(66, "td")(67, "kbd");
+    \u0275\u0275text(68, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(70, " + ");
-    \u0275\u0275elementStart(71, "kbd");
-    \u0275\u0275text(72, "1");
+    \u0275\u0275text(69, " + ");
+    \u0275\u0275elementStart(70, "kbd");
+    \u0275\u0275text(71, "1");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(73, "td");
-    \u0275\u0275text(74, "In task");
+    \u0275\u0275elementStart(72, "td");
+    \u0275\u0275text(73, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(75, "td");
-    \u0275\u0275text(76, "Marks task as completed");
+    \u0275\u0275elementStart(74, "td");
+    \u0275\u0275text(75, "Marks task as completed");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(77, "tr")(78, "td")(79, "kbd");
-    \u0275\u0275text(80, "Alt");
+    \u0275\u0275elementStart(76, "tr")(77, "td")(78, "kbd");
+    \u0275\u0275text(79, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(81, " + ");
-    \u0275\u0275elementStart(82, "kbd");
-    \u0275\u0275text(83, "2");
+    \u0275\u0275text(80, " + ");
+    \u0275\u0275elementStart(81, "kbd");
+    \u0275\u0275text(82, "2");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(84, "td");
-    \u0275\u0275text(85, "In task");
+    \u0275\u0275elementStart(83, "td");
+    \u0275\u0275text(84, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(86, "td");
-    \u0275\u0275text(87, "Toggle qualifier: star");
+    \u0275\u0275elementStart(85, "td");
+    \u0275\u0275text(86, "Toggle qualifier: star");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(88, "tr")(89, "td")(90, "kbd");
-    \u0275\u0275text(91, "Alt");
+    \u0275\u0275elementStart(87, "tr")(88, "td")(89, "kbd");
+    \u0275\u0275text(90, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(92, " + ");
-    \u0275\u0275elementStart(93, "kbd");
-    \u0275\u0275text(94, "3");
+    \u0275\u0275text(91, " + ");
+    \u0275\u0275elementStart(92, "kbd");
+    \u0275\u0275text(93, "3");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(95, "td");
-    \u0275\u0275text(96, "In task");
+    \u0275\u0275elementStart(94, "td");
+    \u0275\u0275text(95, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(97, "td");
-    \u0275\u0275text(98, "Toggle qualifier: highlighted");
+    \u0275\u0275elementStart(96, "td");
+    \u0275\u0275text(97, "Toggle qualifier: highlighted");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(99, "tr")(100, "td")(101, "kbd");
-    \u0275\u0275text(102, "Alt");
+    \u0275\u0275elementStart(98, "tr")(99, "td")(100, "kbd");
+    \u0275\u0275text(101, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(103, " + ");
-    \u0275\u0275elementStart(104, "kbd");
-    \u0275\u0275text(105, "4");
+    \u0275\u0275text(102, " + ");
+    \u0275\u0275elementStart(103, "kbd");
+    \u0275\u0275text(104, "4");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(106, "td");
-    \u0275\u0275text(107, "In task");
+    \u0275\u0275elementStart(105, "td");
+    \u0275\u0275text(106, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(108, "td");
-    \u0275\u0275text(109, "Toggle qualifier: priority");
+    \u0275\u0275elementStart(107, "td");
+    \u0275\u0275text(108, "Toggle qualifier: priority");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(110, "tr")(111, "td")(112, "kbd");
-    \u0275\u0275text(113, "Alt");
+    \u0275\u0275elementStart(109, "tr")(110, "td")(111, "kbd");
+    \u0275\u0275text(112, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(114, " + ");
-    \u0275\u0275elementStart(115, "kbd");
-    \u0275\u0275text(116, "5");
+    \u0275\u0275text(113, " + ");
+    \u0275\u0275elementStart(114, "kbd");
+    \u0275\u0275text(115, "5");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(117, "td");
-    \u0275\u0275text(118, "In task");
+    \u0275\u0275elementStart(116, "td");
+    \u0275\u0275text(117, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(119, "td");
-    \u0275\u0275text(120, "Toggle qualifier: important");
+    \u0275\u0275elementStart(118, "td");
+    \u0275\u0275text(119, "Toggle qualifier: important");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(121, "tr")(122, "td")(123, "kbd");
-    \u0275\u0275text(124, "Alt");
+    \u0275\u0275elementStart(120, "tr")(121, "td")(122, "kbd");
+    \u0275\u0275text(123, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(125, " + ");
-    \u0275\u0275elementStart(126, "kbd");
-    \u0275\u0275text(127, "6");
+    \u0275\u0275text(124, " + ");
+    \u0275\u0275elementStart(125, "kbd");
+    \u0275\u0275text(126, "6");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(128, "td");
-    \u0275\u0275text(129, "In task");
+    \u0275\u0275elementStart(127, "td");
+    \u0275\u0275text(128, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(130, "td");
-    \u0275\u0275text(131, "Toggle qualifier: urgent");
+    \u0275\u0275elementStart(129, "td");
+    \u0275\u0275text(130, "Toggle qualifier: urgent");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(132, "tr")(133, "td")(134, "kbd");
-    \u0275\u0275text(135, "Alt");
+    \u0275\u0275elementStart(131, "tr")(132, "td")(133, "kbd");
+    \u0275\u0275text(134, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(136, " + ");
-    \u0275\u0275elementStart(137, "kbd");
-    \u0275\u0275text(138, "7");
+    \u0275\u0275text(135, " + ");
+    \u0275\u0275elementStart(136, "kbd");
+    \u0275\u0275text(137, "7");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(139, "td");
-    \u0275\u0275text(140, "In task");
+    \u0275\u0275elementStart(138, "td");
+    \u0275\u0275text(139, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(141, "td");
-    \u0275\u0275text(142, "Toggle qualifier: unexpected");
+    \u0275\u0275elementStart(140, "td");
+    \u0275\u0275text(141, "Toggle qualifier: unexpected");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(143, "tr")(144, "td")(145, "kbd");
-    \u0275\u0275text(146, "Alt");
+    \u0275\u0275elementStart(142, "tr")(143, "td")(144, "kbd");
+    \u0275\u0275text(145, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(147, " + ");
-    \u0275\u0275elementStart(148, "kbd");
-    \u0275\u0275text(149, "8");
+    \u0275\u0275text(146, " + ");
+    \u0275\u0275elementStart(147, "kbd");
+    \u0275\u0275text(148, "8");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(150, "td");
-    \u0275\u0275text(151, "In task");
+    \u0275\u0275elementStart(149, "td");
+    \u0275\u0275text(150, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(152, "td");
-    \u0275\u0275text(153, "Toggle qualifier: progressed");
+    \u0275\u0275elementStart(151, "td");
+    \u0275\u0275text(152, "Toggle qualifier: progressed");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(154, "tr")(155, "td")(156, "kbd");
-    \u0275\u0275text(157, "Alt");
+    \u0275\u0275elementStart(153, "tr")(154, "td")(155, "kbd");
+    \u0275\u0275text(156, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(158, " + ");
-    \u0275\u0275elementStart(159, "kbd");
-    \u0275\u0275text(160, "9");
+    \u0275\u0275text(157, " + ");
+    \u0275\u0275elementStart(158, "kbd");
+    \u0275\u0275text(159, "9");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(161, "td");
-    \u0275\u0275text(162, "In task");
+    \u0275\u0275elementStart(160, "td");
+    \u0275\u0275text(161, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(163, "td");
-    \u0275\u0275text(164, "Toggle qualifier: people");
+    \u0275\u0275elementStart(162, "td");
+    \u0275\u0275text(163, "Toggle qualifier: people");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(165, "tr")(166, "td")(167, "kbd");
-    \u0275\u0275text(168, "Alt");
+    \u0275\u0275elementStart(164, "tr")(165, "td")(166, "kbd");
+    \u0275\u0275text(167, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(169, " + ");
-    \u0275\u0275elementStart(170, "kbd");
-    \u0275\u0275text(171, "/");
+    \u0275\u0275text(168, " + ");
+    \u0275\u0275elementStart(169, "kbd");
+    \u0275\u0275text(170, "/");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(172, "td");
-    \u0275\u0275text(173, "In task");
+    \u0275\u0275elementStart(171, "td");
+    \u0275\u0275text(172, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(174, "td");
-    \u0275\u0275text(175, "Toggle qualifier: flag");
+    \u0275\u0275elementStart(173, "td");
+    \u0275\u0275text(174, "Toggle qualifier: flag");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(176, "tr")(177, "td")(178, "kbd");
-    \u0275\u0275text(179, "Alt");
+    \u0275\u0275elementStart(175, "tr")(176, "td")(177, "kbd");
+    \u0275\u0275text(178, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(180, " + ");
-    \u0275\u0275elementStart(181, "kbd");
-    \u0275\u0275text(182, "-");
+    \u0275\u0275text(179, " + ");
+    \u0275\u0275elementStart(180, "kbd");
+    \u0275\u0275text(181, "-");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(183, "td");
-    \u0275\u0275text(184, "In task");
+    \u0275\u0275elementStart(182, "td");
+    \u0275\u0275text(183, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(185, "td");
-    \u0275\u0275text(186, "Toggle qualifier: blocked");
+    \u0275\u0275elementStart(184, "td");
+    \u0275\u0275text(185, "Toggle qualifier: blocked");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(187, "tr")(188, "td")(189, "kbd");
-    \u0275\u0275text(190, "Alt");
+    \u0275\u0275elementStart(186, "tr")(187, "td")(188, "kbd");
+    \u0275\u0275text(189, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(191, " + ");
-    \u0275\u0275elementStart(192, "kbd");
-    \u0275\u0275text(193, "0");
+    \u0275\u0275text(190, " + ");
+    \u0275\u0275elementStart(191, "kbd");
+    \u0275\u0275text(192, "0");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(194, "td");
-    \u0275\u0275text(195, "In task");
+    \u0275\u0275elementStart(193, "td");
+    \u0275\u0275text(194, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(196, "td");
-    \u0275\u0275text(197, "Clear all qualifiers");
+    \u0275\u0275elementStart(195, "td");
+    \u0275\u0275text(196, "Clear all qualifiers");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(198, "tr")(199, "td")(200, "kbd");
-    \u0275\u0275text(201, "Alt");
+    \u0275\u0275elementStart(197, "tr")(198, "td")(199, "kbd");
+    \u0275\u0275text(200, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(202, " + ");
-    \u0275\u0275elementStart(203, "kbd");
-    \u0275\u0275text(204, "t");
+    \u0275\u0275text(201, " + ");
+    \u0275\u0275elementStart(202, "kbd");
+    \u0275\u0275text(203, "t");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(205, "td");
-    \u0275\u0275text(206, "In task");
+    \u0275\u0275elementStart(204, "td");
+    \u0275\u0275text(205, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(207, "td");
-    \u0275\u0275text(208, "Adjusts time tracking to an earlier available slot");
+    \u0275\u0275elementStart(206, "td");
+    \u0275\u0275text(207, "Adjusts time tracking to an earlier available slot");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(209, "tr")(210, "td")(211, "kbd");
-    \u0275\u0275text(212, "Alt");
+    \u0275\u0275elementStart(208, "tr")(209, "td")(210, "kbd");
+    \u0275\u0275text(211, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(213, " + ");
-    \u0275\u0275elementStart(214, "kbd");
-    \u0275\u0275text(215, "s");
+    \u0275\u0275text(212, " + ");
+    \u0275\u0275elementStart(213, "kbd");
+    \u0275\u0275text(214, "s");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(216, "td");
-    \u0275\u0275text(217, "In task");
+    \u0275\u0275elementStart(215, "td");
+    \u0275\u0275text(216, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(218, "td");
-    \u0275\u0275text(219, "Sets the task as selected and show details");
+    \u0275\u0275elementStart(217, "td");
+    \u0275\u0275text(218, "Sets the task as selected and show details");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(220, "tr")(221, "td")(222, "kbd");
-    \u0275\u0275text(223, "Alt");
+    \u0275\u0275elementStart(219, "tr")(220, "td")(221, "kbd");
+    \u0275\u0275text(222, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(224, " + ");
-    \u0275\u0275elementStart(225, "kbd");
-    \u0275\u0275text(226, "Supr");
+    \u0275\u0275text(223, " + ");
+    \u0275\u0275elementStart(224, "kbd");
+    \u0275\u0275text(225, "Supr");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(227, "td");
-    \u0275\u0275text(228, "In task");
+    \u0275\u0275elementStart(226, "td");
+    \u0275\u0275text(227, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(229, "td");
-    \u0275\u0275text(230, "Sets status cancelled");
+    \u0275\u0275elementStart(228, "td");
+    \u0275\u0275text(229, "Sets status cancelled");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(231, "tr")(232, "td")(233, "kbd");
-    \u0275\u0275text(234, "Alt");
+    \u0275\u0275elementStart(230, "tr")(231, "td")(232, "kbd");
+    \u0275\u0275text(233, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(235, " + ");
-    \u0275\u0275elementStart(236, "kbd");
-    \u0275\u0275text(237, "b");
+    \u0275\u0275text(234, " + ");
+    \u0275\u0275elementStart(235, "kbd");
+    \u0275\u0275text(236, "b");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(238, "td");
-    \u0275\u0275text(239, "In task");
+    \u0275\u0275elementStart(237, "td");
+    \u0275\u0275text(238, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(240, "td");
-    \u0275\u0275text(241, "Moves the task to backlog section");
+    \u0275\u0275elementStart(239, "td");
+    \u0275\u0275text(240, "Moves the task to backlog section");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(242, "tr")(243, "td")(244, "kbd");
-    \u0275\u0275text(245, "Alt");
+    \u0275\u0275elementStart(241, "tr")(242, "td")(243, "kbd");
+    \u0275\u0275text(244, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(246, " + ");
-    \u0275\u0275elementStart(247, "kbd");
-    \u0275\u0275text(248, "+");
+    \u0275\u0275text(245, " + ");
+    \u0275\u0275elementStart(246, "kbd");
+    \u0275\u0275text(247, "+");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(249, "td");
-    \u0275\u0275text(250, "In task");
+    \u0275\u0275elementStart(248, "td");
+    \u0275\u0275text(249, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(251, "td");
-    \u0275\u0275text(252, "Focus the new task input");
+    \u0275\u0275elementStart(250, "td");
+    \u0275\u0275text(251, "Focus the new task input");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(253, "tr")(254, "td")(255, "kbd");
-    \u0275\u0275text(256, "Alt");
+    \u0275\u0275elementStart(252, "tr")(253, "td")(254, "kbd");
+    \u0275\u0275text(255, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(257, " + ");
-    \u0275\u0275elementStart(258, "kbd");
-    \u0275\u0275text(259, "n");
+    \u0275\u0275text(256, " + ");
+    \u0275\u0275elementStart(257, "kbd");
+    \u0275\u0275text(258, "n");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(260, "td");
-    \u0275\u0275text(261, "In task");
+    \u0275\u0275elementStart(259, "td");
+    \u0275\u0275text(260, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(262, "td");
-    \u0275\u0275text(263, "Adds task to next task listing");
+    \u0275\u0275elementStart(261, "td");
+    \u0275\u0275text(262, "Adds task to next task listing");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(264, "tr")(265, "td")(266, "kbd");
-    \u0275\u0275text(267, "Alt");
+    \u0275\u0275elementStart(263, "tr")(264, "td")(265, "kbd");
+    \u0275\u0275text(266, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(268, " + ");
-    \u0275\u0275elementStart(269, "kbd");
-    \u0275\u0275text(270, "r");
+    \u0275\u0275text(267, " + ");
+    \u0275\u0275elementStart(268, "kbd");
+    \u0275\u0275text(269, "r");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(271, "td");
-    \u0275\u0275text(272, "In task");
+    \u0275\u0275elementStart(270, "td");
+    \u0275\u0275text(271, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(273, "td");
-    \u0275\u0275text(274, "Removes task from next task listing");
+    \u0275\u0275elementStart(272, "td");
+    \u0275\u0275text(273, "Removes task from next task listing");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(275, "tr")(276, "td")(277, "kbd");
-    \u0275\u0275text(278, "Shift");
+    \u0275\u0275elementStart(274, "tr")(275, "td")(276, "kbd");
+    \u0275\u0275text(277, "Shift");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(279, " + ");
-    \u0275\u0275elementStart(280, "kbd");
-    \u0275\u0275text(281, "F2");
+    \u0275\u0275text(278, " + ");
+    \u0275\u0275elementStart(279, "kbd");
+    \u0275\u0275text(280, "F2");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(282, "td");
-    \u0275\u0275text(283, "In task");
+    \u0275\u0275elementStart(281, "td");
+    \u0275\u0275text(282, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(284, "td");
-    \u0275\u0275text(285, " Stops other tasks in progress, starts time tracking for current task ");
+    \u0275\u0275elementStart(283, "td");
+    \u0275\u0275text(284, " Stops other tasks in progress, starts time tracking for current task ");
     \u0275\u0275elementEnd()()()()();
-    \u0275\u0275element(286, "div", 52);
+    \u0275\u0275element(285, "div", 53);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(9);
+    \u0275\u0275advance(7);
     \u0275\u0275property("checked", ctx_r1.options.optShowBacklog);
     \u0275\u0275advance();
     \u0275\u0275property("checked", ctx_r1.options.optShowFinishedToday);
@@ -71413,6 +71706,8 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("checked", ctx_r1.options.optHideScrollbarsInRecord);
     \u0275\u0275advance();
+    \u0275\u0275property("checked", ctx_r1.options.optPushStartTimer);
+    \u0275\u0275advance();
     \u0275\u0275property("checked", ctx_r1.options.optUseColumnsForRecords);
     \u0275\u0275advance(2);
     \u0275\u0275twoWayProperty("value", ctx_r1.options.optRecordWidth);
@@ -71421,7 +71716,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275advance(5);
     \u0275\u0275property("checked", ctx_r1.options.optShowIndicatorsTable);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.options.optShowIndicatorsTable ? 44 : -1);
+    \u0275\u0275conditional(ctx_r1.options.optShowIndicatorsTable ? 43 : -1);
   }
 }
 function TasksComponent_Conditional_13_Conditional_6_Template(rf, ctx) {
@@ -71480,7 +71775,7 @@ function TasksComponent_Conditional_13_Conditional_17_Template(rf, ctx) {
     const _r12 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Date Done: ");
-    \u0275\u0275elementStart(2, "span", 71);
+    \u0275\u0275elementStart(2, "span", 72);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_17_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71531,7 +71826,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275elementStart(3, "td");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td")(6, "span", 71);
+    \u0275\u0275elementStart(5, "td")(6, "span", 72);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_6_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -71540,7 +71835,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "td")(10, "span", 71);
+    \u0275\u0275elementStart(9, "td")(10, "span", 72);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_10_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -71660,7 +71955,7 @@ function TasksComponent_Conditional_13_Conditional_21_Template(rf, ctx) {
     const _r16 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Qualifiers: ");
-    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275elementStart(2, "span", 73);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_21_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r16);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71680,7 +71975,7 @@ function TasksComponent_Conditional_13_Conditional_22_Template(rf, ctx) {
     const _r17 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Tags: ");
-    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275elementStart(2, "span", 73);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_22_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r17);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71756,7 +72051,7 @@ function TasksComponent_Conditional_13_Conditional_26_Template(rf, ctx) {
 function TasksComponent_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 5)(1, "img", 69);
+    \u0275\u0275elementStart(0, "div", 5)(1, "img", 70);
     \u0275\u0275listener("click", function TasksComponent_Conditional_13_Template_img_click_1_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71775,7 +72070,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
     \u0275\u0275elementStart(10, "div");
     \u0275\u0275text(11, " Notes: ");
     \u0275\u0275element(12, "br");
-    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 70);
+    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 71);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Template_textarea_blur_14_listener($event) {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71832,7 +72127,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "task", 75);
+    \u0275\u0275element(0, "task", 76);
   }
   if (rf & 2) {
     const t_r21 = ctx.$implicit;
@@ -71844,7 +72139,7 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ct
 function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r19 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 73)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 74)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_14_Conditional_6_For_2_Template_button_click_2_listener() {
       const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -71855,8 +72150,8 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 74);
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 75, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(6, "div", 75);
+    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 76, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -71876,7 +72171,7 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
 function TasksComponent_Conditional_14_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 73, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 74, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -71946,7 +72241,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " - ");
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_15_For_4_Conditional_2_Template, 2, 2, "span");
-    \u0275\u0275elementStart(3, "span", 76);
+    \u0275\u0275elementStart(3, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_15_For_4_Template_span_keyup_3_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71958,7 +72253,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     });
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 77);
+    \u0275\u0275elementStart(5, "span", 78);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_15_For_4_Template_span_blur_5_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72065,7 +72360,7 @@ function TasksComponent_Conditional_24_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_25_For_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 79);
+    \u0275\u0275elementStart(0, "option", 80);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -72082,7 +72377,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
     const _r26 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span", 10);
     \u0275\u0275text(1, " Filter ");
-    \u0275\u0275elementStart(2, "select", 78);
+    \u0275\u0275elementStart(2, "select", 79);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_25_Template_select_ngModelChange_2_listener($event) {
       \u0275\u0275restoreView(_r26);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72094,7 +72389,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 79, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 80, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
@@ -72119,7 +72414,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Conditional_5_Templat
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 82);
+    \u0275\u0275elementStart(2, "span", 83);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72160,7 +72455,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_For_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 73);
+    \u0275\u0275elementStart(0, "div", 74);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_27_For_3_Conditional_1_Template, 6, 4, "div");
     \u0275\u0275elementEnd();
   }
@@ -72176,7 +72471,7 @@ function TasksComponent_Conditional_27_For_5_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 82);
+    \u0275\u0275elementStart(2, "span", 83);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72192,7 +72487,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     const _r34 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 98);
+    \u0275\u0275elementStart(2, "span", 99);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72203,7 +72498,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 99);
+    \u0275\u0275elementStart(6, "span", 100);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72246,7 +72541,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
     const _r35 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "[");
-    \u0275\u0275elementStart(2, "span", 71);
+    \u0275\u0275elementStart(2, "span", 72);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r35);
       const t_r33 = \u0275\u0275nextContext().$implicit;
@@ -72268,7 +72563,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r36 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 100);
+    \u0275\u0275elementStart(0, "span", 101);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template_span_click_0_listener() {
       \u0275\u0275restoreView(_r36);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -72286,72 +72581,72 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, c
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 88);
+    \u0275\u0275elementStart(0, "span", 89);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 89);
+    \u0275\u0275elementStart(0, "span", 90);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
-    \u0275\u0275element(1, "img", 101);
+    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275element(1, "img", 102);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
-    \u0275\u0275element(1, "img", 102);
+    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275element(1, "img", 103);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 92);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 92);
-    \u0275\u0275element(1, "img", 103);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template(rf, ctx) {
-  if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275element(1, "img", 104);
     \u0275\u0275elementEnd();
   }
 }
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275element(1, "img", 105);
+    \u0275\u0275elementEnd();
+  }
+}
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275elementStart(2, "a", 105);
+    \u0275\u0275elementStart(2, "a", 106);
     \u0275\u0275text(3, "link");
     \u0275\u0275elementEnd()();
   }
@@ -72364,7 +72659,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template(rf, 
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r37 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 107);
+    \u0275\u0275elementStart(0, "span", 108);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template_span_click_0_listener() {
       const tag_r38 = \u0275\u0275restoreView(_r37).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(5);
@@ -72381,9 +72676,9 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Templat
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
+    \u0275\u0275elementStart(0, "span", 98);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template, 2, 1, "span", 106, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72429,7 +72724,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, 
 function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r32 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 85)(1, "input", 86);
+    \u0275\u0275elementStart(0, "div", 86)(1, "input", 87);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Template_input_click_1_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72438,17 +72733,17 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 87);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 88);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 89);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 92);
-    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 93);
-    \u0275\u0275elementStart(14, "span", 94);
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 88);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 89);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 90);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 92);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 94);
+    \u0275\u0275elementStart(14, "span", 95);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keyup_14_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72469,8 +72764,8 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     });
     \u0275\u0275text(15);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template, 4, 4, "span", 95);
-    \u0275\u0275elementStart(17, "span", 96);
+    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template, 4, 4, "span", 96);
+    \u0275\u0275elementStart(17, "span", 97);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_17_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72482,7 +72777,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     });
     \u0275\u0275text(18);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template, 4, 0, "span", 97);
+    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template, 4, 0, "span", 98);
     \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template, 2, 0, "span");
@@ -72490,9 +72785,9 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
   }
   if (rf & 2) {
     const t_r33 = ctx.$implicit;
-    const \u0275$index_896_r39 = ctx.$index;
+    const \u0275$index_895_r39 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(28, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(30, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_896_r39 >= 3 && t_r33.tsk_time_history.length === 0));
+    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(28, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(30, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_895_r39 >= 3 && t_r33.tsk_time_history.length === 0));
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id));
     \u0275\u0275advance();
@@ -72543,7 +72838,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
 function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r30 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 81)(1, "div", 83)(2, "span")(3, "button", 9);
+    \u0275\u0275elementStart(0, "div", 82)(1, "div", 84)(2, "span")(3, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_button_click_3_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72555,7 +72850,7 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     \u0275\u0275text(6);
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_Conditional_7_Template, 4, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 84);
+    \u0275\u0275elementStart(8, "span", 85);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_span_click_8_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72563,8 +72858,8 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     });
     \u0275\u0275text(9, " \u{1F4CC} ");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 74);
-    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 23, 43, "div", 85, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(10, "div", 75);
+    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 23, 43, "div", 86, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -72589,10 +72884,10 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 11)(1, "div", 80);
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 73, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "div", 11)(1, "div", 81);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 74, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 81, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 82, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72648,8 +72943,8 @@ function TasksComponent_Conditional_34_Conditional_5_For_5_Template(rf, ctx) {
   }
   if (rf & 2) {
     const c_r41 = ctx.$implicit;
-    const \u0275$index_1051_r42 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1051_r42 < 3));
+    const \u0275$index_1050_r42 = ctx.$index;
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1050_r42 < 3));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", c_r41, " ");
   }
@@ -72676,11 +72971,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_For_7_Template(rf, ct
   }
   if (rf & 2) {
     const v_r43 = ctx.$implicit;
-    const \u0275$index_1074_r44 = ctx.$index;
+    const \u0275$index_1073_r44 = ctx.$index;
     const indicator_r45 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1074_r44 < 3));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1073_r44 < 3));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1074_r44 > 0 && (indicator_r45.values[\u0275$index_1074_r44 - 1] < indicator_r45.values[\u0275$index_1074_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1074_r44 - 1] > indicator_r45.values[\u0275$index_1074_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1074_r44 > 0 && (indicator_r45.values[\u0275$index_1074_r44 - 1] > indicator_r45.values[\u0275$index_1074_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1074_r44 - 1] < indicator_r45.values[\u0275$index_1074_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1073_r44 > 0 && (indicator_r45.values[\u0275$index_1073_r44 - 1] < indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1073_r44 - 1] > indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1073_r44 > 0 && (indicator_r45.values[\u0275$index_1073_r44 - 1] > indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1073_r44 - 1] < indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", v_r43, " ");
   }
@@ -72714,11 +73009,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_34_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "table", 108)(1, "tr")(2, "td");
+    \u0275\u0275elementStart(0, "table", 109)(1, "tr")(2, "td");
     \u0275\u0275text(3, "Indicator");
     \u0275\u0275elementEnd();
     \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_34_Conditional_5_For_5_Template, 2, 4, "td", 11, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementStart(6, "td", 109);
+    \u0275\u0275elementStart(6, "td", 110);
     \u0275\u0275text(7, "%");
     \u0275\u0275elementEnd()();
     \u0275\u0275repeaterCreate(8, TasksComponent_Conditional_34_Conditional_5_For_9_Template, 10, 4, "tr", null, \u0275\u0275repeaterTrackByIdentity);
@@ -72744,7 +73039,7 @@ function TasksComponent_Conditional_34_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 108);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 109);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72755,7 +73050,36 @@ function TasksComponent_Conditional_34_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseIndicators ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_9_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_div_8_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r47 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 117)(1, "button", 4);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_8_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r47);
+      const ctx_r1 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r1.clearNextTasks());
+    });
+    \u0275\u0275text(2, "Clear listing");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "button", 118);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_8_Template_button_click_3_listener() {
+      \u0275\u0275restoreView(_r47);
+      const ctx_r1 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r1.stopAndClearInProgressTasks());
+    });
+    \u0275\u0275text(4, " Stop and clear in-progress tasks ");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "button", 118);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_8_Template_button_click_5_listener() {
+      \u0275\u0275restoreView(_r47);
+      const ctx_r1 = \u0275\u0275nextContext(3);
+      return \u0275\u0275resetView(ctx_r1.markAllNextToDoAsDone());
+    });
+    \u0275\u0275text(6, " Mark all as done ");
+    \u0275\u0275elementEnd()();
+  }
+}
+function TasksComponent_Conditional_36_For_4_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
@@ -72767,38 +73091,38 @@ function TasksComponent_Conditional_35_For_4_Conditional_9_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" | ", ctx_r1.state.inProgressTasksCount, " in progress ");
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_1_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275element(0, "hr");
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "hr", 115);
+    \u0275\u0275element(0, "hr", 120);
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r49 = \u0275\u0275getCurrentView();
+    const _r50 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 98);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r49);
-      const t_r48 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r50);
+      const t_r49 = \u0275\u0275nextContext(2).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r48, $event, "start"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r49, $event, "start"));
     });
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 99);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r49);
-      const t_r48 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template_span_keyup_6_listener($event) {
+      \u0275\u0275restoreView(_r50);
+      const t_r49 = \u0275\u0275nextContext(2).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r48, $event, "end"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r49, $event, "end"));
     });
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
@@ -72807,41 +73131,49 @@ function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r48 = \u0275\u0275nextContext(2).$implicit;
+    const t_r49 = \u0275\u0275nextContext(2).$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r48.tsk_time_history[t_r48.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r49.tsk_time_history[t_r49.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r48.tsk_time_history[t_r48.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r49.tsk_time_history[t_r49.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_Conditional_2_Template, 10, 8, "span");
+    \u0275\u0275pipe(2, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "span", 11);
+    \u0275\u0275text(4);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template, 10, 8, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r48 = \u0275\u0275nextContext().$implicit;
+    const t_r49 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r48.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r48.tsk_time_history.length > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(9, _c20, t_r49["projectedDateFromNow"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r49["projectedDateFromNow"].getTime()));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", t_r48.tsk_time_history.length, "/", ctx_r1.formatTime(t_r48.tsk_total_time_spent), "] ");
+    \u0275\u0275textInterpolate1("<", \u0275\u0275pipeBind2(2, 6, t_r49["projectedDateFromNow"], "HH:mm"), "> ");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(12, _c17, t_r49.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r49.tsk_time_history.length > 0));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_ctg_in_process !== 2 ? 2 : -1);
+    \u0275\u0275textInterpolate2("[", t_r49.tsk_time_history.length, "/", ctx_r1.formatTime(t_r49.tsk_total_time_spent), "] ");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r49.tsk_ctg_in_process !== 2 ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_8_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    const _r50 = \u0275\u0275getCurrentView();
+    const _r51 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 71);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_8_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r50);
-      const t_r48 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r51);
+      const t_r49 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r48, $event, "start"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r49, $event, "start"));
     });
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
@@ -72850,268 +73182,268 @@ function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_8_
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r48 = \u0275\u0275nextContext().$implicit;
+    const t_r49 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r48.tsk_time_history[t_r48.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r49.tsk_time_history[t_r49.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_11_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 88);
+    \u0275\u0275elementStart(0, "span", 89);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_12_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 89);
+    \u0275\u0275elementStart(0, "span", 90);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_13_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_14_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
-    \u0275\u0275element(1, "img", 101);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_15_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275element(1, "img", 102);
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_16_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275element(1, "img", 103);
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 92);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_17_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_25_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r51 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 107);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_25_For_2_Template_span_click_0_listener() {
-      const tag_r52 = \u0275\u0275restoreView(_r51).$implicit;
+    const _r52 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template_span_click_0_listener() {
+      const tag_r53 = \u0275\u0275restoreView(_r52).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r52));
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r53));
     });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const tag_r52 = ctx.$implicit;
+    const tag_r53 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r52, " ");
+    \u0275\u0275textInterpolate1(" #", tag_r53, " ");
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_25_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_25_For_2_Template, 2, 1, "span", 106, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r48 = \u0275\u0275nextContext().$implicit;
+    const t_r49 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275repeater(t_r48.tsk_tags.split(" "));
+    \u0275\u0275repeater(t_r49.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_26_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_26_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const t_r48 = \u0275\u0275nextContext().$implicit;
+    const t_r49 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r48.tsk_schedule_date_start), ")");
+    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r49.tsk_schedule_date_start), ")");
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_27_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r48 = \u0275\u0275nextContext().$implicit;
+    const t_r49 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r48));
+    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r49));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r48));
+    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r49));
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_28_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "(Not in sync)");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r47 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 114);
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_1_Template, 1, 0, "hr");
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_2_Template, 1, 0, "hr", 115);
-    \u0275\u0275elementStart(3, "input", 86);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template_input_click_3_listener($event) {
-      const t_r48 = \u0275\u0275restoreView(_r47).$implicit;
+    const _r48 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 119);
+    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_Template, 1, 0, "hr");
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 120);
+    \u0275\u0275elementStart(3, "input", 87);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_input_click_3_listener($event) {
+      const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r48, $event));
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r49, $event));
     });
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(4, "span", 11);
     \u0275\u0275text(5);
     \u0275\u0275pipe(6, "date");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_7_Template, 3, 6, "span", 11);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_8_Template, 6, 4, "span");
-    \u0275\u0275elementStart(9, "span", 100);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template_span_click_9_listener() {
-      \u0275\u0275restoreView(_r47);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Template, 6, 14);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_Template, 6, 4, "span");
+    \u0275\u0275elementStart(9, "span", 101);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_click_9_listener() {
+      \u0275\u0275restoreView(_r48);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.toggleTimeMode());
     });
     \u0275\u0275text(10);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_11_Template, 2, 0, "span", 88);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_12_Template, 2, 0, "span", 89);
-    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_13_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_14_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_15_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_16_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_17_Template, 2, 0, "span", 90);
-    \u0275\u0275elementStart(18, "span", 116);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template_span_keyup_18_listener($event) {
-      const t_r48 = \u0275\u0275restoreView(_r47).$implicit;
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template, 2, 0, "span", 89);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_12_Template, 2, 0, "span", 90);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_13_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 92);
+    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 91);
+    \u0275\u0275elementStart(18, "span", 121);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_keyup_18_listener($event) {
+      const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r48, $event));
-    })("keydown", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template_span_keydown_18_listener($event) {
-      \u0275\u0275restoreView(_r47);
+      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r49, $event));
+    })("keydown", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_keydown_18_listener($event) {
+      \u0275\u0275restoreView(_r48);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.nextTaskKeyDown($event));
-    })("blur", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template_span_blur_18_listener($event) {
-      const t_r48 = \u0275\u0275restoreView(_r47).$implicit;
+    })("blur", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_blur_18_listener($event) {
+      const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r48, $event));
+      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r49, $event));
     });
     \u0275\u0275text(19);
     \u0275\u0275elementEnd();
     \u0275\u0275text(20, "\xA0");
-    \u0275\u0275elementStart(21, "span", 117);
-    \u0275\u0275listener("blur", function TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template_span_blur_21_listener($event) {
-      const t_r48 = \u0275\u0275restoreView(_r47).$implicit;
+    \u0275\u0275elementStart(21, "span", 122);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_blur_21_listener($event) {
+      const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r48, $event));
+      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r49, $event));
     });
     \u0275\u0275text(22);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(23, "span");
     \u0275\u0275text(24);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(25, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_25_Template, 3, 0, "span", 97);
-    \u0275\u0275conditionalCreate(26, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_26_Template, 3, 1, "span");
-    \u0275\u0275conditionalCreate(27, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_27_Template, 2, 2, "span", 11);
-    \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Conditional_28_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(25, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_Template, 3, 0, "span", 98);
+    \u0275\u0275conditionalCreate(26, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_26_Template, 3, 1, "span");
+    \u0275\u0275conditionalCreate(27, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_27_Template, 2, 2, "span", 11);
+    \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template, 2, 0, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r48 = ctx.$implicit;
-    const \u0275$index_1113_r53 = ctx.$index;
-    const item_r54 = \u0275\u0275nextContext(2).$implicit;
+    const t_r49 = ctx.$implicit;
+    const \u0275$index_1132_r54 = ctx.$index;
+    const item_r55 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r48.tsk_id))("ngClass", \u0275\u0275pureFunction1(32, _c222, t_r48.tsk_ctg_in_process === 2));
+    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r49.tsk_id))("ngClass", \u0275\u0275pureFunction1(32, _c222, t_r49.tsk_ctg_in_process === 2));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48["projectedDate"].getHours() < 2 && \u0275$index_1113_r53 > 0 && item_r54.tasks[\u0275$index_1113_r53 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
+    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1132_r54 > 0 && item_r55.tasks[\u0275$index_1132_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1113_r53 > 0 && \u0275$index_1113_r53 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
+    \u0275\u0275conditional(\u0275$index_1132_r54 > 0 && \u0275$index_1132_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r48.tsk_id));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(34, _c20, t_r48["projectedDate"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r48["projectedDate"].getTime()));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(34, _c20, t_r49["projectedDate"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r49["projectedDate"].getTime()));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1("<", \u0275\u0275pipeBind2(6, 29, t_r48["projectedDate"], "HH:mm"), "> ");
+    \u0275\u0275textInterpolate1("<", \u0275\u0275pipeBind2(6, 29, t_r49["projectedDate"], "HH:mm"), "> ");
     \u0275\u0275advance(2);
-    \u0275\u0275conditional(t_r48.tsk_total_time_spent !== 0 ? 7 : -1);
+    \u0275\u0275conditional(t_r49.tsk_total_time_spent !== 0 ? 7 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_ctg_in_process === 2 ? 8 : -1);
+    \u0275\u0275conditional(t_r49.tsk_ctg_in_process === 2 ? 8 : -1);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r48.tsk_id] ? "[" + ctx_r1.timers[t_r48.tsk_id].timerString + "]" : "", " ");
+    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r49.tsk_id] ? "[" + ctx_r1.timers[t_r49.tsk_id].timerString + "]" : "", " ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("critical") !== -1 ? 11 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("critical") !== -1 ? 11 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("urgent") !== -1 ? 12 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("urgent") !== -1 ? 12 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("star") !== -1 ? 13 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("star") !== -1 ? 13 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("people") !== -1 ? 14 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("people") !== -1 ? 14 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("mobile") !== -1 ? 15 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("mobile") !== -1 ? 15 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("flag") !== -1 ? 16 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("flag") !== -1 ? 16 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_qualifiers.indexOf("blocked") !== -1 ? 17 : -1);
+    \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("blocked") !== -1 ? 17 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(37, _c23, [t_r48.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r48.tsk_ctg_in_process === 2, t_r48.tsk_qualifiers.indexOf("important") !== -1, t_r48.tsk_qualifiers.indexOf("urgent") !== -1, t_r48.tsk_qualifiers.indexOf("highlighted") !== -1, t_r48.tsk_qualifiers.indexOf("progressed") !== -1, t_r48.tsk_qualifiers.indexOf("unexpected") !== -1, t_r48.tsk_qualifiers.indexOf("call") !== -1, t_r48.tsk_qualifiers.indexOf("priority") !== -1, t_r48.tsk_qualifiers.indexOf("directions") !== -1]));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(37, _c23, [t_r49.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r49.tsk_ctg_in_process === 2, t_r49.tsk_qualifiers.indexOf("important") !== -1, t_r49.tsk_qualifiers.indexOf("urgent") !== -1, t_r49.tsk_qualifiers.indexOf("highlighted") !== -1, t_r49.tsk_qualifiers.indexOf("progressed") !== -1, t_r49.tsk_qualifiers.indexOf("unexpected") !== -1, t_r49.tsk_qualifiers.indexOf("call") !== -1, t_r49.tsk_qualifiers.indexOf("priority") !== -1, t_r49.tsk_qualifiers.indexOf("directions") !== -1]));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(t_r48.tsk_name);
+    \u0275\u0275textInterpolate(t_r49.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(48, _c9, t_r48.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(48, _c9, t_r49.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r48.tsk_estimated_duration * 60, "#h#m"));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r49.tsk_estimated_duration * 60, "#h#m"));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" [", t_r48.tsk_id_record, "] ");
+    \u0275\u0275textInterpolate1(" [", t_r49.tsk_id_record, "] ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_tags ? 25 : -1);
+    \u0275\u0275conditional(t_r49.tsk_tags ? 25 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.tsk_schedule_date_start ? 26 : -1);
+    \u0275\u0275conditional(t_r49.tsk_schedule_date_start ? 26 : -1);
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 27 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r48.not_sync ? 28 : -1);
+    \u0275\u0275conditional(t_r49.not_sync ? 28 : -1);
   }
 }
-function TasksComponent_Conditional_35_For_4_Conditional_10_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_35_For_4_Conditional_10_For_2_Template, 29, 50, "div", 114, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 29, 50, "div", 119, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r54 = \u0275\u0275nextContext().$implicit;
+    const item_r55 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c21, ctx_r1.nextTasks[0].tasks.length > 10));
     \u0275\u0275advance();
-    \u0275\u0275repeater(item_r54.tasks);
+    \u0275\u0275repeater(item_r55.tasks);
   }
 }
-function TasksComponent_Conditional_35_For_4_Template(rf, ctx) {
+function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r46 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 111)(1, "div")(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_35_For_4_Template_button_click_2_listener() {
+    \u0275\u0275elementStart(0, "div", 112)(1, "div")(2, "button", 9);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseNextTasks"));
@@ -73119,38 +73451,52 @@ function TasksComponent_Conditional_35_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 112);
-    \u0275\u0275text(7, " | ");
-    \u0275\u0275element(8, "time-format", 113);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_35_For_4_Conditional_9_Template, 2, 1, "span");
+    \u0275\u0275elementStart(5, "button", 113);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_5_listener() {
+      \u0275\u0275restoreView(_r46);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.viewNextOptions = !ctx_r1.viewNextOptions);
+    });
+    \u0275\u0275elementStart(6, "strong");
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275template(8, TasksComponent_Conditional_36_For_4_div_8_Template, 7, 0, "div", 114);
+    \u0275\u0275text(9);
+    \u0275\u0275element(10, "time-format", 115);
+    \u0275\u0275text(11, " | ");
+    \u0275\u0275element(12, "time-format", 116);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_36_For_4_Conditional_13_Template, 2, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_35_For_4_Conditional_10_Template, 3, 3, "div", 11);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r54 = ctx.$implicit;
+    const item_r55 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseNextTasks ? "+" : "-", " Next To Do Today");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(ctx_r1.viewNextOptions ? "Hide options" : "Show options");
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" | ", item_r54.tasks.length, " ");
+    \u0275\u0275property("ngIf", ctx_r1.viewNextOptions);
     \u0275\u0275advance();
-    \u0275\u0275property("value", item_r54.estimatedDuration);
+    \u0275\u0275textInterpolate1(" | ", item_r55.tasks.length, " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("value", item_r55.estimatedDuration);
     \u0275\u0275advance(2);
-    \u0275\u0275property("value", ctx_r1.differenceLastClosedToRealTime)("ngClass", \u0275\u0275pureFunction2(7, _c20, ctx_r1.differenceLastClosedToRealTime < 0, 0 <= ctx_r1.differenceLastClosedToRealTime));
+    \u0275\u0275property("value", ctx_r1.differenceLastClosedToRealTime)("ngClass", \u0275\u0275pureFunction2(9, _c20, ctx_r1.differenceLastClosedToRealTime < 0, 0 <= ctx_r1.differenceLastClosedToRealTime));
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.state.inProgressTasksCount > 0 ? 9 : -1);
+    \u0275\u0275conditional(ctx_r1.state.inProgressTasksCount > 0 ? 13 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseNextTasks ? 10 : -1);
+    \u0275\u0275conditional(!ctx_r1.options.optCollapseNextTasks ? 14 : -1);
   }
 }
-function TasksComponent_Conditional_35_Template(rf, ctx) {
+function TasksComponent_Conditional_36_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 14);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 110);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_35_For_4_Template, 11, 10, "div", 111, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(2, "div", 111);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 112, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73159,28 +73505,28 @@ function TasksComponent_Conditional_35_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.nextTasks);
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r58 = \u0275\u0275getCurrentView();
+    const _r59 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 98);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r58);
-      const t_r57 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r59);
+      const t_r58 = \u0275\u0275nextContext(2).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r57, $event, "start"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r58, $event, "start"));
     });
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 99);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r58);
-      const t_r57 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
+      \u0275\u0275restoreView(_r59);
+      const t_r58 = \u0275\u0275nextContext(2).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r57, $event, "end"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r58, $event, "end"));
     });
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
@@ -73189,41 +73535,41 @@ function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_C
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r57 = \u0275\u0275nextContext(2).$implicit;
+    const t_r58 = \u0275\u0275nextContext(2).$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r57.tsk_time_history[t_r57.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r58.tsk_time_history[t_r58.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r57.tsk_time_history[t_r57.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r58.tsk_time_history[t_r58.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template, 10, 8, "span");
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template, 10, 8, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r57 = \u0275\u0275nextContext().$implicit;
+    const t_r58 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r57.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r57.tsk_time_history.length > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r58.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r58.tsk_time_history.length > 0));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", t_r57.tsk_time_history.length, "/", ctx_r1.formatTime(t_r57.tsk_total_time_spent), "] ");
+    \u0275\u0275textInterpolate2("[", t_r58.tsk_time_history.length, "/", ctx_r1.formatTime(t_r58.tsk_total_time_spent), "] ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_ctg_in_process !== 2 ? 2 : -1);
+    \u0275\u0275conditional(t_r58.tsk_ctg_in_process !== 2 ? 2 : -1);
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_3_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r59 = \u0275\u0275getCurrentView();
+    const _r60 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 71);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r59);
-      const t_r57 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r60);
+      const t_r58 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r57, $event, "start"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r58, $event, "start"));
     });
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
@@ -73232,252 +73578,252 @@ function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_3_T
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r57 = \u0275\u0275nextContext().$implicit;
+    const t_r58 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r57.tsk_time_history[t_r57.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r58.tsk_time_history[t_r58.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 88);
+    \u0275\u0275elementStart(0, "span", 89);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 89);
+    \u0275\u0275elementStart(0, "span", 90);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
-    \u0275\u0275element(1, "img", 101);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275element(1, "img", 102);
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275element(1, "img", 103);
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 92);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r60 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 107);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
-      const tag_r61 = \u0275\u0275restoreView(_r60).$implicit;
+    const _r61 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
+      const tag_r62 = \u0275\u0275restoreView(_r61).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r61));
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r62));
     });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const tag_r61 = ctx.$implicit;
+    const tag_r62 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r61, " ");
+    \u0275\u0275textInterpolate1(" #", tag_r62, " ");
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 106, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r57 = \u0275\u0275nextContext().$implicit;
+    const t_r58 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275repeater(t_r57.tsk_tags.split(" "));
+    \u0275\u0275repeater(t_r58.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_21_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const t_r57 = \u0275\u0275nextContext().$implicit;
+    const t_r58 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r57.tsk_schedule_date_start), ")");
+    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r58.tsk_schedule_date_start), ")");
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_22_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_22_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r57 = \u0275\u0275nextContext().$implicit;
+    const t_r58 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r57));
+    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r58));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r57));
+    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r58));
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_23_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "(Not in sync)");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r56 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 118)(1, "input", 86);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
-      const t_r57 = \u0275\u0275restoreView(_r56).$implicit;
+    const _r57 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 123)(1, "input", 87);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
+      const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r57, $event));
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r58, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275elementStart(4, "span", 100);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
-      \u0275\u0275restoreView(_r56);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
+    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
+    \u0275\u0275elementStart(4, "span", 101);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
+      \u0275\u0275restoreView(_r57);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.toggleTimeMode());
     });
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 88);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 89);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 90);
-    \u0275\u0275elementStart(13, "span", 116);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
-      const t_r57 = \u0275\u0275restoreView(_r56).$implicit;
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 89);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 90);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 92);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 91);
+    \u0275\u0275elementStart(13, "span", 121);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
+      const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r57, $event));
-    })("keydown", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template_span_keydown_13_listener($event) {
-      \u0275\u0275restoreView(_r56);
+      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r58, $event));
+    })("keydown", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keydown_13_listener($event) {
+      \u0275\u0275restoreView(_r57);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.pinnedTaskKeyDown($event));
-    })("blur", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template_span_blur_13_listener($event) {
-      const t_r57 = \u0275\u0275restoreView(_r56).$implicit;
+    })("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_13_listener($event) {
+      const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r57, $event));
+      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r58, $event));
     });
     \u0275\u0275text(14);
     \u0275\u0275elementEnd();
     \u0275\u0275text(15, "\xA0");
-    \u0275\u0275elementStart(16, "span", 117);
-    \u0275\u0275listener("blur", function TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
-      const t_r57 = \u0275\u0275restoreView(_r56).$implicit;
+    \u0275\u0275elementStart(16, "span", 122);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
+      const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r57, $event));
+      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r58, $event));
     });
     \u0275\u0275text(17);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(18, "span");
     \u0275\u0275text(19);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 97);
-    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
-    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
-    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 98);
+    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
+    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
+    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r57 = ctx.$implicit;
+    const t_r58 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r57.tsk_id));
+    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r58.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r57.tsk_id));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r58.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_total_time_spent !== 0 ? 2 : -1);
+    \u0275\u0275conditional(t_r58.tsk_total_time_spent !== 0 ? 2 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_ctg_in_process === 2 ? 3 : -1);
+    \u0275\u0275conditional(t_r58.tsk_ctg_in_process === 2 ? 3 : -1);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r57.tsk_id] ? "[" + ctx_r1.timers[t_r57.tsk_id].timerString + "]" : "", " ");
+    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r58.tsk_id] ? "[" + ctx_r1.timers[t_r58.tsk_id].timerString + "]" : "", " ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("critical") !== -1 ? 6 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("critical") !== -1 ? 6 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("urgent") !== -1 ? 7 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("urgent") !== -1 ? 7 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("star") !== -1 ? 8 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("star") !== -1 ? 8 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("people") !== -1 ? 9 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("people") !== -1 ? 9 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("mobile") !== -1 ? 10 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("mobile") !== -1 ? 10 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("flag") !== -1 ? 11 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("flag") !== -1 ? 11 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_qualifiers.indexOf("blocked") !== -1 ? 12 : -1);
+    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("blocked") !== -1 ? 12 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(24, _c23, [t_r57.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r57.tsk_ctg_in_process === 2, t_r57.tsk_qualifiers.indexOf("important") !== -1, t_r57.tsk_qualifiers.indexOf("urgent") !== -1, t_r57.tsk_qualifiers.indexOf("highlighted") !== -1, t_r57.tsk_qualifiers.indexOf("progressed") !== -1, t_r57.tsk_qualifiers.indexOf("unexpected") !== -1, t_r57.tsk_qualifiers.indexOf("call") !== -1, t_r57.tsk_qualifiers.indexOf("priority") !== -1, t_r57.tsk_qualifiers.indexOf("directions") !== -1]));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(24, _c23, [t_r58.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r58.tsk_ctg_in_process === 2, t_r58.tsk_qualifiers.indexOf("important") !== -1, t_r58.tsk_qualifiers.indexOf("urgent") !== -1, t_r58.tsk_qualifiers.indexOf("highlighted") !== -1, t_r58.tsk_qualifiers.indexOf("progressed") !== -1, t_r58.tsk_qualifiers.indexOf("unexpected") !== -1, t_r58.tsk_qualifiers.indexOf("call") !== -1, t_r58.tsk_qualifiers.indexOf("priority") !== -1, t_r58.tsk_qualifiers.indexOf("directions") !== -1]));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(t_r57.tsk_name);
+    \u0275\u0275textInterpolate(t_r58.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(35, _c9, t_r57.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(35, _c9, t_r58.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r57.tsk_estimated_duration * 60, "#h#m"));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r58.tsk_estimated_duration * 60, "#h#m"));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" [", t_r57.tsk_id_record, "] ");
+    \u0275\u0275textInterpolate1(" [", t_r58.tsk_id_record, "] ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_tags ? 20 : -1);
+    \u0275\u0275conditional(t_r58.tsk_tags ? 20 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.tsk_schedule_date_start ? 21 : -1);
+    \u0275\u0275conditional(t_r58.tsk_schedule_date_start ? 21 : -1);
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 22 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r57.not_sync ? 23 : -1);
+    \u0275\u0275conditional(t_r58.not_sync ? 23 : -1);
   }
 }
-function TasksComponent_Conditional_36_For_4_Conditional_7_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_7_For_2_Template, 24, 37, "div", 118, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 24, 37, "div", 123, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r62 = \u0275\u0275nextContext().$implicit;
+    const item_r63 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c21, ctx_r1.pinnedTasks[0].tasks.length > 10));
     \u0275\u0275advance();
-    \u0275\u0275repeater(item_r62.tasks);
+    \u0275\u0275repeater(item_r63.tasks);
   }
 }
-function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Template(rf, ctx) {
   if (rf & 1) {
-    const _r55 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 111)(1, "div")(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r55);
+    const _r56 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 112)(1, "div")(2, "button", 9);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r56);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapsePinnedTasks"));
     });
@@ -73485,30 +73831,30 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 112);
+    \u0275\u0275element(6, "time-format", 115);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_Conditional_7_Template, 3, 3, "div", 11);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r62 = ctx.$implicit;
+    const item_r63 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapsePinnedTasks ? "+" : "-", " Pinned To Do");
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" | ", item_r62.tasks.length, " ");
+    \u0275\u0275textInterpolate1(" | ", item_r63.tasks.length, " ");
     \u0275\u0275advance();
-    \u0275\u0275property("value", item_r62.estimatedDuration);
+    \u0275\u0275property("value", item_r63.estimatedDuration);
     \u0275\u0275advance();
     \u0275\u0275conditional(!ctx_r1.options.optCollapsePinnedTasks ? 7 : -1);
   }
 }
-function TasksComponent_Conditional_36_Template(rf, ctx) {
+function TasksComponent_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 15);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 110);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 8, 4, "div", 111, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(2, "div", 111);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 112, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73517,9 +73863,9 @@ function TasksComponent_Conditional_36_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.pinnedTasks);
   }
 }
-function TasksComponent_Conditional_37_Conditional_9_For_14_Template(rf, ctx) {
+function TasksComponent_Conditional_38_Conditional_9_For_14_Template(rf, ctx) {
   if (rf & 1) {
-    const _r64 = \u0275\u0275getCurrentView();
+    const _r65 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
@@ -73533,28 +73879,28 @@ function TasksComponent_Conditional_37_Conditional_9_For_14_Template(rf, ctx) {
     \u0275\u0275text(8);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(9, "td")(10, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_37_Conditional_9_For_14_Template_button_click_10_listener() {
-      const e_r65 = \u0275\u0275restoreView(_r64).$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Conditional_9_For_14_Template_button_click_10_listener() {
+      const e_r66 = \u0275\u0275restoreView(_r65).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.setSelected(e_r65));
+      return \u0275\u0275resetView(ctx_r1.setSelected(e_r66));
     });
     \u0275\u0275text(11, "details");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    const e_r65 = ctx.$implicit;
+    const e_r66 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(e_r65.tsk_name);
+    \u0275\u0275textInterpolate(e_r66.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r65.tsk_estimated_duration * 60));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r66.tsk_estimated_duration * 60));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r65.tsk_total_time_spent));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r66.tsk_total_time_spent));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.statusText(e_r65.tsk_ctg_status));
+    \u0275\u0275textInterpolate(ctx_r1.statusText(e_r66.tsk_ctg_status));
   }
 }
-function TasksComponent_Conditional_37_Conditional_9_Template(rf, ctx) {
+function TasksComponent_Conditional_38_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
     \u0275\u0275text(4, "Name");
@@ -73571,7 +73917,7 @@ function TasksComponent_Conditional_37_Conditional_9_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "td");
     \u0275\u0275text(12, "Actions");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_37_Conditional_9_For_14_Template, 12, 4, "tr", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_38_Conditional_9_For_14_Template, 12, 4, "tr", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73580,12 +73926,12 @@ function TasksComponent_Conditional_37_Conditional_9_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.tagInfo.tasks);
   }
 }
-function TasksComponent_Conditional_37_Template(rf, ctx) {
+function TasksComponent_Conditional_38_Template(rf, ctx) {
   if (rf & 1) {
-    const _r63 = \u0275\u0275getCurrentView();
+    const _r64 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div", 16)(1, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_37_Template_button_click_1_listener() {
-      \u0275\u0275restoreView(_r63);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r64);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.tagInfo.display = false);
     });
@@ -73598,7 +73944,7 @@ function TasksComponent_Conditional_37_Template(rf, ctx) {
     \u0275\u0275text(6);
     \u0275\u0275element(7, "br");
     \u0275\u0275text(8);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_Conditional_9_Template, 15, 0, "div");
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_38_Conditional_9_Template, 15, 0, "div");
     \u0275\u0275element(10, "hr");
     \u0275\u0275elementEnd();
   }
@@ -73612,28 +73958,28 @@ function TasksComponent_Conditional_37_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.tagInfo.tasks.length > 0 ? 9 : -1);
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r69 = \u0275\u0275getCurrentView();
+    const _r70 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 98);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r69);
-      const item_r68 = \u0275\u0275nextContext(3).$implicit;
+    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r70);
+      const item_r69 = \u0275\u0275nextContext(3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r68, $event, "start"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r69, $event, "start"));
     });
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 99);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r69);
-      const item_r68 = \u0275\u0275nextContext(3).$implicit;
+    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
+      \u0275\u0275restoreView(_r70);
+      const item_r69 = \u0275\u0275nextContext(3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r68, $event, "end"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r69, $event, "end"));
     });
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
@@ -73642,57 +73988,57 @@ function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditi
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r68 = \u0275\u0275nextContext(3).$implicit;
+    const item_r69 = \u0275\u0275nextContext(3).$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, item_r68.tsk_time_history[item_r68.tsk_time_history.length - 1] && item_r68.tsk_time_history[item_r68.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1] && item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, item_r68.tsk_time_history[item_r68.tsk_time_history.length - 1] && item_r68.tsk_time_history[item_r68.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1] && item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template, 10, 8, "span");
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template, 10, 8, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r68 = \u0275\u0275nextContext(2).$implicit;
+    const item_r69 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, item_r68.tsk_ctg_status === ctx_r1.taskStatus.OPEN && item_r68.tsk_time_history.length > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, item_r69.tsk_ctg_status === ctx_r1.taskStatus.OPEN && item_r69.tsk_time_history.length > 0));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", item_r68.tsk_time_history.length, "/", ctx_r1.formatTime(item_r68.tsk_total_time_spent), "] ");
+    \u0275\u0275textInterpolate2("[", item_r69.tsk_time_history.length, "/", ctx_r1.formatTime(item_r69.tsk_total_time_spent), "] ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r68.tsk_ctg_in_process !== 2 ? 2 : -1);
+    \u0275\u0275conditional(item_r69.tsk_ctg_in_process !== 2 ? 2 : -1);
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_12_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "(Not in sync)");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r67 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "input", 119);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Template_input_click_1_listener($event) {
-      \u0275\u0275restoreView(_r67);
-      const item_r68 = \u0275\u0275nextContext().$implicit;
+    const _r68 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "input", 124);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_input_click_1_listener($event) {
+      \u0275\u0275restoreView(_r68);
+      const item_r69 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(item_r68, $event));
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(item_r69, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_2_Template, 3, 6, "span", 11);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275elementStart(3, "span");
     \u0275\u0275text(4, "(Done at: ");
-    \u0275\u0275elementStart(5, "span", 71);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Template_span_keyup_5_listener($event) {
-      \u0275\u0275restoreView(_r67);
-      const item_r68 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275elementStart(5, "span", 72);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_span_keyup_5_listener($event) {
+      \u0275\u0275restoreView(_r68);
+      const item_r69 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.editDateDone(item_r68, $event));
+      return \u0275\u0275resetView(ctx_r1.editDateDone(item_r69, $event));
     });
     \u0275\u0275text(6);
     \u0275\u0275pipe(7, "date");
@@ -73703,53 +74049,53 @@ function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Templat
     \u0275\u0275elementStart(10, "span", 11);
     \u0275\u0275text(11);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Conditional_12_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_12_Template, 2, 0, "span");
     \u0275\u0275elementStart(13, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Template_button_click_13_listener() {
-      \u0275\u0275restoreView(_r67);
-      const item_r68 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_button_click_13_listener() {
+      \u0275\u0275restoreView(_r68);
+      const item_r69 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.setSelected(item_r68));
+      return \u0275\u0275resetView(ctx_r1.setSelected(item_r69));
     });
     \u0275\u0275text(14, "details");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const item_r68 = \u0275\u0275nextContext().$implicit;
+    const item_r69 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate(item_r68.tsk_id));
+    \u0275\u0275property("id", \u0275\u0275interpolate(item_r69.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r68.tsk_total_time_spent !== 0 ? 2 : -1);
+    \u0275\u0275conditional(item_r69.tsk_total_time_spent !== 0 ? 2 : -1);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(7, 7, item_r68.tsk_date_done, ctx_r1.format));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(7, 7, item_r69.tsk_date_done, ctx_r1.format));
     \u0275\u0275advance(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(10, _c24, item_r68.tsk_ctg_status === ctx_r1.taskStatus.CLOSED));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(10, _c24, item_r69.tsk_ctg_status === ctx_r1.taskStatus.CLOSED));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(item_r68.tsk_name);
+    \u0275\u0275textInterpolate(item_r69.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r68.not_sync ? 12 : -1);
+    \u0275\u0275conditional(item_r69.not_sync ? 12 : -1);
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_38_Conditional_6_For_2_Conditional_1_Template, 15, 12, "div");
+    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template, 15, 12, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const \u0275$index_1411_r70 = ctx.$index;
+    const \u0275$index_1434_r71 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1411_r70 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
+    \u0275\u0275conditional(\u0275$index_1434_r71 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_Conditional_3_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r71 = \u0275\u0275getCurrentView();
+    const _r72 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Conditional_6_Conditional_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r71);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r72);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.toggleView("viewAllFinishedToday"));
     });
@@ -73762,11 +74108,11 @@ function TasksComponent_Conditional_38_Conditional_6_Conditional_3_Template(rf, 
     \u0275\u0275textInterpolate1(" ", ctx_r1.viewAllFinishedToday ? "Do not show all" : "Show all", " ");
   }
 }
-function TasksComponent_Conditional_38_Conditional_6_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_Conditional_6_For_2_Template, 2, 1, "div", null, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_38_Conditional_6_Conditional_3_Template, 2, 1, "button");
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_39_Conditional_6_For_2_Template, 2, 1, "div", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template, 2, 1, "button");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73777,14 +74123,14 @@ function TasksComponent_Conditional_38_Conditional_6_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.state.closedTodayTasks.length > 3 ? 3 : -1);
   }
 }
-function TasksComponent_Conditional_38_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Template(rf, ctx) {
   if (rf & 1) {
-    const _r66 = \u0275\u0275getCurrentView();
+    const _r67 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r66);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r67);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseFinishedToday"));
     });
@@ -73792,7 +74138,7 @@ function TasksComponent_Conditional_38_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_38_Conditional_6_Template, 4, 1, "div");
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_39_Conditional_6_Template, 4, 1, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73805,38 +74151,38 @@ function TasksComponent_Conditional_38_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseFinishedToday ? 6 : -1);
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "task", 120);
+    \u0275\u0275element(1, "task", 125);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r73 = \u0275\u0275nextContext().$implicit;
+    const item_r74 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275property("task", item_r73)("handlers", ctx_r1.handlersForClosedYesterday)("options", \u0275\u0275pureFunction0(3, _c25));
+    \u0275\u0275property("task", item_r74)("handlers", ctx_r1.handlersForClosedYesterday)("options", \u0275\u0275pureFunction0(3, _c25));
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template, 2, 4, "div");
+    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template, 2, 4, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const \u0275$index_1474_r74 = ctx.$index;
+    const \u0275$index_1497_r75 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1474_r74 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
+    \u0275\u0275conditional(\u0275$index_1497_r75 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r75 = \u0275\u0275getCurrentView();
+    const _r76 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r75);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r76);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.toggleView("viewAllFinishedYesterday"));
     });
@@ -73849,11 +74195,11 @@ function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template(rf, 
     \u0275\u0275textInterpolate1(" ", ctx_r1.viewAllFinishedYesterday ? "Do not show all" : "Show all", " ");
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_39_Conditional_6_For_2_Template, 2, 1, "div", null, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template, 2, 1, "button");
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Template, 2, 1, "div", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template, 2, 1, "button");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73864,14 +74210,14 @@ function TasksComponent_Conditional_39_Conditional_6_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.state.closedYesterdayTasks.length > 3 ? 3 : -1);
   }
 }
-function TasksComponent_Conditional_39_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Template(rf, ctx) {
   if (rf & 1) {
-    const _r72 = \u0275\u0275getCurrentView();
+    const _r73 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r72);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r73);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseFinishedYesterday"));
     });
@@ -73879,7 +74225,7 @@ function TasksComponent_Conditional_39_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_39_Conditional_6_Template, 4, 1, "div");
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_40_Conditional_6_Template, 4, 1, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73892,39 +74238,39 @@ function TasksComponent_Conditional_39_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseFinishedYesterday ? 6 : -1);
   }
 }
-function TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Conditional_8_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r78 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 107);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Conditional_8_For_2_Template_span_click_0_listener() {
-      const tag_r79 = \u0275\u0275restoreView(_r78).$implicit;
+    const _r79 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template_span_click_0_listener() {
+      const tag_r80 = \u0275\u0275restoreView(_r79).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r79));
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r80));
     });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const tag_r79 = ctx.$implicit;
+    const tag_r80 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r79, " ");
+    \u0275\u0275textInterpolate1(" #", tag_r80, " ");
   }
 }
-function TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Conditional_8_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 106, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r80 = \u0275\u0275nextContext().$implicit;
+    const item_r81 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275repeater(item_r80.tsk_tags.split(" "));
+    \u0275\u0275repeater(item_r81.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template(rf, ctx) {
   if (rf & 1) {
-    const _r77 = \u0275\u0275getCurrentView();
+    const _r78 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " - ");
     \u0275\u0275elementStart(2, "span");
@@ -73936,30 +74282,30 @@ function TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Template(rf, c
     \u0275\u0275elementStart(6, "span");
     \u0275\u0275text(7);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 97);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 98);
     \u0275\u0275elementStart(9, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Template_button_click_9_listener() {
-      const item_r80 = \u0275\u0275restoreView(_r77).$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template_button_click_9_listener() {
+      const item_r81 = \u0275\u0275restoreView(_r78).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.setSelected(item_r80));
+      return \u0275\u0275resetView(ctx_r1.setSelected(item_r81));
     });
     \u0275\u0275text(10, "details");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const item_r80 = ctx.$implicit;
+    const item_r81 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate2("[", item_r80.tsk_time_history.length, "/", ctx_r1.formatTime(item_r80.tsk_total_time_spent), "]");
+    \u0275\u0275textInterpolate2("[", item_r81.tsk_time_history.length, "/", ctx_r1.formatTime(item_r81.tsk_total_time_spent), "]");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("[", item_r80.tsk_id_record, "]");
+    \u0275\u0275textInterpolate1("[", item_r81.tsk_id_record, "]");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(item_r80.tsk_name);
+    \u0275\u0275textInterpolate(item_r81.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r80.tsk_tags ? 8 : -1);
+    \u0275\u0275conditional(item_r81.tsk_tags ? 8 : -1);
   }
 }
-function TasksComponent_Conditional_40_Conditional_5_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_5_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "div");
     \u0275\u0275element(2, "br");
@@ -73971,24 +74317,24 @@ function TasksComponent_Conditional_40_Conditional_5_For_2_Template(rf, ctx) {
     \u0275\u0275elementStart(7, "span");
     \u0275\u0275text(8);
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_40_Conditional_5_For_2_For_10_Template, 11, 5, "div", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template, 11, 5, "div", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const group_r81 = ctx.$implicit;
+    const group_r82 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(5, 2, group_r81.header, "yyyy-MM-dd"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(5, 2, group_r82.header, "yyyy-MM-dd"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("(Spent ", ctx_r1.formatTime(group_r81.totalTimeSpent), ")");
+    \u0275\u0275textInterpolate1("(Spent ", ctx_r1.formatTime(group_r82.totalTimeSpent), ")");
     \u0275\u0275advance();
-    \u0275\u0275repeater(group_r81.tasks);
+    \u0275\u0275repeater(group_r82.tasks);
   }
 }
-function TasksComponent_Conditional_40_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_40_Conditional_5_For_2_Template, 11, 5, "div", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_Template, 11, 5, "div", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73997,67 +74343,16 @@ function TasksComponent_Conditional_40_Conditional_5_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.state.closedTasks);
   }
 }
-function TasksComponent_Conditional_40_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Template(rf, ctx) {
   if (rf & 1) {
-    const _r76 = \u0275\u0275getCurrentView();
+    const _r77 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div", 17);
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r76);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r77);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseClosedTasks"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_40_Conditional_5_Template, 3, 0, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseClosedTasks ? "+" : "-", " Closed Tasks");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseClosedTasks ? 5 : -1);
-  }
-}
-function TasksComponent_Conditional_41_Conditional_5_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1);
-    \u0275\u0275pipe(2, "date");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const s_r83 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate6(" date: ", \u0275\u0275pipeBind2(2, 6, s_r83.date, "yyyy-MM-dd"), " tasks done: ", s_r83.tasksDone, " estimated: ", ctx_r1.formatTime(s_r83.estimated * 60), " spent: ", ctx_r1.formatTime(s_r83.timeSpent), " Productivity: ", s_r83.productivity, " Real Time Elapsed: ", ctx_r1.formatTime(s_r83.realTimeElapsed), " ");
-  }
-}
-function TasksComponent_Conditional_41_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_Template, 3, 9, "div", null, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.reports.week);
-  }
-}
-function TasksComponent_Conditional_41_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r82 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r82);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsWeekDistribution"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
@@ -74068,12 +74363,63 @@ function TasksComponent_Conditional_41_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseClosedTasks ? "+" : "-", " Closed Tasks");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r1.options.optCollapseClosedTasks ? 5 : -1);
+  }
+}
+function TasksComponent_Conditional_42_Conditional_5_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "date");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const s_r84 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate6(" date: ", \u0275\u0275pipeBind2(2, 6, s_r84.date, "yyyy-MM-dd"), " tasks done: ", s_r84.tasksDone, " estimated: ", ctx_r1.formatTime(s_r84.estimated * 60), " spent: ", ctx_r1.formatTime(s_r84.timeSpent), " Productivity: ", s_r84.productivity, " Real Time Elapsed: ", ctx_r1.formatTime(s_r84.realTimeElapsed), " ");
+  }
+}
+function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_42_Conditional_5_For_2_Template, 3, 9, "div", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r1.reports.week);
+  }
+}
+function TasksComponent_Conditional_42_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r83 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275element(1, "hr");
+    \u0275\u0275elementStart(2, "button", 9);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r83);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsWeekDistribution"));
+    });
+    \u0275\u0275elementStart(3, "strong");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_42_Conditional_5_Template, 3, 0, "div");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseReportsWeekDistribution ? "+" : "-", " Week Distribution Report");
     \u0275\u0275advance();
     \u0275\u0275conditional(!ctx_r1.options.optCollapseReportsWeekDistribution ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_42_Conditional_5_For_14_Template(rf, ctx) {
+function TasksComponent_Conditional_43_Conditional_5_For_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
@@ -74092,30 +74438,30 @@ function TasksComponent_Conditional_42_Conditional_5_For_14_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const r_r85 = ctx.$implicit;
+    const r_r86 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r85.record);
+    \u0275\u0275textInterpolate(r_r86.record);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r85.eta * 60));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r86.eta * 60));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r85.real));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r86.real));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r85.percentageEta);
+    \u0275\u0275textInterpolate(r_r86.percentageEta);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r85.percentageReal);
+    \u0275\u0275textInterpolate(r_r86.percentageReal);
   }
 }
-function TasksComponent_Conditional_42_Conditional_5_Conditional_15_Template(rf, ctx) {
+function TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "canvas", 121);
+    \u0275\u0275element(0, "canvas", 126);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275property("datasets", ctx_r1.viewData.dayDistributionChart.chartData)("labels", ctx_r1.viewData.dayDistributionChart.chartLabels)("options", ctx_r1.viewData.dayDistributionChart.chartOptions)("legend", ctx_r1.viewData.dayDistributionChart.chartLegend)("type", ctx_r1.viewData.dayDistributionChart.chartType);
   }
 }
-function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
     \u0275\u0275text(4, "Record");
@@ -74132,9 +74478,9 @@ function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "td");
     \u0275\u0275text(12, "Percentage Real");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_42_Conditional_5_For_14_Template, 11, 5, "tr", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_43_Conditional_5_For_14_Template, 11, 5, "tr", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_42_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 121);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 126);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74145,21 +74491,21 @@ function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.viewData.dayDistributionChart.chartData[0].data.length > 0 ? 15 : -1);
   }
 }
-function TasksComponent_Conditional_42_Template(rf, ctx) {
+function TasksComponent_Conditional_43_Template(rf, ctx) {
   if (rf & 1) {
-    const _r84 = \u0275\u0275getCurrentView();
+    const _r85 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r84);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_43_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r85);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsDayDistribution"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_42_Conditional_5_Template, 16, 1, "div");
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_43_Conditional_5_Template, 16, 1, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74170,7 +74516,7 @@ function TasksComponent_Conditional_42_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseReportsDayDistribution ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_43_Conditional_5_For_10_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Conditional_5_For_10_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
@@ -74183,17 +74529,17 @@ function TasksComponent_Conditional_43_Conditional_5_For_10_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const q_r87 = ctx.$implicit;
+    const q_r88 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(q_r87.qualifier);
+    \u0275\u0275textInterpolate(q_r88.qualifier);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(q_r87.taskCount);
+    \u0275\u0275textInterpolate(q_r88.taskCount);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(q_r87.totalETA * 60));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(q_r88.totalETA * 60));
   }
 }
-function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
     \u0275\u0275text(4, "Qualifier");
@@ -74204,7 +74550,7 @@ function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementStart(7, "td");
     \u0275\u0275text(8, "Total ETA");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_43_Conditional_5_For_10_Template, 7, 3, "tr", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_44_Conditional_5_For_10_Template, 7, 3, "tr", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -74213,21 +74559,21 @@ function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.reports.qualifierTotals);
   }
 }
-function TasksComponent_Conditional_43_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Template(rf, ctx) {
   if (rf & 1) {
-    const _r86 = \u0275\u0275getCurrentView();
+    const _r87 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_43_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r86);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_44_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r87);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseQualifiersTotals"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_43_Conditional_5_Template, 11, 0, "div");
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_44_Conditional_5_Template, 11, 0, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74238,40 +74584,40 @@ function TasksComponent_Conditional_43_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseQualifiersTotals ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_44_For_8_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_45_For_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r88 = \u0275\u0275getCurrentView();
+    const _r89 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "td");
     \u0275\u0275text(1);
     \u0275\u0275elementStart(2, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_44_For_8_For_2_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r88);
-      const c_r89 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_45_For_8_For_2_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r89);
+      const c_r90 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.sendFEToBE(c_r89));
+      return \u0275\u0275resetView(ctx_r1.sendFEToBE(c_r90));
     });
     \u0275\u0275text(3, "Send FE data to BE");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const f_r90 = ctx.$implicit;
+    const f_r91 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate5(" displayName: ", f_r90.displayName, " | name: ", f_r90.name, " | comparison: ", f_r90.isEqual, " | data FE: ", f_r90.client, " | data BE: ", f_r90.server, " ");
+    \u0275\u0275textInterpolate5(" displayName: ", f_r91.displayName, " | name: ", f_r91.name, " | comparison: ", f_r91.isEqual, " | data FE: ", f_r91.client, " | data BE: ", f_r91.server, " ");
   }
 }
-function TasksComponent_Conditional_44_For_8_Template(rf, ctx) {
+function TasksComponent_Conditional_45_For_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_44_For_8_For_2_Template, 4, 5, "td", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_45_For_8_For_2_Template, 4, 5, "td", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const c_r89 = ctx.$implicit;
+    const c_r90 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275repeater(c_r89);
+    \u0275\u0275repeater(c_r90);
   }
 }
-function TasksComponent_Conditional_44_Template(rf, ctx) {
+function TasksComponent_Conditional_45_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1);
@@ -74280,7 +74626,7 @@ function TasksComponent_Conditional_44_Template(rf, ctx) {
     \u0275\u0275element(4, "br");
     \u0275\u0275text(5);
     \u0275\u0275elementStart(6, "table");
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_44_For_8_Template, 3, 0, "tr", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_45_For_8_Template, 3, 0, "tr", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -74295,12 +74641,12 @@ function TasksComponent_Conditional_44_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.comparisonData.results);
   }
 }
-function TasksComponent_Conditional_45_Conditional_4_Template(rf, ctx) {
+function TasksComponent_Conditional_46_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    const _r92 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 129);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Conditional_4_Template_span_click_0_listener($event) {
-      \u0275\u0275restoreView(_r92);
+    const _r93 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 134);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Conditional_4_Template_span_click_0_listener($event) {
+      \u0275\u0275restoreView(_r93);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleTimeTracking(ctx_r1.selectedTask, $event));
     });
@@ -74308,12 +74654,12 @@ function TasksComponent_Conditional_45_Conditional_4_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_45_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_46_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r93 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 130);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Conditional_5_Template_span_click_0_listener($event) {
-      \u0275\u0275restoreView(_r93);
+    const _r94 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 135);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Conditional_5_Template_span_click_0_listener($event) {
+      \u0275\u0275restoreView(_r94);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleTimeTracking(ctx_r1.selectedTask, $event));
     });
@@ -74321,42 +74667,42 @@ function TasksComponent_Conditional_45_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_45_Template(rf, ctx) {
+function TasksComponent_Conditional_46_Template(rf, ctx) {
   if (rf & 1) {
-    const _r91 = \u0275\u0275getCurrentView();
+    const _r92 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div", 18)(1, "div");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 122);
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_45_Conditional_4_Template, 2, 0, "span", 123);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_45_Conditional_5_Template, 2, 0, "span", 124);
-    \u0275\u0275elementStart(6, "span", 125);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Template_span_click_6_listener() {
-      \u0275\u0275restoreView(_r91);
+    \u0275\u0275elementStart(3, "div", 127);
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_46_Conditional_4_Template, 2, 0, "span", 128);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_46_Conditional_5_Template, 2, 0, "span", 129);
+    \u0275\u0275elementStart(6, "span", 130);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_6_listener() {
+      \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.adjustTimeTracking(ctx_r1.selectedTask));
     });
     \u0275\u0275text(7, "\u21E4");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 126);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Template_span_click_8_listener() {
-      \u0275\u0275restoreView(_r91);
+    \u0275\u0275elementStart(8, "span", 131);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_8_listener() {
+      \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.setSelected(ctx_r1.selectedTask));
     });
     \u0275\u0275text(9, "\u270E");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "span", 127);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Template_span_click_10_listener() {
-      \u0275\u0275restoreView(_r91);
+    \u0275\u0275elementStart(10, "span", 132);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_10_listener() {
+      \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.removeQualifiersFromTask(ctx_r1.selectedTask));
     });
     \u0275\u0275text(11, "\u2612");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "span", 128);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Template_span_click_12_listener() {
-      \u0275\u0275restoreView(_r91);
+    \u0275\u0275elementStart(12, "span", 133);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_12_listener() {
+      \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.selectedTask = null);
     });
@@ -74398,6 +74744,7 @@ var TasksComponent = class _TasksComponent {
   viewReportsWeek = false;
   viewReportsDayDistribution = false;
   viewOptions = false;
+  viewNextOptions = false;
   viewQualifierTotals = false;
   viewETABeforeAdd = false;
   viewAllFinishedToday = false;
@@ -74442,7 +74789,8 @@ var TasksComponent = class _TasksComponent {
     optMoveTimetrackingToAvailableSlotWhenDone: false,
     optHideScrollbarsInRecord: false,
     optShowTaskToolbar: false,
-    optUseColumnsForRecords: false
+    optUseColumnsForRecords: false,
+    optPushStartTimer: false
   };
   timerModeRemaining = false;
   comparisonData;
@@ -74671,12 +75019,22 @@ var TasksComponent = class _TasksComponent {
     if (this.state.closedTodayTasks.length) {
       this.state.karmaScore = Math.round(this.state.karmaCount * 100 / this.state.closedTodayTasks.length) / 100;
     }
-    this.calculateIndicators();
-    this.configChartOpenCountEOD.data = this.state.indicators.find((i4) => i4.name === "All Open Count")?.values || [];
-    const addedToday = this.state.indicators.find((i4) => i4.name === "Added Count")?.values;
-    const closedToday = this.state.indicators.find((i4) => i4.name === "Closed Count")?.values;
-    if (addedToday?.length && closedToday?.length) {
-      this.viewData.nextToDoCutlineForAddedTasks = addedToday[addedToday.length - 1] - closedToday[closedToday.length - 1];
+    const applyIndicatorDerivedState = () => {
+      this.configChartOpenCountEOD.data = this.state.indicators.find((i4) => i4.name === "All Open Count")?.values || [];
+      const addedToday = this.state.indicators.find((i4) => i4.name === "Added Count")?.values;
+      const closedToday = this.state.indicators.find((i4) => i4.name === "Closed Count")?.values;
+      if (addedToday?.length && closedToday?.length) {
+        this.viewData.nextToDoCutlineForAddedTasks = addedToday[addedToday.length - 1] - closedToday[closedToday.length - 1];
+      }
+    };
+    const runIndicatorCalculation = () => {
+      this.calculateIndicators();
+      applyIndicatorDerivedState();
+    };
+    if (typeof window !== "undefined" && window.requestAnimationFrame) {
+      window.requestAnimationFrame(runIndicatorCalculation);
+    } else {
+      setTimeout(runIndicatorCalculation, 0);
     }
     this.tasksNotInSync();
     this.weekStats();
@@ -75202,7 +75560,17 @@ var TasksComponent = class _TasksComponent {
         tsk_ctg_in_process: 2
       });
       this.showTimer(task, dom);
-      this.services.tasksCore.addTimeTracking(task);
+      if (this.options.optPushStartTimer) {
+        const lastOpenTTDateEntry = this.lastOpenTTDateEntryFromDay(/* @__PURE__ */ new Date()) || void 0;
+        if (lastOpenTTDateEntry) {
+          lastOpenTTDateEntry.setMinutes(lastOpenTTDateEntry.getMinutes() + 15);
+        }
+        this.services.tasksCore.addTimeTracking(task, {
+          tsh_date_start: lastOpenTTDateEntry || this.dateUtils.newDateUpToSeconds()
+        });
+      } else {
+        this.services.tasksCore.addTimeTracking(task);
+      }
       if (!task["inNextToDo"]) {
         this.asNextToDo(task, true);
       }
@@ -75417,6 +75785,71 @@ var TasksComponent = class _TasksComponent {
   }
   toggleViewOptions() {
     this.viewOptions = !this.viewOptions;
+  }
+  stopAndClearInProgressTasks() {
+    const inProgress = this.tasks.filter((t3) => t3.tsk_ctg_in_process === 2);
+    if (!inProgress.length) {
+      return;
+    }
+    inProgress.forEach((t3) => {
+      try {
+        const dom = this.getTaskDOMElement(t3.tsk_id);
+        if (dom) {
+          this.hideTimer(t3, dom);
+        }
+      } catch (e2) {
+      }
+      try {
+        this.services.tasksCore.stopTimeTracking(t3);
+      } catch (e2) {
+      }
+      if (this.timers && this.timers[t3.tsk_id]) {
+        try {
+          clearInterval(this.timers[t3.tsk_id].watch);
+        } catch (e2) {
+        }
+        this.timers[t3.tsk_id] = void 0;
+      }
+      t3.tsk_time_history = [];
+      t3.tsk_total_time_spent = 0;
+      t3.tsk_ctg_in_process = 1;
+    });
+    const syncList = inProgress.map((t3) => {
+      const model2 = __spreadValues({}, Utils.removeMetadataFromEntity(t3));
+      model2.tsk_time_history = [];
+      model2.tsk_total_time_spent = 0;
+      model2.tsk_ctg_in_process = 1;
+      return this.services.sync.asSyncQueue("update", model2, { tsk_id: t3.tsk_id }, "Task", (modelResp, response) => {
+        const local = this.tasks.find((x4) => x4.tsk_id === modelResp.tsk_id);
+        if (local) {
+          local.not_sync = false;
+        }
+      }, (e2) => e2.tsk_id + "", (val) => val.tsk_id === t3.tsk_id);
+    });
+    this.services.sync.multipleRequest(syncList, { syncImmediately: true });
+  }
+  markAllNextToDoAsDone() {
+    return __async(this, null, function* () {
+      const tasksToMark = [];
+      if (!this.nextTasks || !this.nextTasks.length) {
+        return;
+      }
+      this.nextTasks.forEach((item) => {
+        if (item && item.tasks && item.tasks.length) {
+          item.tasks.forEach((t3) => tasksToMark.push(t3));
+        }
+      });
+      for (const t3 of tasksToMark) {
+        try {
+          if (t3.tsk_ctg_status === this.taskStatus.CLOSED) {
+            continue;
+          }
+          this.markTaskAsDone(t3, { target: { checked: true }, shiftKey: false });
+          yield new Promise((resolve2) => setTimeout(resolve2, this.delayOnUpdateState + 800));
+        } catch (e2) {
+        }
+      }
+    });
   }
   ageFontSizeNormalization(t3) {
     let age = this.taskAgeRaw(t3) / 2;
@@ -75873,6 +76306,27 @@ var TasksComponent = class _TasksComponent {
         if (new Date(t3.tsk_date_done).getTime() > lastDate.getTime() && new Date(t3.tsk_date_done).getTime() < nextDay0.getTime()) {
           lastDate = new Date(t3.tsk_date_done);
         }
+      }
+    });
+    if (lastDate === day0) {
+      return null;
+    }
+    return lastDate;
+  }
+  lastOpenTTDateEntryFromDay(date) {
+    let day0 = this.services.tasksCore.dateOnly(date);
+    let nextDay0 = this.addDays(day0, 1);
+    let lastDate = day0;
+    let tasksOfTheDay = this.tasks.filter((t3) => {
+      return t3.tsk_ctg_status !== TaskStatus.CLOSED && t3.tsk_ctg_in_process === 2;
+    });
+    tasksOfTheDay.forEach((t3) => {
+      if (t3.tsk_time_history.length) {
+        t3.tsk_time_history.forEach((h5) => {
+          if (new Date(h5.tsh_date_start) > lastDate && day0 < new Date(h5.tsh_date_start)) {
+            lastDate = new Date(h5.tsh_date_start);
+          }
+        });
       }
     });
     if (lastDate === day0) {
@@ -76401,23 +76855,37 @@ var TasksComponent = class _TasksComponent {
     }
   }
   adjustTimeTracking(t3, triggerUpdateTask) {
-    let tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), 1)));
+    let randomDiff = 5;
+    let tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), 3)));
+    if (!tt2) {
+      tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), 2)));
+      randomDiff = 4;
+    }
+    if (!tt2) {
+      tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), 1)));
+      randomDiff = 3;
+    }
     if (!tt2) {
       tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(/* @__PURE__ */ new Date()));
+      randomDiff = 3;
     }
     if (!tt2) {
       tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), -1)));
+      randomDiff = 2;
     }
     if (!tt2) {
       tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), -2)));
+      randomDiff = 2;
     }
     if (!tt2) {
       tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), -3)));
+      randomDiff = 1;
     }
     if (!tt2) {
       tt2 = this.lastTTEntryFromDay(this.services.dateUtils.dateOnly(this.services.dateUtils.addDays(/* @__PURE__ */ new Date(), -4)));
+      randomDiff = 1;
     }
-    const calcRandomFinish = (estimated) => (estimated - 2) * 60 + Math.floor(Math.random() * 2 * 10 * 6);
+    const calcRandomFinish = (estimated) => (estimated - randomDiff) * 60 + Math.floor(Math.random() * 10 * 6);
     if (tt2 && t3["tsk_time_history"].length) {
       t3["tsk_time_history"][t3["tsk_time_history"].length - 1].tsh_date_start = tt2;
       if (t3.tsk_ctg_in_process == 1) {
@@ -76463,9 +76931,12 @@ var TasksComponent = class _TasksComponent {
   }
   projectNextTasksDates() {
     let projectionDate = this.lastTTEntryFromDay(DateUtils.addDays(/* @__PURE__ */ new Date(), 1)) || this.lastTTEntryFromDay(/* @__PURE__ */ new Date()) || this.lastTTEntryFromDay(DateUtils.addDays(/* @__PURE__ */ new Date(), -1)) || /* @__PURE__ */ new Date();
+    let projectionDateFromNow = /* @__PURE__ */ new Date();
     this.nextTasks[0].tasks.forEach((t3) => {
       t3.projectedDate = new Date(projectionDate);
       projectionDate = new Date(projectionDate.getTime() + t3.tsk_estimated_duration * 60 * 1e3);
+      t3.projectedDateFromNow = new Date(projectionDateFromNow);
+      projectionDateFromNow = new Date(projectionDateFromNow.getTime() + t3.tsk_estimated_duration * 60 * 1e3);
     });
     this.state.inProgressTasksCount = this.tasks.filter((t3) => t3.tsk_ctg_in_process === 2).length;
   }
@@ -76565,7 +77036,7 @@ var TasksComponent = class _TasksComponent {
   static \u0275fac = function TasksComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _TasksComponent)(\u0275\u0275directiveInject(TasksCore), \u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(TaskIndicator), \u0275\u0275directiveInject(DateCommon), \u0275\u0275directiveInject(NotificationService), \u0275\u0275directiveInject(Title));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 47, vars: 41, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [3, "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 48, vars: 41, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px", 4, "ngIf"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "next-options", 2, "margin-top", "8px"], [2, "margin-left", "8px", 3, "click"], [3, "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", null, 0);
       \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_2_Template, 1, 1, "input", 1);
@@ -76587,7 +77058,7 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_10_Template, 2, 1, "button");
       \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_11_Template, 7, 2, "div");
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_12_Template, 287, 26, "div");
+      \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_12_Template, 286, 27, "div");
       \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_13_Template, 27, 14, "div", 5);
       \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_14_Template, 7, 4, "div", 6);
       \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_15_Template, 6, 0, "div", 7);
@@ -76616,18 +77087,19 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275conditionalCreate(33, TasksComponent_Conditional_33_Template, 9, 5, "div");
       \u0275\u0275conditionalCreate(34, TasksComponent_Conditional_34_Template, 6, 2, "div", 13);
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(35, TasksComponent_Conditional_35_Template, 5, 0, "div", 14);
-      \u0275\u0275conditionalCreate(36, TasksComponent_Conditional_36_Template, 5, 0, "div", 15);
-      \u0275\u0275conditionalCreate(37, TasksComponent_Conditional_37_Template, 11, 5, "div", 16);
-      \u0275\u0275conditionalCreate(38, TasksComponent_Conditional_38_Template, 7, 3, "div");
+      \u0275\u0275element(35, "app-stopwatch");
+      \u0275\u0275conditionalCreate(36, TasksComponent_Conditional_36_Template, 5, 0, "div", 14);
+      \u0275\u0275conditionalCreate(37, TasksComponent_Conditional_37_Template, 5, 0, "div", 15);
+      \u0275\u0275conditionalCreate(38, TasksComponent_Conditional_38_Template, 11, 5, "div", 16);
       \u0275\u0275conditionalCreate(39, TasksComponent_Conditional_39_Template, 7, 3, "div");
-      \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_40_Template, 6, 2, "div", 17);
-      \u0275\u0275conditionalCreate(41, TasksComponent_Conditional_41_Template, 6, 2, "div");
+      \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_40_Template, 7, 3, "div");
+      \u0275\u0275conditionalCreate(41, TasksComponent_Conditional_41_Template, 6, 2, "div", 17);
       \u0275\u0275conditionalCreate(42, TasksComponent_Conditional_42_Template, 6, 2, "div");
       \u0275\u0275conditionalCreate(43, TasksComponent_Conditional_43_Template, 6, 2, "div");
-      \u0275\u0275conditionalCreate(44, TasksComponent_Conditional_44_Template, 9, 3, "div");
-      \u0275\u0275conditionalCreate(45, TasksComponent_Conditional_45_Template, 14, 6, "div", 18);
-      \u0275\u0275element(46, "task-toolbar", 19);
+      \u0275\u0275conditionalCreate(44, TasksComponent_Conditional_44_Template, 6, 2, "div");
+      \u0275\u0275conditionalCreate(45, TasksComponent_Conditional_45_Template, 9, 3, "div");
+      \u0275\u0275conditionalCreate(46, TasksComponent_Conditional_46_Template, 14, 6, "div", 18);
+      \u0275\u0275element(47, "task-toolbar", 19);
     }
     if (rf & 2) {
       const tasksForm_r5 = \u0275\u0275reference(1);
@@ -76677,1921 +77149,1959 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275conditional(!ctx.options.optUsePresentationMode ? 33 : -1);
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.options.optShowIndicatorsTable ? 34 : -1);
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.nextTasks[0].tasks.length ? 36 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.nextTasks[0].tasks.length ? 35 : -1);
+      \u0275\u0275conditional(ctx.pinnedTasks[0].tasks.length ? 37 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.pinnedTasks[0].tasks.length ? 36 : -1);
+      \u0275\u0275conditional(ctx.tagInfo.display === true ? 38 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.tagInfo.display === true ? 37 : -1);
+      \u0275\u0275conditional(ctx.options.optShowFinishedToday ? 39 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowFinishedToday ? 38 : -1);
+      \u0275\u0275conditional(ctx.options.optShowFinishedYesterday ? 40 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowFinishedYesterday ? 39 : -1);
+      \u0275\u0275conditional(ctx.options.optShowClosedTasks ? 41 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowClosedTasks ? 40 : -1);
+      \u0275\u0275conditional(ctx.options.optShowReportsWeekDistribution ? 42 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowReportsWeekDistribution ? 41 : -1);
+      \u0275\u0275conditional(ctx.options.optShowReportsDayDistribution ? 43 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowReportsDayDistribution ? 42 : -1);
+      \u0275\u0275conditional(ctx.options.optShowQualifiersTotals ? 44 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowQualifiersTotals ? 43 : -1);
+      \u0275\u0275conditional(ctx.comparisonData ? 45 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.comparisonData ? 44 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.selectedTask ? 45 : -1);
+      \u0275\u0275conditional(ctx.selectedTask ? 46 : -1);
       \u0275\u0275advance();
       \u0275\u0275property("task", ctx.selectedTask)("groupTasks", ctx.selectedRecord)("handlers", ctx.handlersForTaskToolbar)("options", \u0275\u0275pureFunction0(40, _c06));
     }
-  }, dependencies: [NgClass, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, BaseChartDirective, TaskComponent, TaskToolbarComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n/*# sourceMappingURL=tasks-BQNOMA3O.css.map */'], changeDetection: 1 });
+  }, dependencies: [NgClass, NgIf, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, BaseChartDirective, StopwatchComponent, TaskComponent, TaskToolbarComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n/*# sourceMappingURL=tasks-BQNOMA3O.css.map */'], changeDetection: 1 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TasksComponent, [{
     type: Component,
-    args: [{ selector: "tasks", providers: [TasksCore, TaskIndicator], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<form #tasksForm="ngForm">
-  @if (!showBatchAdd) {
-  <input
-    type="text"
-    name="tsk_name"
-    placeholder="Write a task..."
-    class="task"
-    autocomplete="off"
-    autofocus="true"
-    (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"
-    [(ngModel)]="tsk_name"
-  />
-  } @if (showBatchAdd) {
-  <div class="grow-wrap">
-    <textarea
-      name="tsk_multiple_name"
-      placeholder="Write a task per line..."
-      class="task-multiple"
-      (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"
-      [(ngModel)]="tsk_multiple_name"
-      spellcheck="false"
-      autofocus="true"
-    ></textarea>
-    <label for="target_date">Target date</label>
-    <input
-      type="date"
-      id="target_date"
-      name="target_date"
-      style="width: fit-content"
-      [(ngModel)]="targetDate"
-    />
-  </div>
-  } @if ((tasksForm.value.tsk_name && !showBatchAdd) ||
-  (tasksForm.value.tsk_multiple_name && showBatchAdd)) {
-  <button type="submit" (click)="addTask(tasksForm)" id="btnAddTask">
-    Add task
-  </button>
-  } @if (state.postponedTasksCount) {
-  <button (click)="toggleViewPostponed()">
-    {{ viewPostponed ? "hide" : "show" }} postponed
-  </button>
-  }
-  <button (click)="inputKeyUpHandler($event, { showBatchAdd: true })">
-    {{ showBatchAdd ? "hide" : "show" }} batch add
-  </button>
-  <button (click)="toggleViewOptions()">
-    {{ viewOptions ? "hide" : "show" }} options
-  </button>
-  @if (options.optShowLimitedTasksPerRecord) {
-  <button
-    (click)="options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord"
-  >
-    {{ options.optLimitTasksPerRecord ? "remove" : "apply" }} limit view
-  </button>
-  } @if (viewETABeforeAdd) {
-  <div>
-    <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>
-    <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>
-    @for (r of state.beforeAddETA; track r) {
-    <div>
-      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }} /
-      {{r.totalETAPercentage}}%]
-    </div>
-    }
-  </div>
-  }
-</form>
-@if (viewOptions) {
-<div>
-  <hr />
-  <button (click)="deleteTasks()" class="btn-secondary">
-    delete all tasks
-  </button>
-  <button (click)="clearNextTasks()">clear next tasks listing</button>
-  <br />
-  <div class="task-options-section-title">Showing / hiding sections</div>
-  <checkbox-option
-    label="Show backlog section"
-    optionId="optShowBacklog"
-    [checked]="options.optShowBacklog"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show Finished Today"
-    optionId="optShowFinishedToday"
-    [checked]="options.optShowFinishedToday"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show Finished Yesterday"
-    optionId="optShowFinishedYesterday"
-    [checked]="options.optShowFinishedYesterday"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show closed tasks section"
-    optionId="optShowClosedTasks"
-    [checked]="options.optShowClosedTasks"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show week distribution report section"
-    optionId="optShowReportsWeekDistribution"
-    [checked]="options.optShowReportsWeekDistribution"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show day distribution report section"
-    optionId="optShowReportsDayDistribution"
-    [checked]="options.optShowReportsDayDistribution"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show qualifiers totals section"
-    optionId="optShowQualifiersTotals"
-    [checked]="options.optShowQualifiersTotals"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <div class="task-options-section-title">Customize features</div>
-  <checkbox-option
-    label="Display days elapsed since task was added"
-    optionId="optViewElapsedDays"
-    [checked]="options.optViewElapsedDays"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show Collapse/Expand buttons for record listings"
-    optionId="optShowCollapseRecords"
-    [checked]="options.optShowCollapseRecords"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show tasks filter"
-    optionId="optShowFilter"
-    [checked]="options.optShowFilter"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show sync tasks button"
-    optionId="optShowSyncButton"
-    [checked]="options.optShowSyncButton"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Use presentation mode for meetings"
-    optionId="optUsePresentationMode"
-    [checked]="options.optUsePresentationMode"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="When a new task is added, add it to BACKLOG instead (of adding it to OPEN)"
-    optionId="optNewTaskStatusIsBacklog"
-    [checked]="options.optNewTaskStatusIsBacklog"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show first 3 tasks per record"
-    optionId="optShowLimitedTasksPerRecord"
-    [checked]="options.optShowLimitedTasksPerRecord"
-    (onClick)="toggleOptionById($event); updateState()"
-  ></checkbox-option>
-  <checkbox-option
-    label="Colorize record listing without finished tasks today"
-    optionId="optColorizeRecordWithoutDoneTasks"
-    [checked]="options.optColorizeRecordWithoutDoneTasks"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Use end datetime of task timetracking as task done date when this one is a future datetime"
-    optionId="optUseEndTTDateAsDoneDate"
-    [checked]="options.optUseEndTTDateAsDoneDate"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Allow to edit ETA in tasks"
-    optionId="optAllowToEditETA"
-    [checked]="options.optAllowToEditETA"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Show task toolbar in desktop"
-    optionId="optShowTaskToolbar"
-    [checked]="options.optShowTaskToolbar"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Add newly created tasks to Next Tasks listing"
-    optionId="optAddNewTasksToNextTasks"
-    [checked]="options.optAddNewTasksToNextTasks"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Move time tracking to an available slot when task is marked done"
-    optionId="optMoveTimetrackingToAvailableSlotWhenDone"
-    [checked]="options.optMoveTimetrackingToAvailableSlotWhenDone"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Hide scrollbars for all Record listings when it has too much items"
-    optionId="optHideScrollbarsInRecord"
-    [checked]="options.optHideScrollbarsInRecord"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <checkbox-option
-    label="Use columns and full width for records (useful when record has too much items)"
-    optionId="optUseColumnsForRecords"
-    [checked]="options.optUseColumnsForRecords"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  <div>
-    <input
-      type="number"
-      step="1"
-      name="optRecordWidth"
-      [(value)]="options.optRecordWidth"
-      (change)="saveOption('optRecordWidth', $event.target.valueAsNumber)"
-      class="field-input-small"
-    />
-    <label>Record listing width (in px, desktop only, minimum is 200)</label>
-  </div>
-  <div>
-    <input
-      type="number"
-      step="1"
-      name="optRecordHeight"
-      [(value)]="options.optRecordHeight"
-      (change)="saveOption('optRecordHeight', $event.target.valueAsNumber)"
-      class="field-input-small"
-    />
-    <label>Record listing height (in px, desktop only)</label>
-  </div>
-  <div class="task-options-section-title">Showing / hiding Indicators</div>
-  <checkbox-option
-    label="Show Indicators Table"
-    optionId="optShowIndicatorsTable"
-    [checked]="options.optShowIndicatorsTable"
-    (onClick)="toggleOptionById($event)"
-  ></checkbox-option>
-  @if (options.optShowIndicatorsTable) {
-  <div>
-    <checkbox-option
-      label="Show Indicator - Open Count"
-      optionId="optShowIndicatorOpenCountEOD"
-      [checked]="options.optShowIndicatorOpenCountEOD"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Added ETA"
-      optionId="optShowIndicatorAddedETA"
-      [checked]="options.optShowIndicatorAddedETA"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Added Count"
-      optionId="optShowIndicatorAddedCount"
-      [checked]="options.optShowIndicatorAddedCount"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Closed ETA"
-      optionId="optShowIndicatorClosedETA"
-      [checked]="options.optShowIndicatorClosedETA"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Closed Spent"
-      optionId="optShowIndicatorClosedSpent"
-      [checked]="options.optShowIndicatorClosedSpent"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Closed Count"
-      optionId="optShowIndicatorClosedCount"
-      [checked]="options.optShowIndicatorClosedCount"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Productivity Ratio"
-      optionId="optShowIndicatorProductivityRatio"
-      [checked]="options.optShowIndicatorProductivityRatio"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Time Management Ratio"
-      optionId="optShowIndicatorTimeManagementRatio"
-      [checked]="options.optShowIndicatorTimeManagementRatio"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - First TimeTracking Stamp of Day"
-      optionId="optShowIndicatorFirstTTStamp"
-      [checked]="options.optShowIndicatorFirstTTStamp"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Last TimeTracking Stamp of Day"
-      optionId="optShowIndicatorLastTTStamp"
-      [checked]="options.optShowIndicatorLastTTStamp"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Open ETA"
-      optionId="optShowIndicatorOpenETA"
-      [checked]="options.optShowIndicatorOpenETA"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Open Spent"
-      optionId="optShowIndicatorOpenSpent"
-      [checked]="options.optShowIndicatorOpenSpent"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Backlog Count"
-      optionId="optShowIndicatorBacklogCount"
-      [checked]="options.optShowIndicatorBacklogCount"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - Backlog ETA"
-      optionId="optShowIndicatorBacklogETA"
-      [checked]="options.optShowIndicatorBacklogETA"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - All Open Count"
-      optionId="optShowIndicatorAllOpenCount"
-      [checked]="options.optShowIndicatorAllOpenCount"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-    <checkbox-option
-      label="Show Indicator - All Open ETA"
-      optionId="optShowIndicatorAllOpenETA"
-      [checked]="options.optShowIndicatorAllOpenETA"
-      (onClick)="toggleOptionById($event); calculateIndicators()"
-    ></checkbox-option>
-  </div>
-  }
-  <div>
-    <div class="task-options-section-title">Keyboard Shortcuts Reference</div>
-    <table>
-      <thead>
-        <tr>
-          <th>Keys</th>
-          <th>Where</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><kbd>F2</kbd></td>
-          <td>In task</td>
-          <td>Start/Stop task time tracking</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>1</kbd></td>
-          <td>In task</td>
-          <td>Marks task as completed</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>2</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: star</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>3</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: highlighted</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>4</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: priority</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>5</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: important</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>6</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: urgent</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>7</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: unexpected</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>8</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: progressed</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>9</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: people</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>/</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: flag</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>-</kbd></td>
-          <td>In task</td>
-          <td>Toggle qualifier: blocked</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>0</kbd></td>
-          <td>In task</td>
-          <td>Clear all qualifiers</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>t</kbd></td>
-          <td>In task</td>
-          <td>Adjusts time tracking to an earlier available slot</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>s</kbd></td>
-          <td>In task</td>
-          <td>Sets the task as selected and show details</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>Supr</kbd></td>
-          <td>In task</td>
-          <td>Sets status cancelled</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>b</kbd></td>
-          <td>In task</td>
-          <td>Moves the task to backlog section</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>+</kbd></td>
-          <td>In task</td>
-          <td>Focus the new task input</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>n</kbd></td>
-          <td>In task</td>
-          <td>Adds task to next task listing</td>
-        </tr>
-        <tr>
-          <td><kbd>Alt</kbd> + <kbd>r</kbd></td>
-          <td>In task</td>
-          <td>Removes task from next task listing</td>
-        </tr>
-        <tr>
-          <td><kbd>Shift</kbd> + <kbd>F2</kbd></td>
-          <td>In task</td>
-          <td>
-            Stops other tasks in progress, starts time tracking for current task
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div id="optionsMessages"></div>
-</div>
-} @if (state.selected) {
-<div id="taskDetails" class="tasks-details">
-  <img
-    src="/assets/icons/close.svg"
-    class="close-button-img"
-    (click)="state.selected = null"
-  />
-  <strong>Task Details</strong>
-  <br />
-  <br />
-  @if (!options.optUsePresentationMode) {
-  <div>Id: {{ state.selected.tsk_id }}</div>
-  }
-  <div>Name: {{ state.selected.tsk_name }}</div>
-  @if (!options.optUsePresentationMode) {
-  <div>
-    <div>Container: {{ state.selected.tsk_id_container }}</div>
-    <div>Record: {{ state.selected.tsk_id_record }}</div>
-    <div>Parent: {{ state.selected.tsk_parent }}</div>
-    <div>Order: {{ state.selected.tsk_order }}</div>
-  </div>
-  }
-  <div>
-    Notes:
-    <br />
-    <div class="grow-wrap">
-      <textarea
-        spellcheck="false"
-        (blur)="setTaskNotes(state.selected, $event)"
-      >
-                  {{ state.selected.tsk_notes }}</textarea
-      >
-      @if (state.selected.tsk_notes.length) {
-      <span> {{ state.selected.tsk_notes.length }} / 4000 characters </span>
-      }
-    </div>
-  </div>
-  @if (state.selected.tsk_date_done) {
-  <div>
-    Date Done:
-    <span
-      contenteditable="true"
-      spellcheck="false"
-      (keyup)="editDateDone(state.selected, $event)"
-      >{{ state.selected.tsk_date_done | date: format }}</span
-    >
-  </div>
-  } @if (state.selected.tsk_total_time_spent) {
-  <div>
-    Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}
-  </div>
-  } @if (state.selected.tsk_total_time_spent) {
-  <div>
-    @if (state.selected.tsk_time_history.length) {
-    <fieldset>
-      <legend>Time History</legend>
-      <table>
-        <tr>
-          <td>Sequential</td>
-          <td>Name</td>
-          <td>Date Start</td>
-          <td>Date End</td>
-          <td>Time Spent</td>
-          <td>User</td>
-          <td>Date Add</td>
-          <td>Date Mod</td>
-          <td>Actions</td>
-        </tr>
-        @for (h of state.selected.tsk_time_history; track h) {
-        <tr>
-          <td>{{ h.tsh_num_secuential }}</td>
-          <td>{{ h.tsh_name }}</td>
-          <td>
-            <span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="editTimeTracking(h, 1, $event)"
-              >{{ h.tsh_date_start | date: format }}</span
-            >
-          </td>
-          <td>
-            <span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="editTimeTracking(h, 2, $event)"
-              >{{ h.tsh_date_end | date: format }}</span
-            >
-          </td>
-          <td>{{ formatTime(h.tsh_time_spent) }}</td>
-          <td>{{ h.tsh_id_user }}</td>
-          <td>{{ h.tsh_date_add | date: format }}</td>
-          <td>{{ h.tsh_date_mod | date: format }}</td>
-          <td>
-            @if (h.tsh_date_end) {
-            <button (click)="deleteTimeTracking(state.selected, h)">
-              delete
-            </button>
-            }
-          </td>
-        </tr>
-        }
-      </table>
-    </fieldset>
-    }
-  </div>
-  } @if (!options.optUsePresentationMode) {
-  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>
-  } @if (state.selected.tsk_qualifiers) {
-  <div>
-    Qualifiers:
-    <span
-      contenteditable="true"
-      spellcheck="false"
-      (blur)="taskQualifiersEdit(state.selected, $event)"
-      >{{ state.selected.tsk_qualifiers }}</span
-    >
-  </div>
-  } @if (state.selected.tsk_tags) {
-  <div>
-    Tags:
-    <span
-      contenteditable="true"
-      spellcheck="false"
-      (blur)="taskTagsEdit(state.selected, $event)"
-      >{{ state.selected.tsk_tags }}</span
-    >
-  </div>
-  }
-  <div>
-    Estimated Duration: {{ formatTime(state.selected.tsk_estimated_duration *
-    60, "#h#m") }}
-  </div>
-  @if (!options.optUsePresentationMode) {
-  <div>
-    <div>
-      Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:
-      format }}
-    </div>
-    <div>
-      Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format
-      }}
-    </div>
-    <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>
-    <div>User Added: {{ state.selected.tsk_id_user_added }}</div>
-    <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>
-    <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>
-    <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>
-  </div>
-  } @if (!options.optUsePresentationMode) {
-  <div>Status: {{ state.selected.tsk_ctg_status }}</div>
-  }
-</div>
-} @if (options.optShowBacklog) {
-<div id="backlogTaskList">
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseBacklog')"
-  >
-    <strong>{{ options.optCollapseBacklog ? '+' : '-' }} Backlog</strong>
-  </button>
-  | {{ state.backlogTasks.length }} lists {{ state.backlogTasksCount }} tasks
-  @if (!options.optCollapseBacklog) {
-  <div
-    [ngClass]="{
-      'task-open-task-list-container': true,
-      'task-open-task-list-container--grid': layout === 'grid',
-      'task-open-task-list-container--float': layout === 'float'
-    }"
-  >
-    @for (item of state.backlogTasks; track item) {
-    <div
-      class="task-record"
-      [ngClass]="{
-        'hidden': item.collapsed
-      }"
-    >
-      <div>
-        <button
-          class="button-link no-underline"
-          (click)="toggleCollapsedRecord(item, true)"
-        >
-          <strong>- {{ item.header }}</strong>
-        </button>
-        ({{ formatTime(item.estimatedDuration * 60) }})
-      </div>
-      <div
-        class="task-record-items"
-        [ngClass]="{
-          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight
-        }"
-        [ngStyle]="{
-          'max-width': (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordWidth + 'px' : defaultOptions.optRecordWidth,
-          'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)
-        }"
-      >
-        @for (t of item.tasks; track t) {
-        <task
-          [task]="t"
-          [groupTasks]="item.tasks"
-          containerSelector="#backlogTaskList"
-          [handlers]="handlersForBacklog"
-          [options]="{
-          optShowRecordNameInline: true,
-          optShowBadgeIfTaskIsInBacklog: true
-        }"
-          [ngClass]="{
-          hidden:
-            options.optShowLimitedTasksPerRecord &&
-            options.optLimitTasksPerRecord &&
-            i >= 3 &&
-            t.tsk_time_history.length === 0
-        }"
-          [ngStyle]="{
-          'font-size-2': ageFontSizeNormalization(t) + 'px'
-        }"
-        ></task>
-        }
-      </div>
-    </div>
-    }
-  </div>
-  }
-</div>
-} @if (viewPostponed) {
-<div id="postponedTaskList">
-  <strong>Postponed Tasks</strong>
-  @for (t of state.postponedTasks; track t) {
-  <div>
-    - @if (t.tsk_total_time_spent !== 0) {
-    <span
-      >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)
-      }}]</span
-    >
-    }
-    <span
-      contenteditable="true"
-      spellcheck="false"
-      (keyup)="taskEdit(t, $event)"
-      [ngClass]="{
-        'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
-        'task-in-process': t.tsk_ctg_in_process === 2,
-        'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
-        'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
-        'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1
-      }"
-      (blur)="commandOnTask(t, $event)"
-      class="editable"
-      >{{ t.tsk_name }}</span
-    >
-    <span
-      contenteditable="true"
-      spellcheck="false"
-      (blur)="taskEstimatedDurationEdit(t, $event)"
-      [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
-      class="task-eta"
-      >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-    >
-    @if (t.tsk_schedule_date_start) {
-    <span>(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span>
-    }
-    <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-    <span
-      >(postponed until {{ t.tsk_date_view_until | date: "yyyy-MM-dd HH:mm:ss"
-      }})</span
-    >
-    <button (click)="setSelected(t)">details</button>
-    <button (click)="setUnpostpone(t)">see it now</button>
-  </div>
-  }
-  <hr />
-</div>
-}
-<div id="openTaskList">
-  <hr />
-  <span>
-    <button
-      class="button-link no-underline"
-      (click)="toggleOption('optCollapseOpenTasks')"
-    >
-      <strong>{{ options.optCollapseOpenTasks ? '+' : '-' }} Open Tasks</strong>
-    </button>
-    | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks @if
-    (options.optShowSyncButton && !options.optCollapseOpenTasks) {
-    <span>
-      <button (click)="syncTasks()">sync tasks</button>
-    </span>
-    } @if (options.optShowCollapseRecords && !options.optCollapseOpenTasks) {
-    <span>
-      <button (click)="toggleCollapseAllRecords(true)">Collapse all</button>
-      <button (click)="toggleCollapseAllRecords(false)">Expand all</button>
-    </span>
-    } @if (options.optShowFilter && !options.optCollapseOpenTasks) {
-    <span class="padding-left-5 padding-right-5">
-      Filter
-      <select
-        name="fFilter"
-        id="fFilter"
-        class="field-select"
-        [(ngModel)]="viewData.selectedFilter"
-        (change)="updateState()"
-      >
-        @for (opt of CONSTANTS.filters; track opt) {
-        <option
-          [value]="opt.id"
-          [selected]="opt.id === viewData.selectedFilter"
-        >
-          {{ opt.name }}
-        </option>
-        }
-      </select>
-    </span>
-    }
-  </span>
-  @if (!state.openTasks.length) {
-  <div>
-    <strong
-      >No tasks open! Congratulations! Consider reviewing the backlog or add new
-      tasks to do.</strong
-    >
-  </div>
-  } @if (!options.optCollapseOpenTasks) {
-  <div
-    [ngClass]="{
-      'task-open-task-list-container': true,
-      'task-open-task-list-container--grid': layout === 'grid',
-      'task-open-task-list-container--float': layout === 'float'
-    }"
-  >
-    <div class="task-record-collapsed display-block">
-      @for (item of state.openTasks; track item) {
-      <div
-        class="task-record"
-        [ngClass]="{
-          'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
-          'hidden': !item.collapsed
-        }"
-      >
-        @if (item.collapsed) {
-        <div>
-          <button
-            class="button-link no-underline"
-            (click)="toggleCollapsedRecord(item, false)"
-          >
-            <strong>+ {{ item.header }}</strong>
-          </button>
-          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
-          60) }}) @if (countTasksDone(item.header) > 0) {
-          <span>
-            |
-            <span
-              class="task-done"
-              title="tasks done today from this record list"
-            >
-              {{ countTasksDone(item.header) }}
-            </span>
-          </span>
-          }
-        </div>
-        }
-      </div>
-      }
-    </div>
-    @for (item of state.openTasks; track item) {
-    <div
-      class="task-record"
-      [ngClass]="{
-        'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,
-        'hidden': item.collapsed,
-        'task-record-background': isRecordPinned(item.header)
-      }"
-      [ngStyle]="{
-        'max-width': options.optUseColumnsForRecords || (isRecordPinned(item.header) && item.tasks.length >= 20) ? (item.tasks.length >= 30 ? '100%' : '40%') : undefined
-      }"
-    >
-      <div
-        [ngStyle]="{
-        'display': 'flex',
-        'justify-content': 'space-between'
-      }"
-      >
-        <span>
-          <button
-            class="button-link no-underline"
-            (click)="toggleCollapsedRecord(item, true)"
-          >
-            <strong>- {{ item.header }}</strong>
-          </button>
-          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *
-          60) }}) @if (countTasksDone(item.header) > 0) {
-          <span>
-            |
-            <span
-              class="task-done"
-              title="tasks done today from this record list"
-            >
-              {{ countTasksDone(item.header) }}
-            </span>
-          </span>
-          }
-        </span>
-        <span
-          (click)="togglePinRecord(item.header)"
-          [ngStyle]="{
-          'cursor': 'pointer',
-          'border': isRecordPinned(item.header) ? '1px solid grey' : '0'
-        }"
-        >
-          \u{1F4CC}
-        </span>
-      </div>
-      <div
-        class="task-record-items"
-        [ngClass]="{
-          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight,
-          'task-record-use-columns': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20,
-          'task-columns-3': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20 && item.tasks.length <= 30,
-          'task-columns-8': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 60,
-          'task-columns-10': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 100
-        }"
-        [ngStyle]="{
-          'max-width': recordStyle(item.header, 'width'),
-          'max-height': recordStyle(item.header, 'height')
-        }"
-      >
-        @for (t of item.tasks; track t; let i = $index) {
-        <div
-          data-id="{{ t.tsk_id }}"
-          [ngStyle]="{
-            'font-size-2': ageFontSizeNormalization(t) + 'px'
-          }"
-          [ngClass]="{
-            hidden:
-              options.optShowLimitedTasksPerRecord &&
-              options.optLimitTasksPerRecord &&
-              i >= 3 &&
-              t.tsk_time_history.length === 0
-          }"
-        >
-          <input
-            type="checkbox"
-            id="{{ t.tsk_id }}"
-            (click)="taskCheckboxHandler(t, $event)"
-          />
-          @if (t.tsk_total_time_spent !== 0) {
-          <span
-            [ngClass]="{
-              'task-open-with-tt':
-                t.tsk_ctg_status === this.taskStatus.OPEN &&
-                t.tsk_time_history.length > 0
-            }"
-            >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
-            2) {
-            <span>
-              [<span
-                class="tt-start"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
-                .tsh_date_start | date: "HH:mm:ss" }}</span
-              >
-              -
-              <span
-                class="tt-end"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length -
-                1].tsh_date_end | date: "HH:mm:ss" }}</span
-              >]
-            </span>
-            }
-          </span>
-          } @if (t.tsk_ctg_in_process === 2) {
-          <span
-            >[<span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{ t.tsk_time_history[t.tsk_time_history.length -
-              1].tsh_date_start | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          } @if (t.tsk_ctg_in_process === 2) {
-          <span
-            (click)="toggleTimeMode()"
-            class="clickable"
-            title="click to toggle timer mode"
-          >
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
-            }}
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
-          <span class="task-q-critical" title="Critical task">\u{1F525}</span>
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
-          <span class="task-qualifier-icon">&#9733;</span>
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/people.svg"
-              alt="Requires reaching out people"
-              title="Requires reaching out people"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/smartphone.svg"
-              alt="Can be done using phone"
-              title="Can be done using phone"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
-          <span class="task-qualifier-icon">&#10006;</span>
-          } @if (t.inNextToDo) {
-          <span class="task-next-todo-icon">
-            <img
-              src="/assets/icons/energy.svg"
-              alt="In Next To Do Today listing"
-              title="In Next To Do Today listing"
-            />
-          </span>
-          } @if (t.inPinnedToDo) {
-          <span class="task-pinned-todo-icon">
-            <img
-              src="/assets/icons/pin.svg"
-              alt="In Pinned To Do listing"
-              title="In Pinned To Do listing"
-            />
-          </span>
-          }
-          <span
-            contenteditable="true"
-            spellcheck="false"
-            (keyup)="taskEdit(t, $event)"
-            [ngClass]="{
-              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
-              'task-in-process': t.tsk_ctg_in_process === 2,
-              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
-              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
-              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
-              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,
-            }"
-            (blur)="commandOnTask(t, $event)"
-            (focus)="setFocus(t, $event); setTaskSelected(t)"
-            (keydown)="taskKeyDown($event)"
-            tabindex="0"
-            class="editable task-text"
-            >{{ t.tsk_name }}</span
-          >
-          @if (t.tsk_url) {
-          <span class="task-link"
-            >&nbsp;<a
-              href="{{ t.tsk_url }}"
-              title="{{ t.tsk_url }}"
-              target="_blank"
-              >link</a
-            ></span
-          >
-          }<span
-            [attr.contenteditable]="options.optAllowToEditETA"
-            spellcheck="false"
-            (blur)="taskEstimatedDurationEdit(t, $event)"
-            (keydown)="etaKeyDown($event)"
-            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
-            class="task-eta"
-            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-          >
-          @if (t.tsk_tags) {
-          <span class="task-tags"
-            >&nbsp;@for (tag of t.tsk_tags.split(' '); track tag) {
-            <span (click)="showTagStats(tag)" class="tag">#{{ tag }}</span>
-            }
-          </span>
-          } @if (t.tsk_schedule_date_start) {
-          <span
-            ><strong
-              >&nbsp;at {{ formatDateTime(t.tsk_schedule_date_start) }}
-              &#9200;</strong
-            ></span
-          >
-          }&nbsp;@if (options.optViewElapsedDays) {
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-          } @if (t.not_sync) {
-          <span>&#8634;</span>
-          }
-        </div>
-        }
-      </div>
-    </div>
-    }
-  </div>
-  }
-</div>
-<br />
-<div id="Info">
-  <hr />
-  Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }} @if
-  (state.postponedTasksCount) {
-  <span> | Postponed: {{ state.postponedTasksCount }} </span>
-  } @if (!options.optUsePresentationMode) {
-  <div>
-    Karma Score:
-    <span
-      >{{ state.karmaScore }} ({{ state.karmaCount }} / {{
-      state.closedTodayTasks.length }})</span
-    >
-    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong
-      >{{ isOnline() ? "" : "You are OFFLINE" }}</strong
-    >
-  </div>
-  } @if (options.optShowIndicatorsTable) {
-  <div class="task-indicators-container">
-    <div>
-      <button
-        class="button-link no-underline"
-        (click)="toggleOption('optCollapseIndicators')"
-      >
-        <strong
-          >{{ options.optCollapseIndicators ? '+' : '-' }} Indicators</strong
-        >
-      </button>
-    </div>
-    @if (!options.optCollapseIndicators) {
-    <table class="indicators-table">
-      <tr>
-        <td>Indicator</td>
-        @for (c of state.indicatorLabels; track c; let currIndex = $index) {
-        <td
-          [ngClass]="{
-          'desktop-only': currIndex < 3
-        }"
-        >
-          {{ c }}
-        </td>
-        }
-        <td class="text-align-center">%</td>
-      </tr>
-      @for (indicator of state.indicators; track indicator) {
-      <tr>
-        <td>
-          <span> {{ indicator.name }} </span>
-          @if (indicator.metric === 'MORE_IS_BETTER') {
-          <span> &uarr; </span>
-          } @if (indicator.metric === 'LESS_IS_BETTER') {
-          <span> &darr; </span>
-          }
-        </td>
-        @for (v of indicator.formattedValues; track v; let currIndex = $index) {
-        <td
-          [ngClass]="{
-          'desktop-only': currIndex < 3
-        }"
-        >
-          <span
-            [ngClass]="{'color-green': currIndex > 0 && (indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER'),
-          'color-red': currIndex > 0 && (indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER')}"
-          >
-            {{ v }}
-          </span>
-        </td>
-        }
-        <td>{{ indicator.percentageCompleted }}</td>
-      </tr>
-      }
-    </table>
-    }
-  </div>
-  }
-</div>
-@if (nextTasks[0].tasks.length) {
-<div id="nextToDoTodayList">
-  <hr />
-  <div class="task-open-task-list-container">
-    @for (item of nextTasks; track item) {
-    <div class="task-record">
-      <div>
-        <button
-          class="button-link no-underline"
-          (click)="toggleOption('optCollapseNextTasks')"
-        >
-          <strong
-            >{{ options.optCollapseNextTasks ? '+' : '-' }} Next To Do
-            Today</strong
-          >
-        </button>
-        | {{ item.tasks.length }}
-        <time-format
-          format="([H]h[m]m)"
-          [value]="item.estimatedDuration"
-        ></time-format>
-        |
-        <time-format
-          format="([H]h[m]m)"
-          [value]="differenceLastClosedToRealTime"
-          title="Time ahead/behind of the last task closed"
-          [ngClass]="{
-            'task-next-time-ahead': differenceLastClosedToRealTime < 0,
-            'task-next-time-behind': 0 <= differenceLastClosedToRealTime
-          }"
-        ></time-format>
-        @if (state.inProgressTasksCount > 0) {
-        <span> | {{ state.inProgressTasksCount }} in progress </span>
-        }
-      </div>
-      @if (!options.optCollapseNextTasks) {
-      <div
-        [ngClass]="{
-        'columns-3': nextTasks[0].tasks.length > 10
-      }"
-      >
-        @for (t of item.tasks; track t; let count = $index) {
-        <div
-          data-id="{{ t.tsk_id }}"
-          [ngClass]="{
-            'task-item-in-process': t.tsk_ctg_in_process === 2
-          }"
-        >
-          @if (t['projectedDate'].getHours() < 2 && count > 0 &&
-          item.tasks[count-1]['projectedDate'].getHours() >= 23) {
-          <hr />
-          } @if (count > 0 && count === viewData.nextToDoCutlineForAddedTasks) {
-          <hr class="next-to-do-cutline" />
-          }
-          <input
-            type="checkbox"
-            id="{{ t.tsk_id }}"
-            (click)="taskCheckboxHandler(t, $event)"
-          />
-          <span
-            [ngClass]="{
-            'task-next-time-ahead': t['projectedDate'].getTime() >= getDate().getTime(),
-            'task-next-time-behind': getDate().getTime() > t['projectedDate'].getTime()
-          }"
-            >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
-          </span>
-          @if (t.tsk_total_time_spent !== 0) {
-          <span
-            [ngClass]="{
-              'task-open-with-tt':
-                t.tsk_ctg_status === this.taskStatus.OPEN &&
-                t.tsk_time_history.length > 0
-            }"
-            >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
-            2) {
-            <span>
-              [<span
-                class="tt-start"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
-                .tsh_date_start | date: "HH:mm:ss" }}</span
-              >
-              -
-              <span
-                class="tt-end"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length -
-                1].tsh_date_end | date: "HH:mm:ss" }}</span
-              >]
-            </span>
-            }
-          </span>
-          } @if (t.tsk_ctg_in_process === 2) {
-          <span>
-            [<span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{ t.tsk_time_history[t.tsk_time_history.length -
-              1].tsh_date_start | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          }
-          <span
-            (click)="toggleTimeMode()"
-            class="clickable"
-            title="click to toggle timer mode"
-          >
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
-            }}
-          </span>
-          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
-          <span class="task-q-critical" title="Critical task">\u{1F525}</span>
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
-          <span class="task-qualifier-icon">&#9733;</span>
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/people.svg"
-              alt="Requires reaching out people"
-              title="Requires reaching out people"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/smartphone.svg"
-              alt="Can be done using phone"
-              title="Can be done using phone"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
-          <span class="task-qualifier-icon">&#10006;</span>
-          }
-          <span
-            contenteditable="true"
-            spellcheck="false"
-            (keyup)="taskEdit(t, $event)"
-            (keydown)="nextTaskKeyDown($event)"
-            [ngClass]="{
-              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
-              'task-in-process': t.tsk_ctg_in_process === 2,
-              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
-              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
-              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
-              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
-              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
-              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
-              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
-            }"
-            (blur)="commandOnTask(t, $event)"
-            class="editable task-text"
-            >{{ t.tsk_name }}</span
-          >&nbsp;<span
-            [attr.contenteditable]="options.optAllowToEditETA"
-            spellcheck="false"
-            (blur)="taskEstimatedDurationEdit(t, $event)"
-            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
-            class="task-eta"
-            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-          ><span> [{{t.tsk_id_record}}] </span>
-          @if (t.tsk_tags) {
-          <span class="task-tags">
-            @for (tag of t.tsk_tags.split(' '); track tag) {
-            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
-            }
-          </span>
-          } @if (t.tsk_schedule_date_start) {
-          <span
-            ><strong
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start)
-              }})</strong
-            ></span
-          >
-          } @if (options.optViewElapsedDays) {
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-          } @if (t.not_sync) {
-          <span>(Not in sync)</span>
-          }
-        </div>
-        }
-      </div>
-      }
-    </div>
-    }
-  </div>
-</div>
-} @if (pinnedTasks[0].tasks.length) {
-<div id="pinnedToDoTodayList">
-  <hr />
-  <div class="task-open-task-list-container">
-    @for (item of pinnedTasks; track item) {
-    <div class="task-record">
-      <div>
-        <button
-          class="button-link no-underline"
-          (click)="toggleOption('optCollapsePinnedTasks')"
-        >
-          <strong
-            >{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To
-            Do</strong
-          >
-        </button>
-        | {{ item.tasks.length }}
-        <time-format
-          format="([H]h[m]m)"
-          [value]="item.estimatedDuration"
-        ></time-format>
-      </div>
-      @if (!options.optCollapsePinnedTasks) {
-      <div
-        [ngClass]="{
-        'columns-3': pinnedTasks[0].tasks.length > 10
-      }"
-      >
-        @for (t of item.tasks; track t; let count = $index) {
-        <div data-id="{{ t.tsk_id }}">
-          <input
-            type="checkbox"
-            id="{{ t.tsk_id }}"
-            (click)="taskCheckboxHandler(t, $event)"
-          />
-          @if (t.tsk_total_time_spent !== 0) {
-          <span
-            [ngClass]="{
-              'task-open-with-tt':
-                t.tsk_ctg_status === this.taskStatus.OPEN &&
-                t.tsk_time_history.length > 0
-            }"
-            >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
-            2) {
-            <span>
-              [<span
-                class="tt-start"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
-                .tsh_date_start | date: "HH:mm:ss" }}</span
-              >
-              -
-              <span
-                class="tt-end"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length -
-                1].tsh_date_end | date: "HH:mm:ss" }}</span
-              >]
-            </span>
-            }
-          </span>
-          } @if (t.tsk_ctg_in_process === 2) {
-          <span>
-            [<span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{ t.tsk_time_history[t.tsk_time_history.length -
-              1].tsh_date_start | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          }
-          <span
-            (click)="toggleTimeMode()"
-            class="clickable"
-            title="click to toggle timer mode"
-          >
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
-            }}
-          </span>
-          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
-          <span class="task-q-critical" title="Critical task">\u{1F525}</span>
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
-          <span class="task-qualifier-icon">&#9733;</span>
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/people.svg"
-              alt="Requires reaching out people"
-              title="Requires reaching out people"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/smartphone.svg"
-              alt="Can be done using phone"
-              title="Can be done using phone"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
-          <span class="task-qualifier-icon">&#10006;</span>
-          }
-          <span
-            contenteditable="true"
-            spellcheck="false"
-            (keyup)="taskEdit(t, $event)"
-            (keydown)="pinnedTaskKeyDown($event)"
-            [ngClass]="{
-              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
-              'task-in-process': t.tsk_ctg_in_process === 2,
-              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
-              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
-              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
-              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
-              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
-              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
-              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
-              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
-            }"
-            (blur)="commandOnTask(t, $event)"
-            class="editable task-text"
-            >{{ t.tsk_name }}</span
-          >&nbsp;<span
-            [attr.contenteditable]="options.optAllowToEditETA"
-            spellcheck="false"
-            (blur)="taskEstimatedDurationEdit(t, $event)"
-            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
-            class="task-eta"
-            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-          ><span> [{{t.tsk_id_record}}] </span>
-          @if (t.tsk_tags) {
-          <span class="task-tags">
-            @for (tag of t.tsk_tags.split(' '); track tag) {
-            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
-            }
-          </span>
-          } @if (t.tsk_schedule_date_start) {
-          <span
-            ><strong
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start)
-              }})</strong
-            ></span
-          >
-          } @if (options.optViewElapsedDays) {
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-          } @if (t.not_sync) {
-          <span>(Not in sync)</span>
-          }
-        </div>
-        }
-      </div>
-      }
-    </div>
-    }
-  </div>
-</div>
-} @if (tagInfo.display === true) {
-<div id="tagInfo">
-  <button (click)="tagInfo.display = false">hide</button>
-  <strong>Tag Information</strong>
-  <br />Closed Tasks | Estimated: {{
-  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{
-  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{
-  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{
-  formatTime(tagInfo.tasksOpenTotalSpent) }} @if (tagInfo.tasks.length > 0) {
-  <div>
-    <table>
-      <tr>
-        <td>Name</td>
-        <td>Estimated</td>
-        <td>Spent</td>
-        <td>Status</td>
-        <td>Actions</td>
-      </tr>
-      @for (e of tagInfo.tasks; track e) {
-      <tr>
-        <td>{{ e.tsk_name }}</td>
-        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>
-        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>
-        <td>{{ statusText(e.tsk_ctg_status) }}</td>
-        <td><button (click)="setSelected(e)">details</button></td>
-      </tr>
-      }
-    </table>
-  </div>
-  }
-  <hr />
-</div>
-} @if (options.optShowFinishedToday) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseFinishedToday')"
-  >
-    <strong
-      >{{ options.optCollapseFinishedToday ? '+' : '-' }} Finished Today</strong
-    >
-  </button>
-  | {{ state.closedTodayTasks.length }} tasks @if
-  (!options.optCollapseFinishedToday) {
-  <div>
-    @for (item of state.closedTodayTasks; track item; let i = $index) {
-    <div>
-      @if (i < 3 || viewAllFinishedToday) {
-      <div>
-        <input
-          type="checkbox"
-          id="{{ item.tsk_id }}"
-          checked
-          (click)="taskCheckboxHandler(item, $event)"
-        />
-        @if (item.tsk_total_time_spent !== 0) {
-        <span
-          [ngClass]="{
-            'task-open-with-tt':
-              item.tsk_ctg_status === this.taskStatus.OPEN &&
-              item.tsk_time_history.length > 0
-          }"
-          >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent) }}] @if (item.tsk_ctg_in_process
-          !== 2) {
-          <span>
-            [<span
-              class="tt-start"
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(item, $event, 'start')"
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&
-              item.tsk_time_history[item.tsk_time_history.length - 1]
-              .tsh_date_start | date: "HH:mm:ss" }}</span
-            >
-            -
-            <span
-              class="tt-end"
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(item, $event, 'end')"
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&
-              item.tsk_time_history[item.tsk_time_history.length - 1]
-              .tsh_date_end | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          }
-        </span>
-        }
-        <span
-          >(Done at:
-          <span
-            contenteditable="true"
-            spellcheck="false"
-            (keyup)="editDateDone(item, $event)"
-            >{{ item.tsk_date_done | date: format }}</span
-          >)</span
-        >&nbsp;<span
-          [ngClass]="{
-            'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED
-          }"
-          >{{ item.tsk_name }}</span
-        >
-        @if (item.not_sync) {
-        <span>(Not in sync)</span>
-        }&nbsp;<button (click)="setSelected(item)">details</button>
-      </div>
-      }
-    </div>
-    } @if (state.closedTodayTasks.length > 3) {
-    <button (click)="toggleView('viewAllFinishedToday')">
-      {{ viewAllFinishedToday ? "Do not show all" : "Show all" }}
-    </button>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowFinishedYesterday) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseFinishedYesterday')"
-  >
-    <strong
-      >{{ options.optCollapseFinishedYesterday ? '+' : '-' }} Finished
-      Yesterday</strong
-    >
-  </button>
-  | {{ state.closedYesterdayTasks.length }} tasks @if
-  (!options.optCollapseFinishedYesterday) {
-  <div>
-    @for (item of state.closedYesterdayTasks; track item; let i = $index) {
-    <div>
-      @if (i < 3 || viewAllFinishedYesterday) {
-      <div>
-        <task
-          [task]="item"
-          [handlers]="handlersForClosedYesterday"
-          [options]="{
-            optShowRecordNameInline: true,
-            optShowTimeTrackingHistory: true,
-            optShowDetailsButton: true
-        }"
-        ></task>
-      </div>
-      }
-    </div>
-    } @if (state.closedYesterdayTasks.length > 3) {
-    <button (click)="toggleView('viewAllFinishedYesterday')">
-      {{ viewAllFinishedYesterday ? "Do not show all" : "Show all" }}
-    </button>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowClosedTasks) {
-<div id="closedTaskList">
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseClosedTasks')"
-  >
-    <strong
-      >{{ options.optCollapseClosedTasks ? '+' : '-' }} Closed Tasks</strong
-    >
-  </button>
-  @if (!options.optCollapseClosedTasks) {
-  <div>
-    @for (group of state.closedTasks; track group) {
-    <div>
-      <div>
-        <br />
-        <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>
-        &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>
-      </div>
-      @for (item of group.tasks; track item) {
-      <div>
-        -
-        <span
-          >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent) }}]</span
-        >
-        <span>[{{ item.tsk_id_record }}]</span>
-        <span>{{ item.tsk_name }}</span>
-        <!--<span
-                                                                                                                                        >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"
-                                                                                                                                        }})</span
-                                                                                                                                        >-->
-        @if (item.tsk_tags) {
-        <span class="task-tags">
-          @for (tag of item.tsk_tags.split(' '); track tag) {
-          <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
-          }
-        </span>
-        } &nbsp;<button (click)="setSelected(item)">details</button>
-      </div>
-      }
-    </div>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowReportsWeekDistribution) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseReportsWeekDistribution')"
-  >
-    <strong
-      >{{ options.optCollapseReportsWeekDistribution ? '+' : '-' }} Week
-      Distribution Report</strong
-    >
-  </button>
-  @if (!options.optCollapseReportsWeekDistribution) {
-  <div>
-    @for (s of reports.week; track s) {
-    <div>
-      date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}
-      estimated: {{ formatTime(s.estimated * 60) }} spent: {{
-      formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time
-      Elapsed: {{ formatTime(s.realTimeElapsed) }}
-    </div>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowReportsDayDistribution) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseReportsDayDistribution')"
-  >
-    <strong
-      >{{ options.optCollapseReportsDayDistribution ? '+' : '-' }} Day
-      Distribution Report</strong
-    >
-  </button>
-  @if (!options.optCollapseReportsDayDistribution) {
-  <div>
-    <table>
-      <tr>
-        <td>Record</td>
-        <td>Total ETA</td>
-        <td>Total Real</td>
-        <td>Percentage ETA</td>
-        <td>Percentage Real</td>
-      </tr>
-      @for (r of reports.dayDistribution; track r) {
-      <tr>
-        <td>{{ r.record }}</td>
-        <td>{{ formatTime(r.eta * 60) }}</td>
-        <td>{{ formatTime(r.real) }}</td>
-        <td>{{ r.percentageEta }}</td>
-        <td>{{ r.percentageReal }}</td>
-      </tr>
-      }
-    </table>
-    @if (viewData.dayDistributionChart.chartData[0].data.length > 0) {
-    <canvas
-      id="dayDistributionChart"
-      baseChart
-      [datasets]="viewData.dayDistributionChart.chartData"
-      [labels]="viewData.dayDistributionChart.chartLabels"
-      [options]="viewData.dayDistributionChart.chartOptions"
-      [legend]="viewData.dayDistributionChart.chartLegend"
-      [type]="viewData.dayDistributionChart.chartType"
-    >
-    </canvas>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowQualifiersTotals) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseQualifiersTotals')"
-  >
-    <strong
-      >{{ options.optCollapseQualifiersTotals ? '+' : '-' }} Qualifiers
-      Totals</strong
-    >
-  </button>
-  @if (!options.optCollapseQualifiersTotals) {
-  <div>
-    <table>
-      <tr>
-        <td>Qualifier</td>
-        <td>Task Count</td>
-        <td>Total ETA</td>
-      </tr>
-      @for (q of reports.qualifierTotals; track q) {
-      <tr>
-        <td>{{ q.qualifier }}</td>
-        <td>{{ q.taskCount }}</td>
-        <td>{{ formatTime(q.totalETA * 60) }}</td>
-      </tr>
-      }
-    </table>
-  </div>
-  }
-</div>
-} @if (comparisonData) {
-<div>
-  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task
-  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{
-  comparisonData.results.length }}
-  <table>
-    @for (c of comparisonData.results; track c) {
-    <tr>
-      @for (f of c; track f) {
-      <td>
-        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{
-        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}
-        <button (click)="sendFEToBE(c)">Send FE data to BE</button>
-      </td>
-      }
-    </tr>
-    }
-  </table>
-</div>
-} @if (selectedTask) {
-<div
-  class="task-item-toolbar"
-  [ngClass]="{
-  'mobile-only': !options.optShowTaskToolbar
-}"
->
-  <div>{{ selectedTask.tsk_name }}</div>
-  <div class="task-item-toolbar-content">
-    @if (selectedTask && selectedTask.tsk_ctg_in_process === 1) {
-    <span
-      class="play-button clickable"
-      (click)="toggleTimeTracking(selectedTask, $event)"
-      >&#9654;</span
-    >
-    } @if (selectedTask && selectedTask.tsk_ctg_in_process === 2) {
-    <span
-      class="stop-button clickable"
-      (click)="toggleTimeTracking(selectedTask, $event)"
-      >&#9724;</span
-    >
-    }
-    <span
-      class="adjust-timetracking-button clickable"
-      (click)="adjustTimeTracking(selectedTask)"
-      >&#8676;</span
-    >
-    <span
-      class="set-selected-button clickable"
-      (click)="setSelected(selectedTask)"
-      >&#9998;</span
-    >
-    <span
-      class="remove-qualifiers-button clickable"
-      (click)="removeQualifiersFromTask(selectedTask)"
-      >&#9746;</span
-    >
-    <span class="close-button clickable" (click)="selectedTask = null"
-      >&times;</span
-    >
-  </div>
-</div>
-}
-
-<task-toolbar
-  [task]="selectedTask"
-  [groupTasks]="selectedRecord"
-  [handlers]="handlersForTaskToolbar"
-  [options]="{
-    optShowTaskToolbar: true
-  }"
-></task-toolbar>
+    args: [{ selector: "tasks", providers: [TasksCore, TaskIndicator], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<form #tasksForm="ngForm">\r
+  @if (!showBatchAdd) {\r
+  <input\r
+    type="text"\r
+    name="tsk_name"\r
+    placeholder="Write a task..."\r
+    class="task"\r
+    autocomplete="off"\r
+    autofocus="true"\r
+    (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"\r
+    [(ngModel)]="tsk_name"\r
+  />\r
+  } @if (showBatchAdd) {\r
+  <div class="grow-wrap">\r
+    <textarea\r
+      name="tsk_multiple_name"\r
+      placeholder="Write a task per line..."\r
+      class="task-multiple"\r
+      (keyup)="inputKeyUpHandler($event, { showBatchAdd: false })"\r
+      [(ngModel)]="tsk_multiple_name"\r
+      spellcheck="false"\r
+      autofocus="true"\r
+    ></textarea>\r
+    <label for="target_date">Target date</label>\r
+    <input\r
+      type="date"\r
+      id="target_date"\r
+      name="target_date"\r
+      style="width: fit-content"\r
+      [(ngModel)]="targetDate"\r
+    />\r
+  </div>\r
+  } @if ((tasksForm.value.tsk_name && !showBatchAdd) ||\r
+  (tasksForm.value.tsk_multiple_name && showBatchAdd)) {\r
+  <button type="submit" (click)="addTask(tasksForm)" id="btnAddTask">\r
+    Add task\r
+  </button>\r
+  } @if (state.postponedTasksCount) {\r
+  <button (click)="toggleViewPostponed()">\r
+    {{ viewPostponed ? "hide" : "show" }} postponed\r
+  </button>\r
+  }\r
+  <button (click)="inputKeyUpHandler($event, { showBatchAdd: true })">\r
+    {{ showBatchAdd ? "hide" : "show" }} batch add\r
+  </button>\r
+  <button (click)="toggleViewOptions()">\r
+    {{ viewOptions ? "hide" : "show" }} options\r
+  </button>\r
+  @if (options.optShowLimitedTasksPerRecord) {\r
+  <button\r
+    (click)="options.optLimitTasksPerRecord = !options.optLimitTasksPerRecord"\r
+  >\r
+    {{ options.optLimitTasksPerRecord ? "remove" : "apply" }} limit view\r
+  </button>\r
+  } @if (viewETABeforeAdd) {\r
+  <div>\r
+    <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>\r
+    <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>\r
+    @for (r of state.beforeAddETA; track r) {\r
+    <div>\r
+      [{{ r.record }}: {{ formatTime(r.totalETA * 60) }} /\r
+      {{r.totalETAPercentage}}%]\r
+    </div>\r
+    }\r
+  </div>\r
+  }\r
+</form>\r
+@if (viewOptions) {\r
+<div>\r
+  <hr />\r
+  <button (click)="deleteTasks()" class="btn-secondary">\r
+    delete all tasks\r
+  </button>\r
+  <br />\r
+  <div class="task-options-section-title">Showing / hiding sections</div>\r
+  <checkbox-option\r
+    label="Show backlog section"\r
+    optionId="optShowBacklog"\r
+    [checked]="options.optShowBacklog"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show Finished Today"\r
+    optionId="optShowFinishedToday"\r
+    [checked]="options.optShowFinishedToday"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show Finished Yesterday"\r
+    optionId="optShowFinishedYesterday"\r
+    [checked]="options.optShowFinishedYesterday"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show closed tasks section"\r
+    optionId="optShowClosedTasks"\r
+    [checked]="options.optShowClosedTasks"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show week distribution report section"\r
+    optionId="optShowReportsWeekDistribution"\r
+    [checked]="options.optShowReportsWeekDistribution"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show day distribution report section"\r
+    optionId="optShowReportsDayDistribution"\r
+    [checked]="options.optShowReportsDayDistribution"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show qualifiers totals section"\r
+    optionId="optShowQualifiersTotals"\r
+    [checked]="options.optShowQualifiersTotals"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <div class="task-options-section-title">Customize features</div>\r
+  <checkbox-option\r
+    label="Display days elapsed since task was added"\r
+    optionId="optViewElapsedDays"\r
+    [checked]="options.optViewElapsedDays"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show Collapse/Expand buttons for record listings"\r
+    optionId="optShowCollapseRecords"\r
+    [checked]="options.optShowCollapseRecords"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show tasks filter"\r
+    optionId="optShowFilter"\r
+    [checked]="options.optShowFilter"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show sync tasks button"\r
+    optionId="optShowSyncButton"\r
+    [checked]="options.optShowSyncButton"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Use presentation mode for meetings"\r
+    optionId="optUsePresentationMode"\r
+    [checked]="options.optUsePresentationMode"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="When a new task is added, add it to BACKLOG instead (of adding it to OPEN)"\r
+    optionId="optNewTaskStatusIsBacklog"\r
+    [checked]="options.optNewTaskStatusIsBacklog"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show first 3 tasks per record"\r
+    optionId="optShowLimitedTasksPerRecord"\r
+    [checked]="options.optShowLimitedTasksPerRecord"\r
+    (onClick)="toggleOptionById($event); updateState()"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Colorize record listing without finished tasks today"\r
+    optionId="optColorizeRecordWithoutDoneTasks"\r
+    [checked]="options.optColorizeRecordWithoutDoneTasks"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Use end datetime of task timetracking as task done date when this one is a future datetime"\r
+    optionId="optUseEndTTDateAsDoneDate"\r
+    [checked]="options.optUseEndTTDateAsDoneDate"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Allow to edit ETA in tasks"\r
+    optionId="optAllowToEditETA"\r
+    [checked]="options.optAllowToEditETA"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Show task toolbar in desktop"\r
+    optionId="optShowTaskToolbar"\r
+    [checked]="options.optShowTaskToolbar"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Add newly created tasks to Next Tasks listing"\r
+    optionId="optAddNewTasksToNextTasks"\r
+    [checked]="options.optAddNewTasksToNextTasks"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Move time tracking to an available slot when task is marked done"\r
+    optionId="optMoveTimetrackingToAvailableSlotWhenDone"\r
+    [checked]="options.optMoveTimetrackingToAvailableSlotWhenDone"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Hide scrollbars for all Record listings when it has too much items"\r
+    optionId="optHideScrollbarsInRecord"\r
+    [checked]="options.optHideScrollbarsInRecord"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="When starting a task in progress, push 15 minutes forward its start timer"\r
+    optionId="optPushStartTimer"\r
+    [checked]="options.optPushStartTimer"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <checkbox-option\r
+    label="Use columns and full width for records (useful when record has too much items)"\r
+    optionId="optUseColumnsForRecords"\r
+    [checked]="options.optUseColumnsForRecords"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  <div>\r
+    <input\r
+      type="number"\r
+      step="1"\r
+      name="optRecordWidth"\r
+      [(value)]="options.optRecordWidth"\r
+      (change)="saveOption('optRecordWidth', $event.target.valueAsNumber)"\r
+      class="field-input-small"\r
+    />\r
+    <label>Record listing width (in px, desktop only, minimum is 200)</label>\r
+  </div>\r
+  <div>\r
+    <input\r
+      type="number"\r
+      step="1"\r
+      name="optRecordHeight"\r
+      [(value)]="options.optRecordHeight"\r
+      (change)="saveOption('optRecordHeight', $event.target.valueAsNumber)"\r
+      class="field-input-small"\r
+    />\r
+    <label>Record listing height (in px, desktop only)</label>\r
+  </div>\r
+  <div class="task-options-section-title">Showing / hiding Indicators</div>\r
+  <checkbox-option\r
+    label="Show Indicators Table"\r
+    optionId="optShowIndicatorsTable"\r
+    [checked]="options.optShowIndicatorsTable"\r
+    (onClick)="toggleOptionById($event)"\r
+  ></checkbox-option>\r
+  @if (options.optShowIndicatorsTable) {\r
+  <div>\r
+    <checkbox-option\r
+      label="Show Indicator - Open Count"\r
+      optionId="optShowIndicatorOpenCountEOD"\r
+      [checked]="options.optShowIndicatorOpenCountEOD"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Added ETA"\r
+      optionId="optShowIndicatorAddedETA"\r
+      [checked]="options.optShowIndicatorAddedETA"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Added Count"\r
+      optionId="optShowIndicatorAddedCount"\r
+      [checked]="options.optShowIndicatorAddedCount"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Closed ETA"\r
+      optionId="optShowIndicatorClosedETA"\r
+      [checked]="options.optShowIndicatorClosedETA"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Closed Spent"\r
+      optionId="optShowIndicatorClosedSpent"\r
+      [checked]="options.optShowIndicatorClosedSpent"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Closed Count"\r
+      optionId="optShowIndicatorClosedCount"\r
+      [checked]="options.optShowIndicatorClosedCount"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Productivity Ratio"\r
+      optionId="optShowIndicatorProductivityRatio"\r
+      [checked]="options.optShowIndicatorProductivityRatio"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Time Management Ratio"\r
+      optionId="optShowIndicatorTimeManagementRatio"\r
+      [checked]="options.optShowIndicatorTimeManagementRatio"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - First TimeTracking Stamp of Day"\r
+      optionId="optShowIndicatorFirstTTStamp"\r
+      [checked]="options.optShowIndicatorFirstTTStamp"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Last TimeTracking Stamp of Day"\r
+      optionId="optShowIndicatorLastTTStamp"\r
+      [checked]="options.optShowIndicatorLastTTStamp"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Open ETA"\r
+      optionId="optShowIndicatorOpenETA"\r
+      [checked]="options.optShowIndicatorOpenETA"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Open Spent"\r
+      optionId="optShowIndicatorOpenSpent"\r
+      [checked]="options.optShowIndicatorOpenSpent"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Backlog Count"\r
+      optionId="optShowIndicatorBacklogCount"\r
+      [checked]="options.optShowIndicatorBacklogCount"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - Backlog ETA"\r
+      optionId="optShowIndicatorBacklogETA"\r
+      [checked]="options.optShowIndicatorBacklogETA"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - All Open Count"\r
+      optionId="optShowIndicatorAllOpenCount"\r
+      [checked]="options.optShowIndicatorAllOpenCount"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+    <checkbox-option\r
+      label="Show Indicator - All Open ETA"\r
+      optionId="optShowIndicatorAllOpenETA"\r
+      [checked]="options.optShowIndicatorAllOpenETA"\r
+      (onClick)="toggleOptionById($event); calculateIndicators()"\r
+    ></checkbox-option>\r
+  </div>\r
+  }\r
+  <div>\r
+    <div class="task-options-section-title">Keyboard Shortcuts Reference</div>\r
+    <table>\r
+      <thead>\r
+        <tr>\r
+          <th>Keys</th>\r
+          <th>Where</th>\r
+          <th>Action</th>\r
+        </tr>\r
+      </thead>\r
+      <tbody>\r
+        <tr>\r
+          <td><kbd>F2</kbd></td>\r
+          <td>In task</td>\r
+          <td>Start/Stop task time tracking</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>1</kbd></td>\r
+          <td>In task</td>\r
+          <td>Marks task as completed</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>2</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: star</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>3</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: highlighted</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>4</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: priority</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>5</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: important</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>6</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: urgent</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>7</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: unexpected</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>8</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: progressed</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>9</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: people</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>/</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: flag</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>-</kbd></td>\r
+          <td>In task</td>\r
+          <td>Toggle qualifier: blocked</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>0</kbd></td>\r
+          <td>In task</td>\r
+          <td>Clear all qualifiers</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>t</kbd></td>\r
+          <td>In task</td>\r
+          <td>Adjusts time tracking to an earlier available slot</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>s</kbd></td>\r
+          <td>In task</td>\r
+          <td>Sets the task as selected and show details</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>Supr</kbd></td>\r
+          <td>In task</td>\r
+          <td>Sets status cancelled</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>b</kbd></td>\r
+          <td>In task</td>\r
+          <td>Moves the task to backlog section</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>+</kbd></td>\r
+          <td>In task</td>\r
+          <td>Focus the new task input</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>n</kbd></td>\r
+          <td>In task</td>\r
+          <td>Adds task to next task listing</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Alt</kbd> + <kbd>r</kbd></td>\r
+          <td>In task</td>\r
+          <td>Removes task from next task listing</td>\r
+        </tr>\r
+        <tr>\r
+          <td><kbd>Shift</kbd> + <kbd>F2</kbd></td>\r
+          <td>In task</td>\r
+          <td>\r
+            Stops other tasks in progress, starts time tracking for current task\r
+          </td>\r
+        </tr>\r
+      </tbody>\r
+    </table>\r
+  </div>\r
+  <div id="optionsMessages"></div>\r
+</div>\r
+} @if (state.selected) {\r
+<div id="taskDetails" class="tasks-details">\r
+  <img\r
+    src="/assets/icons/close.svg"\r
+    class="close-button-img"\r
+    (click)="state.selected = null"\r
+  />\r
+  <strong>Task Details</strong>\r
+  <br />\r
+  <br />\r
+  @if (!options.optUsePresentationMode) {\r
+  <div>Id: {{ state.selected.tsk_id }}</div>\r
+  }\r
+  <div>Name: {{ state.selected.tsk_name }}</div>\r
+  @if (!options.optUsePresentationMode) {\r
+  <div>\r
+    <div>Container: {{ state.selected.tsk_id_container }}</div>\r
+    <div>Record: {{ state.selected.tsk_id_record }}</div>\r
+    <div>Parent: {{ state.selected.tsk_parent }}</div>\r
+    <div>Order: {{ state.selected.tsk_order }}</div>\r
+  </div>\r
+  }\r
+  <div>\r
+    Notes:\r
+    <br />\r
+    <div class="grow-wrap">\r
+      <textarea\r
+        spellcheck="false"\r
+        (blur)="setTaskNotes(state.selected, $event)"\r
+      >\r
+                  {{ state.selected.tsk_notes }}</textarea\r
+      >\r
+      @if (state.selected.tsk_notes.length) {\r
+      <span> {{ state.selected.tsk_notes.length }} / 4000 characters </span>\r
+      }\r
+    </div>\r
+  </div>\r
+  @if (state.selected.tsk_date_done) {\r
+  <div>\r
+    Date Done:\r
+    <span\r
+      contenteditable="true"\r
+      spellcheck="false"\r
+      (keyup)="editDateDone(state.selected, $event)"\r
+      >{{ state.selected.tsk_date_done | date: format }}</span\r
+    >\r
+  </div>\r
+  } @if (state.selected.tsk_total_time_spent) {\r
+  <div>\r
+    Total Time Spent: {{ formatTime(state.selected.tsk_total_time_spent) }}\r
+  </div>\r
+  } @if (state.selected.tsk_total_time_spent) {\r
+  <div>\r
+    @if (state.selected.tsk_time_history.length) {\r
+    <fieldset>\r
+      <legend>Time History</legend>\r
+      <table>\r
+        <tr>\r
+          <td>Sequential</td>\r
+          <td>Name</td>\r
+          <td>Date Start</td>\r
+          <td>Date End</td>\r
+          <td>Time Spent</td>\r
+          <td>User</td>\r
+          <td>Date Add</td>\r
+          <td>Date Mod</td>\r
+          <td>Actions</td>\r
+        </tr>\r
+        @for (h of state.selected.tsk_time_history; track h) {\r
+        <tr>\r
+          <td>{{ h.tsh_num_secuential }}</td>\r
+          <td>{{ h.tsh_name }}</td>\r
+          <td>\r
+            <span\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="editTimeTracking(h, 1, $event)"\r
+              >{{ h.tsh_date_start | date: format }}</span\r
+            >\r
+          </td>\r
+          <td>\r
+            <span\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="editTimeTracking(h, 2, $event)"\r
+              >{{ h.tsh_date_end | date: format }}</span\r
+            >\r
+          </td>\r
+          <td>{{ formatTime(h.tsh_time_spent) }}</td>\r
+          <td>{{ h.tsh_id_user }}</td>\r
+          <td>{{ h.tsh_date_add | date: format }}</td>\r
+          <td>{{ h.tsh_date_mod | date: format }}</td>\r
+          <td>\r
+            @if (h.tsh_date_end) {\r
+            <button (click)="deleteTimeTracking(state.selected, h)">\r
+              delete\r
+            </button>\r
+            }\r
+          </td>\r
+        </tr>\r
+        }\r
+      </table>\r
+    </fieldset>\r
+    }\r
+  </div>\r
+  } @if (!options.optUsePresentationMode) {\r
+  <div>In Progress: {{ state.selected.tsk_ctg_in_process }}</div>\r
+  } @if (state.selected.tsk_qualifiers) {\r
+  <div>\r
+    Qualifiers:\r
+    <span\r
+      contenteditable="true"\r
+      spellcheck="false"\r
+      (blur)="taskQualifiersEdit(state.selected, $event)"\r
+      >{{ state.selected.tsk_qualifiers }}</span\r
+    >\r
+  </div>\r
+  } @if (state.selected.tsk_tags) {\r
+  <div>\r
+    Tags:\r
+    <span\r
+      contenteditable="true"\r
+      spellcheck="false"\r
+      (blur)="taskTagsEdit(state.selected, $event)"\r
+      >{{ state.selected.tsk_tags }}</span\r
+    >\r
+  </div>\r
+  }\r
+  <div>\r
+    Estimated Duration: {{ formatTime(state.selected.tsk_estimated_duration *\r
+    60, "#h#m") }}\r
+  </div>\r
+  @if (!options.optUsePresentationMode) {\r
+  <div>\r
+    <div>\r
+      Schedule Date Start: {{ state.selected.tsk_schedule_date_start | date:\r
+      format }}\r
+    </div>\r
+    <div>\r
+      Schedule Date End: {{ state.selected.tsk_schedule_date_end | date: format\r
+      }}\r
+    </div>\r
+    <div>Date View Until: {{ state.selected.tsk_date_view_until }}</div>\r
+    <div>User Added: {{ state.selected.tsk_id_user_added }}</div>\r
+    <div>User Asigned: {{ state.selected.tsk_id_user_asigned }}</div>\r
+    <div>Date Add: {{ state.selected.tsk_date_add | date: format }}</div>\r
+    <div>Date Last Mod: {{ state.selected.tsk_date_mod | date: format }}</div>\r
+  </div>\r
+  } @if (!options.optUsePresentationMode) {\r
+  <div>Status: {{ state.selected.tsk_ctg_status }}</div>\r
+  }\r
+</div>\r
+} @if (options.optShowBacklog) {\r
+<div id="backlogTaskList">\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseBacklog')"\r
+  >\r
+    <strong>{{ options.optCollapseBacklog ? '+' : '-' }} Backlog</strong>\r
+  </button>\r
+  | {{ state.backlogTasks.length }} lists {{ state.backlogTasksCount }} tasks\r
+  @if (!options.optCollapseBacklog) {\r
+  <div\r
+    [ngClass]="{\r
+      'task-open-task-list-container': true,\r
+      'task-open-task-list-container--grid': layout === 'grid',\r
+      'task-open-task-list-container--float': layout === 'float'\r
+    }"\r
+  >\r
+    @for (item of state.backlogTasks; track item) {\r
+    <div\r
+      class="task-record"\r
+      [ngClass]="{\r
+        'hidden': item.collapsed\r
+      }"\r
+    >\r
+      <div>\r
+        <button\r
+          class="button-link no-underline"\r
+          (click)="toggleCollapsedRecord(item, true)"\r
+        >\r
+          <strong>- {{ item.header }}</strong>\r
+        </button>\r
+        ({{ formatTime(item.estimatedDuration * 60) }})\r
+      </div>\r
+      <div\r
+        class="task-record-items"\r
+        [ngClass]="{\r
+          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight\r
+        }"\r
+        [ngStyle]="{\r
+          'max-width': (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordWidth + 'px' : defaultOptions.optRecordWidth,\r
+          'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)\r
+        }"\r
+      >\r
+        @for (t of item.tasks; track t) {\r
+        <task\r
+          [task]="t"\r
+          [groupTasks]="item.tasks"\r
+          containerSelector="#backlogTaskList"\r
+          [handlers]="handlersForBacklog"\r
+          [options]="{\r
+          optShowRecordNameInline: true,\r
+          optShowBadgeIfTaskIsInBacklog: true\r
+        }"\r
+          [ngClass]="{\r
+          hidden:\r
+            options.optShowLimitedTasksPerRecord &&\r
+            options.optLimitTasksPerRecord &&\r
+            i >= 3 &&\r
+            t.tsk_time_history.length === 0\r
+        }"\r
+          [ngStyle]="{\r
+          'font-size-2': ageFontSizeNormalization(t) + 'px'\r
+        }"\r
+        ></task>\r
+        }\r
+      </div>\r
+    </div>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+} @if (viewPostponed) {\r
+<div id="postponedTaskList">\r
+  <strong>Postponed Tasks</strong>\r
+  @for (t of state.postponedTasks; track t) {\r
+  <div>\r
+    - @if (t.tsk_total_time_spent !== 0) {\r
+    <span\r
+      >[{{ t.tsk_time_history.length }}/{{ formatTime(t.tsk_total_time_spent)\r
+      }}]</span\r
+    >\r
+    }\r
+    <span\r
+      contenteditable="true"\r
+      spellcheck="false"\r
+      (keyup)="taskEdit(t, $event)"\r
+      [ngClass]="{\r
+        'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
+        'task-in-process': t.tsk_ctg_in_process === 2,\r
+        'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r
+        'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r
+        'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1\r
+      }"\r
+      (blur)="commandOnTask(t, $event)"\r
+      class="editable"\r
+      >{{ t.tsk_name }}</span\r
+    >\r
+    <span\r
+      contenteditable="true"\r
+      spellcheck="false"\r
+      (blur)="taskEstimatedDurationEdit(t, $event)"\r
+      [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
+      class="task-eta"\r
+      >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
+    >\r
+    @if (t.tsk_schedule_date_start) {\r
+    <span>(start at {{ formatDateTime(t.tsk_schedule_date_start) }})</span>\r
+    }\r
+    <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
+    <span\r
+      >(postponed until {{ t.tsk_date_view_until | date: "yyyy-MM-dd HH:mm:ss"\r
+      }})</span\r
+    >\r
+    <button (click)="setSelected(t)">details</button>\r
+    <button (click)="setUnpostpone(t)">see it now</button>\r
+  </div>\r
+  }\r
+  <hr />\r
+</div>\r
+}\r
+<div id="openTaskList">\r
+  <hr />\r
+  <span>\r
+    <button\r
+      class="button-link no-underline"\r
+      (click)="toggleOption('optCollapseOpenTasks')"\r
+    >\r
+      <strong>{{ options.optCollapseOpenTasks ? '+' : '-' }} Open Tasks</strong>\r
+    </button>\r
+    | {{ state.openTasks.length }} lists {{ state.openTasksCount }} tasks @if\r
+    (options.optShowSyncButton && !options.optCollapseOpenTasks) {\r
+    <span>\r
+      <button (click)="syncTasks()">sync tasks</button>\r
+    </span>\r
+    } @if (options.optShowCollapseRecords && !options.optCollapseOpenTasks) {\r
+    <span>\r
+      <button (click)="toggleCollapseAllRecords(true)">Collapse all</button>\r
+      <button (click)="toggleCollapseAllRecords(false)">Expand all</button>\r
+    </span>\r
+    } @if (options.optShowFilter && !options.optCollapseOpenTasks) {\r
+    <span class="padding-left-5 padding-right-5">\r
+      Filter\r
+      <select\r
+        name="fFilter"\r
+        id="fFilter"\r
+        class="field-select"\r
+        [(ngModel)]="viewData.selectedFilter"\r
+        (change)="updateState()"\r
+      >\r
+        @for (opt of CONSTANTS.filters; track opt) {\r
+        <option\r
+          [value]="opt.id"\r
+          [selected]="opt.id === viewData.selectedFilter"\r
+        >\r
+          {{ opt.name }}\r
+        </option>\r
+        }\r
+      </select>\r
+    </span>\r
+    }\r
+  </span>\r
+  @if (!state.openTasks.length) {\r
+  <div>\r
+    <strong\r
+      >No tasks open! Congratulations! Consider reviewing the backlog or add new\r
+      tasks to do.</strong\r
+    >\r
+  </div>\r
+  } @if (!options.optCollapseOpenTasks) {\r
+  <div\r
+    [ngClass]="{\r
+      'task-open-task-list-container': true,\r
+      'task-open-task-list-container--grid': layout === 'grid',\r
+      'task-open-task-list-container--float': layout === 'float'\r
+    }"\r
+  >\r
+    <div class="task-record-collapsed display-block">\r
+      @for (item of state.openTasks; track item) {\r
+      <div\r
+        class="task-record"\r
+        [ngClass]="{\r
+          'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,\r
+          'hidden': !item.collapsed\r
+        }"\r
+      >\r
+        @if (item.collapsed) {\r
+        <div>\r
+          <button\r
+            class="button-link no-underline"\r
+            (click)="toggleCollapsedRecord(item, false)"\r
+          >\r
+            <strong>+ {{ item.header }}</strong>\r
+          </button>\r
+          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *\r
+          60) }}) @if (countTasksDone(item.header) > 0) {\r
+          <span>\r
+            |\r
+            <span\r
+              class="task-done"\r
+              title="tasks done today from this record list"\r
+            >\r
+              {{ countTasksDone(item.header) }}\r
+            </span>\r
+          </span>\r
+          }\r
+        </div>\r
+        }\r
+      </div>\r
+      }\r
+    </div>\r
+    @for (item of state.openTasks; track item) {\r
+    <div\r
+      class="task-record"\r
+      [ngClass]="{\r
+        'task-record-no-task-done': options.optColorizeRecordWithoutDoneTasks && countTasksDone(item.header) === 0,\r
+        'hidden': item.collapsed,\r
+        'task-record-background': isRecordPinned(item.header)\r
+      }"\r
+      [ngStyle]="{\r
+        'max-width': options.optUseColumnsForRecords || (isRecordPinned(item.header) && item.tasks.length >= 20) ? (item.tasks.length >= 30 ? '100%' : '40%') : undefined\r
+      }"\r
+    >\r
+      <div\r
+        [ngStyle]="{\r
+        'display': 'flex',\r
+        'justify-content': 'space-between'\r
+      }"\r
+      >\r
+        <span>\r
+          <button\r
+            class="button-link no-underline"\r
+            (click)="toggleCollapsedRecord(item, true)"\r
+          >\r
+            <strong>- {{ item.header }}</strong>\r
+          </button>\r
+          | {{ item.tasks.length }} ({{ formatTimestamp(item.estimatedDuration *\r
+          60) }}) @if (countTasksDone(item.header) > 0) {\r
+          <span>\r
+            |\r
+            <span\r
+              class="task-done"\r
+              title="tasks done today from this record list"\r
+            >\r
+              {{ countTasksDone(item.header) }}\r
+            </span>\r
+          </span>\r
+          }\r
+        </span>\r
+        <span\r
+          (click)="togglePinRecord(item.header)"\r
+          [ngStyle]="{\r
+          'cursor': 'pointer',\r
+          'border': isRecordPinned(item.header) ? '1px solid grey' : '0'\r
+        }"\r
+        >\r
+          \u{1F4CC}\r
+        </span>\r
+      </div>\r
+      <div\r
+        class="task-record-items"\r
+        [ngClass]="{\r
+          'task-record-custom-size': options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight,\r
+          'task-record-use-columns': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20,\r
+          'task-columns-3': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 20 && item.tasks.length <= 30,\r
+          'task-columns-8': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 60,\r
+          'task-columns-10': (options.optUseColumnsForRecords || isRecordPinned(item.header)) && item.tasks.length >= 100\r
+        }"\r
+        [ngStyle]="{\r
+          'max-width': recordStyle(item.header, 'width'),\r
+          'max-height': recordStyle(item.header, 'height')\r
+        }"\r
+      >\r
+        @for (t of item.tasks; track t; let i = $index) {\r
+        <div\r
+          data-id="{{ t.tsk_id }}"\r
+          [ngStyle]="{\r
+            'font-size-2': ageFontSizeNormalization(t) + 'px'\r
+          }"\r
+          [ngClass]="{\r
+            hidden:\r
+              options.optShowLimitedTasksPerRecord &&\r
+              options.optLimitTasksPerRecord &&\r
+              i >= 3 &&\r
+              t.tsk_time_history.length === 0\r
+          }"\r
+        >\r
+          <input\r
+            type="checkbox"\r
+            id="{{ t.tsk_id }}"\r
+            (click)="taskCheckboxHandler(t, $event)"\r
+          />\r
+          @if (t.tsk_total_time_spent !== 0) {\r
+          <span\r
+            [ngClass]="{\r
+              'task-open-with-tt':\r
+                t.tsk_ctg_status === this.taskStatus.OPEN &&\r
+                t.tsk_time_history.length > 0\r
+            }"\r
+            >[{{ t.tsk_time_history.length }}/{{\r
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==\r
+            2) {\r
+            <span>\r
+              [<span\r
+                class="tt-start"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r
+                .tsh_date_start | date: "HH:mm:ss" }}</span\r
+              >\r
+              -\r
+              <span\r
+                class="tt-end"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+                1].tsh_date_end | date: "HH:mm:ss" }}</span\r
+              >]\r
+            </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_ctg_in_process === 2) {\r
+          <span\r
+            >[<span\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+              >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+              1].tsh_date_start | date: "HH:mm:ss" }}</span\r
+            >]\r
+          </span>\r
+          } @if (t.tsk_ctg_in_process === 2) {\r
+          <span\r
+            (click)="toggleTimeMode()"\r
+            class="clickable"\r
+            title="click to toggle timer mode"\r
+          >\r
+            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""\r
+            }}\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('critical') !== -1) {\r
+          <span class="task-q-critical" title="Critical task">\u{1F525}</span>\r
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {\r
+          <span class="task-qualifier-icon">&#9733;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/people.svg"\r
+              alt="Requires reaching out people"\r
+              title="Requires reaching out people"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/smartphone.svg"\r
+              alt="Can be done using phone"\r
+              title="Can be done using phone"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {\r
+          <span class="task-qualifier-icon">&#10006;</span>\r
+          } @if (t.inNextToDo) {\r
+          <span class="task-next-todo-icon">\r
+            <img\r
+              src="/assets/icons/energy.svg"\r
+              alt="In Next To Do Today listing"\r
+              title="In Next To Do Today listing"\r
+            />\r
+          </span>\r
+          } @if (t.inPinnedToDo) {\r
+          <span class="task-pinned-todo-icon">\r
+            <img\r
+              src="/assets/icons/pin.svg"\r
+              alt="In Pinned To Do listing"\r
+              title="In Pinned To Do listing"\r
+            />\r
+          </span>\r
+          }\r
+          <span\r
+            contenteditable="true"\r
+            spellcheck="false"\r
+            (keyup)="taskEdit(t, $event)"\r
+            [ngClass]="{\r
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
+              'task-in-process': t.tsk_ctg_in_process === 2,\r
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,\r
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1,\r
+            }"\r
+            (blur)="commandOnTask(t, $event)"\r
+            (focus)="setFocus(t, $event); setTaskSelected(t)"\r
+            (keydown)="taskKeyDown($event)"\r
+            tabindex="0"\r
+            class="editable task-text"\r
+            >{{ t.tsk_name }}</span\r
+          >\r
+          @if (t.tsk_url) {\r
+          <span class="task-link"\r
+            >&nbsp;<a\r
+              href="{{ t.tsk_url }}"\r
+              title="{{ t.tsk_url }}"\r
+              target="_blank"\r
+              >link</a\r
+            ></span\r
+          >\r
+          }<span\r
+            [attr.contenteditable]="options.optAllowToEditETA"\r
+            spellcheck="false"\r
+            (blur)="taskEstimatedDurationEdit(t, $event)"\r
+            (keydown)="etaKeyDown($event)"\r
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
+            class="task-eta"\r
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
+          >\r
+          @if (t.tsk_tags) {\r
+          <span class="task-tags"\r
+            >&nbsp;@for (tag of t.tsk_tags.split(' '); track tag) {\r
+            <span (click)="showTagStats(tag)" class="tag">#{{ tag }}</span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_schedule_date_start) {\r
+          <span\r
+            ><strong\r
+              >&nbsp;at {{ formatDateTime(t.tsk_schedule_date_start) }}\r
+              &#9200;</strong\r
+            ></span\r
+          >\r
+          }&nbsp;@if (options.optViewElapsedDays) {\r
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
+          } @if (t.not_sync) {\r
+          <span>&#8634;</span>\r
+          }\r
+        </div>\r
+        }\r
+      </div>\r
+    </div>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+<br />\r
+<div id="Info">\r
+  <hr />\r
+  Total Tasks: {{ tasks.length }} | Backlog: {{ state.backlogTasksCount }} @if\r
+  (state.postponedTasksCount) {\r
+  <span> | Postponed: {{ state.postponedTasksCount }} </span>\r
+  } @if (!options.optUsePresentationMode) {\r
+  <div>\r
+    Karma Score:\r
+    <span\r
+      >{{ state.karmaScore }} ({{ state.karmaCount }} / {{\r
+      state.closedTodayTasks.length }})</span\r
+    >\r
+    <br />Tasks not in sync: {{ services.sync.queue.length }} <br /><strong\r
+      >{{ isOnline() ? "" : "You are OFFLINE" }}</strong\r
+    >\r
+  </div>\r
+  } @if (options.optShowIndicatorsTable) {\r
+  <div class="task-indicators-container">\r
+    <div>\r
+      <button\r
+        class="button-link no-underline"\r
+        (click)="toggleOption('optCollapseIndicators')"\r
+      >\r
+        <strong\r
+          >{{ options.optCollapseIndicators ? '+' : '-' }} Indicators</strong\r
+        >\r
+      </button>\r
+    </div>\r
+    @if (!options.optCollapseIndicators) {\r
+    <table class="indicators-table">\r
+      <tr>\r
+        <td>Indicator</td>\r
+        @for (c of state.indicatorLabels; track c; let currIndex = $index) {\r
+        <td\r
+          [ngClass]="{\r
+          'desktop-only': currIndex < 3\r
+        }"\r
+        >\r
+          {{ c }}\r
+        </td>\r
+        }\r
+        <td class="text-align-center">%</td>\r
+      </tr>\r
+      @for (indicator of state.indicators; track indicator) {\r
+      <tr>\r
+        <td>\r
+          <span> {{ indicator.name }} </span>\r
+          @if (indicator.metric === 'MORE_IS_BETTER') {\r
+          <span> &uarr; </span>\r
+          } @if (indicator.metric === 'LESS_IS_BETTER') {\r
+          <span> &darr; </span>\r
+          }\r
+        </td>\r
+        @for (v of indicator.formattedValues; track v; let currIndex = $index) {\r
+        <td\r
+          [ngClass]="{\r
+          'desktop-only': currIndex < 3\r
+        }"\r
+        >\r
+          <span\r
+            [ngClass]="{'color-green': currIndex > 0 && (indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER'),\r
+          'color-red': currIndex > 0 && (indicator.values[currIndex - 1] > indicator.values[currIndex] && indicator.metric === 'MORE_IS_BETTER' || indicator.values[currIndex - 1] < indicator.values[currIndex] && indicator.metric === 'LESS_IS_BETTER')}"\r
+          >\r
+            {{ v }}\r
+          </span>\r
+        </td>\r
+        }\r
+        <td>{{ indicator.percentageCompleted }}</td>\r
+      </tr>\r
+      }\r
+    </table>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+<app-stopwatch></app-stopwatch>\r
+@if (nextTasks[0].tasks.length) {\r
+<div id="nextToDoTodayList">\r
+  <hr />\r
+  <div class="task-open-task-list-container">\r
+    @for (item of nextTasks; track item) {\r
+    <div class="task-record">\r
+      <div>\r
+        <button\r
+          class="button-link no-underline"\r
+          (click)="toggleOption('optCollapseNextTasks')"\r
+        >\r
+          <strong\r
+            >{{ options.optCollapseNextTasks ? '+' : '-' }} Next To Do\r
+            Today</strong\r
+          >\r
+        </button>\r
+        <button\r
+          class="button-link no-underline"\r
+          style="margin-left: 8px"\r
+          (click)="viewNextOptions = !viewNextOptions"\r
+        >\r
+          <strong\r
+            >{{ viewNextOptions ? 'Hide options' : 'Show options' }}</strong\r
+          >\r
+        </button>\r
+        <div\r
+          *ngIf="viewNextOptions"\r
+          class="next-options"\r
+          style="margin-top: 8px"\r
+        >\r
+          <button (click)="clearNextTasks()">Clear listing</button>\r
+          <button\r
+            style="margin-left: 8px"\r
+            (click)="stopAndClearInProgressTasks()"\r
+          >\r
+            Stop and clear in-progress tasks\r
+          </button>\r
+          <button style="margin-left: 8px" (click)="markAllNextToDoAsDone()">\r
+            Mark all as done\r
+          </button>\r
+        </div>\r
+        | {{ item.tasks.length }}\r
+        <time-format\r
+          format="([H]h[m]m)"\r
+          [value]="item.estimatedDuration"\r
+        ></time-format>\r
+        |\r
+        <time-format\r
+          format="([H]h[m]m)"\r
+          [value]="differenceLastClosedToRealTime"\r
+          title="Time ahead/behind of the last task closed"\r
+          [ngClass]="{\r
+            'task-next-time-ahead': differenceLastClosedToRealTime < 0,\r
+            'task-next-time-behind': 0 <= differenceLastClosedToRealTime\r
+          }"\r
+        ></time-format>\r
+        @if (state.inProgressTasksCount > 0) {\r
+        <span> | {{ state.inProgressTasksCount }} in progress </span>\r
+        }\r
+      </div>\r
+      @if (!options.optCollapseNextTasks) {\r
+      <div\r
+        [ngClass]="{\r
+        'columns-3': nextTasks[0].tasks.length > 10\r
+      }"\r
+      >\r
+        @for (t of item.tasks; track t; let count = $index) {\r
+        <div\r
+          data-id="{{ t.tsk_id }}"\r
+          [ngClass]="{\r
+            'task-item-in-process': t.tsk_ctg_in_process === 2\r
+          }"\r
+        >\r
+          @if (t['projectedDate'].getHours() < 2 && count > 0 &&\r
+          item.tasks[count-1]['projectedDate'].getHours() >= 23) {\r
+          <hr />\r
+          } @if (count > 0 && count === viewData.nextToDoCutlineForAddedTasks) {\r
+          <hr class="next-to-do-cutline" />\r
+          }\r
+          <input\r
+            type="checkbox"\r
+            id="{{ t.tsk_id }}"\r
+            (click)="taskCheckboxHandler(t, $event)"\r
+          />\r
+          <span\r
+            [ngClass]="{\r
+            'task-next-time-ahead': t['projectedDate'].getTime() >= getDate().getTime(),\r
+            'task-next-time-behind': getDate().getTime() > t['projectedDate'].getTime()\r
+          }"\r
+            >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;\r
+          </span>\r
+          @if (t.tsk_total_time_spent !== 0) {\r
+          <span\r
+            [ngClass]="{\r
+            'task-next-time-ahead': t['projectedDateFromNow'].getTime() >= getDate().getTime(),\r
+            'task-next-time-behind': getDate().getTime() > t['projectedDateFromNow'].getTime()\r
+          }"\r
+            >&lt;{{t['projectedDateFromNow'] | date: "HH:mm"}}&gt;\r
+          </span>\r
+          <span\r
+            [ngClass]="{\r
+              'task-open-with-tt':\r
+                t.tsk_ctg_status === this.taskStatus.OPEN &&\r
+                t.tsk_time_history.length > 0\r
+            }"\r
+            >[{{ t.tsk_time_history.length }}/{{\r
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==\r
+            2) {\r
+            <span>\r
+              [<span\r
+                class="tt-start"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r
+                .tsh_date_start | date: "HH:mm:ss" }}</span\r
+              >\r
+              -\r
+              <span\r
+                class="tt-end"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+                1].tsh_date_end | date: "HH:mm:ss" }}</span\r
+              >]\r
+            </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_ctg_in_process === 2) {\r
+          <span>\r
+            [<span\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+              >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+              1].tsh_date_start | date: "HH:mm:ss" }}</span\r
+            >]\r
+          </span>\r
+          }\r
+          <span\r
+            (click)="toggleTimeMode()"\r
+            class="clickable"\r
+            title="click to toggle timer mode"\r
+          >\r
+            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""\r
+            }}\r
+          </span>\r
+          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {\r
+          <span class="task-q-critical" title="Critical task">\u{1F525}</span>\r
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {\r
+          <span class="task-qualifier-icon">&#9733;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/people.svg"\r
+              alt="Requires reaching out people"\r
+              title="Requires reaching out people"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/smartphone.svg"\r
+              alt="Can be done using phone"\r
+              title="Can be done using phone"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {\r
+          <span class="task-qualifier-icon">&#10006;</span>\r
+          }\r
+          <span\r
+            contenteditable="true"\r
+            spellcheck="false"\r
+            (keyup)="taskEdit(t, $event)"\r
+            (keydown)="nextTaskKeyDown($event)"\r
+            [ngClass]="{\r
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
+              'task-in-process': t.tsk_ctg_in_process === 2,\r
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,\r
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,\r
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1\r
+            }"\r
+            (blur)="commandOnTask(t, $event)"\r
+            class="editable task-text"\r
+            >{{ t.tsk_name }}</span\r
+          >&nbsp;<span\r
+            [attr.contenteditable]="options.optAllowToEditETA"\r
+            spellcheck="false"\r
+            (blur)="taskEstimatedDurationEdit(t, $event)"\r
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
+            class="task-eta"\r
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
+          ><span> [{{t.tsk_id_record}}] </span>\r
+          @if (t.tsk_tags) {\r
+          <span class="task-tags">\r
+            @for (tag of t.tsk_tags.split(' '); track tag) {\r
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_schedule_date_start) {\r
+          <span\r
+            ><strong\r
+              >(start at {{ formatDateTime(t.tsk_schedule_date_start)\r
+              }})</strong\r
+            ></span\r
+          >\r
+          } @if (options.optViewElapsedDays) {\r
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
+          } @if (t.not_sync) {\r
+          <span>(Not in sync)</span>\r
+          }\r
+        </div>\r
+        }\r
+      </div>\r
+      }\r
+    </div>\r
+    }\r
+  </div>\r
+</div>\r
+} @if (pinnedTasks[0].tasks.length) {\r
+<div id="pinnedToDoTodayList">\r
+  <hr />\r
+  <div class="task-open-task-list-container">\r
+    @for (item of pinnedTasks; track item) {\r
+    <div class="task-record">\r
+      <div>\r
+        <button\r
+          class="button-link no-underline"\r
+          (click)="toggleOption('optCollapsePinnedTasks')"\r
+        >\r
+          <strong\r
+            >{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To\r
+            Do</strong\r
+          >\r
+        </button>\r
+        | {{ item.tasks.length }}\r
+        <time-format\r
+          format="([H]h[m]m)"\r
+          [value]="item.estimatedDuration"\r
+        ></time-format>\r
+      </div>\r
+      @if (!options.optCollapsePinnedTasks) {\r
+      <div\r
+        [ngClass]="{\r
+        'columns-3': pinnedTasks[0].tasks.length > 10\r
+      }"\r
+      >\r
+        @for (t of item.tasks; track t; let count = $index) {\r
+        <div data-id="{{ t.tsk_id }}">\r
+          <input\r
+            type="checkbox"\r
+            id="{{ t.tsk_id }}"\r
+            (click)="taskCheckboxHandler(t, $event)"\r
+          />\r
+          @if (t.tsk_total_time_spent !== 0) {\r
+          <span\r
+            [ngClass]="{\r
+              'task-open-with-tt':\r
+                t.tsk_ctg_status === this.taskStatus.OPEN &&\r
+                t.tsk_time_history.length > 0\r
+            }"\r
+            >[{{ t.tsk_time_history.length }}/{{\r
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==\r
+            2) {\r
+            <span>\r
+              [<span\r
+                class="tt-start"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r
+                .tsh_date_start | date: "HH:mm:ss" }}</span\r
+              >\r
+              -\r
+              <span\r
+                class="tt-end"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+                1].tsh_date_end | date: "HH:mm:ss" }}</span\r
+              >]\r
+            </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_ctg_in_process === 2) {\r
+          <span>\r
+            [<span\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+              >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+              1].tsh_date_start | date: "HH:mm:ss" }}</span\r
+            >]\r
+          </span>\r
+          }\r
+          <span\r
+            (click)="toggleTimeMode()"\r
+            class="clickable"\r
+            title="click to toggle timer mode"\r
+          >\r
+            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""\r
+            }}\r
+          </span>\r
+          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {\r
+          <span class="task-q-critical" title="Critical task">\u{1F525}</span>\r
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {\r
+          <span class="task-qualifier-icon">&#9733;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/people.svg"\r
+              alt="Requires reaching out people"\r
+              title="Requires reaching out people"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/smartphone.svg"\r
+              alt="Can be done using phone"\r
+              title="Can be done using phone"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {\r
+          <span class="task-qualifier-icon">&#10006;</span>\r
+          }\r
+          <span\r
+            contenteditable="true"\r
+            spellcheck="false"\r
+            (keyup)="taskEdit(t, $event)"\r
+            (keydown)="pinnedTaskKeyDown($event)"\r
+            [ngClass]="{\r
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
+              'task-in-process': t.tsk_ctg_in_process === 2,\r
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,\r
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,\r
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1\r
+            }"\r
+            (blur)="commandOnTask(t, $event)"\r
+            class="editable task-text"\r
+            >{{ t.tsk_name }}</span\r
+          >&nbsp;<span\r
+            [attr.contenteditable]="options.optAllowToEditETA"\r
+            spellcheck="false"\r
+            (blur)="taskEstimatedDurationEdit(t, $event)"\r
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
+            class="task-eta"\r
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
+          ><span> [{{t.tsk_id_record}}] </span>\r
+          @if (t.tsk_tags) {\r
+          <span class="task-tags">\r
+            @for (tag of t.tsk_tags.split(' '); track tag) {\r
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_schedule_date_start) {\r
+          <span\r
+            ><strong\r
+              >(start at {{ formatDateTime(t.tsk_schedule_date_start)\r
+              }})</strong\r
+            ></span\r
+          >\r
+          } @if (options.optViewElapsedDays) {\r
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
+          } @if (t.not_sync) {\r
+          <span>(Not in sync)</span>\r
+          }\r
+        </div>\r
+        }\r
+      </div>\r
+      }\r
+    </div>\r
+    }\r
+  </div>\r
+</div>\r
+} @if (tagInfo.display === true) {\r
+<div id="tagInfo">\r
+  <button (click)="tagInfo.display = false">hide</button>\r
+  <strong>Tag Information</strong>\r
+  <br />Closed Tasks | Estimated: {{\r
+  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{\r
+  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{\r
+  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{\r
+  formatTime(tagInfo.tasksOpenTotalSpent) }} @if (tagInfo.tasks.length > 0) {\r
+  <div>\r
+    <table>\r
+      <tr>\r
+        <td>Name</td>\r
+        <td>Estimated</td>\r
+        <td>Spent</td>\r
+        <td>Status</td>\r
+        <td>Actions</td>\r
+      </tr>\r
+      @for (e of tagInfo.tasks; track e) {\r
+      <tr>\r
+        <td>{{ e.tsk_name }}</td>\r
+        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>\r
+        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>\r
+        <td>{{ statusText(e.tsk_ctg_status) }}</td>\r
+        <td><button (click)="setSelected(e)">details</button></td>\r
+      </tr>\r
+      }\r
+    </table>\r
+  </div>\r
+  }\r
+  <hr />\r
+</div>\r
+} @if (options.optShowFinishedToday) {\r
+<div>\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseFinishedToday')"\r
+  >\r
+    <strong\r
+      >{{ options.optCollapseFinishedToday ? '+' : '-' }} Finished Today</strong\r
+    >\r
+  </button>\r
+  | {{ state.closedTodayTasks.length }} tasks @if\r
+  (!options.optCollapseFinishedToday) {\r
+  <div>\r
+    @for (item of state.closedTodayTasks; track item; let i = $index) {\r
+    <div>\r
+      @if (i < 3 || viewAllFinishedToday) {\r
+      <div>\r
+        <input\r
+          type="checkbox"\r
+          id="{{ item.tsk_id }}"\r
+          checked\r
+          (click)="taskCheckboxHandler(item, $event)"\r
+        />\r
+        @if (item.tsk_total_time_spent !== 0) {\r
+        <span\r
+          [ngClass]="{\r
+            'task-open-with-tt':\r
+              item.tsk_ctg_status === this.taskStatus.OPEN &&\r
+              item.tsk_time_history.length > 0\r
+          }"\r
+          >[{{ item.tsk_time_history.length }}/{{\r
+          formatTime(item.tsk_total_time_spent) }}] @if (item.tsk_ctg_in_process\r
+          !== 2) {\r
+          <span>\r
+            [<span\r
+              class="tt-start"\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="timeTrackingQuickEdit(item, $event, 'start')"\r
+              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&\r
+              item.tsk_time_history[item.tsk_time_history.length - 1]\r
+              .tsh_date_start | date: "HH:mm:ss" }}</span\r
+            >\r
+            -\r
+            <span\r
+              class="tt-end"\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="timeTrackingQuickEdit(item, $event, 'end')"\r
+              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&\r
+              item.tsk_time_history[item.tsk_time_history.length - 1]\r
+              .tsh_date_end | date: "HH:mm:ss" }}</span\r
+            >]\r
+          </span>\r
+          }\r
+        </span>\r
+        }\r
+        <span\r
+          >(Done at:\r
+          <span\r
+            contenteditable="true"\r
+            spellcheck="false"\r
+            (keyup)="editDateDone(item, $event)"\r
+            >{{ item.tsk_date_done | date: format }}</span\r
+          >)</span\r
+        >&nbsp;<span\r
+          [ngClass]="{\r
+            'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED\r
+          }"\r
+          >{{ item.tsk_name }}</span\r
+        >\r
+        @if (item.not_sync) {\r
+        <span>(Not in sync)</span>\r
+        }&nbsp;<button (click)="setSelected(item)">details</button>\r
+      </div>\r
+      }\r
+    </div>\r
+    } @if (state.closedTodayTasks.length > 3) {\r
+    <button (click)="toggleView('viewAllFinishedToday')">\r
+      {{ viewAllFinishedToday ? "Do not show all" : "Show all" }}\r
+    </button>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+} @if (options.optShowFinishedYesterday) {\r
+<div>\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseFinishedYesterday')"\r
+  >\r
+    <strong\r
+      >{{ options.optCollapseFinishedYesterday ? '+' : '-' }} Finished\r
+      Yesterday</strong\r
+    >\r
+  </button>\r
+  | {{ state.closedYesterdayTasks.length }} tasks @if\r
+  (!options.optCollapseFinishedYesterday) {\r
+  <div>\r
+    @for (item of state.closedYesterdayTasks; track item; let i = $index) {\r
+    <div>\r
+      @if (i < 3 || viewAllFinishedYesterday) {\r
+      <div>\r
+        <task\r
+          [task]="item"\r
+          [handlers]="handlersForClosedYesterday"\r
+          [options]="{\r
+            optShowRecordNameInline: true,\r
+            optShowTimeTrackingHistory: true,\r
+            optShowDetailsButton: true\r
+        }"\r
+        ></task>\r
+      </div>\r
+      }\r
+    </div>\r
+    } @if (state.closedYesterdayTasks.length > 3) {\r
+    <button (click)="toggleView('viewAllFinishedYesterday')">\r
+      {{ viewAllFinishedYesterday ? "Do not show all" : "Show all" }}\r
+    </button>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+} @if (options.optShowClosedTasks) {\r
+<div id="closedTaskList">\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseClosedTasks')"\r
+  >\r
+    <strong\r
+      >{{ options.optCollapseClosedTasks ? '+' : '-' }} Closed Tasks</strong\r
+    >\r
+  </button>\r
+  @if (!options.optCollapseClosedTasks) {\r
+  <div>\r
+    @for (group of state.closedTasks; track group) {\r
+    <div>\r
+      <div>\r
+        <br />\r
+        <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>\r
+        &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>\r
+      </div>\r
+      @for (item of group.tasks; track item) {\r
+      <div>\r
+        -\r
+        <span\r
+          >[{{ item.tsk_time_history.length }}/{{\r
+          formatTime(item.tsk_total_time_spent) }}]</span\r
+        >\r
+        <span>[{{ item.tsk_id_record }}]</span>\r
+        <span>{{ item.tsk_name }}</span>\r
+        <!--<span\r
+                                                                                                                                        >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"\r
+                                                                                                                                        }})</span\r
+                                                                                                                                        >-->\r
+        @if (item.tsk_tags) {\r
+        <span class="task-tags">\r
+          @for (tag of item.tsk_tags.split(' '); track tag) {\r
+          <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
+          }\r
+        </span>\r
+        } &nbsp;<button (click)="setSelected(item)">details</button>\r
+      </div>\r
+      }\r
+    </div>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+} @if (options.optShowReportsWeekDistribution) {\r
+<div>\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseReportsWeekDistribution')"\r
+  >\r
+    <strong\r
+      >{{ options.optCollapseReportsWeekDistribution ? '+' : '-' }} Week\r
+      Distribution Report</strong\r
+    >\r
+  </button>\r
+  @if (!options.optCollapseReportsWeekDistribution) {\r
+  <div>\r
+    @for (s of reports.week; track s) {\r
+    <div>\r
+      date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}\r
+      estimated: {{ formatTime(s.estimated * 60) }} spent: {{\r
+      formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time\r
+      Elapsed: {{ formatTime(s.realTimeElapsed) }}\r
+    </div>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+} @if (options.optShowReportsDayDistribution) {\r
+<div>\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseReportsDayDistribution')"\r
+  >\r
+    <strong\r
+      >{{ options.optCollapseReportsDayDistribution ? '+' : '-' }} Day\r
+      Distribution Report</strong\r
+    >\r
+  </button>\r
+  @if (!options.optCollapseReportsDayDistribution) {\r
+  <div>\r
+    <table>\r
+      <tr>\r
+        <td>Record</td>\r
+        <td>Total ETA</td>\r
+        <td>Total Real</td>\r
+        <td>Percentage ETA</td>\r
+        <td>Percentage Real</td>\r
+      </tr>\r
+      @for (r of reports.dayDistribution; track r) {\r
+      <tr>\r
+        <td>{{ r.record }}</td>\r
+        <td>{{ formatTime(r.eta * 60) }}</td>\r
+        <td>{{ formatTime(r.real) }}</td>\r
+        <td>{{ r.percentageEta }}</td>\r
+        <td>{{ r.percentageReal }}</td>\r
+      </tr>\r
+      }\r
+    </table>\r
+    @if (viewData.dayDistributionChart.chartData[0].data.length > 0) {\r
+    <canvas\r
+      id="dayDistributionChart"\r
+      baseChart\r
+      [datasets]="viewData.dayDistributionChart.chartData"\r
+      [labels]="viewData.dayDistributionChart.chartLabels"\r
+      [options]="viewData.dayDistributionChart.chartOptions"\r
+      [legend]="viewData.dayDistributionChart.chartLegend"\r
+      [type]="viewData.dayDistributionChart.chartType"\r
+    >\r
+    </canvas>\r
+    }\r
+  </div>\r
+  }\r
+</div>\r
+} @if (options.optShowQualifiersTotals) {\r
+<div>\r
+  <hr />\r
+  <button\r
+    class="button-link no-underline"\r
+    (click)="toggleOption('optCollapseQualifiersTotals')"\r
+  >\r
+    <strong\r
+      >{{ options.optCollapseQualifiersTotals ? '+' : '-' }} Qualifiers\r
+      Totals</strong\r
+    >\r
+  </button>\r
+  @if (!options.optCollapseQualifiersTotals) {\r
+  <div>\r
+    <table>\r
+      <tr>\r
+        <td>Qualifier</td>\r
+        <td>Task Count</td>\r
+        <td>Total ETA</td>\r
+      </tr>\r
+      @for (q of reports.qualifierTotals; track q) {\r
+      <tr>\r
+        <td>{{ q.qualifier }}</td>\r
+        <td>{{ q.taskCount }}</td>\r
+        <td>{{ formatTime(q.totalETA * 60) }}</td>\r
+      </tr>\r
+      }\r
+    </table>\r
+  </div>\r
+  }\r
+</div>\r
+} @if (comparisonData) {\r
+<div>\r
+  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task\r
+  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{\r
+  comparisonData.results.length }}\r
+  <table>\r
+    @for (c of comparisonData.results; track c) {\r
+    <tr>\r
+      @for (f of c; track f) {\r
+      <td>\r
+        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{\r
+        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}\r
+        <button (click)="sendFEToBE(c)">Send FE data to BE</button>\r
+      </td>\r
+      }\r
+    </tr>\r
+    }\r
+  </table>\r
+</div>\r
+} @if (selectedTask) {\r
+<div\r
+  class="task-item-toolbar"\r
+  [ngClass]="{\r
+  'mobile-only': !options.optShowTaskToolbar\r
+}"\r
+>\r
+  <div>{{ selectedTask.tsk_name }}</div>\r
+  <div class="task-item-toolbar-content">\r
+    @if (selectedTask && selectedTask.tsk_ctg_in_process === 1) {\r
+    <span\r
+      class="play-button clickable"\r
+      (click)="toggleTimeTracking(selectedTask, $event)"\r
+      >&#9654;</span\r
+    >\r
+    } @if (selectedTask && selectedTask.tsk_ctg_in_process === 2) {\r
+    <span\r
+      class="stop-button clickable"\r
+      (click)="toggleTimeTracking(selectedTask, $event)"\r
+      >&#9724;</span\r
+    >\r
+    }\r
+    <span\r
+      class="adjust-timetracking-button clickable"\r
+      (click)="adjustTimeTracking(selectedTask)"\r
+      >&#8676;</span\r
+    >\r
+    <span\r
+      class="set-selected-button clickable"\r
+      (click)="setSelected(selectedTask)"\r
+      >&#9998;</span\r
+    >\r
+    <span\r
+      class="remove-qualifiers-button clickable"\r
+      (click)="removeQualifiersFromTask(selectedTask)"\r
+      >&#9746;</span\r
+    >\r
+    <span class="close-button clickable" (click)="selectedTask = null"\r
+      >&times;</span\r
+    >\r
+  </div>\r
+</div>\r
+}\r
+\r
+<task-toolbar\r
+  [task]="selectedTask"\r
+  [groupTasks]="selectedRecord"\r
+  [handlers]="handlersForTaskToolbar"\r
+  [options]="{\r
+    optShowTaskToolbar: true\r
+  }"\r
+></task-toolbar>\r
 `, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n/*# sourceMappingURL=tasks-BQNOMA3O.css.map */\n'] }]
   }], () => [{ type: TasksCore }, { type: SyncAPI }, { type: TaskIndicator }, { type: DateCommon }, { type: NotificationService }, { type: Title }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TasksComponent, { className: "TasksComponent", filePath: "src/app/task/tasks.component.ts", lineNumber: 30 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TasksComponent, { className: "TasksComponent", filePath: "src/app/task/tasks.component.ts", lineNumber: 31 });
 })();
 
 // src/crosscommon/entities/Account.ts
@@ -103205,7 +103715,7 @@ var UnitStatusService = class _UnitStatusService {
   };
   config = {
     api: {
-      list: "/api/external/cartera-ext/unit-status-for-month"
+      list: "/api/external/cartera/unit-status-for-month"
     }
   };
   constructor(sync) {
@@ -104669,16 +105179,18 @@ function ResultsReportComponent_Conditional_23_Template(rf, ctx) {
 function ResultsReportComponent_Conditional_61_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 15)(1, "table")(2, "tr")(3, "td")(4, "p");
-    \u0275\u0275text(5, "Manuel Montoya, Dolores Delgadillo, Belinda Fr\xEDas");
+    \u0275\u0275text(5, " Belinda Fr\xEDas, Dolores Delgadillo, ");
+    \u0275\u0275element(6, "br");
+    \u0275\u0275text(7, "Claudia Abarca, Alfonso Reyes ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "p");
-    \u0275\u0275text(7, "Comit\xE9 de Vigilancia");
+    \u0275\u0275elementStart(8, "p");
+    \u0275\u0275text(9, "Comit\xE9 de Vigilancia");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(8, "tr")(9, "td")(10, "p");
-    \u0275\u0275text(11, "Daniel Mart\xEDnez");
+    \u0275\u0275elementStart(10, "tr")(11, "td")(12, "p");
+    \u0275\u0275text(13, "Daniel Mart\xEDnez");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "p");
-    \u0275\u0275text(13, "Administraci\xF3n");
+    \u0275\u0275elementStart(14, "p");
+    \u0275\u0275text(15, "Administraci\xF3n");
     \u0275\u0275elementEnd()()()()();
   }
 }
@@ -104842,7 +105354,7 @@ var ResultsReportComponent = class _ResultsReportComponent {
       \u0275\u0275text(59);
       \u0275\u0275pipe(60, "currency");
       \u0275\u0275elementEnd()()()()()();
-      \u0275\u0275conditionalCreate(61, ResultsReportComponent_Conditional_61_Template, 14, 0, "div", 15);
+      \u0275\u0275conditionalCreate(61, ResultsReportComponent_Conditional_61_Template, 16, 0, "div", 15);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -104876,193 +105388,196 @@ var ResultsReportComponent = class _ResultsReportComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ResultsReportComponent, [{
     type: Component,
-    args: [{ selector: "results-report", providers: [ResultsReportService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div class="page-container">
-  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
-
-  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>
-
-  <div class="results-top-block padding-all-3 desktop-only">
-    <strong>FFJ78</strong>
-    <div>Francisco Field Jurado #78</div>
-    <div>Independencia, Benito Ju\xE1rez</div>
-    <div>CDMX</div>
-  </div>
-
-  <table class="results-movements desktop-only width-100-pct-print-only">
-    <tbody>
-      @for (movement of viewData.renderList; track movement; let counter =
-      $index) {
-      <tr
-        class="results-listing-row"
-        [ngClass]="{
-            'results-header-row': movement.type === 'header',
-            'results-total-row': movement.type === 'total'
-        }"
-      >
-        <td class="padding-all-3">
-          @if (movement.type === 'header') {
-          <span> {{movement.concept}} </span>
-          }
-        </td>
-        <td class="padding-all-3">
-          @if (movement.type === 'movement') {
-          <span> {{movement.concept}} </span>
-          }
-        </td>
-        <td class="padding-all-3 text-align-right width-120">
-          @if (movement.type === 'total') {
-          <span> {{movement.concept}} </span>
-          }
-        </td>
-        <td
-          class="padding-all-3 text-align-right vertical-align-top width-80-strict"
-        >
-          @if (movement.type === 'header' && counter === 0) {
-          <span> Importe </span>
-          } @if (movement.type !== 'header') {
-          <span>
-            {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-          </span>
-          }
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
-
-  <table class="results-movements mobile-only width-100-pct">
-    <tbody>
-      @for (movement of viewData.renderList; track movement; let counter =
-      $index) {
-      <tr
-        class="results-listing-row"
-        [ngClass]="{
-            'results-header-row': movement.type === 'header',
-            'results-total-row': movement.type === 'total'
-        }"
-      >
-        <td
-          class="padding-all-3"
-          [ngClass]="{
-          'text-align-right': movement.type === 'total'
-        }"
-        >
-          <span> {{movement.concept}} </span>
-        </td>
-        <td
-          class="padding-all-3 text-align-right vertical-align-top width-80-strict"
-        >
-          @if (movement.type === 'header' && counter === 0) {
-          <span> Importe </span>
-          } @if (movement.type !== 'header') {
-          <span>
-            {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
-          </span>
-          }
-        </td>
-      </tr>
-      }
-    </tbody>
-  </table>
-
-  <div
-    [ngClass]="{
-    'results-top-block-50': viewData.timelineList.length > 0
-  }"
-  >
-    @if (viewData.timelineList.length > 0) {
-    <div class="results-timeline-list">
-      <div>
-        <strong> Observaciones </strong>
-      </div>
-      <br />
-      @for (t of viewData.timelineList; track t) {
-      <div [innerHTML]="t.tim_description"></div>
-      }
-    </div>
-    }
-
-    <br />
-    <timeline
-      [recordId]="'cartera-results|' + viewData.year + '-' + viewData.month"
-      (onNewItem)="handleNewTimeline($event)"
-    ></timeline>
-  </div>
-
-  <div
-    class="results-summary width-100-pct-mobile-only"
-    [ngClass]="{
-    'results-top-block-50': viewData.timelineList.length > 0
-  }"
-  >
-    <table class="text-align-right">
-      <tbody>
-        <tr class="results-total-row">
-          <td class="padding-all-3 width-120">
-            <span>Balance inicial</span>
-          </td>
-          <td class="padding-all-3 width-80-strict">
-            <span>
-              {{viewData.initialBalance | currency:
-              "USD":"symbol-narrow":"1.2-2"}}
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td class="padding-all-3 width-120">
-            <span>+ Total ingresos</span>
-          </td>
-          <td class="padding-all-3 width-80-strict">
-            <span>
-              {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td class="padding-all-3 width-120">
-            <span>- Total egresos</span>
-          </td>
-          <td class="padding-all-3 width-80-strict">
-            <span>
-              {{viewData.expenseTotal | currency:
-              "USD":"symbol-narrow":"1.2-2"}}
-            </span>
-          </td>
-        </tr>
-        <tr class="results-total-row">
-          <td class="padding-all-3 width-120">
-            <span>Balance final</span>
-          </td>
-          <td class="padding-all-3 width-80-strict">
-            <span>
-              {{viewData.finalBalance | currency:
-              "USD":"symbol-narrow":"1.2-2"}}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  @if (viewData.showSigns) {
-  <div class="results-sign-list desktop-only">
-    <table>
-      <tr>
-        <td>
-          <p>Manuel Montoya, Dolores Delgadillo, Belinda Fr\xEDas</p>
-          <p>Comit\xE9 de Vigilancia</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>Daniel Mart\xEDnez</p>
-          <p>Administraci\xF3n</p>
-        </td>
-      </tr>
-    </table>
-  </div>
-  }
-</div>
+    args: [{ selector: "results-report", providers: [ResultsReportService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div class="page-container">\r
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>\r
+\r
+  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>\r
+\r
+  <div class="results-top-block padding-all-3 desktop-only">\r
+    <strong>FFJ78</strong>\r
+    <div>Francisco Field Jurado #78</div>\r
+    <div>Independencia, Benito Ju\xE1rez</div>\r
+    <div>CDMX</div>\r
+  </div>\r
+\r
+  <table class="results-movements desktop-only width-100-pct-print-only">\r
+    <tbody>\r
+      @for (movement of viewData.renderList; track movement; let counter =\r
+      $index) {\r
+      <tr\r
+        class="results-listing-row"\r
+        [ngClass]="{\r
+            'results-header-row': movement.type === 'header',\r
+            'results-total-row': movement.type === 'total'\r
+        }"\r
+      >\r
+        <td class="padding-all-3">\r
+          @if (movement.type === 'header') {\r
+          <span> {{movement.concept}} </span>\r
+          }\r
+        </td>\r
+        <td class="padding-all-3">\r
+          @if (movement.type === 'movement') {\r
+          <span> {{movement.concept}} </span>\r
+          }\r
+        </td>\r
+        <td class="padding-all-3 text-align-right width-120">\r
+          @if (movement.type === 'total') {\r
+          <span> {{movement.concept}} </span>\r
+          }\r
+        </td>\r
+        <td\r
+          class="padding-all-3 text-align-right vertical-align-top width-80-strict"\r
+        >\r
+          @if (movement.type === 'header' && counter === 0) {\r
+          <span> Importe </span>\r
+          } @if (movement.type !== 'header') {\r
+          <span>\r
+            {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
+          </span>\r
+          }\r
+        </td>\r
+      </tr>\r
+      }\r
+    </tbody>\r
+  </table>\r
+\r
+  <table class="results-movements mobile-only width-100-pct">\r
+    <tbody>\r
+      @for (movement of viewData.renderList; track movement; let counter =\r
+      $index) {\r
+      <tr\r
+        class="results-listing-row"\r
+        [ngClass]="{\r
+            'results-header-row': movement.type === 'header',\r
+            'results-total-row': movement.type === 'total'\r
+        }"\r
+      >\r
+        <td\r
+          class="padding-all-3"\r
+          [ngClass]="{\r
+          'text-align-right': movement.type === 'total'\r
+        }"\r
+        >\r
+          <span> {{movement.concept}} </span>\r
+        </td>\r
+        <td\r
+          class="padding-all-3 text-align-right vertical-align-top width-80-strict"\r
+        >\r
+          @if (movement.type === 'header' && counter === 0) {\r
+          <span> Importe </span>\r
+          } @if (movement.type !== 'header') {\r
+          <span>\r
+            {{movement.amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
+          </span>\r
+          }\r
+        </td>\r
+      </tr>\r
+      }\r
+    </tbody>\r
+  </table>\r
+\r
+  <div\r
+    [ngClass]="{\r
+    'results-top-block-50': viewData.timelineList.length > 0\r
+  }"\r
+  >\r
+    @if (viewData.timelineList.length > 0) {\r
+    <div class="results-timeline-list">\r
+      <div>\r
+        <strong> Observaciones </strong>\r
+      </div>\r
+      <br />\r
+      @for (t of viewData.timelineList; track t) {\r
+      <div [innerHTML]="t.tim_description"></div>\r
+      }\r
+    </div>\r
+    }\r
+\r
+    <br />\r
+    <timeline\r
+      [recordId]="'cartera-results|' + viewData.year + '-' + viewData.month"\r
+      (onNewItem)="handleNewTimeline($event)"\r
+    ></timeline>\r
+  </div>\r
+\r
+  <div\r
+    class="results-summary width-100-pct-mobile-only"\r
+    [ngClass]="{\r
+    'results-top-block-50': viewData.timelineList.length > 0\r
+  }"\r
+  >\r
+    <table class="text-align-right">\r
+      <tbody>\r
+        <tr class="results-total-row">\r
+          <td class="padding-all-3 width-120">\r
+            <span>Balance inicial</span>\r
+          </td>\r
+          <td class="padding-all-3 width-80-strict">\r
+            <span>\r
+              {{viewData.initialBalance | currency:\r
+              "USD":"symbol-narrow":"1.2-2"}}\r
+            </span>\r
+          </td>\r
+        </tr>\r
+        <tr>\r
+          <td class="padding-all-3 width-120">\r
+            <span>+ Total ingresos</span>\r
+          </td>\r
+          <td class="padding-all-3 width-80-strict">\r
+            <span>\r
+              {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}\r
+            </span>\r
+          </td>\r
+        </tr>\r
+        <tr>\r
+          <td class="padding-all-3 width-120">\r
+            <span>- Total egresos</span>\r
+          </td>\r
+          <td class="padding-all-3 width-80-strict">\r
+            <span>\r
+              {{viewData.expenseTotal | currency:\r
+              "USD":"symbol-narrow":"1.2-2"}}\r
+            </span>\r
+          </td>\r
+        </tr>\r
+        <tr class="results-total-row">\r
+          <td class="padding-all-3 width-120">\r
+            <span>Balance final</span>\r
+          </td>\r
+          <td class="padding-all-3 width-80-strict">\r
+            <span>\r
+              {{viewData.finalBalance | currency:\r
+              "USD":"symbol-narrow":"1.2-2"}}\r
+            </span>\r
+          </td>\r
+        </tr>\r
+      </tbody>\r
+    </table>\r
+  </div>\r
+\r
+  @if (viewData.showSigns) {\r
+  <div class="results-sign-list desktop-only">\r
+    <table>\r
+      <tr>\r
+        <td>\r
+          <p>\r
+            Belinda Fr\xEDas, Dolores Delgadillo,\r
+            <br />Claudia Abarca, Alfonso Reyes\r
+          </p>\r
+          <p>Comit\xE9 de Vigilancia</p>\r
+        </td>\r
+      </tr>\r
+      <tr>\r
+        <td>\r
+          <p>Daniel Mart\xEDnez</p>\r
+          <p>Administraci\xF3n</p>\r
+        </td>\r
+      </tr>\r
+    </table>\r
+  </div>\r
+  }\r
+</div>\r
 `, styles: ["/* src/app/cartera/ResultsReport.css */\n@media screen {\n  .page-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    max-width: 800px;\n    margin: 0 auto;\n  }\n}\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  table {\n    border-collapse: collapse;\n  }\n  .results-header-row,\n  .results-total-row {\n    font-weight: bold;\n  }\n  .results-header-row:first-child {\n    border-bottom: 1px solid black;\n  }\n  .results-total-row:last-child {\n    border-top: 1px solid black;\n  }\n  .results-summary {\n    margin-top: 50px;\n  }\n  .results-top-block,\n  .results-movements {\n    margin-top: 20px;\n  }\n  .results-top-block-50 {\n    margin-top: 20px;\n  }\n  .results-sign-list table {\n    width: 300px;\n  }\n  .results-sign-list table tr {\n    border-top: 1px solid black;\n    text-align: center;\n  }\n  .results-sign-list table tr td {\n    padding-top: 5px;\n    padding-bottom: 100px;\n  }\n  .results-summary {\n    display: flex;\n    justify-content: flex-end;\n  }\n}\n@media (max-width: 504px) {\n  .results-summary table {\n    width: 50%;\n  }\n}\n/*# sourceMappingURL=ResultsReport-MLBX7OCL.css.map */\n"] }]
   }], () => [{ type: ResultsReportService }, { type: Title }], null);
 })();
@@ -124422,135 +124937,143 @@ var SyncComponent = class _SyncComponent {
 })();
 
 // src/app/common/menu.component.ts
-function MenuComponent_Conditional_0_Conditional_11_Template(rf, ctx) {
+function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 7);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_div_click_0_listener() {
+    \u0275\u0275elementStart(0, "div", 8);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_div_click_0_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275elementStart(1, "div", 8)(2, "ul", 9);
-    \u0275\u0275listener("keydown.esc", function MenuComponent_Conditional_0_Conditional_11_Template_ul_keydown_esc_2_listener() {
+    \u0275\u0275elementStart(1, "div", 9)(2, "ul", 10);
+    \u0275\u0275listener("keydown.esc", function MenuComponent_Conditional_0_Conditional_12_Template_ul_keydown_esc_2_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275elementStart(3, "li")(4, "a", 10);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_4_listener() {
+    \u0275\u0275elementStart(3, "li")(4, "a", 11);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_4_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(5, "Tasks");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "li")(7, "a", 11);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_7_listener() {
+    \u0275\u0275elementStart(6, "li")(7, "a", 12);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_7_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(8, "Movements");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "li")(10, "a", 12);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_10_listener() {
+    \u0275\u0275elementStart(9, "li")(10, "a", 13);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_10_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(11, "Balance");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(12, "li")(13, "a", 13);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_13_listener() {
+    \u0275\u0275elementStart(12, "li")(13, "a", 14);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_13_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(14, "Last Time");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(15, "li")(16, "a", 14);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_16_listener() {
+    \u0275\u0275elementStart(15, "li")(16, "a", 15);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_16_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(17, "Multimedia");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(18, "li")(19, "a", 15);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_19_listener() {
+    \u0275\u0275elementStart(18, "li")(19, "a", 16);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_19_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(20, "Accounts");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(21, "li")(22, "a", 16);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_22_listener() {
+    \u0275\u0275elementStart(21, "li")(22, "a", 17);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_22_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(23, "Categories");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(24, "li")(25, "a", 17);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_25_listener() {
+    \u0275\u0275elementStart(24, "li")(25, "a", 18);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_25_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(26, "Places");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(27, "li")(28, "a", 18);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_28_listener() {
+    \u0275\u0275elementStart(27, "li")(28, "a", 19);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_28_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(29, "Presets");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(30, "li")(31, "a", 19);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_31_listener() {
+    \u0275\u0275elementStart(30, "li")(31, "a", 20);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_31_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(32, "Links");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(33, "li")(34, "a", 20);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_34_listener() {
+    \u0275\u0275elementStart(33, "li")(34, "a", 21);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_34_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(35, "Cartera");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(36, "li")(37, "a", 21);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_37_listener() {
+    \u0275\u0275elementStart(36, "li")(37, "a", 22);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_37_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
     \u0275\u0275text(38, "Activities");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(39, "li")(40, "span");
-    \u0275\u0275text(41);
+    \u0275\u0275elementStart(39, "li")(40, "a", 23);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_40_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.handleClick());
+    });
+    \u0275\u0275text(41, " Libros de la Biblia ");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(42, "li")(43, "a", 3);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_11_Template_a_click_43_listener() {
+    \u0275\u0275elementStart(42, "li")(43, "span");
+    \u0275\u0275text(44);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(45, "li")(46, "a", 3);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_46_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.logout());
     });
-    \u0275\u0275text(44, "logout");
+    \u0275\u0275text(47, "logout");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(45, "li")(46, "span");
-    \u0275\u0275text(47);
+    \u0275\u0275elementStart(48, "li")(49, "span");
+    \u0275\u0275text(50);
     \u0275\u0275elementEnd()()()()();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(41);
+    \u0275\u0275advance(44);
     \u0275\u0275textInterpolate(ctx_r1.viewData.username);
     \u0275\u0275advance(6);
     \u0275\u0275textInterpolate1("v", ctx_r1.metadata.appVersion);
@@ -124572,16 +125095,22 @@ function MenuComponent_Conditional_0_Template(rf, ctx) {
     \u0275\u0275pipe(8, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275element(9, "drink-water")(10, "sync");
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(11, MenuComponent_Conditional_0_Conditional_11_Template, 48, 2, "div", 6);
+    \u0275\u0275elementStart(11, "app-omnibox", 6);
+    \u0275\u0275listener("commandEntered", function MenuComponent_Conditional_0_Template_app_omnibox_commandEntered_11_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onOmniboxCommand($event));
+    });
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(12, MenuComponent_Conditional_0_Conditional_12_Template, 51, 2, "div", 7);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance(7);
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind2(8, 2, ctx_r1.viewData.currentTime, "HH:mm:ss"), " ");
-    \u0275\u0275advance(4);
-    \u0275\u0275conditional(ctx_r1.viewData.isOpen ? 11 : -1);
+    \u0275\u0275advance(5);
+    \u0275\u0275conditional(ctx_r1.viewData.isOpen ? 12 : -1);
   }
 }
 var MenuComponent = class _MenuComponent {
@@ -124590,11 +125119,11 @@ var MenuComponent = class _MenuComponent {
   loginService;
   viewData = {
     username: "anon-default",
-    currentTime: null,
+    currentTime: /* @__PURE__ */ new Date(),
     isOpen: false
   };
   services = {
-    loginService: null
+    loginService: {}
   };
   metadata = {
     appVersion: ""
@@ -124634,12 +125163,22 @@ var MenuComponent = class _MenuComponent {
   handleClick() {
     this.viewData.isOpen = false;
   }
+  onOmniboxCommand(command) {
+    if (command === "logout") {
+      this.logout();
+    } else if (command.startsWith("go ")) {
+      const route = command.replace("go ", "").trim();
+      this.router.navigate([`/${route}`]);
+    } else {
+      alert("Comando recibido: " + command);
+    }
+  }
   static \u0275fac = function MenuComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MenuComponent)(\u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(AuthenticationService), \u0275\u0275directiveInject(LoginService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MenuComponent, selectors: [["menu"]], standalone: false, features: [\u0275\u0275ProvidersFeature([LoginService])], decls: 1, vars: 1, consts: [[1, "menu-container"], [1, "menu-header"], [1, "menu-icon"], [3, "click"], [1, "menu-area"], [1, "menu-clock"], [1, "menu-overlay"], [1, "menu-overlay", 3, "click"], [1, "menu-section"], [1, "menu-items", 3, "keydown.esc"], ["routerLink", "tasks", "href", "/tasks", 3, "click"], ["routerLink", "movement", "href", "/movement", 3, "click"], ["routerLink", "balance", "href", "/balance", 3, "click"], ["routerLink", "lasttime", "href", "/lasttime", 3, "click"], ["routerLink", "multimedia", "href", "/multimedia", 3, "click"], ["routerLink", "account", "href", "/account", 3, "click"], ["routerLink", "categories", "href", "/categories", 3, "click"], ["routerLink", "places", "href", "/places", 3, "click"], ["routerLink", "presets", "href", "/presets", 3, "click"], ["routerLink", "links", "href", "/links", 3, "click"], ["routerLink", "cartera", "href", "/cartera", 3, "click"], ["routerLink", "activities", "href", "/activities", 3, "click"]], template: function MenuComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MenuComponent, selectors: [["menu"]], standalone: false, features: [\u0275\u0275ProvidersFeature([LoginService])], decls: 1, vars: 1, consts: [[1, "menu-container"], [1, "menu-header"], [1, "menu-icon"], [3, "click"], [1, "menu-area"], [1, "menu-clock"], [3, "commandEntered"], [1, "menu-overlay"], [1, "menu-overlay", 3, "click"], [1, "menu-section"], [1, "menu-items", 3, "keydown.esc"], ["routerLink", "tasks", "href", "/tasks", 3, "click"], ["routerLink", "movement", "href", "/movement", 3, "click"], ["routerLink", "balance", "href", "/balance", 3, "click"], ["routerLink", "lasttime", "href", "/lasttime", 3, "click"], ["routerLink", "multimedia", "href", "/multimedia", 3, "click"], ["routerLink", "account", "href", "/account", 3, "click"], ["routerLink", "categories", "href", "/categories", 3, "click"], ["routerLink", "places", "href", "/places", 3, "click"], ["routerLink", "presets", "href", "/presets", 3, "click"], ["routerLink", "links", "href", "/links", 3, "click"], ["routerLink", "cartera", "href", "/cartera", 3, "click"], ["routerLink", "activities", "href", "/activities", 3, "click"], ["routerLink", "libros", "href", "/libros", 3, "click"]], template: function MenuComponent_Template(rf, ctx) {
     if (rf & 1) {
-      \u0275\u0275conditionalCreate(0, MenuComponent_Conditional_0_Template, 12, 5, "div", 0);
+      \u0275\u0275conditionalCreate(0, MenuComponent_Conditional_0_Template, 13, 5, "div", 0);
     }
     if (rf & 2) {
       \u0275\u0275conditional(ctx.currentUser ? 0 : -1);
@@ -124649,7 +125188,7 @@ var MenuComponent = class _MenuComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MenuComponent, [{
     type: Component,
-    args: [{ selector: "menu", providers: [LoginService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '@if (currentUser) {\n<div class="menu-container">\n  <div class="menu-header">\n    <div class="menu-icon">\n      <button (click)="viewData.isOpen = !viewData.isOpen">menu</button>\n    </div>\n    <div class="menu-area">\n      <span class="menu-clock">\n        {{ viewData.currentTime | date: "HH:mm:ss" }}\n      </span>\n      <drink-water></drink-water>\n      <sync></sync>\n    </div>\n    @if (viewData.isOpen) {\n    <div class="menu-overlay" (click)="handleClick()">\n      <div class="menu-section">\n        <ul class="menu-items" (keydown.esc)="handleClick()">\n          <li>\n            <a (click)="handleClick()" routerLink="tasks" href="/tasks"\n              >Tasks</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="movement" href="/movement"\n              >Movements</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="balance" href="/balance"\n              >Balance</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="lasttime" href="/lasttime"\n              >Last Time</a\n            >\n          </li>\n          <li>\n            <a\n              (click)="handleClick()"\n              routerLink="multimedia"\n              href="/multimedia"\n              >Multimedia</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="account" href="/account"\n              >Accounts</a\n            >\n          </li>\n          <li>\n            <a\n              (click)="handleClick()"\n              routerLink="categories"\n              href="/categories"\n              >Categories</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="places" href="/places"\n              >Places</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="presets" href="/presets"\n              >Presets</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="links" href="/links"\n              >Links</a\n            >\n          </li>\n          <li>\n            <a (click)="handleClick()" routerLink="cartera" href="/cartera"\n              >Cartera</a\n            >\n          </li>\n          <li>\n            <a\n              (click)="handleClick()"\n              routerLink="activities"\n              href="/activities"\n              >Activities</a\n            >\n          </li>\n          <li>\n            <span>{{ viewData.username }}</span>\n          </li>\n          <li>\n            <a (click)="logout()">logout</a>\n          </li>\n          <li>\n            <span>v{{ metadata.appVersion }}</span>\n          </li>\n        </ul>\n      </div>\n    </div>\n    }\n  </div>\n</div>\n}\n', styles: ["/* src/app/common/menu.css */\n.menu-container {\n  width: 100%;\n}\n.menu-header ul {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.menu-items li {\n  border-bottom: 1px solid #888;\n  height: 2rem;\n  display: flex;\n  align-items: center;\n}\n.menu-items li:hover,\n.menu-items li:focus-within {\n  background-color: white;\n}\n.menu-items li a,\n.menu-items li span {\n  padding: 5px;\n  display: inline-block;\n  width: 97%;\n  color: black;\n}\n.menu-items {\n  color: black;\n}\n.menu-header ul li a {\n  text-decoration: none;\n}\n.menu-header {\n  display: flex;\n}\n.menu-icon {\n  cursor: pointer;\n}\n.menu-section {\n  display: block;\n  position: absolute;\n  top: 28px;\n  left: 0;\n  width: 100%;\n  background-color: #aaa;\n}\n@media (min-width: 504px) {\n  .menu-section {\n    top: 19px;\n  }\n}\n.menu-area * {\n  margin: 0 5px;\n}\n.menu-overlay {\n  background-color: rgba(0, 0, 0, 0.15);\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: -1;\n}\n@media all and (min-width: 505px) {\n  .menu-section {\n    width: 30%;\n  }\n}\n/*# sourceMappingURL=menu-ZIFX2QDS.css.map */\n"] }]
+    args: [{ selector: "menu", providers: [LoginService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '@if (currentUser) {\r\n<div class="menu-container">\r\n  <div class="menu-header">\r\n    <div class="menu-icon">\r\n      <button (click)="viewData.isOpen = !viewData.isOpen">menu</button>\r\n    </div>\r\n    <div class="menu-area">\r\n      <span class="menu-clock">\r\n        {{ viewData.currentTime | date: "HH:mm:ss" }}\r\n      </span>\r\n      <drink-water></drink-water>\r\n      <sync></sync>\r\n      <app-omnibox (commandEntered)="onOmniboxCommand($event)"></app-omnibox>\r\n    </div>\r\n    @if (viewData.isOpen) {\r\n    <div class="menu-overlay" (click)="handleClick()">\r\n      <div class="menu-section">\r\n        <ul class="menu-items" (keydown.esc)="handleClick()">\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="tasks" href="/tasks"\r\n              >Tasks</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="movement" href="/movement"\r\n              >Movements</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="balance" href="/balance"\r\n              >Balance</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="lasttime" href="/lasttime"\r\n              >Last Time</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="multimedia"\r\n              href="/multimedia"\r\n              >Multimedia</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="account" href="/account"\r\n              >Accounts</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="categories"\r\n              href="/categories"\r\n              >Categories</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="places" href="/places"\r\n              >Places</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="presets" href="/presets"\r\n              >Presets</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="links" href="/links"\r\n              >Links</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="cartera" href="/cartera"\r\n              >Cartera</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="activities"\r\n              href="/activities"\r\n              >Activities</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="libros" href="/libros">\r\n              Libros de la Biblia\r\n            </a>\r\n          </li>\r\n          <li>\r\n            <span>{{ viewData.username }}</span>\r\n          </li>\r\n          <li>\r\n            <a (click)="logout()">logout</a>\r\n          </li>\r\n          <li>\r\n            <span>v{{ metadata.appVersion }}</span>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n    }\r\n  </div>\r\n</div>\r\n}\r\n', styles: ["/* src/app/common/menu.css */\n.menu-container {\n  width: 100%;\n}\n.menu-header ul {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.menu-items li {\n  border-bottom: 1px solid #888;\n  height: 2rem;\n  display: flex;\n  align-items: center;\n}\n.menu-items li:hover,\n.menu-items li:focus-within {\n  background-color: white;\n}\n.menu-items li a,\n.menu-items li span {\n  padding: 5px;\n  display: inline-block;\n  width: 97%;\n  color: black;\n}\n.menu-items {\n  color: black;\n}\n.menu-header ul li a {\n  text-decoration: none;\n}\n.menu-header {\n  display: flex;\n}\n.menu-icon {\n  cursor: pointer;\n}\n.menu-section {\n  display: block;\n  position: absolute;\n  top: 28px;\n  left: 0;\n  width: 100%;\n  background-color: #aaa;\n}\n@media (min-width: 504px) {\n  .menu-section {\n    top: 19px;\n  }\n}\n.menu-area * {\n  margin: 0 5px;\n}\n.menu-overlay {\n  background-color: rgba(0, 0, 0, 0.15);\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: -1;\n}\n@media all and (min-width: 505px) {\n  .menu-section {\n    width: 30%;\n  }\n}\n/*# sourceMappingURL=menu-ZIFX2QDS.css.map */\n"] }]
   }], () => [{ type: Router }, { type: AuthenticationService }, { type: LoginService }], null);
 })();
 (() => {
@@ -125240,7 +125779,8 @@ var AppModule = class _AppModule {
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
     }),
-    CarteraSendReceiptsComponent
+    CarteraSendReceiptsComponent,
+    StopwatchComponent
   ] });
 };
 (() => {
@@ -125298,7 +125838,8 @@ var AppModule = class _AppModule {
           enabled: environment.production
         }),
         CarteraSendReceiptsComponent,
-        PlanSalvacionComponent
+        PlanSalvacionComponent,
+        StopwatchComponent
         // LibrosComponent,
         // CvComponent,
       ],
@@ -125331,4 +125872,4 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# sourceMappingURL=main-3VHA6OBV.js.map
+//# sourceMappingURL=main-ANNHJIJQ.js.map

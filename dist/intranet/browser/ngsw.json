@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1784941947211,
+  "timestamp": 1784951510726,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -19,7 +19,7 @@
         "/chunk-V36ERI7S.js",
         "/favicon.ico",
         "/index.html",
-        "/main-3VHA6OBV.js",
+        "/main-ANNHJIJQ.js",
         "/manifest.webmanifest",
         "/polyfills-DMOTVTI2.js",
         "/styles-IISKJB26.css"
@@ -36,7 +36,6 @@
       "urls": [
         "/assets/icons/close.svg",
         "/assets/icons/energy.svg",
-        "/assets/icons/fire.svg",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -47,8 +46,7 @@
         "/assets/icons/icon-96x96.png",
         "/assets/icons/people.svg",
         "/assets/icons/pin.svg",
-        "/assets/icons/smartphone.svg",
-        "/assets/images/firma-comite.png"
+        "/assets/icons/smartphone.svg"
       ],
       "patterns": []
     }
@@ -57,7 +55,6 @@
   "hashTable": {
     "/assets/icons/close.svg": "1bfb9c54d1bb8514bc4916158b10357d488eb94a",
     "/assets/icons/energy.svg": "5a84324cff6e0fbd22661e415087b051663629e4",
-    "/assets/icons/fire.svg": "ea0cc171e9d2cf55e62668fd816b2928a3bd5e22",
     "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -76,8 +73,8 @@
     "/chunk-REKUOEC5.js": "9b70ca063a34ed8cf8cb4e1f40570aee510f6635",
     "/chunk-V36ERI7S.js": "d319474baac04b667b0bb3ab410ce98cb2d90c67",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "067497d5e7652b7d4569df67234b95759c940171",
-    "/main-3VHA6OBV.js": "ab09c636b7e631e6af43071373d4bf8c55b22e35",
+    "/index.html": "63c70c212384bd92da1a32e3d2d136f24f9778f0",
+    "/main-ANNHJIJQ.js": "25f74812ee57ceeefd1c836f54d126fcdd5f2790",
     "/manifest.webmanifest": "a56d3f02a85d83f035bb549bf1ff87abba9887fe",
     "/polyfills-DMOTVTI2.js": "04907b3dc7abd2d9dd7708e22b1e7fc2dc5cb698",
     "/styles-IISKJB26.css": "19590995849be15dddc27f32072d064823aed33e"
