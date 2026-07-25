@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --configuration development && node ./node_modules/typescript/lib/tsc -p tsconfig.server.json",
-    "build:prod": "ng build --configuration production && node ./node_modules/typescript/lib/tsc ./server.ts --target es6 --types node --module commonjs --sourcemap && node ./node_modules/typescript/lib/tsc ./src/server/MoInstallSQL.test.ts --target es6 --types node,mocha --module commonjs --sourcemap",
+    "build:prod": "ng build --configuration production && node ./node_modules/typescript/lib/tsc  -p tsconfig.server.json",
     "build:22": "npm run ng -- build --configuration development && node ./node_modules/typescript/bin/tsc -p tsconfig.server.json",
     "build:prod:22": "npm run ng -- build --configuration production && node ./node_modules/typescript/bin/tsc -p tsconfig.server.json",
     "start": "npm run build:prod && npm run start:main",
