@@ -28,6 +28,10 @@ import { formatCurrency } from "@angular/common";
 import { DateUtils } from "src/crosscommon/DateUtility";
 import { NotificationService } from "../common/notification.service";
 
+type AccountWithBalance = Account & {
+  bal_final?: number;
+};
+
 @Component({
   selector: "movement",
   templateUrl: "./movement.template.html",
@@ -44,9 +48,9 @@ import { NotificationService } from "../common/notification.service";
   standalone: false,
 })
 export class MovementComponent implements OnInit {
-  private accounts: Array<Account> = [];
+  private accounts: Array<AccountWithBalance> = [];
   public viewData: {
-    accounts: Array<Account>;
+    accounts: Array<AccountWithBalance>;
     types: Array<any>;
     statuses: Array<any>;
     budgets: Array<any>;
@@ -78,6 +82,14 @@ export class MovementComponent implements OnInit {
     selectedPreset: null,
     id: null,
     resetForm: true,
+    account: null,
+    accountText: "",
+    accountTo: null,
+    accountToText: "",
+    amount: 0,
+    placeText: "",
+    categoryText: "",
+    selectedPresetText: "",
   };
   public viewAddCategoryForm: boolean = false;
   public _movementFlowType: string = "custom";
@@ -173,6 +185,44 @@ export class MovementComponent implements OnInit {
       this.accounts = accounts;
       this.viewData.accounts = this.accounts;
     });
+  }
+
+  get selectedAccountBalance(): number | null {
+    const selectedAccount = this.viewData.accounts.find(
+      (account: AccountWithBalance) => account.acc_id === this.model.account
+    );
+    return selectedAccount ? selectedAccount.bal_final ?? 0 : null;
+  }
+
+  get balanceAfterMovement(): number {
+    const currentBalance = this.selectedAccountBalance ?? 0;
+    const amount = Number(this.model.amount) || 0;
+    if (this.model.type === 1) {
+      return currentBalance - amount;
+    }
+    if (this.model.type === 2) {
+      return currentBalance + amount;
+    }
+    return currentBalance;
+  }
+
+  get selectedAccountToBalance(): number | null {
+    const selectedAccount = this.viewData.accounts.find(
+      (account: AccountWithBalance) => account.acc_id === this.model.accountTo
+    );
+    return selectedAccount ? selectedAccount.bal_final ?? 0 : null;
+  }
+
+  get balanceAfterMovementTo(): number {
+    const currentBalance = this.selectedAccountToBalance ?? 0;
+    const amount = Number(this.model.amount) || 0;
+    if (this.model.type === 1) {
+      return currentBalance + amount;
+    }
+    if (this.model.type === 2) {
+      return currentBalance - amount;
+    }
+    return currentBalance;
   }
 
   ngOnInit() {
@@ -800,6 +850,54 @@ export class MovementComponent implements OnInit {
       this.model.id = model[prefix + "_id"]; // to tell the newMovementForm that this is an edition
     }
 
+    if (model[prefix + "_id_account"]) {
+      this.model.account = model[prefix + "_id_account"];
+      const selectedAccount = this.viewData.accounts.find(
+        (account: Account) => account.acc_id === this.model.account
+      );
+      this.model.accountText = selectedAccount ? selectedAccount.acc_name : "";
+    } else {
+      this.model.account = null;
+      this.model.accountText = "";
+    }
+
+    if (model[prefix + "_id_account_to"]) {
+      this.model.accountTo = model[prefix + "_id_account_to"];
+      const selectedAccountTo = this.viewData.accounts.find(
+        (account: Account) => account.acc_id === this.model.accountTo
+      );
+      this.model.accountToText = selectedAccountTo ? selectedAccountTo.acc_name : "";
+    } else {
+      this.model.accountTo = null;
+      this.model.accountToText = "";
+    }
+
+    if (model[prefix + "_id_place"]) {
+      this.model.place = model[prefix + "_id_place"];
+      const selectedPlace = this.viewData.places.find(
+        (place: Place) => place.mpl_id === this.model.place
+      );
+      this.model.placeText = selectedPlace ? selectedPlace.mpl_name : "";
+    } else {
+      this.model.place = null;
+      this.model.placeText = "";
+    }
+
+    if (model[prefix + "_id_category"]) {
+      this.model.category = model[prefix + "_id_category"];
+      const selectedCategory = this.viewData.categories.find(
+        (category: Category) => category.mct_id === this.model.category
+      );
+      this.model.categoryText = selectedCategory ? selectedCategory.mct_name : "";
+    } else {
+      this.model.category = null;
+      this.model.categoryText = "";
+    }
+
+    if (prefix === "pre") {
+      this.model.selectedPresetText = (model as Preset).pre_name || "";
+    }
+
     if (model[prefix + "_ctg_type"] === 3) {
       this.movementFlowType("transfer");
     } else {
@@ -867,7 +965,109 @@ export class MovementComponent implements OnInit {
           form.controls[f.control].setValue(valueToSet);
         }
       });
+
+      if (form.controls["fAccountText"]) {
+        form.controls["fAccountText"].setValue(this.model.accountText);
+      }
+      if (form.controls["fAccountToText"]) {
+        form.controls["fAccountToText"].setValue(this.model.accountToText);
+      }
+      if (form.controls["fPlaceText"]) {
+        form.controls["fPlaceText"].setValue(this.model.placeText);
+      }
+      if (form.controls["fCategoryText"]) {
+        form.controls["fCategoryText"].setValue(this.model.categoryText);
+      }
     }, 0);
+  }
+
+  onFormKeydown(event: KeyboardEvent, form: NgForm) {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.newMovement(form);
+    }
+  }
+
+  onPresetChange(presetId: string, form: NgForm) {
+    if (!presetId) {
+      this.model.selectedPreset = null;
+      this.model.selectedPresetText = "";
+      return;
+    }
+    this.setModelDetails(presetId, form, "pre");
+  }
+
+  onAccountInputChange(event: Event, form: NgForm) {
+    const input = event.target as HTMLInputElement;
+    const inputValue = input.value?.trim() || "";
+    const selectedAccount = this.viewData.accounts.find(
+      (account: AccountWithBalance) => {
+        const accountName = account.acc_name?.toLowerCase() || "";
+        return accountName === inputValue.toLowerCase();
+      }
+    );
+
+    this.model.account = selectedAccount ? selectedAccount.acc_id : null;
+    this.model.accountText = inputValue;
+
+    if (form.controls["fAccount"]) {
+      form.controls["fAccount"].setValue(this.model.account);
+    }
+  }
+
+  onAccountToInputChange(event: Event, form: NgForm) {
+    const input = event.target as HTMLInputElement;
+    const inputValue = input.value?.trim() || "";
+    const selectedAccount = this.viewData.accounts.find(
+      (account: AccountWithBalance) => {
+        const accountName = account.acc_name?.toLowerCase() || "";
+        return accountName === inputValue.toLowerCase();
+      }
+    );
+
+    this.model.accountTo = selectedAccount ? selectedAccount.acc_id : null;
+    this.model.accountToText = inputValue;
+
+    if (form.controls["fAccountTo"]) {
+      form.controls["fAccountTo"].setValue(this.model.accountTo);
+    }
+  }
+
+  onPlaceInputChange(event: Event, form: NgForm) {
+    const input = event.target as HTMLInputElement;
+    const inputValue = input.value?.trim() || "";
+    const selectedPlace = this.viewData.places.find((place: Place) => {
+      const placeName = place.mpl_name?.toLowerCase() || "";
+      return placeName === inputValue.toLowerCase();
+    });
+
+    this.model.place = selectedPlace ? selectedPlace.mpl_id : null;
+    this.model.placeText = inputValue;
+
+    if (form.controls["fPlace"]) {
+      form.controls["fPlace"].setValue(this.model.place);
+    }
+
+    if (selectedPlace) {
+      this.onChangePlace(this.model.place);
+    }
+  }
+
+  onCategoryInputChange(event: Event, form: NgForm) {
+    const input = event.target as HTMLInputElement;
+    const inputValue = input.value?.trim() || "";
+    const selectedCategory = this.viewData.categories.find((category: Category) => {
+      const categoryName = category.mct_name?.toLowerCase() || "";
+      return categoryName === inputValue.toLowerCase();
+    });
+
+    this.model.category = selectedCategory ? selectedCategory.mct_id : null;
+    this.model.categoryText = inputValue;
+
+    if (form.controls["fCategory"]) {
+      form.controls["fCategory"].setValue(this.model.category);
+    }
   }
 
   handleNewMovement(form: NgForm) {
@@ -881,6 +1081,7 @@ export class MovementComponent implements OnInit {
   resetForm(form: NgForm) {
     this.model.id = null;
     this.model.selectedPreset = null;
+    this.model.selectedPresetText = "";
     this.movementFlowType("custom");
     form.reset();
     form.controls["fMovementFlowType"].setValue("custom");
@@ -889,8 +1090,32 @@ export class MovementComponent implements OnInit {
       form.controls["fMovementType"].setValue(1);
     }
     this.model.resetForm = true;
+    this.model.account = null;
+    this.model.accountText = "";
+    this.model.place = null;
+    this.model.placeText = "";
+    this.model.category = null;
+    this.model.categoryText = "";
     if (form.controls["fResetForm"]) {
       form.controls["fResetForm"].setValue(true);
+    }
+    if (form.controls["fAccount"]) {
+      form.controls["fAccount"].setValue(null);
+    }
+    if (form.controls["fAccountText"]) {
+      form.controls["fAccountText"].setValue("");
+    }
+    if (form.controls["fPlace"]) {
+      form.controls["fPlace"].setValue(null);
+    }
+    if (form.controls["fPlaceText"]) {
+      form.controls["fPlaceText"].setValue("");
+    }
+    if (form.controls["fCategory"]) {
+      form.controls["fCategory"].setValue(null);
+    }
+    if (form.controls["fCategoryText"]) {
+      form.controls["fCategoryText"].setValue("");
     }
     form.controls["fDate"].setValue(DateUtils.dateToStringDate(new Date()));
   }
@@ -972,6 +1197,12 @@ export class MovementComponent implements OnInit {
 
     if (suggestedCategory) {
       this.model.category = suggestedCategory;
+      const suggestedCategoryItem = this.viewData.categories.find(
+        (category: Category) => category.mct_id === suggestedCategory
+      );
+      this.model.categoryText = suggestedCategoryItem
+        ? suggestedCategoryItem.mct_name
+        : "";
     }
   }
 

@@ -17,7 +17,7 @@ import {
 
 // node_modules/@angular/core/fesm2022/_effect-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -408,7 +408,7 @@ function runEffect(node) {
 
 // node_modules/@angular/core/fesm2022/_not_found-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -428,7 +428,7 @@ function isNotFound(e2) {
 
 // node_modules/@angular/core/fesm2022/_untracked-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -524,7 +524,7 @@ function untracked(nonReactiveReadsFn) {
 
 // node_modules/@angular/core/fesm2022/primitives-signals.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -631,7 +631,7 @@ if (typeof ngDevMode === "undefined" || ngDevMode) {
 
 // node_modules/@angular/core/fesm2022/primitives-di.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2214,7 +2214,7 @@ function tap(observerOrNext, error, complete) {
 
 // node_modules/@angular/core/fesm2022/_pending_tasks-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -2231,7 +2231,7 @@ var Version = class {
     this.patch = parts.slice(2).join(".");
   }
 };
-var VERSION = /* @__PURE__ */ new Version("22.0.6");
+var VERSION = /* @__PURE__ */ new Version("22.0.8");
 var DOC_PAGE_BASE_URL = (() => {
   const full = VERSION.full;
   const isPreRelease = full.includes("-next") || full.includes("-rc") || full === "0.0.0-PLACEHOLDER";
@@ -5207,7 +5207,7 @@ var PendingTasks = class _PendingTasks {
 
 // node_modules/@angular/core/fesm2022/_attribute-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -5217,7 +5217,7 @@ var Attribute = {
 
 // node_modules/@angular/core/fesm2022/_debug_node-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -8319,7 +8319,6 @@ function getSanitizer() {
   return lView && lView[ENVIRONMENT].sanitizer;
 }
 var SECURITY_SENSITIVE_ATTRIBUTE_NAMES = /* @__PURE__ */ new Set(["href", "xlink:href"]);
-var SVG_ANIMATION_ATTRIBUTE_NAME_CANDIDATES = ["attributeName", "attributename"];
 var SECURITY_SENSITIVE_ELEMENTS = {
   "iframe": {
     "sandbox": true,
@@ -8386,7 +8385,10 @@ To fix this, switch the \`${attributeName}\` binding to a static attribute in a 
   throw new RuntimeError(-910, errorMessage);
 }
 function getSecuritySensitiveSVGAnimationAttributeName(element, validationConfig) {
-  for (const attributeName of SVG_ANIMATION_ATTRIBUTE_NAME_CANDIDATES) {
+  for (const attributeName of element.getAttributeNames()) {
+    if (attributeName.toLowerCase() !== "attributename") {
+      continue;
+    }
     const attributeNameValue = element.getAttribute(attributeName);
     if (attributeNameValue !== null && validationConfig.has(attributeNameValue.toLowerCase())) {
       return attributeNameValue;
@@ -13053,7 +13055,7 @@ var ComponentFactory = class {
   }
 };
 function createRootTView(rootSelectorOrNode, componentDef, componentBindings, directives) {
-  const tAttributes = rootSelectorOrNode ? ["ng-version", "22.0.6"] : extractAttrsAndClassesFromSelector(componentDef.selectors[0]);
+  const tAttributes = rootSelectorOrNode ? ["ng-version", "22.0.8"] : extractAttrsAndClassesFromSelector(componentDef.selectors[0]);
   let creationBindings = null;
   let updateBindings = null;
   let varsToAllocate = 0;
@@ -16024,7 +16026,7 @@ var counter = 0;
 var eventsStack = [];
 function getBaseDocUrl() {
   const full = VERSION.full;
-  const isPreRelease = full.includes("-next") || full.includes("-rc") || full === "22.0.6";
+  const isPreRelease = full.includes("-next") || full.includes("-rc") || full === "22.0.8";
   const prefix = isPreRelease ? "next" : `v${VERSION.major}`;
   return `https://${prefix}.angular.dev`;
 }
@@ -22500,7 +22502,7 @@ var MissingTranslationStrategy;
 
 // node_modules/@angular/core/fesm2022/_resource-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -23017,7 +23019,7 @@ function rethrowFatalErrors(error) {
 
 // node_modules/@angular/core/fesm2022/core.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -24884,7 +24886,7 @@ function enableProdMode() {
 
 // node_modules/@angular/common/fesm2022/_platform_location-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -25005,7 +25007,7 @@ var BrowserPlatformLocation = class _BrowserPlatformLocation extends PlatformLoc
 
 // node_modules/@angular/common/fesm2022/_location-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -25315,7 +25317,7 @@ function _stripOrigin(baseHref) {
 
 // node_modules/@angular/common/fesm2022/_common_module-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -25713,7 +25715,7 @@ function getNumberOfCurrencyDigits(code) {
   return typeof digits === "number" ? digits : DEFAULT_NB_OF_CURRENCY_DIGITS;
 }
 var ISO8601_DATE_REGEX = /^(\d{4,})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
-var NAMED_FORMATS = {};
+var NAMED_FORMATS = /* @__PURE__ */ Object.create(null);
 var DATE_FORMATS_SPLIT = /((?:[^BEGHLMOSWYZabcdhmswyz']+)|(?:'(?:[^']|'')*')|(?:G{1,5}|y{1,4}|Y{1,4}|M{1,5}|L{1,5}|w{1,2}|W{1}|d{1,2}|E{1,6}|c{1,6}|a{1,5}|b{1,5}|B{1,5}|h{1,2}|H{1,2}|m{1,2}|s{1,2}|S{1,3}|z{1,4}|Z{1,5}|O{1,4}))([\s\S]*)/;
 var MAX_DATE_FORMAT_LENGTH = 256;
 function formatDate(value, format2, locale2, timezone) {
@@ -25775,7 +25777,7 @@ function createDate(year, month, date) {
 }
 function getNamedFormat(locale2, format2) {
   const localeId = getLocaleId2(locale2);
-  NAMED_FORMATS[localeId] ??= {};
+  NAMED_FORMATS[localeId] ??= /* @__PURE__ */ Object.create(null);
   if (NAMED_FORMATS[localeId][format2]) {
     return NAMED_FORMATS[localeId][format2];
   }
@@ -26006,7 +26008,7 @@ function weekNumberingYearGetter(size, trim = false) {
     return padNumber(weekNumberingYear, size, getLocaleNumberSymbol(locale2, NumberSymbol.MinusSign), trim);
   };
 }
-var DATE_FORMATS = {};
+var DATE_FORMATS = /* @__PURE__ */ Object.create(null);
 function getDateFormatter(format2) {
   if (DATE_FORMATS[format2]) {
     return DATE_FORMATS[format2];
@@ -28131,7 +28133,7 @@ var CommonModule = class _CommonModule {
 
 // node_modules/@angular/common/fesm2022/_platform_navigation-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -28162,7 +28164,7 @@ var PlatformNavigation = class _PlatformNavigation {
 
 // node_modules/@angular/common/fesm2022/_xhr-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -28224,7 +28226,7 @@ var XhrFactory = class _XhrFactory {
 
 // node_modules/@angular/common/fesm2022/common.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -28751,20 +28753,24 @@ var PreloadLinkCreator = class _PreloadLinkCreator {
   preloadedImages = inject2(PRELOADED_IMAGES);
   document = inject2(DOCUMENT);
   errorShown = false;
-  createPreloadLinkTag(renderer, src, srcset, sizes) {
+  createPreloadLinkTag(renderer, src, srcset, sizes, crossOrigin) {
+    const preloadKey = `${src}:${getCrossOriginMode(crossOrigin)}`;
     if (ngDevMode && !this.errorShown && this.preloadedImages.size >= DEFAULT_PRELOADED_IMAGES_LIMIT) {
       this.errorShown = true;
       console.warn(formatRuntimeError(2961, `The \`NgOptimizedImage\` directive has detected that more than ${DEFAULT_PRELOADED_IMAGES_LIMIT} images were marked as priority. This might negatively affect an overall performance of the page. To fix this, remove the "priority" attribute from images with less priority.`));
     }
-    if (this.preloadedImages.has(src)) {
+    if (this.preloadedImages.has(preloadKey)) {
       return;
     }
-    this.preloadedImages.add(src);
+    this.preloadedImages.add(preloadKey);
     const preload = renderer.createElement("link");
     renderer.setAttribute(preload, "as", "image");
     renderer.setAttribute(preload, "href", src);
     renderer.setAttribute(preload, "rel", "preload");
     renderer.setAttribute(preload, "fetchpriority", "high");
+    if (crossOrigin != null) {
+      renderer.setAttribute(preload, "crossorigin", crossOrigin);
+    }
     if (sizes) {
       renderer.setAttribute(preload, "imageSizes", sizes);
     }
@@ -28786,6 +28792,12 @@ var PreloadLinkCreator = class _PreloadLinkCreator {
     type: Service
   }], null, null);
 })();
+function getCrossOriginMode(crossOrigin) {
+  if (crossOrigin == null) {
+    return null;
+  }
+  return crossOrigin.toLowerCase() === "use-credentials" ? "use-credentials" : "anonymous";
+}
 var BASE64_IMG_MAX_LENGTH_IN_ERROR = 50;
 var VALID_WIDTH_DESCRIPTOR_SRCSET = /^((\s*\d+w\s*(,|$)){1,})$/;
 var VALID_DENSITY_DESCRIPTOR_SRCSET = /^((\s*\d+(\.\d+)?x\s*(,|$)){1,})$/;
@@ -28916,7 +28928,7 @@ var NgOptimizedImage = class _NgOptimizedImage {
     }
     if (false) {
       const preloadLinkCreator = this.injector.get(PreloadLinkCreator);
-      preloadLinkCreator.createPreloadLinkTag(this.renderer, this.getRewrittenSrc(), rewrittenSrcset, this.sizes);
+      preloadLinkCreator.createPreloadLinkTag(this.renderer, this.getRewrittenSrc(), rewrittenSrcset, this.sizes, this.imgElement.getAttribute("crossorigin"));
     }
   }
   ngOnChanges(changes) {
@@ -29500,7 +29512,7 @@ function booleanOrUrlAttribute(value) {
 
 // node_modules/@angular/platform-browser/fesm2022/_dom_renderer-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -29781,7 +29793,7 @@ var NAMESPACE_URIS = {
   "math": "http://www.w3.org/1998/Math/MathML"
 };
 var COMPONENT_REGEX = /%COMP%/g;
-var SOURCEMAP_URL_REGEXP = /\/\*#\s*sourceMappingURL=(.+?)\s*\*\//;
+var SOURCEMAP_URL_REGEXP = /\/\*#\s*sourceMappingURL=([^\s*]+)\s*\*\//;
 var PROTOCOL_REGEXP = /^https?:/;
 var COMPONENT_VARIABLE = "%COMP%";
 var HOST_ATTR = `_nghost-${COMPONENT_VARIABLE}`;
@@ -30206,7 +30218,7 @@ var EmulatedEncapsulationDomRenderer2 = class extends NoneEncapsulationDomRender
 
 // node_modules/@angular/platform-browser/fesm2022/_browser-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -30539,7 +30551,7 @@ var BrowserModule = class _BrowserModule {
 
 // node_modules/@angular/common/fesm2022/_module-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -31642,11 +31654,12 @@ var HttpInterceptorHandler = class _HttpInterceptorHandler {
       const dedupedInterceptorFns = Array.from(/* @__PURE__ */ new Set([...this.injector.get(HTTP_INTERCEPTOR_FNS), ...this.injector.get(HTTP_ROOT_INTERCEPTOR_FNS, [])]));
       this.chain = dedupedInterceptorFns.reduceRight((nextSequencedFn, interceptorFn) => chainedInterceptorFn(nextSequencedFn, interceptorFn, this.injector), interceptorChainEndFn);
     }
+    const chain2 = this.chain;
     if (this.contributeToStability) {
       const removeTask = this.pendingTasks.add();
-      return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest)).pipe(finalize(removeTask));
+      return untracked2(() => chain2(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest))).pipe(finalize(removeTask));
     } else {
-      return this.chain(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest));
+      return untracked2(() => chain2(initialRequest, (downstreamRequest) => this.backend.handle(downstreamRequest)));
     }
   }
   static \u0275fac = function HttpInterceptorHandler_Factory(__ngFactoryType__) {
@@ -32561,7 +32574,7 @@ var HttpClientJsonpModule = class _HttpClientJsonpModule {
 
 // node_modules/@angular/common/fesm2022/http.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -32683,7 +32696,7 @@ function makeCacheKey(request, mappedRequestUrl) {
   } else if (typeof serializedBody !== "string") {
     serializedBody = "";
   }
-  const key = [method, responseType, mappedRequestUrl, serializedBody, encodedParams].join("|");
+  const key = [method, responseType, mappedRequestUrl, serializedBody, encodedParams].join("\0");
   const hash = generateHash(key);
   return makeStateKey(hash);
 }
@@ -32966,7 +32979,7 @@ var HttpResourceImpl = class extends ResourceImpl {
 
 // node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -33195,7 +33208,7 @@ var DomSanitizerImpl = class _DomSanitizerImpl extends DomSanitizer {
 
 // node_modules/@angular/forms/fesm2022/forms.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -33768,7 +33781,7 @@ var ngModelWithFormGroupExample = `
       <input [(ngModel)]="showMoreControls" [ngModelOptions]="{standalone: true}">
   </div>
 `;
-var VERSION2 = /* @__PURE__ */ new Version("22.0.6");
+var VERSION2 = /* @__PURE__ */ new Version("22.0.8");
 function controlParentException(nameOrIndex) {
   return new RuntimeError(1050, `formControlName must be used with a parent formGroup or formArray directive. You'll want to add a formGroup/formArray
       directive and pass it an existing FormGroup/FormArray instance (you can create one in your class).
@@ -38175,7 +38188,7 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
 
 // node_modules/@angular/router/fesm2022/_router-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -42551,7 +42564,7 @@ function validateCommands(commands) {
 
 // node_modules/@angular/router/fesm2022/_router_module-chunk.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -43930,7 +43943,7 @@ function provideRouterInitializer() {
 
 // node_modules/@angular/router/fesm2022/router.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -68562,8 +68575,8 @@ var merge_default = merge3;
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 
-// node_modules/ng2-charts/fesm2020/ng2-charts.mjs
-var ThemeService = class {
+// node_modules/ng2-charts/fesm2022/ng2-charts.mjs
+var ThemeService = class _ThemeService {
   constructor() {
     this.colorschemesOptions = new BehaviorSubject(void 0);
   }
@@ -68574,26 +68587,28 @@ var ThemeService = class {
   getColorschemesOptions() {
     return this.pColorschemesOptions;
   }
+  static {
+    this.\u0275fac = function ThemeService_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ThemeService)();
+    };
+  }
+  static {
+    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+      token: _ThemeService,
+      factory: _ThemeService.\u0275fac,
+      providedIn: "root"
+    });
+  }
 };
-ThemeService.\u0275fac = function ThemeService_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || ThemeService)();
-};
-ThemeService.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-  token: ThemeService,
-  factory: ThemeService.\u0275fac,
-  providedIn: "root"
-});
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThemeService, [{
     type: Injectable,
     args: [{
       providedIn: "root"
     }]
-  }], function() {
-    return [];
-  }, null);
+  }], null, null);
 })();
-var BaseChartDirective = class {
+var BaseChartDirective = class _BaseChartDirective {
   constructor(element, zone, themeService) {
     this.zone = zone;
     this.themeService = themeService;
@@ -68706,30 +68721,34 @@ var BaseChartDirective = class {
       datasets: this.datasets || []
     };
   }
+  static {
+    this.\u0275fac = function BaseChartDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _BaseChartDirective)(\u0275\u0275directiveInject(ElementRef), \u0275\u0275directiveInject(NgZone), \u0275\u0275directiveInject(ThemeService));
+    };
+  }
+  static {
+    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+      type: _BaseChartDirective,
+      selectors: [["canvas", "baseChart", ""]],
+      inputs: {
+        type: "type",
+        legend: "legend",
+        data: "data",
+        options: "options",
+        plugins: "plugins",
+        labels: "labels",
+        datasets: "datasets"
+      },
+      outputs: {
+        chartClick: "chartClick",
+        chartHover: "chartHover"
+      },
+      exportAs: ["base-chart"],
+      standalone: false,
+      features: [\u0275\u0275NgOnChangesFeature]
+    });
+  }
 };
-BaseChartDirective.\u0275fac = function BaseChartDirective_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || BaseChartDirective)(\u0275\u0275directiveInject(ElementRef), \u0275\u0275directiveInject(NgZone), \u0275\u0275directiveInject(ThemeService));
-};
-BaseChartDirective.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-  type: BaseChartDirective,
-  selectors: [["canvas", "baseChart", ""]],
-  inputs: {
-    type: "type",
-    legend: "legend",
-    data: "data",
-    options: "options",
-    plugins: "plugins",
-    labels: "labels",
-    datasets: "datasets"
-  },
-  outputs: {
-    chartClick: "chartClick",
-    chartHover: "chartHover"
-  },
-  exportAs: ["base-chart"],
-  standalone: false,
-  features: [\u0275\u0275NgOnChangesFeature]
-});
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BaseChartDirective, [{
     type: Directive,
@@ -68831,19 +68850,23 @@ function getRandomColor() {
 function generateColor(index2 = 0) {
   return baseColors[index2] || getRandomColor();
 }
-var NgChartsConfiguration = class {
+var NgChartsConfiguration = class _NgChartsConfiguration {
   constructor() {
     this.generateColors = true;
   }
+  static {
+    this.\u0275fac = function NgChartsConfiguration_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _NgChartsConfiguration)();
+    };
+  }
+  static {
+    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+      token: _NgChartsConfiguration,
+      factory: _NgChartsConfiguration.\u0275fac,
+      providedIn: "root"
+    });
+  }
 };
-NgChartsConfiguration.\u0275fac = function NgChartsConfiguration_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || NgChartsConfiguration)();
-};
-NgChartsConfiguration.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-  token: NgChartsConfiguration,
-  factory: NgChartsConfiguration.\u0275fac,
-  providedIn: "root"
-});
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgChartsConfiguration, [{
     type: Injectable,
@@ -68855,7 +68878,7 @@ NgChartsConfiguration.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable(
 Chart.register(...registerables);
 var NgChartsModule = class _NgChartsModule {
   constructor(config4) {
-    if (config4?.plugins) Chart.register(...config4?.plugins);
+    if (config4?.plugins) Chart.register(...config4.plugins);
     const ngChartsDefaults = merge_default(config4?.generateColors ? builtInDefaults : {}, config4?.defaults || {});
     defaults.set(ngChartsDefaults);
   }
@@ -68868,16 +68891,22 @@ var NgChartsModule = class _NgChartsModule {
       }]
     };
   }
+  static {
+    this.\u0275fac = function NgChartsModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _NgChartsModule)(\u0275\u0275inject(NgChartsConfiguration, 8));
+    };
+  }
+  static {
+    this.\u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+      type: _NgChartsModule,
+      declarations: [BaseChartDirective],
+      exports: [BaseChartDirective]
+    });
+  }
+  static {
+    this.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
+  }
 };
-NgChartsModule.\u0275fac = function NgChartsModule_Factory(__ngFactoryType__) {
-  return new (__ngFactoryType__ || NgChartsModule)(\u0275\u0275inject(NgChartsConfiguration, 8));
-};
-NgChartsModule.\u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-  type: NgChartsModule,
-  declarations: [BaseChartDirective],
-  exports: [BaseChartDirective]
-});
-NgChartsModule.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgChartsModule, [{
     type: NgModule,
@@ -85552,6 +85581,158 @@ var ComboItemComponent = class _ComboItemComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(ComboItemComponent, { className: "ComboItemComponent", filePath: "src/app/common/comboitem.component.ts", lineNumber: 16 });
 })();
 
+// src/app/common/datalistInput.component.ts
+function DatalistInputComponent_input_4_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "input", 6);
+    \u0275\u0275controlCreate();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275property("name", ctx_r0.hiddenName)("ngModel", ctx_r0.selectedId);
+    \u0275\u0275control();
+  }
+}
+function DatalistInputComponent_option_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275element(0, "option", 7);
+  }
+  if (rf & 2) {
+    const opt_r2 = ctx.$implicit;
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275property("value", ctx_r0.getOptionLabel(opt_r2));
+  }
+}
+var DatalistInputComponent = class _DatalistInputComponent {
+  label = "";
+  inputName = "";
+  inputId = "";
+  datalistId = "";
+  placeholder = "";
+  value = "";
+  selectedId = null;
+  hiddenName = "";
+  options = [];
+  optionLabelField = "name";
+  optionValueField = "id";
+  optionSecondaryField = null;
+  optionSecondaryCurrency = "USD";
+  optionSecondaryDisplay = "symbol-narrow";
+  optionSecondaryDigits = "1.2-2";
+  valueChange = new EventEmitter();
+  selectedIdChange = new EventEmitter();
+  onInput(event) {
+    const input2 = event.target.value?.trim() || "";
+    this.value = input2;
+    this.valueChange.emit(input2);
+    const selectedOption = this.options.find((opt) => {
+      const optionLabel = this.getOptionLabel(opt)?.toLowerCase() || "";
+      return optionLabel === input2.toLowerCase();
+    });
+    const selectedId = selectedOption ? this.getOptionValue(selectedOption) : null;
+    if (selectedId !== this.selectedId) {
+      this.selectedId = selectedId;
+      this.selectedIdChange.emit(selectedId);
+    } else if (!selectedOption && this.selectedId !== null) {
+      this.selectedId = null;
+      this.selectedIdChange.emit(null);
+    }
+  }
+  getOptionLabel(option) {
+    return option?.[this.optionLabelField] ?? "";
+  }
+  getOptionValue(option) {
+    return option?.[this.optionValueField] ?? null;
+  }
+  getOptionSecondary(option) {
+    return this.optionSecondaryField ? option?.[this.optionSecondaryField] : null;
+  }
+  trackByOption = (index2, option) => {
+    return this.getOptionValue(option) ?? index2;
+  };
+  static \u0275fac = function DatalistInputComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _DatalistInputComponent)();
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DatalistInputComponent, selectors: [["datalist-input"]], inputs: { label: "label", inputName: "inputName", inputId: "inputId", datalistId: "datalistId", placeholder: "placeholder", value: "value", selectedId: "selectedId", hiddenName: "hiddenName", options: "options", optionLabelField: "optionLabelField", optionValueField: "optionValueField", optionSecondaryField: "optionSecondaryField", optionSecondaryCurrency: "optionSecondaryCurrency", optionSecondaryDisplay: "optionSecondaryDisplay", optionSecondaryDigits: "optionSecondaryDigits" }, outputs: { valueChange: "valueChange", selectedIdChange: "selectedIdChange" }, standalone: false, decls: 7, vars: 11, consts: [[1, "field"], [1, "label-left", 3, "for"], ["type", "text", 1, "field-input", 3, "input", "change", "name", "id", "placeholder", "ngModel"], ["type", "hidden", 3, "name", "ngModel", 4, "ngIf"], [3, "id"], [3, "value", 4, "ngFor", "ngForOf", "ngForTrackBy"], ["type", "hidden", 3, "name", "ngModel"], [3, "value"]], template: function DatalistInputComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "span", 0)(1, "label", 1);
+      \u0275\u0275text(2);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(3, "input", 2);
+      \u0275\u0275listener("input", function DatalistInputComponent_Template_input_input_3_listener($event) {
+        return ctx.onInput($event);
+      })("change", function DatalistInputComponent_Template_input_change_3_listener($event) {
+        return ctx.onInput($event);
+      });
+      \u0275\u0275elementEnd();
+      \u0275\u0275controlCreate();
+      \u0275\u0275template(4, DatalistInputComponent_input_4_Template, 1, 2, "input", 3);
+      \u0275\u0275elementStart(5, "datalist", 4);
+      \u0275\u0275template(6, DatalistInputComponent_option_6_Template, 1, 1, "option", 5);
+      \u0275\u0275elementEnd()();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance();
+      \u0275\u0275property("for", ctx.inputId);
+      \u0275\u0275advance();
+      \u0275\u0275textInterpolate(ctx.label);
+      \u0275\u0275advance();
+      \u0275\u0275property("name", ctx.inputName)("id", ctx.inputId)("placeholder", ctx.placeholder)("ngModel", ctx.value);
+      \u0275\u0275attribute("list", ctx.datalistId);
+      \u0275\u0275control();
+      \u0275\u0275advance();
+      \u0275\u0275property("ngIf", ctx.hiddenName);
+      \u0275\u0275advance();
+      \u0275\u0275property("id", ctx.datalistId);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngForOf", ctx.options)("ngForTrackBy", ctx.trackByOption);
+    }
+  }, dependencies: [NgForOf, NgIf, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NgControlStatus, NgModel], encapsulation: 2, changeDetection: 1 });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DatalistInputComponent, [{
+    type: Component,
+    args: [{ selector: "datalist-input", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<span class="field">\r\n  <label [for]="inputId" class="label-left">{{ label }}</label>\r\n  <input\r\n    type="text"\r\n    [name]="inputName"\r\n    [id]="inputId"\r\n    class="field-input"\r\n    [placeholder]="placeholder"\r\n    [attr.list]="datalistId"\r\n    [ngModel]="value"\r\n    (input)="onInput($event)"\r\n    (change)="onInput($event)"\r\n  />\r\n  <input\r\n    *ngIf="hiddenName"\r\n    type="hidden"\r\n    [name]="hiddenName"\r\n    [ngModel]="selectedId"\r\n  />\r\n  <datalist [id]="datalistId">\r\n    <option\r\n      *ngFor="let opt of options; trackBy: trackByOption"\r\n      [value]="getOptionLabel(opt)"\r\n    ></option>\r\n  </datalist>\r\n</span>\r\n' }]
+  }], null, { label: [{
+    type: Input
+  }], inputName: [{
+    type: Input
+  }], inputId: [{
+    type: Input
+  }], datalistId: [{
+    type: Input
+  }], placeholder: [{
+    type: Input
+  }], value: [{
+    type: Input
+  }], selectedId: [{
+    type: Input
+  }], hiddenName: [{
+    type: Input
+  }], options: [{
+    type: Input
+  }], optionLabelField: [{
+    type: Input
+  }], optionValueField: [{
+    type: Input
+  }], optionSecondaryField: [{
+    type: Input
+  }], optionSecondaryCurrency: [{
+    type: Input
+  }], optionSecondaryDisplay: [{
+    type: Input
+  }], optionSecondaryDigits: [{
+    type: Input
+  }], valueChange: [{
+    type: Output
+  }], selectedIdChange: [{
+    type: Output
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DatalistInputComponent, { className: "DatalistInputComponent", filePath: "src/app/common/datalistinput.component.ts", lineNumber: 15 });
+})();
+
 // src/app/money/movement.component.ts
 function MovementComponent_Conditional_7_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
@@ -85567,51 +85748,41 @@ function MovementComponent_Conditional_7_Conditional_9_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function MovementComponent_Conditional_7_Conditional_10_For_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 15);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const opt_r6 = ctx.$implicit;
-    \u0275\u0275property("value", \u0275\u0275interpolate(opt_r6.pre_id));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(opt_r6.pre_name);
-  }
-}
 function MovementComponent_Conditional_7_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
     const _r5 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 8)(1, "label", 29);
-    \u0275\u0275text(2, "Use a Preset");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "select", 30);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_10_Template_select_ngModelChange_3_listener($event) {
+    \u0275\u0275elementStart(0, "span", 8)(1, "datalist-input", 29);
+    \u0275\u0275twoWayListener("valueChange", function MovementComponent_Conditional_7_Conditional_10_Template_datalist_input_valueChange_1_listener($event) {
+      \u0275\u0275restoreView(_r5);
+      const ctx_r3 = \u0275\u0275nextContext(2);
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.selectedPresetText, $event) || (ctx_r3.model.selectedPresetText = $event);
+      return \u0275\u0275resetView($event);
+    })("selectedIdChange", function MovementComponent_Conditional_7_Conditional_10_Template_datalist_input_selectedIdChange_1_listener($event) {
       \u0275\u0275restoreView(_r5);
       const ctx_r3 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r3.model.selectedPreset, $event) || (ctx_r3.model.selectedPreset = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("change", function MovementComponent_Conditional_7_Conditional_10_Template_select_change_3_listener() {
+    \u0275\u0275listener("selectedIdChange", function MovementComponent_Conditional_7_Conditional_10_Template_datalist_input_selectedIdChange_1_listener($event) {
       \u0275\u0275restoreView(_r5);
       const ctx_r3 = \u0275\u0275nextContext(2);
       const newMovementForm_r2 = \u0275\u0275reference(4);
-      return \u0275\u0275resetView(ctx_r3.setModelDetails(ctx_r3.model.selectedPreset, newMovementForm_r2, "pre"));
+      return \u0275\u0275resetView(ctx_r3.onPresetChange($event, newMovementForm_r2));
     });
-    \u0275\u0275repeaterCreate(4, MovementComponent_Conditional_7_Conditional_10_For_5_Template, 2, 3, "option", 15, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
+    \u0275\u0275element(2, "input", 30);
     \u0275\u0275controlCreate();
-    \u0275\u0275element(6, "hr");
+    \u0275\u0275element(3, "hr");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(3);
-    \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.selectedPreset);
-    \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r3.viewData.presets);
+    \u0275\u0275twoWayProperty("value", ctx_r3.model.selectedPresetText)("selectedId", ctx_r3.model.selectedPreset);
+    \u0275\u0275property("options", ctx_r3.viewData.presets);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngModel", ctx_r3.model.selectedPreset);
+    \u0275\u0275control();
   }
 }
 function MovementComponent_Conditional_7_Conditional_11_Template(rf, ctx) {
@@ -85642,59 +85813,85 @@ function MovementComponent_Conditional_7_Conditional_16_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", newMovementForm_r2.value.fDescription.length, " / 200 characters ");
   }
 }
-function MovementComponent_Conditional_7_For_26_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_24_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 15);
-    \u0275\u0275text(1);
-    \u0275\u0275pipe(2, "currency");
+    \u0275\u0275elementStart(0, "div", 15)(1, "span");
+    \u0275\u0275text(2);
+    \u0275\u0275pipe(3, "currency");
     \u0275\u0275elementEnd();
+    \u0275\u0275element(4, "br");
+    \u0275\u0275elementStart(5, "span");
+    \u0275\u0275text(6);
+    \u0275\u0275pipe(7, "currency");
+    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const opt_r7 = ctx.$implicit;
-    \u0275\u0275property("value", \u0275\u0275interpolate(opt_r7.acc_id));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate2(" ", opt_r7.acc_name, " / ", \u0275\u0275pipeBind4(2, 4, opt_r7.bal_final, "USD", "symbol-narrow", "1.2-2"), " ");
+    const ctx_r3 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("Balance: ", \u0275\u0275pipeBind4(3, 2, ctx_r3.selectedAccountBalance, "USD", "symbol-narrow", "1.2-2"));
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" Balance after movement: ", \u0275\u0275pipeBind4(7, 7, ctx_r3.balanceAfterMovement, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function MovementComponent_Conditional_7_Conditional_27_For_5_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_25_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 15);
-    \u0275\u0275text(1);
-    \u0275\u0275pipe(2, "currency");
+    \u0275\u0275elementStart(0, "div", 15)(1, "span");
+    \u0275\u0275text(2);
+    \u0275\u0275pipe(3, "currency");
     \u0275\u0275elementEnd();
+    \u0275\u0275element(4, "br");
+    \u0275\u0275elementStart(5, "span");
+    \u0275\u0275text(6);
+    \u0275\u0275pipe(7, "currency");
+    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const opt_r8 = ctx.$implicit;
-    \u0275\u0275property("value", \u0275\u0275interpolate(opt_r8.acc_id));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate2(" ", opt_r8.acc_name, " / ", \u0275\u0275pipeBind4(2, 4, opt_r8.bal_final, "USD", "symbol-narrow", "1.2-2"), " ");
+    const ctx_r3 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("Balance: ", \u0275\u0275pipeBind4(3, 2, ctx_r3.selectedAccountToBalance, "USD", "symbol-narrow", "1.2-2"));
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1(" Balance after movement: ", \u0275\u0275pipeBind4(7, 7, ctx_r3.balanceAfterMovementTo, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function MovementComponent_Conditional_7_Conditional_27_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_25_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 8)(1, "label", 33);
-    \u0275\u0275text(2, "Account To");
+    const _r6 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 8)(1, "datalist-input", 33);
+    \u0275\u0275twoWayListener("valueChange", function MovementComponent_Conditional_7_Conditional_25_Template_datalist_input_valueChange_1_listener($event) {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r3 = \u0275\u0275nextContext(2);
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.accountToText, $event) || (ctx_r3.model.accountToText = $event);
+      return \u0275\u0275resetView($event);
+    })("selectedIdChange", function MovementComponent_Conditional_7_Conditional_25_Template_datalist_input_selectedIdChange_1_listener($event) {
+      \u0275\u0275restoreView(_r6);
+      const ctx_r3 = \u0275\u0275nextContext(2);
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.accountTo, $event) || (ctx_r3.model.accountTo = $event);
+      return \u0275\u0275resetView($event);
+    });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "select", 34);
-    \u0275\u0275repeaterCreate(4, MovementComponent_Conditional_7_Conditional_27_For_5_Template, 3, 9, "option", 15, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd();
+    \u0275\u0275element(2, "input", 34);
     \u0275\u0275controlCreate();
+    \u0275\u0275conditionalCreate(3, MovementComponent_Conditional_7_Conditional_25_Conditional_3_Template, 8, 12, "div", 15);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(3);
+    \u0275\u0275advance();
+    \u0275\u0275twoWayProperty("value", ctx_r3.model.accountToText)("selectedId", ctx_r3.model.accountTo);
+    \u0275\u0275property("options", ctx_r3.viewData.accounts);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngModel", ctx_r3.model.accountTo);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r3.viewData.accounts);
+    \u0275\u0275conditional(ctx_r3.selectedAccountToBalance !== null ? 3 : -1);
   }
 }
-function MovementComponent_Conditional_7_Conditional_28_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_26_Template(rf, ctx) {
   if (rf & 1) {
-    const _r9 = \u0275\u0275getCurrentView();
+    const _r7 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span", 8)(1, "input", 35);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_28_Template_input_ngModelChange_1_listener($event) {
-      \u0275\u0275restoreView(_r9);
+    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_26_Template_input_ngModelChange_1_listener($event) {
+      \u0275\u0275restoreView(_r7);
       const ctx_r3 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r3.model.type, $event) || (ctx_r3.model.type = $event);
       return \u0275\u0275resetView($event);
@@ -85705,8 +85902,8 @@ function MovementComponent_Conditional_7_Conditional_28_Template(rf, ctx) {
     \u0275\u0275text(3, "Expense");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(4, "input", 37);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_28_Template_input_ngModelChange_4_listener($event) {
-      \u0275\u0275restoreView(_r9);
+    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_26_Template_input_ngModelChange_4_listener($event) {
+      \u0275\u0275restoreView(_r7);
       const ctx_r3 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r3.model.type, $event) || (ctx_r3.model.type = $event);
       return \u0275\u0275resetView($event);
@@ -85729,102 +85926,73 @@ function MovementComponent_Conditional_7_Conditional_28_Template(rf, ctx) {
     \u0275\u0275control();
   }
 }
-function MovementComponent_Conditional_7_Conditional_33_For_5_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_31_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 41);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const opt_r11 = ctx.$implicit;
-    \u0275\u0275nextContext(3);
-    const newMovementForm_r2 = \u0275\u0275reference(4);
-    \u0275\u0275property("value", opt_r11.mpl_id)("selected", opt_r11.mpl_id === newMovementForm_r2.value.fPlace);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", opt_r11.mpl_name, " ");
-  }
-}
-function MovementComponent_Conditional_7_Conditional_33_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 8)(1, "label", 39);
-    \u0275\u0275text(2, "Place");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "select", 40);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_33_Template_select_ngModelChange_3_listener($event) {
-      \u0275\u0275restoreView(_r10);
+    const _r8 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 8)(1, "datalist-input", 39);
+    \u0275\u0275twoWayListener("valueChange", function MovementComponent_Conditional_7_Conditional_31_Template_datalist_input_valueChange_1_listener($event) {
+      \u0275\u0275restoreView(_r8);
+      const ctx_r3 = \u0275\u0275nextContext(2);
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.placeText, $event) || (ctx_r3.model.placeText = $event);
+      return \u0275\u0275resetView($event);
+    })("selectedIdChange", function MovementComponent_Conditional_7_Conditional_31_Template_datalist_input_selectedIdChange_1_listener($event) {
+      \u0275\u0275restoreView(_r8);
       const ctx_r3 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r3.model.place, $event) || (ctx_r3.model.place = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("change", function MovementComponent_Conditional_7_Conditional_33_Template_select_change_3_listener() {
-      \u0275\u0275restoreView(_r10);
-      const ctx_r3 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r3.onChangePlace(ctx_r3.model.place));
-    });
-    \u0275\u0275repeaterCreate(4, MovementComponent_Conditional_7_Conditional_33_For_5_Template, 2, 3, "option", 41, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
+    \u0275\u0275element(2, "input", 40);
     \u0275\u0275controlCreate();
-    \u0275\u0275element(6, "combo-item", 42);
+    \u0275\u0275element(3, "combo-item", 41);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(3);
-    \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.place);
+    \u0275\u0275advance();
+    \u0275\u0275twoWayProperty("value", ctx_r3.model.placeText)("selectedId", ctx_r3.model.place);
+    \u0275\u0275property("options", ctx_r3.viewData.places);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngModel", ctx_r3.model.place);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r3.viewData.places);
-    \u0275\u0275advance(2);
     \u0275\u0275property("name", ctx_r3.place)("addNewItem", ctx_r3.addNewPlaceForUser);
   }
 }
-function MovementComponent_Conditional_7_Conditional_34_For_5_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_32_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 41);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const opt_r13 = ctx.$implicit;
-    \u0275\u0275nextContext(3);
-    const newMovementForm_r2 = \u0275\u0275reference(4);
-    \u0275\u0275property("value", opt_r13.mct_id)("selected", opt_r13.mct_id === newMovementForm_r2.value.fCategory);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", opt_r13.mct_name, " ");
-  }
-}
-function MovementComponent_Conditional_7_Conditional_34_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r12 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 8)(1, "label", 43);
-    \u0275\u0275text(2, "Category");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "select", 44);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Conditional_34_Template_select_ngModelChange_3_listener($event) {
-      \u0275\u0275restoreView(_r12);
+    const _r9 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 8)(1, "datalist-input", 42);
+    \u0275\u0275twoWayListener("valueChange", function MovementComponent_Conditional_7_Conditional_32_Template_datalist_input_valueChange_1_listener($event) {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r3 = \u0275\u0275nextContext(2);
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.categoryText, $event) || (ctx_r3.model.categoryText = $event);
+      return \u0275\u0275resetView($event);
+    })("selectedIdChange", function MovementComponent_Conditional_7_Conditional_32_Template_datalist_input_selectedIdChange_1_listener($event) {
+      \u0275\u0275restoreView(_r9);
       const ctx_r3 = \u0275\u0275nextContext(2);
       \u0275\u0275twoWayBindingSet(ctx_r3.model.category, $event) || (ctx_r3.model.category = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275repeaterCreate(4, MovementComponent_Conditional_7_Conditional_34_For_5_Template, 2, 3, "option", 41, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
+    \u0275\u0275element(2, "input", 43);
     \u0275\u0275controlCreate();
-    \u0275\u0275element(6, "combo-item", 42);
+    \u0275\u0275element(3, "combo-item", 41);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r3 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(3);
-    \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.category);
+    \u0275\u0275advance();
+    \u0275\u0275twoWayProperty("value", ctx_r3.model.categoryText)("selectedId", ctx_r3.model.category);
+    \u0275\u0275property("options", ctx_r3.viewData.categories);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngModel", ctx_r3.model.category);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r3.viewData.categories);
-    \u0275\u0275advance(2);
     \u0275\u0275property("name", ctx_r3.category)("addNewItem", ctx_r3.addNewCategoryForUser);
   }
 }
-function MovementComponent_Conditional_7_Conditional_39_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
@@ -85837,7 +86005,7 @@ function MovementComponent_Conditional_7_Conditional_39_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", newMovementForm_r2.value.fBudget.length, " / 50 characters ");
   }
 }
-function MovementComponent_Conditional_7_Conditional_44_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_42_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
@@ -85850,12 +86018,12 @@ function MovementComponent_Conditional_7_Conditional_44_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", newMovementForm_r2.value.fNotes.length, " / 200 characters ");
   }
 }
-function MovementComponent_Conditional_7_Conditional_50_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_48_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 8)(1, "label", 45);
+    \u0275\u0275elementStart(0, "span", 8)(1, "label", 44);
     \u0275\u0275text(2, "Preset Name");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(3, "input", 46);
+    \u0275\u0275element(3, "input", 45);
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
   }
@@ -85864,12 +86032,12 @@ function MovementComponent_Conditional_7_Conditional_50_Template(rf, ctx) {
     \u0275\u0275control();
   }
 }
-function MovementComponent_Conditional_7_Conditional_57_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_55_Template(rf, ctx) {
   if (rf & 1) {
-    const _r14 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 47);
-    \u0275\u0275listener("click", function MovementComponent_Conditional_7_Conditional_57_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r14);
+    const _r10 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 46);
+    \u0275\u0275listener("click", function MovementComponent_Conditional_7_Conditional_55_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r10);
       const ctx_r3 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r3.cancel(ctx_r3.model.id));
     });
@@ -85877,12 +86045,12 @@ function MovementComponent_Conditional_7_Conditional_57_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function MovementComponent_Conditional_7_Conditional_58_Template(rf, ctx) {
+function MovementComponent_Conditional_7_Conditional_56_Template(rf, ctx) {
   if (rf & 1) {
-    const _r15 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 48);
-    \u0275\u0275listener("click", function MovementComponent_Conditional_7_Conditional_58_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r15);
+    const _r11 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "button", 47);
+    \u0275\u0275listener("click", function MovementComponent_Conditional_7_Conditional_56_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r11);
       const ctx_r3 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r3.deleteMovement(ctx_r3.model.id));
     });
@@ -85930,7 +86098,7 @@ function MovementComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275elementStart(7, "div");
     \u0275\u0275conditionalCreate(8, MovementComponent_Conditional_7_Conditional_8_Template, 2, 0, "h4");
     \u0275\u0275conditionalCreate(9, MovementComponent_Conditional_7_Conditional_9_Template, 2, 0, "h4");
-    \u0275\u0275conditionalCreate(10, MovementComponent_Conditional_7_Conditional_10_Template, 7, 1, "span", 8);
+    \u0275\u0275conditionalCreate(10, MovementComponent_Conditional_7_Conditional_10_Template, 4, 4, "span", 8);
     \u0275\u0275conditionalCreate(11, MovementComponent_Conditional_7_Conditional_11_Template, 5, 1, "span", 8);
     \u0275\u0275elementStart(12, "span", 8)(13, "label", 9);
     \u0275\u0275text(14, "Description");
@@ -85949,24 +86117,40 @@ function MovementComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275elementStart(17, "span", 8)(18, "label", 11);
     \u0275\u0275text(19, "Amount");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(20, "input", 12);
+    \u0275\u0275elementStart(20, "input", 12);
+    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_20_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r3 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.amount, $event) || (ctx_r3.model.amount = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "span", 8)(22, "label", 13);
-    \u0275\u0275text(23, "Account");
+    \u0275\u0275elementStart(21, "span", 8)(22, "datalist-input", 13);
+    \u0275\u0275twoWayListener("valueChange", function MovementComponent_Conditional_7_Template_datalist_input_valueChange_22_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r3 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.accountText, $event) || (ctx_r3.model.accountText = $event);
+      return \u0275\u0275resetView($event);
+    })("selectedIdChange", function MovementComponent_Conditional_7_Template_datalist_input_selectedIdChange_22_listener($event) {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r3 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r3.model.account, $event) || (ctx_r3.model.account = $event);
+      return \u0275\u0275resetView($event);
+    });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "select", 14);
-    \u0275\u0275repeaterCreate(25, MovementComponent_Conditional_7_For_26_Template, 3, 9, "option", 15, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd();
+    \u0275\u0275element(23, "input", 14);
     \u0275\u0275controlCreate();
+    \u0275\u0275conditionalCreate(24, MovementComponent_Conditional_7_Conditional_24_Template, 8, 12, "div", 15);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(27, MovementComponent_Conditional_7_Conditional_27_Template, 6, 0, "span", 8);
-    \u0275\u0275conditionalCreate(28, MovementComponent_Conditional_7_Conditional_28_Template, 7, 4, "span", 8);
-    \u0275\u0275elementStart(29, "span", 8)(30, "label", 16);
-    \u0275\u0275text(31, "Movement Date");
+    \u0275\u0275conditionalCreate(25, MovementComponent_Conditional_7_Conditional_25_Template, 4, 5, "span", 8);
+    \u0275\u0275conditionalCreate(26, MovementComponent_Conditional_7_Conditional_26_Template, 7, 4, "span", 8);
+    \u0275\u0275elementStart(27, "span", 8)(28, "label", 16);
+    \u0275\u0275text(29, "Movement Date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "input", 17);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_32_listener($event) {
+    \u0275\u0275elementStart(30, "input", 17);
+    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_30_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r3 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r3.model.date, $event) || (ctx_r3.model.date = $event);
@@ -85975,29 +86159,29 @@ function MovementComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(33, MovementComponent_Conditional_7_Conditional_33_Template, 7, 3, "span", 8);
-    \u0275\u0275conditionalCreate(34, MovementComponent_Conditional_7_Conditional_34_Template, 7, 3, "span", 8);
-    \u0275\u0275elementStart(35, "span", 8)(36, "label", 18);
-    \u0275\u0275text(37, "Tags");
+    \u0275\u0275conditionalCreate(31, MovementComponent_Conditional_7_Conditional_31_Template, 4, 6, "span", 8);
+    \u0275\u0275conditionalCreate(32, MovementComponent_Conditional_7_Conditional_32_Template, 4, 6, "span", 8);
+    \u0275\u0275elementStart(33, "span", 8)(34, "label", 18);
+    \u0275\u0275text(35, "Tags");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(38, "input", 19);
+    \u0275\u0275element(36, "input", 19);
     \u0275\u0275controlCreate();
-    \u0275\u0275conditionalCreate(39, MovementComponent_Conditional_7_Conditional_39_Template, 2, 1, "span");
+    \u0275\u0275conditionalCreate(37, MovementComponent_Conditional_7_Conditional_37_Template, 2, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(40, "span", 8)(41, "label", 20);
-    \u0275\u0275text(42, "Notes");
+    \u0275\u0275elementStart(38, "span", 8)(39, "label", 20);
+    \u0275\u0275text(40, "Notes");
     \u0275\u0275elementEnd();
-    \u0275\u0275element(43, "input", 21);
+    \u0275\u0275element(41, "input", 21);
     \u0275\u0275controlCreate();
-    \u0275\u0275conditionalCreate(44, MovementComponent_Conditional_7_Conditional_44_Template, 2, 1, "span");
+    \u0275\u0275conditionalCreate(42, MovementComponent_Conditional_7_Conditional_42_Template, 2, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(45, "span", 8);
-    \u0275\u0275element(46, "hr");
-    \u0275\u0275elementStart(47, "label", 22);
-    \u0275\u0275text(48, "As Preset");
+    \u0275\u0275elementStart(43, "span", 8);
+    \u0275\u0275element(44, "hr");
+    \u0275\u0275elementStart(45, "label", 22);
+    \u0275\u0275text(46, "As Preset");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(49, "input", 23);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_49_listener($event) {
+    \u0275\u0275elementStart(47, "input", 23);
+    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_47_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r3 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r3.model.asPreset, $event) || (ctx_r3.model.asPreset = $event);
@@ -86006,12 +86190,12 @@ function MovementComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(50, MovementComponent_Conditional_7_Conditional_50_Template, 4, 0, "span", 8);
-    \u0275\u0275elementStart(51, "span", 8)(52, "label", 24);
-    \u0275\u0275text(53, "Reset form after save");
+    \u0275\u0275conditionalCreate(48, MovementComponent_Conditional_7_Conditional_48_Template, 4, 0, "span", 8);
+    \u0275\u0275elementStart(49, "span", 8)(50, "label", 24);
+    \u0275\u0275text(51, "Reset form after save");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "input", 25);
-    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_54_listener($event) {
+    \u0275\u0275elementStart(52, "input", 25);
+    \u0275\u0275twoWayListener("ngModelChange", function MovementComponent_Conditional_7_Template_input_ngModelChange_52_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r3 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r3.model.resetForm, $event) || (ctx_r3.model.resetForm = $event);
@@ -86020,11 +86204,11 @@ function MovementComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(55, "button", 26);
-    \u0275\u0275text(56);
+    \u0275\u0275elementStart(53, "button", 26);
+    \u0275\u0275text(54);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(57, MovementComponent_Conditional_7_Conditional_57_Template, 2, 0, "button", 27);
-    \u0275\u0275conditionalCreate(58, MovementComponent_Conditional_7_Conditional_58_Template, 2, 0, "button", 28);
+    \u0275\u0275conditionalCreate(55, MovementComponent_Conditional_7_Conditional_55_Template, 2, 0, "button", 27);
+    \u0275\u0275conditionalCreate(56, MovementComponent_Conditional_7_Conditional_56_Template, 2, 0, "button", 28);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -86049,44 +86233,49 @@ function MovementComponent_Conditional_7_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(newMovementForm_r2.value.fDescription ? 16 : -1);
     \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.amount);
     \u0275\u0275control();
-    \u0275\u0275advance(4);
-    \u0275\u0275control();
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r3.viewData.accounts);
     \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx_r3.isTransfer ? 27 : -1);
+    \u0275\u0275twoWayProperty("value", ctx_r3.model.accountText)("selectedId", ctx_r3.model.account);
+    \u0275\u0275property("options", ctx_r3.viewData.accounts);
     \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r3.isTransfer ? 28 : -1);
+    \u0275\u0275property("ngModel", ctx_r3.model.account);
+    \u0275\u0275control();
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r3.selectedAccountBalance !== null ? 24 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r3.isTransfer ? 25 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r3.isTransfer ? 26 : -1);
     \u0275\u0275advance(4);
     \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.date);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r3.isTransfer ? 33 : -1);
+    \u0275\u0275conditional(!ctx_r3.isTransfer ? 31 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r3.isTransfer ? 34 : -1);
+    \u0275\u0275conditional(!ctx_r3.isTransfer ? 32 : -1);
     \u0275\u0275advance(4);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275conditional(newMovementForm_r2.value.fBudget ? 39 : -1);
+    \u0275\u0275conditional(newMovementForm_r2.value.fBudget ? 37 : -1);
     \u0275\u0275advance(4);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275conditional(newMovementForm_r2.value.fNotes ? 44 : -1);
+    \u0275\u0275conditional(newMovementForm_r2.value.fNotes ? 42 : -1);
     \u0275\u0275advance(5);
     \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.asPreset);
     \u0275\u0275control();
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r3.model.asPreset ? 50 : -1);
+    \u0275\u0275conditional(ctx_r3.model.asPreset ? 48 : -1);
     \u0275\u0275advance(4);
     \u0275\u0275twoWayProperty("ngModel", ctx_r3.model.resetForm);
     \u0275\u0275control();
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", ctx_r3.model.asPreset ? "Save as Preset" : ctx_r3.model.id !== null ? "Update Movement" : "Save Movement", " ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r3.model.id !== null ? 57 : -1);
+    \u0275\u0275conditional(ctx_r3.model.id !== null ? 55 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r3.model.id !== null ? 58 : -1);
+    \u0275\u0275conditional(ctx_r3.model.id !== null ? 56 : -1);
   }
 }
 var MovementComponent = class _MovementComponent {
@@ -86114,7 +86303,15 @@ var MovementComponent = class _MovementComponent {
     asPreset: false,
     selectedPreset: null,
     id: null,
-    resetForm: true
+    resetForm: true,
+    account: null,
+    accountText: "",
+    accountTo: null,
+    accountToText: "",
+    amount: 0,
+    placeText: "",
+    categoryText: "",
+    selectedPresetText: ""
   };
   viewAddCategoryForm = false;
   _movementFlowType = "custom";
@@ -86184,6 +86381,36 @@ var MovementComponent = class _MovementComponent {
       this.accounts = accounts;
       this.viewData.accounts = this.accounts;
     });
+  }
+  get selectedAccountBalance() {
+    const selectedAccount = this.viewData.accounts.find((account) => account.acc_id === this.model.account);
+    return selectedAccount ? selectedAccount.bal_final ?? 0 : null;
+  }
+  get balanceAfterMovement() {
+    const currentBalance = this.selectedAccountBalance ?? 0;
+    const amount = Number(this.model.amount) || 0;
+    if (this.model.type === 1) {
+      return currentBalance - amount;
+    }
+    if (this.model.type === 2) {
+      return currentBalance + amount;
+    }
+    return currentBalance;
+  }
+  get selectedAccountToBalance() {
+    const selectedAccount = this.viewData.accounts.find((account) => account.acc_id === this.model.accountTo);
+    return selectedAccount ? selectedAccount.bal_final ?? 0 : null;
+  }
+  get balanceAfterMovementTo() {
+    const currentBalance = this.selectedAccountToBalance ?? 0;
+    const amount = Number(this.model.amount) || 0;
+    if (this.model.type === 1) {
+      return currentBalance + amount;
+    }
+    if (this.model.type === 2) {
+      return currentBalance - amount;
+    }
+    return currentBalance;
   }
   ngOnInit() {
     this.retrieveAccountsAndBalance();
@@ -86547,6 +86774,41 @@ var MovementComponent = class _MovementComponent {
       model2 = this.viewData.movements.find((m4) => m4.mov_id === id);
       this.model.id = model2[prefix + "_id"];
     }
+    if (model2[prefix + "_id_account"]) {
+      this.model.account = model2[prefix + "_id_account"];
+      const selectedAccount = this.viewData.accounts.find((account) => account.acc_id === this.model.account);
+      this.model.accountText = selectedAccount ? selectedAccount.acc_name : "";
+    } else {
+      this.model.account = null;
+      this.model.accountText = "";
+    }
+    if (model2[prefix + "_id_account_to"]) {
+      this.model.accountTo = model2[prefix + "_id_account_to"];
+      const selectedAccountTo = this.viewData.accounts.find((account) => account.acc_id === this.model.accountTo);
+      this.model.accountToText = selectedAccountTo ? selectedAccountTo.acc_name : "";
+    } else {
+      this.model.accountTo = null;
+      this.model.accountToText = "";
+    }
+    if (model2[prefix + "_id_place"]) {
+      this.model.place = model2[prefix + "_id_place"];
+      const selectedPlace = this.viewData.places.find((place) => place.mpl_id === this.model.place);
+      this.model.placeText = selectedPlace ? selectedPlace.mpl_name : "";
+    } else {
+      this.model.place = null;
+      this.model.placeText = "";
+    }
+    if (model2[prefix + "_id_category"]) {
+      this.model.category = model2[prefix + "_id_category"];
+      const selectedCategory = this.viewData.categories.find((category) => category.mct_id === this.model.category);
+      this.model.categoryText = selectedCategory ? selectedCategory.mct_name : "";
+    } else {
+      this.model.category = null;
+      this.model.categoryText = "";
+    }
+    if (prefix === "pre") {
+      this.model.selectedPresetText = model2.pre_name || "";
+    }
     if (model2[prefix + "_ctg_type"] === 3) {
       this.movementFlowType("transfer");
     } else {
@@ -86611,7 +86873,89 @@ var MovementComponent = class _MovementComponent {
           form.controls[f2.control].setValue(valueToSet);
         }
       });
+      if (form.controls["fAccountText"]) {
+        form.controls["fAccountText"].setValue(this.model.accountText);
+      }
+      if (form.controls["fAccountToText"]) {
+        form.controls["fAccountToText"].setValue(this.model.accountToText);
+      }
+      if (form.controls["fPlaceText"]) {
+        form.controls["fPlaceText"].setValue(this.model.placeText);
+      }
+      if (form.controls["fCategoryText"]) {
+        form.controls["fCategoryText"].setValue(this.model.categoryText);
+      }
     }, 0);
+  }
+  onFormKeydown(event, form) {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      event.preventDefault();
+      event.stopPropagation();
+      this.newMovement(form);
+    }
+  }
+  onPresetChange(presetId, form) {
+    if (!presetId) {
+      this.model.selectedPreset = null;
+      this.model.selectedPresetText = "";
+      return;
+    }
+    this.setModelDetails(presetId, form, "pre");
+  }
+  onAccountInputChange(event, form) {
+    const input2 = event.target;
+    const inputValue = input2.value?.trim() || "";
+    const selectedAccount = this.viewData.accounts.find((account) => {
+      const accountName = account.acc_name?.toLowerCase() || "";
+      return accountName === inputValue.toLowerCase();
+    });
+    this.model.account = selectedAccount ? selectedAccount.acc_id : null;
+    this.model.accountText = inputValue;
+    if (form.controls["fAccount"]) {
+      form.controls["fAccount"].setValue(this.model.account);
+    }
+  }
+  onAccountToInputChange(event, form) {
+    const input2 = event.target;
+    const inputValue = input2.value?.trim() || "";
+    const selectedAccount = this.viewData.accounts.find((account) => {
+      const accountName = account.acc_name?.toLowerCase() || "";
+      return accountName === inputValue.toLowerCase();
+    });
+    this.model.accountTo = selectedAccount ? selectedAccount.acc_id : null;
+    this.model.accountToText = inputValue;
+    if (form.controls["fAccountTo"]) {
+      form.controls["fAccountTo"].setValue(this.model.accountTo);
+    }
+  }
+  onPlaceInputChange(event, form) {
+    const input2 = event.target;
+    const inputValue = input2.value?.trim() || "";
+    const selectedPlace = this.viewData.places.find((place) => {
+      const placeName = place.mpl_name?.toLowerCase() || "";
+      return placeName === inputValue.toLowerCase();
+    });
+    this.model.place = selectedPlace ? selectedPlace.mpl_id : null;
+    this.model.placeText = inputValue;
+    if (form.controls["fPlace"]) {
+      form.controls["fPlace"].setValue(this.model.place);
+    }
+    if (selectedPlace) {
+      this.onChangePlace(this.model.place);
+    }
+  }
+  onCategoryInputChange(event, form) {
+    const input2 = event.target;
+    const inputValue = input2.value?.trim() || "";
+    const selectedCategory = this.viewData.categories.find((category) => {
+      const categoryName = category.mct_name?.toLowerCase() || "";
+      return categoryName === inputValue.toLowerCase();
+    });
+    this.model.category = selectedCategory ? selectedCategory.mct_id : null;
+    this.model.categoryText = inputValue;
+    if (form.controls["fCategory"]) {
+      form.controls["fCategory"].setValue(this.model.category);
+    }
   }
   handleNewMovement(form) {
     if (this.viewData.showCreateForm) {
@@ -86622,6 +86966,7 @@ var MovementComponent = class _MovementComponent {
   resetForm(form) {
     this.model.id = null;
     this.model.selectedPreset = null;
+    this.model.selectedPresetText = "";
     this.movementFlowType("custom");
     form.reset();
     form.controls["fMovementFlowType"].setValue("custom");
@@ -86630,8 +86975,32 @@ var MovementComponent = class _MovementComponent {
       form.controls["fMovementType"].setValue(1);
     }
     this.model.resetForm = true;
+    this.model.account = null;
+    this.model.accountText = "";
+    this.model.place = null;
+    this.model.placeText = "";
+    this.model.category = null;
+    this.model.categoryText = "";
     if (form.controls["fResetForm"]) {
       form.controls["fResetForm"].setValue(true);
+    }
+    if (form.controls["fAccount"]) {
+      form.controls["fAccount"].setValue(null);
+    }
+    if (form.controls["fAccountText"]) {
+      form.controls["fAccountText"].setValue("");
+    }
+    if (form.controls["fPlace"]) {
+      form.controls["fPlace"].setValue(null);
+    }
+    if (form.controls["fPlaceText"]) {
+      form.controls["fPlaceText"].setValue("");
+    }
+    if (form.controls["fCategory"]) {
+      form.controls["fCategory"].setValue(null);
+    }
+    if (form.controls["fCategoryText"]) {
+      form.controls["fCategoryText"].setValue("");
     }
     form.controls["fDate"].setValue(DateUtils.dateToStringDate(/* @__PURE__ */ new Date()));
   }
@@ -86690,6 +87059,8 @@ var MovementComponent = class _MovementComponent {
     const suggestedCategory = this.suggestCategoryByPlace(selectedPlace, this.services.movement.list());
     if (suggestedCategory) {
       this.model.category = suggestedCategory;
+      const suggestedCategoryItem = this.viewData.categories.find((category) => category.mct_id === suggestedCategory);
+      this.model.categoryText = suggestedCategoryItem ? suggestedCategoryItem.mct_name : "";
     }
   }
   onSearch(searchTerm) {
@@ -86747,7 +87118,7 @@ var MovementComponent = class _MovementComponent {
     EntryService,
     BalanceService,
     PresetService
-  ])], decls: 9, vars: 3, consts: [["newMovementForm", "ngForm"], [3, "ngSubmit"], ["type", "button", 3, "click"], ["selectedView", "cards", "showSearch", "true", 3, "onItemClick", "onSearch", "movementList"], ["type", "radio", "name", "fMovementFlowType", "id", "fMovementFlowTypeCustom", "value", "custom", 3, "ngModelChange", "click", "ngModel"], ["for", "fMovementFlowTypeCustom"], ["type", "radio", "name", "fMovementFlowType", "id", "fMovementFlowTypeTransfer", "value", "transfer", 3, "ngModelChange", "click", "ngModel"], ["for", "fMovementFlowTypeTransfer"], [1, "field"], ["for", "fDescription", 1, "label-left"], ["type", "text", "name", "fDescription", "id", "fDescription", "ngModel", "", 1, "field-input", "movement-input-description", 3, "blur"], ["for", "fAmount", 1, "label-left"], ["type", "number", "name", "fAmount", "id", "fAmount", "step", "0.01", "inputmode", "decimal", "ngModel", "", 1, "field-input"], ["for", "fAccount", 1, "label-left"], ["name", "fAccount", "id", "fAccount", "ngModel", "", 1, "field-select"], [3, "value"], ["for", "fDate", 1, "label-left"], ["type", "date", "name", "fDate", 3, "ngModelChange", "ngModel"], ["for", "fBudget", 1, "field-input", "label-left"], ["type", "text", "name", "fBudget", "id", "fBudget", "ngModel", "", 1, "field-input", "movement-input-budget"], ["for", "fNotes", 1, "label-left"], ["type", "text", "name", "fNotes", "id", "fNotes", "ngModel", "", 1, "field-input", "movement-input-notes"], ["for", "fAsPreset", 1, "label-left"], ["type", "checkbox", "name", "fAsPreset", "id", "fAsPreset", 3, "ngModelChange", "ngModel"], ["for", "fResetForm", 1, "label-left"], ["type", "checkbox", "name", "fResetForm", "id", "fResetForm", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "newFormSubmitButton"], ["type", "button", "title", "Sets status to Cancelled"], ["type", "button", "title", "Deletes this movement"], ["for", "fPreset", 1, "label-left"], ["name", "fPreset", "id", "fPreset", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], ["for", "id", 1, "label-left"], [1, "movement-input-id"], ["for", "fAccountTo", 1, "label-left"], ["name", "fAccountTo", "id", "fAccountTo", "ngModel", "", 1, "field-select"], ["type", "radio", "name", "fMovementType", "id", "fMovementType_1", 3, "ngModelChange", "value", "ngModel"], ["for", "fMovementType_1", 1, "label-radio"], ["type", "radio", "name", "fMovementType", "id", "fMovementType_2", 3, "ngModelChange", "value", "ngModel"], ["for", "fMovementType_2", 1, "label-radio"], ["for", "fPlace", 1, "label-left"], ["name", "fPlace", "id", "fPlace", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [3, "name", "addNewItem"], ["for", "fCategory", 1, "label-left"], ["name", "fCategory", "id", "fCategory", 1, "field-select", 3, "ngModelChange", "ngModel"], ["for", "fName", 1, "label-left"], ["type", "text", "name", "fName", "id", "fName", "ngModel", "", 1, "field-input"], ["type", "button", "title", "Sets status to Cancelled", 3, "click"], ["type", "button", "title", "Deletes this movement", 3, "click"]], template: function MovementComponent_Template(rf, ctx) {
+  ])], decls: 9, vars: 3, consts: [["newMovementForm", "ngForm"], [3, "ngSubmit", "keydown"], ["type", "button", 3, "click"], ["selectedView", "cards", "showSearch", "true", 3, "onItemClick", "onSearch", "movementList"], ["type", "radio", "name", "fMovementFlowType", "id", "fMovementFlowTypeCustom", "value", "custom", 3, "ngModelChange", "click", "ngModel"], ["for", "fMovementFlowTypeCustom"], ["type", "radio", "name", "fMovementFlowType", "id", "fMovementFlowTypeTransfer", "value", "transfer", 3, "ngModelChange", "click", "ngModel"], ["for", "fMovementFlowTypeTransfer"], [1, "field"], ["for", "fDescription", 1, "label-left"], ["type", "text", "name", "fDescription", "id", "fDescription", "ngModel", "", 1, "field-input", "movement-input-description", 3, "blur"], ["for", "fAmount", 1, "label-left"], ["type", "number", "name", "fAmount", "id", "fAmount", "step", "0.01", "inputmode", "decimal", 1, "field-input", 3, "ngModelChange", "ngModel"], ["label", "Account", "inputName", "fAccountText", "inputId", "fAccountText", "datalistId", "accountOptions", "optionLabelField", "acc_name", "optionValueField", "acc_id", "optionSecondaryField", "bal_final", 3, "valueChange", "selectedIdChange", "value", "selectedId", "options"], ["type", "hidden", "name", "fAccount", 3, "ngModel"], [1, "field-note"], ["for", "fDate", 1, "label-left"], ["type", "date", "name", "fDate", 3, "ngModelChange", "ngModel"], ["for", "fBudget", 1, "field-input", "label-left"], ["type", "text", "name", "fBudget", "id", "fBudget", "ngModel", "", 1, "field-input", "movement-input-budget"], ["for", "fNotes", 1, "label-left"], ["type", "text", "name", "fNotes", "id", "fNotes", "ngModel", "", 1, "field-input", "movement-input-notes"], ["for", "fAsPreset", 1, "label-left"], ["type", "checkbox", "name", "fAsPreset", "id", "fAsPreset", 3, "ngModelChange", "ngModel"], ["for", "fResetForm", 1, "label-left"], ["type", "checkbox", "name", "fResetForm", "id", "fResetForm", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "newFormSubmitButton"], ["type", "button", "title", "Sets status to Cancelled"], ["type", "button", "title", "Deletes this movement"], ["label", "Use a Preset", "inputName", "fPresetText", "inputId", "fPresetText", "datalistId", "presetOptions", "optionLabelField", "pre_name", "optionValueField", "pre_id", "hiddenName", "fPreset", 3, "valueChange", "selectedIdChange", "value", "selectedId", "options"], ["type", "hidden", "name", "fPreset", 3, "ngModel"], ["for", "id", 1, "label-left"], [1, "movement-input-id"], ["label", "Account To", "inputName", "fAccountToText", "inputId", "fAccountToText", "datalistId", "accountToOptions", "optionLabelField", "acc_name", "optionValueField", "acc_id", "optionSecondaryField", "bal_final", 3, "valueChange", "selectedIdChange", "value", "selectedId", "options"], ["type", "hidden", "name", "fAccountTo", 3, "ngModel"], ["type", "radio", "name", "fMovementType", "id", "fMovementType_1", 3, "ngModelChange", "value", "ngModel"], ["for", "fMovementType_1", 1, "label-radio"], ["type", "radio", "name", "fMovementType", "id", "fMovementType_2", 3, "ngModelChange", "value", "ngModel"], ["for", "fMovementType_2", 1, "label-radio"], ["label", "Place", "inputName", "fPlaceText", "inputId", "fPlaceText", "datalistId", "placeOptions", "optionLabelField", "mpl_name", "optionValueField", "mpl_id", 3, "valueChange", "selectedIdChange", "value", "selectedId", "options"], ["type", "hidden", "name", "fPlace", 3, "ngModel"], [3, "name", "addNewItem"], ["label", "Category", "inputName", "fCategoryText", "inputId", "fCategoryText", "datalistId", "categoryOptions", "optionLabelField", "mct_name", "optionValueField", "mct_id", 3, "valueChange", "selectedIdChange", "value", "selectedId", "options"], ["type", "hidden", "name", "fCategory", 3, "ngModel"], ["for", "fName", 1, "label-left"], ["type", "text", "name", "fName", "id", "fName", "ngModel", "", 1, "field-input"], ["type", "button", "title", "Sets status to Cancelled", 3, "click"], ["type", "button", "title", "Deletes this movement", 3, "click"]], template: function MovementComponent_Template(rf, ctx) {
     if (rf & 1) {
       const _r1 = \u0275\u0275getCurrentView();
       \u0275\u0275elementStart(0, "strong");
@@ -86759,6 +87130,10 @@ var MovementComponent = class _MovementComponent {
         \u0275\u0275restoreView(_r1);
         const newMovementForm_r2 = \u0275\u0275reference(4);
         return \u0275\u0275resetView(ctx.newMovement(newMovementForm_r2));
+      })("keydown", function MovementComponent_Template_form_keydown_3_listener($event) {
+        \u0275\u0275restoreView(_r1);
+        const newMovementForm_r2 = \u0275\u0275reference(4);
+        return \u0275\u0275resetView(ctx.onFormKeydown($event, newMovementForm_r2));
       });
       \u0275\u0275elementStart(5, "button", 2);
       \u0275\u0275listener("click", function MovementComponent_Template_button_click_5_listener() {
@@ -86768,7 +87143,7 @@ var MovementComponent = class _MovementComponent {
       });
       \u0275\u0275text(6);
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(7, MovementComponent_Conditional_7_Template, 59, 20, "div");
+      \u0275\u0275conditionalCreate(7, MovementComponent_Conditional_7_Template, 57, 26, "div");
       \u0275\u0275elementEnd();
       \u0275\u0275elementStart(8, "movement-listing", 3);
       \u0275\u0275listener("onItemClick", function MovementComponent_Template_movement_listing_onItemClick_8_listener($event) {
@@ -86788,7 +87163,7 @@ var MovementComponent = class _MovementComponent {
       \u0275\u0275advance();
       \u0275\u0275property("movementList", ctx.viewData.movements);
     }
-  }, dependencies: [\u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, NumberValueAccessor, CheckboxControlValueAccessor, SelectControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, MovementListingComponent, ComboItemComponent, CurrencyPipe], encapsulation: 2, changeDetection: 1 });
+  }, dependencies: [\u0275NgNoValidate, DefaultValueAccessor, NumberValueAccessor, CheckboxControlValueAccessor, RadioControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, MovementListingComponent, ComboItemComponent, DatalistInputComponent, CurrencyPipe], encapsulation: 2, changeDetection: 1 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MovementComponent, [{
@@ -86804,7 +87179,11 @@ var MovementComponent = class _MovementComponent {
     ], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<strong>Movements</strong>
 <br />
 
-<form #newMovementForm="ngForm" (ngSubmit)="newMovement(newMovementForm)">
+<form
+  #newMovementForm="ngForm"
+  (ngSubmit)="newMovement(newMovementForm)"
+  (keydown)="onFormKeydown($event, newMovementForm)"
+>
   <button type="button" (click)="handleNewMovement(newMovementForm)">
     {{ viewData.showCreateForm ? "Hide Movement Form" : "New Movement" }}
   </button>
@@ -86834,23 +87213,24 @@ var MovementComponent = class _MovementComponent {
       <h4>Custom</h4>
       } @if (isTransfer) {
       <h4>Transfer</h4>
-      } @if (viewData.presets.length > 1 && !model.id) {
+      }
+      @if (viewData.presets.length > 1 && !model.id) {
       <span class="field">
-        <label for="fPreset" class="label-left">Use a Preset</label>
-        <select
-          name="fPreset"
-          id="fPreset"
-          class="field-select"
-          [(ngModel)]="model.selectedPreset"
-          (change)="
-            setModelDetails(model.selectedPreset, newMovementForm, 'pre')
-          "
-        >
-          @for (opt of viewData.presets; track opt) {
-          <option value="{{ opt.pre_id }}">{{ opt.pre_name }}</option>
-          }
-        </select>
-        <hr />
+      <datalist-input
+        label="Use a Preset"
+        inputName="fPresetText"
+        inputId="fPresetText"
+        datalistId="presetOptions"
+        [(value)]="model.selectedPresetText"
+        [(selectedId)]="model.selectedPreset"
+        [options]="viewData.presets"
+        optionLabelField="pre_name"
+        optionValueField="pre_id"
+        (selectedIdChange)="onPresetChange($event, newMovementForm)"
+        hiddenName="fPreset"
+      ></datalist-input>
+      <input type="hidden" name="fPreset" [ngModel]="model.selectedPreset" />
+      <hr />
       </span>
       } @if (model.id) {
       <span class="field">
@@ -86883,31 +87263,59 @@ var MovementComponent = class _MovementComponent {
           class="field-input"
           step="0.01"
           inputmode="decimal"
-          ngModel
+          [(ngModel)]="model.amount"
         />
       </span>
       <span class="field">
-        <label for="fAccount" class="label-left">Account</label>
-        <select name="fAccount" id="fAccount" class="field-select" ngModel>
-          @for (opt of viewData.accounts; track opt) {
-          <option value="{{ opt.acc_id }}">
-            {{ opt.acc_name }} / {{ opt.bal_final | currency:
-            "USD":"symbol-narrow":"1.2-2" }}
-          </option>
-          }
-        </select>
+      <datalist-input
+        label="Account"
+        inputName="fAccountText"
+        inputId="fAccountText"
+        datalistId="accountOptions"
+        [(value)]="model.accountText"
+        [(selectedId)]="model.account"
+        [options]="viewData.accounts"
+        optionLabelField="acc_name"
+        optionValueField="acc_id"
+        optionSecondaryField="bal_final"
+      ></datalist-input>
+      <input type="hidden" name="fAccount" [ngModel]="model.account" />
+      @if (selectedAccountBalance !== null) {
+      <div class="field-note">
+        <span>Balance: {{ selectedAccountBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>
+        <br />
+        <span>
+          Balance after movement:
+          {{ balanceAfterMovement | currency:"USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      }
       </span>
       @if (isTransfer) {
       <span class="field">
-        <label for="fAccountTo" class="label-left">Account To</label>
-        <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
-          @for (opt of viewData.accounts; track opt) {
-          <option value="{{ opt.acc_id }}">
-            {{ opt.acc_name }} / {{ opt.bal_final | currency:
-            "USD":"symbol-narrow":"1.2-2" }}
-          </option>
-          }
-        </select>
+      <datalist-input
+        label="Account To"
+        inputName="fAccountToText"
+        inputId="fAccountToText"
+        datalistId="accountToOptions"
+        [(value)]="model.accountToText"
+        [(selectedId)]="model.accountTo"
+        [options]="viewData.accounts"
+        optionLabelField="acc_name"
+        optionValueField="acc_id"
+        optionSecondaryField="bal_final"
+      ></datalist-input>
+      <input type="hidden" name="fAccountTo" [ngModel]="model.accountTo" />
+      @if (selectedAccountToBalance !== null) {
+      <div class="field-note">
+        <span>Balance: {{ selectedAccountToBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>
+        <br />
+        <span>
+          Balance after movement:
+          {{ balanceAfterMovementTo | currency:"USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      }
       </span>
       } @if (!isTransfer) {
       <span class="field">
@@ -86935,50 +87343,41 @@ var MovementComponent = class _MovementComponent {
       </span>
       @if (!isTransfer) {
       <span class="field">
-        <label for="fPlace" class="label-left">Place</label>
-        <select
-          name="fPlace"
-          id="fPlace"
-          class="field-select"
-          [(ngModel)]="model.place"
-          (change)="onChangePlace(model.place)"
-        >
-          @for (opt of viewData.places; track opt) {
-          <option
-            [value]="opt.mpl_id"
-            [selected]="opt.mpl_id === newMovementForm.value.fPlace"
-          >
-            {{ opt.mpl_name }}
-          </option>
-          }
-        </select>
-        <combo-item
-          [name]="place"
-          [addNewItem]="addNewPlaceForUser"
-        ></combo-item>
+      <datalist-input
+        label="Place"
+        inputName="fPlaceText"
+        inputId="fPlaceText"
+        datalistId="placeOptions"
+        [(value)]="model.placeText"
+        [(selectedId)]="model.place"
+        [options]="viewData.places"
+        optionLabelField="mpl_name"
+        optionValueField="mpl_id"
+      ></datalist-input>
+      <input type="hidden" name="fPlace" [ngModel]="model.place" />
+      <combo-item
+        [name]="place"
+        [addNewItem]="addNewPlaceForUser"
+      ></combo-item>
       </span>
       } @if (!isTransfer) {
       <span class="field">
-        <label for="fCategory" class="label-left">Category</label>
-        <select
-          name="fCategory"
-          id="fCategory"
-          class="field-select"
-          [(ngModel)]="model.category"
-        >
-          @for (opt of viewData.categories; track opt) {
-          <option
-            [value]="opt.mct_id"
-            [selected]="opt.mct_id === newMovementForm.value.fCategory"
-          >
-            {{ opt.mct_name }}
-          </option>
-          }
-        </select>
-        <combo-item
-          [name]="category"
-          [addNewItem]="addNewCategoryForUser"
-        ></combo-item>
+      <datalist-input
+        label="Category"
+        inputName="fCategoryText"
+        inputId="fCategoryText"
+        datalistId="categoryOptions"
+        [(value)]="model.categoryText"
+        [(selectedId)]="model.category"
+        [options]="viewData.categories"
+        optionLabelField="mct_name"
+        optionValueField="mct_id"
+      ></datalist-input>
+      <input type="hidden" name="fCategory" [ngModel]="model.category" />
+      <combo-item
+        [name]="category"
+        [addNewItem]="addNewCategoryForUser"
+      ></combo-item>
       </span>
       }
       <span class="field">
@@ -87079,7 +87478,7 @@ var MovementComponent = class _MovementComponent {
   }], () => [{ type: AccountService }, { type: CategoryService }, { type: PlaceService }, { type: MovementService }, { type: EntryService }, { type: BalanceService }, { type: PresetService }, { type: NotificationService }, { type: Title }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MovementComponent, { className: "MovementComponent", filePath: "src/app/money/movement.component.ts", lineNumber: 46 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(MovementComponent, { className: "MovementComponent", filePath: "src/app/money/movement.component.ts", lineNumber: 50 });
 })();
 
 // src/app/money/movement.indicators.ts
@@ -121669,7 +122068,7 @@ function le(t3) {
     });
   }
   function r() {
-    return (i3.DOMPurify ? Promise.resolve(i3.DOMPurify) : import("./chunk-7PNSMGSU.js")).catch(function(t3) {
+    return (i3.DOMPurify ? Promise.resolve(i3.DOMPurify) : import("./chunk-GSQYOZEO.js")).catch(function(t3) {
       return Promise.reject(new Error("Could not load dompurify: " + t3));
     }).then(function(t3) {
       return t3.default ? t3.default : t3;
@@ -122359,7 +122758,7 @@ function le(t3) {
   var h5 = l2.getContext("2d");
   h5.fillStyle = "#fff", h5.fillRect(0, 0, l2.width, l2.height);
   var f2 = { ignoreMouse: true, ignoreAnimation: true, ignoreDimensions: true }, d4 = this;
-  return (i3.canvg ? Promise.resolve(i3.canvg) : import("./chunk-GW42BYMC.js")).catch(function(t4) {
+  return (i3.canvg ? Promise.resolve(i3.canvg) : import("./chunk-XXTYNOUF.js")).catch(function(t4) {
     return Promise.reject(new Error("Could not load canvg: " + t4));
   }).then(function(t4) {
     return t4.default ? t4.default : t4;
@@ -125369,7 +125768,7 @@ var ErrorInterceptor = class _ErrorInterceptor {
 
 // node_modules/@angular/service-worker/fesm2022/service-worker.mjs
 /**
- * @license Angular v22.0.6
+ * @license Angular v22.0.8
  * (c) 2010-2026 Google LLC. https://angular.dev/
  * License: MIT
  */
@@ -125801,6 +126200,7 @@ var AppModule = class _AppModule {
         MovementListingComponent,
         ComboItemComponent,
         CheckboxOptionComponent,
+        DatalistInputComponent,
         DrinkWaterComponent,
         TimeFormatComponent,
         NotificationComponent,
@@ -125872,4 +126272,4 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# sourceMappingURL=main-ANNHJIJQ.js.map
+//# sourceMappingURL=main-JNSYZMBD.js.map

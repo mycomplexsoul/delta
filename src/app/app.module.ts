@@ -41,6 +41,7 @@ import { EntryService } from "./money/entry.service";
 import { DateCommon } from "./common/date.common";
 import { ComboItemComponent } from "./common/comboItem.component";
 import { CheckboxOptionComponent } from "./common/checkbox-option.component";
+import { DatalistInputComponent } from "./common/datalistInput.component";
 import { DrinkWaterComponent } from "./common/drinkwater.component";
 import { SyncAPI } from "./common/sync.api";
 import { UtilsCommon } from "./common/utils.common";
@@ -88,6 +89,7 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
     MovementListingComponent,
     ComboItemComponent,
     CheckboxOptionComponent,
+    DatalistInputComponent,
     DrinkWaterComponent,
     TimeFormatComponent,
     NotificationComponent,

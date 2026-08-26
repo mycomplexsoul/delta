@@ -1,7 +1,11 @@
 <strong>Movements</strong>
 <br />
 
-<form #newMovementForm="ngForm" (ngSubmit)="newMovement(newMovementForm)">
+<form
+  #newMovementForm="ngForm"
+  (ngSubmit)="newMovement(newMovementForm)"
+  (keydown)="onFormKeydown($event, newMovementForm)"
+>
   <button type="button" (click)="handleNewMovement(newMovementForm)">
     {{ viewData.showCreateForm ? "Hide Movement Form" : "New Movement" }}
   </button>
@@ -31,23 +35,24 @@
       <h4>Custom</h4>
       } @if (isTransfer) {
       <h4>Transfer</h4>
-      } @if (viewData.presets.length > 1 && !model.id) {
+      }
+      @if (viewData.presets.length > 1 && !model.id) {
       <span class="field">
-        <label for="fPreset" class="label-left">Use a Preset</label>
-        <select
-          name="fPreset"
-          id="fPreset"
-          class="field-select"
-          [(ngModel)]="model.selectedPreset"
-          (change)="
-            setModelDetails(model.selectedPreset, newMovementForm, 'pre')
-          "
-        >
-          @for (opt of viewData.presets; track opt) {
-          <option value="{{ opt.pre_id }}">{{ opt.pre_name }}</option>
-          }
-        </select>
-        <hr />
+      <datalist-input
+        label="Use a Preset"
+        inputName="fPresetText"
+        inputId="fPresetText"
+        datalistId="presetOptions"
+        [(value)]="model.selectedPresetText"
+        [(selectedId)]="model.selectedPreset"
+        [options]="viewData.presets"
+        optionLabelField="pre_name"
+        optionValueField="pre_id"
+        (selectedIdChange)="onPresetChange($event, newMovementForm)"
+        hiddenName="fPreset"
+      ></datalist-input>
+      <input type="hidden" name="fPreset" [ngModel]="model.selectedPreset" />
+      <hr />
       </span>
       } @if (model.id) {
       <span class="field">
@@ -80,31 +85,59 @@
           class="field-input"
           step="0.01"
           inputmode="decimal"
-          ngModel
+          [(ngModel)]="model.amount"
         />
       </span>
       <span class="field">
-        <label for="fAccount" class="label-left">Account</label>
-        <select name="fAccount" id="fAccount" class="field-select" ngModel>
-          @for (opt of viewData.accounts; track opt) {
-          <option value="{{ opt.acc_id }}">
-            {{ opt.acc_name }} / {{ opt.bal_final | currency:
-            "USD":"symbol-narrow":"1.2-2" }}
-          </option>
-          }
-        </select>
+      <datalist-input
+        label="Account"
+        inputName="fAccountText"
+        inputId="fAccountText"
+        datalistId="accountOptions"
+        [(value)]="model.accountText"
+        [(selectedId)]="model.account"
+        [options]="viewData.accounts"
+        optionLabelField="acc_name"
+        optionValueField="acc_id"
+        optionSecondaryField="bal_final"
+      ></datalist-input>
+      <input type="hidden" name="fAccount" [ngModel]="model.account" />
+      @if (selectedAccountBalance !== null) {
+      <div class="field-note">
+        <span>Balance: {{ selectedAccountBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>
+        <br />
+        <span>
+          Balance after movement:
+          {{ balanceAfterMovement | currency:"USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      }
       </span>
       @if (isTransfer) {
       <span class="field">
-        <label for="fAccountTo" class="label-left">Account To</label>
-        <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
-          @for (opt of viewData.accounts; track opt) {
-          <option value="{{ opt.acc_id }}">
-            {{ opt.acc_name }} / {{ opt.bal_final | currency:
-            "USD":"symbol-narrow":"1.2-2" }}
-          </option>
-          }
-        </select>
+      <datalist-input
+        label="Account To"
+        inputName="fAccountToText"
+        inputId="fAccountToText"
+        datalistId="accountToOptions"
+        [(value)]="model.accountToText"
+        [(selectedId)]="model.accountTo"
+        [options]="viewData.accounts"
+        optionLabelField="acc_name"
+        optionValueField="acc_id"
+        optionSecondaryField="bal_final"
+      ></datalist-input>
+      <input type="hidden" name="fAccountTo" [ngModel]="model.accountTo" />
+      @if (selectedAccountToBalance !== null) {
+      <div class="field-note">
+        <span>Balance: {{ selectedAccountToBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>
+        <br />
+        <span>
+          Balance after movement:
+          {{ balanceAfterMovementTo | currency:"USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      }
       </span>
       } @if (!isTransfer) {
       <span class="field">
@@ -132,50 +165,41 @@
       </span>
       @if (!isTransfer) {
       <span class="field">
-        <label for="fPlace" class="label-left">Place</label>
-        <select
-          name="fPlace"
-          id="fPlace"
-          class="field-select"
-          [(ngModel)]="model.place"
-          (change)="onChangePlace(model.place)"
-        >
-          @for (opt of viewData.places; track opt) {
-          <option
-            [value]="opt.mpl_id"
-            [selected]="opt.mpl_id === newMovementForm.value.fPlace"
-          >
-            {{ opt.mpl_name }}
-          </option>
-          }
-        </select>
-        <combo-item
-          [name]="place"
-          [addNewItem]="addNewPlaceForUser"
-        ></combo-item>
+      <datalist-input
+        label="Place"
+        inputName="fPlaceText"
+        inputId="fPlaceText"
+        datalistId="placeOptions"
+        [(value)]="model.placeText"
+        [(selectedId)]="model.place"
+        [options]="viewData.places"
+        optionLabelField="mpl_name"
+        optionValueField="mpl_id"
+      ></datalist-input>
+      <input type="hidden" name="fPlace" [ngModel]="model.place" />
+      <combo-item
+        [name]="place"
+        [addNewItem]="addNewPlaceForUser"
+      ></combo-item>
       </span>
       } @if (!isTransfer) {
       <span class="field">
-        <label for="fCategory" class="label-left">Category</label>
-        <select
-          name="fCategory"
-          id="fCategory"
-          class="field-select"
-          [(ngModel)]="model.category"
-        >
-          @for (opt of viewData.categories; track opt) {
-          <option
-            [value]="opt.mct_id"
-            [selected]="opt.mct_id === newMovementForm.value.fCategory"
-          >
-            {{ opt.mct_name }}
-          </option>
-          }
-        </select>
-        <combo-item
-          [name]="category"
-          [addNewItem]="addNewCategoryForUser"
-        ></combo-item>
+      <datalist-input
+        label="Category"
+        inputName="fCategoryText"
+        inputId="fCategoryText"
+        datalistId="categoryOptions"
+        [(value)]="model.categoryText"
+        [(selectedId)]="model.category"
+        [options]="viewData.categories"
+        optionLabelField="mct_name"
+        optionValueField="mct_id"
+      ></datalist-input>
+      <input type="hidden" name="fCategory" [ngModel]="model.category" />
+      <combo-item
+        [name]="category"
+        [addNewItem]="addNewCategoryForUser"
+      ></combo-item>
       </span>
       }
       <span class="field">

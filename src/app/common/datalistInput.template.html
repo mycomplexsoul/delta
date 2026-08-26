@@ -1,0 +1,26 @@
+<span class="field">
+  <label [for]="inputId" class="label-left">{{ label }}</label>
+  <input
+    type="text"
+    [name]="inputName"
+    [id]="inputId"
+    class="field-input"
+    [placeholder]="placeholder"
+    [attr.list]="datalistId"
+    [ngModel]="value"
+    (input)="onInput($event)"
+    (change)="onInput($event)"
+  />
+  <input
+    *ngIf="hiddenName"
+    type="hidden"
+    [name]="hiddenName"
+    [ngModel]="selectedId"
+  />
+  <datalist [id]="datalistId">
+    <option
+      *ngFor="let opt of options; trackBy: trackByOption"
+      [value]="getOptionLabel(opt)"
+    ></option>
+  </datalist>
+</span>
