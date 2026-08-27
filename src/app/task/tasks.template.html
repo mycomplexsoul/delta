@@ -213,6 +213,19 @@
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
   <div>
+    <label>Grid Layout</label>
+    <select
+      [(ngModel)]="options.optGridLayout"
+      (change)="onGridLayoutChange($event.target.value)"
+    >
+      <option value="Float">Float</option>
+      <option value="Grid">Grid</option>
+      @if (options.optGridLanesSupported) {
+      <option value="Grid Lanes">Grid Lanes</option>
+      }
+    </select>
+  </div>
+  <div>
     <input
       type="number"
       step="1"
@@ -630,8 +643,9 @@
   <div
     [ngClass]="{
       'task-open-task-list-container': true,
-      'task-open-task-list-container--grid': layout === 'grid',
-      'task-open-task-list-container--float': layout === 'float'
+      'task-open-task-list-container--grid': options.optGridLayout === 'Grid',
+      'task-open-task-list-container--grid-lanes': options.optGridLayout === 'Grid Lanes',
+      'task-open-task-list-container--float': options.optGridLayout === 'Float'
     }"
   >
     @for (item of state.backlogTasks; track item) {
@@ -789,8 +803,9 @@
   <div
     [ngClass]="{
       'task-open-task-list-container': true,
-      'task-open-task-list-container--grid': layout === 'grid',
-      'task-open-task-list-container--float': layout === 'float'
+      'task-open-task-list-container--grid': options.optGridLayout === 'Grid',
+      'task-open-task-list-container--grid-lanes': options.optGridLayout === 'Grid Lanes',
+      'task-open-task-list-container--float': options.optGridLayout === 'Float'
     }"
   >
     <div class="task-record-collapsed display-block">

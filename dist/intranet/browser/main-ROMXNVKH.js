@@ -70838,7 +70838,7 @@ var CheckboxOptionComponent = class _CheckboxOptionComponent {
 
 // src/app/task/tasks.component.ts
 var _c06 = () => ({ optShowTaskToolbar: true });
-var _c12 = (a0, a1) => ({ "task-open-task-list-container": true, "task-open-task-list-container--grid": a0, "task-open-task-list-container--float": a1 });
+var _c12 = (a0, a1, a22) => ({ "task-open-task-list-container": true, "task-open-task-list-container--grid": a0, "task-open-task-list-container--grid-lanes": a1, "task-open-task-list-container--float": a22 });
 var _c22 = (a0) => ({ "hidden": a0 });
 var _c32 = (a0) => ({ "task-record-custom-size": a0 });
 var _c4 = (a0, a1) => ({ "max-width": a0, "max-height": a1 });
@@ -71013,131 +71013,138 @@ function TasksComponent_Conditional_11_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.state.beforeAddETA);
   }
 }
-function TasksComponent_Conditional_12_Conditional_43_Template(rf, ctx) {
+function TasksComponent_Conditional_12_Conditional_40_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "option", 53);
+    \u0275\u0275text(1, "Grid Lanes");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 54);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_1_listener($event) {
+    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 58);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_1_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "checkbox-option", 55);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_2_listener($event) {
+    \u0275\u0275elementStart(2, "checkbox-option", 59);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_2_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "checkbox-option", 56);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_3_listener($event) {
+    \u0275\u0275elementStart(3, "checkbox-option", 60);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_3_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "checkbox-option", 57);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_4_listener($event) {
+    \u0275\u0275elementStart(4, "checkbox-option", 61);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_4_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "checkbox-option", 58);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_5_listener($event) {
+    \u0275\u0275elementStart(5, "checkbox-option", 62);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_5_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "checkbox-option", 59);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_6_listener($event) {
+    \u0275\u0275elementStart(6, "checkbox-option", 63);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_6_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "checkbox-option", 60);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_7_listener($event) {
+    \u0275\u0275elementStart(7, "checkbox-option", 64);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "checkbox-option", 61);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_8_listener($event) {
+    \u0275\u0275elementStart(8, "checkbox-option", 65);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_8_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 62);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_9_listener($event) {
+    \u0275\u0275elementStart(9, "checkbox-option", 66);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 63);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_10_listener($event) {
+    \u0275\u0275elementStart(10, "checkbox-option", 67);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 64);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_11_listener($event) {
+    \u0275\u0275elementStart(11, "checkbox-option", 68);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 65);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_12_listener($event) {
+    \u0275\u0275elementStart(12, "checkbox-option", 69);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 66);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_13_listener($event) {
+    \u0275\u0275elementStart(13, "checkbox-option", 70);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "checkbox-option", 67);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_14_listener($event) {
+    \u0275\u0275elementStart(14, "checkbox-option", 71);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_14_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "checkbox-option", 68);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_15_listener($event) {
+    \u0275\u0275elementStart(15, "checkbox-option", 72);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_15_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "checkbox-option", 69);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_43_Template_checkbox_option_onClick_16_listener($event) {
+    \u0275\u0275elementStart(16, "checkbox-option", 73);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
       ctx_r1.toggleOptionById($event);
@@ -71363,331 +71370,356 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(32, "div")(33, "input", 50);
-    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_33_listener($event) {
+    \u0275\u0275elementStart(32, "div")(33, "label");
+    \u0275\u0275text(34, "Grid Layout");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(35, "select", 50);
+    \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_12_Template_select_ngModelChange_35_listener($event) {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r1 = \u0275\u0275nextContext();
+      \u0275\u0275twoWayBindingSet(ctx_r1.options.optGridLayout, $event) || (ctx_r1.options.optGridLayout = $event);
+      return \u0275\u0275resetView($event);
+    });
+    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_select_change_35_listener($event) {
+      \u0275\u0275restoreView(_r9);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.onGridLayoutChange($event.target.value));
+    });
+    \u0275\u0275elementStart(36, "option", 51);
+    \u0275\u0275text(37, "Float");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(38, "option", 52);
+    \u0275\u0275text(39, "Grid");
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_12_Conditional_40_Template, 2, 0, "option", 53);
+    \u0275\u0275elementEnd();
+    \u0275\u0275controlCreate();
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(41, "div")(42, "input", 54);
+    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_42_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.options.optRecordWidth, $event) || (ctx_r1.options.optRecordWidth = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_33_listener($event) {
+    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_42_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.saveOption("optRecordWidth", $event.target.valueAsNumber));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(34, "label");
-    \u0275\u0275text(35, "Record listing width (in px, desktop only, minimum is 200)");
+    \u0275\u0275elementStart(43, "label");
+    \u0275\u0275text(44, "Record listing width (in px, desktop only, minimum is 200)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(36, "div")(37, "input", 51);
-    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_37_listener($event) {
+    \u0275\u0275elementStart(45, "div")(46, "input", 55);
+    \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_46_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       \u0275\u0275twoWayBindingSet(ctx_r1.options.optRecordHeight, $event) || (ctx_r1.options.optRecordHeight = $event);
       return \u0275\u0275resetView($event);
     });
-    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_37_listener($event) {
+    \u0275\u0275listener("change", function TasksComponent_Conditional_12_Template_input_change_46_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.saveOption("optRecordHeight", $event.target.valueAsNumber));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "label");
-    \u0275\u0275text(39, "Record listing height (in px, desktop only)");
+    \u0275\u0275elementStart(47, "label");
+    \u0275\u0275text(48, "Record listing height (in px, desktop only)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(40, "div", 26);
-    \u0275\u0275text(41, "Showing / hiding Indicators");
+    \u0275\u0275elementStart(49, "div", 26);
+    \u0275\u0275text(50, "Showing / hiding Indicators");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(42, "checkbox-option", 52);
-    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_42_listener($event) {
+    \u0275\u0275elementStart(51, "checkbox-option", 56);
+    \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_51_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(43, TasksComponent_Conditional_12_Conditional_43_Template, 17, 16, "div");
-    \u0275\u0275elementStart(44, "div")(45, "div", 26);
-    \u0275\u0275text(46, "Keyboard Shortcuts Reference");
+    \u0275\u0275conditionalCreate(52, TasksComponent_Conditional_12_Conditional_52_Template, 17, 16, "div");
+    \u0275\u0275elementStart(53, "div")(54, "div", 26);
+    \u0275\u0275text(55, "Keyboard Shortcuts Reference");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(47, "table")(48, "thead")(49, "tr")(50, "th");
-    \u0275\u0275text(51, "Keys");
+    \u0275\u0275elementStart(56, "table")(57, "thead")(58, "tr")(59, "th");
+    \u0275\u0275text(60, "Keys");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(52, "th");
-    \u0275\u0275text(53, "Where");
+    \u0275\u0275elementStart(61, "th");
+    \u0275\u0275text(62, "Where");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(54, "th");
-    \u0275\u0275text(55, "Action");
+    \u0275\u0275elementStart(63, "th");
+    \u0275\u0275text(64, "Action");
     \u0275\u0275elementEnd()()();
-    \u0275\u0275elementStart(56, "tbody")(57, "tr")(58, "td")(59, "kbd");
-    \u0275\u0275text(60, "F2");
+    \u0275\u0275elementStart(65, "tbody")(66, "tr")(67, "td")(68, "kbd");
+    \u0275\u0275text(69, "F2");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(61, "td");
-    \u0275\u0275text(62, "In task");
+    \u0275\u0275elementStart(70, "td");
+    \u0275\u0275text(71, "In task");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(63, "td");
-    \u0275\u0275text(64, "Start/Stop task time tracking");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(65, "tr")(66, "td")(67, "kbd");
-    \u0275\u0275text(68, "Alt");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(69, " + ");
-    \u0275\u0275elementStart(70, "kbd");
-    \u0275\u0275text(71, "1");
-    \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(72, "td");
-    \u0275\u0275text(73, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(74, "td");
-    \u0275\u0275text(75, "Marks task as completed");
+    \u0275\u0275text(73, "Start/Stop task time tracking");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(76, "tr")(77, "td")(78, "kbd");
-    \u0275\u0275text(79, "Alt");
+    \u0275\u0275elementStart(74, "tr")(75, "td")(76, "kbd");
+    \u0275\u0275text(77, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(80, " + ");
-    \u0275\u0275elementStart(81, "kbd");
-    \u0275\u0275text(82, "2");
+    \u0275\u0275text(78, " + ");
+    \u0275\u0275elementStart(79, "kbd");
+    \u0275\u0275text(80, "1");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(81, "td");
+    \u0275\u0275text(82, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(83, "td");
-    \u0275\u0275text(84, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(85, "td");
-    \u0275\u0275text(86, "Toggle qualifier: star");
+    \u0275\u0275text(84, "Marks task as completed");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(87, "tr")(88, "td")(89, "kbd");
-    \u0275\u0275text(90, "Alt");
+    \u0275\u0275elementStart(85, "tr")(86, "td")(87, "kbd");
+    \u0275\u0275text(88, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(91, " + ");
-    \u0275\u0275elementStart(92, "kbd");
-    \u0275\u0275text(93, "3");
+    \u0275\u0275text(89, " + ");
+    \u0275\u0275elementStart(90, "kbd");
+    \u0275\u0275text(91, "2");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(92, "td");
+    \u0275\u0275text(93, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(94, "td");
-    \u0275\u0275text(95, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(96, "td");
-    \u0275\u0275text(97, "Toggle qualifier: highlighted");
+    \u0275\u0275text(95, "Toggle qualifier: star");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(98, "tr")(99, "td")(100, "kbd");
-    \u0275\u0275text(101, "Alt");
+    \u0275\u0275elementStart(96, "tr")(97, "td")(98, "kbd");
+    \u0275\u0275text(99, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(102, " + ");
-    \u0275\u0275elementStart(103, "kbd");
-    \u0275\u0275text(104, "4");
+    \u0275\u0275text(100, " + ");
+    \u0275\u0275elementStart(101, "kbd");
+    \u0275\u0275text(102, "3");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(103, "td");
+    \u0275\u0275text(104, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(105, "td");
-    \u0275\u0275text(106, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(107, "td");
-    \u0275\u0275text(108, "Toggle qualifier: priority");
+    \u0275\u0275text(106, "Toggle qualifier: highlighted");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(109, "tr")(110, "td")(111, "kbd");
-    \u0275\u0275text(112, "Alt");
+    \u0275\u0275elementStart(107, "tr")(108, "td")(109, "kbd");
+    \u0275\u0275text(110, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(113, " + ");
-    \u0275\u0275elementStart(114, "kbd");
-    \u0275\u0275text(115, "5");
+    \u0275\u0275text(111, " + ");
+    \u0275\u0275elementStart(112, "kbd");
+    \u0275\u0275text(113, "4");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(114, "td");
+    \u0275\u0275text(115, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(116, "td");
-    \u0275\u0275text(117, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(118, "td");
-    \u0275\u0275text(119, "Toggle qualifier: important");
+    \u0275\u0275text(117, "Toggle qualifier: priority");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(120, "tr")(121, "td")(122, "kbd");
-    \u0275\u0275text(123, "Alt");
+    \u0275\u0275elementStart(118, "tr")(119, "td")(120, "kbd");
+    \u0275\u0275text(121, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(124, " + ");
-    \u0275\u0275elementStart(125, "kbd");
-    \u0275\u0275text(126, "6");
+    \u0275\u0275text(122, " + ");
+    \u0275\u0275elementStart(123, "kbd");
+    \u0275\u0275text(124, "5");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(125, "td");
+    \u0275\u0275text(126, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(127, "td");
-    \u0275\u0275text(128, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(129, "td");
-    \u0275\u0275text(130, "Toggle qualifier: urgent");
+    \u0275\u0275text(128, "Toggle qualifier: important");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(131, "tr")(132, "td")(133, "kbd");
-    \u0275\u0275text(134, "Alt");
+    \u0275\u0275elementStart(129, "tr")(130, "td")(131, "kbd");
+    \u0275\u0275text(132, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(135, " + ");
-    \u0275\u0275elementStart(136, "kbd");
-    \u0275\u0275text(137, "7");
+    \u0275\u0275text(133, " + ");
+    \u0275\u0275elementStart(134, "kbd");
+    \u0275\u0275text(135, "6");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(136, "td");
+    \u0275\u0275text(137, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(138, "td");
-    \u0275\u0275text(139, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(140, "td");
-    \u0275\u0275text(141, "Toggle qualifier: unexpected");
+    \u0275\u0275text(139, "Toggle qualifier: urgent");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(142, "tr")(143, "td")(144, "kbd");
-    \u0275\u0275text(145, "Alt");
+    \u0275\u0275elementStart(140, "tr")(141, "td")(142, "kbd");
+    \u0275\u0275text(143, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(146, " + ");
-    \u0275\u0275elementStart(147, "kbd");
-    \u0275\u0275text(148, "8");
+    \u0275\u0275text(144, " + ");
+    \u0275\u0275elementStart(145, "kbd");
+    \u0275\u0275text(146, "7");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(147, "td");
+    \u0275\u0275text(148, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(149, "td");
-    \u0275\u0275text(150, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(151, "td");
-    \u0275\u0275text(152, "Toggle qualifier: progressed");
+    \u0275\u0275text(150, "Toggle qualifier: unexpected");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(153, "tr")(154, "td")(155, "kbd");
-    \u0275\u0275text(156, "Alt");
+    \u0275\u0275elementStart(151, "tr")(152, "td")(153, "kbd");
+    \u0275\u0275text(154, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(157, " + ");
-    \u0275\u0275elementStart(158, "kbd");
-    \u0275\u0275text(159, "9");
+    \u0275\u0275text(155, " + ");
+    \u0275\u0275elementStart(156, "kbd");
+    \u0275\u0275text(157, "8");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(158, "td");
+    \u0275\u0275text(159, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(160, "td");
-    \u0275\u0275text(161, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(162, "td");
-    \u0275\u0275text(163, "Toggle qualifier: people");
+    \u0275\u0275text(161, "Toggle qualifier: progressed");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(164, "tr")(165, "td")(166, "kbd");
-    \u0275\u0275text(167, "Alt");
+    \u0275\u0275elementStart(162, "tr")(163, "td")(164, "kbd");
+    \u0275\u0275text(165, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(168, " + ");
-    \u0275\u0275elementStart(169, "kbd");
-    \u0275\u0275text(170, "/");
+    \u0275\u0275text(166, " + ");
+    \u0275\u0275elementStart(167, "kbd");
+    \u0275\u0275text(168, "9");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(169, "td");
+    \u0275\u0275text(170, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(171, "td");
-    \u0275\u0275text(172, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(173, "td");
-    \u0275\u0275text(174, "Toggle qualifier: flag");
+    \u0275\u0275text(172, "Toggle qualifier: people");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(175, "tr")(176, "td")(177, "kbd");
-    \u0275\u0275text(178, "Alt");
+    \u0275\u0275elementStart(173, "tr")(174, "td")(175, "kbd");
+    \u0275\u0275text(176, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(179, " + ");
-    \u0275\u0275elementStart(180, "kbd");
-    \u0275\u0275text(181, "-");
+    \u0275\u0275text(177, " + ");
+    \u0275\u0275elementStart(178, "kbd");
+    \u0275\u0275text(179, "/");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(180, "td");
+    \u0275\u0275text(181, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(182, "td");
-    \u0275\u0275text(183, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(184, "td");
-    \u0275\u0275text(185, "Toggle qualifier: blocked");
+    \u0275\u0275text(183, "Toggle qualifier: flag");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(186, "tr")(187, "td")(188, "kbd");
-    \u0275\u0275text(189, "Alt");
+    \u0275\u0275elementStart(184, "tr")(185, "td")(186, "kbd");
+    \u0275\u0275text(187, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(190, " + ");
-    \u0275\u0275elementStart(191, "kbd");
-    \u0275\u0275text(192, "0");
+    \u0275\u0275text(188, " + ");
+    \u0275\u0275elementStart(189, "kbd");
+    \u0275\u0275text(190, "-");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(191, "td");
+    \u0275\u0275text(192, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(193, "td");
-    \u0275\u0275text(194, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(195, "td");
-    \u0275\u0275text(196, "Clear all qualifiers");
+    \u0275\u0275text(194, "Toggle qualifier: blocked");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(197, "tr")(198, "td")(199, "kbd");
-    \u0275\u0275text(200, "Alt");
+    \u0275\u0275elementStart(195, "tr")(196, "td")(197, "kbd");
+    \u0275\u0275text(198, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(201, " + ");
-    \u0275\u0275elementStart(202, "kbd");
-    \u0275\u0275text(203, "t");
+    \u0275\u0275text(199, " + ");
+    \u0275\u0275elementStart(200, "kbd");
+    \u0275\u0275text(201, "0");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(202, "td");
+    \u0275\u0275text(203, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(204, "td");
-    \u0275\u0275text(205, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(206, "td");
-    \u0275\u0275text(207, "Adjusts time tracking to an earlier available slot");
+    \u0275\u0275text(205, "Clear all qualifiers");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(208, "tr")(209, "td")(210, "kbd");
-    \u0275\u0275text(211, "Alt");
+    \u0275\u0275elementStart(206, "tr")(207, "td")(208, "kbd");
+    \u0275\u0275text(209, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(212, " + ");
-    \u0275\u0275elementStart(213, "kbd");
-    \u0275\u0275text(214, "s");
+    \u0275\u0275text(210, " + ");
+    \u0275\u0275elementStart(211, "kbd");
+    \u0275\u0275text(212, "t");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(213, "td");
+    \u0275\u0275text(214, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(215, "td");
-    \u0275\u0275text(216, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(217, "td");
-    \u0275\u0275text(218, "Sets the task as selected and show details");
+    \u0275\u0275text(216, "Adjusts time tracking to an earlier available slot");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(219, "tr")(220, "td")(221, "kbd");
-    \u0275\u0275text(222, "Alt");
+    \u0275\u0275elementStart(217, "tr")(218, "td")(219, "kbd");
+    \u0275\u0275text(220, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(223, " + ");
-    \u0275\u0275elementStart(224, "kbd");
-    \u0275\u0275text(225, "Supr");
+    \u0275\u0275text(221, " + ");
+    \u0275\u0275elementStart(222, "kbd");
+    \u0275\u0275text(223, "s");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(224, "td");
+    \u0275\u0275text(225, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(226, "td");
-    \u0275\u0275text(227, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(228, "td");
-    \u0275\u0275text(229, "Sets status cancelled");
+    \u0275\u0275text(227, "Sets the task as selected and show details");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(230, "tr")(231, "td")(232, "kbd");
-    \u0275\u0275text(233, "Alt");
+    \u0275\u0275elementStart(228, "tr")(229, "td")(230, "kbd");
+    \u0275\u0275text(231, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(234, " + ");
-    \u0275\u0275elementStart(235, "kbd");
-    \u0275\u0275text(236, "b");
+    \u0275\u0275text(232, " + ");
+    \u0275\u0275elementStart(233, "kbd");
+    \u0275\u0275text(234, "Supr");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(235, "td");
+    \u0275\u0275text(236, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(237, "td");
-    \u0275\u0275text(238, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(239, "td");
-    \u0275\u0275text(240, "Moves the task to backlog section");
+    \u0275\u0275text(238, "Sets status cancelled");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(241, "tr")(242, "td")(243, "kbd");
-    \u0275\u0275text(244, "Alt");
+    \u0275\u0275elementStart(239, "tr")(240, "td")(241, "kbd");
+    \u0275\u0275text(242, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(245, " + ");
-    \u0275\u0275elementStart(246, "kbd");
-    \u0275\u0275text(247, "+");
+    \u0275\u0275text(243, " + ");
+    \u0275\u0275elementStart(244, "kbd");
+    \u0275\u0275text(245, "b");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(246, "td");
+    \u0275\u0275text(247, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(248, "td");
-    \u0275\u0275text(249, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(250, "td");
-    \u0275\u0275text(251, "Focus the new task input");
+    \u0275\u0275text(249, "Moves the task to backlog section");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(252, "tr")(253, "td")(254, "kbd");
-    \u0275\u0275text(255, "Alt");
+    \u0275\u0275elementStart(250, "tr")(251, "td")(252, "kbd");
+    \u0275\u0275text(253, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(256, " + ");
-    \u0275\u0275elementStart(257, "kbd");
-    \u0275\u0275text(258, "n");
+    \u0275\u0275text(254, " + ");
+    \u0275\u0275elementStart(255, "kbd");
+    \u0275\u0275text(256, "+");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(257, "td");
+    \u0275\u0275text(258, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(259, "td");
-    \u0275\u0275text(260, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(261, "td");
-    \u0275\u0275text(262, "Adds task to next task listing");
+    \u0275\u0275text(260, "Focus the new task input");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(263, "tr")(264, "td")(265, "kbd");
-    \u0275\u0275text(266, "Alt");
+    \u0275\u0275elementStart(261, "tr")(262, "td")(263, "kbd");
+    \u0275\u0275text(264, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(267, " + ");
-    \u0275\u0275elementStart(268, "kbd");
-    \u0275\u0275text(269, "r");
+    \u0275\u0275text(265, " + ");
+    \u0275\u0275elementStart(266, "kbd");
+    \u0275\u0275text(267, "n");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(268, "td");
+    \u0275\u0275text(269, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(270, "td");
-    \u0275\u0275text(271, "In task");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(272, "td");
-    \u0275\u0275text(273, "Removes task from next task listing");
+    \u0275\u0275text(271, "Adds task to next task listing");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(274, "tr")(275, "td")(276, "kbd");
-    \u0275\u0275text(277, "Shift");
+    \u0275\u0275elementStart(272, "tr")(273, "td")(274, "kbd");
+    \u0275\u0275text(275, "Alt");
     \u0275\u0275elementEnd();
-    \u0275\u0275text(278, " + ");
-    \u0275\u0275elementStart(279, "kbd");
-    \u0275\u0275text(280, "F2");
+    \u0275\u0275text(276, " + ");
+    \u0275\u0275elementStart(277, "kbd");
+    \u0275\u0275text(278, "r");
     \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(279, "td");
+    \u0275\u0275text(280, "In task");
+    \u0275\u0275elementEnd();
     \u0275\u0275elementStart(281, "td");
-    \u0275\u0275text(282, "In task");
+    \u0275\u0275text(282, "Removes task from next task listing");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(283, "tr")(284, "td")(285, "kbd");
+    \u0275\u0275text(286, "Shift");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(283, "td");
-    \u0275\u0275text(284, " Stops other tasks in progress, starts time tracking for current task ");
+    \u0275\u0275text(287, " + ");
+    \u0275\u0275elementStart(288, "kbd");
+    \u0275\u0275text(289, "F2");
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(290, "td");
+    \u0275\u0275text(291, "In task");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(292, "td");
+    \u0275\u0275text(293, " Stops other tasks in progress, starts time tracking for current task ");
     \u0275\u0275elementEnd()()()()();
-    \u0275\u0275element(285, "div", 53);
+    \u0275\u0275element(294, "div", 57);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -71738,6 +71770,11 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275property("checked", ctx_r1.options.optPushStartTimer);
     \u0275\u0275advance();
     \u0275\u0275property("checked", ctx_r1.options.optUseColumnsForRecords);
+    \u0275\u0275advance(4);
+    \u0275\u0275twoWayProperty("ngModel", ctx_r1.options.optGridLayout);
+    \u0275\u0275control();
+    \u0275\u0275advance(5);
+    \u0275\u0275conditional(ctx_r1.options.optGridLanesSupported ? 40 : -1);
     \u0275\u0275advance(2);
     \u0275\u0275twoWayProperty("value", ctx_r1.options.optRecordWidth);
     \u0275\u0275advance(4);
@@ -71745,7 +71782,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275advance(5);
     \u0275\u0275property("checked", ctx_r1.options.optShowIndicatorsTable);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.options.optShowIndicatorsTable ? 43 : -1);
+    \u0275\u0275conditional(ctx_r1.options.optShowIndicatorsTable ? 52 : -1);
   }
 }
 function TasksComponent_Conditional_13_Conditional_6_Template(rf, ctx) {
@@ -71804,7 +71841,7 @@ function TasksComponent_Conditional_13_Conditional_17_Template(rf, ctx) {
     const _r12 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Date Done: ");
-    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275elementStart(2, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_17_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71855,7 +71892,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275elementStart(3, "td");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td")(6, "span", 72);
+    \u0275\u0275elementStart(5, "td")(6, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_6_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -71864,7 +71901,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "td")(10, "span", 72);
+    \u0275\u0275elementStart(9, "td")(10, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_10_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -71984,7 +72021,7 @@ function TasksComponent_Conditional_13_Conditional_21_Template(rf, ctx) {
     const _r16 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Qualifiers: ");
-    \u0275\u0275elementStart(2, "span", 73);
+    \u0275\u0275elementStart(2, "span", 77);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_21_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r16);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72004,7 +72041,7 @@ function TasksComponent_Conditional_13_Conditional_22_Template(rf, ctx) {
     const _r17 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Tags: ");
-    \u0275\u0275elementStart(2, "span", 73);
+    \u0275\u0275elementStart(2, "span", 77);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_22_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r17);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72080,7 +72117,7 @@ function TasksComponent_Conditional_13_Conditional_26_Template(rf, ctx) {
 function TasksComponent_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 5)(1, "img", 70);
+    \u0275\u0275elementStart(0, "div", 5)(1, "img", 74);
     \u0275\u0275listener("click", function TasksComponent_Conditional_13_Template_img_click_1_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72099,7 +72136,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
     \u0275\u0275elementStart(10, "div");
     \u0275\u0275text(11, " Notes: ");
     \u0275\u0275element(12, "br");
-    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 71);
+    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 75);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Template_textarea_blur_14_listener($event) {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72156,7 +72193,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "task", 76);
+    \u0275\u0275element(0, "task", 80);
   }
   if (rf & 2) {
     const t_r21 = ctx.$implicit;
@@ -72168,7 +72205,7 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ct
 function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r19 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 74)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 78)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_14_Conditional_6_For_2_Template_button_click_2_listener() {
       const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72179,8 +72216,8 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 75);
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 76, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(6, "div", 79);
+    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 80, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -72200,12 +72237,12 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
 function TasksComponent_Conditional_14_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 74, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 78, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(1, _c12, ctx_r1.layout === "grid", ctx_r1.layout === "float"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(1, _c12, ctx_r1.options.optGridLayout === "Grid", ctx_r1.options.optGridLayout === "Grid Lanes", ctx_r1.options.optGridLayout === "Float"));
     \u0275\u0275advance();
     \u0275\u0275repeater(ctx_r1.state.backlogTasks);
   }
@@ -72225,7 +72262,7 @@ function TasksComponent_Conditional_14_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_14_Conditional_6_Template, 3, 4, "div", 11);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_14_Conditional_6_Template, 3, 5, "div", 11);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72270,7 +72307,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " - ");
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_15_For_4_Conditional_2_Template, 2, 2, "span");
-    \u0275\u0275elementStart(3, "span", 77);
+    \u0275\u0275elementStart(3, "span", 81);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_15_For_4_Template_span_keyup_3_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72282,7 +72319,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     });
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 78);
+    \u0275\u0275elementStart(5, "span", 82);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_15_For_4_Template_span_blur_5_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72389,7 +72426,7 @@ function TasksComponent_Conditional_24_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_25_For_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 80);
+    \u0275\u0275elementStart(0, "option", 84);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -72406,7 +72443,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
     const _r26 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span", 10);
     \u0275\u0275text(1, " Filter ");
-    \u0275\u0275elementStart(2, "select", 79);
+    \u0275\u0275elementStart(2, "select", 83);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_25_Template_select_ngModelChange_2_listener($event) {
       \u0275\u0275restoreView(_r26);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72418,7 +72455,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 80, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 84, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
@@ -72443,7 +72480,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Conditional_5_Templat
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 83);
+    \u0275\u0275elementStart(2, "span", 87);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72484,7 +72521,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_For_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 74);
+    \u0275\u0275elementStart(0, "div", 78);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_27_For_3_Conditional_1_Template, 6, 4, "div");
     \u0275\u0275elementEnd();
   }
@@ -72500,7 +72537,7 @@ function TasksComponent_Conditional_27_For_5_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 83);
+    \u0275\u0275elementStart(2, "span", 87);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72516,7 +72553,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     const _r34 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275elementStart(2, "span", 103);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72527,7 +72564,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275elementStart(6, "span", 104);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72570,7 +72607,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
     const _r35 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "[");
-    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275elementStart(2, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r35);
       const t_r33 = \u0275\u0275nextContext().$implicit;
@@ -72592,7 +72629,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r36 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 101);
+    \u0275\u0275elementStart(0, "span", 105);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template_span_click_0_listener() {
       \u0275\u0275restoreView(_r36);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -72610,72 +72647,72 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, c
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 89);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
-    \u0275\u0275element(1, "img", 102);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 106);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
-    \u0275\u0275element(1, "img", 103);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 107);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 92);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 93);
-    \u0275\u0275element(1, "img", 104);
+    \u0275\u0275elementStart(0, "span", 97);
+    \u0275\u0275element(1, "img", 108);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
-    \u0275\u0275element(1, "img", 105);
+    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275element(1, "img", 109);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 100);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275elementStart(2, "a", 106);
+    \u0275\u0275elementStart(2, "a", 110);
     \u0275\u0275text(3, "link");
     \u0275\u0275elementEnd()();
   }
@@ -72688,7 +72725,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template(rf, 
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r37 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275elementStart(0, "span", 112);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template_span_click_0_listener() {
       const tag_r38 = \u0275\u0275restoreView(_r37).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(5);
@@ -72705,9 +72742,9 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Templat
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275elementStart(0, "span", 102);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72753,7 +72790,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, 
 function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r32 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 86)(1, "input", 87);
+    \u0275\u0275elementStart(0, "div", 90)(1, "input", 91);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Template_input_click_1_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72762,17 +72799,17 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 88);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 89);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 92);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 93);
-    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 94);
-    \u0275\u0275elementStart(14, "span", 95);
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 92);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 97);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 98);
+    \u0275\u0275elementStart(14, "span", 99);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keyup_14_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72793,8 +72830,8 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     });
     \u0275\u0275text(15);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template, 4, 4, "span", 96);
-    \u0275\u0275elementStart(17, "span", 97);
+    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template, 4, 4, "span", 100);
+    \u0275\u0275elementStart(17, "span", 101);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_17_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72806,7 +72843,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     });
     \u0275\u0275text(18);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template, 4, 0, "span", 98);
+    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template, 4, 0, "span", 102);
     \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template, 2, 0, "span");
@@ -72814,9 +72851,9 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
   }
   if (rf & 2) {
     const t_r33 = ctx.$implicit;
-    const \u0275$index_895_r39 = ctx.$index;
+    const \u0275$index_912_r39 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(28, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(30, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_895_r39 >= 3 && t_r33.tsk_time_history.length === 0));
+    \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(28, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(30, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_912_r39 >= 3 && t_r33.tsk_time_history.length === 0));
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id));
     \u0275\u0275advance();
@@ -72867,7 +72904,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
 function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r30 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 82)(1, "div", 84)(2, "span")(3, "button", 9);
+    \u0275\u0275elementStart(0, "div", 86)(1, "div", 88)(2, "span")(3, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_button_click_3_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72879,7 +72916,7 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     \u0275\u0275text(6);
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_Conditional_7_Template, 4, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 85);
+    \u0275\u0275elementStart(8, "span", 89);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_span_click_8_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72887,8 +72924,8 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     });
     \u0275\u0275text(9, " \u{1F4CC} ");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 75);
-    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 23, 43, "div", 86, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(10, "div", 79);
+    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 23, 43, "div", 90, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -72913,15 +72950,15 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 11)(1, "div", 81);
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 74, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "div", 11)(1, "div", 85);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 78, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 82, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 86, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(1, _c12, ctx_r1.layout === "grid", ctx_r1.layout === "float"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(1, _c12, ctx_r1.options.optGridLayout === "Grid", ctx_r1.options.optGridLayout === "Grid Lanes", ctx_r1.options.optGridLayout === "Float"));
     \u0275\u0275advance(2);
     \u0275\u0275repeater(ctx_r1.state.openTasks);
     \u0275\u0275advance(2);
@@ -72972,8 +73009,8 @@ function TasksComponent_Conditional_34_Conditional_5_For_5_Template(rf, ctx) {
   }
   if (rf & 2) {
     const c_r41 = ctx.$implicit;
-    const \u0275$index_1050_r42 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1050_r42 < 3));
+    const \u0275$index_1067_r42 = ctx.$index;
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1067_r42 < 3));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", c_r41, " ");
   }
@@ -73000,11 +73037,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_For_7_Template(rf, ct
   }
   if (rf & 2) {
     const v_r43 = ctx.$implicit;
-    const \u0275$index_1073_r44 = ctx.$index;
+    const \u0275$index_1090_r44 = ctx.$index;
     const indicator_r45 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1073_r44 < 3));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1090_r44 < 3));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1073_r44 > 0 && (indicator_r45.values[\u0275$index_1073_r44 - 1] < indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1073_r44 - 1] > indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1073_r44 > 0 && (indicator_r45.values[\u0275$index_1073_r44 - 1] > indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1073_r44 - 1] < indicator_r45.values[\u0275$index_1073_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1090_r44 > 0 && (indicator_r45.values[\u0275$index_1090_r44 - 1] < indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1090_r44 - 1] > indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1090_r44 > 0 && (indicator_r45.values[\u0275$index_1090_r44 - 1] > indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1090_r44 - 1] < indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", v_r43, " ");
   }
@@ -73038,11 +73075,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_34_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "table", 109)(1, "tr")(2, "td");
+    \u0275\u0275elementStart(0, "table", 113)(1, "tr")(2, "td");
     \u0275\u0275text(3, "Indicator");
     \u0275\u0275elementEnd();
     \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_34_Conditional_5_For_5_Template, 2, 4, "td", 11, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementStart(6, "td", 110);
+    \u0275\u0275elementStart(6, "td", 114);
     \u0275\u0275text(7, "%");
     \u0275\u0275elementEnd()();
     \u0275\u0275repeaterCreate(8, TasksComponent_Conditional_34_Conditional_5_For_9_Template, 10, 4, "tr", null, \u0275\u0275repeaterTrackByIdentity);
@@ -73068,7 +73105,7 @@ function TasksComponent_Conditional_34_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 109);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 113);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73082,7 +73119,7 @@ function TasksComponent_Conditional_34_Template(rf, ctx) {
 function TasksComponent_Conditional_36_For_4_div_8_Template(rf, ctx) {
   if (rf & 1) {
     const _r47 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 117)(1, "button", 4);
+    \u0275\u0275elementStart(0, "div", 121)(1, "button", 4);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_8_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73090,7 +73127,7 @@ function TasksComponent_Conditional_36_For_4_div_8_Template(rf, ctx) {
     });
     \u0275\u0275text(2, "Clear listing");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "button", 118);
+    \u0275\u0275elementStart(3, "button", 122);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_8_Template_button_click_3_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73098,7 +73135,7 @@ function TasksComponent_Conditional_36_For_4_div_8_Template(rf, ctx) {
     });
     \u0275\u0275text(4, " Stop and clear in-progress tasks ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "button", 118);
+    \u0275\u0275elementStart(5, "button", 122);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_8_Template_button_click_5_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73127,7 +73164,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "hr", 120);
+    \u0275\u0275element(0, "hr", 124);
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template(rf, ctx) {
@@ -73135,7 +73172,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_
     const _r50 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275elementStart(2, "span", 103);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r50);
       const t_r49 = \u0275\u0275nextContext(2).$implicit;
@@ -73146,7 +73183,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275elementStart(6, "span", 104);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Conditional_5_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r50);
       const t_r49 = \u0275\u0275nextContext(2).$implicit;
@@ -73197,7 +73234,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_
     const _r51 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275elementStart(2, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r51);
       const t_r49 = \u0275\u0275nextContext().$implicit;
@@ -73218,49 +73255,49 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 89);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
-    \u0275\u0275element(1, "img", 102);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 106);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
-    \u0275\u0275element(1, "img", 103);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 107);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 92);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
@@ -73268,7 +73305,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r52 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275elementStart(0, "span", 112);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template_span_click_0_listener() {
       const tag_r53 = \u0275\u0275restoreView(_r52).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
@@ -73285,8 +73322,8 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73332,10 +73369,10 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r48 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 119);
+    \u0275\u0275elementStart(0, "div", 123);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_Template, 1, 0, "hr");
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 120);
-    \u0275\u0275elementStart(3, "input", 87);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 124);
+    \u0275\u0275elementStart(3, "input", 91);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_input_click_3_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73348,7 +73385,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_7_Template, 6, 14);
     \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_8_Template, 6, 4, "span");
-    \u0275\u0275elementStart(9, "span", 101);
+    \u0275\u0275elementStart(9, "span", 105);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_click_9_listener() {
       \u0275\u0275restoreView(_r48);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73356,14 +73393,14 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     });
     \u0275\u0275text(10);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template, 2, 0, "span", 89);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_12_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_13_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 92);
-    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 91);
-    \u0275\u0275elementStart(18, "span", 121);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_12_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_13_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 95);
+    \u0275\u0275elementStart(18, "span", 125);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_keyup_18_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73380,7 +73417,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275text(19);
     \u0275\u0275elementEnd();
     \u0275\u0275text(20, "\xA0");
-    \u0275\u0275elementStart(21, "span", 122);
+    \u0275\u0275elementStart(21, "span", 126);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_blur_21_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73391,7 +73428,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275elementStart(23, "span");
     \u0275\u0275text(24);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(25, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_Template, 3, 0, "span", 98);
+    \u0275\u0275conditionalCreate(25, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_25_Template, 3, 0, "span", 102);
     \u0275\u0275conditionalCreate(26, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_26_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(27, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_27_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template, 2, 0, "span");
@@ -73399,14 +73436,14 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
   }
   if (rf & 2) {
     const t_r49 = ctx.$implicit;
-    const \u0275$index_1132_r54 = ctx.$index;
+    const \u0275$index_1149_r54 = ctx.$index;
     const item_r55 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275property("data-id", \u0275\u0275interpolate(t_r49.tsk_id))("ngClass", \u0275\u0275pureFunction1(32, _c222, t_r49.tsk_ctg_in_process === 2));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1132_r54 > 0 && item_r55.tasks[\u0275$index_1132_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
+    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1149_r54 > 0 && item_r55.tasks[\u0275$index_1149_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1132_r54 > 0 && \u0275$index_1132_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
+    \u0275\u0275conditional(\u0275$index_1149_r54 > 0 && \u0275$index_1149_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id));
     \u0275\u0275advance();
@@ -73457,7 +73494,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
 function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 29, 50, "div", 119, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 29, 50, "div", 123, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73471,7 +73508,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
 function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r46 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 112)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73480,7 +73517,7 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(5, "button", 113);
+    \u0275\u0275elementStart(5, "button", 117);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_5_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73489,11 +73526,11 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(6, "strong");
     \u0275\u0275text(7);
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(8, TasksComponent_Conditional_36_For_4_div_8_Template, 7, 0, "div", 114);
+    \u0275\u0275template(8, TasksComponent_Conditional_36_For_4_div_8_Template, 7, 0, "div", 118);
     \u0275\u0275text(9);
-    \u0275\u0275element(10, "time-format", 115);
+    \u0275\u0275element(10, "time-format", 119);
     \u0275\u0275text(11, " | ");
-    \u0275\u0275element(12, "time-format", 116);
+    \u0275\u0275element(12, "time-format", 120);
     \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_36_For_4_Conditional_13_Template, 2, 1, "span");
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_Template, 3, 3, "div", 11);
@@ -73524,8 +73561,8 @@ function TasksComponent_Conditional_36_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 14);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 111);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 112, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(2, "div", 115);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 116, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73539,7 +73576,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_C
     const _r59 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275elementStart(2, "span", 103);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r59);
       const t_r58 = \u0275\u0275nextContext(2).$implicit;
@@ -73550,7 +73587,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_C
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275elementStart(6, "span", 104);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r59);
       const t_r58 = \u0275\u0275nextContext(2).$implicit;
@@ -73593,7 +73630,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_T
     const _r60 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 72);
+    \u0275\u0275elementStart(2, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r60);
       const t_r58 = \u0275\u0275nextContext().$implicit;
@@ -73614,49 +73651,49 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_T
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 89);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 90);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
-    \u0275\u0275element(1, "img", 102);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 106);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
-    \u0275\u0275element(1, "img", 103);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 107);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 92);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 91);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
@@ -73664,7 +73701,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r61 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275elementStart(0, "span", 112);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
       const tag_r62 = \u0275\u0275restoreView(_r61).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
@@ -73681,8 +73718,8 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73728,7 +73765,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r57 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 123)(1, "input", 87);
+    \u0275\u0275elementStart(0, "div", 127)(1, "input", 91);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73737,7 +73774,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275elementStart(4, "span", 101);
+    \u0275\u0275elementStart(4, "span", 105);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
       \u0275\u0275restoreView(_r57);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73745,14 +73782,14 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     });
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 89);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 90);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 91);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 92);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 91);
-    \u0275\u0275elementStart(13, "span", 121);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 95);
+    \u0275\u0275elementStart(13, "span", 125);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73769,7 +73806,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275text(14);
     \u0275\u0275elementEnd();
     \u0275\u0275text(15, "\xA0");
-    \u0275\u0275elementStart(16, "span", 122);
+    \u0275\u0275elementStart(16, "span", 126);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73780,7 +73817,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275elementStart(18, "span");
     \u0275\u0275text(19);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 98);
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 102);
     \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
@@ -73836,7 +73873,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
 function TasksComponent_Conditional_37_For_4_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 24, 37, "div", 123, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 24, 37, "div", 127, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73850,7 +73887,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_Template(rf, ctx) {
 function TasksComponent_Conditional_37_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r56 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 112)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r56);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73860,7 +73897,7 @@ function TasksComponent_Conditional_37_For_4_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 115);
+    \u0275\u0275element(6, "time-format", 119);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
@@ -73882,8 +73919,8 @@ function TasksComponent_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 15);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 111);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 112, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(2, "div", 115);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 116, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73992,7 +74029,7 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditi
     const _r70 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 99);
+    \u0275\u0275elementStart(2, "span", 103);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r70);
       const item_r69 = \u0275\u0275nextContext(3).$implicit;
@@ -74003,7 +74040,7 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditi
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 100);
+    \u0275\u0275elementStart(6, "span", 104);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r70);
       const item_r69 = \u0275\u0275nextContext(3).$implicit;
@@ -74051,7 +74088,7 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditi
 function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     const _r68 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "input", 124);
+    \u0275\u0275elementStart(0, "div")(1, "input", 128);
     \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_input_click_1_listener($event) {
       \u0275\u0275restoreView(_r68);
       const item_r69 = \u0275\u0275nextContext().$implicit;
@@ -74062,7 +74099,7 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Templat
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275elementStart(3, "span");
     \u0275\u0275text(4, "(Done at: ");
-    \u0275\u0275elementStart(5, "span", 72);
+    \u0275\u0275elementStart(5, "span", 76);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_span_keyup_5_listener($event) {
       \u0275\u0275restoreView(_r68);
       const item_r69 = \u0275\u0275nextContext().$implicit;
@@ -74113,10 +74150,10 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const \u0275$index_1434_r71 = ctx.$index;
+    const \u0275$index_1451_r71 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1434_r71 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
+    \u0275\u0275conditional(\u0275$index_1451_r71 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
   }
 }
 function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template(rf, ctx) {
@@ -74183,7 +74220,7 @@ function TasksComponent_Conditional_39_Template(rf, ctx) {
 function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "task", 125);
+    \u0275\u0275element(1, "task", 129);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74200,10 +74237,10 @@ function TasksComponent_Conditional_40_Conditional_6_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const \u0275$index_1497_r75 = ctx.$index;
+    const \u0275$index_1514_r75 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1497_r75 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
+    \u0275\u0275conditional(\u0275$index_1514_r75 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
   }
 }
 function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template(rf, ctx) {
@@ -74270,7 +74307,7 @@ function TasksComponent_Conditional_40_Template(rf, ctx) {
 function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r79 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 108);
+    \u0275\u0275elementStart(0, "span", 112);
     \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template_span_click_0_listener() {
       const tag_r80 = \u0275\u0275restoreView(_r79).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
@@ -74287,8 +74324,8 @@ function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_
 }
 function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 107, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74311,7 +74348,7 @@ function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template(rf, c
     \u0275\u0275elementStart(6, "span");
     \u0275\u0275text(7);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 98);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 102);
     \u0275\u0275elementStart(9, "button", 4);
     \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template_button_click_9_listener() {
       const item_r81 = \u0275\u0275restoreView(_r78).$implicit;
@@ -74483,7 +74520,7 @@ function TasksComponent_Conditional_43_Conditional_5_For_14_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "canvas", 126);
+    \u0275\u0275element(0, "canvas", 130);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(3);
@@ -74509,7 +74546,7 @@ function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_43_Conditional_5_For_14_Template, 11, 5, "tr", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 126);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 130);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74673,7 +74710,7 @@ function TasksComponent_Conditional_45_Template(rf, ctx) {
 function TasksComponent_Conditional_46_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r93 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 134);
+    \u0275\u0275elementStart(0, "span", 138);
     \u0275\u0275listener("click", function TasksComponent_Conditional_46_Conditional_4_Template_span_click_0_listener($event) {
       \u0275\u0275restoreView(_r93);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -74686,7 +74723,7 @@ function TasksComponent_Conditional_46_Conditional_4_Template(rf, ctx) {
 function TasksComponent_Conditional_46_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r94 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 135);
+    \u0275\u0275elementStart(0, "span", 139);
     \u0275\u0275listener("click", function TasksComponent_Conditional_46_Conditional_5_Template_span_click_0_listener($event) {
       \u0275\u0275restoreView(_r94);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -74702,10 +74739,10 @@ function TasksComponent_Conditional_46_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "div", 18)(1, "div");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 127);
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_46_Conditional_4_Template, 2, 0, "span", 128);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_46_Conditional_5_Template, 2, 0, "span", 129);
-    \u0275\u0275elementStart(6, "span", 130);
+    \u0275\u0275elementStart(3, "div", 131);
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_46_Conditional_4_Template, 2, 0, "span", 132);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_46_Conditional_5_Template, 2, 0, "span", 133);
+    \u0275\u0275elementStart(6, "span", 134);
     \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_6_listener() {
       \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -74713,7 +74750,7 @@ function TasksComponent_Conditional_46_Template(rf, ctx) {
     });
     \u0275\u0275text(7, "\u21E4");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 131);
+    \u0275\u0275elementStart(8, "span", 135);
     \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_8_listener() {
       \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -74721,7 +74758,7 @@ function TasksComponent_Conditional_46_Template(rf, ctx) {
     });
     \u0275\u0275text(9, "\u270E");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "span", 132);
+    \u0275\u0275elementStart(10, "span", 136);
     \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_10_listener() {
       \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -74729,7 +74766,7 @@ function TasksComponent_Conditional_46_Template(rf, ctx) {
     });
     \u0275\u0275text(11, "\u2612");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "span", 133);
+    \u0275\u0275elementStart(12, "span", 137);
     \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_12_listener() {
       \u0275\u0275restoreView(_r92);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -74819,7 +74856,8 @@ var TasksComponent = class _TasksComponent {
     optHideScrollbarsInRecord: false,
     optShowTaskToolbar: false,
     optUseColumnsForRecords: false,
-    optPushStartTimer: false
+    optPushStartTimer: false,
+    optGridLayout: "Float"
   };
   timerModeRemaining = false;
   comparisonData;
@@ -74830,8 +74868,6 @@ var TasksComponent = class _TasksComponent {
     element: null
   };
   events = [];
-  layout = "float";
-  // possible values: grid, float
   selectedTask = null;
   selectedRecord = [];
   differenceLastClosedToRealTime = 0;
@@ -74953,6 +74989,13 @@ var TasksComponent = class _TasksComponent {
     this.services.dateUtils = dateUtils;
     if (typeof window.localStorage !== "undefined") {
       this.options = __spreadValues(__spreadValues({}, this.defaultOptions), JSON.parse(localStorage.getItem("Options")));
+    }
+    try {
+      const cssSupports = typeof CSS !== "undefined" && CSS.supports;
+      const gridLanesSupported = !!cssSupports && (CSS.supports("grid-template-columns: masonry") || CSS.supports("grid-template-rows: masonry") || CSS.supports("grid-template-rows: subgrid"));
+      this.options.optGridLanesSupported = gridLanesSupported;
+    } catch (e2) {
+      this.options.optGridLanesSupported = false;
     }
     this.nextTasks = [];
     this.pinnedTasks = [];
@@ -76620,6 +76663,11 @@ var TasksComponent = class _TasksComponent {
     this.options[optionId] = checked;
     this.saveOptionsToLocalStorage();
   }
+  onGridLayoutChange(value) {
+    this.options.optGridLayout = value;
+    this.saveOptionsToLocalStorage();
+  }
+  // grid-lanes styles now live in tasks.css; no runtime injection required
   toggleOption(optionName) {
     this.options[optionName] = !this.options[optionName];
     this.saveOptionsToLocalStorage();
@@ -77065,7 +77113,7 @@ var TasksComponent = class _TasksComponent {
   static \u0275fac = function TasksComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _TasksComponent)(\u0275\u0275directiveInject(TasksCore), \u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(TaskIndicator), \u0275\u0275directiveInject(DateCommon), \u0275\u0275directiveInject(NotificationService), \u0275\u0275directiveInject(Title));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 48, vars: 41, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px", 4, "ngIf"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "next-options", 2, "margin-top", "8px"], [2, "margin-left", "8px", 3, "click"], [3, "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 48, vars: 41, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], [3, "ngModelChange", "change", "ngModel"], ["value", "Float"], ["value", "Grid"], ["value", "Grid Lanes"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px", 4, "ngIf"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "next-options", 2, "margin-top", "8px"], [2, "margin-left", "8px", 3, "click"], [3, "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", null, 0);
       \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_2_Template, 1, 1, "input", 1);
@@ -77087,7 +77135,7 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_10_Template, 2, 1, "button");
       \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_11_Template, 7, 2, "div");
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_12_Template, 286, 27, "div");
+      \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_12_Template, 295, 29, "div");
       \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_13_Template, 27, 14, "div", 5);
       \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_14_Template, 7, 4, "div", 6);
       \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_15_Template, 6, 0, "div", 7);
@@ -77106,7 +77154,7 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275conditionalCreate(25, TasksComponent_Conditional_25_Template, 5, 1, "span", 10);
       \u0275\u0275elementEnd();
       \u0275\u0275conditionalCreate(26, TasksComponent_Conditional_26_Template, 3, 0, "div");
-      \u0275\u0275conditionalCreate(27, TasksComponent_Conditional_27_Template, 6, 4, "div", 11);
+      \u0275\u0275conditionalCreate(27, TasksComponent_Conditional_27_Template, 6, 5, "div", 11);
       \u0275\u0275elementEnd();
       \u0275\u0275element(28, "br");
       \u0275\u0275elementStart(29, "div", 12);
@@ -77203,7 +77251,7 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275advance();
       \u0275\u0275property("task", ctx.selectedTask)("groupTasks", ctx.selectedRecord)("handlers", ctx.handlersForTaskToolbar)("options", \u0275\u0275pureFunction0(40, _c06));
     }
-  }, dependencies: [NgClass, NgIf, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, BaseChartDirective, StopwatchComponent, TaskComponent, TaskToolbarComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n/*# sourceMappingURL=tasks-BQNOMA3O.css.map */'], changeDetection: 1 });
+  }, dependencies: [NgClass, NgIf, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, BaseChartDirective, StopwatchComponent, TaskComponent, TaskToolbarComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%] {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%]   .task-record[_ngcontent-%COMP%] {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */'], changeDetection: 1 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TasksComponent, [{
@@ -77422,6 +77470,19 @@ var TasksComponent = class _TasksComponent {
     [checked]="options.optUseColumnsForRecords"\r
     (onClick)="toggleOptionById($event)"\r
   ></checkbox-option>\r
+  <div>\r
+    <label>Grid Layout</label>\r
+    <select\r
+      [(ngModel)]="options.optGridLayout"\r
+      (change)="onGridLayoutChange($event.target.value)"\r
+    >\r
+      <option value="Float">Float</option>\r
+      <option value="Grid">Grid</option>\r
+      @if (options.optGridLanesSupported) {\r
+      <option value="Grid Lanes">Grid Lanes</option>\r
+      }\r
+    </select>\r
+  </div>\r
   <div>\r
     <input\r
       type="number"\r
@@ -77840,8 +77901,9 @@ var TasksComponent = class _TasksComponent {
   <div\r
     [ngClass]="{\r
       'task-open-task-list-container': true,\r
-      'task-open-task-list-container--grid': layout === 'grid',\r
-      'task-open-task-list-container--float': layout === 'float'\r
+      'task-open-task-list-container--grid': options.optGridLayout === 'Grid',\r
+      'task-open-task-list-container--grid-lanes': options.optGridLayout === 'Grid Lanes',\r
+      'task-open-task-list-container--float': options.optGridLayout === 'Float'\r
     }"\r
   >\r
     @for (item of state.backlogTasks; track item) {\r
@@ -77999,8 +78061,9 @@ var TasksComponent = class _TasksComponent {
   <div\r
     [ngClass]="{\r
       'task-open-task-list-container': true,\r
-      'task-open-task-list-container--grid': layout === 'grid',\r
-      'task-open-task-list-container--float': layout === 'float'\r
+      'task-open-task-list-container--grid': options.optGridLayout === 'Grid',\r
+      'task-open-task-list-container--grid-lanes': options.optGridLayout === 'Grid Lanes',\r
+      'task-open-task-list-container--float': options.optGridLayout === 'Float'\r
     }"\r
   >\r
     <div class="task-record-collapsed display-block">\r
@@ -79126,7 +79189,7 @@ var TasksComponent = class _TasksComponent {
     optShowTaskToolbar: true\r
   }"\r
 ></task-toolbar>\r
-`, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n/*# sourceMappingURL=tasks-BQNOMA3O.css.map */\n'] }]
+`, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes .task-record {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */\n'] }]
   }], () => [{ type: TasksCore }, { type: SyncAPI }, { type: TaskIndicator }, { type: DateCommon }, { type: NotificationService }, { type: Title }], null);
 })();
 (() => {
@@ -100471,7 +100534,7 @@ var ActivityComponent = class _ActivityComponent {
       \u0275\u0275advance(7);
       \u0275\u0275repeater(ctx.timelineGroup().days);
     }
-  }, dependencies: [NgClass, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, TaskComponent, TimelineComponent, DatePipe], styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n\n/* src/app/task/task.css */\nspan.task-badge-status-backlog {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n\n/* src/app/activities/activity.css */\n.card-group-header {\n  margin: 10px 0;\n  padding: 10px 0;\n  font-size: 1.4rem;\n  border-bottom: 1px solid black;\n}\n.card-group-header-title {\n  font-size: 1.4rem;\n}\n.card-group-header-subtitle {\n  font-size: 1rem;\n  margin-left: 10px;\n}\n.card-group-container {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.activity-card-header {\n  border-bottom: 1px solid lightgray;\n  padding-bottom: 8px;\n  margin: 0 0 5px 0;\n}\n.card-group-item:first-child {\n  page-break-inside: initial;\n  page-break-before: initial;\n}\n.card-group-item,\n.card-item-container,\n.timeline-list {\n  page-break-inside: avoid;\n  page-break-before: auto;\n}\n@media print {\n  body {\n    font-size: 9px !important;\n  }\n  .card-list {\n    display: block;\n  }\n  .card-item-container {\n    width: 100%;\n  }\n  task input[type=checkbox] {\n    appearance: none;\n  }\n  task input[type=checkbox]::before {\n    content: "-";\n  }\n  .task-eta,\n  .task-tags,\n  .task-record-name,\n  .activity-card-options-group {\n    display: none;\n  }\n  task .task-in-process {\n    font-style: normal;\n    font-weight: normal;\n    color: initial;\n  }\n  task .task-item-in-process {\n    background: initial;\n    border: none;\n  }\n  span.task-unexpected,\n  .task-q-progressed,\n  .task-directions,\n  .task-highlighted {\n    background-color: initial !important;\n  }\n  task .task-qualifier-urgent,\n  .task-badge-status-backlog {\n    display: none !important;\n  }\n}\n.activity-health-undetermined {\n  background-color: black;\n}\n.activity-health-green {\n  background-color: #87e187;\n}\n.activity-health-yellow {\n  background-color: yellow;\n}\n.activity-health-orange {\n  background-color: #ffbc00;\n}\n.activity-health-red {\n  background-color: red;\n}\n.status-block {\n  margin-right: 5px;\n}\nsummary {\n  display: block;\n}\nsummary:hover {\n  cursor: pointer;\n}\n.timeline-list h3 {\n  font-weight: bold;\n}\n.timeline-list .timeline-list-activity {\n  border: 1px solid #818181;\n  padding: 10px 0;\n  margin: 10px 0;\n  border-radius: 10px;\n}\n.timeline-list .timeline-list-activity-header {\n  font-weight: bold;\n  margin: 5px 0px 10px 20px;\n}\n.timeline-list .timeline-list-item {\n  margin-left: 40px;\n}\n@media (min-width: 504px) and (max-width: 1024px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n.activity-details {\n  border: 1px solid black;\n  padding: 10px;\n}\n/*# sourceMappingURL=activity-Z3AFJZB3.css.map */\n'], encapsulation: 2, changeDetection: 1 });
+  }, dependencies: [NgClass, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, TaskComponent, TimelineComponent, DatePipe], styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes .task-record {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n\n/* src/app/task/task.css */\nspan.task-badge-status-backlog {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n\n/* src/app/activities/activity.css */\n.card-group-header {\n  margin: 10px 0;\n  padding: 10px 0;\n  font-size: 1.4rem;\n  border-bottom: 1px solid black;\n}\n.card-group-header-title {\n  font-size: 1.4rem;\n}\n.card-group-header-subtitle {\n  font-size: 1rem;\n  margin-left: 10px;\n}\n.card-group-container {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.activity-card-header {\n  border-bottom: 1px solid lightgray;\n  padding-bottom: 8px;\n  margin: 0 0 5px 0;\n}\n.card-group-item:first-child {\n  page-break-inside: initial;\n  page-break-before: initial;\n}\n.card-group-item,\n.card-item-container,\n.timeline-list {\n  page-break-inside: avoid;\n  page-break-before: auto;\n}\n@media print {\n  body {\n    font-size: 9px !important;\n  }\n  .card-list {\n    display: block;\n  }\n  .card-item-container {\n    width: 100%;\n  }\n  task input[type=checkbox] {\n    appearance: none;\n  }\n  task input[type=checkbox]::before {\n    content: "-";\n  }\n  .task-eta,\n  .task-tags,\n  .task-record-name,\n  .activity-card-options-group {\n    display: none;\n  }\n  task .task-in-process {\n    font-style: normal;\n    font-weight: normal;\n    color: initial;\n  }\n  task .task-item-in-process {\n    background: initial;\n    border: none;\n  }\n  span.task-unexpected,\n  .task-q-progressed,\n  .task-directions,\n  .task-highlighted {\n    background-color: initial !important;\n  }\n  task .task-qualifier-urgent,\n  .task-badge-status-backlog {\n    display: none !important;\n  }\n}\n.activity-health-undetermined {\n  background-color: black;\n}\n.activity-health-green {\n  background-color: #87e187;\n}\n.activity-health-yellow {\n  background-color: yellow;\n}\n.activity-health-orange {\n  background-color: #ffbc00;\n}\n.activity-health-red {\n  background-color: red;\n}\n.status-block {\n  margin-right: 5px;\n}\nsummary {\n  display: block;\n}\nsummary:hover {\n  cursor: pointer;\n}\n.timeline-list h3 {\n  font-weight: bold;\n}\n.timeline-list .timeline-list-activity {\n  border: 1px solid #818181;\n  padding: 10px 0;\n  margin: 10px 0;\n  border-radius: 10px;\n}\n.timeline-list .timeline-list-activity-header {\n  font-weight: bold;\n  margin: 5px 0px 10px 20px;\n}\n.timeline-list .timeline-list-item {\n  margin-left: 40px;\n}\n@media (min-width: 504px) and (max-width: 1024px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n.activity-details {\n  border: 1px solid black;\n  padding: 10px;\n}\n/*# sourceMappingURL=activity-XFYI37L6.css.map */\n'], encapsulation: 2, changeDetection: 1 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ActivityComponent, [{
@@ -100795,7 +100858,7 @@ var ActivityComponent = class _ActivityComponent {
     }
   </div>
 </div>
-`, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n\n/* src/app/task/task.css */\nspan.task-badge-status-backlog {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n\n/* src/app/activities/activity.css */\n.card-group-header {\n  margin: 10px 0;\n  padding: 10px 0;\n  font-size: 1.4rem;\n  border-bottom: 1px solid black;\n}\n.card-group-header-title {\n  font-size: 1.4rem;\n}\n.card-group-header-subtitle {\n  font-size: 1rem;\n  margin-left: 10px;\n}\n.card-group-container {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.activity-card-header {\n  border-bottom: 1px solid lightgray;\n  padding-bottom: 8px;\n  margin: 0 0 5px 0;\n}\n.card-group-item:first-child {\n  page-break-inside: initial;\n  page-break-before: initial;\n}\n.card-group-item,\n.card-item-container,\n.timeline-list {\n  page-break-inside: avoid;\n  page-break-before: auto;\n}\n@media print {\n  body {\n    font-size: 9px !important;\n  }\n  .card-list {\n    display: block;\n  }\n  .card-item-container {\n    width: 100%;\n  }\n  task input[type=checkbox] {\n    appearance: none;\n  }\n  task input[type=checkbox]::before {\n    content: "-";\n  }\n  .task-eta,\n  .task-tags,\n  .task-record-name,\n  .activity-card-options-group {\n    display: none;\n  }\n  task .task-in-process {\n    font-style: normal;\n    font-weight: normal;\n    color: initial;\n  }\n  task .task-item-in-process {\n    background: initial;\n    border: none;\n  }\n  span.task-unexpected,\n  .task-q-progressed,\n  .task-directions,\n  .task-highlighted {\n    background-color: initial !important;\n  }\n  task .task-qualifier-urgent,\n  .task-badge-status-backlog {\n    display: none !important;\n  }\n}\n.activity-health-undetermined {\n  background-color: black;\n}\n.activity-health-green {\n  background-color: #87e187;\n}\n.activity-health-yellow {\n  background-color: yellow;\n}\n.activity-health-orange {\n  background-color: #ffbc00;\n}\n.activity-health-red {\n  background-color: red;\n}\n.status-block {\n  margin-right: 5px;\n}\nsummary {\n  display: block;\n}\nsummary:hover {\n  cursor: pointer;\n}\n.timeline-list h3 {\n  font-weight: bold;\n}\n.timeline-list .timeline-list-activity {\n  border: 1px solid #818181;\n  padding: 10px 0;\n  margin: 10px 0;\n  border-radius: 10px;\n}\n.timeline-list .timeline-list-activity-header {\n  font-weight: bold;\n  margin: 5px 0px 10px 20px;\n}\n.timeline-list .timeline-list-item {\n  margin-left: 40px;\n}\n@media (min-width: 504px) and (max-width: 1024px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n.activity-details {\n  border: 1px solid black;\n  padding: 10px;\n}\n/*# sourceMappingURL=activity-Z3AFJZB3.css.map */\n'] }]
+`, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes .task-record {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n\n/* src/app/task/task.css */\nspan.task-badge-status-backlog {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n\n/* src/app/activities/activity.css */\n.card-group-header {\n  margin: 10px 0;\n  padding: 10px 0;\n  font-size: 1.4rem;\n  border-bottom: 1px solid black;\n}\n.card-group-header-title {\n  font-size: 1.4rem;\n}\n.card-group-header-subtitle {\n  font-size: 1rem;\n  margin-left: 10px;\n}\n.card-group-container {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.activity-card-header {\n  border-bottom: 1px solid lightgray;\n  padding-bottom: 8px;\n  margin: 0 0 5px 0;\n}\n.card-group-item:first-child {\n  page-break-inside: initial;\n  page-break-before: initial;\n}\n.card-group-item,\n.card-item-container,\n.timeline-list {\n  page-break-inside: avoid;\n  page-break-before: auto;\n}\n@media print {\n  body {\n    font-size: 9px !important;\n  }\n  .card-list {\n    display: block;\n  }\n  .card-item-container {\n    width: 100%;\n  }\n  task input[type=checkbox] {\n    appearance: none;\n  }\n  task input[type=checkbox]::before {\n    content: "-";\n  }\n  .task-eta,\n  .task-tags,\n  .task-record-name,\n  .activity-card-options-group {\n    display: none;\n  }\n  task .task-in-process {\n    font-style: normal;\n    font-weight: normal;\n    color: initial;\n  }\n  task .task-item-in-process {\n    background: initial;\n    border: none;\n  }\n  span.task-unexpected,\n  .task-q-progressed,\n  .task-directions,\n  .task-highlighted {\n    background-color: initial !important;\n  }\n  task .task-qualifier-urgent,\n  .task-badge-status-backlog {\n    display: none !important;\n  }\n}\n.activity-health-undetermined {\n  background-color: black;\n}\n.activity-health-green {\n  background-color: #87e187;\n}\n.activity-health-yellow {\n  background-color: yellow;\n}\n.activity-health-orange {\n  background-color: #ffbc00;\n}\n.activity-health-red {\n  background-color: red;\n}\n.status-block {\n  margin-right: 5px;\n}\nsummary {\n  display: block;\n}\nsummary:hover {\n  cursor: pointer;\n}\n.timeline-list h3 {\n  font-weight: bold;\n}\n.timeline-list .timeline-list-activity {\n  border: 1px solid #818181;\n  padding: 10px 0;\n  margin: 10px 0;\n  border-radius: 10px;\n}\n.timeline-list .timeline-list-activity-header {\n  font-weight: bold;\n  margin: 5px 0px 10px 20px;\n}\n.timeline-list .timeline-list-item {\n  margin-left: 40px;\n}\n@media (min-width: 504px) and (max-width: 1024px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n.activity-details {\n  border: 1px solid black;\n  padding: 10px;\n}\n/*# sourceMappingURL=activity-XFYI37L6.css.map */\n'] }]
   }], () => [{ type: ActivityService }, { type: TimelineService }, { type: KeyvalService }, { type: TasksCore }, { type: NotificationService }, { type: Title }, { type: SyncAPI }, { type: AuthenticationService }], { selectedProject: [{ type: Input, args: [{ isSignal: true, alias: "selectedProject", required: false }] }, { type: Output, args: ["selectedProjectChange"] }], selectedLayout: [{ type: Input, args: [{ isSignal: true, alias: "selectedLayout", required: false }] }, { type: Output, args: ["selectedLayoutChange"] }] });
 })();
 (() => {
@@ -126272,4 +126335,4 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# sourceMappingURL=main-JNSYZMBD.js.map
+//# sourceMappingURL=main-ROMXNVKH.js.map

@@ -100,6 +100,7 @@ export class TasksComponent implements OnInit {
     optShowTaskToolbar: false,
     optUseColumnsForRecords: false,
     optPushStartTimer: false,
+    optGridLayout: "Float",
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -113,7 +114,7 @@ export class TasksComponent implements OnInit {
     element: null,
   };
   public events: any[] = [];
-  public layout: string = "float"; // possible values: grid, float
+  
   public selectedTask: Task = null;
   public selectedRecord: Task[] = [];
   public differenceLastClosedToRealTime: number = 0;
@@ -266,6 +267,21 @@ export class TasksComponent implements OnInit {
         ...this.defaultOptions,
         ...JSON.parse(localStorage.getItem("Options")),
       };
+    }
+
+    // detect support for experimental "grid-lanes" / masonry-like grid
+    try {
+      const cssSupports = typeof CSS !== "undefined" && (CSS as any).supports;
+      const gridLanesSupported =
+        !!cssSupports &&
+        ((CSS as any).supports("grid-template-columns: masonry") ||
+          (CSS as any).supports("grid-template-rows: masonry") ||
+          (CSS as any).supports("grid-template-rows: subgrid"));
+
+      // expose support flag to template so option only appears when available
+      this.options.optGridLanesSupported = gridLanesSupported;
+    } catch (e) {
+      this.options.optGridLanesSupported = false;
     }
     this.nextTasks = [];
     this.pinnedTasks = [];
@@ -2907,6 +2923,13 @@ export class TasksComponent implements OnInit {
     this.options[optionId] = checked;
     this.saveOptionsToLocalStorage();
   }
+
+  onGridLayoutChange(value: string) {
+    this.options.optGridLayout = value;
+    this.saveOptionsToLocalStorage();
+  }
+
+  // grid-lanes styles now live in tasks.css; no runtime injection required
 
   toggleOption(optionName: string) {
     this.options[optionName] = !this.options[optionName];
