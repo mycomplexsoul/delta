@@ -75942,7 +75942,10 @@ var TasksComponent = class _TasksComponent {
             if (t3.tsk_ctg_status === this.taskStatus.CLOSED) {
               continue;
             }
-            this.markTaskAsDone(t3, { target: { checked: true }, shiftKey: false });
+            this.markTaskAsDone(t3, {
+              target: { checked: true },
+              shiftKey: false
+            });
             yield new Promise((resolve2) => setTimeout(resolve2, this.delayOnUpdateState + 800));
           } catch (e2) {
           }
@@ -76692,11 +76695,6 @@ var TasksComponent = class _TasksComponent {
     this.options[optionId] = checked;
     this.saveOptionsToLocalStorage();
   }
-  onGridLayoutChange(value) {
-    this.options.optGridLayout = value;
-    this.saveOptionsToLocalStorage();
-  }
-  // grid-lanes styles now live in tasks.css; no runtime injection required
   toggleOption(optionName) {
     this.options[optionName] = !this.options[optionName];
     this.saveOptionsToLocalStorage();
@@ -77138,6 +77136,10 @@ var TasksComponent = class _TasksComponent {
       }
     }
     return "";
+  }
+  onGridLayoutChange(value) {
+    this.options.optGridLayout = value;
+    this.saveOptionsToLocalStorage();
   }
   static \u0275fac = function TasksComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _TasksComponent)(\u0275\u0275directiveInject(TasksCore), \u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(TaskIndicator), \u0275\u0275directiveInject(DateCommon), \u0275\u0275directiveInject(NotificationService), \u0275\u0275directiveInject(Title));
@@ -126379,4 +126381,4 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# sourceMappingURL=main-D6MC64QN.js.map
+//# sourceMappingURL=main-MWEXREJ5.js.map
