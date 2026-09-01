@@ -65,6 +65,7 @@ export class TasksComponent implements OnInit {
   };
   public showBatchAdd: boolean = false;
   public load: boolean = true;
+  public markAllNextToDoAsDoneLoading: boolean = false;
   public reports: any = {};
   public tagInfo: any = {};
   public options: any;
@@ -100,7 +101,6 @@ export class TasksComponent implements OnInit {
     optShowTaskToolbar: false,
     optUseColumnsForRecords: false,
     optPushStartTimer: false,
-    optGridLayout: "Float",
   };
   public timerModeRemaining: boolean = false;
   public comparisonData: any;
@@ -114,7 +114,7 @@ export class TasksComponent implements OnInit {
     element: null,
   };
   public events: any[] = [];
-  
+  public layout: string = "float"; // possible values: grid, float
   public selectedTask: Task = null;
   public selectedRecord: Task[] = [];
   public differenceLastClosedToRealTime: number = 0;
@@ -267,21 +267,6 @@ export class TasksComponent implements OnInit {
         ...this.defaultOptions,
         ...JSON.parse(localStorage.getItem("Options")),
       };
-    }
-
-    // detect support for experimental "grid-lanes" / masonry-like grid
-    try {
-      const cssSupports = typeof CSS !== "undefined" && (CSS as any).supports;
-      const gridLanesSupported =
-        !!cssSupports &&
-        ((CSS as any).supports("grid-template-columns: masonry") ||
-          (CSS as any).supports("grid-template-rows: masonry") ||
-          (CSS as any).supports("grid-template-rows: subgrid"));
-
-      // expose support flag to template so option only appears when available
-      this.options.optGridLanesSupported = gridLanesSupported;
-    } catch (e) {
-      this.options.optGridLanesSupported = false;
     }
     this.nextTasks = [];
     this.pinnedTasks = [];
@@ -1838,27 +1823,35 @@ export class TasksComponent implements OnInit {
     if (!this.nextTasks || !this.nextTasks.length) {
       return;
     }
-    // preserve listed order
-    this.nextTasks.forEach((item: any) => {
-      if (item && item.tasks && item.tasks.length) {
-        item.tasks.forEach((t: any) => tasksToMark.push(t));
-      }
-    });
-
-    for (const t of tasksToMark) {
-      try {
-        if (t.tsk_ctg_status === this.taskStatus.CLOSED) {
-          continue;
+    this.markAllNextToDoAsDoneLoading = true;
+    try {
+      // preserve listed order
+      this.nextTasks.forEach((item: any) => {
+        if (item && item.tasks && item.tasks.length) {
+          item.tasks.forEach((t: any) => tasksToMark.push(t));
         }
-        // call existing method to mark as done
-        this.markTaskAsDone(t, { target: { checked: true }, shiftKey: false });
-        // wait enough time for updateState() to run and rendering to reflect change
-        await new Promise((resolve) =>
-          setTimeout(resolve, this.delayOnUpdateState + 800)
-        );
-      } catch (e) {
-        // continue on error
+      });
+
+      for (const t of tasksToMark) {
+        try {
+          if (t.tsk_ctg_status === this.taskStatus.CLOSED) {
+            continue;
+          }
+          // call existing method to mark as done
+          this.markTaskAsDone(t, {
+            target: { checked: true },
+            shiftKey: false,
+          });
+          // wait enough time for updateState() to run and rendering to reflect change
+          await new Promise((resolve) =>
+            setTimeout(resolve, this.delayOnUpdateState + 800)
+          );
+        } catch (e) {
+          // continue on error
+        }
       }
+    } finally {
+      this.markAllNextToDoAsDoneLoading = false;
     }
   }
 
@@ -2923,13 +2916,6 @@ export class TasksComponent implements OnInit {
     this.options[optionId] = checked;
     this.saveOptionsToLocalStorage();
   }
-
-  onGridLayoutChange(value: string) {
-    this.options.optGridLayout = value;
-    this.saveOptionsToLocalStorage();
-  }
-
-  // grid-lanes styles now live in tasks.css; no runtime injection required
 
   toggleOption(optionName: string) {
     this.options[optionName] = !this.options[optionName];

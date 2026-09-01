@@ -56,7 +56,7 @@
   <div>
     <strong>[{{ state.beforeAddTotalTasksWritten }} Tasks to Add]</strong>
     <strong>[TOTAL ETA: {{ formatTime(state.beforeAddTotalETA * 60) }}]</strong>
-    @for (r of state.beforeAddETA; track r) {
+    @for (r of state.beforeAddETA; track r.record) {
     <div>
       [{{ r.record }}: {{ formatTime(r.totalETA * 60) }} /
       {{r.totalETAPercentage}}%]
@@ -212,19 +212,6 @@
     [checked]="options.optUseColumnsForRecords"
     (onClick)="toggleOptionById($event)"
   ></checkbox-option>
-  <div>
-    <label>Grid Layout</label>
-    <select
-      [(ngModel)]="options.optGridLayout"
-      (change)="onGridLayoutChange($event.target.value)"
-    >
-      <option value="Float">Float</option>
-      <option value="Grid">Grid</option>
-      @if (options.optGridLanesSupported) {
-      <option value="Grid Lanes">Grid Lanes</option>
-      }
-    </select>
-  </div>
   <div>
     <input
       type="number"
@@ -545,7 +532,7 @@
           <td>Date Mod</td>
           <td>Actions</td>
         </tr>
-        @for (h of state.selected.tsk_time_history; track h) {
+        @for (h of state.selected.tsk_time_history; track h.tsh_secuential) {
         <tr>
           <td>{{ h.tsh_num_secuential }}</td>
           <td>{{ h.tsh_name }}</td>
@@ -643,12 +630,11 @@
   <div
     [ngClass]="{
       'task-open-task-list-container': true,
-      'task-open-task-list-container--grid': options.optGridLayout === 'Grid',
-      'task-open-task-list-container--grid-lanes': options.optGridLayout === 'Grid Lanes',
-      'task-open-task-list-container--float': options.optGridLayout === 'Float'
+      'task-open-task-list-container--grid': layout === 'grid',
+      'task-open-task-list-container--float': layout === 'float'
     }"
   >
-    @for (item of state.backlogTasks; track item) {
+    @for (item of state.backlogTasks; track item.tsk_id) {
     <div
       class="task-record"
       [ngClass]="{
@@ -674,7 +660,7 @@
           'max-height': (options.optHideScrollbarsInRecord ? 'initial' : (options.optRecordWidth !== defaultOptions.optRecordWidth || options.optRecordHeight !== defaultOptions.optRecordHeight) ? options.optRecordHeight + 'px' : defaultOptions.optRecordHeight)
         }"
       >
-        @for (t of item.tasks; track t) {
+        @for (t of item.tasks; track t.tsk_id) {
         <task
           [task]="t"
           [groupTasks]="item.tasks"
@@ -705,7 +691,7 @@
 } @if (viewPostponed) {
 <div id="postponedTaskList">
   <strong>Postponed Tasks</strong>
-  @for (t of state.postponedTasks; track t) {
+  @for (t of state.postponedTasks; track t.tsk_id) {
   <div>
     - @if (t.tsk_total_time_spent !== 0) {
     <span
@@ -780,7 +766,7 @@
         [(ngModel)]="viewData.selectedFilter"
         (change)="updateState()"
       >
-        @for (opt of CONSTANTS.filters; track opt) {
+        @for (opt of CONSTANTS.filters; track opt.id) {
         <option
           [value]="opt.id"
           [selected]="opt.id === viewData.selectedFilter"
@@ -803,13 +789,12 @@
   <div
     [ngClass]="{
       'task-open-task-list-container': true,
-      'task-open-task-list-container--grid': options.optGridLayout === 'Grid',
-      'task-open-task-list-container--grid-lanes': options.optGridLayout === 'Grid Lanes',
-      'task-open-task-list-container--float': options.optGridLayout === 'Float'
+      'task-open-task-list-container--grid': layout === 'grid',
+      'task-open-task-list-container--float': layout === 'float'
     }"
   >
     <div class="task-record-collapsed display-block">
-      @for (item of state.openTasks; track item) {
+      @for (item of state.openTasks; track item.header) {
       <div
         class="task-record"
         [ngClass]="{
@@ -842,7 +827,7 @@
       </div>
       }
     </div>
-    @for (item of state.openTasks; track item) {
+    @for (item of state.openTasks; track item.header) {
     <div
       class="task-record"
       [ngClass]="{
@@ -904,8 +889,9 @@
           'max-height': recordStyle(item.header, 'height')
         }"
       >
-        @for (t of item.tasks; track t; let i = $index) {
+        @for (t of item.tasks; track t.tsk_id; let i = $index) {
         <div
+          id="{{ t.tsk_id }}"
           data-id="{{ t.tsk_id }}"
           [ngStyle]="{
             'font-size-2': ageFontSizeNormalization(t) + 'px'
@@ -1125,7 +1111,7 @@
         }
         <td class="text-align-center">%</td>
       </tr>
-      @for (indicator of state.indicators; track indicator) {
+      @for (indicator of state.indicators; track indicator.name) {
       <tr>
         <td>
           <span> {{ indicator.name }} </span>
@@ -1135,7 +1121,8 @@
           <span> &darr; </span>
           }
         </td>
-        @for (v of indicator.formattedValues; track v; let currIndex = $index) {
+        @for (v of indicator.formattedValues; track $index; let currIndex =
+        $index) {
         <td
           [ngClass]="{
           'desktop-only': currIndex < 3
@@ -1174,31 +1161,6 @@
             Today</strong
           >
         </button>
-        <button
-          class="button-link no-underline"
-          style="margin-left: 8px"
-          (click)="viewNextOptions = !viewNextOptions"
-        >
-          <strong
-            >{{ viewNextOptions ? 'Hide options' : 'Show options' }}</strong
-          >
-        </button>
-        <div
-          *ngIf="viewNextOptions"
-          class="next-options"
-          style="margin-top: 8px"
-        >
-          <button (click)="clearNextTasks()">Clear listing</button>
-          <button
-            style="margin-left: 8px"
-            (click)="stopAndClearInProgressTasks()"
-          >
-            Stop and clear in-progress tasks
-          </button>
-          <button style="margin-left: 8px" (click)="markAllNextToDoAsDone()">
-            Mark all as done
-          </button>
-        </div>
         | {{ item.tasks.length }}
         <time-format
           format="([H]h[m]m)"
@@ -1217,15 +1179,51 @@
         @if (state.inProgressTasksCount > 0) {
         <span> | {{ state.inProgressTasksCount }} in progress </span>
         }
+        <button
+          class="button-link no-underline"
+          style="margin-left: 8px"
+          (click)="viewNextOptions = !viewNextOptions"
+        >
+          <strong
+            >{{ viewNextOptions ? 'Hide options' : 'Show options' }}</strong
+          >
+        </button>
+        <div
+          *ngIf="viewNextOptions"
+          class="next-options"
+          style="margin-top: 8px; margin-bottom: 8px"
+        >
+          <button (click)="clearNextTasks()">Clear listing</button>
+          <button
+            style="margin-left: 8px"
+            (click)="stopAndClearInProgressTasks()"
+          >
+            Stop and clear in-progress tasks
+          </button>
+          <button
+            style="margin-left: 8px"
+            (click)="markAllNextToDoAsDone()"
+            [disabled]="markAllNextToDoAsDoneLoading"
+          >
+            Mark all as done
+          </button>
+          @if (markAllNextToDoAsDoneLoading) {
+          <img
+            class="pl-3"
+            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+          />
+          }
+        </div>
       </div>
       @if (!options.optCollapseNextTasks) {
       <div
         [ngClass]="{
-        'columns-3': nextTasks[0].tasks.length > 10
+        'columns-3': nextTasks[0].tasks.length > 20
       }"
       >
-        @for (t of item.tasks; track t; let count = $index) {
+        @for (t of item.tasks; track t.tsk_id; let count = $index) {
         <div
+          id="{{ t.tsk_id }}"
           data-id="{{ t.tsk_id }}"
           [ngClass]="{
             'task-item-in-process': t.tsk_ctg_in_process === 2
@@ -1249,7 +1247,6 @@
           }"
             >&lt;{{t['projectedDate'] | date: "HH:mm"}}&gt;
           </span>
-          @if (t.tsk_total_time_spent !== 0) {
           <span
             [ngClass]="{
             'task-next-time-ahead': t['projectedDateFromNow'].getTime() >= getDate().getTime(),
@@ -1257,6 +1254,7 @@
           }"
             >&lt;{{t['projectedDateFromNow'] | date: "HH:mm"}}&gt;
           </span>
+          @if (t.tsk_total_time_spent !== 0) {
           <span
             [ngClass]="{
               'task-open-with-tt':
@@ -1391,7 +1389,7 @@
 <div id="pinnedToDoTodayList">
   <hr />
   <div class="task-open-task-list-container">
-    @for (item of pinnedTasks; track item) {
+    @for (item of pinnedTasks; track item.tsk_id) {
     <div class="task-record">
       <div>
         <button
@@ -1412,11 +1410,11 @@
       @if (!options.optCollapsePinnedTasks) {
       <div
         [ngClass]="{
-        'columns-3': pinnedTasks[0].tasks.length > 10
+        'columns-3': pinnedTasks[0].tasks.length > 20
       }"
       >
-        @for (t of item.tasks; track t; let count = $index) {
-        <div data-id="{{ t.tsk_id }}">
+        @for (t of item.tasks; track t.tsk_id; let count = $index) {
+        <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">
           <input
             type="checkbox"
             id="{{ t.tsk_id }}"
@@ -1571,7 +1569,7 @@
         <td>Status</td>
         <td>Actions</td>
       </tr>
-      @for (e of tagInfo.tasks; track e) {
+      @for (e of tagInfo.tasks; track e.tsk_id) {
       <tr>
         <td>{{ e.tsk_name }}</td>
         <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>
@@ -1599,7 +1597,7 @@
   | {{ state.closedTodayTasks.length }} tasks @if
   (!options.optCollapseFinishedToday) {
   <div>
-    @for (item of state.closedTodayTasks; track item; let i = $index) {
+    @for (item of state.closedTodayTasks; track item.tsk_id; let i = $index) {
     <div>
       @if (i < 3 || viewAllFinishedToday) {
       <div>
@@ -1686,7 +1684,8 @@
   | {{ state.closedYesterdayTasks.length }} tasks @if
   (!options.optCollapseFinishedYesterday) {
   <div>
-    @for (item of state.closedYesterdayTasks; track item; let i = $index) {
+    @for (item of state.closedYesterdayTasks; track item.tsk_id; let i = $index)
+    {
     <div>
       @if (i < 3 || viewAllFinishedYesterday) {
       <div>
@@ -1723,14 +1722,14 @@
   </button>
   @if (!options.optCollapseClosedTasks) {
   <div>
-    @for (group of state.closedTasks; track group) {
+    @for (group of state.closedTasks; track group.header) {
     <div>
       <div>
         <br />
         <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>
         &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>
       </div>
-      @for (item of group.tasks; track item) {
+      @for (item of group.tasks; track item.tsk_id) {
       <div>
         -
         <span
@@ -1771,7 +1770,7 @@
   </button>
   @if (!options.optCollapseReportsWeekDistribution) {
   <div>
-    @for (s of reports.week; track s) {
+    @for (s of reports.week; track s.date) {
     <div>
       date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}
       estimated: {{ formatTime(s.estimated * 60) }} spent: {{
@@ -1804,7 +1803,7 @@
         <td>Percentage ETA</td>
         <td>Percentage Real</td>
       </tr>
-      @for (r of reports.dayDistribution; track r) {
+      @for (r of reports.dayDistribution; track r.record) {
       <tr>
         <td>{{ r.record }}</td>
         <td>{{ formatTime(r.eta * 60) }}</td>
@@ -1849,7 +1848,7 @@
         <td>Task Count</td>
         <td>Total ETA</td>
       </tr>
-      @for (q of reports.qualifierTotals; track q) {
+      @for (q of reports.qualifierTotals; track q.qualifier) {
       <tr>
         <td>{{ q.qualifier }}</td>
         <td>{{ q.taskCount }}</td>
@@ -1868,7 +1867,7 @@
   <table>
     @for (c of comparisonData.results; track c) {
     <tr>
-      @for (f of c; track f) {
+      @for (f of c; track f.displayName) {
       <td>
         displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{
         f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}

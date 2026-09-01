@@ -1,5 +1,5 @@
 <div class="notification-area">
-  @for (item of notificationList; track item) {
+  @for (item of notificationList; track item.id) {
   <div class="notification-item">
     @if (item.showHeader) {
     <div class="notification-head">

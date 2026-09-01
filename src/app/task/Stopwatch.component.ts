@@ -33,9 +33,9 @@ import { CommonModule } from "@angular/common";
       </div>
 
       <div class="add-minutes-group">
-        <button (click)="addMinutes(15)">+15min</button>
-        <button (click)="addMinutes(30)">+30min</button>
         <button (click)="addMinutes(60)">+60min</button>
+        <button (click)="addMinutes(30)">+30min</button>
+        <button (click)="addMinutes(15)">+15min</button>
       </div>
     </div>
   `,
