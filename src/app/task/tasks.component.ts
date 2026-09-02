@@ -3721,7 +3721,7 @@ export class TasksComponent implements OnInit {
   }
 
   adjustTimeTracking(t: Task, triggerUpdateTask: boolean) {
-    let randomDiff = 5;
+    let randomDiff = 6;
     // try peeking into 3 days ahead if any ;-)
     let tt = this.lastTTEntryFromDay(
       this.services.dateUtils.dateOnly(
@@ -3735,7 +3735,7 @@ export class TasksComponent implements OnInit {
           this.services.dateUtils.addDays(new Date(), 2)
         )
       );
-      randomDiff = 4;
+      randomDiff = 5;
     }
     if (!tt) {
       // no task 2 days ahead, try tomorrow
@@ -3744,7 +3744,7 @@ export class TasksComponent implements OnInit {
           this.services.dateUtils.addDays(new Date(), 1)
         )
       );
-      randomDiff = 3;
+      randomDiff = 4;
     }
     if (!tt) {
       // no task tomorrow, try today
