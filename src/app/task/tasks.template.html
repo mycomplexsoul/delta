@@ -1016,6 +1016,10 @@
               title="In Pinned To Do listing"
             />
           </span>
+          } @if (t.inTodayToDo) {
+          <span style="margin: 0 -4px" aria-label="In Today To Do listing" title="In Today To Do listing">
+            &#128680;
+          </span>
           } @if (t.inWorkToDo) {
           <span style="margin: 0 -4px" aria-label="In Work To Do listing" title="In Work To Do listing">
             &#128188;
@@ -1404,21 +1408,18 @@
     }
   </div>
 </div>
-} @if (pinnedTasks[0].tasks.length) {
-<div id="pinnedToDoTodayList">
+} @if (todayTasks[0]?.tasks?.length) {
+<div id="todayToDoList">
   <hr />
   <div class="task-open-task-list-container">
-    @for (item of pinnedTasks; track item.tsk_id) {
+    @for (item of todayTasks; track item.tsk_id) {
     <div class="task-record">
       <div>
         <button
           class="button-link no-underline"
-          (click)="toggleOption('optCollapsePinnedTasks')"
+          (click)="toggleOption('optCollapseTodayTasks')"
         >
-          <strong
-            >{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To
-            Do</strong
-          >
+          <strong>{{ options.optCollapseTodayTasks ? '+' : '-' }} Today To Do</strong>
         </button>
         | {{ item.tasks.length }}
         <time-format
@@ -1426,12 +1427,9 @@
           [value]="item.estimatedDuration"
         ></time-format>
       </div>
-      @if (!options.optCollapsePinnedTasks) {
-      <div
-        [ngClass]="{
-        'columns-3': pinnedTasks[0].tasks.length > 20
-      }"
-      >
+
+      @if (!options.optCollapseTodayTasks) {
+      <div [ngClass]="{ 'columns-3': todayTasks[0].tasks.length > 20 }">
         @for (t of item.tasks; track t.tsk_id; let count = $index) {
         <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">
           <input
@@ -1439,88 +1437,11 @@
             id="{{ t.tsk_id }}"
             (click)="taskCheckboxHandler(t, $event)"
           />
-          @if (t.tsk_total_time_spent !== 0) {
-          <span
-            [ngClass]="{
-              'task-open-with-tt':
-                t.tsk_ctg_status === this.taskStatus.OPEN &&
-                t.tsk_time_history.length > 0
-            }"
-            >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
-            2) {
-            <span>
-              [<span
-                class="tt-start"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
-                .tsh_date_start | date: "HH:mm:ss" }}</span
-              >
-              -
-              <span
-                class="tt-end"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length -
-                1].tsh_date_end | date: "HH:mm:ss" }}</span
-              >]
-            </span>
-            }
-          </span>
-          } @if (t.tsk_ctg_in_process === 2) {
-          <span>
-            [<span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{ t.tsk_time_history[t.tsk_time_history.length -
-              1].tsh_date_start | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          }
-          <span
-            (click)="toggleTimeMode()"
-            class="clickable"
-            title="click to toggle timer mode"
-          >
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
-            }}
-          </span>
-          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
-          <span class="task-q-critical" title="Critical task">🔥</span>
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
-          <span class="task-qualifier-icon">&#9733;</span>
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/people.svg"
-              alt="Requires reaching out people"
-              title="Requires reaching out people"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/smartphone.svg"
-              alt="Can be done using phone"
-              title="Can be done using phone"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
-          <span class="task-qualifier-icon">&#10006;</span>
-          }
           <span
             contenteditable="true"
             spellcheck="false"
             (keyup)="taskEdit(t, $event)"
-            (keydown)="pinnedTaskKeyDown($event)"
+            (keydown)="todayTaskKeyDown($event)"
             [ngClass]="{
               'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
               'task-in-process': t.tsk_ctg_in_process === 2,
@@ -1543,24 +1464,13 @@
             [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
             class="task-eta"
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-          ><span> [{{t.tsk_id_record}}] </span>
+          >
           @if (t.tsk_tags) {
           <span class="task-tags">
             @for (tag of t.tsk_tags.split(' '); track tag) {
             <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
             }
           </span>
-          } @if (t.tsk_schedule_date_start) {
-          <span
-            ><strong
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start)
-              }})</strong
-            ></span
-          >
-          } @if (options.optViewElapsedDays) {
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-          } @if (t.not_sync) {
-          <span>(Not in sync)</span>
           }
         </div>
         }
@@ -1570,7 +1480,7 @@
     }
   </div>
 </div>
-} @if (workTasks[0].tasks.length) {
+} @if (workTasks[0]?.tasks?.length) {
 <div id="workToDoList">
   <hr />
   <div class="task-open-task-list-container">
@@ -1589,6 +1499,7 @@
           [value]="item.estimatedDuration"
         ></time-format>
       </div>
+
       @if (!options.optCollapseWorkTasks) {
       <div [ngClass]="{ 'columns-3': workTasks[0].tasks.length > 20 }">
         @for (t of item.tasks; track t.tsk_id; let count = $index) {
@@ -1598,83 +1509,6 @@
             id="{{ t.tsk_id }}"
             (click)="taskCheckboxHandler(t, $event)"
           />
-          @if (t.tsk_total_time_spent !== 0) {
-          <span
-            [ngClass]="{
-              'task-open-with-tt':
-                t.tsk_ctg_status === this.taskStatus.OPEN &&
-                t.tsk_time_history.length > 0
-            }"
-            >[{{ t.tsk_time_history.length }}/{{
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
-            2) {
-            <span>
-              [<span
-                class="tt-start"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
-                .tsh_date_start | date: "HH:mm:ss" }}</span
-              >
-              -
-              <span
-                class="tt-end"
-                contenteditable="true"
-                spellcheck="false"
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
-                >{{ t.tsk_time_history[t.tsk_time_history.length -
-                1].tsh_date_end | date: "HH:mm:ss" }}</span
-              >]
-            </span>
-            }
-          </span>
-          } @if (t.tsk_ctg_in_process === 2) {
-          <span>
-            [<span
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
-              >{{ t.tsk_time_history[t.tsk_time_history.length -
-              1].tsh_date_start | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          }
-          <span
-            (click)="toggleTimeMode()"
-            class="clickable"
-            title="click to toggle timer mode"
-          >
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
-            }}
-          </span>
-          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
-          <span class="task-q-critical" title="Critical task">🔥</span>
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
-          <span class="task-qualifier-icon">&#9733;</span>
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/people.svg"
-              alt="Requires reaching out people"
-              title="Requires reaching out people"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
-          <span class="task-qualifier-icon">
-            <img
-              src="/assets/icons/smartphone.svg"
-              alt="Can be done using phone"
-              title="Can be done using phone"
-            />
-          </span>
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
-          <span class="task-qualifier-icon">&#10006;</span>
-          }
           <span
             contenteditable="true"
             spellcheck="false"
@@ -1702,24 +1536,13 @@
             [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
             class="task-eta"
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
-          ><span> [{{t.tsk_id_record}}] </span>
+          >
           @if (t.tsk_tags) {
           <span class="task-tags">
             @for (tag of t.tsk_tags.split(' '); track tag) {
             <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
             }
           </span>
-          } @if (t.tsk_schedule_date_start) {
-          <span
-            ><strong
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start)
-              }})</strong
-            ></span
-          >
-          } @if (options.optViewElapsedDays) {
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
-          } @if (t.not_sync) {
-          <span>(Not in sync)</span>
           }
         </div>
         }
@@ -1729,382 +1552,76 @@
     }
   </div>
 </div>
-} @if (tagInfo.display === true) {
-<div id="tagInfo">
-  <button (click)="tagInfo.display = false">hide</button>
-  <strong>Tag Information</strong>
-  <br />Closed Tasks | Estimated: {{
-  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{
-  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{
-  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{
-  formatTime(tagInfo.tasksOpenTotalSpent) }} @if (tagInfo.tasks.length > 0) {
-  <div>
-    <table>
-      <tr>
-        <td>Name</td>
-        <td>Estimated</td>
-        <td>Spent</td>
-        <td>Status</td>
-        <td>Actions</td>
-      </tr>
-      @for (e of tagInfo.tasks; track e.tsk_id) {
-      <tr>
-        <td>{{ e.tsk_name }}</td>
-        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>
-        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>
-        <td>{{ statusText(e.tsk_ctg_status) }}</td>
-        <td><button (click)="setSelected(e)">details</button></td>
-      </tr>
-      }
-    </table>
-  </div>
-  }
+} @if (pinnedTasks[0]?.tasks?.length) {
+<div id="pinnedToDoTodayList">
   <hr />
-</div>
-} @if (options.optShowFinishedToday) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseFinishedToday')"
-  >
-    <strong
-      >{{ options.optCollapseFinishedToday ? '+' : '-' }} Finished Today</strong
-    >
-  </button>
-  | {{ state.closedTodayTasks.length }} tasks @if
-  (!options.optCollapseFinishedToday) {
-  <div>
-    @for (item of state.closedTodayTasks; track item.tsk_id; let i = $index) {
-    <div>
-      @if (i < 3 || viewAllFinishedToday) {
+  <div class="task-open-task-list-container">
+    @for (item of pinnedTasks; track item.tsk_id) {
+    <div class="task-record">
       <div>
-        <input
-          type="checkbox"
-          id="{{ item.tsk_id }}"
-          checked
-          (click)="taskCheckboxHandler(item, $event)"
-        />
-        @if (item.tsk_total_time_spent !== 0) {
-        <span
-          [ngClass]="{
-            'task-open-with-tt':
-              item.tsk_ctg_status === this.taskStatus.OPEN &&
-              item.tsk_time_history.length > 0
-          }"
-          >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent) }}] @if (item.tsk_ctg_in_process
-          !== 2) {
-          <span>
-            [<span
-              class="tt-start"
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(item, $event, 'start')"
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&
-              item.tsk_time_history[item.tsk_time_history.length - 1]
-              .tsh_date_start | date: "HH:mm:ss" }}</span
-            >
-            -
-            <span
-              class="tt-end"
-              contenteditable="true"
-              spellcheck="false"
-              (keyup)="timeTrackingQuickEdit(item, $event, 'end')"
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&
-              item.tsk_time_history[item.tsk_time_history.length - 1]
-              .tsh_date_end | date: "HH:mm:ss" }}</span
-            >]
-          </span>
-          }
-        </span>
-        }
-        <span
-          >(Done at:
+        <button
+          class="button-link no-underline"
+          (click)="toggleOption('optCollapsePinnedTasks')"
+        >
+          <strong>{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To Do</strong>
+        </button>
+        | {{ item.tasks.length }}
+        <time-format
+          format="([H]h[m]m)"
+          [value]="item.estimatedDuration"
+        ></time-format>
+      </div>
+
+      @if (!options.optCollapsePinnedTasks) {
+      <div [ngClass]="{ 'columns-3': pinnedTasks[0].tasks.length > 20 }">
+        @for (t of item.tasks; track t.tsk_id; let count = $index) {
+        <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">
+          <input
+            type="checkbox"
+            id="{{ t.tsk_id }}"
+            (click)="taskCheckboxHandler(t, $event)"
+          />
           <span
             contenteditable="true"
             spellcheck="false"
-            (keyup)="editDateDone(item, $event)"
-            >{{ item.tsk_date_done | date: format }}</span
-          >)</span
-        >&nbsp;<span
-          [ngClass]="{
-            'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED
-          }"
-          >{{ item.tsk_name }}</span
-        >
-        @if (item.not_sync) {
-        <span>(Not in sync)</span>
-        }&nbsp;<button (click)="setSelected(item)">details</button>
-      </div>
-      }
-    </div>
-    } @if (state.closedTodayTasks.length > 3) {
-    <button (click)="toggleView('viewAllFinishedToday')">
-      {{ viewAllFinishedToday ? "Do not show all" : "Show all" }}
-    </button>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowFinishedYesterday) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseFinishedYesterday')"
-  >
-    <strong
-      >{{ options.optCollapseFinishedYesterday ? '+' : '-' }} Finished
-      Yesterday</strong
-    >
-  </button>
-  | {{ state.closedYesterdayTasks.length }} tasks @if
-  (!options.optCollapseFinishedYesterday) {
-  <div>
-    @for (item of state.closedYesterdayTasks; track item.tsk_id; let i = $index)
-    {
-    <div>
-      @if (i < 3 || viewAllFinishedYesterday) {
-      <div>
-        <task
-          [task]="item"
-          [handlers]="handlersForClosedYesterday"
-          [options]="{
-            optShowRecordNameInline: true,
-            optShowTimeTrackingHistory: true,
-            optShowDetailsButton: true
-        }"
-        ></task>
-      </div>
-      }
-    </div>
-    } @if (state.closedYesterdayTasks.length > 3) {
-    <button (click)="toggleView('viewAllFinishedYesterday')">
-      {{ viewAllFinishedYesterday ? "Do not show all" : "Show all" }}
-    </button>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowClosedTasks) {
-<div id="closedTaskList">
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseClosedTasks')"
-  >
-    <strong
-      >{{ options.optCollapseClosedTasks ? '+' : '-' }} Closed Tasks</strong
-    >
-  </button>
-  @if (!options.optCollapseClosedTasks) {
-  <div>
-    @for (group of state.closedTasks; track group.header) {
-    <div>
-      <div>
-        <br />
-        <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>
-        &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>
-      </div>
-      @for (item of group.tasks; track item.tsk_id) {
-      <div>
-        -
-        <span
-          >[{{ item.tsk_time_history.length }}/{{
-          formatTime(item.tsk_total_time_spent) }}]</span
-        >
-        <span>[{{ item.tsk_id_record }}]</span>
-        <span>{{ item.tsk_name }}</span>
-        <!--<span
-                                                                                                                                        >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"
-                                                                                                                                        }})</span
-                                                                                                                                        >-->
-        @if (item.tsk_tags) {
-        <span class="task-tags">
-          @for (tag of item.tsk_tags.split(' '); track tag) {
-          <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
+            (keyup)="taskEdit(t, $event)"
+            (keydown)="pinnedTaskKeyDown($event)"
+            [ngClass]="{
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
+              'task-in-process': t.tsk_ctg_in_process === 2,
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
+            }"
+            (blur)="commandOnTask(t, $event)"
+            class="editable task-text"
+            >{{ t.tsk_name }}</span
+          >&nbsp;<span
+            [attr.contenteditable]="options.optAllowToEditETA"
+            spellcheck="false"
+            (blur)="taskEstimatedDurationEdit(t, $event)"
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
+            class="task-eta"
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
+          >
+          @if (t.tsk_tags) {
+          <span class="task-tags">
+            @for (tag of t.tsk_tags.split(' '); track tag) {
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
+            }
+          </span>
           }
-        </span>
-        } &nbsp;<button (click)="setSelected(item)">details</button>
+        </div>
+        }
       </div>
       }
     </div>
     }
-  </div>
-  }
-</div>
-} @if (options.optShowReportsWeekDistribution) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseReportsWeekDistribution')"
-  >
-    <strong
-      >{{ options.optCollapseReportsWeekDistribution ? '+' : '-' }} Week
-      Distribution Report</strong
-    >
-  </button>
-  @if (!options.optCollapseReportsWeekDistribution) {
-  <div>
-    @for (s of reports.week; track s.date) {
-    <div>
-      date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}
-      estimated: {{ formatTime(s.estimated * 60) }} spent: {{
-      formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time
-      Elapsed: {{ formatTime(s.realTimeElapsed) }}
-    </div>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowReportsDayDistribution) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseReportsDayDistribution')"
-  >
-    <strong
-      >{{ options.optCollapseReportsDayDistribution ? '+' : '-' }} Day
-      Distribution Report</strong
-    >
-  </button>
-  @if (!options.optCollapseReportsDayDistribution) {
-  <div>
-    <table>
-      <tr>
-        <td>Record</td>
-        <td>Total ETA</td>
-        <td>Total Real</td>
-        <td>Percentage ETA</td>
-        <td>Percentage Real</td>
-      </tr>
-      @for (r of reports.dayDistribution; track r.record) {
-      <tr>
-        <td>{{ r.record }}</td>
-        <td>{{ formatTime(r.eta * 60) }}</td>
-        <td>{{ formatTime(r.real) }}</td>
-        <td>{{ r.percentageEta }}</td>
-        <td>{{ r.percentageReal }}</td>
-      </tr>
-      }
-    </table>
-    @if (viewData.dayDistributionChart.chartData[0].data.length > 0) {
-    <canvas
-      id="dayDistributionChart"
-      baseChart
-      [datasets]="viewData.dayDistributionChart.chartData"
-      [labels]="viewData.dayDistributionChart.chartLabels"
-      [options]="viewData.dayDistributionChart.chartOptions"
-      [legend]="viewData.dayDistributionChart.chartLegend"
-      [type]="viewData.dayDistributionChart.chartType"
-    >
-    </canvas>
-    }
-  </div>
-  }
-</div>
-} @if (options.optShowQualifiersTotals) {
-<div>
-  <hr />
-  <button
-    class="button-link no-underline"
-    (click)="toggleOption('optCollapseQualifiersTotals')"
-  >
-    <strong
-      >{{ options.optCollapseQualifiersTotals ? '+' : '-' }} Qualifiers
-      Totals</strong
-    >
-  </button>
-  @if (!options.optCollapseQualifiersTotals) {
-  <div>
-    <table>
-      <tr>
-        <td>Qualifier</td>
-        <td>Task Count</td>
-        <td>Total ETA</td>
-      </tr>
-      @for (q of reports.qualifierTotals; track q.qualifier) {
-      <tr>
-        <td>{{ q.qualifier }}</td>
-        <td>{{ q.taskCount }}</td>
-        <td>{{ formatTime(q.totalETA * 60) }}</td>
-      </tr>
-      }
-    </table>
-  </div>
-  }
-</div>
-} @if (comparisonData) {
-<div>
-  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task
-  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{
-  comparisonData.results.length }}
-  <table>
-    @for (c of comparisonData.results; track c) {
-    <tr>
-      @for (f of c; track f.displayName) {
-      <td>
-        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{
-        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}
-        <button (click)="sendFEToBE(c)">Send FE data to BE</button>
-      </td>
-      }
-    </tr>
-    }
-  </table>
-</div>
-} @if (selectedTask) {
-<div
-  class="task-item-toolbar"
-  [ngClass]="{
-  'mobile-only': !options.optShowTaskToolbar
-}"
->
-  <div>{{ selectedTask.tsk_name }}</div>
-  <div class="task-item-toolbar-content">
-    @if (selectedTask && selectedTask.tsk_ctg_in_process === 1) {
-    <span
-      class="play-button clickable"
-      (click)="toggleTimeTracking(selectedTask, $event)"
-      >&#9654;</span
-    >
-    } @if (selectedTask && selectedTask.tsk_ctg_in_process === 2) {
-    <span
-      class="stop-button clickable"
-      (click)="toggleTimeTracking(selectedTask, $event)"
-      >&#9724;</span
-    >
-    }
-    <span
-      class="adjust-timetracking-button clickable"
-      (click)="adjustTimeTracking(selectedTask)"
-      >&#8676;</span
-    >
-    <span
-      class="set-selected-button clickable"
-      (click)="setSelected(selectedTask)"
-      >&#9998;</span
-    >
-    <span
-      class="remove-qualifiers-button clickable"
-      (click)="removeQualifiersFromTask(selectedTask)"
-      >&#9746;</span
-    >
-    <span class="close-button clickable" (click)="selectedTask = null"
-      >&times;</span
-    >
   </div>
 </div>
 }
-
-<task-toolbar
-  [task]="selectedTask"
-  [groupTasks]="selectedRecord"
-  [handlers]="handlersForTaskToolbar"
-  [options]="{
-    optShowTaskToolbar: true
-  }"
-></task-toolbar>

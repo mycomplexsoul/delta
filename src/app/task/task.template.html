@@ -122,6 +122,30 @@
       title="In Next To Do Today listing"
     />
   </span>
+  } @if (task['inTodayToDo']) {
+  <span
+    style="margin: 0 -4px"
+    aria-label="In Today To Do listing"
+    title="In Today To Do listing"
+  >
+    &#128680;
+  </span>
+  } @if (task['inWorkToDo']) {
+  <span
+    style="margin: 0 -4px"
+    aria-label="In Work To Do listing"
+    title="In Work To Do listing"
+  >
+    &#128188;
+  </span>
+  } @if (task['inPinnedToDo']) {
+  <span class="task-pinned-todo-icon">
+    <img
+      src="/assets/icons/pin.svg"
+      alt="In Pinned To Do listing"
+      title="In Pinned To Do listing"
+    />
+  </span>
   }
   <!-- #endregion -->
   <!-- #region Main task description -->

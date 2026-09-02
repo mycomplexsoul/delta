@@ -87,6 +87,7 @@ export class TasksComponent implements OnInit {
     optCollapseClosedTasks: false,
     optCollapsePinnedTasks: false,
     optCollapseWorkTasks: false,
+    optCollapseTodayTasks: false,
     optCollapseReportsWeekDistribution: false,
     optCollapseReportsDayDistribution: false,
     optCollapseQualifiersTotals: false,
@@ -110,6 +111,7 @@ export class TasksComponent implements OnInit {
   public nextTasks: any[];
   public pinnedTasks: any[];
   public workTasks: any[];
+  public todayTasks: any[];
   public focusedTask: {
     task: Task;
     element: HTMLElement;
@@ -289,6 +291,7 @@ export class TasksComponent implements OnInit {
     this.nextTasks = [];
     this.pinnedTasks = [];
     this.workTasks = [];
+    this.todayTasks = [];
     this.updateState();
     this.fetchTasks();
     // this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
@@ -426,7 +429,10 @@ export class TasksComponent implements OnInit {
         )
         .filter((t) =>
           this.viewData.selectedFilter === "pinned"
-            ? this.isRecordPinned(t.tsk_id_record) || t.inPinnedToDo || t.inWorkToDo
+            ? this.isRecordPinned(t.tsk_id_record) ||
+              t.inPinnedToDo ||
+              t.inWorkToDo ||
+              t.inTodayToDo
             : true
         )
         .filter((t) =>
@@ -434,6 +440,7 @@ export class TasksComponent implements OnInit {
             ? this.isRecordPinned(t.tsk_id_record) ||
               t.inPinnedToDo ||
               t.inWorkToDo ||
+              t.inTodayToDo ||
               (t.tsk_qualifiers && t.tsk_qualifiers.includes("urgent")) ||
               (t.tsk_qualifiers && t.tsk_qualifiers.includes("critical")) ||
               t.tsk_ctg_in_process === 2
@@ -688,6 +695,7 @@ export class TasksComponent implements OnInit {
     this.tasks.forEach((t: any) => {
       t["inPinnedToDo"] = false;
       t["inWorkToDo"] = false;
+      t["inTodayToDo"] = false;
     });
     if (this.pinnedTasks.length === 0) {
       this.pinnedTasks.push({
@@ -767,6 +775,47 @@ export class TasksComponent implements OnInit {
           (e: any) => e.tsk_id === t.tsk_id
         );
         this.workTasks[0].tasks.splice(index, 1);
+      }
+    });
+
+    // Today tasks
+    if (this.todayTasks.length === 0) {
+      this.todayTasks.push({
+        estimatedDuration: 0,
+        tasks: [],
+      });
+    } else {
+      this.todayTasks[0].tasks = [];
+    }
+    if (this.tasks.length && typeof window.localStorage !== "undefined") {
+      let todayTasksIds = JSON.parse(localStorage.getItem("TodayTasks") || "[]");
+      if (todayTasksIds) {
+        todayTasksIds.forEach((id: string) => {
+          let nt = this.tasks.find(
+            (e: any) =>
+              e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
+          );
+          if (nt) {
+            this.todayTasks[0].tasks.push(nt);
+            nt["inTodayToDo"] = true;
+          }
+        });
+        localStorage.setItem(
+          "TodayTasks",
+          JSON.stringify(this.todayTasks[0].tasks.map((e: any) => e.tsk_id))
+        );
+      }
+    }
+
+    this.todayTasks[0].estimatedDuration = 0;
+    this.todayTasks[0].tasks.forEach((t: any) => {
+      if (t.tsk_ctg_status === this.taskStatus.OPEN) {
+        this.todayTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+      } else {
+        let index = this.todayTasks[0].tasks.findIndex(
+          (e: any) => e.tsk_id === t.tsk_id
+        );
+        this.todayTasks[0].tasks.splice(index, 1);
       }
     });
 
@@ -1000,6 +1049,10 @@ export class TasksComponent implements OnInit {
       // detect 'w'
       this.toggleWorkToDo(t);
     }
+    if (event.altKey && event.key === "x") {
+      // detect 'x'
+      this.toggleTodayToDo(t);
+    }
     if (event.altKey && event.keyCode == 84) {
       // detect 't'
       this.adjustTimeTracking(t, true);
@@ -1174,6 +1227,38 @@ export class TasksComponent implements OnInit {
       if (parent.nextElementSibling && parent.nextElementSibling.id) {
         this.focusElement(
           `#workToDoList #${parent.id} span.task-text[contenteditable=true]`
+        );
+      }
+    }
+    if (!event.altKey && event.keyCode == 38) {
+      this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (!event.altKey && event.keyCode == 40) {
+      this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+  }
+
+  /**
+   * Jumps cursor up and below the current task in the today task listing
+   * modifying order based in localStorage saved today tasks.
+   * @param event keyboard event to handle
+   */
+  todayTaskKeyDown(event: KeyboardEvent) {
+    const parent = event.target["parentNode"];
+
+    if (event.altKey && event.keyCode == 38) {
+      this.taskMoveUp(parent, (t1, t2) => this.interchangeTodayTaskOrder(t1, t2));
+      setTimeout(() => {
+        this.focusElement(
+          `#todayToDoList #${parent.id} span.task-text[contenteditable=true]`
+        );
+      }, 100);
+    }
+    if (event.altKey && event.keyCode == 40) {
+      this.taskMoveDown(parent, (t1, t2) => this.interchangeTodayTaskOrder(t1, t2));
+      if (parent.nextElementSibling && parent.nextElementSibling.id) {
+        this.focusElement(
+          `#todayToDoList #${parent.id} span.task-text[contenteditable=true]`
         );
       }
     }
@@ -1409,6 +1494,29 @@ export class TasksComponent implements OnInit {
     ];
 
     localStorage.setItem("WorkTasks", JSON.stringify(currentWorkTasks));
+  }
+
+  /**
+   * Interchanges tasks order and updates it in the today tasks listing.
+   * @param tsk_id1 task id to be interchanged
+   * @param tsk_id2 task id to be interchanged
+   */
+  interchangeTodayTaskOrder(tsk_id1: string, tsk_id2: string) {
+    let currentTodayTasks =
+      localStorage && JSON.parse(localStorage.getItem("TodayTasks") || "[]");
+
+    let index1 = currentTodayTasks.findIndex((e) => e === tsk_id1);
+    let index2 = currentTodayTasks.findIndex((e) => e === tsk_id2);
+    [currentTodayTasks[index1], currentTodayTasks[index2]] = [
+      currentTodayTasks[index2],
+      currentTodayTasks[index1],
+    ];
+    [this.todayTasks[0].tasks[index1], this.todayTasks[0].tasks[index2]] = [
+      this.todayTasks[0].tasks[index2],
+      this.todayTasks[0].tasks[index1],
+    ];
+
+    localStorage.setItem("TodayTasks", JSON.stringify(currentTodayTasks));
   }
 
   taskJumpUp(current: any, selector: string) {
@@ -3537,6 +3645,25 @@ export class TasksComponent implements OnInit {
     );
   }
 
+  toggleTodayToDo(t: any) {
+    let p = this.todayTasks[0].tasks;
+    let index = p.findIndex((e: any) => e.tsk_id === t.tsk_id);
+    if (index === -1) {
+      p.push(t);
+      this.todayTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+      t["inTodayToDo"] = true;
+    } else {
+      p.splice(index, 1);
+      this.todayTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
+      t["inTodayToDo"] = false;
+    }
+
+    localStorage.setItem(
+      "TodayTasks",
+      JSON.stringify(p.map((e: any) => e.tsk_id))
+    );
+  }
+
   setTaskNotes(task: any, event: KeyboardEvent) {
     const newNotes = event.target["value"];
 
@@ -3812,6 +3939,19 @@ export class TasksComponent implements OnInit {
     localStorage.setItem(
       "WorkTasks",
       JSON.stringify(this.workTasks[0].tasks.map((e: any) => e.tsk_id))
+    );
+  }
+
+  clearTodayTasks() {
+    this.todayTasks = [];
+    this.todayTasks.push({
+      estimatedDuration: 0,
+      tasks: [],
+    });
+
+    localStorage.setItem(
+      "TodayTasks",
+      JSON.stringify(this.todayTasks[0].tasks.map((e: any) => e.tsk_id))
     );
   }
 

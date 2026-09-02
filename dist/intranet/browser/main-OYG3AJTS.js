@@ -67525,1406 +67525,6 @@ adapters._date.override({
   }
 });
 
-// node_modules/lodash-es/_freeGlobal.js
-var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
-var freeGlobal_default = freeGlobal;
-
-// node_modules/lodash-es/_root.js
-var freeSelf = typeof self == "object" && self && self.Object === Object && self;
-var root = freeGlobal_default || freeSelf || Function("return this")();
-var root_default = root;
-
-// node_modules/lodash-es/_Symbol.js
-var Symbol2 = root_default.Symbol;
-var Symbol_default = Symbol2;
-
-// node_modules/lodash-es/_getRawTag.js
-var objectProto2 = Object.prototype;
-var hasOwnProperty = objectProto2.hasOwnProperty;
-var nativeObjectToString = objectProto2.toString;
-var symToStringTag = Symbol_default ? Symbol_default.toStringTag : void 0;
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
-  try {
-    value[symToStringTag] = void 0;
-    var unmasked = true;
-  } catch (e2) {
-  }
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-var getRawTag_default = getRawTag;
-
-// node_modules/lodash-es/_objectToString.js
-var objectProto3 = Object.prototype;
-var nativeObjectToString2 = objectProto3.toString;
-function objectToString(value) {
-  return nativeObjectToString2.call(value);
-}
-var objectToString_default = objectToString;
-
-// node_modules/lodash-es/_baseGetTag.js
-var nullTag = "[object Null]";
-var undefinedTag = "[object Undefined]";
-var symToStringTag2 = Symbol_default ? Symbol_default.toStringTag : void 0;
-function baseGetTag(value) {
-  if (value == null) {
-    return value === void 0 ? undefinedTag : nullTag;
-  }
-  return symToStringTag2 && symToStringTag2 in Object(value) ? getRawTag_default(value) : objectToString_default(value);
-}
-var baseGetTag_default = baseGetTag;
-
-// node_modules/lodash-es/isObjectLike.js
-function isObjectLike(value) {
-  return value != null && typeof value == "object";
-}
-var isObjectLike_default = isObjectLike;
-
-// node_modules/lodash-es/isArray.js
-var isArray4 = Array.isArray;
-var isArray_default = isArray4;
-
-// node_modules/lodash-es/isObject.js
-function isObject2(value) {
-  var type = typeof value;
-  return value != null && (type == "object" || type == "function");
-}
-var isObject_default = isObject2;
-
-// node_modules/lodash-es/identity.js
-function identity2(value) {
-  return value;
-}
-var identity_default = identity2;
-
-// node_modules/lodash-es/isFunction.js
-var asyncTag = "[object AsyncFunction]";
-var funcTag = "[object Function]";
-var genTag = "[object GeneratorFunction]";
-var proxyTag = "[object Proxy]";
-function isFunction4(value) {
-  if (!isObject_default(value)) {
-    return false;
-  }
-  var tag = baseGetTag_default(value);
-  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
-}
-var isFunction_default = isFunction4;
-
-// node_modules/lodash-es/_coreJsData.js
-var coreJsData = root_default["__core-js_shared__"];
-var coreJsData_default = coreJsData;
-
-// node_modules/lodash-es/_isMasked.js
-var maskSrcKey = (function() {
-  var uid2 = /[^.]+$/.exec(coreJsData_default && coreJsData_default.keys && coreJsData_default.keys.IE_PROTO || "");
-  return uid2 ? "Symbol(src)_1." + uid2 : "";
-})();
-function isMasked(func) {
-  return !!maskSrcKey && maskSrcKey in func;
-}
-var isMasked_default = isMasked;
-
-// node_modules/lodash-es/_toSource.js
-var funcProto = Function.prototype;
-var funcToString = funcProto.toString;
-function toSource(func) {
-  if (func != null) {
-    try {
-      return funcToString.call(func);
-    } catch (e2) {
-    }
-    try {
-      return func + "";
-    } catch (e2) {
-    }
-  }
-  return "";
-}
-var toSource_default = toSource;
-
-// node_modules/lodash-es/_baseIsNative.js
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-var funcProto2 = Function.prototype;
-var objectProto4 = Object.prototype;
-var funcToString2 = funcProto2.toString;
-var hasOwnProperty2 = objectProto4.hasOwnProperty;
-var reIsNative = RegExp(
-  "^" + funcToString2.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
-);
-function baseIsNative(value) {
-  if (!isObject_default(value) || isMasked_default(value)) {
-    return false;
-  }
-  var pattern = isFunction_default(value) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource_default(value));
-}
-var baseIsNative_default = baseIsNative;
-
-// node_modules/lodash-es/_getValue.js
-function getValue(object, key) {
-  return object == null ? void 0 : object[key];
-}
-var getValue_default = getValue;
-
-// node_modules/lodash-es/_getNative.js
-function getNative(object, key) {
-  var value = getValue_default(object, key);
-  return baseIsNative_default(value) ? value : void 0;
-}
-var getNative_default = getNative;
-
-// node_modules/lodash-es/_baseCreate.js
-var objectCreate = Object.create;
-var baseCreate = /* @__PURE__ */ (function() {
-  function object() {
-  }
-  return function(proto) {
-    if (!isObject_default(proto)) {
-      return {};
-    }
-    if (objectCreate) {
-      return objectCreate(proto);
-    }
-    object.prototype = proto;
-    var result = new object();
-    object.prototype = void 0;
-    return result;
-  };
-})();
-var baseCreate_default = baseCreate;
-
-// node_modules/lodash-es/_apply.js
-function apply(func, thisArg, args) {
-  switch (args.length) {
-    case 0:
-      return func.call(thisArg);
-    case 1:
-      return func.call(thisArg, args[0]);
-    case 2:
-      return func.call(thisArg, args[0], args[1]);
-    case 3:
-      return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-var apply_default = apply;
-
-// node_modules/lodash-es/_copyArray.js
-function copyArray(source, array) {
-  var index2 = -1, length = source.length;
-  array || (array = Array(length));
-  while (++index2 < length) {
-    array[index2] = source[index2];
-  }
-  return array;
-}
-var copyArray_default = copyArray;
-
-// node_modules/lodash-es/_shortOut.js
-var HOT_COUNT = 800;
-var HOT_SPAN = 16;
-var nativeNow = Date.now;
-function shortOut(func) {
-  var count = 0, lastCalled = 0;
-  return function() {
-    var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
-    lastCalled = stamp;
-    if (remaining > 0) {
-      if (++count >= HOT_COUNT) {
-        return arguments[0];
-      }
-    } else {
-      count = 0;
-    }
-    return func.apply(void 0, arguments);
-  };
-}
-var shortOut_default = shortOut;
-
-// node_modules/lodash-es/constant.js
-function constant(value) {
-  return function() {
-    return value;
-  };
-}
-var constant_default = constant;
-
-// node_modules/lodash-es/_defineProperty.js
-var defineProperty = (function() {
-  try {
-    var func = getNative_default(Object, "defineProperty");
-    func({}, "", {});
-    return func;
-  } catch (e2) {
-  }
-})();
-var defineProperty_default = defineProperty;
-
-// node_modules/lodash-es/_baseSetToString.js
-var baseSetToString = !defineProperty_default ? identity_default : function(func, string) {
-  return defineProperty_default(func, "toString", {
-    "configurable": true,
-    "enumerable": false,
-    "value": constant_default(string),
-    "writable": true
-  });
-};
-var baseSetToString_default = baseSetToString;
-
-// node_modules/lodash-es/_setToString.js
-var setToString = shortOut_default(baseSetToString_default);
-var setToString_default = setToString;
-
-// node_modules/lodash-es/_isIndex.js
-var MAX_SAFE_INTEGER = 9007199254740991;
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-function isIndex(value, length) {
-  var type = typeof value;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
-}
-var isIndex_default = isIndex;
-
-// node_modules/lodash-es/_baseAssignValue.js
-function baseAssignValue(object, key, value) {
-  if (key == "__proto__" && defineProperty_default) {
-    defineProperty_default(object, key, {
-      "configurable": true,
-      "enumerable": true,
-      "value": value,
-      "writable": true
-    });
-  } else {
-    object[key] = value;
-  }
-}
-var baseAssignValue_default = baseAssignValue;
-
-// node_modules/lodash-es/eq.js
-function eq2(value, other) {
-  return value === other || value !== value && other !== other;
-}
-var eq_default = eq2;
-
-// node_modules/lodash-es/_assignValue.js
-var objectProto5 = Object.prototype;
-var hasOwnProperty3 = objectProto5.hasOwnProperty;
-function assignValue(object, key, value) {
-  var objValue = object[key];
-  if (!(hasOwnProperty3.call(object, key) && eq_default(objValue, value)) || value === void 0 && !(key in object)) {
-    baseAssignValue_default(object, key, value);
-  }
-}
-var assignValue_default = assignValue;
-
-// node_modules/lodash-es/_copyObject.js
-function copyObject(source, props, object, customizer) {
-  var isNew = !object;
-  object || (object = {});
-  var index2 = -1, length = props.length;
-  while (++index2 < length) {
-    var key = props[index2];
-    var newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
-    if (newValue === void 0) {
-      newValue = source[key];
-    }
-    if (isNew) {
-      baseAssignValue_default(object, key, newValue);
-    } else {
-      assignValue_default(object, key, newValue);
-    }
-  }
-  return object;
-}
-var copyObject_default = copyObject;
-
-// node_modules/lodash-es/_overRest.js
-var nativeMax = Math.max;
-function overRest(func, start, transform) {
-  start = nativeMax(start === void 0 ? func.length - 1 : start, 0);
-  return function() {
-    var args = arguments, index2 = -1, length = nativeMax(args.length - start, 0), array = Array(length);
-    while (++index2 < length) {
-      array[index2] = args[start + index2];
-    }
-    index2 = -1;
-    var otherArgs = Array(start + 1);
-    while (++index2 < start) {
-      otherArgs[index2] = args[index2];
-    }
-    otherArgs[start] = transform(array);
-    return apply_default(func, this, otherArgs);
-  };
-}
-var overRest_default = overRest;
-
-// node_modules/lodash-es/_baseRest.js
-function baseRest(func, start) {
-  return setToString_default(overRest_default(func, start, identity_default), func + "");
-}
-var baseRest_default = baseRest;
-
-// node_modules/lodash-es/isLength.js
-var MAX_SAFE_INTEGER2 = 9007199254740991;
-function isLength(value) {
-  return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER2;
-}
-var isLength_default = isLength;
-
-// node_modules/lodash-es/isArrayLike.js
-function isArrayLike2(value) {
-  return value != null && isLength_default(value.length) && !isFunction_default(value);
-}
-var isArrayLike_default = isArrayLike2;
-
-// node_modules/lodash-es/_isIterateeCall.js
-function isIterateeCall(value, index2, object) {
-  if (!isObject_default(object)) {
-    return false;
-  }
-  var type = typeof index2;
-  if (type == "number" ? isArrayLike_default(object) && isIndex_default(index2, object.length) : type == "string" && index2 in object) {
-    return eq_default(object[index2], value);
-  }
-  return false;
-}
-var isIterateeCall_default = isIterateeCall;
-
-// node_modules/lodash-es/_createAssigner.js
-function createAssigner(assigner) {
-  return baseRest_default(function(object, sources) {
-    var index2 = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : void 0, guard = length > 2 ? sources[2] : void 0;
-    customizer = assigner.length > 3 && typeof customizer == "function" ? (length--, customizer) : void 0;
-    if (guard && isIterateeCall_default(sources[0], sources[1], guard)) {
-      customizer = length < 3 ? void 0 : customizer;
-      length = 1;
-    }
-    object = Object(object);
-    while (++index2 < length) {
-      var source = sources[index2];
-      if (source) {
-        assigner(object, source, index2, customizer);
-      }
-    }
-    return object;
-  });
-}
-var createAssigner_default = createAssigner;
-
-// node_modules/lodash-es/_isPrototype.js
-var objectProto6 = Object.prototype;
-function isPrototype(value) {
-  var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto6;
-  return value === proto;
-}
-var isPrototype_default = isPrototype;
-
-// node_modules/lodash-es/_baseTimes.js
-function baseTimes(n, iteratee) {
-  var index2 = -1, result = Array(n);
-  while (++index2 < n) {
-    result[index2] = iteratee(index2);
-  }
-  return result;
-}
-var baseTimes_default = baseTimes;
-
-// node_modules/lodash-es/_baseIsArguments.js
-var argsTag = "[object Arguments]";
-function baseIsArguments(value) {
-  return isObjectLike_default(value) && baseGetTag_default(value) == argsTag;
-}
-var baseIsArguments_default = baseIsArguments;
-
-// node_modules/lodash-es/isArguments.js
-var objectProto7 = Object.prototype;
-var hasOwnProperty4 = objectProto7.hasOwnProperty;
-var propertyIsEnumerable = objectProto7.propertyIsEnumerable;
-var isArguments = baseIsArguments_default(/* @__PURE__ */ (function() {
-  return arguments;
-})()) ? baseIsArguments_default : function(value) {
-  return isObjectLike_default(value) && hasOwnProperty4.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
-};
-var isArguments_default = isArguments;
-
-// node_modules/lodash-es/stubFalse.js
-function stubFalse() {
-  return false;
-}
-var stubFalse_default = stubFalse;
-
-// node_modules/lodash-es/isBuffer.js
-var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
-var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
-var moduleExports = freeModule && freeModule.exports === freeExports;
-var Buffer = moduleExports ? root_default.Buffer : void 0;
-var nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
-var isBuffer = nativeIsBuffer || stubFalse_default;
-var isBuffer_default = isBuffer;
-
-// node_modules/lodash-es/_baseIsTypedArray.js
-var argsTag2 = "[object Arguments]";
-var arrayTag = "[object Array]";
-var boolTag = "[object Boolean]";
-var dateTag = "[object Date]";
-var errorTag = "[object Error]";
-var funcTag2 = "[object Function]";
-var mapTag = "[object Map]";
-var numberTag = "[object Number]";
-var objectTag = "[object Object]";
-var regexpTag = "[object RegExp]";
-var setTag = "[object Set]";
-var stringTag = "[object String]";
-var weakMapTag = "[object WeakMap]";
-var arrayBufferTag = "[object ArrayBuffer]";
-var dataViewTag = "[object DataView]";
-var float32Tag = "[object Float32Array]";
-var float64Tag = "[object Float64Array]";
-var int8Tag = "[object Int8Array]";
-var int16Tag = "[object Int16Array]";
-var int32Tag = "[object Int32Array]";
-var uint8Tag = "[object Uint8Array]";
-var uint8ClampedTag = "[object Uint8ClampedArray]";
-var uint16Tag = "[object Uint16Array]";
-var uint32Tag = "[object Uint32Array]";
-var typedArrayTags = {};
-typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
-typedArrayTags[argsTag2] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag2] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
-function baseIsTypedArray(value) {
-  return isObjectLike_default(value) && isLength_default(value.length) && !!typedArrayTags[baseGetTag_default(value)];
-}
-var baseIsTypedArray_default = baseIsTypedArray;
-
-// node_modules/lodash-es/_baseUnary.js
-function baseUnary(func) {
-  return function(value) {
-    return func(value);
-  };
-}
-var baseUnary_default = baseUnary;
-
-// node_modules/lodash-es/_nodeUtil.js
-var freeExports2 = typeof exports == "object" && exports && !exports.nodeType && exports;
-var freeModule2 = freeExports2 && typeof module == "object" && module && !module.nodeType && module;
-var moduleExports2 = freeModule2 && freeModule2.exports === freeExports2;
-var freeProcess = moduleExports2 && freeGlobal_default.process;
-var nodeUtil = (function() {
-  try {
-    var types = freeModule2 && freeModule2.require && freeModule2.require("util").types;
-    if (types) {
-      return types;
-    }
-    return freeProcess && freeProcess.binding && freeProcess.binding("util");
-  } catch (e2) {
-  }
-})();
-var nodeUtil_default = nodeUtil;
-
-// node_modules/lodash-es/isTypedArray.js
-var nodeIsTypedArray = nodeUtil_default && nodeUtil_default.isTypedArray;
-var isTypedArray = nodeIsTypedArray ? baseUnary_default(nodeIsTypedArray) : baseIsTypedArray_default;
-var isTypedArray_default = isTypedArray;
-
-// node_modules/lodash-es/_arrayLikeKeys.js
-var objectProto8 = Object.prototype;
-var hasOwnProperty5 = objectProto8.hasOwnProperty;
-function arrayLikeKeys(value, inherited) {
-  var isArr = isArray_default(value), isArg = !isArr && isArguments_default(value), isBuff = !isArr && !isArg && isBuffer_default(value), isType2 = !isArr && !isArg && !isBuff && isTypedArray_default(value), skipIndexes = isArr || isArg || isBuff || isType2, result = skipIndexes ? baseTimes_default(value.length, String) : [], length = result.length;
-  for (var key in value) {
-    if ((inherited || hasOwnProperty5.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
-    (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
-    isBuff && (key == "offset" || key == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
-    isType2 && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
-    isIndex_default(key, length)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-var arrayLikeKeys_default = arrayLikeKeys;
-
-// node_modules/lodash-es/_overArg.js
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-var overArg_default = overArg;
-
-// node_modules/lodash-es/_nativeKeysIn.js
-function nativeKeysIn(object) {
-  var result = [];
-  if (object != null) {
-    for (var key in Object(object)) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-var nativeKeysIn_default = nativeKeysIn;
-
-// node_modules/lodash-es/_baseKeysIn.js
-var objectProto9 = Object.prototype;
-var hasOwnProperty6 = objectProto9.hasOwnProperty;
-function baseKeysIn(object) {
-  if (!isObject_default(object)) {
-    return nativeKeysIn_default(object);
-  }
-  var isProto = isPrototype_default(object), result = [];
-  for (var key in object) {
-    if (!(key == "constructor" && (isProto || !hasOwnProperty6.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-var baseKeysIn_default = baseKeysIn;
-
-// node_modules/lodash-es/keysIn.js
-function keysIn(object) {
-  return isArrayLike_default(object) ? arrayLikeKeys_default(object, true) : baseKeysIn_default(object);
-}
-var keysIn_default = keysIn;
-
-// node_modules/lodash-es/_nativeCreate.js
-var nativeCreate = getNative_default(Object, "create");
-var nativeCreate_default = nativeCreate;
-
-// node_modules/lodash-es/_hashClear.js
-function hashClear() {
-  this.__data__ = nativeCreate_default ? nativeCreate_default(null) : {};
-  this.size = 0;
-}
-var hashClear_default = hashClear;
-
-// node_modules/lodash-es/_hashDelete.js
-function hashDelete(key) {
-  var result = this.has(key) && delete this.__data__[key];
-  this.size -= result ? 1 : 0;
-  return result;
-}
-var hashDelete_default = hashDelete;
-
-// node_modules/lodash-es/_hashGet.js
-var HASH_UNDEFINED = "__lodash_hash_undefined__";
-var objectProto10 = Object.prototype;
-var hasOwnProperty7 = objectProto10.hasOwnProperty;
-function hashGet(key) {
-  var data = this.__data__;
-  if (nativeCreate_default) {
-    var result = data[key];
-    return result === HASH_UNDEFINED ? void 0 : result;
-  }
-  return hasOwnProperty7.call(data, key) ? data[key] : void 0;
-}
-var hashGet_default = hashGet;
-
-// node_modules/lodash-es/_hashHas.js
-var objectProto11 = Object.prototype;
-var hasOwnProperty8 = objectProto11.hasOwnProperty;
-function hashHas(key) {
-  var data = this.__data__;
-  return nativeCreate_default ? data[key] !== void 0 : hasOwnProperty8.call(data, key);
-}
-var hashHas_default = hashHas;
-
-// node_modules/lodash-es/_hashSet.js
-var HASH_UNDEFINED2 = "__lodash_hash_undefined__";
-function hashSet(key, value) {
-  var data = this.__data__;
-  this.size += this.has(key) ? 0 : 1;
-  data[key] = nativeCreate_default && value === void 0 ? HASH_UNDEFINED2 : value;
-  return this;
-}
-var hashSet_default = hashSet;
-
-// node_modules/lodash-es/_Hash.js
-function Hash(entries) {
-  var index2 = -1, length = entries == null ? 0 : entries.length;
-  this.clear();
-  while (++index2 < length) {
-    var entry = entries[index2];
-    this.set(entry[0], entry[1]);
-  }
-}
-Hash.prototype.clear = hashClear_default;
-Hash.prototype["delete"] = hashDelete_default;
-Hash.prototype.get = hashGet_default;
-Hash.prototype.has = hashHas_default;
-Hash.prototype.set = hashSet_default;
-var Hash_default = Hash;
-
-// node_modules/lodash-es/_listCacheClear.js
-function listCacheClear() {
-  this.__data__ = [];
-  this.size = 0;
-}
-var listCacheClear_default = listCacheClear;
-
-// node_modules/lodash-es/_assocIndexOf.js
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq_default(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-var assocIndexOf_default = assocIndexOf;
-
-// node_modules/lodash-es/_listCacheDelete.js
-var arrayProto = Array.prototype;
-var splice = arrayProto.splice;
-function listCacheDelete(key) {
-  var data = this.__data__, index2 = assocIndexOf_default(data, key);
-  if (index2 < 0) {
-    return false;
-  }
-  var lastIndex = data.length - 1;
-  if (index2 == lastIndex) {
-    data.pop();
-  } else {
-    splice.call(data, index2, 1);
-  }
-  --this.size;
-  return true;
-}
-var listCacheDelete_default = listCacheDelete;
-
-// node_modules/lodash-es/_listCacheGet.js
-function listCacheGet(key) {
-  var data = this.__data__, index2 = assocIndexOf_default(data, key);
-  return index2 < 0 ? void 0 : data[index2][1];
-}
-var listCacheGet_default = listCacheGet;
-
-// node_modules/lodash-es/_listCacheHas.js
-function listCacheHas(key) {
-  return assocIndexOf_default(this.__data__, key) > -1;
-}
-var listCacheHas_default = listCacheHas;
-
-// node_modules/lodash-es/_listCacheSet.js
-function listCacheSet(key, value) {
-  var data = this.__data__, index2 = assocIndexOf_default(data, key);
-  if (index2 < 0) {
-    ++this.size;
-    data.push([key, value]);
-  } else {
-    data[index2][1] = value;
-  }
-  return this;
-}
-var listCacheSet_default = listCacheSet;
-
-// node_modules/lodash-es/_ListCache.js
-function ListCache(entries) {
-  var index2 = -1, length = entries == null ? 0 : entries.length;
-  this.clear();
-  while (++index2 < length) {
-    var entry = entries[index2];
-    this.set(entry[0], entry[1]);
-  }
-}
-ListCache.prototype.clear = listCacheClear_default;
-ListCache.prototype["delete"] = listCacheDelete_default;
-ListCache.prototype.get = listCacheGet_default;
-ListCache.prototype.has = listCacheHas_default;
-ListCache.prototype.set = listCacheSet_default;
-var ListCache_default = ListCache;
-
-// node_modules/lodash-es/_Map.js
-var Map2 = getNative_default(root_default, "Map");
-var Map_default = Map2;
-
-// node_modules/lodash-es/_mapCacheClear.js
-function mapCacheClear() {
-  this.size = 0;
-  this.__data__ = {
-    "hash": new Hash_default(),
-    "map": new (Map_default || ListCache_default)(),
-    "string": new Hash_default()
-  };
-}
-var mapCacheClear_default = mapCacheClear;
-
-// node_modules/lodash-es/_isKeyable.js
-function isKeyable(value) {
-  var type = typeof value;
-  return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
-}
-var isKeyable_default = isKeyable;
-
-// node_modules/lodash-es/_getMapData.js
-function getMapData(map4, key) {
-  var data = map4.__data__;
-  return isKeyable_default(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
-}
-var getMapData_default = getMapData;
-
-// node_modules/lodash-es/_mapCacheDelete.js
-function mapCacheDelete(key) {
-  var result = getMapData_default(this, key)["delete"](key);
-  this.size -= result ? 1 : 0;
-  return result;
-}
-var mapCacheDelete_default = mapCacheDelete;
-
-// node_modules/lodash-es/_mapCacheGet.js
-function mapCacheGet(key) {
-  return getMapData_default(this, key).get(key);
-}
-var mapCacheGet_default = mapCacheGet;
-
-// node_modules/lodash-es/_mapCacheHas.js
-function mapCacheHas(key) {
-  return getMapData_default(this, key).has(key);
-}
-var mapCacheHas_default = mapCacheHas;
-
-// node_modules/lodash-es/_mapCacheSet.js
-function mapCacheSet(key, value) {
-  var data = getMapData_default(this, key), size = data.size;
-  data.set(key, value);
-  this.size += data.size == size ? 0 : 1;
-  return this;
-}
-var mapCacheSet_default = mapCacheSet;
-
-// node_modules/lodash-es/_MapCache.js
-function MapCache(entries) {
-  var index2 = -1, length = entries == null ? 0 : entries.length;
-  this.clear();
-  while (++index2 < length) {
-    var entry = entries[index2];
-    this.set(entry[0], entry[1]);
-  }
-}
-MapCache.prototype.clear = mapCacheClear_default;
-MapCache.prototype["delete"] = mapCacheDelete_default;
-MapCache.prototype.get = mapCacheGet_default;
-MapCache.prototype.has = mapCacheHas_default;
-MapCache.prototype.set = mapCacheSet_default;
-var MapCache_default = MapCache;
-
-// node_modules/lodash-es/_getPrototype.js
-var getPrototype = overArg_default(Object.getPrototypeOf, Object);
-var getPrototype_default = getPrototype;
-
-// node_modules/lodash-es/isPlainObject.js
-var objectTag2 = "[object Object]";
-var funcProto3 = Function.prototype;
-var objectProto12 = Object.prototype;
-var funcToString3 = funcProto3.toString;
-var hasOwnProperty9 = objectProto12.hasOwnProperty;
-var objectCtorString = funcToString3.call(Object);
-function isPlainObject(value) {
-  if (!isObjectLike_default(value) || baseGetTag_default(value) != objectTag2) {
-    return false;
-  }
-  var proto = getPrototype_default(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = hasOwnProperty9.call(proto, "constructor") && proto.constructor;
-  return typeof Ctor == "function" && Ctor instanceof Ctor && funcToString3.call(Ctor) == objectCtorString;
-}
-var isPlainObject_default = isPlainObject;
-
-// node_modules/lodash-es/_stackClear.js
-function stackClear() {
-  this.__data__ = new ListCache_default();
-  this.size = 0;
-}
-var stackClear_default = stackClear;
-
-// node_modules/lodash-es/_stackDelete.js
-function stackDelete(key) {
-  var data = this.__data__, result = data["delete"](key);
-  this.size = data.size;
-  return result;
-}
-var stackDelete_default = stackDelete;
-
-// node_modules/lodash-es/_stackGet.js
-function stackGet(key) {
-  return this.__data__.get(key);
-}
-var stackGet_default = stackGet;
-
-// node_modules/lodash-es/_stackHas.js
-function stackHas(key) {
-  return this.__data__.has(key);
-}
-var stackHas_default = stackHas;
-
-// node_modules/lodash-es/_stackSet.js
-var LARGE_ARRAY_SIZE = 200;
-function stackSet(key, value) {
-  var data = this.__data__;
-  if (data instanceof ListCache_default) {
-    var pairs = data.__data__;
-    if (!Map_default || pairs.length < LARGE_ARRAY_SIZE - 1) {
-      pairs.push([key, value]);
-      this.size = ++data.size;
-      return this;
-    }
-    data = this.__data__ = new MapCache_default(pairs);
-  }
-  data.set(key, value);
-  this.size = data.size;
-  return this;
-}
-var stackSet_default = stackSet;
-
-// node_modules/lodash-es/_Stack.js
-function Stack(entries) {
-  var data = this.__data__ = new ListCache_default(entries);
-  this.size = data.size;
-}
-Stack.prototype.clear = stackClear_default;
-Stack.prototype["delete"] = stackDelete_default;
-Stack.prototype.get = stackGet_default;
-Stack.prototype.has = stackHas_default;
-Stack.prototype.set = stackSet_default;
-var Stack_default = Stack;
-
-// node_modules/lodash-es/_cloneBuffer.js
-var freeExports3 = typeof exports == "object" && exports && !exports.nodeType && exports;
-var freeModule3 = freeExports3 && typeof module == "object" && module && !module.nodeType && module;
-var moduleExports3 = freeModule3 && freeModule3.exports === freeExports3;
-var Buffer2 = moduleExports3 ? root_default.Buffer : void 0;
-var allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : void 0;
-function cloneBuffer(buffer, isDeep) {
-  if (isDeep) {
-    return buffer.slice();
-  }
-  var length = buffer.length, result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
-  buffer.copy(result);
-  return result;
-}
-var cloneBuffer_default = cloneBuffer;
-
-// node_modules/lodash-es/_Uint8Array.js
-var Uint8Array2 = root_default.Uint8Array;
-var Uint8Array_default = Uint8Array2;
-
-// node_modules/lodash-es/_cloneArrayBuffer.js
-function cloneArrayBuffer(arrayBuffer) {
-  var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
-  new Uint8Array_default(result).set(new Uint8Array_default(arrayBuffer));
-  return result;
-}
-var cloneArrayBuffer_default = cloneArrayBuffer;
-
-// node_modules/lodash-es/_cloneTypedArray.js
-function cloneTypedArray(typedArray, isDeep) {
-  var buffer = isDeep ? cloneArrayBuffer_default(typedArray.buffer) : typedArray.buffer;
-  return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
-}
-var cloneTypedArray_default = cloneTypedArray;
-
-// node_modules/lodash-es/_initCloneObject.js
-function initCloneObject(object) {
-  return typeof object.constructor == "function" && !isPrototype_default(object) ? baseCreate_default(getPrototype_default(object)) : {};
-}
-var initCloneObject_default = initCloneObject;
-
-// node_modules/lodash-es/_createBaseFor.js
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var index2 = -1, iterable = Object(object), props = keysFunc(object), length = props.length;
-    while (length--) {
-      var key = props[fromRight ? length : ++index2];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-var createBaseFor_default = createBaseFor;
-
-// node_modules/lodash-es/_baseFor.js
-var baseFor = createBaseFor_default();
-var baseFor_default = baseFor;
-
-// node_modules/lodash-es/_assignMergeValue.js
-function assignMergeValue(object, key, value) {
-  if (value !== void 0 && !eq_default(object[key], value) || value === void 0 && !(key in object)) {
-    baseAssignValue_default(object, key, value);
-  }
-}
-var assignMergeValue_default = assignMergeValue;
-
-// node_modules/lodash-es/isArrayLikeObject.js
-function isArrayLikeObject(value) {
-  return isObjectLike_default(value) && isArrayLike_default(value);
-}
-var isArrayLikeObject_default = isArrayLikeObject;
-
-// node_modules/lodash-es/_safeGet.js
-function safeGet(object, key) {
-  if (key === "constructor" && typeof object[key] === "function") {
-    return;
-  }
-  if (key == "__proto__") {
-    return;
-  }
-  return object[key];
-}
-var safeGet_default = safeGet;
-
-// node_modules/lodash-es/toPlainObject.js
-function toPlainObject(value) {
-  return copyObject_default(value, keysIn_default(value));
-}
-var toPlainObject_default = toPlainObject;
-
-// node_modules/lodash-es/_baseMergeDeep.js
-function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-  var objValue = safeGet_default(object, key), srcValue = safeGet_default(source, key), stacked = stack.get(srcValue);
-  if (stacked) {
-    assignMergeValue_default(object, key, stacked);
-    return;
-  }
-  var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : void 0;
-  var isCommon = newValue === void 0;
-  if (isCommon) {
-    var isArr = isArray_default(srcValue), isBuff = !isArr && isBuffer_default(srcValue), isTyped = !isArr && !isBuff && isTypedArray_default(srcValue);
-    newValue = srcValue;
-    if (isArr || isBuff || isTyped) {
-      if (isArray_default(objValue)) {
-        newValue = objValue;
-      } else if (isArrayLikeObject_default(objValue)) {
-        newValue = copyArray_default(objValue);
-      } else if (isBuff) {
-        isCommon = false;
-        newValue = cloneBuffer_default(srcValue, true);
-      } else if (isTyped) {
-        isCommon = false;
-        newValue = cloneTypedArray_default(srcValue, true);
-      } else {
-        newValue = [];
-      }
-    } else if (isPlainObject_default(srcValue) || isArguments_default(srcValue)) {
-      newValue = objValue;
-      if (isArguments_default(objValue)) {
-        newValue = toPlainObject_default(objValue);
-      } else if (!isObject_default(objValue) || isFunction_default(objValue)) {
-        newValue = initCloneObject_default(srcValue);
-      }
-    } else {
-      isCommon = false;
-    }
-  }
-  if (isCommon) {
-    stack.set(srcValue, newValue);
-    mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
-    stack["delete"](srcValue);
-  }
-  assignMergeValue_default(object, key, newValue);
-}
-var baseMergeDeep_default = baseMergeDeep;
-
-// node_modules/lodash-es/_baseMerge.js
-function baseMerge(object, source, srcIndex, customizer, stack) {
-  if (object === source) {
-    return;
-  }
-  baseFor_default(source, function(srcValue, key) {
-    stack || (stack = new Stack_default());
-    if (isObject_default(srcValue)) {
-      baseMergeDeep_default(object, source, key, srcIndex, baseMerge, customizer, stack);
-    } else {
-      var newValue = customizer ? customizer(safeGet_default(object, key), srcValue, key + "", object, source, stack) : void 0;
-      if (newValue === void 0) {
-        newValue = srcValue;
-      }
-      assignMergeValue_default(object, key, newValue);
-    }
-  }, keysIn_default);
-}
-var baseMerge_default = baseMerge;
-
-// node_modules/lodash-es/merge.js
-var merge3 = createAssigner_default(function(object, source, srcIndex) {
-  baseMerge_default(object, source, srcIndex);
-});
-var merge_default = merge3;
-
-// node_modules/lodash-es/lodash.js
-/**
- * @license
- * Lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="es" --repo lodash/lodash#4.18.1 -o ./`
- * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-// node_modules/ng2-charts/fesm2022/ng2-charts.mjs
-var ThemeService = class _ThemeService {
-  constructor() {
-    this.colorschemesOptions = new BehaviorSubject(void 0);
-  }
-  setColorschemesOptions(options) {
-    this.pColorschemesOptions = options;
-    this.colorschemesOptions.next(options);
-  }
-  getColorschemesOptions() {
-    return this.pColorschemesOptions;
-  }
-  static {
-    this.\u0275fac = function ThemeService_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _ThemeService)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _ThemeService,
-      factory: _ThemeService.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThemeService, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-var BaseChartDirective = class _BaseChartDirective {
-  constructor(element, zone, themeService) {
-    this.zone = zone;
-    this.themeService = themeService;
-    this.type = "bar";
-    this.plugins = [];
-    this.chartClick = new EventEmitter();
-    this.chartHover = new EventEmitter();
-    this.subs = [];
-    this.themeOverrides = {};
-    this.ctx = element.nativeElement.getContext("2d");
-    this.subs.push(this.themeService.colorschemesOptions.pipe(distinctUntilChanged()).subscribe((r) => this.themeChanged(r)));
-  }
-  ngOnChanges(changes) {
-    const requireRender = ["type"];
-    const propertyNames = Object.getOwnPropertyNames(changes);
-    if (propertyNames.some((key) => requireRender.includes(key)) || propertyNames.every((key) => changes[key].isFirstChange())) {
-      this.render();
-    } else {
-      const config4 = this.getChartConfiguration();
-      if (this.chart) {
-        Object.assign(this.chart.config.data, config4.data);
-        if (this.chart.config.plugins) {
-          Object.assign(this.chart.config.plugins, config4.plugins);
-        }
-        if (this.chart.config.options) {
-          Object.assign(this.chart.config.options, config4.options);
-        }
-      }
-      this.update();
-    }
-  }
-  ngOnDestroy() {
-    if (this.chart) {
-      this.chart.destroy();
-      this.chart = void 0;
-    }
-    this.subs.forEach((s4) => s4.unsubscribe());
-  }
-  render() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    return this.zone.runOutsideAngular(() => this.chart = new Chart(this.ctx, this.getChartConfiguration()));
-  }
-  update(duration) {
-    if (this.chart) {
-      this.zone.runOutsideAngular(() => this.chart?.update(duration));
-    }
-  }
-  hideDataset(index2, hidden) {
-    if (this.chart) {
-      this.chart.getDatasetMeta(index2).hidden = hidden;
-      this.update();
-    }
-  }
-  isDatasetHidden(index2) {
-    return this.chart?.getDatasetMeta(index2)?.hidden;
-  }
-  toBase64Image() {
-    return this.chart?.toBase64Image();
-  }
-  themeChanged(options) {
-    this.themeOverrides = options;
-    if (this.chart) {
-      if (this.chart.config.options) {
-        Object.assign(this.chart.config.options, this.getChartOptions());
-      }
-      this.update();
-    }
-  }
-  getChartOptions() {
-    return merge_default({
-      onHover: (event, active) => {
-        if (!this.chartHover.observed && !this.chartHover.observers?.length) {
-          return;
-        }
-        this.zone.run(() => this.chartHover.emit({
-          event,
-          active
-        }));
-      },
-      onClick: (event, active) => {
-        if (!this.chartClick.observed && !this.chartClick.observers?.length) {
-          return;
-        }
-        this.zone.run(() => this.chartClick.emit({
-          event,
-          active
-        }));
-      }
-    }, this.themeOverrides, this.options, {
-      plugins: {
-        legend: {
-          display: this.legend
-        }
-      }
-    });
-  }
-  getChartConfiguration() {
-    return {
-      type: this.type,
-      data: this.getChartData(),
-      options: this.getChartOptions(),
-      plugins: this.plugins
-    };
-  }
-  getChartData() {
-    return this.data ? this.data : {
-      labels: this.labels || [],
-      datasets: this.datasets || []
-    };
-  }
-  static {
-    this.\u0275fac = function BaseChartDirective_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _BaseChartDirective)(\u0275\u0275directiveInject(ElementRef), \u0275\u0275directiveInject(NgZone), \u0275\u0275directiveInject(ThemeService));
-    };
-  }
-  static {
-    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
-      type: _BaseChartDirective,
-      selectors: [["canvas", "baseChart", ""]],
-      inputs: {
-        type: "type",
-        legend: "legend",
-        data: "data",
-        options: "options",
-        plugins: "plugins",
-        labels: "labels",
-        datasets: "datasets"
-      },
-      outputs: {
-        chartClick: "chartClick",
-        chartHover: "chartHover"
-      },
-      exportAs: ["base-chart"],
-      standalone: false,
-      features: [\u0275\u0275NgOnChangesFeature]
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BaseChartDirective, [{
-    type: Directive,
-    args: [{
-      // eslint-disable-next-line @angular-eslint/directive-selector
-      selector: "canvas[baseChart]",
-      exportAs: "base-chart"
-    }]
-  }], function() {
-    return [{
-      type: ElementRef
-    }, {
-      type: NgZone
-    }, {
-      type: ThemeService
-    }];
-  }, {
-    type: [{
-      type: Input
-    }],
-    legend: [{
-      type: Input
-    }],
-    data: [{
-      type: Input
-    }],
-    options: [{
-      type: Input
-    }],
-    plugins: [{
-      type: Input
-    }],
-    labels: [{
-      type: Input
-    }],
-    datasets: [{
-      type: Input
-    }],
-    chartClick: [{
-      type: Output
-    }],
-    chartHover: [{
-      type: Output
-    }]
-  });
-})();
-var baseColors = [[255, 99, 132], [54, 162, 235], [255, 206, 86], [231, 233, 237], [75, 192, 192], [151, 187, 205], [220, 220, 220], [247, 70, 74], [70, 191, 189], [253, 180, 92], [148, 159, 177], [77, 83, 96]];
-var builtInDefaults = {
-  plugins: {
-    colors: {
-      enabled: false
-    }
-  },
-  datasets: {
-    line: {
-      backgroundColor: (context2) => rgba(generateColor(context2.datasetIndex), 0.4),
-      borderColor: (context2) => rgba(generateColor(context2.datasetIndex), 1),
-      pointBackgroundColor: (context2) => rgba(generateColor(context2.datasetIndex), 1),
-      pointBorderColor: "#fff"
-    },
-    bar: {
-      backgroundColor: (context2) => rgba(generateColor(context2.datasetIndex), 0.6),
-      borderColor: (context2) => rgba(generateColor(context2.datasetIndex), 1)
-    },
-    get radar() {
-      return this.line;
-    },
-    doughnut: {
-      backgroundColor: (context2) => rgba(generateColor(context2.dataIndex), 0.6),
-      borderColor: "#fff"
-    },
-    get pie() {
-      return this.doughnut;
-    },
-    polarArea: {
-      backgroundColor: (context2) => rgba(generateColor(context2.dataIndex), 0.6),
-      borderColor: (context2) => rgba(generateColor(context2.dataIndex), 1)
-    },
-    get bubble() {
-      return this.doughnut;
-    },
-    get scatter() {
-      return this.doughnut;
-    },
-    get area() {
-      return this.polarArea;
-    }
-  }
-};
-function rgba(colour, alpha2) {
-  return "rgba(" + colour.concat(alpha2).join(",") + ")";
-}
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function getRandomColor() {
-  return [getRandomInt(0, 255), getRandomInt(0, 255), getRandomInt(0, 255)];
-}
-function generateColor(index2 = 0) {
-  return baseColors[index2] || getRandomColor();
-}
-var NgChartsConfiguration = class _NgChartsConfiguration {
-  constructor() {
-    this.generateColors = true;
-  }
-  static {
-    this.\u0275fac = function NgChartsConfiguration_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NgChartsConfiguration)();
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
-      token: _NgChartsConfiguration,
-      factory: _NgChartsConfiguration.\u0275fac,
-      providedIn: "root"
-    });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgChartsConfiguration, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
-Chart.register(...registerables);
-var NgChartsModule = class _NgChartsModule {
-  constructor(config4) {
-    if (config4?.plugins) Chart.register(...config4.plugins);
-    const ngChartsDefaults = merge_default(config4?.generateColors ? builtInDefaults : {}, config4?.defaults || {});
-    defaults.set(ngChartsDefaults);
-  }
-  static forRoot(config4) {
-    return {
-      ngModule: _NgChartsModule,
-      providers: [{
-        provide: NgChartsConfiguration,
-        useValue: config4
-      }]
-    };
-  }
-  static {
-    this.\u0275fac = function NgChartsModule_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _NgChartsModule)(\u0275\u0275inject(NgChartsConfiguration, 8));
-    };
-  }
-  static {
-    this.\u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
-      type: _NgChartsModule,
-      declarations: [BaseChartDirective],
-      exports: [BaseChartDirective]
-    });
-  }
-  static {
-    this.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgChartsModule, [{
-    type: NgModule,
-    args: [{
-      imports: [],
-      declarations: [BaseChartDirective],
-      exports: [BaseChartDirective]
-    }]
-  }], function() {
-    return [{
-      type: NgChartsConfiguration,
-      decorators: [{
-        type: Optional
-      }]
-    }];
-  }, null);
-})();
-
 // src/app/task/Stopwatch.component.ts
 function StopwatchComponent_div_12_Template(rf, ctx) {
   if (rf & 1) {
@@ -69906,7 +68506,7 @@ function TaskComponent_Conditional_2_Conditional_4_Template(rf, ctx) {
     const _r1 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 14);
+    \u0275\u0275elementStart(2, "span", 17);
     \u0275\u0275listener("keyup", function TaskComponent_Conditional_2_Conditional_4_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -69916,7 +68516,7 @@ function TaskComponent_Conditional_2_Conditional_4_Template(rf, ctx) {
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 15);
+    \u0275\u0275elementStart(6, "span", 18);
     \u0275\u0275listener("keyup", function TaskComponent_Conditional_2_Conditional_4_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -69941,7 +68541,7 @@ function TaskComponent_Conditional_2_Conditional_5_Template(rf, ctx) {
     const _r3 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 14);
+    \u0275\u0275elementStart(2, "span", 17);
     \u0275\u0275listener("keyup", function TaskComponent_Conditional_2_Conditional_5_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -69950,7 +68550,7 @@ function TaskComponent_Conditional_2_Conditional_5_Template(rf, ctx) {
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 16);
+    \u0275\u0275elementStart(5, "span", 19);
     \u0275\u0275listener("click", function TaskComponent_Conditional_2_Conditional_5_Template_span_click_5_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -69971,7 +68571,7 @@ function TaskComponent_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 2);
     \u0275\u0275text(1);
-    \u0275\u0275element(2, "time-format", 13);
+    \u0275\u0275element(2, "time-format", 16);
     \u0275\u0275text(3, "] ");
     \u0275\u0275conditionalCreate(4, TaskComponent_Conditional_2_Conditional_4_Template, 10, 8, "span");
     \u0275\u0275conditionalCreate(5, TaskComponent_Conditional_2_Conditional_5_Template, 7, 5, "span");
@@ -69994,7 +68594,7 @@ function TaskComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
-    \u0275\u0275elementStart(2, "span", 17);
+    \u0275\u0275elementStart(2, "span", 20);
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
@@ -70013,7 +68613,7 @@ function TaskComponent_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
-    \u0275\u0275elementStart(2, "span", 17);
+    \u0275\u0275elementStart(2, "span", 20);
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
@@ -70045,14 +68645,14 @@ function TaskComponent_Conditional_6_Template(rf, ctx) {
 function TaskComponent_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 3);
-    \u0275\u0275element(1, "img", 18);
+    \u0275\u0275element(1, "img", 21);
     \u0275\u0275elementEnd();
   }
 }
 function TaskComponent_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 3);
-    \u0275\u0275element(1, "img", 19);
+    \u0275\u0275element(1, "img", 22);
     \u0275\u0275elementEnd();
   }
 }
@@ -70073,13 +68673,34 @@ function TaskComponent_Conditional_10_Template(rf, ctx) {
 function TaskComponent_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 6);
-    \u0275\u0275element(1, "img", 20);
+    \u0275\u0275element(1, "img", 23);
+    \u0275\u0275elementEnd();
+  }
+}
+function TaskComponent_Conditional_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 7);
+    \u0275\u0275text(1, " \u{1F6A8} ");
+    \u0275\u0275elementEnd();
+  }
+}
+function TaskComponent_Conditional_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 8);
+    \u0275\u0275text(1, " \u{1F4BC} ");
     \u0275\u0275elementEnd();
   }
 }
 function TaskComponent_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 8)(1, "a", 21);
+    \u0275\u0275elementStart(0, "span", 9);
+    \u0275\u0275element(1, "img", 24);
+    \u0275\u0275elementEnd();
+  }
+}
+function TaskComponent_Conditional_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 11)(1, "a", 25);
     \u0275\u0275text(2, "link");
     \u0275\u0275elementEnd();
     \u0275\u0275text(3, "\xA0");
@@ -70091,11 +68712,11 @@ function TaskComponent_Conditional_14_Template(rf, ctx) {
     \u0275\u0275property("href", \u0275\u0275interpolate(ctx_r1.task.tsk_url), \u0275\u0275sanitizeUrl)("title", \u0275\u0275interpolate(ctx_r1.task.tsk_url));
   }
 }
-function TaskComponent_Conditional_17_For_3_Template(rf, ctx) {
+function TaskComponent_Conditional_20_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 23);
-    \u0275\u0275listener("click", function TaskComponent_Conditional_17_For_3_Template_span_click_0_listener() {
+    \u0275\u0275elementStart(0, "span", 27);
+    \u0275\u0275listener("click", function TaskComponent_Conditional_20_For_3_Template_span_click_0_listener() {
       const tag_r5 = \u0275\u0275restoreView(_r4).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handlers.onShowTagStats(tag_r5));
@@ -70109,11 +68730,11 @@ function TaskComponent_Conditional_17_For_3_Template(rf, ctx) {
     \u0275\u0275textInterpolate1("#", tag_r5, "\xA0");
   }
 }
-function TaskComponent_Conditional_17_Template(rf, ctx) {
+function TaskComponent_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 10);
+    \u0275\u0275elementStart(0, "span", 13);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275repeaterCreate(2, TaskComponent_Conditional_17_For_3_Template, 2, 1, "span", 22, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(2, TaskComponent_Conditional_20_For_3_Template, 2, 1, "span", 26, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -70122,7 +68743,7 @@ function TaskComponent_Conditional_17_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.task.tsk_tags.split(" "));
   }
 }
-function TaskComponent_Conditional_18_Template(rf, ctx) {
+function TaskComponent_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
     \u0275\u0275text(2);
@@ -70134,7 +68755,7 @@ function TaskComponent_Conditional_18_Template(rf, ctx) {
     \u0275\u0275textInterpolate1("\xA0at ", ctx_r1.formatDateTime(ctx_r1.task.tsk_schedule_date_start), " \u23F0");
   }
 }
-function TaskComponent_Conditional_19_Template(rf, ctx) {
+function TaskComponent_Conditional_22_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 2);
     \u0275\u0275text(1);
@@ -70147,9 +68768,9 @@ function TaskComponent_Conditional_19_Template(rf, ctx) {
     \u0275\u0275textInterpolate(ctx_r1.handlers.onGetTaskAge(ctx_r1.task));
   }
 }
-function TaskComponent_Conditional_20_Template(rf, ctx) {
+function TaskComponent_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 11);
+    \u0275\u0275elementStart(0, "span", 14);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -70159,25 +68780,25 @@ function TaskComponent_Conditional_20_Template(rf, ctx) {
     \u0275\u0275textInterpolate1("[", ctx_r1.task.tsk_id_record, "]");
   }
 }
-function TaskComponent_Conditional_21_Template(rf, ctx) {
+function TaskComponent_Conditional_24_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 12);
+    \u0275\u0275elementStart(0, "span", 15);
     \u0275\u0275text(1, "BACKLOG");
     \u0275\u0275elementEnd();
   }
 }
-function TaskComponent_Conditional_22_Template(rf, ctx) {
+function TaskComponent_Conditional_25_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "(Not in sync)");
     \u0275\u0275elementEnd();
   }
 }
-function TaskComponent_Conditional_23_Template(rf, ctx) {
+function TaskComponent_Conditional_26_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 24);
-    \u0275\u0275listener("click", function TaskComponent_Conditional_23_Template_button_click_0_listener() {
+    \u0275\u0275elementStart(0, "button", 28);
+    \u0275\u0275listener("click", function TaskComponent_Conditional_26_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r6);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.handlers.onViewTaskDetails(ctx_r1.task));
@@ -70303,7 +68924,7 @@ var TaskComponent = class _TaskComponent {
   static \u0275fac = function TaskComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _TaskComponent)(\u0275\u0275directiveInject(SyncAPI));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TaskComponent, selectors: [["task"]], inputs: { task: "task", record: "record", groupTasks: "groupTasks", containerSelector: "containerSelector", handlers: "handlers", options: "options" }, standalone: false, features: [\u0275\u0275ProvidersFeature([])], decls: 24, vars: 41, consts: [[3, "id", "ngClass"], ["type", "checkbox", 3, "click", "checked"], [3, "ngClass"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], [1, "task-record-name"], [1, "task-badge-status-backlog"], ["format", "[HH]:[mm]:[ss]", 1, "notification-date", 3, "value"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["contenteditable", "true", "spellcheck", "false"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [3, "click"]], template: function TaskComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TaskComponent, selectors: [["task"]], inputs: { task: "task", record: "record", groupTasks: "groupTasks", containerSelector: "containerSelector", handlers: "handlers", options: "options" }, standalone: false, features: [\u0275\u0275ProvidersFeature([])], decls: 27, vars: 44, consts: [[3, "id", "ngClass"], ["type", "checkbox", 3, "click", "checked"], [3, "ngClass"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], ["aria-label", "In Today To Do listing", "title", "In Today To Do listing", 2, "margin", "0 -4px"], ["aria-label", "In Work To Do listing", "title", "In Work To Do listing", 2, "margin", "0 -4px"], [1, "task-pinned-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], [1, "task-record-name"], [1, "task-badge-status-backlog"], ["format", "[HH]:[mm]:[ss]", 1, "notification-date", 3, "value"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["contenteditable", "true", "spellcheck", "false"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [3, "click"]], template: function TaskComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0)(1, "input", 1);
       \u0275\u0275listener("click", function TaskComponent_Template_input_click_1_listener($event) {
@@ -70320,38 +68941,41 @@ var TaskComponent = class _TaskComponent {
       \u0275\u0275conditionalCreate(9, TaskComponent_Conditional_9_Template, 2, 0, "span", 5);
       \u0275\u0275conditionalCreate(10, TaskComponent_Conditional_10_Template, 2, 0, "span", 3);
       \u0275\u0275conditionalCreate(11, TaskComponent_Conditional_11_Template, 2, 0, "span", 6);
-      \u0275\u0275elementStart(12, "span", 7);
-      \u0275\u0275listener("keyup", function TaskComponent_Template_span_keyup_12_listener($event) {
+      \u0275\u0275conditionalCreate(12, TaskComponent_Conditional_12_Template, 2, 0, "span", 7);
+      \u0275\u0275conditionalCreate(13, TaskComponent_Conditional_13_Template, 2, 0, "span", 8);
+      \u0275\u0275conditionalCreate(14, TaskComponent_Conditional_14_Template, 2, 0, "span", 9);
+      \u0275\u0275elementStart(15, "span", 10);
+      \u0275\u0275listener("keyup", function TaskComponent_Template_span_keyup_15_listener($event) {
         return ctx.handlerTaskKeyUp(ctx.task, $event);
-      })("blur", function TaskComponent_Template_span_blur_12_listener($event) {
+      })("blur", function TaskComponent_Template_span_blur_15_listener($event) {
         return ctx.handlerTaskBlur(ctx.task, $event);
-      })("focus", function TaskComponent_Template_span_focus_12_listener($event) {
+      })("focus", function TaskComponent_Template_span_focus_15_listener($event) {
         return ctx.handlerTaskFocus(ctx.task, $event);
-      })("keydown", function TaskComponent_Template_span_keydown_12_listener($event) {
-        return ctx.handlerTaskKeyDown(ctx.task, $event);
-      });
-      \u0275\u0275text(13);
-      \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(14, TaskComponent_Conditional_14_Template, 4, 4, "span", 8);
-      \u0275\u0275elementStart(15, "span", 9);
-      \u0275\u0275listener("blur", function TaskComponent_Template_span_blur_15_listener($event) {
-        return ctx.handlers.onTaskEditEstimatedDuration(ctx.task, $event);
       })("keydown", function TaskComponent_Template_span_keydown_15_listener($event) {
-        return ctx.handlers.onTaskEditEtaKeyDown(ctx.task, $event);
+        return ctx.handlerTaskKeyDown(ctx.task, $event);
       });
       \u0275\u0275text(16);
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(17, TaskComponent_Conditional_17_Template, 4, 0, "span", 10);
-      \u0275\u0275conditionalCreate(18, TaskComponent_Conditional_18_Template, 3, 1, "span");
-      \u0275\u0275conditionalCreate(19, TaskComponent_Conditional_19_Template, 2, 2, "span", 2);
-      \u0275\u0275conditionalCreate(20, TaskComponent_Conditional_20_Template, 2, 1, "span", 11);
-      \u0275\u0275conditionalCreate(21, TaskComponent_Conditional_21_Template, 2, 0, "span", 12);
-      \u0275\u0275conditionalCreate(22, TaskComponent_Conditional_22_Template, 2, 0, "span");
-      \u0275\u0275conditionalCreate(23, TaskComponent_Conditional_23_Template, 2, 0, "button");
+      \u0275\u0275conditionalCreate(17, TaskComponent_Conditional_17_Template, 4, 4, "span", 11);
+      \u0275\u0275elementStart(18, "span", 12);
+      \u0275\u0275listener("blur", function TaskComponent_Template_span_blur_18_listener($event) {
+        return ctx.handlers.onTaskEditEstimatedDuration(ctx.task, $event);
+      })("keydown", function TaskComponent_Template_span_keydown_18_listener($event) {
+        return ctx.handlers.onTaskEditEtaKeyDown(ctx.task, $event);
+      });
+      \u0275\u0275text(19);
+      \u0275\u0275elementEnd();
+      \u0275\u0275conditionalCreate(20, TaskComponent_Conditional_20_Template, 4, 0, "span", 13);
+      \u0275\u0275conditionalCreate(21, TaskComponent_Conditional_21_Template, 3, 1, "span");
+      \u0275\u0275conditionalCreate(22, TaskComponent_Conditional_22_Template, 2, 2, "span", 2);
+      \u0275\u0275conditionalCreate(23, TaskComponent_Conditional_23_Template, 2, 1, "span", 14);
+      \u0275\u0275conditionalCreate(24, TaskComponent_Conditional_24_Template, 2, 0, "span", 15);
+      \u0275\u0275conditionalCreate(25, TaskComponent_Conditional_25_Template, 2, 0, "span");
+      \u0275\u0275conditionalCreate(26, TaskComponent_Conditional_26_Template, 2, 0, "button");
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
-      \u0275\u0275property("id", \u0275\u0275interpolate(ctx.task.tsk_id))("ngClass", \u0275\u0275pureFunction1(27, _c04, ctx.task.tsk_ctg_in_process === 2));
+      \u0275\u0275property("id", \u0275\u0275interpolate(ctx.task.tsk_id))("ngClass", \u0275\u0275pureFunction1(30, _c04, ctx.task.tsk_ctg_in_process === 2));
       \u0275\u0275advance();
       \u0275\u0275property("checked", ctx.task.tsk_ctg_status === 3);
       \u0275\u0275advance();
@@ -70375,30 +68999,36 @@ var TaskComponent = class _TaskComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.task["inNextToDo"] ? 11 : -1);
       \u0275\u0275advance();
-      \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(29, _c1, [ctx.task.tsk_ctg_status === ctx.taskStatus.CLOSED, ctx.task.tsk_ctg_in_process === 2, ctx.task.tsk_qualifiers.indexOf("highlighted") !== -1, ctx.task.tsk_qualifiers.indexOf("priority") !== -1, ctx.task.tsk_qualifiers.indexOf("important") !== -1, ctx.task.tsk_qualifiers.indexOf("unexpected") !== -1, ctx.task.tsk_qualifiers.indexOf("progressed") !== -1, ctx.task.tsk_qualifiers.indexOf("directions") !== -1, ctx.task.tsk_qualifiers.indexOf("critical") !== -1]));
+      \u0275\u0275conditional(ctx.task["inTodayToDo"] ? 12 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.task["inWorkToDo"] ? 13 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.task["inPinnedToDo"] ? 14 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(32, _c1, [ctx.task.tsk_ctg_status === ctx.taskStatus.CLOSED, ctx.task.tsk_ctg_in_process === 2, ctx.task.tsk_qualifiers.indexOf("highlighted") !== -1, ctx.task.tsk_qualifiers.indexOf("priority") !== -1, ctx.task.tsk_qualifiers.indexOf("important") !== -1, ctx.task.tsk_qualifiers.indexOf("unexpected") !== -1, ctx.task.tsk_qualifiers.indexOf("progressed") !== -1, ctx.task.tsk_qualifiers.indexOf("directions") !== -1, ctx.task.tsk_qualifiers.indexOf("critical") !== -1]));
       \u0275\u0275advance();
       \u0275\u0275textInterpolate(ctx.task.tsk_name);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.task.tsk_url ? 14 : -1);
+      \u0275\u0275conditional(ctx.task.tsk_url ? 17 : -1);
       \u0275\u0275advance();
-      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(39, _c2, ctx.task.tsk_estimated_duration === 0));
+      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(42, _c2, ctx.task.tsk_estimated_duration === 0));
       \u0275\u0275attribute("contenteditable", ctx.options.optAllowToEditETA);
       \u0275\u0275advance();
       \u0275\u0275textInterpolate(ctx.formatTime(ctx.task.tsk_estimated_duration * 60, "#h#m"));
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.task.tsk_tags ? 17 : -1);
+      \u0275\u0275conditional(ctx.task.tsk_tags ? 20 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.task.tsk_schedule_date_start ? 18 : -1);
+      \u0275\u0275conditional(ctx.task.tsk_schedule_date_start ? 21 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optViewElapsedDays ? 19 : -1);
+      \u0275\u0275conditional(ctx.options.optViewElapsedDays ? 22 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowRecordNameInline ? 20 : -1);
+      \u0275\u0275conditional(ctx.options.optShowRecordNameInline ? 23 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowBadgeIfTaskIsInBacklog && ctx.task.tsk_ctg_status === 1 ? 21 : -1);
+      \u0275\u0275conditional(ctx.options.optShowBadgeIfTaskIsInBacklog && ctx.task.tsk_ctg_status === 1 ? 24 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.task["not_sync"] ? 22 : -1);
+      \u0275\u0275conditional(ctx.task["not_sync"] ? 25 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.handlers.onViewTaskDetails && ctx.options.optShowDetailsButton ? 23 : -1);
+      \u0275\u0275conditional(ctx.handlers.onViewTaskDetails && ctx.options.optShowDetailsButton ? 26 : -1);
     }
   }, dependencies: [NgClass, TimeFormatComponent, DatePipe], styles: ["\nspan.task-badge-status-backlog[_ngcontent-%COMP%] {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n/*# sourceMappingURL=task-VJEB4HXQ.css.map */"], changeDetection: 1 });
 };
@@ -70529,6 +69159,30 @@ var TaskComponent = class _TaskComponent {
       title="In Next To Do Today listing"
     />
   </span>
+  } @if (task['inTodayToDo']) {
+  <span
+    style="margin: 0 -4px"
+    aria-label="In Today To Do listing"
+    title="In Today To Do listing"
+  >
+    &#128680;
+  </span>
+  } @if (task['inWorkToDo']) {
+  <span
+    style="margin: 0 -4px"
+    aria-label="In Work To Do listing"
+    title="In Work To Do listing"
+  >
+    &#128188;
+  </span>
+  } @if (task['inPinnedToDo']) {
+  <span class="task-pinned-todo-icon">
+    <img
+      src="/assets/icons/pin.svg"
+      alt="In Pinned To Do listing"
+      title="In Pinned To Do listing"
+    />
+  </span>
   }
   <!-- #endregion -->
   <!-- #region Main task description -->
@@ -70635,148 +69289,6 @@ var TaskComponent = class _TaskComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TaskComponent, { className: "TaskComponent", filePath: "src/app/task/task.component.ts", lineNumber: 24 });
 })();
 
-// src/app/task/task-toolbar.component.ts
-var _c05 = (a0) => ({ "mobile-only": a0 });
-function TaskToolbarComponent_Conditional_0_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 0)(1, "div");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 1)(4, "span", 2);
-    \u0275\u0275listener("click", function TaskToolbarComponent_Conditional_0_Template_span_click_4_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.handlerMoveUp(ctx_r1.task, $event, ctx_r1.groupTasks));
-    });
-    \u0275\u0275text(5, "up");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span", 2);
-    \u0275\u0275listener("click", function TaskToolbarComponent_Conditional_0_Template_span_click_6_listener($event) {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.handlerMoveDown(ctx_r1.task, $event, ctx_r1.groupTasks));
-    });
-    \u0275\u0275text(7, "down");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 3);
-    \u0275\u0275listener("click", function TaskToolbarComponent_Conditional_0_Template_span_click_8_listener() {
-      \u0275\u0275restoreView(_r1);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.task = null);
-    });
-    \u0275\u0275text(9, "\xD7");
-    \u0275\u0275elementEnd()()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c05, !ctx_r1.options.optShowTaskToolbar));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.task.tsk_name);
-  }
-}
-var TaskToolbarComponent = class _TaskToolbarComponent {
-  syncService;
-  task = null;
-  groupTasks = [];
-  // position in a list, -1 means it was not passed
-  handlers = {
-    onViewTaskDetails: null,
-    onMoveUp: null,
-    onMoveDown: null
-  };
-  options = {};
-  core = null;
-  constructor(syncService) {
-    this.syncService = syncService;
-  }
-  ngOnInit() {
-    this.core = new TaskCore(this.syncService, this.handlers);
-  }
-  launchHandler(handler, fallback, ...parameters) {
-    if (handler) {
-      return handler(...parameters);
-    }
-    return fallback(...parameters);
-  }
-  handlerMoveUp(t3, event) {
-    return this.launchHandler(this.handlers.onMoveUp, this.core.handlerMoveUp.bind(this.core), t3, event, this.groupTasks);
-  }
-  handlerMoveDown(t3, event) {
-    return this.launchHandler(this.handlers.onMoveDown, this.core.handlerMoveDown.bind(this.core), t3, event, this.groupTasks);
-  }
-  static \u0275fac = function TaskToolbarComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _TaskToolbarComponent)(\u0275\u0275directiveInject(SyncAPI));
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TaskToolbarComponent, selectors: [["task-toolbar"]], inputs: { task: "task", groupTasks: "groupTasks", handlers: "handlers", options: "options" }, standalone: false, features: [\u0275\u0275ProvidersFeature([])], decls: 1, vars: 1, consts: [[1, "task-toolbar", 3, "ngClass"], [1, "task-toolbar-content"], [1, "task-toolbar-btn-move-up", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"]], template: function TaskToolbarComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275conditionalCreate(0, TaskToolbarComponent_Conditional_0_Template, 10, 4, "div", 0);
-    }
-    if (rf & 2) {
-      \u0275\u0275conditional(ctx.task ? 0 : -1);
-    }
-  }, dependencies: [NgClass], styles: ["\n.task-toolbar[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  background-color: var(--background-color);\n  width: 100%;\n  height: auto;\n  border-top: 1px solid black;\n}\n.task-toolbar-content[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  font-size: 200%;\n}\n/*# sourceMappingURL=task-toolbar-QZ55DDNV.css.map */"], changeDetection: 1 });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TaskToolbarComponent, [{
-    type: Component,
-    args: [{ selector: "task-toolbar", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (task) {
-<div
-  class="task-toolbar"
-  [ngClass]="{
-  'mobile-only': !options.optShowTaskToolbar
-}"
->
-  <div>{{ task.tsk_name }}</div>
-  <div class="task-toolbar-content">
-    <!--
-      <span
-        class="play-button clickable"
-        *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"
-        (click)="toggleTimeTracking(selectedTask, $event)"
-        >&#9654;</span
-        >
-        <span
-          class="stop-button clickable"
-          *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"
-          (click)="toggleTimeTracking(selectedTask, $event)"
-          >&#9724;</span
-          >
-          <span
-            class="set-selected-button clickable"
-            (click)="handlerViewDetails(task)"
-            >&#9998;</span
-            >
-            -->
-    <span
-      class="task-toolbar-btn-move-up clickable"
-      (click)="handlerMoveUp(task, $event, groupTasks)"
-      >up</span
-    >
-    <span
-      class="task-toolbar-btn-move-up clickable"
-      (click)="handlerMoveDown(task, $event, groupTasks)"
-      >down</span
-    >
-    <span class="close-button clickable" (click)="task = null">&times;</span>
-  </div>
-</div>
-}
-`, styles: ["/* src/app/task/task-toolbar.css */\n.task-toolbar {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  background-color: var(--background-color);\n  width: 100%;\n  height: auto;\n  border-top: 1px solid black;\n}\n.task-toolbar-content {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  font-size: 200%;\n}\n/*# sourceMappingURL=task-toolbar-QZ55DDNV.css.map */\n"] }]
-  }], () => [{ type: SyncAPI }], { task: [{
-    type: Input
-  }], groupTasks: [{
-    type: Input
-  }], handlers: [{
-    type: Input
-  }], options: [{
-    type: Input
-  }] });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TaskToolbarComponent, { className: "TaskToolbarComponent", filePath: "src/app/task/task-toolbar.component.ts", lineNumber: 19 });
-})();
-
 // src/app/common/checkbox-option.component.ts
 var CheckboxOptionComponent = class _CheckboxOptionComponent {
   checked = false;
@@ -70837,46 +69349,39 @@ var CheckboxOptionComponent = class _CheckboxOptionComponent {
 })();
 
 // src/app/task/tasks.component.ts
-var _c06 = () => ({ optShowTaskToolbar: true });
-var _c12 = (a0, a1, a22) => ({ "task-open-task-list-container": true, "task-open-task-list-container--grid": a0, "task-open-task-list-container--grid-lanes": a1, "task-open-task-list-container--float": a22 });
-var _c22 = (a0) => ({ "hidden": a0 });
-var _c32 = (a0) => ({ "task-record-custom-size": a0 });
-var _c4 = (a0, a1) => ({ "max-width": a0, "max-height": a1 });
-var _c5 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true });
-var _c6 = (a0) => ({ hidden: a0 });
-var _c7 = (a0) => ({ "font-size-2": a0 });
-var _c8 = (a0, a1, a22, a32, a4) => ({ "task-done": a0, "task-in-process": a1, "task-important": a22, "task-urgent": a32, "task-q-progressed": a4 });
-var _c9 = (a0) => ({ "task-no-eta": a0 });
-var _c10 = (a0, a1) => ({ "task-record-no-task-done": a0, "hidden": a1 });
-var _c11 = (a0, a1, a22) => ({ "task-record-no-task-done": a0, "hidden": a1, "task-record-background": a22 });
-var _c122 = (a0) => ({ "max-width": a0 });
-var _c13 = () => ({ "display": "flex", "justify-content": "space-between" });
-var _c14 = (a0) => ({ "cursor": "pointer", "border": a0 });
-var _c15 = (a0, a1, a22, a32, a4) => ({ "task-record-custom-size": a0, "task-record-use-columns": a1, "task-columns-3": a22, "task-columns-8": a32, "task-columns-10": a4 });
-var _c16 = (a0, a1, a22, a32, a4, a5, a6, a7) => ({ "task-done": a0, "task-in-process": a1, "task-highlighted": a22, "task-priority": a32, "task-important": a4, "task-unexpected": a5, "task-q-progressed": a6, "task-directions": a7 });
-var _c17 = (a0) => ({ "task-open-with-tt": a0 });
-var _c18 = (a0) => ({ "desktop-only": a0 });
-var _c19 = (a0, a1) => ({ "color-green": a0, "color-red": a1 });
-var _c20 = (a0, a1) => ({ "task-next-time-ahead": a0, "task-next-time-behind": a1 });
-var _c21 = (a0) => ({ "columns-3": a0 });
-var _c222 = (a0) => ({ "task-item-in-process": a0 });
-var _c23 = (a0, a1, a22, a32, a4, a5, a6, a7, a8, a9) => ({ "task-done": a0, "task-in-process": a1, "task-important": a22, "task-urgent": a32, "task-highlighted": a4, "task-q-progressed": a5, "task-unexpected": a6, "task-call": a7, "task-priority": a8, "task-directions": a9 });
-var _c24 = (a0) => ({ "task-done": a0 });
-var _c25 = () => ({ optShowRecordNameInline: true, optShowTimeTrackingHistory: true, optShowDetailsButton: true });
-var _c26 = (a0) => ({ "mobile-only": a0 });
+var _c05 = (a0, a1, a22) => ({ "task-open-task-list-container": true, "task-open-task-list-container--grid": a0, "task-open-task-list-container--grid-lanes": a1, "task-open-task-list-container--float": a22 });
+var _c12 = (a0) => ({ "hidden": a0 });
+var _c22 = (a0) => ({ "task-record-custom-size": a0 });
+var _c32 = (a0, a1) => ({ "max-width": a0, "max-height": a1 });
+var _c4 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true });
+var _c5 = (a0) => ({ hidden: a0 });
+var _c6 = (a0) => ({ "font-size-2": a0 });
+var _c7 = (a0, a1, a22, a32, a4) => ({ "task-done": a0, "task-in-process": a1, "task-important": a22, "task-urgent": a32, "task-q-progressed": a4 });
+var _c8 = (a0) => ({ "task-no-eta": a0 });
+var _c9 = (a0, a1) => ({ "task-record-no-task-done": a0, "hidden": a1 });
+var _c10 = (a0, a1, a22) => ({ "task-record-no-task-done": a0, "hidden": a1, "task-record-background": a22 });
+var _c11 = (a0) => ({ "max-width": a0 });
+var _c122 = () => ({ "display": "flex", "justify-content": "space-between" });
+var _c13 = (a0) => ({ "cursor": "pointer", "border": a0 });
+var _c14 = (a0, a1, a22, a32, a4) => ({ "task-record-custom-size": a0, "task-record-use-columns": a1, "task-columns-3": a22, "task-columns-8": a32, "task-columns-10": a4 });
+var _c15 = (a0, a1, a22, a32, a4, a5, a6, a7) => ({ "task-done": a0, "task-in-process": a1, "task-highlighted": a22, "task-priority": a32, "task-important": a4, "task-unexpected": a5, "task-q-progressed": a6, "task-directions": a7 });
+var _c16 = (a0) => ({ "task-open-with-tt": a0 });
+var _c17 = (a0) => ({ "desktop-only": a0 });
+var _c18 = (a0, a1) => ({ "color-green": a0, "color-red": a1 });
+var _c19 = (a0, a1) => ({ "task-next-time-ahead": a0, "task-next-time-behind": a1 });
+var _c20 = (a0) => ({ "columns-3": a0 });
+var _c21 = (a0) => ({ "task-item-in-process": a0 });
+var _c222 = (a0, a1, a22, a32, a4, a5, a6, a7, a8, a9) => ({ "task-done": a0, "task-in-process": a1, "task-important": a22, "task-urgent": a32, "task-highlighted": a4, "task-q-progressed": a5, "task-unexpected": a6, "task-call": a7, "task-priority": a8, "task-directions": a9 });
 var _forTrack0 = ($index, $item) => $item.record;
 var _forTrack1 = ($index, $item) => $item.tsh_secuential;
 var _forTrack2 = ($index, $item) => $item.tsk_id;
 var _forTrack3 = ($index, $item) => $item.id;
 var _forTrack4 = ($index, $item) => $item.header;
 var _forTrack5 = ($index, $item) => $item.name;
-var _forTrack6 = ($index, $item) => $item.date;
-var _forTrack7 = ($index, $item) => $item.qualifier;
-var _forTrack8 = ($index, $item) => $item.displayName;
 function TasksComponent_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "input", 21);
+    \u0275\u0275elementStart(0, "input", 18);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_2_Template_input_keyup_0_listener($event) {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -70900,7 +69405,7 @@ function TasksComponent_Conditional_2_Template(rf, ctx) {
 function TasksComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 2)(1, "textarea", 22);
+    \u0275\u0275elementStart(0, "div", 2)(1, "textarea", 19);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_3_Template_textarea_keyup_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -70914,10 +69419,10 @@ function TasksComponent_Conditional_3_Template(rf, ctx) {
     });
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
-    \u0275\u0275elementStart(2, "label", 23);
+    \u0275\u0275elementStart(2, "label", 20);
     \u0275\u0275text(3, "Target date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "input", 24);
+    \u0275\u0275elementStart(4, "input", 21);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_3_Template_input_ngModelChange_4_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -70941,7 +69446,7 @@ function TasksComponent_Conditional_3_Template(rf, ctx) {
 function TasksComponent_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 25);
+    \u0275\u0275elementStart(0, "button", 22);
     \u0275\u0275listener("click", function TasksComponent_Conditional_4_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71024,7 +69529,7 @@ function TasksComponent_Conditional_11_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_12_Conditional_40_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 54);
+    \u0275\u0275elementStart(0, "option", 51);
     \u0275\u0275text(1, "Grid Lanes");
     \u0275\u0275elementEnd();
   }
@@ -71032,7 +69537,7 @@ function TasksComponent_Conditional_12_Conditional_40_Template(rf, ctx) {
 function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 59);
+    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 56);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_1_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71040,7 +69545,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "checkbox-option", 60);
+    \u0275\u0275elementStart(2, "checkbox-option", 57);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_2_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71048,7 +69553,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "checkbox-option", 61);
+    \u0275\u0275elementStart(3, "checkbox-option", 58);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_3_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71056,7 +69561,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "checkbox-option", 62);
+    \u0275\u0275elementStart(4, "checkbox-option", 59);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_4_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71064,7 +69569,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "checkbox-option", 63);
+    \u0275\u0275elementStart(5, "checkbox-option", 60);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_5_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71072,7 +69577,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "checkbox-option", 64);
+    \u0275\u0275elementStart(6, "checkbox-option", 61);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_6_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71080,7 +69585,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "checkbox-option", 65);
+    \u0275\u0275elementStart(7, "checkbox-option", 62);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71088,7 +69593,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "checkbox-option", 66);
+    \u0275\u0275elementStart(8, "checkbox-option", 63);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_8_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71096,7 +69601,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 67);
+    \u0275\u0275elementStart(9, "checkbox-option", 64);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71104,7 +69609,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 68);
+    \u0275\u0275elementStart(10, "checkbox-option", 65);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71112,7 +69617,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 69);
+    \u0275\u0275elementStart(11, "checkbox-option", 66);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71120,7 +69625,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 70);
+    \u0275\u0275elementStart(12, "checkbox-option", 67);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71128,7 +69633,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 71);
+    \u0275\u0275elementStart(13, "checkbox-option", 68);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71136,7 +69641,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "checkbox-option", 72);
+    \u0275\u0275elementStart(14, "checkbox-option", 69);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_14_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71144,7 +69649,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "checkbox-option", 73);
+    \u0275\u0275elementStart(15, "checkbox-option", 70);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_15_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71152,7 +69657,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "checkbox-option", 74);
+    \u0275\u0275elementStart(16, "checkbox-option", 71);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71202,7 +69707,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     const _r9 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 26);
+    \u0275\u0275elementStart(2, "button", 23);
     \u0275\u0275listener("click", function TasksComponent_Conditional_12_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71211,104 +69716,104 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275text(3, " delete all tasks ");
     \u0275\u0275elementEnd();
     \u0275\u0275element(4, "br");
-    \u0275\u0275elementStart(5, "div", 27);
+    \u0275\u0275elementStart(5, "div", 24);
     \u0275\u0275text(6, "Showing / hiding sections");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "checkbox-option", 28);
+    \u0275\u0275elementStart(7, "checkbox-option", 25);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "checkbox-option", 29);
+    \u0275\u0275elementStart(8, "checkbox-option", 26);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_8_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 30);
+    \u0275\u0275elementStart(9, "checkbox-option", 27);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 31);
+    \u0275\u0275elementStart(10, "checkbox-option", 28);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 32);
+    \u0275\u0275elementStart(11, "checkbox-option", 29);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 33);
+    \u0275\u0275elementStart(12, "checkbox-option", 30);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 34);
+    \u0275\u0275elementStart(13, "checkbox-option", 31);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "div", 27);
+    \u0275\u0275elementStart(14, "div", 24);
     \u0275\u0275text(15, "Customize features");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "checkbox-option", 35);
+    \u0275\u0275elementStart(16, "checkbox-option", 32);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "checkbox-option", 36);
+    \u0275\u0275elementStart(17, "checkbox-option", 33);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_17_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "checkbox-option", 37);
+    \u0275\u0275elementStart(18, "checkbox-option", 34);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_18_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "checkbox-option", 38);
+    \u0275\u0275elementStart(19, "checkbox-option", 35);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_19_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "checkbox-option", 39);
+    \u0275\u0275elementStart(20, "checkbox-option", 36);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_20_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "checkbox-option", 40);
+    \u0275\u0275elementStart(21, "checkbox-option", 37);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_21_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "checkbox-option", 41);
+    \u0275\u0275elementStart(22, "checkbox-option", 38);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_22_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71316,63 +69821,63 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(23, "checkbox-option", 42);
+    \u0275\u0275elementStart(23, "checkbox-option", 39);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_23_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "checkbox-option", 43);
+    \u0275\u0275elementStart(24, "checkbox-option", 40);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_24_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "checkbox-option", 44);
+    \u0275\u0275elementStart(25, "checkbox-option", 41);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_25_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "checkbox-option", 45);
+    \u0275\u0275elementStart(26, "checkbox-option", 42);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_26_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(27, "checkbox-option", 46);
+    \u0275\u0275elementStart(27, "checkbox-option", 43);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_27_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "checkbox-option", 47);
+    \u0275\u0275elementStart(28, "checkbox-option", 44);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_28_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "checkbox-option", 48);
+    \u0275\u0275elementStart(29, "checkbox-option", 45);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_29_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "checkbox-option", 49);
+    \u0275\u0275elementStart(30, "checkbox-option", 46);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_30_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(31, "checkbox-option", 50);
+    \u0275\u0275elementStart(31, "checkbox-option", 47);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_31_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71382,7 +69887,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(32, "div")(33, "label");
     \u0275\u0275text(34, "Grid Layout");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(35, "select", 51);
+    \u0275\u0275elementStart(35, "select", 48);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_12_Template_select_ngModelChange_35_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71394,17 +69899,17 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onGridLayoutChange($event.target.value));
     });
-    \u0275\u0275elementStart(36, "option", 52);
+    \u0275\u0275elementStart(36, "option", 49);
     \u0275\u0275text(37, "Float");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 53);
+    \u0275\u0275elementStart(38, "option", 50);
     \u0275\u0275text(39, "Grid");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_12_Conditional_40_Template, 2, 0, "option", 54);
+    \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_12_Conditional_40_Template, 2, 0, "option", 51);
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(41, "div")(42, "input", 55);
+    \u0275\u0275elementStart(41, "div")(42, "input", 52);
     \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_42_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71420,7 +69925,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(43, "label");
     \u0275\u0275text(44, "Record listing width (in px, desktop only, minimum is 200)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(45, "div")(46, "input", 56);
+    \u0275\u0275elementStart(45, "div")(46, "input", 53);
     \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_46_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71436,10 +69941,10 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(47, "label");
     \u0275\u0275text(48, "Record listing height (in px, desktop only)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(49, "div", 27);
+    \u0275\u0275elementStart(49, "div", 24);
     \u0275\u0275text(50, "Showing / hiding Indicators");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(51, "checkbox-option", 57);
+    \u0275\u0275elementStart(51, "checkbox-option", 54);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_51_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71447,7 +69952,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     });
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(52, TasksComponent_Conditional_12_Conditional_52_Template, 17, 16, "div");
-    \u0275\u0275elementStart(53, "div")(54, "div", 27);
+    \u0275\u0275elementStart(53, "div")(54, "div", 24);
     \u0275\u0275text(55, "Keyboard Shortcuts Reference");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(56, "table")(57, "thead")(58, "tr")(59, "th");
@@ -71728,7 +70233,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(292, "td");
     \u0275\u0275text(293, " Stops other tasks in progress, starts time tracking for current task ");
     \u0275\u0275elementEnd()()()()();
-    \u0275\u0275element(294, "div", 58);
+    \u0275\u0275element(294, "div", 55);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -71850,7 +70355,7 @@ function TasksComponent_Conditional_13_Conditional_17_Template(rf, ctx) {
     const _r12 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Date Done: ");
-    \u0275\u0275elementStart(2, "span", 77);
+    \u0275\u0275elementStart(2, "span", 74);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_17_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71901,7 +70406,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275elementStart(3, "td");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td")(6, "span", 77);
+    \u0275\u0275elementStart(5, "td")(6, "span", 74);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_6_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -71910,7 +70415,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "td")(10, "span", 77);
+    \u0275\u0275elementStart(9, "td")(10, "span", 74);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_10_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -72030,7 +70535,7 @@ function TasksComponent_Conditional_13_Conditional_21_Template(rf, ctx) {
     const _r16 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Qualifiers: ");
-    \u0275\u0275elementStart(2, "span", 78);
+    \u0275\u0275elementStart(2, "span", 75);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_21_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r16);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72050,7 +70555,7 @@ function TasksComponent_Conditional_13_Conditional_22_Template(rf, ctx) {
     const _r17 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Tags: ");
-    \u0275\u0275elementStart(2, "span", 78);
+    \u0275\u0275elementStart(2, "span", 75);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_22_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r17);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72126,7 +70631,7 @@ function TasksComponent_Conditional_13_Conditional_26_Template(rf, ctx) {
 function TasksComponent_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 5)(1, "img", 75);
+    \u0275\u0275elementStart(0, "div", 5)(1, "img", 72);
     \u0275\u0275listener("click", function TasksComponent_Conditional_13_Template_img_click_1_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72145,7 +70650,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
     \u0275\u0275elementStart(10, "div");
     \u0275\u0275text(11, " Notes: ");
     \u0275\u0275element(12, "br");
-    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 76);
+    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 73);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Template_textarea_blur_14_listener($event) {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72202,19 +70707,19 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "task", 81);
+    \u0275\u0275element(0, "task", 78);
   }
   if (rf & 2) {
     const t_r21 = ctx.$implicit;
     const item_r20 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("task", t_r21)("groupTasks", item_r20.tasks)("handlers", ctx_r1.handlersForBacklog)("options", \u0275\u0275pureFunction0(6, _c5))("ngClass", \u0275\u0275pureFunction1(7, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && ctx_r1.i >= 3 && t_r21.tsk_time_history.length === 0))("ngStyle", \u0275\u0275pureFunction1(9, _c7, ctx_r1.ageFontSizeNormalization(t_r21) + "px"));
+    \u0275\u0275property("task", t_r21)("groupTasks", item_r20.tasks)("handlers", ctx_r1.handlersForBacklog)("options", \u0275\u0275pureFunction0(6, _c4))("ngClass", \u0275\u0275pureFunction1(7, _c5, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && ctx_r1.i >= 3 && t_r21.tsk_time_history.length === 0))("ngStyle", \u0275\u0275pureFunction1(9, _c6, ctx_r1.ageFontSizeNormalization(t_r21) + "px"));
   }
 }
 function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r19 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 79)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 76)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_14_Conditional_6_For_2_Template_button_click_2_listener() {
       const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72225,20 +70730,20 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 80);
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 81, _forTrack2);
+    \u0275\u0275elementStart(6, "div", 77);
+    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 78, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const item_r20 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(5, _c22, item_r20.collapsed));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(5, _c12, item_r20.collapsed));
     \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("- ", item_r20.header);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" (", ctx_r1.formatTime(item_r20.estimatedDuration * 60), ") ");
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(7, _c32, ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight))("ngStyle", \u0275\u0275pureFunction2(9, _c4, ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight ? ctx_r1.options.optRecordWidth + "px" : ctx_r1.defaultOptions.optRecordWidth, ctx_r1.options.optHideScrollbarsInRecord ? "initial" : ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight ? ctx_r1.options.optRecordHeight + "px" : ctx_r1.defaultOptions.optRecordHeight));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(7, _c22, ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight))("ngStyle", \u0275\u0275pureFunction2(9, _c32, ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight ? ctx_r1.options.optRecordWidth + "px" : ctx_r1.defaultOptions.optRecordWidth, ctx_r1.options.optHideScrollbarsInRecord ? "initial" : ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight ? ctx_r1.options.optRecordHeight + "px" : ctx_r1.defaultOptions.optRecordHeight));
     \u0275\u0275advance();
     \u0275\u0275repeater(item_r20.tasks);
   }
@@ -72246,12 +70751,12 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
 function TasksComponent_Conditional_14_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 79, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 76, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(1, _c12, ctx_r1.options.optGridLayout === "Grid", ctx_r1.options.optGridLayout === "Grid Lanes", ctx_r1.options.optGridLayout === "Float"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(1, _c05, ctx_r1.options.optGridLayout === "Grid", ctx_r1.options.optGridLayout === "Grid Lanes", ctx_r1.options.optGridLayout === "Float"));
     \u0275\u0275advance();
     \u0275\u0275repeater(ctx_r1.state.backlogTasks);
   }
@@ -72316,7 +70821,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " - ");
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_15_For_4_Conditional_2_Template, 2, 2, "span");
-    \u0275\u0275elementStart(3, "span", 82);
+    \u0275\u0275elementStart(3, "span", 79);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_15_For_4_Template_span_keyup_3_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72328,7 +70833,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     });
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 83);
+    \u0275\u0275elementStart(5, "span", 80);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_15_For_4_Template_span_blur_5_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72367,11 +70872,11 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275conditional(t_r23.tsk_total_time_spent !== 0 ? 2 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction5(12, _c8, t_r23.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r23.tsk_ctg_in_process === 2, t_r23.tsk_qualifiers.indexOf("important") !== -1, t_r23.tsk_qualifiers.indexOf("urgent") !== -1, t_r23.tsk_qualifiers.indexOf("progressed") !== -1));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction5(12, _c7, t_r23.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r23.tsk_ctg_in_process === 2, t_r23.tsk_qualifiers.indexOf("important") !== -1, t_r23.tsk_qualifiers.indexOf("urgent") !== -1, t_r23.tsk_qualifiers.indexOf("progressed") !== -1));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(t_r23.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(18, _c9, t_r23.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(18, _c8, t_r23.tsk_estimated_duration === 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r23.tsk_estimated_duration * 60, "#h#m"));
     \u0275\u0275advance();
@@ -72435,7 +70940,7 @@ function TasksComponent_Conditional_24_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_25_For_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 85);
+    \u0275\u0275elementStart(0, "option", 82);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -72452,7 +70957,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
     const _r26 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span", 10);
     \u0275\u0275text(1, " Filter ");
-    \u0275\u0275elementStart(2, "select", 84);
+    \u0275\u0275elementStart(2, "select", 81);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_25_Template_select_ngModelChange_2_listener($event) {
       \u0275\u0275restoreView(_r26);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72464,7 +70969,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 85, _forTrack3);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 82, _forTrack3);
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
@@ -72489,7 +70994,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Conditional_5_Templat
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 88);
+    \u0275\u0275elementStart(2, "span", 85);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72530,14 +71035,14 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_For_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 79);
+    \u0275\u0275elementStart(0, "div", 76);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_27_For_3_Conditional_1_Template, 6, 4, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const item_r29 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(2, _c10, ctx_r1.options.optColorizeRecordWithoutDoneTasks && ctx_r1.countTasksDone(item_r29.header) === 0, !item_r29.collapsed));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(2, _c9, ctx_r1.options.optColorizeRecordWithoutDoneTasks && ctx_r1.countTasksDone(item_r29.header) === 0, !item_r29.collapsed));
     \u0275\u0275advance();
     \u0275\u0275conditional(item_r29.collapsed ? 1 : -1);
   }
@@ -72546,7 +71051,7 @@ function TasksComponent_Conditional_27_For_5_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 88);
+    \u0275\u0275elementStart(2, "span", 85);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72562,7 +71067,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     const _r34 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 105);
+    \u0275\u0275elementStart(2, "span", 103);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72573,7 +71078,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 106);
+    \u0275\u0275elementStart(6, "span", 104);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72604,7 +71109,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Template(rf, c
   if (rf & 2) {
     const t_r33 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r33.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r33.tsk_time_history.length > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c16, t_r33.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r33.tsk_time_history.length > 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate2("[", t_r33.tsk_time_history.length, "/", ctx_r1.formatTime(t_r33.tsk_total_time_spent), "] ");
     \u0275\u0275advance();
@@ -72616,7 +71121,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
     const _r35 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "[");
-    \u0275\u0275elementStart(2, "span", 77);
+    \u0275\u0275elementStart(2, "span", 74);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r35);
       const t_r33 = \u0275\u0275nextContext().$implicit;
@@ -72638,7 +71143,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r36 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 107);
+    \u0275\u0275elementStart(0, "span", 105);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template_span_click_0_listener() {
       \u0275\u0275restoreView(_r36);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -72656,79 +71161,86 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, c
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 92);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 108);
+    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275element(1, "img", 106);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 109);
+    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275element(1, "img", 107);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
-    \u0275\u0275element(1, "img", 110);
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275element(1, "img", 108);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 99);
-    \u0275\u0275element(1, "img", 111);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 109);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 100);
+    \u0275\u0275elementStart(0, "span", 97);
+    \u0275\u0275text(1, " \u{1F6A8} ");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_15_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 98);
     \u0275\u0275text(1, " \u{1F4BC} ");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_17_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275elementStart(0, "span", 100);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275elementStart(2, "a", 112);
+    \u0275\u0275elementStart(2, "a", 110);
     \u0275\u0275text(3, "link");
     \u0275\u0275elementEnd()();
   }
@@ -72738,11 +71250,11 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_17_Template(rf, 
     \u0275\u0275property("href", \u0275\u0275interpolate(t_r33.tsk_url), \u0275\u0275sanitizeUrl)("title", \u0275\u0275interpolate(t_r33.tsk_url));
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r37 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 114);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Template_span_click_0_listener() {
+    \u0275\u0275elementStart(0, "span", 112);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_For_3_Template_span_click_0_listener() {
       const tag_r38 = \u0275\u0275restoreView(_r37).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r38));
@@ -72756,11 +71268,11 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Templat
     \u0275\u0275textInterpolate1("#", tag_r38);
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 104);
+    \u0275\u0275elementStart(0, "span", 102);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_For_3_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72769,7 +71281,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template(rf, 
     \u0275\u0275repeater(t_r33.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
     \u0275\u0275text(2);
@@ -72782,7 +71294,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template(rf, 
     \u0275\u0275textInterpolate1("\xA0at ", ctx_r1.formatDateTime(t_r33.tsk_schedule_date_start), " \u23F0");
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
@@ -72796,7 +71308,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, 
     \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r33));
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_24_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "\u21BA");
@@ -72806,7 +71318,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template(rf, 
 function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r32 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 91)(1, "input", 92);
+    \u0275\u0275elementStart(0, "div", 88)(1, "input", 89);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Template_input_click_1_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72815,62 +71327,63 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 93);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 97);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 98);
-    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 99);
-    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_27_For_5_For_12_Conditional_14_Template, 2, 0, "span", 100);
-    \u0275\u0275elementStart(15, "span", 101);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keyup_15_listener($event) {
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 90);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 92);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_27_For_5_For_12_Conditional_14_Template, 2, 0, "span", 97);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_27_For_5_For_12_Conditional_15_Template, 2, 0, "span", 98);
+    \u0275\u0275elementStart(16, "span", 99);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keyup_16_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.taskEdit(t_r33, $event));
-    })("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_15_listener($event) {
+    })("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_16_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r33, $event));
-    })("focus", function TasksComponent_Conditional_27_For_5_For_12_Template_span_focus_15_listener($event) {
+    })("focus", function TasksComponent_Conditional_27_For_5_For_12_Template_span_focus_16_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       ctx_r1.setFocus(t_r33, $event);
       return \u0275\u0275resetView(ctx_r1.setTaskSelected(t_r33));
-    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_15_listener($event) {
+    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_16_listener($event) {
       \u0275\u0275restoreView(_r32);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.taskKeyDown($event));
     });
-    \u0275\u0275text(16);
+    \u0275\u0275text(17);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_27_For_5_For_12_Conditional_17_Template, 4, 4, "span", 102);
-    \u0275\u0275elementStart(18, "span", 103);
-    \u0275\u0275listener("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_18_listener($event) {
+    \u0275\u0275conditionalCreate(18, TasksComponent_Conditional_27_For_5_For_12_Conditional_18_Template, 4, 4, "span", 100);
+    \u0275\u0275elementStart(19, "span", 101);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_19_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r33, $event));
-    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_18_listener($event) {
+    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_19_listener($event) {
       \u0275\u0275restoreView(_r32);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.etaKeyDown($event));
     });
-    \u0275\u0275text(19);
+    \u0275\u0275text(20);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template, 4, 0, "span", 104);
-    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template, 3, 1, "span");
-    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template, 2, 2, "span", 11);
-    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template, 4, 0, "span", 102);
+    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template, 3, 1, "span");
+    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template, 2, 2, "span", 11);
+    \u0275\u0275conditionalCreate(24, TasksComponent_Conditional_27_For_5_For_12_Conditional_24_Template, 2, 0, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const t_r33 = ctx.$implicit;
     const \u0275$index_912_r39 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id))("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(31, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(33, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_912_r39 >= 3 && t_r33.tsk_time_history.length === 0));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id))("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(32, _c6, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(34, _c5, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_912_r39 >= 3 && t_r33.tsk_time_history.length === 0));
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id));
     \u0275\u0275advance();
@@ -72898,32 +71411,34 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(t_r33.inPinnedToDo ? 13 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.inWorkToDo ? 14 : -1);
+    \u0275\u0275conditional(t_r33.inTodayToDo ? 14 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction8(35, _c16, t_r33.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r33.tsk_ctg_in_process === 2, t_r33.tsk_qualifiers.indexOf("highlighted") !== -1, t_r33.tsk_qualifiers.indexOf("priority") !== -1, t_r33.tsk_qualifiers.indexOf("important") !== -1, t_r33.tsk_qualifiers.indexOf("unexpected") !== -1, t_r33.tsk_qualifiers.indexOf("progressed") !== -1, t_r33.tsk_qualifiers.indexOf("directions") !== -1));
+    \u0275\u0275conditional(t_r33.inWorkToDo ? 15 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction8(36, _c15, t_r33.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r33.tsk_ctg_in_process === 2, t_r33.tsk_qualifiers.indexOf("highlighted") !== -1, t_r33.tsk_qualifiers.indexOf("priority") !== -1, t_r33.tsk_qualifiers.indexOf("important") !== -1, t_r33.tsk_qualifiers.indexOf("unexpected") !== -1, t_r33.tsk_qualifiers.indexOf("progressed") !== -1, t_r33.tsk_qualifiers.indexOf("directions") !== -1));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(t_r33.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.tsk_url ? 17 : -1);
+    \u0275\u0275conditional(t_r33.tsk_url ? 18 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(44, _c9, t_r33.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(45, _c8, t_r33.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r33.tsk_estimated_duration * 60, "#h#m"));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.tsk_tags ? 20 : -1);
+    \u0275\u0275conditional(t_r33.tsk_tags ? 21 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.tsk_schedule_date_start ? 21 : -1);
+    \u0275\u0275conditional(t_r33.tsk_schedule_date_start ? 22 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 22 : -1);
+    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 23 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.not_sync ? 23 : -1);
+    \u0275\u0275conditional(t_r33.not_sync ? 24 : -1);
   }
 }
 function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r30 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 87)(1, "div", 89)(2, "span")(3, "button", 9);
+    \u0275\u0275elementStart(0, "div", 84)(1, "div", 86)(2, "span")(3, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_button_click_3_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72935,7 +71450,7 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     \u0275\u0275text(6);
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_Conditional_7_Template, 4, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 90);
+    \u0275\u0275elementStart(8, "span", 87);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_span_click_8_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72943,16 +71458,16 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     });
     \u0275\u0275text(9, " \u{1F4CC} ");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 80);
-    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 24, 46, "div", 91, _forTrack2);
+    \u0275\u0275elementStart(10, "div", 77);
+    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 25, 47, "div", 88, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const item_r31 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(10, _c11, ctx_r1.options.optColorizeRecordWithoutDoneTasks && ctx_r1.countTasksDone(item_r31.header) === 0, item_r31.collapsed, ctx_r1.isRecordPinned(item_r31.header)))("ngStyle", \u0275\u0275pureFunction1(14, _c122, ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header) && item_r31.tasks.length >= 20 ? item_r31.tasks.length >= 30 ? "100%" : "40%" : void 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(10, _c10, ctx_r1.options.optColorizeRecordWithoutDoneTasks && ctx_r1.countTasksDone(item_r31.header) === 0, item_r31.collapsed, ctx_r1.isRecordPinned(item_r31.header)))("ngStyle", \u0275\u0275pureFunction1(14, _c11, ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header) && item_r31.tasks.length >= 20 ? item_r31.tasks.length >= 30 ? "100%" : "40%" : void 0));
     \u0275\u0275advance();
-    \u0275\u0275property("ngStyle", \u0275\u0275pureFunction0(16, _c13));
+    \u0275\u0275property("ngStyle", \u0275\u0275pureFunction0(16, _c122));
     \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("- ", item_r31.header);
     \u0275\u0275advance();
@@ -72960,24 +71475,24 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.countTasksDone(item_r31.header) > 0 ? 7 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngStyle", \u0275\u0275pureFunction1(17, _c14, ctx_r1.isRecordPinned(item_r31.header) ? "1px solid grey" : "0"));
+    \u0275\u0275property("ngStyle", \u0275\u0275pureFunction1(17, _c13, ctx_r1.isRecordPinned(item_r31.header) ? "1px solid grey" : "0"));
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction5(19, _c15, ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 20, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 20 && item_r31.tasks.length <= 30, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 60, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 100))("ngStyle", \u0275\u0275pureFunction2(25, _c4, ctx_r1.recordStyle(item_r31.header, "width"), ctx_r1.recordStyle(item_r31.header, "height")));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction5(19, _c14, ctx_r1.options.optRecordWidth !== ctx_r1.defaultOptions.optRecordWidth || ctx_r1.options.optRecordHeight !== ctx_r1.defaultOptions.optRecordHeight, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 20, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 20 && item_r31.tasks.length <= 30, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 60, (ctx_r1.options.optUseColumnsForRecords || ctx_r1.isRecordPinned(item_r31.header)) && item_r31.tasks.length >= 100))("ngStyle", \u0275\u0275pureFunction2(25, _c32, ctx_r1.recordStyle(item_r31.header, "width"), ctx_r1.recordStyle(item_r31.header, "height")));
     \u0275\u0275advance();
     \u0275\u0275repeater(item_r31.tasks);
   }
 }
 function TasksComponent_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 11)(1, "div", 86);
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 79, _forTrack4);
+    \u0275\u0275elementStart(0, "div", 11)(1, "div", 83);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 76, _forTrack4);
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 87, _forTrack4);
+    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 84, _forTrack4);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(1, _c12, ctx_r1.options.optGridLayout === "Grid", ctx_r1.options.optGridLayout === "Grid Lanes", ctx_r1.options.optGridLayout === "Float"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(1, _c05, ctx_r1.options.optGridLayout === "Grid", ctx_r1.options.optGridLayout === "Grid Lanes", ctx_r1.options.optGridLayout === "Float"));
     \u0275\u0275advance(2);
     \u0275\u0275repeater(ctx_r1.state.openTasks);
     \u0275\u0275advance(2);
@@ -73028,8 +71543,8 @@ function TasksComponent_Conditional_34_Conditional_5_For_5_Template(rf, ctx) {
   }
   if (rf & 2) {
     const c_r41 = ctx.$implicit;
-    const \u0275$index_1071_r42 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1071_r42 < 3));
+    const \u0275$index_1075_r42 = ctx.$index;
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c17, \u0275$index_1075_r42 < 3));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", c_r41, " ");
   }
@@ -73056,11 +71571,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_For_7_Template(rf, ct
   }
   if (rf & 2) {
     const v_r43 = ctx.$implicit;
-    const \u0275$index_1094_r44 = ctx.$index;
+    const \u0275$index_1098_r44 = ctx.$index;
     const indicator_r45 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1094_r44 < 3));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c17, \u0275$index_1098_r44 < 3));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1094_r44 > 0 && (indicator_r45.values[\u0275$index_1094_r44 - 1] < indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1094_r44 - 1] > indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1094_r44 > 0 && (indicator_r45.values[\u0275$index_1094_r44 - 1] > indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1094_r44 - 1] < indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c18, \u0275$index_1098_r44 > 0 && (indicator_r45.values[\u0275$index_1098_r44 - 1] < indicator_r45.values[\u0275$index_1098_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1098_r44 - 1] > indicator_r45.values[\u0275$index_1098_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1098_r44 > 0 && (indicator_r45.values[\u0275$index_1098_r44 - 1] > indicator_r45.values[\u0275$index_1098_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1098_r44 - 1] < indicator_r45.values[\u0275$index_1098_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", v_r43, " ");
   }
@@ -73094,11 +71609,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_34_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "table", 115)(1, "tr")(2, "td");
+    \u0275\u0275elementStart(0, "table", 113)(1, "tr")(2, "td");
     \u0275\u0275text(3, "Indicator");
     \u0275\u0275elementEnd();
     \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_34_Conditional_5_For_5_Template, 2, 4, "td", 11, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementStart(6, "td", 116);
+    \u0275\u0275elementStart(6, "td", 114);
     \u0275\u0275text(7, "%");
     \u0275\u0275elementEnd()();
     \u0275\u0275repeaterCreate(8, TasksComponent_Conditional_34_Conditional_5_For_9_Template, 10, 4, "tr", null, _forTrack5);
@@ -73124,7 +71639,7 @@ function TasksComponent_Conditional_34_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 115);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 113);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73149,13 +71664,13 @@ function TasksComponent_Conditional_36_For_4_Conditional_9_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_36_For_4_div_13_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "img", 126);
+    \u0275\u0275element(0, "img", 124);
   }
 }
 function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r47 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 123)(1, "button", 4);
+    \u0275\u0275elementStart(0, "div", 121)(1, "button", 4);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_13_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73163,7 +71678,7 @@ function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
     });
     \u0275\u0275text(2, "Clear listing");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "button", 124);
+    \u0275\u0275elementStart(3, "button", 122);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_13_Template_button_click_3_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73171,7 +71686,7 @@ function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
     });
     \u0275\u0275text(4, " Stop and clear in-progress tasks ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "button", 125);
+    \u0275\u0275elementStart(5, "button", 123);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_13_Template_button_click_5_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73179,7 +71694,7 @@ function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
     });
     \u0275\u0275text(6, " Mark all as done ");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_div_13_Conditional_7_Template, 1, 0, "img", 126);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_div_13_Conditional_7_Template, 1, 0, "img", 124);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73197,7 +71712,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "hr", 128);
+    \u0275\u0275element(0, "hr", 126);
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Conditional_2_Template(rf, ctx) {
@@ -73205,7 +71720,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10
     const _r50 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 105);
+    \u0275\u0275elementStart(2, "span", 103);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r50);
       const t_r49 = \u0275\u0275nextContext(2).$implicit;
@@ -73216,7 +71731,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 106);
+    \u0275\u0275elementStart(6, "span", 104);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r50);
       const t_r49 = \u0275\u0275nextContext(2).$implicit;
@@ -73247,7 +71762,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10
   if (rf & 2) {
     const t_r49 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r49.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r49.tsk_time_history.length > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c16, t_r49.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r49.tsk_time_history.length > 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate2("[", t_r49.tsk_time_history.length, "/", ctx_r1.formatTime(t_r49.tsk_total_time_spent), "] ");
     \u0275\u0275advance();
@@ -73259,7 +71774,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11
     const _r51 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 77);
+    \u0275\u0275elementStart(2, "span", 74);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r51);
       const t_r49 = \u0275\u0275nextContext().$implicit;
@@ -73280,49 +71795,49 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275elementStart(0, "span", 91);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 92);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 108);
+    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275element(1, "img", 106);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 109);
+    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275element(1, "img", 107);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 93);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
@@ -73330,7 +71845,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r52 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 114);
+    \u0275\u0275elementStart(0, "span", 112);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template_span_click_0_listener() {
       const tag_r53 = \u0275\u0275restoreView(_r52).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
@@ -73347,8 +71862,8 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 104);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73394,10 +71909,10 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_31
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r48 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 127);
+    \u0275\u0275elementStart(0, "div", 125);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_Template, 1, 0, "hr");
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 128);
-    \u0275\u0275elementStart(3, "input", 92);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 126);
+    \u0275\u0275elementStart(3, "input", 89);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_input_click_3_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73414,7 +71929,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template, 6, 4, "span");
-    \u0275\u0275elementStart(12, "span", 107);
+    \u0275\u0275elementStart(12, "span", 105);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_click_12_listener() {
       \u0275\u0275restoreView(_r48);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73422,14 +71937,14 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     });
     \u0275\u0275text(13);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(18, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_18_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_19_Template, 2, 0, "span", 97);
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20_Template, 2, 0, "span", 96);
-    \u0275\u0275elementStart(21, "span", 129);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 91);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 92);
+    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(18, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_18_Template, 2, 0, "span", 93);
+    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_19_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20_Template, 2, 0, "span", 93);
+    \u0275\u0275elementStart(21, "span", 127);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_keyup_21_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73446,7 +71961,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275text(22);
     \u0275\u0275elementEnd();
     \u0275\u0275text(23, "\xA0");
-    \u0275\u0275elementStart(24, "span", 130);
+    \u0275\u0275elementStart(24, "span", 128);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_blur_24_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73457,7 +71972,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275elementStart(26, "span");
     \u0275\u0275text(27);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template, 3, 0, "span", 104);
+    \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template, 3, 0, "span", 102);
     \u0275\u0275conditionalCreate(29, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_29_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(30, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_30_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(31, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_31_Template, 2, 0, "span");
@@ -73465,22 +71980,22 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
   }
   if (rf & 2) {
     const t_r49 = ctx.$implicit;
-    const \u0275$index_1156_r54 = ctx.$index;
+    const \u0275$index_1160_r54 = ctx.$index;
     const item_r55 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id))("data-id", \u0275\u0275interpolate(t_r49.tsk_id))("ngClass", \u0275\u0275pureFunction1(39, _c222, t_r49.tsk_ctg_in_process === 2));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id))("data-id", \u0275\u0275interpolate(t_r49.tsk_id))("ngClass", \u0275\u0275pureFunction1(39, _c21, t_r49.tsk_ctg_in_process === 2));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1156_r54 > 0 && item_r55.tasks[\u0275$index_1156_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
+    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1160_r54 > 0 && item_r55.tasks[\u0275$index_1160_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1156_r54 > 0 && \u0275$index_1156_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
+    \u0275\u0275conditional(\u0275$index_1160_r54 > 0 && \u0275$index_1160_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(41, _c20, t_r49["projectedDate"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r49["projectedDate"].getTime()));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(41, _c19, t_r49["projectedDate"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r49["projectedDate"].getTime()));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1("<", \u0275\u0275pipeBind2(6, 33, t_r49["projectedDate"], "HH:mm"), "> ");
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(44, _c20, t_r49["projectedDateFromNow"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r49["projectedDateFromNow"].getTime()));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(44, _c19, t_r49["projectedDateFromNow"].getTime() >= ctx_r1.getDate().getTime(), ctx_r1.getDate().getTime() > t_r49["projectedDateFromNow"].getTime()));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1("<", \u0275\u0275pipeBind2(9, 36, t_r49["projectedDateFromNow"], "HH:mm"), "> ");
     \u0275\u0275advance(2);
@@ -73504,11 +72019,11 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275advance();
     \u0275\u0275conditional(t_r49.tsk_qualifiers.indexOf("blocked") !== -1 ? 20 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(47, _c23, [t_r49.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r49.tsk_ctg_in_process === 2, t_r49.tsk_qualifiers.indexOf("important") !== -1, t_r49.tsk_qualifiers.indexOf("urgent") !== -1, t_r49.tsk_qualifiers.indexOf("highlighted") !== -1, t_r49.tsk_qualifiers.indexOf("progressed") !== -1, t_r49.tsk_qualifiers.indexOf("unexpected") !== -1, t_r49.tsk_qualifiers.indexOf("call") !== -1, t_r49.tsk_qualifiers.indexOf("priority") !== -1, t_r49.tsk_qualifiers.indexOf("directions") !== -1]));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(47, _c222, [t_r49.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r49.tsk_ctg_in_process === 2, t_r49.tsk_qualifiers.indexOf("important") !== -1, t_r49.tsk_qualifiers.indexOf("urgent") !== -1, t_r49.tsk_qualifiers.indexOf("highlighted") !== -1, t_r49.tsk_qualifiers.indexOf("progressed") !== -1, t_r49.tsk_qualifiers.indexOf("unexpected") !== -1, t_r49.tsk_qualifiers.indexOf("call") !== -1, t_r49.tsk_qualifiers.indexOf("priority") !== -1, t_r49.tsk_qualifiers.indexOf("directions") !== -1]));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(t_r49.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(58, _c9, t_r49.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(58, _c8, t_r49.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r49.tsk_estimated_duration * 60, "#h#m"));
@@ -73527,13 +72042,13 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
 function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 32, 60, "div", 127, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 32, 60, "div", 125, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const item_r55 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c21, ctx_r1.nextTasks[0].tasks.length > 20));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c20, ctx_r1.nextTasks[0].tasks.length > 20));
     \u0275\u0275advance();
     \u0275\u0275repeater(item_r55.tasks);
   }
@@ -73541,7 +72056,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
 function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r46 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 118)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73551,11 +72066,11 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 119);
+    \u0275\u0275element(6, "time-format", 117);
     \u0275\u0275text(7, " | ");
-    \u0275\u0275element(8, "time-format", 120);
+    \u0275\u0275element(8, "time-format", 118);
     \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_36_For_4_Conditional_9_Template, 2, 1, "span");
-    \u0275\u0275elementStart(10, "button", 121);
+    \u0275\u0275elementStart(10, "button", 119);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_10_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73564,7 +72079,7 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "strong");
     \u0275\u0275text(12);
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(13, TasksComponent_Conditional_36_For_4_div_13_Template, 8, 2, "div", 122);
+    \u0275\u0275template(13, TasksComponent_Conditional_36_For_4_div_13_Template, 8, 2, "div", 120);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
@@ -73579,7 +72094,7 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275property("value", item_r55.estimatedDuration);
     \u0275\u0275advance(2);
-    \u0275\u0275property("value", ctx_r1.differenceLastClosedToRealTime)("ngClass", \u0275\u0275pureFunction2(9, _c20, ctx_r1.differenceLastClosedToRealTime < 0, 0 <= ctx_r1.differenceLastClosedToRealTime));
+    \u0275\u0275property("value", ctx_r1.differenceLastClosedToRealTime)("ngClass", \u0275\u0275pureFunction2(9, _c19, ctx_r1.differenceLastClosedToRealTime < 0, 0 <= ctx_r1.differenceLastClosedToRealTime));
     \u0275\u0275advance();
     \u0275\u0275conditional(ctx_r1.state.inProgressTasksCount > 0 ? 9 : -1);
     \u0275\u0275advance(3);
@@ -73594,8 +72109,8 @@ function TasksComponent_Conditional_36_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 14);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 117);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 118, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(2, "div", 115);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 116, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73604,155 +72119,28 @@ function TasksComponent_Conditional_36_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.nextTasks);
   }
 }
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r59 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 105);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r59);
-      const t_r58 = \u0275\u0275nextContext(2).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r58, $event, "start"));
+    \u0275\u0275elementStart(0, "span", 112);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_For_2_Template_span_click_0_listener() {
+      const tag_r60 = \u0275\u0275restoreView(_r59).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(6);
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r60));
     });
-    \u0275\u0275text(3);
-    \u0275\u0275pipe(4, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 106);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r59);
-      const t_r58 = \u0275\u0275nextContext(2).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r58, $event, "end"));
-    });
-    \u0275\u0275text(7);
-    \u0275\u0275pipe(8, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(9, "] ");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r58 = \u0275\u0275nextContext(2).$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r58.tsk_time_history[t_r58.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r58.tsk_time_history[t_r58.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template, 10, 8, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r58 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r58.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r58.tsk_time_history.length > 0));
+    const tag_r60 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", t_r58.tsk_time_history.length, "/", ctx_r1.formatTime(t_r58.tsk_total_time_spent), "] ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_ctg_in_process !== 2 ? 2 : -1);
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r60 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 77);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r60);
-      const t_r58 = \u0275\u0275nextContext().$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r58, $event, "start"));
-    });
-    \u0275\u0275text(3);
-    \u0275\u0275pipe(4, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(5, "] ");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r58 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r58.tsk_time_history[t_r58.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
-    \u0275\u0275text(1, "\u{1F525}");
-    \u0275\u0275elementEnd();
+    \u0275\u0275textInterpolate1(" #", tag_r60, " ");
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275text(1, "!");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275text(1, "\u2605");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 108);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 109);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
-    \u0275\u0275text(1, "\u2691");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275text(1, "\u2716");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r61 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 114);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
-      const tag_r62 = \u0275\u0275restoreView(_r61).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r62));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const tag_r62 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r62, " ");
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 104);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73761,99 +72149,42 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_
     \u0275\u0275repeater(t_r58.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_21_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span")(1, "strong");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const t_r58 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r58.tsk_schedule_date_start), ")");
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_22_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 11);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r58 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r58));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r58));
-  }
-}
-function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "(Not in sync)");
-    \u0275\u0275elementEnd();
-  }
-}
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r57 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 131)(1, "input", 92);
+    \u0275\u0275elementStart(0, "div", 129)(1, "input", 89);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r58, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275elementStart(4, "span", 107);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
-      \u0275\u0275restoreView(_r57);
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.toggleTimeMode());
-    });
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 97);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 96);
-    \u0275\u0275elementStart(13, "span", 129);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
+    \u0275\u0275elementStart(2, "span", 127);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keyup_2_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.taskEdit(t_r58, $event));
-    })("keydown", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keydown_13_listener($event) {
+    })("keydown", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keydown_2_listener($event) {
       \u0275\u0275restoreView(_r57);
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.pinnedTaskKeyDown($event));
-    })("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_13_listener($event) {
+      return \u0275\u0275resetView(ctx_r1.todayTaskKeyDown($event));
+    })("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_2_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r58, $event));
     });
-    \u0275\u0275text(14);
+    \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275text(15, "\xA0");
-    \u0275\u0275elementStart(16, "span", 130);
-    \u0275\u0275listener("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
+    \u0275\u0275text(4, "\xA0");
+    \u0275\u0275elementStart(5, "span", 128);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_5_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r58, $event));
     });
-    \u0275\u0275text(17);
+    \u0275\u0275text(6);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "span");
-    \u0275\u0275text(19);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 104);
-    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
-    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
-    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 3, 0, "span", 102);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73863,424 +72194,184 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r58.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_total_time_spent !== 0 ? 2 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_ctg_in_process === 2 ? 3 : -1);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r58.tsk_id] ? "[" + ctx_r1.timers[t_r58.tsk_id].timerString + "]" : "", " ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("critical") !== -1 ? 6 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("urgent") !== -1 ? 7 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("star") !== -1 ? 8 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("people") !== -1 ? 9 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("mobile") !== -1 ? 10 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("flag") !== -1 ? 11 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_qualifiers.indexOf("blocked") !== -1 ? 12 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(26, _c23, [t_r58.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r58.tsk_ctg_in_process === 2, t_r58.tsk_qualifiers.indexOf("important") !== -1, t_r58.tsk_qualifiers.indexOf("urgent") !== -1, t_r58.tsk_qualifiers.indexOf("highlighted") !== -1, t_r58.tsk_qualifiers.indexOf("progressed") !== -1, t_r58.tsk_qualifiers.indexOf("unexpected") !== -1, t_r58.tsk_qualifiers.indexOf("call") !== -1, t_r58.tsk_qualifiers.indexOf("priority") !== -1, t_r58.tsk_qualifiers.indexOf("directions") !== -1]));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(12, _c222, [t_r58.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r58.tsk_ctg_in_process === 2, t_r58.tsk_qualifiers.indexOf("important") !== -1, t_r58.tsk_qualifiers.indexOf("urgent") !== -1, t_r58.tsk_qualifiers.indexOf("highlighted") !== -1, t_r58.tsk_qualifiers.indexOf("progressed") !== -1, t_r58.tsk_qualifiers.indexOf("unexpected") !== -1, t_r58.tsk_qualifiers.indexOf("call") !== -1, t_r58.tsk_qualifiers.indexOf("priority") !== -1, t_r58.tsk_qualifiers.indexOf("directions") !== -1]));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(t_r58.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(37, _c9, t_r58.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(23, _c8, t_r58.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r58.tsk_estimated_duration * 60, "#h#m"));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" [", t_r58.tsk_id_record, "] ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_tags ? 20 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.tsk_schedule_date_start ? 21 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 22 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r58.not_sync ? 23 : -1);
+    \u0275\u0275conditional(t_r58.tsk_tags ? 7 : -1);
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 24, 39, "div", 131, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 8, 25, "div", 129, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r63 = \u0275\u0275nextContext().$implicit;
+    const item_r61 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c21, ctx_r1.pinnedTasks[0].tasks.length > 20));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c20, ctx_r1.todayTasks[0].tasks.length > 20));
     \u0275\u0275advance();
-    \u0275\u0275repeater(item_r63.tasks);
+    \u0275\u0275repeater(item_r61.tasks);
   }
 }
 function TasksComponent_Conditional_37_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r56 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 118)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r56);
       const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapsePinnedTasks"));
+      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseTodayTasks"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 119);
+    \u0275\u0275element(6, "time-format", 117);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r63 = ctx.$implicit;
+    const item_r61 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapsePinnedTasks ? "+" : "-", " Pinned To Do");
+    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseTodayTasks ? "+" : "-", " Today To Do");
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" | ", item_r63.tasks.length, " ");
+    \u0275\u0275textInterpolate1(" | ", item_r61.tasks.length, " ");
     \u0275\u0275advance();
-    \u0275\u0275property("value", item_r63.estimatedDuration);
+    \u0275\u0275property("value", item_r61.estimatedDuration);
     \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapsePinnedTasks ? 7 : -1);
+    \u0275\u0275conditional(!ctx_r1.options.optCollapseTodayTasks ? 7 : -1);
   }
 }
 function TasksComponent_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 15);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 117);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 118, _forTrack2);
+    \u0275\u0275elementStart(2, "div", 115);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 116, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance(3);
-    \u0275\u0275repeater(ctx_r1.pinnedTasks);
+    \u0275\u0275repeater(ctx_r1.todayTasks);
   }
 }
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r67 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 105);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r67);
-      const t_r66 = \u0275\u0275nextContext(2).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r66, $event, "start"));
+    const _r65 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 112);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_For_2_Template_span_click_0_listener() {
+      const tag_r66 = \u0275\u0275restoreView(_r65).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(6);
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r66));
     });
-    \u0275\u0275text(3);
-    \u0275\u0275pipe(4, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 106);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r67);
-      const t_r66 = \u0275\u0275nextContext(2).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r66, $event, "end"));
-    });
-    \u0275\u0275text(7);
-    \u0275\u0275pipe(8, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(9, "] ");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r66 = \u0275\u0275nextContext(2).$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r66.tsk_time_history[t_r66.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r66.tsk_time_history[t_r66.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template, 10, 8, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r66 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r66.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r66.tsk_time_history.length > 0));
+    const tag_r66 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", t_r66.tsk_time_history.length, "/", ctx_r1.formatTime(t_r66.tsk_total_time_spent), "] ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_ctg_in_process !== 2 ? 2 : -1);
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r68 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 77);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r68);
-      const t_r66 = \u0275\u0275nextContext().$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r66, $event, "start"));
-    });
-    \u0275\u0275text(3);
-    \u0275\u0275pipe(4, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(5, "] ");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r66 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r66.tsk_time_history[t_r66.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
-    \u0275\u0275text(1, "\u{1F525}");
-    \u0275\u0275elementEnd();
+    \u0275\u0275textInterpolate1(" #", tag_r66, " ");
   }
 }
 function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275text(1, "!");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275text(1, "\u2605");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 108);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275element(1, "img", 109);
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
-    \u0275\u0275text(1, "\u2691");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
-    \u0275\u0275text(1, "\u2716");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r69 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 114);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
-      const tag_r70 = \u0275\u0275restoreView(_r69).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r70));
-    });
-    \u0275\u0275text(1);
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const tag_r70 = ctx.$implicit;
+    const t_r64 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r70, " ");
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 104);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r66 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275repeater(t_r66.tsk_tags.split(" "));
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_21_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span")(1, "strong");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const t_r66 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r66.tsk_schedule_date_start), ")");
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_22_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 11);
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const t_r66 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r66));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r66));
-  }
-}
-function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_23_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "(Not in sync)");
-    \u0275\u0275elementEnd();
+    \u0275\u0275repeater(t_r64.tsk_tags.split(" "));
   }
 }
 function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r65 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 131)(1, "input", 92);
+    const _r63 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 129)(1, "input", 89);
     \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
-      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+      const t_r64 = \u0275\u0275restoreView(_r63).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r66, $event));
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r64, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275elementStart(4, "span", 107);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
-      \u0275\u0275restoreView(_r65);
+    \u0275\u0275elementStart(2, "span", 127);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_keyup_2_listener($event) {
+      const t_r64 = \u0275\u0275restoreView(_r63).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.toggleTimeMode());
-    });
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 97);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 96);
-    \u0275\u0275elementStart(13, "span", 129);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
-      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r66, $event));
-    })("keydown", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_keydown_13_listener($event) {
-      \u0275\u0275restoreView(_r65);
+      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r64, $event));
+    })("keydown", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_keydown_2_listener($event) {
+      \u0275\u0275restoreView(_r63);
       const ctx_r1 = \u0275\u0275nextContext(4);
       return \u0275\u0275resetView(ctx_r1.workTaskKeyDown($event));
-    })("blur", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_blur_13_listener($event) {
-      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+    })("blur", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_blur_2_listener($event) {
+      const t_r64 = \u0275\u0275restoreView(_r63).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r66, $event));
+      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r64, $event));
     });
-    \u0275\u0275text(14);
+    \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275text(15, "\xA0");
-    \u0275\u0275elementStart(16, "span", 130);
-    \u0275\u0275listener("blur", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
-      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+    \u0275\u0275text(4, "\xA0");
+    \u0275\u0275elementStart(5, "span", 128);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_blur_5_listener($event) {
+      const t_r64 = \u0275\u0275restoreView(_r63).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r66, $event));
+      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r64, $event));
     });
-    \u0275\u0275text(17);
+    \u0275\u0275text(6);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "span");
-    \u0275\u0275text(19);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 104);
-    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
-    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
-    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_Template, 3, 0, "span", 102);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const t_r66 = ctx.$implicit;
+    const t_r64 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r66.tsk_id))("data-id", \u0275\u0275interpolate(t_r66.tsk_id));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r64.tsk_id))("data-id", \u0275\u0275interpolate(t_r64.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r66.tsk_id));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r64.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_total_time_spent !== 0 ? 2 : -1);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(12, _c222, [t_r64.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r64.tsk_ctg_in_process === 2, t_r64.tsk_qualifiers.indexOf("important") !== -1, t_r64.tsk_qualifiers.indexOf("urgent") !== -1, t_r64.tsk_qualifiers.indexOf("highlighted") !== -1, t_r64.tsk_qualifiers.indexOf("progressed") !== -1, t_r64.tsk_qualifiers.indexOf("unexpected") !== -1, t_r64.tsk_qualifiers.indexOf("call") !== -1, t_r64.tsk_qualifiers.indexOf("priority") !== -1, t_r64.tsk_qualifiers.indexOf("directions") !== -1]));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_ctg_in_process === 2 ? 3 : -1);
+    \u0275\u0275textInterpolate(t_r64.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r66.tsk_id] ? "[" + ctx_r1.timers[t_r66.tsk_id].timerString + "]" : "", " ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("critical") !== -1 ? 6 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("urgent") !== -1 ? 7 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("star") !== -1 ? 8 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("people") !== -1 ? 9 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("mobile") !== -1 ? 10 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("flag") !== -1 ? 11 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("blocked") !== -1 ? 12 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(26, _c23, [t_r66.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r66.tsk_ctg_in_process === 2, t_r66.tsk_qualifiers.indexOf("important") !== -1, t_r66.tsk_qualifiers.indexOf("urgent") !== -1, t_r66.tsk_qualifiers.indexOf("highlighted") !== -1, t_r66.tsk_qualifiers.indexOf("progressed") !== -1, t_r66.tsk_qualifiers.indexOf("unexpected") !== -1, t_r66.tsk_qualifiers.indexOf("call") !== -1, t_r66.tsk_qualifiers.indexOf("priority") !== -1, t_r66.tsk_qualifiers.indexOf("directions") !== -1]));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(t_r66.tsk_name);
-    \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(37, _c9, t_r66.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(23, _c8, t_r64.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r66.tsk_estimated_duration * 60, "#h#m"));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1(" [", t_r66.tsk_id_record, "] ");
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r64.tsk_estimated_duration * 60, "#h#m"));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_tags ? 20 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.tsk_schedule_date_start ? 21 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 22 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(t_r66.not_sync ? 23 : -1);
+    \u0275\u0275conditional(t_r64.tsk_tags ? 7 : -1);
   }
 }
 function TasksComponent_Conditional_38_For_4_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template, 24, 39, "div", 131, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template, 8, 25, "div", 129, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r71 = \u0275\u0275nextContext().$implicit;
+    const item_r67 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c21, ctx_r1.workTasks[0].tasks.length > 20));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c20, ctx_r1.workTasks[0].tasks.length > 20));
     \u0275\u0275advance();
-    \u0275\u0275repeater(item_r71.tasks);
+    \u0275\u0275repeater(item_r67.tasks);
   }
 }
 function TasksComponent_Conditional_38_For_4_Template(rf, ctx) {
   if (rf & 1) {
-    const _r64 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 118)(1, "div")(2, "button", 9);
+    const _r62 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r64);
+      \u0275\u0275restoreView(_r62);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseWorkTasks"));
     });
@@ -74288,20 +72379,20 @@ function TasksComponent_Conditional_38_For_4_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 119);
+    \u0275\u0275element(6, "time-format", 117);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_38_For_4_Conditional_7_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r71 = ctx.$implicit;
+    const item_r67 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseWorkTasks ? "+" : "-", " Work To Do");
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" | ", item_r71.tasks.length, " ");
+    \u0275\u0275textInterpolate1(" | ", item_r67.tasks.length, " ");
     \u0275\u0275advance();
-    \u0275\u0275property("value", item_r71.estimatedDuration);
+    \u0275\u0275property("value", item_r67.estimatedDuration);
     \u0275\u0275advance();
     \u0275\u0275conditional(!ctx_r1.options.optCollapseWorkTasks ? 7 : -1);
   }
@@ -74310,8 +72401,8 @@ function TasksComponent_Conditional_38_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 16);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 117);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_38_For_4_Template, 8, 4, "div", 118, _forTrack2);
+    \u0275\u0275elementStart(2, "div", 115);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_38_For_4_Template, 8, 4, "div", 116, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -74320,861 +72411,150 @@ function TasksComponent_Conditional_38_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.workTasks);
   }
 }
-function TasksComponent_Conditional_39_Conditional_9_For_14_Template(rf, ctx) {
+function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r73 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "tr")(1, "td");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "td");
-    \u0275\u0275text(8);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "td")(10, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_9_For_14_Template_button_click_10_listener() {
-      const e_r74 = \u0275\u0275restoreView(_r73).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.setSelected(e_r74));
+    const _r71 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 112);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Conditional_7_For_2_Template_span_click_0_listener() {
+      const tag_r72 = \u0275\u0275restoreView(_r71).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(6);
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r72));
     });
-    \u0275\u0275text(11, "details");
-    \u0275\u0275elementEnd()()();
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const e_r74 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(e_r74.tsk_name);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r74.tsk_estimated_duration * 60));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r74.tsk_total_time_spent));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.statusText(e_r74.tsk_ctg_status));
+    const tag_r72 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" #", tag_r72, " ");
   }
 }
-function TasksComponent_Conditional_39_Conditional_9_Template(rf, ctx) {
+function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
-    \u0275\u0275text(4, "Name");
+    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Conditional_7_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6, "Estimated");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "td");
-    \u0275\u0275text(8, "Spent");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "td");
-    \u0275\u0275text(10, "Status");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "td");
-    \u0275\u0275text(12, "Actions");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_39_Conditional_9_For_14_Template, 12, 4, "tr", null, _forTrack2);
-    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
+    const t_r70 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275repeater(t_r70.tsk_tags.split(" "));
+  }
+}
+function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r69 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 129)(1, "input", 89);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
+      const t_r70 = \u0275\u0275restoreView(_r69).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r70, $event));
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(2, "span", 127);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template_span_keyup_2_listener($event) {
+      const t_r70 = \u0275\u0275restoreView(_r69).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r70, $event));
+    })("keydown", function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template_span_keydown_2_listener($event) {
+      \u0275\u0275restoreView(_r69);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.pinnedTaskKeyDown($event));
+    })("blur", function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template_span_blur_2_listener($event) {
+      const t_r70 = \u0275\u0275restoreView(_r69).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r70, $event));
+    });
+    \u0275\u0275text(3);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(4, "\xA0");
+    \u0275\u0275elementStart(5, "span", 128);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template_span_blur_5_listener($event) {
+      const t_r70 = \u0275\u0275restoreView(_r69).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r70, $event));
+    });
+    \u0275\u0275text(6);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Conditional_7_Template, 3, 0, "span", 102);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r70 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r70.tsk_id))("data-id", \u0275\u0275interpolate(t_r70.tsk_id));
+    \u0275\u0275advance();
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r70.tsk_id));
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(12, _c222, [t_r70.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r70.tsk_ctg_in_process === 2, t_r70.tsk_qualifiers.indexOf("important") !== -1, t_r70.tsk_qualifiers.indexOf("urgent") !== -1, t_r70.tsk_qualifiers.indexOf("highlighted") !== -1, t_r70.tsk_qualifiers.indexOf("progressed") !== -1, t_r70.tsk_qualifiers.indexOf("unexpected") !== -1, t_r70.tsk_qualifiers.indexOf("call") !== -1, t_r70.tsk_qualifiers.indexOf("priority") !== -1, t_r70.tsk_qualifiers.indexOf("directions") !== -1]));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(t_r70.tsk_name);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(23, _c8, t_r70.tsk_estimated_duration === 0));
+    \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r70.tsk_estimated_duration * 60, "#h#m"));
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r70.tsk_tags ? 7 : -1);
+  }
+}
+function TasksComponent_Conditional_39_For_4_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 11);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_39_For_4_Conditional_7_For_2_Template, 8, 25, "div", 129, _forTrack2);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const item_r73 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(13);
-    \u0275\u0275repeater(ctx_r1.tagInfo.tasks);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c20, ctx_r1.pinnedTasks[0].tasks.length > 20));
+    \u0275\u0275advance();
+    \u0275\u0275repeater(item_r73.tasks);
+  }
+}
+function TasksComponent_Conditional_39_For_4_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r68 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_For_4_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r68);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapsePinnedTasks"));
+    });
+    \u0275\u0275elementStart(3, "strong");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275text(5);
+    \u0275\u0275element(6, "time-format", 117);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_39_For_4_Conditional_7_Template, 3, 3, "div", 11);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const item_r73 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapsePinnedTasks ? "+" : "-", " Pinned To Do");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" | ", item_r73.tasks.length, " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("value", item_r73.estimatedDuration);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r1.options.optCollapsePinnedTasks ? 7 : -1);
   }
 }
 function TasksComponent_Conditional_39_Template(rf, ctx) {
   if (rf & 1) {
-    const _r72 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 17)(1, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Template_button_click_1_listener() {
-      \u0275\u0275restoreView(_r72);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.tagInfo.display = false);
-    });
-    \u0275\u0275text(2, "hide");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4, "Tag Information");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(5, "br");
-    \u0275\u0275text(6);
-    \u0275\u0275element(7, "br");
-    \u0275\u0275text(8);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_39_Conditional_9_Template, 15, 0, "div");
-    \u0275\u0275element(10, "hr");
-    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(0, "div", 17);
+    \u0275\u0275element(1, "hr");
+    \u0275\u0275elementStart(2, "div", 115);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_39_For_4_Template, 8, 4, "div", 116, _forTrack2);
+    \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(6);
-    \u0275\u0275textInterpolate2("Closed Tasks | Estimated: ", ctx_r1.formatTime(ctx_r1.tagInfo.tasksClosedTotalEstimated * 60), " | Spent: ", ctx_r1.formatTime(ctx_r1.tagInfo.tasksClosedTotalSpent), " ");
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate2("Open Tasks | Estimated: ", ctx_r1.formatTime(ctx_r1.tagInfo.tasksOpenTotalEstimated * 60), " | Spent: ", ctx_r1.formatTime(ctx_r1.tagInfo.tasksOpenTotalSpent), " ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.tagInfo.tasks.length > 0 ? 9 : -1);
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r78 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 105);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r78);
-      const item_r77 = \u0275\u0275nextContext(3).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r77, $event, "start"));
-    });
-    \u0275\u0275text(3);
-    \u0275\u0275pipe(4, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 106);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r78);
-      const item_r77 = \u0275\u0275nextContext(3).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r77, $event, "end"));
-    });
-    \u0275\u0275text(7);
-    \u0275\u0275pipe(8, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(9, "] ");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const item_r77 = \u0275\u0275nextContext(3).$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1] && item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1] && item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 11);
-    \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template, 10, 8, "span");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const item_r77 = \u0275\u0275nextContext(2).$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, item_r77.tsk_ctg_status === ctx_r1.taskStatus.OPEN && item_r77.tsk_time_history.length > 0));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", item_r77.tsk_time_history.length, "/", ctx_r1.formatTime(item_r77.tsk_total_time_spent), "] ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(item_r77.tsk_ctg_in_process !== 2 ? 2 : -1);
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_12_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span");
-    \u0275\u0275text(1, "(Not in sync)");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r76 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "input", 132);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template_input_click_1_listener($event) {
-      \u0275\u0275restoreView(_r76);
-      const item_r77 = \u0275\u0275nextContext().$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(item_r77, $event));
-    });
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Template, 3, 6, "span", 11);
-    \u0275\u0275elementStart(3, "span");
-    \u0275\u0275text(4, "(Done at: ");
-    \u0275\u0275elementStart(5, "span", 77);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template_span_keyup_5_listener($event) {
-      \u0275\u0275restoreView(_r76);
-      const item_r77 = \u0275\u0275nextContext().$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.editDateDone(item_r77, $event));
-    });
-    \u0275\u0275text(6);
-    \u0275\u0275pipe(7, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(8, ")");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(9, "\xA0");
-    \u0275\u0275elementStart(10, "span", 11);
-    \u0275\u0275text(11);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_12_Template, 2, 0, "span");
-    \u0275\u0275elementStart(13, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template_button_click_13_listener() {
-      \u0275\u0275restoreView(_r76);
-      const item_r77 = \u0275\u0275nextContext().$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.setSelected(item_r77));
-    });
-    \u0275\u0275text(14, "details");
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const item_r77 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate(item_r77.tsk_id));
-    \u0275\u0275advance();
-    \u0275\u0275conditional(item_r77.tsk_total_time_spent !== 0 ? 2 : -1);
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(7, 7, item_r77.tsk_date_done, ctx_r1.format));
-    \u0275\u0275advance(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(10, _c24, item_r77.tsk_ctg_status === ctx_r1.taskStatus.CLOSED));
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate(item_r77.tsk_name);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(item_r77.not_sync ? 12 : -1);
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template, 15, 12, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const \u0275$index_1577_r79 = ctx.$index;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1577_r79 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r80 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r80);
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.toggleView("viewAllFinishedToday"));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r1.viewAllFinishedToday ? "Do not show all" : "Show all", " ");
-  }
-}
-function TasksComponent_Conditional_40_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Template, 2, 1, "div", null, _forTrack2);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template, 2, 1, "button");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.state.closedTodayTasks);
-    \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx_r1.state.closedTodayTasks.length > 3 ? 3 : -1);
-  }
-}
-function TasksComponent_Conditional_40_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r75 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r75);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseFinishedToday"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_40_Conditional_6_Template, 4, 1, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseFinishedToday ? "+" : "-", " Finished Today");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" | ", ctx_r1.state.closedTodayTasks.length, " tasks ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseFinishedToday ? 6 : -1);
-  }
-}
-function TasksComponent_Conditional_41_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "task", 133);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const item_r82 = \u0275\u0275nextContext().$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275property("task", item_r82)("handlers", ctx_r1.handlersForClosedYesterday)("options", \u0275\u0275pureFunction0(3, _c25));
-  }
-}
-function TasksComponent_Conditional_41_Conditional_6_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_41_Conditional_6_For_2_Conditional_1_Template, 2, 4, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const \u0275$index_1640_r83 = ctx.$index;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1640_r83 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
-  }
-}
-function TasksComponent_Conditional_41_Conditional_6_Conditional_3_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r84 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_6_Conditional_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r84);
-      const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.toggleView("viewAllFinishedYesterday"));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" ", ctx_r1.viewAllFinishedYesterday ? "Do not show all" : "Show all", " ");
-  }
-}
-function TasksComponent_Conditional_41_Conditional_6_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_6_For_2_Template, 2, 1, "div", null, _forTrack2);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_41_Conditional_6_Conditional_3_Template, 2, 1, "button");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.state.closedYesterdayTasks);
-    \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx_r1.state.closedYesterdayTasks.length > 3 ? 3 : -1);
-  }
-}
-function TasksComponent_Conditional_41_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r81 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r81);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseFinishedYesterday"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_41_Conditional_6_Template, 4, 1, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseFinishedYesterday ? "+" : "-", " Finished Yesterday");
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" | ", ctx_r1.state.closedYesterdayTasks.length, " tasks ");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseFinishedYesterday ? 6 : -1);
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r87 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 114);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_For_2_Template_span_click_0_listener() {
-      const tag_r88 = \u0275\u0275restoreView(_r87).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r88));
-    });
-    \u0275\u0275text(1);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const tag_r88 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r88, " ");
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 104);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const item_r89 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275repeater(item_r89.tsk_tags.split(" "));
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r86 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1, " - ");
-    \u0275\u0275elementStart(2, "span");
-    \u0275\u0275text(3);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span");
-    \u0275\u0275text(5);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "span");
-    \u0275\u0275text(7);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 104);
-    \u0275\u0275elementStart(9, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Template_button_click_9_listener() {
-      const item_r89 = \u0275\u0275restoreView(_r86).$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.setSelected(item_r89));
-    });
-    \u0275\u0275text(10, "details");
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const item_r89 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(4);
-    \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate2("[", item_r89.tsk_time_history.length, "/", ctx_r1.formatTime(item_r89.tsk_total_time_spent), "]");
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("[", item_r89.tsk_id_record, "]");
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(item_r89.tsk_name);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(item_r89.tsk_tags ? 8 : -1);
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "div");
-    \u0275\u0275element(2, "br");
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275pipe(5, "date");
-    \u0275\u0275elementEnd();
-    \u0275\u0275text(6, " \xA0");
-    \u0275\u0275elementStart(7, "span");
-    \u0275\u0275text(8);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Template, 11, 5, "div", null, _forTrack2);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const group_r90 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(5, 2, group_r90.header, "yyyy-MM-dd"));
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("(Spent ", ctx_r1.formatTime(group_r90.totalTimeSpent), ")");
-    \u0275\u0275advance();
-    \u0275\u0275repeater(group_r90.tasks);
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_42_Conditional_5_For_2_Template, 11, 5, "div", null, _forTrack4);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.state.closedTasks);
-  }
-}
-function TasksComponent_Conditional_42_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r85 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 18);
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r85);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseClosedTasks"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_42_Conditional_5_Template, 3, 0, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseClosedTasks ? "+" : "-", " Closed Tasks");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseClosedTasks ? 5 : -1);
-  }
-}
-function TasksComponent_Conditional_43_Conditional_5_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1);
-    \u0275\u0275pipe(2, "date");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const s_r92 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate6(" date: ", \u0275\u0275pipeBind2(2, 6, s_r92.date, "yyyy-MM-dd"), " tasks done: ", s_r92.tasksDone, " estimated: ", ctx_r1.formatTime(s_r92.estimated * 60), " spent: ", ctx_r1.formatTime(s_r92.timeSpent), " Productivity: ", s_r92.productivity, " Real Time Elapsed: ", ctx_r1.formatTime(s_r92.realTimeElapsed), " ");
-  }
-}
-function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_43_Conditional_5_For_2_Template, 3, 9, "div", null, _forTrack6);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.reports.week);
-  }
-}
-function TasksComponent_Conditional_43_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r91 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_43_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r91);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsWeekDistribution"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_43_Conditional_5_Template, 3, 0, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseReportsWeekDistribution ? "+" : "-", " Week Distribution Report");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseReportsWeekDistribution ? 5 : -1);
-  }
-}
-function TasksComponent_Conditional_44_Conditional_5_For_14_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "td");
-    \u0275\u0275text(8);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "td");
-    \u0275\u0275text(10);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const r_r94 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r94.record);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r94.eta * 60));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r94.real));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r94.percentageEta);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r94.percentageReal);
-  }
-}
-function TasksComponent_Conditional_44_Conditional_5_Conditional_15_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275element(0, "canvas", 134);
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("datasets", ctx_r1.viewData.dayDistributionChart.chartData)("labels", ctx_r1.viewData.dayDistributionChart.chartLabels)("options", ctx_r1.viewData.dayDistributionChart.chartOptions)("legend", ctx_r1.viewData.dayDistributionChart.chartLegend)("type", ctx_r1.viewData.dayDistributionChart.chartType);
-  }
-}
-function TasksComponent_Conditional_44_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
-    \u0275\u0275text(4, "Record");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6, "Total ETA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "td");
-    \u0275\u0275text(8, "Total Real");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "td");
-    \u0275\u0275text(10, "Percentage ETA");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "td");
-    \u0275\u0275text(12, "Percentage Real");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_44_Conditional_5_For_14_Template, 11, 5, "tr", null, _forTrack0);
-    \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_44_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 134);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(13);
-    \u0275\u0275repeater(ctx_r1.reports.dayDistribution);
-    \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx_r1.viewData.dayDistributionChart.chartData[0].data.length > 0 ? 15 : -1);
-  }
-}
-function TasksComponent_Conditional_44_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r93 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_44_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r93);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsDayDistribution"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_44_Conditional_5_Template, 16, 1, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseReportsDayDistribution ? "+" : "-", " Day Distribution Report");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseReportsDayDistribution ? 5 : -1);
-  }
-}
-function TasksComponent_Conditional_45_Conditional_5_For_10_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const q_r96 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(q_r96.qualifier);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(q_r96.taskCount);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(q_r96.totalETA * 60));
-  }
-}
-function TasksComponent_Conditional_45_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
-    \u0275\u0275text(4, "Qualifier");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6, "Task Count");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "td");
-    \u0275\u0275text(8, "Total ETA");
-    \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_45_Conditional_5_For_10_Template, 7, 3, "tr", null, _forTrack7);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(9);
-    \u0275\u0275repeater(ctx_r1.reports.qualifierTotals);
-  }
-}
-function TasksComponent_Conditional_45_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r95 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r95);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseQualifiersTotals"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_45_Conditional_5_Template, 11, 0, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseQualifiersTotals ? "+" : "-", " Qualifiers Totals");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseQualifiersTotals ? 5 : -1);
-  }
-}
-function TasksComponent_Conditional_46_For_8_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r97 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "td");
-    \u0275\u0275text(1);
-    \u0275\u0275elementStart(2, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_For_8_For_2_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r97);
-      const c_r98 = \u0275\u0275nextContext().$implicit;
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.sendFEToBE(c_r98));
-    });
-    \u0275\u0275text(3, "Send FE data to BE");
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const f_r99 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate5(" displayName: ", f_r99.displayName, " | name: ", f_r99.name, " | comparison: ", f_r99.isEqual, " | data FE: ", f_r99.client, " | data BE: ", f_r99.server, " ");
-  }
-}
-function TasksComponent_Conditional_46_For_8_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_46_For_8_For_2_Template, 4, 5, "td", null, _forTrack8);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const c_r98 = ctx.$implicit;
-    \u0275\u0275advance();
-    \u0275\u0275repeater(c_r98);
-  }
-}
-function TasksComponent_Conditional_46_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1);
-    \u0275\u0275element(2, "br");
-    \u0275\u0275text(3);
-    \u0275\u0275element(4, "br");
-    \u0275\u0275text(5);
-    \u0275\u0275elementStart(6, "table");
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_46_For_8_Template, 3, 0, "tr", null, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" Client Task Count: ", ctx_r1.comparisonData.clientTaskCount, " ");
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("Server Task Count: ", ctx_r1.comparisonData.serverTaskCount, " ");
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("Comparison Task Count: ", ctx_r1.comparisonData.results.length, " ");
-    \u0275\u0275advance(2);
-    \u0275\u0275repeater(ctx_r1.comparisonData.results);
-  }
-}
-function TasksComponent_Conditional_47_Conditional_4_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r101 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 142);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Conditional_4_Template_span_click_0_listener($event) {
-      \u0275\u0275restoreView(_r101);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.toggleTimeTracking(ctx_r1.selectedTask, $event));
-    });
-    \u0275\u0275text(1, "\u25B6");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_47_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r102 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 143);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Conditional_5_Template_span_click_0_listener($event) {
-      \u0275\u0275restoreView(_r102);
-      const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.toggleTimeTracking(ctx_r1.selectedTask, $event));
-    });
-    \u0275\u0275text(1, "\u25FC");
-    \u0275\u0275elementEnd();
-  }
-}
-function TasksComponent_Conditional_47_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r100 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 19)(1, "div");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 135);
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_47_Conditional_4_Template, 2, 0, "span", 136);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_47_Conditional_5_Template, 2, 0, "span", 137);
-    \u0275\u0275elementStart(6, "span", 138);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_6_listener() {
-      \u0275\u0275restoreView(_r100);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.adjustTimeTracking(ctx_r1.selectedTask));
-    });
-    \u0275\u0275text(7, "\u21E4");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 139);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_8_listener() {
-      \u0275\u0275restoreView(_r100);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.setSelected(ctx_r1.selectedTask));
-    });
-    \u0275\u0275text(9, "\u270E");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "span", 140);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_10_listener() {
-      \u0275\u0275restoreView(_r100);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.removeQualifiersFromTask(ctx_r1.selectedTask));
-    });
-    \u0275\u0275text(11, "\u2612");
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "span", 141);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_12_listener() {
-      \u0275\u0275restoreView(_r100);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.selectedTask = null);
-    });
-    \u0275\u0275text(13, "\xD7");
-    \u0275\u0275elementEnd()()();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c26, !ctx_r1.options.optShowTaskToolbar));
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.selectedTask.tsk_name);
-    \u0275\u0275advance(2);
-    \u0275\u0275conditional(ctx_r1.selectedTask && ctx_r1.selectedTask.tsk_ctg_in_process === 1 ? 4 : -1);
-    \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.selectedTask && ctx_r1.selectedTask.tsk_ctg_in_process === 2 ? 5 : -1);
+    \u0275\u0275repeater(ctx_r1.pinnedTasks);
   }
 }
 var TasksComponent = class _TasksComponent {
@@ -75235,6 +72615,7 @@ var TasksComponent = class _TasksComponent {
     optCollapseClosedTasks: false,
     optCollapsePinnedTasks: false,
     optCollapseWorkTasks: false,
+    optCollapseTodayTasks: false,
     optCollapseReportsWeekDistribution: false,
     optCollapseReportsDayDistribution: false,
     optCollapseQualifiersTotals: false,
@@ -75258,6 +72639,7 @@ var TasksComponent = class _TasksComponent {
   nextTasks;
   pinnedTasks;
   workTasks;
+  todayTasks;
   focusedTask = {
     task: null,
     element: null
@@ -75395,6 +72777,7 @@ var TasksComponent = class _TasksComponent {
     this.nextTasks = [];
     this.pinnedTasks = [];
     this.workTasks = [];
+    this.todayTasks = [];
     this.updateState();
     this.fetchTasks();
     this.subscribe("updateTimeTracking", (timeTrackingItem) => {
@@ -75463,7 +72846,7 @@ var TasksComponent = class _TasksComponent {
     };
     this.tasks = this.services.tasksCore.tasks();
     this.state.backlogTasks = this.createGroupedTasks(this.tasks.filter((t3) => t3.tsk_ctg_status == this.taskStatus.BACKLOG).sort(this.sortByGroup));
-    this.state.openTasks = this.createGroupedTasks(this.tasks.filter((t3) => t3.tsk_ctg_status == this.taskStatus.OPEN && (t3.tsk_date_view_until ? new Date(t3.tsk_date_view_until) < today : true) && ((this.options.optShowQualifiedTasksOnly ? t3.tsk_qualifiers !== "" : true) || t3.tsk_ctg_in_process == 2)).filter((t3) => this.viewData.selectedFilter === "next" ? t3["inNextToDo"] : true).filter((t3) => this.viewData.selectedFilter === "today-and-urgent" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "pinned" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.inWorkToDo : true).filter((t3) => this.viewData.selectedFilter === "pinned-and-urgent" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.inWorkToDo || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "due-today" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() : true).filter((t3) => this.viewData.selectedFilter === "today" ? today0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < tomorrow0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "yesterday" ? yesterday0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < today0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "old-30" ? new Date(t3.tsk_date_add).getTime() < DateUtils.addDays(today0, -30).getTime() : true).filter((t3) => this.viewData.selectedFilter === "with-schedule" ? !!t3.tsk_schedule_date_start : true).filter((t3) => this.viewData.selectedFilter === "in-progress" ? t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "not-today" ? today0.getTime() > new Date(t3.tsk_date_add).getTime() : true).filter((t3) => this.viewData.selectedFilter === "qualifiers" ? !!t3.tsk_qualifiers : true).filter((t3) => {
+    this.state.openTasks = this.createGroupedTasks(this.tasks.filter((t3) => t3.tsk_ctg_status == this.taskStatus.OPEN && (t3.tsk_date_view_until ? new Date(t3.tsk_date_view_until) < today : true) && ((this.options.optShowQualifiedTasksOnly ? t3.tsk_qualifiers !== "" : true) || t3.tsk_ctg_in_process == 2)).filter((t3) => this.viewData.selectedFilter === "next" ? t3["inNextToDo"] : true).filter((t3) => this.viewData.selectedFilter === "today-and-urgent" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "pinned" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.inWorkToDo || t3.inTodayToDo : true).filter((t3) => this.viewData.selectedFilter === "pinned-and-urgent" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.inWorkToDo || t3.inTodayToDo || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "due-today" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() : true).filter((t3) => this.viewData.selectedFilter === "today" ? today0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < tomorrow0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "yesterday" ? yesterday0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < today0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "old-30" ? new Date(t3.tsk_date_add).getTime() < DateUtils.addDays(today0, -30).getTime() : true).filter((t3) => this.viewData.selectedFilter === "with-schedule" ? !!t3.tsk_schedule_date_start : true).filter((t3) => this.viewData.selectedFilter === "in-progress" ? t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "not-today" ? today0.getTime() > new Date(t3.tsk_date_add).getTime() : true).filter((t3) => this.viewData.selectedFilter === "qualifiers" ? !!t3.tsk_qualifiers : true).filter((t3) => {
       const qFilters = this.CONSTANTS.filters.filter((f2) => f2.id.startsWith("q-"));
       if (qFilters.some((filter2) => this.viewData.selectedFilter === filter2.id)) {
         return t3.tsk_qualifiers && t3.tsk_qualifiers.includes(this.viewData.selectedFilter.substring(2));
@@ -75555,6 +72938,7 @@ var TasksComponent = class _TasksComponent {
     this.tasks.forEach((t3) => {
       t3["inPinnedToDo"] = false;
       t3["inWorkToDo"] = false;
+      t3["inTodayToDo"] = false;
     });
     if (this.pinnedTasks.length === 0) {
       this.pinnedTasks.push({
@@ -75614,6 +72998,36 @@ var TasksComponent = class _TasksComponent {
       } else {
         let index2 = this.workTasks[0].tasks.findIndex((e2) => e2.tsk_id === t3.tsk_id);
         this.workTasks[0].tasks.splice(index2, 1);
+      }
+    });
+    if (this.todayTasks.length === 0) {
+      this.todayTasks.push({
+        estimatedDuration: 0,
+        tasks: []
+      });
+    } else {
+      this.todayTasks[0].tasks = [];
+    }
+    if (this.tasks.length && typeof window.localStorage !== "undefined") {
+      let todayTasksIds = JSON.parse(localStorage.getItem("TodayTasks") || "[]");
+      if (todayTasksIds) {
+        todayTasksIds.forEach((id) => {
+          let nt2 = this.tasks.find((e2) => e2.tsk_id === id && e2.tsk_ctg_status === this.taskStatus.OPEN);
+          if (nt2) {
+            this.todayTasks[0].tasks.push(nt2);
+            nt2["inTodayToDo"] = true;
+          }
+        });
+        localStorage.setItem("TodayTasks", JSON.stringify(this.todayTasks[0].tasks.map((e2) => e2.tsk_id)));
+      }
+    }
+    this.todayTasks[0].estimatedDuration = 0;
+    this.todayTasks[0].tasks.forEach((t3) => {
+      if (t3.tsk_ctg_status === this.taskStatus.OPEN) {
+        this.todayTasks[0].estimatedDuration += t3.tsk_estimated_duration * 60;
+      } else {
+        let index2 = this.todayTasks[0].tasks.findIndex((e2) => e2.tsk_id === t3.tsk_id);
+        this.todayTasks[0].tasks.splice(index2, 1);
       }
     });
     const lastTTEntryFromDay = this.lastTTEntryFromDay(DateUtils.addDays(/* @__PURE__ */ new Date(), 1)) || this.lastTTEntryFromDay(today) || this.lastTTEntryFromDay(DateUtils.addDays(/* @__PURE__ */ new Date(), -1));
@@ -75772,6 +73186,9 @@ var TasksComponent = class _TasksComponent {
     if (event.altKey && event.key === "w") {
       this.toggleWorkToDo(t3);
     }
+    if (event.altKey && event.key === "x") {
+      this.toggleTodayToDo(t3);
+    }
     if (event.altKey && event.keyCode == 84) {
       this.adjustTimeTracking(t3, true);
     }
@@ -75885,6 +73302,32 @@ var TasksComponent = class _TasksComponent {
       this.taskMoveDown(parent, (t1, t22) => this.interchangeWorkTaskOrder(t1, t22));
       if (parent.nextElementSibling && parent.nextElementSibling.id) {
         this.focusElement(`#workToDoList #${parent.id} span.task-text[contenteditable=true]`);
+      }
+    }
+    if (!event.altKey && event.keyCode == 38) {
+      this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (!event.altKey && event.keyCode == 40) {
+      this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+  }
+  /**
+   * Jumps cursor up and below the current task in the today task listing
+   * modifying order based in localStorage saved today tasks.
+   * @param event keyboard event to handle
+   */
+  todayTaskKeyDown(event) {
+    const parent = event.target["parentNode"];
+    if (event.altKey && event.keyCode == 38) {
+      this.taskMoveUp(parent, (t1, t22) => this.interchangeTodayTaskOrder(t1, t22));
+      setTimeout(() => {
+        this.focusElement(`#todayToDoList #${parent.id} span.task-text[contenteditable=true]`);
+      }, 100);
+    }
+    if (event.altKey && event.keyCode == 40) {
+      this.taskMoveDown(parent, (t1, t22) => this.interchangeTodayTaskOrder(t1, t22));
+      if (parent.nextElementSibling && parent.nextElementSibling.id) {
+        this.focusElement(`#todayToDoList #${parent.id} span.task-text[contenteditable=true]`);
       }
     }
     if (!event.altKey && event.keyCode == 38) {
@@ -76027,6 +73470,25 @@ var TasksComponent = class _TasksComponent {
       this.workTasks[0].tasks[index1]
     ];
     localStorage.setItem("WorkTasks", JSON.stringify(currentWorkTasks));
+  }
+  /**
+   * Interchanges tasks order and updates it in the today tasks listing.
+   * @param tsk_id1 task id to be interchanged
+   * @param tsk_id2 task id to be interchanged
+   */
+  interchangeTodayTaskOrder(tsk_id1, tsk_id2) {
+    let currentTodayTasks = localStorage && JSON.parse(localStorage.getItem("TodayTasks") || "[]");
+    let index1 = currentTodayTasks.findIndex((e2) => e2 === tsk_id1);
+    let index2 = currentTodayTasks.findIndex((e2) => e2 === tsk_id2);
+    [currentTodayTasks[index1], currentTodayTasks[index2]] = [
+      currentTodayTasks[index2],
+      currentTodayTasks[index1]
+    ];
+    [this.todayTasks[0].tasks[index1], this.todayTasks[0].tasks[index2]] = [
+      this.todayTasks[0].tasks[index2],
+      this.todayTasks[0].tasks[index1]
+    ];
+    localStorage.setItem("TodayTasks", JSON.stringify(currentTodayTasks));
   }
   taskJumpUp(current, selector) {
     const previous = current.previousElementSibling;
@@ -77388,6 +74850,20 @@ var TasksComponent = class _TasksComponent {
     }
     localStorage.setItem("WorkTasks", JSON.stringify(p2.map((e2) => e2.tsk_id)));
   }
+  toggleTodayToDo(t3) {
+    let p2 = this.todayTasks[0].tasks;
+    let index2 = p2.findIndex((e2) => e2.tsk_id === t3.tsk_id);
+    if (index2 === -1) {
+      p2.push(t3);
+      this.todayTasks[0].estimatedDuration += t3.tsk_estimated_duration * 60;
+      t3["inTodayToDo"] = true;
+    } else {
+      p2.splice(index2, 1);
+      this.todayTasks[0].estimatedDuration -= t3.tsk_estimated_duration * 60;
+      t3["inTodayToDo"] = false;
+    }
+    localStorage.setItem("TodayTasks", JSON.stringify(p2.map((e2) => e2.tsk_id)));
+  }
   setTaskNotes(task, event) {
     const newNotes = event.target["value"];
     if (task.tsk_notes !== newNotes) {
@@ -77553,6 +75029,14 @@ var TasksComponent = class _TasksComponent {
     });
     localStorage.setItem("WorkTasks", JSON.stringify(this.workTasks[0].tasks.map((e2) => e2.tsk_id)));
   }
+  clearTodayTasks() {
+    this.todayTasks = [];
+    this.todayTasks.push({
+      estimatedDuration: 0,
+      tasks: []
+    });
+    localStorage.setItem("TodayTasks", JSON.stringify(this.todayTasks[0].tasks.map((e2) => e2.tsk_id)));
+  }
   syncTasks() {
     this.fetchTasks();
   }
@@ -77620,7 +75104,7 @@ var TasksComponent = class _TasksComponent {
   static \u0275fac = function TasksComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _TasksComponent)(\u0275\u0275directiveInject(TasksCore), \u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(TaskIndicator), \u0275\u0275directiveInject(DateCommon), \u0275\u0275directiveInject(NotificationService), \u0275\u0275directiveInject(Title));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 49, vars: 42, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "workToDoList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], [3, "ngModelChange", "change", "ngModel"], ["value", "Float"], ["value", "Grid"], ["value", "Grid Lanes"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "id", "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["aria-label", "In Work To Do listing", "title", "In Work To Do listing", 2, "margin", "0 -4px"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px; margin-bottom: 8px", 4, "ngIf"], [1, "next-options", 2, "margin-top", "8px", "margin-bottom", "8px"], [2, "margin-left", "8px", 3, "click"], [2, "margin-left", "8px", 3, "click", "disabled"], ["src", "data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==", 1, "pl-3"], [3, "id", "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "id", "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 40, vars: 29, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "todayToDoList"], ["id", "workToDoList"], ["id", "pinnedToDoTodayList"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], [3, "ngModelChange", "change", "ngModel"], ["value", "Float"], ["value", "Grid"], ["value", "Grid Lanes"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "id", "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["aria-label", "In Today To Do listing", "title", "In Today To Do listing", 2, "margin", "0 -4px"], ["aria-label", "In Work To Do listing", "title", "In Work To Do listing", 2, "margin", "0 -4px"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px; margin-bottom: 8px", 4, "ngIf"], [1, "next-options", 2, "margin-top", "8px", "margin-bottom", "8px"], [2, "margin-left", "8px", 3, "click"], [2, "margin-left", "8px", 3, "click", "disabled"], ["src", "data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==", 1, "pl-3"], [3, "id", "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "id", "data-id"]], template: function TasksComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", null, 0);
       \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_2_Template, 1, 1, "input", 1);
@@ -77675,16 +75159,7 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275conditionalCreate(36, TasksComponent_Conditional_36_Template, 5, 0, "div", 14);
       \u0275\u0275conditionalCreate(37, TasksComponent_Conditional_37_Template, 5, 0, "div", 15);
       \u0275\u0275conditionalCreate(38, TasksComponent_Conditional_38_Template, 5, 0, "div", 16);
-      \u0275\u0275conditionalCreate(39, TasksComponent_Conditional_39_Template, 11, 5, "div", 17);
-      \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_40_Template, 7, 3, "div");
-      \u0275\u0275conditionalCreate(41, TasksComponent_Conditional_41_Template, 7, 3, "div");
-      \u0275\u0275conditionalCreate(42, TasksComponent_Conditional_42_Template, 6, 2, "div", 18);
-      \u0275\u0275conditionalCreate(43, TasksComponent_Conditional_43_Template, 6, 2, "div");
-      \u0275\u0275conditionalCreate(44, TasksComponent_Conditional_44_Template, 6, 2, "div");
-      \u0275\u0275conditionalCreate(45, TasksComponent_Conditional_45_Template, 6, 2, "div");
-      \u0275\u0275conditionalCreate(46, TasksComponent_Conditional_46_Template, 9, 3, "div");
-      \u0275\u0275conditionalCreate(47, TasksComponent_Conditional_47_Template, 14, 6, "div", 19);
-      \u0275\u0275element(48, "task-toolbar", 20);
+      \u0275\u0275conditionalCreate(39, TasksComponent_Conditional_39_Template, 5, 0, "div", 17);
     }
     if (rf & 2) {
       const tasksForm_r5 = \u0275\u0275reference(1);
@@ -77737,31 +75212,13 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275advance(2);
       \u0275\u0275conditional(ctx.nextTasks[0].tasks.length ? 36 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.pinnedTasks[0].tasks.length ? 37 : -1);
+      \u0275\u0275conditional(ctx.todayTasks[0]?.tasks?.length ? 37 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.workTasks[0].tasks.length ? 38 : -1);
+      \u0275\u0275conditional(ctx.workTasks[0]?.tasks?.length ? 38 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.tagInfo.display === true ? 39 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowFinishedToday ? 40 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowFinishedYesterday ? 41 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowClosedTasks ? 42 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowReportsWeekDistribution ? 43 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowReportsDayDistribution ? 44 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowQualifiersTotals ? 45 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.comparisonData ? 46 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.selectedTask ? 47 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275property("task", ctx.selectedTask)("groupTasks", ctx.selectedRecord)("handlers", ctx.handlersForTaskToolbar)("options", \u0275\u0275pureFunction0(41, _c06));
+      \u0275\u0275conditional(ctx.pinnedTasks[0]?.tasks?.length ? 39 : -1);
     }
-  }, dependencies: [NgClass, NgIf, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, BaseChartDirective, StopwatchComponent, TaskComponent, TaskToolbarComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%] {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%]   .task-record[_ngcontent-%COMP%] {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */'], changeDetection: 1 });
+  }, dependencies: [NgClass, NgIf, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, StopwatchComponent, TaskComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%] {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%]   .task-record[_ngcontent-%COMP%] {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */'], changeDetection: 1 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TasksComponent, [{
@@ -78784,6 +76241,10 @@ var TasksComponent = class _TasksComponent {
               title="In Pinned To Do listing"\r
             />\r
           </span>\r
+          } @if (t.inTodayToDo) {\r
+          <span style="margin: 0 -4px" aria-label="In Today To Do listing" title="In Today To Do listing">\r
+            &#128680;\r
+          </span>\r
           } @if (t.inWorkToDo) {\r
           <span style="margin: 0 -4px" aria-label="In Work To Do listing" title="In Work To Do listing">\r
             &#128188;\r
@@ -79172,21 +76633,18 @@ var TasksComponent = class _TasksComponent {
     }\r
   </div>\r
 </div>\r
-} @if (pinnedTasks[0].tasks.length) {\r
-<div id="pinnedToDoTodayList">\r
+} @if (todayTasks[0]?.tasks?.length) {\r
+<div id="todayToDoList">\r
   <hr />\r
   <div class="task-open-task-list-container">\r
-    @for (item of pinnedTasks; track item.tsk_id) {\r
+    @for (item of todayTasks; track item.tsk_id) {\r
     <div class="task-record">\r
       <div>\r
         <button\r
           class="button-link no-underline"\r
-          (click)="toggleOption('optCollapsePinnedTasks')"\r
+          (click)="toggleOption('optCollapseTodayTasks')"\r
         >\r
-          <strong\r
-            >{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To\r
-            Do</strong\r
-          >\r
+          <strong>{{ options.optCollapseTodayTasks ? '+' : '-' }} Today To Do</strong>\r
         </button>\r
         | {{ item.tasks.length }}\r
         <time-format\r
@@ -79194,12 +76652,9 @@ var TasksComponent = class _TasksComponent {
           [value]="item.estimatedDuration"\r
         ></time-format>\r
       </div>\r
-      @if (!options.optCollapsePinnedTasks) {\r
-      <div\r
-        [ngClass]="{\r
-        'columns-3': pinnedTasks[0].tasks.length > 20\r
-      }"\r
-      >\r
+\r
+      @if (!options.optCollapseTodayTasks) {\r
+      <div [ngClass]="{ 'columns-3': todayTasks[0].tasks.length > 20 }">\r
         @for (t of item.tasks; track t.tsk_id; let count = $index) {\r
         <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">\r
           <input\r
@@ -79207,88 +76662,11 @@ var TasksComponent = class _TasksComponent {
             id="{{ t.tsk_id }}"\r
             (click)="taskCheckboxHandler(t, $event)"\r
           />\r
-          @if (t.tsk_total_time_spent !== 0) {\r
-          <span\r
-            [ngClass]="{\r
-              'task-open-with-tt':\r
-                t.tsk_ctg_status === this.taskStatus.OPEN &&\r
-                t.tsk_time_history.length > 0\r
-            }"\r
-            >[{{ t.tsk_time_history.length }}/{{\r
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==\r
-            2) {\r
-            <span>\r
-              [<span\r
-                class="tt-start"\r
-                contenteditable="true"\r
-                spellcheck="false"\r
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r
-                .tsh_date_start | date: "HH:mm:ss" }}</span\r
-              >\r
-              -\r
-              <span\r
-                class="tt-end"\r
-                contenteditable="true"\r
-                spellcheck="false"\r
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"\r
-                >{{ t.tsk_time_history[t.tsk_time_history.length -\r
-                1].tsh_date_end | date: "HH:mm:ss" }}</span\r
-              >]\r
-            </span>\r
-            }\r
-          </span>\r
-          } @if (t.tsk_ctg_in_process === 2) {\r
-          <span>\r
-            [<span\r
-              contenteditable="true"\r
-              spellcheck="false"\r
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
-              >{{ t.tsk_time_history[t.tsk_time_history.length -\r
-              1].tsh_date_start | date: "HH:mm:ss" }}</span\r
-            >]\r
-          </span>\r
-          }\r
-          <span\r
-            (click)="toggleTimeMode()"\r
-            class="clickable"\r
-            title="click to toggle timer mode"\r
-          >\r
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""\r
-            }}\r
-          </span>\r
-          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {\r
-          <span class="task-q-critical" title="Critical task">\u{1F525}</span>\r
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {\r
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {\r
-          <span class="task-qualifier-icon">&#9733;</span>\r
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {\r
-          <span class="task-qualifier-icon">\r
-            <img\r
-              src="/assets/icons/people.svg"\r
-              alt="Requires reaching out people"\r
-              title="Requires reaching out people"\r
-            />\r
-          </span>\r
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {\r
-          <span class="task-qualifier-icon">\r
-            <img\r
-              src="/assets/icons/smartphone.svg"\r
-              alt="Can be done using phone"\r
-              title="Can be done using phone"\r
-            />\r
-          </span>\r
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {\r
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {\r
-          <span class="task-qualifier-icon">&#10006;</span>\r
-          }\r
           <span\r
             contenteditable="true"\r
             spellcheck="false"\r
             (keyup)="taskEdit(t, $event)"\r
-            (keydown)="pinnedTaskKeyDown($event)"\r
+            (keydown)="todayTaskKeyDown($event)"\r
             [ngClass]="{\r
               'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
               'task-in-process': t.tsk_ctg_in_process === 2,\r
@@ -79311,24 +76689,13 @@ var TasksComponent = class _TasksComponent {
             [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
             class="task-eta"\r
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
-          ><span> [{{t.tsk_id_record}}] </span>\r
+          >\r
           @if (t.tsk_tags) {\r
           <span class="task-tags">\r
             @for (tag of t.tsk_tags.split(' '); track tag) {\r
             <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
             }\r
           </span>\r
-          } @if (t.tsk_schedule_date_start) {\r
-          <span\r
-            ><strong\r
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start)\r
-              }})</strong\r
-            ></span\r
-          >\r
-          } @if (options.optViewElapsedDays) {\r
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
-          } @if (t.not_sync) {\r
-          <span>(Not in sync)</span>\r
           }\r
         </div>\r
         }\r
@@ -79338,7 +76705,7 @@ var TasksComponent = class _TasksComponent {
     }\r
   </div>\r
 </div>\r
-} @if (workTasks[0].tasks.length) {\r
+} @if (workTasks[0]?.tasks?.length) {\r
 <div id="workToDoList">\r
   <hr />\r
   <div class="task-open-task-list-container">\r
@@ -79357,6 +76724,7 @@ var TasksComponent = class _TasksComponent {
           [value]="item.estimatedDuration"\r
         ></time-format>\r
       </div>\r
+\r
       @if (!options.optCollapseWorkTasks) {\r
       <div [ngClass]="{ 'columns-3': workTasks[0].tasks.length > 20 }">\r
         @for (t of item.tasks; track t.tsk_id; let count = $index) {\r
@@ -79366,83 +76734,6 @@ var TasksComponent = class _TasksComponent {
             id="{{ t.tsk_id }}"\r
             (click)="taskCheckboxHandler(t, $event)"\r
           />\r
-          @if (t.tsk_total_time_spent !== 0) {\r
-          <span\r
-            [ngClass]="{\r
-              'task-open-with-tt':\r
-                t.tsk_ctg_status === this.taskStatus.OPEN &&\r
-                t.tsk_time_history.length > 0\r
-            }"\r
-            >[{{ t.tsk_time_history.length }}/{{\r
-            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==\r
-            2) {\r
-            <span>\r
-              [<span\r
-                class="tt-start"\r
-                contenteditable="true"\r
-                spellcheck="false"\r
-                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
-                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r
-                .tsh_date_start | date: "HH:mm:ss" }}</span\r
-              >\r
-              -\r
-              <span\r
-                class="tt-end"\r
-                contenteditable="true"\r
-                spellcheck="false"\r
-                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"\r
-                >{{ t.tsk_time_history[t.tsk_time_history.length -\r
-                1].tsh_date_end | date: "HH:mm:ss" }}</span\r
-              >]\r
-            </span>\r
-            }\r
-          </span>\r
-          } @if (t.tsk_ctg_in_process === 2) {\r
-          <span>\r
-            [<span\r
-              contenteditable="true"\r
-              spellcheck="false"\r
-              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
-              >{{ t.tsk_time_history[t.tsk_time_history.length -\r
-              1].tsh_date_start | date: "HH:mm:ss" }}</span\r
-            >]\r
-          </span>\r
-          }\r
-          <span\r
-            (click)="toggleTimeMode()"\r
-            class="clickable"\r
-            title="click to toggle timer mode"\r
-          >\r
-            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""\r
-            }}\r
-          </span>\r
-          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {\r
-          <span class="task-q-critical" title="Critical task">\u{1F525}</span>\r
-          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {\r
-          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
-          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {\r
-          <span class="task-qualifier-icon">&#9733;</span>\r
-          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {\r
-          <span class="task-qualifier-icon">\r
-            <img\r
-              src="/assets/icons/people.svg"\r
-              alt="Requires reaching out people"\r
-              title="Requires reaching out people"\r
-            />\r
-          </span>\r
-          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {\r
-          <span class="task-qualifier-icon">\r
-            <img\r
-              src="/assets/icons/smartphone.svg"\r
-              alt="Can be done using phone"\r
-              title="Can be done using phone"\r
-            />\r
-          </span>\r
-          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {\r
-          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
-          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {\r
-          <span class="task-qualifier-icon">&#10006;</span>\r
-          }\r
           <span\r
             contenteditable="true"\r
             spellcheck="false"\r
@@ -79470,24 +76761,13 @@ var TasksComponent = class _TasksComponent {
             [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
             class="task-eta"\r
             >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
-          ><span> [{{t.tsk_id_record}}] </span>\r
+          >\r
           @if (t.tsk_tags) {\r
           <span class="task-tags">\r
             @for (tag of t.tsk_tags.split(' '); track tag) {\r
             <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
             }\r
           </span>\r
-          } @if (t.tsk_schedule_date_start) {\r
-          <span\r
-            ><strong\r
-              >(start at {{ formatDateTime(t.tsk_schedule_date_start)\r
-              }})</strong\r
-            ></span\r
-          >\r
-          } @if (options.optViewElapsedDays) {\r
-          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
-          } @if (t.not_sync) {\r
-          <span>(Not in sync)</span>\r
           }\r
         </div>\r
         }\r
@@ -79497,386 +76777,79 @@ var TasksComponent = class _TasksComponent {
     }\r
   </div>\r
 </div>\r
-} @if (tagInfo.display === true) {\r
-<div id="tagInfo">\r
-  <button (click)="tagInfo.display = false">hide</button>\r
-  <strong>Tag Information</strong>\r
-  <br />Closed Tasks | Estimated: {{\r
-  formatTime(tagInfo.tasksClosedTotalEstimated * 60) }} | Spent: {{\r
-  formatTime(tagInfo.tasksClosedTotalSpent) }} <br />Open Tasks | Estimated: {{\r
-  formatTime(tagInfo.tasksOpenTotalEstimated * 60) }} | Spent: {{\r
-  formatTime(tagInfo.tasksOpenTotalSpent) }} @if (tagInfo.tasks.length > 0) {\r
-  <div>\r
-    <table>\r
-      <tr>\r
-        <td>Name</td>\r
-        <td>Estimated</td>\r
-        <td>Spent</td>\r
-        <td>Status</td>\r
-        <td>Actions</td>\r
-      </tr>\r
-      @for (e of tagInfo.tasks; track e.tsk_id) {\r
-      <tr>\r
-        <td>{{ e.tsk_name }}</td>\r
-        <td>{{ formatTime(e.tsk_estimated_duration * 60) }}</td>\r
-        <td>{{ formatTime(e.tsk_total_time_spent) }}</td>\r
-        <td>{{ statusText(e.tsk_ctg_status) }}</td>\r
-        <td><button (click)="setSelected(e)">details</button></td>\r
-      </tr>\r
-      }\r
-    </table>\r
-  </div>\r
-  }\r
+} @if (pinnedTasks[0]?.tasks?.length) {\r
+<div id="pinnedToDoTodayList">\r
   <hr />\r
-</div>\r
-} @if (options.optShowFinishedToday) {\r
-<div>\r
-  <hr />\r
-  <button\r
-    class="button-link no-underline"\r
-    (click)="toggleOption('optCollapseFinishedToday')"\r
-  >\r
-    <strong\r
-      >{{ options.optCollapseFinishedToday ? '+' : '-' }} Finished Today</strong\r
-    >\r
-  </button>\r
-  | {{ state.closedTodayTasks.length }} tasks @if\r
-  (!options.optCollapseFinishedToday) {\r
-  <div>\r
-    @for (item of state.closedTodayTasks; track item.tsk_id; let i = $index) {\r
-    <div>\r
-      @if (i < 3 || viewAllFinishedToday) {\r
+  <div class="task-open-task-list-container">\r
+    @for (item of pinnedTasks; track item.tsk_id) {\r
+    <div class="task-record">\r
       <div>\r
-        <input\r
-          type="checkbox"\r
-          id="{{ item.tsk_id }}"\r
-          checked\r
-          (click)="taskCheckboxHandler(item, $event)"\r
-        />\r
-        @if (item.tsk_total_time_spent !== 0) {\r
-        <span\r
-          [ngClass]="{\r
-            'task-open-with-tt':\r
-              item.tsk_ctg_status === this.taskStatus.OPEN &&\r
-              item.tsk_time_history.length > 0\r
-          }"\r
-          >[{{ item.tsk_time_history.length }}/{{\r
-          formatTime(item.tsk_total_time_spent) }}] @if (item.tsk_ctg_in_process\r
-          !== 2) {\r
-          <span>\r
-            [<span\r
-              class="tt-start"\r
-              contenteditable="true"\r
-              spellcheck="false"\r
-              (keyup)="timeTrackingQuickEdit(item, $event, 'start')"\r
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&\r
-              item.tsk_time_history[item.tsk_time_history.length - 1]\r
-              .tsh_date_start | date: "HH:mm:ss" }}</span\r
-            >\r
-            -\r
-            <span\r
-              class="tt-end"\r
-              contenteditable="true"\r
-              spellcheck="false"\r
-              (keyup)="timeTrackingQuickEdit(item, $event, 'end')"\r
-              >{{ item.tsk_time_history[item.tsk_time_history.length - 1] &&\r
-              item.tsk_time_history[item.tsk_time_history.length - 1]\r
-              .tsh_date_end | date: "HH:mm:ss" }}</span\r
-            >]\r
-          </span>\r
-          }\r
-        </span>\r
-        }\r
-        <span\r
-          >(Done at:\r
+        <button\r
+          class="button-link no-underline"\r
+          (click)="toggleOption('optCollapsePinnedTasks')"\r
+        >\r
+          <strong>{{ options.optCollapsePinnedTasks ? '+' : '-' }} Pinned To Do</strong>\r
+        </button>\r
+        | {{ item.tasks.length }}\r
+        <time-format\r
+          format="([H]h[m]m)"\r
+          [value]="item.estimatedDuration"\r
+        ></time-format>\r
+      </div>\r
+\r
+      @if (!options.optCollapsePinnedTasks) {\r
+      <div [ngClass]="{ 'columns-3': pinnedTasks[0].tasks.length > 20 }">\r
+        @for (t of item.tasks; track t.tsk_id; let count = $index) {\r
+        <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">\r
+          <input\r
+            type="checkbox"\r
+            id="{{ t.tsk_id }}"\r
+            (click)="taskCheckboxHandler(t, $event)"\r
+          />\r
           <span\r
             contenteditable="true"\r
             spellcheck="false"\r
-            (keyup)="editDateDone(item, $event)"\r
-            >{{ item.tsk_date_done | date: format }}</span\r
-          >)</span\r
-        >&nbsp;<span\r
-          [ngClass]="{\r
-            'task-done': item.tsk_ctg_status === this.taskStatus.CLOSED\r
-          }"\r
-          >{{ item.tsk_name }}</span\r
-        >\r
-        @if (item.not_sync) {\r
-        <span>(Not in sync)</span>\r
-        }&nbsp;<button (click)="setSelected(item)">details</button>\r
-      </div>\r
-      }\r
-    </div>\r
-    } @if (state.closedTodayTasks.length > 3) {\r
-    <button (click)="toggleView('viewAllFinishedToday')">\r
-      {{ viewAllFinishedToday ? "Do not show all" : "Show all" }}\r
-    </button>\r
-    }\r
-  </div>\r
-  }\r
-</div>\r
-} @if (options.optShowFinishedYesterday) {\r
-<div>\r
-  <hr />\r
-  <button\r
-    class="button-link no-underline"\r
-    (click)="toggleOption('optCollapseFinishedYesterday')"\r
-  >\r
-    <strong\r
-      >{{ options.optCollapseFinishedYesterday ? '+' : '-' }} Finished\r
-      Yesterday</strong\r
-    >\r
-  </button>\r
-  | {{ state.closedYesterdayTasks.length }} tasks @if\r
-  (!options.optCollapseFinishedYesterday) {\r
-  <div>\r
-    @for (item of state.closedYesterdayTasks; track item.tsk_id; let i = $index)\r
-    {\r
-    <div>\r
-      @if (i < 3 || viewAllFinishedYesterday) {\r
-      <div>\r
-        <task\r
-          [task]="item"\r
-          [handlers]="handlersForClosedYesterday"\r
-          [options]="{\r
-            optShowRecordNameInline: true,\r
-            optShowTimeTrackingHistory: true,\r
-            optShowDetailsButton: true\r
-        }"\r
-        ></task>\r
-      </div>\r
-      }\r
-    </div>\r
-    } @if (state.closedYesterdayTasks.length > 3) {\r
-    <button (click)="toggleView('viewAllFinishedYesterday')">\r
-      {{ viewAllFinishedYesterday ? "Do not show all" : "Show all" }}\r
-    </button>\r
-    }\r
-  </div>\r
-  }\r
-</div>\r
-} @if (options.optShowClosedTasks) {\r
-<div id="closedTaskList">\r
-  <hr />\r
-  <button\r
-    class="button-link no-underline"\r
-    (click)="toggleOption('optCollapseClosedTasks')"\r
-  >\r
-    <strong\r
-      >{{ options.optCollapseClosedTasks ? '+' : '-' }} Closed Tasks</strong\r
-    >\r
-  </button>\r
-  @if (!options.optCollapseClosedTasks) {\r
-  <div>\r
-    @for (group of state.closedTasks; track group.header) {\r
-    <div>\r
-      <div>\r
-        <br />\r
-        <strong>{{ group.header | date: "yyyy-MM-dd" }}</strong>\r
-        &nbsp;<span>(Spent {{ formatTime(group.totalTimeSpent) }})</span>\r
-      </div>\r
-      @for (item of group.tasks; track item.tsk_id) {\r
-      <div>\r
-        -\r
-        <span\r
-          >[{{ item.tsk_time_history.length }}/{{\r
-          formatTime(item.tsk_total_time_spent) }}]</span\r
-        >\r
-        <span>[{{ item.tsk_id_record }}]</span>\r
-        <span>{{ item.tsk_name }}</span>\r
-        <!--<span\r
-                                                                                                                                        >(done at {{ item.tsk_date_done | date: "yyyy-MM-dd HH:mm:ss"\r
-                                                                                                                                        }})</span\r
-                                                                                                                                        >-->\r
-        @if (item.tsk_tags) {\r
-        <span class="task-tags">\r
-          @for (tag of item.tsk_tags.split(' '); track tag) {\r
-          <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
+            (keyup)="taskEdit(t, $event)"\r
+            (keydown)="pinnedTaskKeyDown($event)"\r
+            [ngClass]="{\r
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
+              'task-in-process': t.tsk_ctg_in_process === 2,\r
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,\r
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,\r
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1\r
+            }"\r
+            (blur)="commandOnTask(t, $event)"\r
+            class="editable task-text"\r
+            >{{ t.tsk_name }}</span\r
+          >&nbsp;<span\r
+            [attr.contenteditable]="options.optAllowToEditETA"\r
+            spellcheck="false"\r
+            (blur)="taskEstimatedDurationEdit(t, $event)"\r
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
+            class="task-eta"\r
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
+          >\r
+          @if (t.tsk_tags) {\r
+          <span class="task-tags">\r
+            @for (tag of t.tsk_tags.split(' '); track tag) {\r
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
+            }\r
+          </span>\r
           }\r
-        </span>\r
-        } &nbsp;<button (click)="setSelected(item)">details</button>\r
+        </div>\r
+        }\r
       </div>\r
       }\r
     </div>\r
     }\r
   </div>\r
-  }\r
 </div>\r
-} @if (options.optShowReportsWeekDistribution) {\r
-<div>\r
-  <hr />\r
-  <button\r
-    class="button-link no-underline"\r
-    (click)="toggleOption('optCollapseReportsWeekDistribution')"\r
-  >\r
-    <strong\r
-      >{{ options.optCollapseReportsWeekDistribution ? '+' : '-' }} Week\r
-      Distribution Report</strong\r
-    >\r
-  </button>\r
-  @if (!options.optCollapseReportsWeekDistribution) {\r
-  <div>\r
-    @for (s of reports.week; track s.date) {\r
-    <div>\r
-      date: {{ s.date | date: "yyyy-MM-dd" }} tasks done: {{ s.tasksDone }}\r
-      estimated: {{ formatTime(s.estimated * 60) }} spent: {{\r
-      formatTime(s.timeSpent) }} Productivity: {{ s.productivity }} Real Time\r
-      Elapsed: {{ formatTime(s.realTimeElapsed) }}\r
-    </div>\r
-    }\r
-  </div>\r
-  }\r
-</div>\r
-} @if (options.optShowReportsDayDistribution) {\r
-<div>\r
-  <hr />\r
-  <button\r
-    class="button-link no-underline"\r
-    (click)="toggleOption('optCollapseReportsDayDistribution')"\r
-  >\r
-    <strong\r
-      >{{ options.optCollapseReportsDayDistribution ? '+' : '-' }} Day\r
-      Distribution Report</strong\r
-    >\r
-  </button>\r
-  @if (!options.optCollapseReportsDayDistribution) {\r
-  <div>\r
-    <table>\r
-      <tr>\r
-        <td>Record</td>\r
-        <td>Total ETA</td>\r
-        <td>Total Real</td>\r
-        <td>Percentage ETA</td>\r
-        <td>Percentage Real</td>\r
-      </tr>\r
-      @for (r of reports.dayDistribution; track r.record) {\r
-      <tr>\r
-        <td>{{ r.record }}</td>\r
-        <td>{{ formatTime(r.eta * 60) }}</td>\r
-        <td>{{ formatTime(r.real) }}</td>\r
-        <td>{{ r.percentageEta }}</td>\r
-        <td>{{ r.percentageReal }}</td>\r
-      </tr>\r
-      }\r
-    </table>\r
-    @if (viewData.dayDistributionChart.chartData[0].data.length > 0) {\r
-    <canvas\r
-      id="dayDistributionChart"\r
-      baseChart\r
-      [datasets]="viewData.dayDistributionChart.chartData"\r
-      [labels]="viewData.dayDistributionChart.chartLabels"\r
-      [options]="viewData.dayDistributionChart.chartOptions"\r
-      [legend]="viewData.dayDistributionChart.chartLegend"\r
-      [type]="viewData.dayDistributionChart.chartType"\r
-    >\r
-    </canvas>\r
-    }\r
-  </div>\r
-  }\r
-</div>\r
-} @if (options.optShowQualifiersTotals) {\r
-<div>\r
-  <hr />\r
-  <button\r
-    class="button-link no-underline"\r
-    (click)="toggleOption('optCollapseQualifiersTotals')"\r
-  >\r
-    <strong\r
-      >{{ options.optCollapseQualifiersTotals ? '+' : '-' }} Qualifiers\r
-      Totals</strong\r
-    >\r
-  </button>\r
-  @if (!options.optCollapseQualifiersTotals) {\r
-  <div>\r
-    <table>\r
-      <tr>\r
-        <td>Qualifier</td>\r
-        <td>Task Count</td>\r
-        <td>Total ETA</td>\r
-      </tr>\r
-      @for (q of reports.qualifierTotals; track q.qualifier) {\r
-      <tr>\r
-        <td>{{ q.qualifier }}</td>\r
-        <td>{{ q.taskCount }}</td>\r
-        <td>{{ formatTime(q.totalETA * 60) }}</td>\r
-      </tr>\r
-      }\r
-    </table>\r
-  </div>\r
-  }\r
-</div>\r
-} @if (comparisonData) {\r
-<div>\r
-  Client Task Count: {{ comparisonData.clientTaskCount }} <br />Server Task\r
-  Count: {{ comparisonData.serverTaskCount }} <br />Comparison Task Count: {{\r
-  comparisonData.results.length }}\r
-  <table>\r
-    @for (c of comparisonData.results; track c) {\r
-    <tr>\r
-      @for (f of c; track f.displayName) {\r
-      <td>\r
-        displayName: {{ f.displayName }} | name: {{ f.name }} | comparison: {{\r
-        f.isEqual }} | data FE: {{ f.client }} | data BE: {{ f.server }}\r
-        <button (click)="sendFEToBE(c)">Send FE data to BE</button>\r
-      </td>\r
-      }\r
-    </tr>\r
-    }\r
-  </table>\r
-</div>\r
-} @if (selectedTask) {\r
-<div\r
-  class="task-item-toolbar"\r
-  [ngClass]="{\r
-  'mobile-only': !options.optShowTaskToolbar\r
-}"\r
->\r
-  <div>{{ selectedTask.tsk_name }}</div>\r
-  <div class="task-item-toolbar-content">\r
-    @if (selectedTask && selectedTask.tsk_ctg_in_process === 1) {\r
-    <span\r
-      class="play-button clickable"\r
-      (click)="toggleTimeTracking(selectedTask, $event)"\r
-      >&#9654;</span\r
-    >\r
-    } @if (selectedTask && selectedTask.tsk_ctg_in_process === 2) {\r
-    <span\r
-      class="stop-button clickable"\r
-      (click)="toggleTimeTracking(selectedTask, $event)"\r
-      >&#9724;</span\r
-    >\r
-    }\r
-    <span\r
-      class="adjust-timetracking-button clickable"\r
-      (click)="adjustTimeTracking(selectedTask)"\r
-      >&#8676;</span\r
-    >\r
-    <span\r
-      class="set-selected-button clickable"\r
-      (click)="setSelected(selectedTask)"\r
-      >&#9998;</span\r
-    >\r
-    <span\r
-      class="remove-qualifiers-button clickable"\r
-      (click)="removeQualifiersFromTask(selectedTask)"\r
-      >&#9746;</span\r
-    >\r
-    <span class="close-button clickable" (click)="selectedTask = null"\r
-      >&times;</span\r
-    >\r
-  </div>\r
-</div>\r
-}\r
-\r
-<task-toolbar\r
-  [task]="selectedTask"\r
-  [groupTasks]="selectedRecord"\r
-  [handlers]="handlersForTaskToolbar"\r
-  [options]="{\r
-    optShowTaskToolbar: true\r
-  }"\r
-></task-toolbar>\r
-`, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes .task-record {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */\n'] }]
+}`, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes .task-record {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */\n'] }]
   }], () => [{ type: TasksCore }, { type: SyncAPI }, { type: TaskIndicator }, { type: DateCommon }, { type: NotificationService }, { type: Title }], null);
 })();
 (() => {
@@ -80481,7 +77454,7 @@ var AccountService = class _AccountService {
 })();
 
 // src/app/money/account.component.ts
-var _c07 = () => ["/places"];
+var _c06 = () => ["/places"];
 var _c110 = () => ["/presets"];
 function AccountComponent_Conditional_12_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
@@ -80866,7 +77839,7 @@ var AccountComponent = class _AccountComponent {
     }
     if (rf & 2) {
       \u0275\u0275advance(2);
-      \u0275\u0275property("routerLink", \u0275\u0275pureFunction0(5, _c07));
+      \u0275\u0275property("routerLink", \u0275\u0275pureFunction0(5, _c06));
       \u0275\u0275advance(2);
       \u0275\u0275property("routerLink", \u0275\u0275pureFunction0(6, _c110));
       \u0275\u0275advance(7);
@@ -85471,7 +82444,7 @@ var PresetService = class _PresetService {
 })();
 
 // src/app/money/movementListing.component.ts
-var _c08 = (a0, a1, a22) => ({ "movement-amount-income": a0, "movement-amount-expense": a1, "movement-amount-transfer": a22 });
+var _c07 = (a0, a1, a22) => ({ "movement-amount-income": a0, "movement-amount-expense": a1, "movement-amount-transfer": a22 });
 function MovementListingComponent_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -85777,7 +82750,7 @@ function MovementListingComponent_Conditional_12_For_3_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(false ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(25, _c08, m_r5.mov_ctg_type === 2, m_r5.mov_ctg_type === 1, m_r5.mov_ctg_type === 3));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(25, _c07, m_r5.mov_ctg_type === 2, m_r5.mov_ctg_type === 1, m_r5.mov_ctg_type === 3));
     \u0275\u0275advance();
     \u0275\u0275conditional(m_r5.mov_txt_type === "EXPENSE" ? 3 : -1);
     \u0275\u0275advance();
@@ -88254,8 +85227,1408 @@ var totalExpenseByDate = (movementList, year, month, monthCount = 1, filterMetho
   return result;
 };
 
+// node_modules/lodash-es/_freeGlobal.js
+var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+var freeGlobal_default = freeGlobal;
+
+// node_modules/lodash-es/_root.js
+var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+var root = freeGlobal_default || freeSelf || Function("return this")();
+var root_default = root;
+
+// node_modules/lodash-es/_Symbol.js
+var Symbol2 = root_default.Symbol;
+var Symbol_default = Symbol2;
+
+// node_modules/lodash-es/_getRawTag.js
+var objectProto2 = Object.prototype;
+var hasOwnProperty = objectProto2.hasOwnProperty;
+var nativeObjectToString = objectProto2.toString;
+var symToStringTag = Symbol_default ? Symbol_default.toStringTag : void 0;
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+  try {
+    value[symToStringTag] = void 0;
+    var unmasked = true;
+  } catch (e2) {
+  }
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+var getRawTag_default = getRawTag;
+
+// node_modules/lodash-es/_objectToString.js
+var objectProto3 = Object.prototype;
+var nativeObjectToString2 = objectProto3.toString;
+function objectToString(value) {
+  return nativeObjectToString2.call(value);
+}
+var objectToString_default = objectToString;
+
+// node_modules/lodash-es/_baseGetTag.js
+var nullTag = "[object Null]";
+var undefinedTag = "[object Undefined]";
+var symToStringTag2 = Symbol_default ? Symbol_default.toStringTag : void 0;
+function baseGetTag(value) {
+  if (value == null) {
+    return value === void 0 ? undefinedTag : nullTag;
+  }
+  return symToStringTag2 && symToStringTag2 in Object(value) ? getRawTag_default(value) : objectToString_default(value);
+}
+var baseGetTag_default = baseGetTag;
+
+// node_modules/lodash-es/isObjectLike.js
+function isObjectLike(value) {
+  return value != null && typeof value == "object";
+}
+var isObjectLike_default = isObjectLike;
+
+// node_modules/lodash-es/isArray.js
+var isArray4 = Array.isArray;
+var isArray_default = isArray4;
+
+// node_modules/lodash-es/isObject.js
+function isObject2(value) {
+  var type = typeof value;
+  return value != null && (type == "object" || type == "function");
+}
+var isObject_default = isObject2;
+
+// node_modules/lodash-es/identity.js
+function identity2(value) {
+  return value;
+}
+var identity_default = identity2;
+
+// node_modules/lodash-es/isFunction.js
+var asyncTag = "[object AsyncFunction]";
+var funcTag = "[object Function]";
+var genTag = "[object GeneratorFunction]";
+var proxyTag = "[object Proxy]";
+function isFunction4(value) {
+  if (!isObject_default(value)) {
+    return false;
+  }
+  var tag = baseGetTag_default(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+var isFunction_default = isFunction4;
+
+// node_modules/lodash-es/_coreJsData.js
+var coreJsData = root_default["__core-js_shared__"];
+var coreJsData_default = coreJsData;
+
+// node_modules/lodash-es/_isMasked.js
+var maskSrcKey = (function() {
+  var uid2 = /[^.]+$/.exec(coreJsData_default && coreJsData_default.keys && coreJsData_default.keys.IE_PROTO || "");
+  return uid2 ? "Symbol(src)_1." + uid2 : "";
+})();
+function isMasked(func) {
+  return !!maskSrcKey && maskSrcKey in func;
+}
+var isMasked_default = isMasked;
+
+// node_modules/lodash-es/_toSource.js
+var funcProto = Function.prototype;
+var funcToString = funcProto.toString;
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e2) {
+    }
+    try {
+      return func + "";
+    } catch (e2) {
+    }
+  }
+  return "";
+}
+var toSource_default = toSource;
+
+// node_modules/lodash-es/_baseIsNative.js
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+var funcProto2 = Function.prototype;
+var objectProto4 = Object.prototype;
+var funcToString2 = funcProto2.toString;
+var hasOwnProperty2 = objectProto4.hasOwnProperty;
+var reIsNative = RegExp(
+  "^" + funcToString2.call(hasOwnProperty2).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+);
+function baseIsNative(value) {
+  if (!isObject_default(value) || isMasked_default(value)) {
+    return false;
+  }
+  var pattern = isFunction_default(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource_default(value));
+}
+var baseIsNative_default = baseIsNative;
+
+// node_modules/lodash-es/_getValue.js
+function getValue(object, key) {
+  return object == null ? void 0 : object[key];
+}
+var getValue_default = getValue;
+
+// node_modules/lodash-es/_getNative.js
+function getNative(object, key) {
+  var value = getValue_default(object, key);
+  return baseIsNative_default(value) ? value : void 0;
+}
+var getNative_default = getNative;
+
+// node_modules/lodash-es/_baseCreate.js
+var objectCreate = Object.create;
+var baseCreate = /* @__PURE__ */ (function() {
+  function object() {
+  }
+  return function(proto) {
+    if (!isObject_default(proto)) {
+      return {};
+    }
+    if (objectCreate) {
+      return objectCreate(proto);
+    }
+    object.prototype = proto;
+    var result = new object();
+    object.prototype = void 0;
+    return result;
+  };
+})();
+var baseCreate_default = baseCreate;
+
+// node_modules/lodash-es/_apply.js
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0:
+      return func.call(thisArg);
+    case 1:
+      return func.call(thisArg, args[0]);
+    case 2:
+      return func.call(thisArg, args[0], args[1]);
+    case 3:
+      return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+var apply_default = apply;
+
+// node_modules/lodash-es/_copyArray.js
+function copyArray(source, array) {
+  var index2 = -1, length = source.length;
+  array || (array = Array(length));
+  while (++index2 < length) {
+    array[index2] = source[index2];
+  }
+  return array;
+}
+var copyArray_default = copyArray;
+
+// node_modules/lodash-es/_shortOut.js
+var HOT_COUNT = 800;
+var HOT_SPAN = 16;
+var nativeNow = Date.now;
+function shortOut(func) {
+  var count = 0, lastCalled = 0;
+  return function() {
+    var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
+    lastCalled = stamp;
+    if (remaining > 0) {
+      if (++count >= HOT_COUNT) {
+        return arguments[0];
+      }
+    } else {
+      count = 0;
+    }
+    return func.apply(void 0, arguments);
+  };
+}
+var shortOut_default = shortOut;
+
+// node_modules/lodash-es/constant.js
+function constant(value) {
+  return function() {
+    return value;
+  };
+}
+var constant_default = constant;
+
+// node_modules/lodash-es/_defineProperty.js
+var defineProperty = (function() {
+  try {
+    var func = getNative_default(Object, "defineProperty");
+    func({}, "", {});
+    return func;
+  } catch (e2) {
+  }
+})();
+var defineProperty_default = defineProperty;
+
+// node_modules/lodash-es/_baseSetToString.js
+var baseSetToString = !defineProperty_default ? identity_default : function(func, string) {
+  return defineProperty_default(func, "toString", {
+    "configurable": true,
+    "enumerable": false,
+    "value": constant_default(string),
+    "writable": true
+  });
+};
+var baseSetToString_default = baseSetToString;
+
+// node_modules/lodash-es/_setToString.js
+var setToString = shortOut_default(baseSetToString_default);
+var setToString_default = setToString;
+
+// node_modules/lodash-es/_isIndex.js
+var MAX_SAFE_INTEGER = 9007199254740991;
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+function isIndex(value, length) {
+  var type = typeof value;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+}
+var isIndex_default = isIndex;
+
+// node_modules/lodash-es/_baseAssignValue.js
+function baseAssignValue(object, key, value) {
+  if (key == "__proto__" && defineProperty_default) {
+    defineProperty_default(object, key, {
+      "configurable": true,
+      "enumerable": true,
+      "value": value,
+      "writable": true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+var baseAssignValue_default = baseAssignValue;
+
+// node_modules/lodash-es/eq.js
+function eq2(value, other) {
+  return value === other || value !== value && other !== other;
+}
+var eq_default = eq2;
+
+// node_modules/lodash-es/_assignValue.js
+var objectProto5 = Object.prototype;
+var hasOwnProperty3 = objectProto5.hasOwnProperty;
+function assignValue(object, key, value) {
+  var objValue = object[key];
+  if (!(hasOwnProperty3.call(object, key) && eq_default(objValue, value)) || value === void 0 && !(key in object)) {
+    baseAssignValue_default(object, key, value);
+  }
+}
+var assignValue_default = assignValue;
+
+// node_modules/lodash-es/_copyObject.js
+function copyObject(source, props, object, customizer) {
+  var isNew = !object;
+  object || (object = {});
+  var index2 = -1, length = props.length;
+  while (++index2 < length) {
+    var key = props[index2];
+    var newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
+    if (newValue === void 0) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      baseAssignValue_default(object, key, newValue);
+    } else {
+      assignValue_default(object, key, newValue);
+    }
+  }
+  return object;
+}
+var copyObject_default = copyObject;
+
+// node_modules/lodash-es/_overRest.js
+var nativeMax = Math.max;
+function overRest(func, start, transform) {
+  start = nativeMax(start === void 0 ? func.length - 1 : start, 0);
+  return function() {
+    var args = arguments, index2 = -1, length = nativeMax(args.length - start, 0), array = Array(length);
+    while (++index2 < length) {
+      array[index2] = args[start + index2];
+    }
+    index2 = -1;
+    var otherArgs = Array(start + 1);
+    while (++index2 < start) {
+      otherArgs[index2] = args[index2];
+    }
+    otherArgs[start] = transform(array);
+    return apply_default(func, this, otherArgs);
+  };
+}
+var overRest_default = overRest;
+
+// node_modules/lodash-es/_baseRest.js
+function baseRest(func, start) {
+  return setToString_default(overRest_default(func, start, identity_default), func + "");
+}
+var baseRest_default = baseRest;
+
+// node_modules/lodash-es/isLength.js
+var MAX_SAFE_INTEGER2 = 9007199254740991;
+function isLength(value) {
+  return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER2;
+}
+var isLength_default = isLength;
+
+// node_modules/lodash-es/isArrayLike.js
+function isArrayLike2(value) {
+  return value != null && isLength_default(value.length) && !isFunction_default(value);
+}
+var isArrayLike_default = isArrayLike2;
+
+// node_modules/lodash-es/_isIterateeCall.js
+function isIterateeCall(value, index2, object) {
+  if (!isObject_default(object)) {
+    return false;
+  }
+  var type = typeof index2;
+  if (type == "number" ? isArrayLike_default(object) && isIndex_default(index2, object.length) : type == "string" && index2 in object) {
+    return eq_default(object[index2], value);
+  }
+  return false;
+}
+var isIterateeCall_default = isIterateeCall;
+
+// node_modules/lodash-es/_createAssigner.js
+function createAssigner(assigner) {
+  return baseRest_default(function(object, sources) {
+    var index2 = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : void 0, guard = length > 2 ? sources[2] : void 0;
+    customizer = assigner.length > 3 && typeof customizer == "function" ? (length--, customizer) : void 0;
+    if (guard && isIterateeCall_default(sources[0], sources[1], guard)) {
+      customizer = length < 3 ? void 0 : customizer;
+      length = 1;
+    }
+    object = Object(object);
+    while (++index2 < length) {
+      var source = sources[index2];
+      if (source) {
+        assigner(object, source, index2, customizer);
+      }
+    }
+    return object;
+  });
+}
+var createAssigner_default = createAssigner;
+
+// node_modules/lodash-es/_isPrototype.js
+var objectProto6 = Object.prototype;
+function isPrototype(value) {
+  var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto6;
+  return value === proto;
+}
+var isPrototype_default = isPrototype;
+
+// node_modules/lodash-es/_baseTimes.js
+function baseTimes(n, iteratee) {
+  var index2 = -1, result = Array(n);
+  while (++index2 < n) {
+    result[index2] = iteratee(index2);
+  }
+  return result;
+}
+var baseTimes_default = baseTimes;
+
+// node_modules/lodash-es/_baseIsArguments.js
+var argsTag = "[object Arguments]";
+function baseIsArguments(value) {
+  return isObjectLike_default(value) && baseGetTag_default(value) == argsTag;
+}
+var baseIsArguments_default = baseIsArguments;
+
+// node_modules/lodash-es/isArguments.js
+var objectProto7 = Object.prototype;
+var hasOwnProperty4 = objectProto7.hasOwnProperty;
+var propertyIsEnumerable = objectProto7.propertyIsEnumerable;
+var isArguments = baseIsArguments_default(/* @__PURE__ */ (function() {
+  return arguments;
+})()) ? baseIsArguments_default : function(value) {
+  return isObjectLike_default(value) && hasOwnProperty4.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+};
+var isArguments_default = isArguments;
+
+// node_modules/lodash-es/stubFalse.js
+function stubFalse() {
+  return false;
+}
+var stubFalse_default = stubFalse;
+
+// node_modules/lodash-es/isBuffer.js
+var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+var moduleExports = freeModule && freeModule.exports === freeExports;
+var Buffer = moduleExports ? root_default.Buffer : void 0;
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
+var isBuffer = nativeIsBuffer || stubFalse_default;
+var isBuffer_default = isBuffer;
+
+// node_modules/lodash-es/_baseIsTypedArray.js
+var argsTag2 = "[object Arguments]";
+var arrayTag = "[object Array]";
+var boolTag = "[object Boolean]";
+var dateTag = "[object Date]";
+var errorTag = "[object Error]";
+var funcTag2 = "[object Function]";
+var mapTag = "[object Map]";
+var numberTag = "[object Number]";
+var objectTag = "[object Object]";
+var regexpTag = "[object RegExp]";
+var setTag = "[object Set]";
+var stringTag = "[object String]";
+var weakMapTag = "[object WeakMap]";
+var arrayBufferTag = "[object ArrayBuffer]";
+var dataViewTag = "[object DataView]";
+var float32Tag = "[object Float32Array]";
+var float64Tag = "[object Float64Array]";
+var int8Tag = "[object Int8Array]";
+var int16Tag = "[object Int16Array]";
+var int32Tag = "[object Int32Array]";
+var uint8Tag = "[object Uint8Array]";
+var uint8ClampedTag = "[object Uint8ClampedArray]";
+var uint16Tag = "[object Uint16Array]";
+var uint32Tag = "[object Uint32Array]";
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag2] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag2] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+function baseIsTypedArray(value) {
+  return isObjectLike_default(value) && isLength_default(value.length) && !!typedArrayTags[baseGetTag_default(value)];
+}
+var baseIsTypedArray_default = baseIsTypedArray;
+
+// node_modules/lodash-es/_baseUnary.js
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+var baseUnary_default = baseUnary;
+
+// node_modules/lodash-es/_nodeUtil.js
+var freeExports2 = typeof exports == "object" && exports && !exports.nodeType && exports;
+var freeModule2 = freeExports2 && typeof module == "object" && module && !module.nodeType && module;
+var moduleExports2 = freeModule2 && freeModule2.exports === freeExports2;
+var freeProcess = moduleExports2 && freeGlobal_default.process;
+var nodeUtil = (function() {
+  try {
+    var types = freeModule2 && freeModule2.require && freeModule2.require("util").types;
+    if (types) {
+      return types;
+    }
+    return freeProcess && freeProcess.binding && freeProcess.binding("util");
+  } catch (e2) {
+  }
+})();
+var nodeUtil_default = nodeUtil;
+
+// node_modules/lodash-es/isTypedArray.js
+var nodeIsTypedArray = nodeUtil_default && nodeUtil_default.isTypedArray;
+var isTypedArray = nodeIsTypedArray ? baseUnary_default(nodeIsTypedArray) : baseIsTypedArray_default;
+var isTypedArray_default = isTypedArray;
+
+// node_modules/lodash-es/_arrayLikeKeys.js
+var objectProto8 = Object.prototype;
+var hasOwnProperty5 = objectProto8.hasOwnProperty;
+function arrayLikeKeys(value, inherited) {
+  var isArr = isArray_default(value), isArg = !isArr && isArguments_default(value), isBuff = !isArr && !isArg && isBuffer_default(value), isType2 = !isArr && !isArg && !isBuff && isTypedArray_default(value), skipIndexes = isArr || isArg || isBuff || isType2, result = skipIndexes ? baseTimes_default(value.length, String) : [], length = result.length;
+  for (var key in value) {
+    if ((inherited || hasOwnProperty5.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+    (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
+    isBuff && (key == "offset" || key == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
+    isType2 && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
+    isIndex_default(key, length)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var arrayLikeKeys_default = arrayLikeKeys;
+
+// node_modules/lodash-es/_overArg.js
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+var overArg_default = overArg;
+
+// node_modules/lodash-es/_nativeKeysIn.js
+function nativeKeysIn(object) {
+  var result = [];
+  if (object != null) {
+    for (var key in Object(object)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var nativeKeysIn_default = nativeKeysIn;
+
+// node_modules/lodash-es/_baseKeysIn.js
+var objectProto9 = Object.prototype;
+var hasOwnProperty6 = objectProto9.hasOwnProperty;
+function baseKeysIn(object) {
+  if (!isObject_default(object)) {
+    return nativeKeysIn_default(object);
+  }
+  var isProto = isPrototype_default(object), result = [];
+  for (var key in object) {
+    if (!(key == "constructor" && (isProto || !hasOwnProperty6.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var baseKeysIn_default = baseKeysIn;
+
+// node_modules/lodash-es/keysIn.js
+function keysIn(object) {
+  return isArrayLike_default(object) ? arrayLikeKeys_default(object, true) : baseKeysIn_default(object);
+}
+var keysIn_default = keysIn;
+
+// node_modules/lodash-es/_nativeCreate.js
+var nativeCreate = getNative_default(Object, "create");
+var nativeCreate_default = nativeCreate;
+
+// node_modules/lodash-es/_hashClear.js
+function hashClear() {
+  this.__data__ = nativeCreate_default ? nativeCreate_default(null) : {};
+  this.size = 0;
+}
+var hashClear_default = hashClear;
+
+// node_modules/lodash-es/_hashDelete.js
+function hashDelete(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+var hashDelete_default = hashDelete;
+
+// node_modules/lodash-es/_hashGet.js
+var HASH_UNDEFINED = "__lodash_hash_undefined__";
+var objectProto10 = Object.prototype;
+var hasOwnProperty7 = objectProto10.hasOwnProperty;
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate_default) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? void 0 : result;
+  }
+  return hasOwnProperty7.call(data, key) ? data[key] : void 0;
+}
+var hashGet_default = hashGet;
+
+// node_modules/lodash-es/_hashHas.js
+var objectProto11 = Object.prototype;
+var hasOwnProperty8 = objectProto11.hasOwnProperty;
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate_default ? data[key] !== void 0 : hasOwnProperty8.call(data, key);
+}
+var hashHas_default = hashHas;
+
+// node_modules/lodash-es/_hashSet.js
+var HASH_UNDEFINED2 = "__lodash_hash_undefined__";
+function hashSet(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = nativeCreate_default && value === void 0 ? HASH_UNDEFINED2 : value;
+  return this;
+}
+var hashSet_default = hashSet;
+
+// node_modules/lodash-es/_Hash.js
+function Hash(entries) {
+  var index2 = -1, length = entries == null ? 0 : entries.length;
+  this.clear();
+  while (++index2 < length) {
+    var entry = entries[index2];
+    this.set(entry[0], entry[1]);
+  }
+}
+Hash.prototype.clear = hashClear_default;
+Hash.prototype["delete"] = hashDelete_default;
+Hash.prototype.get = hashGet_default;
+Hash.prototype.has = hashHas_default;
+Hash.prototype.set = hashSet_default;
+var Hash_default = Hash;
+
+// node_modules/lodash-es/_listCacheClear.js
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+var listCacheClear_default = listCacheClear;
+
+// node_modules/lodash-es/_assocIndexOf.js
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq_default(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+var assocIndexOf_default = assocIndexOf;
+
+// node_modules/lodash-es/_listCacheDelete.js
+var arrayProto = Array.prototype;
+var splice = arrayProto.splice;
+function listCacheDelete(key) {
+  var data = this.__data__, index2 = assocIndexOf_default(data, key);
+  if (index2 < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index2 == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index2, 1);
+  }
+  --this.size;
+  return true;
+}
+var listCacheDelete_default = listCacheDelete;
+
+// node_modules/lodash-es/_listCacheGet.js
+function listCacheGet(key) {
+  var data = this.__data__, index2 = assocIndexOf_default(data, key);
+  return index2 < 0 ? void 0 : data[index2][1];
+}
+var listCacheGet_default = listCacheGet;
+
+// node_modules/lodash-es/_listCacheHas.js
+function listCacheHas(key) {
+  return assocIndexOf_default(this.__data__, key) > -1;
+}
+var listCacheHas_default = listCacheHas;
+
+// node_modules/lodash-es/_listCacheSet.js
+function listCacheSet(key, value) {
+  var data = this.__data__, index2 = assocIndexOf_default(data, key);
+  if (index2 < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index2][1] = value;
+  }
+  return this;
+}
+var listCacheSet_default = listCacheSet;
+
+// node_modules/lodash-es/_ListCache.js
+function ListCache(entries) {
+  var index2 = -1, length = entries == null ? 0 : entries.length;
+  this.clear();
+  while (++index2 < length) {
+    var entry = entries[index2];
+    this.set(entry[0], entry[1]);
+  }
+}
+ListCache.prototype.clear = listCacheClear_default;
+ListCache.prototype["delete"] = listCacheDelete_default;
+ListCache.prototype.get = listCacheGet_default;
+ListCache.prototype.has = listCacheHas_default;
+ListCache.prototype.set = listCacheSet_default;
+var ListCache_default = ListCache;
+
+// node_modules/lodash-es/_Map.js
+var Map2 = getNative_default(root_default, "Map");
+var Map_default = Map2;
+
+// node_modules/lodash-es/_mapCacheClear.js
+function mapCacheClear() {
+  this.size = 0;
+  this.__data__ = {
+    "hash": new Hash_default(),
+    "map": new (Map_default || ListCache_default)(),
+    "string": new Hash_default()
+  };
+}
+var mapCacheClear_default = mapCacheClear;
+
+// node_modules/lodash-es/_isKeyable.js
+function isKeyable(value) {
+  var type = typeof value;
+  return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+}
+var isKeyable_default = isKeyable;
+
+// node_modules/lodash-es/_getMapData.js
+function getMapData(map4, key) {
+  var data = map4.__data__;
+  return isKeyable_default(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+}
+var getMapData_default = getMapData;
+
+// node_modules/lodash-es/_mapCacheDelete.js
+function mapCacheDelete(key) {
+  var result = getMapData_default(this, key)["delete"](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+var mapCacheDelete_default = mapCacheDelete;
+
+// node_modules/lodash-es/_mapCacheGet.js
+function mapCacheGet(key) {
+  return getMapData_default(this, key).get(key);
+}
+var mapCacheGet_default = mapCacheGet;
+
+// node_modules/lodash-es/_mapCacheHas.js
+function mapCacheHas(key) {
+  return getMapData_default(this, key).has(key);
+}
+var mapCacheHas_default = mapCacheHas;
+
+// node_modules/lodash-es/_mapCacheSet.js
+function mapCacheSet(key, value) {
+  var data = getMapData_default(this, key), size = data.size;
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+var mapCacheSet_default = mapCacheSet;
+
+// node_modules/lodash-es/_MapCache.js
+function MapCache(entries) {
+  var index2 = -1, length = entries == null ? 0 : entries.length;
+  this.clear();
+  while (++index2 < length) {
+    var entry = entries[index2];
+    this.set(entry[0], entry[1]);
+  }
+}
+MapCache.prototype.clear = mapCacheClear_default;
+MapCache.prototype["delete"] = mapCacheDelete_default;
+MapCache.prototype.get = mapCacheGet_default;
+MapCache.prototype.has = mapCacheHas_default;
+MapCache.prototype.set = mapCacheSet_default;
+var MapCache_default = MapCache;
+
+// node_modules/lodash-es/_getPrototype.js
+var getPrototype = overArg_default(Object.getPrototypeOf, Object);
+var getPrototype_default = getPrototype;
+
+// node_modules/lodash-es/isPlainObject.js
+var objectTag2 = "[object Object]";
+var funcProto3 = Function.prototype;
+var objectProto12 = Object.prototype;
+var funcToString3 = funcProto3.toString;
+var hasOwnProperty9 = objectProto12.hasOwnProperty;
+var objectCtorString = funcToString3.call(Object);
+function isPlainObject(value) {
+  if (!isObjectLike_default(value) || baseGetTag_default(value) != objectTag2) {
+    return false;
+  }
+  var proto = getPrototype_default(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty9.call(proto, "constructor") && proto.constructor;
+  return typeof Ctor == "function" && Ctor instanceof Ctor && funcToString3.call(Ctor) == objectCtorString;
+}
+var isPlainObject_default = isPlainObject;
+
+// node_modules/lodash-es/_stackClear.js
+function stackClear() {
+  this.__data__ = new ListCache_default();
+  this.size = 0;
+}
+var stackClear_default = stackClear;
+
+// node_modules/lodash-es/_stackDelete.js
+function stackDelete(key) {
+  var data = this.__data__, result = data["delete"](key);
+  this.size = data.size;
+  return result;
+}
+var stackDelete_default = stackDelete;
+
+// node_modules/lodash-es/_stackGet.js
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+var stackGet_default = stackGet;
+
+// node_modules/lodash-es/_stackHas.js
+function stackHas(key) {
+  return this.__data__.has(key);
+}
+var stackHas_default = stackHas;
+
+// node_modules/lodash-es/_stackSet.js
+var LARGE_ARRAY_SIZE = 200;
+function stackSet(key, value) {
+  var data = this.__data__;
+  if (data instanceof ListCache_default) {
+    var pairs = data.__data__;
+    if (!Map_default || pairs.length < LARGE_ARRAY_SIZE - 1) {
+      pairs.push([key, value]);
+      this.size = ++data.size;
+      return this;
+    }
+    data = this.__data__ = new MapCache_default(pairs);
+  }
+  data.set(key, value);
+  this.size = data.size;
+  return this;
+}
+var stackSet_default = stackSet;
+
+// node_modules/lodash-es/_Stack.js
+function Stack(entries) {
+  var data = this.__data__ = new ListCache_default(entries);
+  this.size = data.size;
+}
+Stack.prototype.clear = stackClear_default;
+Stack.prototype["delete"] = stackDelete_default;
+Stack.prototype.get = stackGet_default;
+Stack.prototype.has = stackHas_default;
+Stack.prototype.set = stackSet_default;
+var Stack_default = Stack;
+
+// node_modules/lodash-es/_cloneBuffer.js
+var freeExports3 = typeof exports == "object" && exports && !exports.nodeType && exports;
+var freeModule3 = freeExports3 && typeof module == "object" && module && !module.nodeType && module;
+var moduleExports3 = freeModule3 && freeModule3.exports === freeExports3;
+var Buffer2 = moduleExports3 ? root_default.Buffer : void 0;
+var allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : void 0;
+function cloneBuffer(buffer, isDeep) {
+  if (isDeep) {
+    return buffer.slice();
+  }
+  var length = buffer.length, result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+  buffer.copy(result);
+  return result;
+}
+var cloneBuffer_default = cloneBuffer;
+
+// node_modules/lodash-es/_Uint8Array.js
+var Uint8Array2 = root_default.Uint8Array;
+var Uint8Array_default = Uint8Array2;
+
+// node_modules/lodash-es/_cloneArrayBuffer.js
+function cloneArrayBuffer(arrayBuffer) {
+  var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
+  new Uint8Array_default(result).set(new Uint8Array_default(arrayBuffer));
+  return result;
+}
+var cloneArrayBuffer_default = cloneArrayBuffer;
+
+// node_modules/lodash-es/_cloneTypedArray.js
+function cloneTypedArray(typedArray, isDeep) {
+  var buffer = isDeep ? cloneArrayBuffer_default(typedArray.buffer) : typedArray.buffer;
+  return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+}
+var cloneTypedArray_default = cloneTypedArray;
+
+// node_modules/lodash-es/_initCloneObject.js
+function initCloneObject(object) {
+  return typeof object.constructor == "function" && !isPrototype_default(object) ? baseCreate_default(getPrototype_default(object)) : {};
+}
+var initCloneObject_default = initCloneObject;
+
+// node_modules/lodash-es/_createBaseFor.js
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index2 = -1, iterable = Object(object), props = keysFunc(object), length = props.length;
+    while (length--) {
+      var key = props[fromRight ? length : ++index2];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+var createBaseFor_default = createBaseFor;
+
+// node_modules/lodash-es/_baseFor.js
+var baseFor = createBaseFor_default();
+var baseFor_default = baseFor;
+
+// node_modules/lodash-es/_assignMergeValue.js
+function assignMergeValue(object, key, value) {
+  if (value !== void 0 && !eq_default(object[key], value) || value === void 0 && !(key in object)) {
+    baseAssignValue_default(object, key, value);
+  }
+}
+var assignMergeValue_default = assignMergeValue;
+
+// node_modules/lodash-es/isArrayLikeObject.js
+function isArrayLikeObject(value) {
+  return isObjectLike_default(value) && isArrayLike_default(value);
+}
+var isArrayLikeObject_default = isArrayLikeObject;
+
+// node_modules/lodash-es/_safeGet.js
+function safeGet(object, key) {
+  if (key === "constructor" && typeof object[key] === "function") {
+    return;
+  }
+  if (key == "__proto__") {
+    return;
+  }
+  return object[key];
+}
+var safeGet_default = safeGet;
+
+// node_modules/lodash-es/toPlainObject.js
+function toPlainObject(value) {
+  return copyObject_default(value, keysIn_default(value));
+}
+var toPlainObject_default = toPlainObject;
+
+// node_modules/lodash-es/_baseMergeDeep.js
+function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
+  var objValue = safeGet_default(object, key), srcValue = safeGet_default(source, key), stacked = stack.get(srcValue);
+  if (stacked) {
+    assignMergeValue_default(object, key, stacked);
+    return;
+  }
+  var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : void 0;
+  var isCommon = newValue === void 0;
+  if (isCommon) {
+    var isArr = isArray_default(srcValue), isBuff = !isArr && isBuffer_default(srcValue), isTyped = !isArr && !isBuff && isTypedArray_default(srcValue);
+    newValue = srcValue;
+    if (isArr || isBuff || isTyped) {
+      if (isArray_default(objValue)) {
+        newValue = objValue;
+      } else if (isArrayLikeObject_default(objValue)) {
+        newValue = copyArray_default(objValue);
+      } else if (isBuff) {
+        isCommon = false;
+        newValue = cloneBuffer_default(srcValue, true);
+      } else if (isTyped) {
+        isCommon = false;
+        newValue = cloneTypedArray_default(srcValue, true);
+      } else {
+        newValue = [];
+      }
+    } else if (isPlainObject_default(srcValue) || isArguments_default(srcValue)) {
+      newValue = objValue;
+      if (isArguments_default(objValue)) {
+        newValue = toPlainObject_default(objValue);
+      } else if (!isObject_default(objValue) || isFunction_default(objValue)) {
+        newValue = initCloneObject_default(srcValue);
+      }
+    } else {
+      isCommon = false;
+    }
+  }
+  if (isCommon) {
+    stack.set(srcValue, newValue);
+    mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+    stack["delete"](srcValue);
+  }
+  assignMergeValue_default(object, key, newValue);
+}
+var baseMergeDeep_default = baseMergeDeep;
+
+// node_modules/lodash-es/_baseMerge.js
+function baseMerge(object, source, srcIndex, customizer, stack) {
+  if (object === source) {
+    return;
+  }
+  baseFor_default(source, function(srcValue, key) {
+    stack || (stack = new Stack_default());
+    if (isObject_default(srcValue)) {
+      baseMergeDeep_default(object, source, key, srcIndex, baseMerge, customizer, stack);
+    } else {
+      var newValue = customizer ? customizer(safeGet_default(object, key), srcValue, key + "", object, source, stack) : void 0;
+      if (newValue === void 0) {
+        newValue = srcValue;
+      }
+      assignMergeValue_default(object, key, newValue);
+    }
+  }, keysIn_default);
+}
+var baseMerge_default = baseMerge;
+
+// node_modules/lodash-es/merge.js
+var merge3 = createAssigner_default(function(object, source, srcIndex) {
+  baseMerge_default(object, source, srcIndex);
+});
+var merge_default = merge3;
+
+// node_modules/lodash-es/lodash.js
+/**
+ * @license
+ * Lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="es" --repo lodash/lodash#4.18.1 -o ./`
+ * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+// node_modules/ng2-charts/fesm2022/ng2-charts.mjs
+var ThemeService = class _ThemeService {
+  constructor() {
+    this.colorschemesOptions = new BehaviorSubject(void 0);
+  }
+  setColorschemesOptions(options) {
+    this.pColorschemesOptions = options;
+    this.colorschemesOptions.next(options);
+  }
+  getColorschemesOptions() {
+    return this.pColorschemesOptions;
+  }
+  static {
+    this.\u0275fac = function ThemeService_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _ThemeService)();
+    };
+  }
+  static {
+    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+      token: _ThemeService,
+      factory: _ThemeService.\u0275fac,
+      providedIn: "root"
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ThemeService, [{
+    type: Injectable,
+    args: [{
+      providedIn: "root"
+    }]
+  }], null, null);
+})();
+var BaseChartDirective = class _BaseChartDirective {
+  constructor(element, zone, themeService) {
+    this.zone = zone;
+    this.themeService = themeService;
+    this.type = "bar";
+    this.plugins = [];
+    this.chartClick = new EventEmitter();
+    this.chartHover = new EventEmitter();
+    this.subs = [];
+    this.themeOverrides = {};
+    this.ctx = element.nativeElement.getContext("2d");
+    this.subs.push(this.themeService.colorschemesOptions.pipe(distinctUntilChanged()).subscribe((r) => this.themeChanged(r)));
+  }
+  ngOnChanges(changes) {
+    const requireRender = ["type"];
+    const propertyNames = Object.getOwnPropertyNames(changes);
+    if (propertyNames.some((key) => requireRender.includes(key)) || propertyNames.every((key) => changes[key].isFirstChange())) {
+      this.render();
+    } else {
+      const config4 = this.getChartConfiguration();
+      if (this.chart) {
+        Object.assign(this.chart.config.data, config4.data);
+        if (this.chart.config.plugins) {
+          Object.assign(this.chart.config.plugins, config4.plugins);
+        }
+        if (this.chart.config.options) {
+          Object.assign(this.chart.config.options, config4.options);
+        }
+      }
+      this.update();
+    }
+  }
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = void 0;
+    }
+    this.subs.forEach((s4) => s4.unsubscribe());
+  }
+  render() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    return this.zone.runOutsideAngular(() => this.chart = new Chart(this.ctx, this.getChartConfiguration()));
+  }
+  update(duration) {
+    if (this.chart) {
+      this.zone.runOutsideAngular(() => this.chart?.update(duration));
+    }
+  }
+  hideDataset(index2, hidden) {
+    if (this.chart) {
+      this.chart.getDatasetMeta(index2).hidden = hidden;
+      this.update();
+    }
+  }
+  isDatasetHidden(index2) {
+    return this.chart?.getDatasetMeta(index2)?.hidden;
+  }
+  toBase64Image() {
+    return this.chart?.toBase64Image();
+  }
+  themeChanged(options) {
+    this.themeOverrides = options;
+    if (this.chart) {
+      if (this.chart.config.options) {
+        Object.assign(this.chart.config.options, this.getChartOptions());
+      }
+      this.update();
+    }
+  }
+  getChartOptions() {
+    return merge_default({
+      onHover: (event, active) => {
+        if (!this.chartHover.observed && !this.chartHover.observers?.length) {
+          return;
+        }
+        this.zone.run(() => this.chartHover.emit({
+          event,
+          active
+        }));
+      },
+      onClick: (event, active) => {
+        if (!this.chartClick.observed && !this.chartClick.observers?.length) {
+          return;
+        }
+        this.zone.run(() => this.chartClick.emit({
+          event,
+          active
+        }));
+      }
+    }, this.themeOverrides, this.options, {
+      plugins: {
+        legend: {
+          display: this.legend
+        }
+      }
+    });
+  }
+  getChartConfiguration() {
+    return {
+      type: this.type,
+      data: this.getChartData(),
+      options: this.getChartOptions(),
+      plugins: this.plugins
+    };
+  }
+  getChartData() {
+    return this.data ? this.data : {
+      labels: this.labels || [],
+      datasets: this.datasets || []
+    };
+  }
+  static {
+    this.\u0275fac = function BaseChartDirective_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _BaseChartDirective)(\u0275\u0275directiveInject(ElementRef), \u0275\u0275directiveInject(NgZone), \u0275\u0275directiveInject(ThemeService));
+    };
+  }
+  static {
+    this.\u0275dir = /* @__PURE__ */ \u0275\u0275defineDirective({
+      type: _BaseChartDirective,
+      selectors: [["canvas", "baseChart", ""]],
+      inputs: {
+        type: "type",
+        legend: "legend",
+        data: "data",
+        options: "options",
+        plugins: "plugins",
+        labels: "labels",
+        datasets: "datasets"
+      },
+      outputs: {
+        chartClick: "chartClick",
+        chartHover: "chartHover"
+      },
+      exportAs: ["base-chart"],
+      standalone: false,
+      features: [\u0275\u0275NgOnChangesFeature]
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BaseChartDirective, [{
+    type: Directive,
+    args: [{
+      // eslint-disable-next-line @angular-eslint/directive-selector
+      selector: "canvas[baseChart]",
+      exportAs: "base-chart"
+    }]
+  }], function() {
+    return [{
+      type: ElementRef
+    }, {
+      type: NgZone
+    }, {
+      type: ThemeService
+    }];
+  }, {
+    type: [{
+      type: Input
+    }],
+    legend: [{
+      type: Input
+    }],
+    data: [{
+      type: Input
+    }],
+    options: [{
+      type: Input
+    }],
+    plugins: [{
+      type: Input
+    }],
+    labels: [{
+      type: Input
+    }],
+    datasets: [{
+      type: Input
+    }],
+    chartClick: [{
+      type: Output
+    }],
+    chartHover: [{
+      type: Output
+    }]
+  });
+})();
+var baseColors = [[255, 99, 132], [54, 162, 235], [255, 206, 86], [231, 233, 237], [75, 192, 192], [151, 187, 205], [220, 220, 220], [247, 70, 74], [70, 191, 189], [253, 180, 92], [148, 159, 177], [77, 83, 96]];
+var builtInDefaults = {
+  plugins: {
+    colors: {
+      enabled: false
+    }
+  },
+  datasets: {
+    line: {
+      backgroundColor: (context2) => rgba(generateColor(context2.datasetIndex), 0.4),
+      borderColor: (context2) => rgba(generateColor(context2.datasetIndex), 1),
+      pointBackgroundColor: (context2) => rgba(generateColor(context2.datasetIndex), 1),
+      pointBorderColor: "#fff"
+    },
+    bar: {
+      backgroundColor: (context2) => rgba(generateColor(context2.datasetIndex), 0.6),
+      borderColor: (context2) => rgba(generateColor(context2.datasetIndex), 1)
+    },
+    get radar() {
+      return this.line;
+    },
+    doughnut: {
+      backgroundColor: (context2) => rgba(generateColor(context2.dataIndex), 0.6),
+      borderColor: "#fff"
+    },
+    get pie() {
+      return this.doughnut;
+    },
+    polarArea: {
+      backgroundColor: (context2) => rgba(generateColor(context2.dataIndex), 0.6),
+      borderColor: (context2) => rgba(generateColor(context2.dataIndex), 1)
+    },
+    get bubble() {
+      return this.doughnut;
+    },
+    get scatter() {
+      return this.doughnut;
+    },
+    get area() {
+      return this.polarArea;
+    }
+  }
+};
+function rgba(colour, alpha2) {
+  return "rgba(" + colour.concat(alpha2).join(",") + ")";
+}
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function getRandomColor() {
+  return [getRandomInt(0, 255), getRandomInt(0, 255), getRandomInt(0, 255)];
+}
+function generateColor(index2 = 0) {
+  return baseColors[index2] || getRandomColor();
+}
+var NgChartsConfiguration = class _NgChartsConfiguration {
+  constructor() {
+    this.generateColors = true;
+  }
+  static {
+    this.\u0275fac = function NgChartsConfiguration_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _NgChartsConfiguration)();
+    };
+  }
+  static {
+    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({
+      token: _NgChartsConfiguration,
+      factory: _NgChartsConfiguration.\u0275fac,
+      providedIn: "root"
+    });
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgChartsConfiguration, [{
+    type: Injectable,
+    args: [{
+      providedIn: "root"
+    }]
+  }], null, null);
+})();
+Chart.register(...registerables);
+var NgChartsModule = class _NgChartsModule {
+  constructor(config4) {
+    if (config4?.plugins) Chart.register(...config4.plugins);
+    const ngChartsDefaults = merge_default(config4?.generateColors ? builtInDefaults : {}, config4?.defaults || {});
+    defaults.set(ngChartsDefaults);
+  }
+  static forRoot(config4) {
+    return {
+      ngModule: _NgChartsModule,
+      providers: [{
+        provide: NgChartsConfiguration,
+        useValue: config4
+      }]
+    };
+  }
+  static {
+    this.\u0275fac = function NgChartsModule_Factory(__ngFactoryType__) {
+      return new (__ngFactoryType__ || _NgChartsModule)(\u0275\u0275inject(NgChartsConfiguration, 8));
+    };
+  }
+  static {
+    this.\u0275mod = /* @__PURE__ */ \u0275\u0275defineNgModule({
+      type: _NgChartsModule,
+      declarations: [BaseChartDirective],
+      exports: [BaseChartDirective]
+    });
+  }
+  static {
+    this.\u0275inj = /* @__PURE__ */ \u0275\u0275defineInjector({});
+  }
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(NgChartsModule, [{
+    type: NgModule,
+    args: [{
+      imports: [],
+      declarations: [BaseChartDirective],
+      exports: [BaseChartDirective]
+    }]
+  }], function() {
+    return [{
+      type: NgChartsConfiguration,
+      decorators: [{
+        type: Optional
+      }]
+    }];
+  }, null);
+})();
+
 // src/app/money/balance.component.ts
-var _c09 = (a0, a1, a22, a32, a4, a5) => ({ "balance-row-debit": a0, "balance-row-investment": a1, "balance-row-credit": a22, "balance-row-loan": a32, "balance-row-capital": a4, "balance-row-crypto": a5 });
+var _c08 = (a0, a1, a22, a32, a4, a5) => ({ "balance-row-debit": a0, "balance-row-investment": a1, "balance-row-credit": a22, "balance-row-loan": a32, "balance-row-capital": a4, "balance-row-crypto": a5 });
 var _c111 = (a0, a1, a22) => ({ "balance-zero": a0, "balance-positive": a1, "balance-negative": a22 });
 function BalanceComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
@@ -88364,7 +86737,7 @@ function BalanceComponent_For_33_Template(rf, ctx) {
   }
   if (rf & 2) {
     const b_r5 = ctx.$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction6(29, _c09, b_r5.bal_ctg_account_type === 1, b_r5.bal_ctg_account_type === 2, b_r5.bal_ctg_account_type === 3, b_r5.bal_ctg_account_type === 4, b_r5.bal_ctg_account_type === 5, b_r5.bal_ctg_account_type === 6));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction6(29, _c08, b_r5.bal_ctg_account_type === 1, b_r5.bal_ctg_account_type === 2, b_r5.bal_ctg_account_type === 3, b_r5.bal_ctg_account_type === 4, b_r5.bal_ctg_account_type === 5, b_r5.bal_ctg_account_type === 6));
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate1(" ", b_r5.showOptions ? "-" : "+", " ");
     \u0275\u0275advance(3);
@@ -90426,7 +88799,7 @@ var PlaceComponent = class _PlaceComponent {
 })();
 
 // src/app/money/preset.component.ts
-var _c010 = (a0, a1, a22) => ({ "movement-amount-income": a0, "movement-amount-expense": a1, "movement-amount-transfer": a22 });
+var _c09 = (a0, a1, a22) => ({ "movement-amount-income": a0, "movement-amount-expense": a1, "movement-amount-transfer": a22 });
 function PresetComponent_Conditional_7_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 6)(1, "label", 27);
@@ -90898,7 +89271,7 @@ function PresetComponent_For_10_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(item_r13.pre_name);
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(25, _c010, item_r13.pre_ctg_type === 2, item_r13.pre_ctg_type === 1, item_r13.pre_ctg_type === 3));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(25, _c09, item_r13.pre_ctg_type === 2, item_r13.pre_ctg_type === 1, item_r13.pre_ctg_type === 3));
     \u0275\u0275advance();
     \u0275\u0275conditional(item_r13.pre_txt_type === "EXPENSE" ? 5 : -1);
     \u0275\u0275advance();
@@ -94941,7 +93314,7 @@ var MultimediaViewService = class _MultimediaViewService {
 })();
 
 // src/app/multimedia/multimedia.component.ts
-var _c011 = (a0, a1, a22, a32, a4) => ({ "multimedia-movies": a0, "multimedia-tvseries": a1, "multimedia-anime": a22, "multimedia-book": a32, "multimedia-manga": a4 });
+var _c010 = (a0, a1, a22, a32, a4) => ({ "multimedia-movies": a0, "multimedia-tvseries": a1, "multimedia-anime": a22, "multimedia-book": a32, "multimedia-manga": a4 });
 var _c112 = (a0) => ({ "multimedia-last-ep": a0 });
 function MultimediaComponent_Conditional_4_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
@@ -95249,7 +93622,7 @@ function MultimediaComponent_For_14_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind2(11, 17, item_r7.mma_date_mod, "MM-dd"), " ");
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction5(20, _c011, item_r7.mma_ctg_media_type === 1, item_r7.mma_ctg_media_type === 2, item_r7.mma_ctg_media_type === 3, item_r7.mma_ctg_media_type === 4, item_r7.mma_ctg_media_type === 5));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction5(20, _c010, item_r7.mma_ctg_media_type === 1, item_r7.mma_ctg_media_type === 2, item_r7.mma_ctg_media_type === 3, item_r7.mma_ctg_media_type === 4, item_r7.mma_ctg_media_type === 5));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", item_r7.mma_title, " ");
     \u0275\u0275advance();
@@ -100165,9 +98538,9 @@ var TimelineComponent = class _TimelineComponent {
 })();
 
 // src/app/activities/activity.component.ts
-var _c012 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true });
+var _c011 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true });
 var _c113 = (a0) => ["status-block", a0];
-var _c27 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true, optShowTimeTrackingHistory: false });
+var _c23 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true, optShowTimeTrackingHistory: false });
 function ActivityComponent_For_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "option", 5);
@@ -100342,7 +98715,7 @@ function ActivityComponent_Conditional_21_For_30_Template(rf, ctx) {
     const item_r13 = ctx.$implicit;
     const ctx_r4 = \u0275\u0275nextContext(2);
     \u0275\u0275advance();
-    \u0275\u0275property("task", item_r13)("handlers", ctx_r4.handlers)("options", \u0275\u0275pureFunction0(3, _c012));
+    \u0275\u0275property("task", item_r13)("handlers", ctx_r4.handlers)("options", \u0275\u0275pureFunction0(3, _c011));
   }
 }
 function ActivityComponent_Conditional_21_Template(rf, ctx) {
@@ -100602,7 +98975,7 @@ function ActivityComponent_For_29_For_10_Conditional_19_For_5_Template(rf, ctx) 
     const t_r24 = ctx.$implicit;
     const ctx_r4 = \u0275\u0275nextContext(4);
     \u0275\u0275advance();
-    \u0275\u0275property("task", t_r24.task)("handlers", ctx_r4.handlers)("options", \u0275\u0275pureFunction0(3, _c27));
+    \u0275\u0275property("task", t_r24.task)("handlers", ctx_r4.handlers)("options", \u0275\u0275pureFunction0(3, _c23));
   }
 }
 function ActivityComponent_For_29_For_10_Conditional_19_Template(rf, ctx) {
@@ -102789,9 +101162,9 @@ var PendingProvisionService = class _PendingProvisionService {
 })();
 
 // src/app/cartera/PendingProvisionReportComponent.ts
-var _c013 = (a0) => ({ "page-break-after": a0 });
+var _c012 = (a0) => ({ "page-break-after": a0 });
 var _c114 = (a0) => ({ "pending-provision-top-block-30": a0 });
-var _c28 = (a0, a1) => ({ "provision-added-row": a0, "provision-payed-row": a1 });
+var _c24 = (a0, a1) => ({ "provision-added-row": a0, "provision-payed-row": a1 });
 var _c33 = (a0, a1) => ({ "provision-payed-row": a0, "provision-added-row": a1 });
 var _c42 = (a0) => ({ "provision-payed-row": a0 });
 function PendingProvisionReportComponent_Conditional_3_Template(rf, ctx) {
@@ -102857,7 +101230,7 @@ function PendingProvisionReportComponent_For_26_Template(rf, ctx) {
     const provision_r1 = ctx.$implicit;
     const \u0275$index_46_r2 = ctx.$index;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(30, _c28, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r1, ctx_r2.viewData.year, ctx_r2.viewData.month), provision_r1.cpr_remaining === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(30, _c24, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r1, ctx_r2.viewData.year, ctx_r2.viewData.month), provision_r1.cpr_remaining === 0));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275$index_46_r2 + 1);
     \u0275\u0275advance(2);
@@ -103507,7 +101880,7 @@ var PendingProvisionReportComponent = class _PendingProvisionReportComponent {
       \u0275\u0275advance(3);
       \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(71, 55, ctx.viewData.pendingTotalRemaining, "USD", "symbol-narrow", "1.2-2"), " ");
       \u0275\u0275advance(2);
-      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(95, _c013, ctx.viewData.layout === "2-pages"));
+      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(95, _c012, ctx.viewData.layout === "2-pages"));
       \u0275\u0275advance(14);
       \u0275\u0275conditional(ctx.viewData.layout === "2-pages" ? 86 : -1);
       \u0275\u0275advance();
@@ -104908,7 +103281,7 @@ var UnitStatusService = class _UnitStatusService {
 })();
 
 // src/app/cartera/UnitStatusReportComponent.ts
-var _c014 = (a0) => ({ "unit-status-highlight": a0 });
+var _c013 = (a0) => ({ "unit-status-highlight": a0 });
 function UnitStatusReportComponent_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 1);
@@ -104987,7 +103360,7 @@ function UnitStatusReportComponent_For_23_Template(rf, ctx) {
   if (rf & 2) {
     const item_r1 = ctx.$implicit;
     const \u0275$index_41_r2 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(17, _c014, item_r1.highlight));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(17, _c013, item_r1.highlight));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", \u0275$index_41_r2 + 1, " ");
     \u0275\u0275advance(2);
@@ -105078,7 +103451,7 @@ function UnitStatusReportComponent_For_46_Template(rf, ctx) {
   }
   if (rf & 2) {
     const item_r4 = ctx.$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(11, _c014, item_r4.highlight));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(11, _c013, item_r4.highlight));
     \u0275\u0275advance(2);
     \u0275\u0275conditional(item_r4.type === "PAYMENT" ? 2 : -1);
     \u0275\u0275advance();
@@ -105199,7 +103572,7 @@ function UnitStatusReportComponent_For_75_For_8_Conditional_1_Template(rf, ctx) 
   if (rf & 2) {
     const payDet_r8 = \u0275\u0275nextContext().$implicit;
     const ctx_r6 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(14, _c014, payDet_r8.cpd_txt_status === "highlight"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(14, _c013, payDet_r8.cpd_txt_status === "highlight"));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate3(" - Ajuste ", \u0275\u0275pipeBind4(2, 4, payDet_r8.cpd_amount, "USD", "symbol-narrow", "1.2-2"), " a partir de la Condonaci\xF3n/Ajuste #", ctx_r6.getPaymentIndex(payDet_r8.cpd_id_payment) + 1, " por ", \u0275\u0275pipeBind4(3, 9, ctx_r6.getPayment(payDet_r8.cpd_id_payment).cpy_amount, "USD", "symbol-narrow", "1.2-2"), " ");
   }
@@ -105216,7 +103589,7 @@ function UnitStatusReportComponent_For_75_For_8_Conditional_2_Template(rf, ctx) 
   if (rf & 2) {
     const payDet_r8 = \u0275\u0275nextContext().$implicit;
     const ctx_r6 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(18, _c014, payDet_r8.cpd_txt_status === "highlight"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(18, _c013, payDet_r8.cpd_txt_status === "highlight"));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate4(" - Recaudado ", \u0275\u0275pipeBind4(2, 5, payDet_r8.cpd_amount, "USD", "symbol-narrow", "1.2-2"), " a partir del pago #", ctx_r6.getPaymentIndex(payDet_r8.cpd_id_payment) + 1, " por ", \u0275\u0275pipeBind4(3, 10, ctx_r6.getPayment(payDet_r8.cpd_id_payment).cpy_amount, "USD", "symbol-narrow", "1.2-2"), " fecha ", \u0275\u0275pipeBind2(4, 15, ctx_r6.getPayment(payDet_r8.cpd_id_payment).cpy_date, "yyyy-MM-dd"), " ");
   }
@@ -105307,7 +103680,7 @@ function UnitStatusReportComponent_For_75_Template(rf, ctx) {
   if (rf & 2) {
     const item_r11 = ctx.$implicit;
     const \u0275$index_254_r12 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(17, _c014, item_r11.highlight));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(17, _c013, item_r11.highlight));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", \u0275$index_254_r12 + 1, " ");
     \u0275\u0275advance(3);
@@ -106166,9 +104539,9 @@ var ResultsReportService = class _ResultsReportService {
 })();
 
 // src/app/cartera/ResultsReportComponent.ts
-var _c015 = (a0) => ({ "results-top-block-50": a0 });
+var _c014 = (a0) => ({ "results-top-block-50": a0 });
 var _c115 = (a0, a1) => ({ "results-header-row": a0, "results-total-row": a1 });
-var _c29 = (a0) => ({ "text-align-right": a0 });
+var _c25 = (a0) => ({ "text-align-right": a0 });
 function ResultsReportComponent_For_17_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
@@ -106292,7 +104665,7 @@ function ResultsReportComponent_For_21_Template(rf, ctx) {
     const \u0275$index_63_r4 = ctx.$index;
     \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c115, movement_r3.type === "header", movement_r3.type === "total"));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(8, _c29, movement_r3.type === "total"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(8, _c25, movement_r3.type === "total"));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", movement_r3.concept, " ");
     \u0275\u0275advance(2);
@@ -106514,13 +104887,13 @@ var ResultsReportComponent = class _ResultsReportComponent {
       \u0275\u0275advance(4);
       \u0275\u0275repeater(ctx.viewData.renderList);
       \u0275\u0275advance(2);
-      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(30, _c015, ctx.viewData.timelineList.length > 0));
+      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(30, _c014, ctx.viewData.timelineList.length > 0));
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.viewData.timelineList.length > 0 ? 23 : -1);
       \u0275\u0275advance(2);
       \u0275\u0275property("recordId", "cartera-results|" + ctx.viewData.year + "-" + ctx.viewData.month);
       \u0275\u0275advance();
-      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(32, _c015, ctx.viewData.timelineList.length > 0));
+      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(32, _c014, ctx.viewData.timelineList.length > 0));
       \u0275\u0275advance(9);
       \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(36, 10, ctx.viewData.initialBalance, "USD", "symbol-narrow", "1.2-2"), " ");
       \u0275\u0275advance(8);
@@ -107253,9 +105626,9 @@ var CarteraSendReceiptsComponent = class _CarteraSendReceiptsComponent {
 })();
 
 // src/app/cartera/CarteraComponent.ts
-var _c016 = (a0) => ({ "hidden": a0 });
+var _c015 = (a0) => ({ "hidden": a0 });
 var _c116 = (a0, a1) => ({ "provision-payed-row": a0, "provision-added-row": a1 });
-var _c210 = (a0) => ({ "input-invalid": a0 });
+var _c26 = (a0) => ({ "input-invalid": a0 });
 function CarteraComponent_Conditional_6_For_10_For_7_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
@@ -107725,7 +106098,7 @@ function CarteraComponent_Conditional_14_Conditional_49_Template(rf, ctx) {
   }
   if (rf & 2) {
     const ctx_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("disabled", !ctx_r2.model.fAmount || !ctx_r2.model.unitId)("ngClass", \u0275\u0275pureFunction1(2, _c016, ctx_r2.model._paymentType === "nonidentified"));
+    \u0275\u0275property("disabled", !ctx_r2.model.fAmount || !ctx_r2.model.unitId)("ngClass", \u0275\u0275pureFunction1(2, _c015, ctx_r2.model._paymentType === "nonidentified"));
   }
 }
 function CarteraComponent_Conditional_14_Conditional_50_Template(rf, ctx) {
@@ -107857,12 +106230,12 @@ function CarteraComponent_Conditional_14_Conditional_52_For_22_Template(rf, ctx)
     \u0275\u0275advance(3);
     \u0275\u0275property("name", provision_r27.cpr_id);
     \u0275\u0275twoWayProperty("ngModel", ctx_r2.payDetModel[provision_r27.cpr_id]);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(36, _c210, ctx_r2.viewData.payDetCaptureStatus === "invalid" && ctx_r2.payDetModel[provision_r27.cpr_id]))("disabled", ctx_r2.viewData.payDetCaptureStatus === "invalid" && !ctx_r2.payDetModel[provision_r27.cpr_id] || ctx_r2.viewData.payDetCaptureStatus === "valid" && !ctx_r2.payDetModel[provision_r27.cpr_id])("max", provision_r27.cpr_remaining);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(36, _c26, ctx_r2.viewData.payDetCaptureStatus === "invalid" && ctx_r2.payDetModel[provision_r27.cpr_id]))("disabled", ctx_r2.viewData.payDetCaptureStatus === "invalid" && !ctx_r2.payDetModel[provision_r27.cpr_id] || ctx_r2.viewData.payDetCaptureStatus === "valid" && !ctx_r2.payDetModel[provision_r27.cpr_id])("max", provision_r27.cpr_remaining);
     \u0275\u0275control();
     \u0275\u0275advance(2);
     \u0275\u0275property("name", provision_r27.cpr_id + "_folio");
     \u0275\u0275twoWayProperty("ngModel", ctx_r2.payDetFolioModel[provision_r27.cpr_id]);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(38, _c210, ctx_r2.viewData.payDetFolioCaptureStatus === "invalid" && ctx_r2.payDetFolioModel[provision_r27.cpr_id]))("disabled", ctx_r2.payDetModel[provision_r27.cpr_id] !== provision_r27.cpr_remaining);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(38, _c26, ctx_r2.viewData.payDetFolioCaptureStatus === "invalid" && ctx_r2.payDetFolioModel[provision_r27.cpr_id]))("disabled", ctx_r2.payDetModel[provision_r27.cpr_id] !== provision_r27.cpr_remaining);
     \u0275\u0275control();
   }
 }
@@ -109657,7 +108030,7 @@ var PaymentReportService = class _PaymentReportService {
 })();
 
 // src/app/cartera/PaymentReport/PaymentReportComponent.ts
-var _c017 = (a0, a1, a22) => ({ "text-align-right": a0, "payment-report-amount": a1, "payment-report-amount-print": a22 });
+var _c016 = (a0, a1, a22) => ({ "text-align-right": a0, "payment-report-amount": a1, "payment-report-amount-print": a22 });
 function PaymentReportComponent_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "th");
@@ -109921,7 +108294,7 @@ function PaymentReportComponent_For_23_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(item_r1.paymentList.length === 0 && ctx_r1.viewData.layout === "print" && !ctx_r1.viewData.extraordinary ? 10 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(11, _c017, ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout === "print"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(11, _c016, ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout === "print"));
     \u0275\u0275advance();
     \u0275\u0275conditional(item_r1.paymentList.length > 0 ? 12 : -1);
     \u0275\u0275advance();
@@ -110173,7 +108546,7 @@ function PaymentReportComponent_For_49_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", item_r6.provision.cpr_id_unit, " ");
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(10, _c017, ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout === "print"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(10, _c016, ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout !== "print", ctx_r1.viewData.layout === "print"));
     \u0275\u0275advance();
     \u0275\u0275conditional(item_r6.paymentList.length > 0 ? 6 : -1);
     \u0275\u0275advance();
@@ -124269,7 +122642,7 @@ E2.API.PDFObject = (function() {
 })();
 
 // src/app/cartera/ReceiptReport/ReceiptReportComponent.ts
-var _c018 = (a0) => ({ "page-break-before": a0 });
+var _c017 = (a0) => ({ "page-break-before": a0 });
 function ReceiptReportComponent_Conditional_0_For_24_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr", 6)(1, "td", 7);
@@ -124464,7 +122837,7 @@ function ReceiptReportComponent_For_2_Template(rf, ctx) {
     const item_r5 = ctx.$implicit;
     const \u0275$index_71_r6 = ctx.$index;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(38, _c018, !ctx_r2.viewData.folio || ctx_r2.viewData.paymentReportData.length > 1 && \u0275$index_71_r6 > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(38, _c017, !ctx_r2.viewData.folio || ctx_r2.viewData.paymentReportData.length > 1 && \u0275$index_71_r6 > 0));
     \u0275\u0275advance(15);
     \u0275\u0275textInterpolate1("Fecha de Impresi\xF3n: ", \u0275\u0275pipeBind2(16, 12, ctx_r2.viewData.date, "yyyy-MM-dd"));
     \u0275\u0275advance(7);
@@ -124918,7 +123291,7 @@ var TypeGeneratorComponent = class _TypeGeneratorComponent {
 })();
 
 // src/app/carousel.component.ts
-var _c019 = (a0) => ({ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", background: a0, margin: "0 4px", cursor: "pointer" });
+var _c018 = (a0) => ({ display: "inline-block", width: "10px", height: "10px", borderRadius: "50%", background: a0, margin: "0 4px", cursor: "pointer" });
 function CarouselComponent_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -124980,7 +123353,7 @@ function CarouselComponent_For_18_Template(rf, ctx) {
   if (rf & 2) {
     const \u0275$index_43_r5 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275domProperty("ngStyle", \u0275\u0275pureFunction1(2, _c019, \u0275$index_43_r5 === ctx_r1.current() ? "#333" : "#ccc"));
+    \u0275\u0275domProperty("ngStyle", \u0275\u0275pureFunction1(2, _c018, \u0275$index_43_r5 === ctx_r1.current() ? "#333" : "#ccc"));
     \u0275\u0275attribute("aria-label", "Ir a la imagen " + (\u0275$index_43_r5 + 1));
   }
 }
@@ -126900,6 +125273,148 @@ var environment = {
   production: false
 };
 
+// src/app/task/task-toolbar.component.ts
+var _c019 = (a0) => ({ "mobile-only": a0 });
+function TaskToolbarComponent_Conditional_0_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r1 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 0)(1, "div");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(3, "div", 1)(4, "span", 2);
+    \u0275\u0275listener("click", function TaskToolbarComponent_Conditional_0_Template_span_click_4_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.handlerMoveUp(ctx_r1.task, $event, ctx_r1.groupTasks));
+    });
+    \u0275\u0275text(5, "up");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "span", 2);
+    \u0275\u0275listener("click", function TaskToolbarComponent_Conditional_0_Template_span_click_6_listener($event) {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.handlerMoveDown(ctx_r1.task, $event, ctx_r1.groupTasks));
+    });
+    \u0275\u0275text(7, "down");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(8, "span", 3);
+    \u0275\u0275listener("click", function TaskToolbarComponent_Conditional_0_Template_span_click_8_listener() {
+      \u0275\u0275restoreView(_r1);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.task = null);
+    });
+    \u0275\u0275text(9, "\xD7");
+    \u0275\u0275elementEnd()()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c019, !ctx_r1.options.optShowTaskToolbar));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(ctx_r1.task.tsk_name);
+  }
+}
+var TaskToolbarComponent = class _TaskToolbarComponent {
+  syncService;
+  task = null;
+  groupTasks = [];
+  // position in a list, -1 means it was not passed
+  handlers = {
+    onViewTaskDetails: null,
+    onMoveUp: null,
+    onMoveDown: null
+  };
+  options = {};
+  core = null;
+  constructor(syncService) {
+    this.syncService = syncService;
+  }
+  ngOnInit() {
+    this.core = new TaskCore(this.syncService, this.handlers);
+  }
+  launchHandler(handler, fallback, ...parameters) {
+    if (handler) {
+      return handler(...parameters);
+    }
+    return fallback(...parameters);
+  }
+  handlerMoveUp(t3, event) {
+    return this.launchHandler(this.handlers.onMoveUp, this.core.handlerMoveUp.bind(this.core), t3, event, this.groupTasks);
+  }
+  handlerMoveDown(t3, event) {
+    return this.launchHandler(this.handlers.onMoveDown, this.core.handlerMoveDown.bind(this.core), t3, event, this.groupTasks);
+  }
+  static \u0275fac = function TaskToolbarComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _TaskToolbarComponent)(\u0275\u0275directiveInject(SyncAPI));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TaskToolbarComponent, selectors: [["task-toolbar"]], inputs: { task: "task", groupTasks: "groupTasks", handlers: "handlers", options: "options" }, standalone: false, features: [\u0275\u0275ProvidersFeature([])], decls: 1, vars: 1, consts: [[1, "task-toolbar", 3, "ngClass"], [1, "task-toolbar-content"], [1, "task-toolbar-btn-move-up", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"]], template: function TaskToolbarComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275conditionalCreate(0, TaskToolbarComponent_Conditional_0_Template, 10, 4, "div", 0);
+    }
+    if (rf & 2) {
+      \u0275\u0275conditional(ctx.task ? 0 : -1);
+    }
+  }, dependencies: [NgClass], styles: ["\n.task-toolbar[_ngcontent-%COMP%] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  background-color: var(--background-color);\n  width: 100%;\n  height: auto;\n  border-top: 1px solid black;\n}\n.task-toolbar-content[_ngcontent-%COMP%] {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  font-size: 200%;\n}\n/*# sourceMappingURL=task-toolbar-QZ55DDNV.css.map */"], changeDetection: 1 });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TaskToolbarComponent, [{
+    type: Component,
+    args: [{ selector: "task-toolbar", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (task) {
+<div
+  class="task-toolbar"
+  [ngClass]="{
+  'mobile-only': !options.optShowTaskToolbar
+}"
+>
+  <div>{{ task.tsk_name }}</div>
+  <div class="task-toolbar-content">
+    <!--
+      <span
+        class="play-button clickable"
+        *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"
+        (click)="toggleTimeTracking(selectedTask, $event)"
+        >&#9654;</span
+        >
+        <span
+          class="stop-button clickable"
+          *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"
+          (click)="toggleTimeTracking(selectedTask, $event)"
+          >&#9724;</span
+          >
+          <span
+            class="set-selected-button clickable"
+            (click)="handlerViewDetails(task)"
+            >&#9998;</span
+            >
+            -->
+    <span
+      class="task-toolbar-btn-move-up clickable"
+      (click)="handlerMoveUp(task, $event, groupTasks)"
+      >up</span
+    >
+    <span
+      class="task-toolbar-btn-move-up clickable"
+      (click)="handlerMoveDown(task, $event, groupTasks)"
+      >down</span
+    >
+    <span class="close-button clickable" (click)="task = null">&times;</span>
+  </div>
+</div>
+}
+`, styles: ["/* src/app/task/task-toolbar.css */\n.task-toolbar {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  background-color: var(--background-color);\n  width: 100%;\n  height: auto;\n  border-top: 1px solid black;\n}\n.task-toolbar-content {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  font-size: 200%;\n}\n/*# sourceMappingURL=task-toolbar-QZ55DDNV.css.map */\n"] }]
+  }], () => [{ type: SyncAPI }], { task: [{
+    type: Input
+  }], groupTasks: [{
+    type: Input
+  }], handlers: [{
+    type: Input
+  }], options: [{
+    type: Input
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TaskToolbarComponent, { className: "TaskToolbarComponent", filePath: "src/app/task/task-toolbar.component.ts", lineNumber: 19 });
+})();
+
 // src/app/app.module.ts
 var AppModule = class _AppModule {
   static \u0275fac = function AppModule_Factory(__ngFactoryType__) {
@@ -127023,4 +125538,4 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# sourceMappingURL=main-5UPP7SO3.js.map
+//# sourceMappingURL=main-OYG3AJTS.js.map
