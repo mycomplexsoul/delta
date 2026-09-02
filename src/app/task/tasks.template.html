@@ -1016,6 +1016,10 @@
               title="In Pinned To Do listing"
             />
           </span>
+          } @if (t.inWorkToDo) {
+          <span style="margin: 0 -4px" aria-label="In Work To Do listing" title="In Work To Do listing">
+            &#128188;
+          </span>
           }
           <span
             contenteditable="true"
@@ -1517,6 +1521,165 @@
             spellcheck="false"
             (keyup)="taskEdit(t, $event)"
             (keydown)="pinnedTaskKeyDown($event)"
+            [ngClass]="{
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
+              'task-in-process': t.tsk_ctg_in_process === 2,
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1
+            }"
+            (blur)="commandOnTask(t, $event)"
+            class="editable task-text"
+            >{{ t.tsk_name }}</span
+          >&nbsp;<span
+            [attr.contenteditable]="options.optAllowToEditETA"
+            spellcheck="false"
+            (blur)="taskEstimatedDurationEdit(t, $event)"
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"
+            class="task-eta"
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span
+          ><span> [{{t.tsk_id_record}}] </span>
+          @if (t.tsk_tags) {
+          <span class="task-tags">
+            @for (tag of t.tsk_tags.split(' '); track tag) {
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>
+            }
+          </span>
+          } @if (t.tsk_schedule_date_start) {
+          <span
+            ><strong
+              >(start at {{ formatDateTime(t.tsk_schedule_date_start)
+              }})</strong
+            ></span
+          >
+          } @if (options.optViewElapsedDays) {
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>
+          } @if (t.not_sync) {
+          <span>(Not in sync)</span>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>
+} @if (workTasks[0].tasks.length) {
+<div id="workToDoList">
+  <hr />
+  <div class="task-open-task-list-container">
+    @for (item of workTasks; track item.tsk_id) {
+    <div class="task-record">
+      <div>
+        <button
+          class="button-link no-underline"
+          (click)="toggleOption('optCollapseWorkTasks')"
+        >
+          <strong>{{ options.optCollapseWorkTasks ? '+' : '-' }} Work To Do</strong>
+        </button>
+        | {{ item.tasks.length }}
+        <time-format
+          format="([H]h[m]m)"
+          [value]="item.estimatedDuration"
+        ></time-format>
+      </div>
+      @if (!options.optCollapseWorkTasks) {
+      <div [ngClass]="{ 'columns-3': workTasks[0].tasks.length > 20 }">
+        @for (t of item.tasks; track t.tsk_id; let count = $index) {
+        <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">
+          <input
+            type="checkbox"
+            id="{{ t.tsk_id }}"
+            (click)="taskCheckboxHandler(t, $event)"
+          />
+          @if (t.tsk_total_time_spent !== 0) {
+          <span
+            [ngClass]="{
+              'task-open-with-tt':
+                t.tsk_ctg_status === this.taskStatus.OPEN &&
+                t.tsk_time_history.length > 0
+            }"
+            >[{{ t.tsk_time_history.length }}/{{
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==
+            2) {
+            <span>
+              [<span
+                class="tt-start"
+                contenteditable="true"
+                spellcheck="false"
+                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
+                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]
+                .tsh_date_start | date: "HH:mm:ss" }}</span
+              >
+              -
+              <span
+                class="tt-end"
+                contenteditable="true"
+                spellcheck="false"
+                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"
+                >{{ t.tsk_time_history[t.tsk_time_history.length -
+                1].tsh_date_end | date: "HH:mm:ss" }}</span
+              >]
+            </span>
+            }
+          </span>
+          } @if (t.tsk_ctg_in_process === 2) {
+          <span>
+            [<span
+              contenteditable="true"
+              spellcheck="false"
+              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"
+              >{{ t.tsk_time_history[t.tsk_time_history.length -
+              1].tsh_date_start | date: "HH:mm:ss" }}</span
+            >]
+          </span>
+          }
+          <span
+            (click)="toggleTimeMode()"
+            class="clickable"
+            title="click to toggle timer mode"
+          >
+            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""
+            }}
+          </span>
+          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {
+          <span class="task-q-critical" title="Critical task">🔥</span>
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {
+          <span class="task-qualifier-icon">&#9733;</span>
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {
+          <span class="task-qualifier-icon">
+            <img
+              src="/assets/icons/people.svg"
+              alt="Requires reaching out people"
+              title="Requires reaching out people"
+            />
+          </span>
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {
+          <span class="task-qualifier-icon">
+            <img
+              src="/assets/icons/smartphone.svg"
+              alt="Can be done using phone"
+              title="Can be done using phone"
+            />
+          </span>
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {
+          <span class="task-qualifier-icon">&#10006;</span>
+          }
+          <span
+            contenteditable="true"
+            spellcheck="false"
+            (keyup)="taskEdit(t, $event)"
+            (keydown)="workTaskKeyDown($event)"
             [ngClass]="{
               'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,
               'task-in-process': t.tsk_ctg_in_process === 2,
