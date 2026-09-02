@@ -44297,54 +44297,54 @@ var HomeComponent = class _HomeComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HomeComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h1>Hi {{ currentUser.firstName }}!</h1>\r
-<p>You're logged in with Angular {{ viewData.angularVersion }}!!</p>\r
-\r
-Diagnostic information from your device\r
-<div>Memory: {{ viewData.device.deviceMemory }}</div>\r
-<div>Logical processors: {{ viewData.device.hardwareConcurrency }}</div>\r
-<div>Network: {{ viewData.device?.connection?.effectiveType }}</div>\r
-<div>Browser language: {{ viewData.device.language }}</div>\r
-<div>Platform: {{ viewData.device.platform }}</div>\r
-<div>User Agent: {{ viewData.device.userAgent }}</div>\r
-<div>\r
-  User Activation: {{ viewData.device.userActivation.hasBeenActive }} / {{\r
-  viewData.device.userActivation.isActive }}\r
-</div>\r
-<div>Has Share API: {{ !!viewData.device.share }}</div>\r
-<div>Battery: {{ viewData.battery?.level }}</div>\r
-<div>\r
-  <div>Local Storage usage:</div>\r
-  <table>\r
-    <thead>\r
-      <tr>\r
-        <th>Key</th>\r
-        <th>Usage in KB</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (e of viewData.localStorageUsage.details; track e) {\r
-      <tr>\r
-        <td>{{e.item}}</td>\r
-        <td>{{e.usedInKB}}</td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td><strong>Total</strong></td>\r
-        <td>\r
-          <strong> {{viewData.localStorageUsage.totalInKB}} </strong>\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-</div>\r
-\r
-<div>\r
-  <textarea id="text-to-read" [(ngModel)]="model.textToRead"></textarea>\r
-  <button (click)="readText()" [disabled]="!model.textToRead">Read text</button>\r
-</div>\r
+    args: [{ changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h1>Hi {{ currentUser.firstName }}!</h1>
+<p>You're logged in with Angular {{ viewData.angularVersion }}!!</p>
+
+Diagnostic information from your device
+<div>Memory: {{ viewData.device.deviceMemory }}</div>
+<div>Logical processors: {{ viewData.device.hardwareConcurrency }}</div>
+<div>Network: {{ viewData.device?.connection?.effectiveType }}</div>
+<div>Browser language: {{ viewData.device.language }}</div>
+<div>Platform: {{ viewData.device.platform }}</div>
+<div>User Agent: {{ viewData.device.userAgent }}</div>
+<div>
+  User Activation: {{ viewData.device.userActivation.hasBeenActive }} / {{
+  viewData.device.userActivation.isActive }}
+</div>
+<div>Has Share API: {{ !!viewData.device.share }}</div>
+<div>Battery: {{ viewData.battery?.level }}</div>
+<div>
+  <div>Local Storage usage:</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Usage in KB</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (e of viewData.localStorageUsage.details; track e) {
+      <tr>
+        <td>{{e.item}}</td>
+        <td>{{e.usedInKB}}</td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td>
+          <strong> {{viewData.localStorageUsage.totalInKB}} </strong>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<div>
+  <textarea id="text-to-read" [(ngModel)]="model.textToRead"></textarea>
+  <button (click)="readText()" [disabled]="!model.textToRead">Read text</button>
+</div>
 ` }]
   }], () => [{ type: AuthenticationService }, { type: UserService }], null);
 })();
@@ -44772,17 +44772,17 @@ var AlertComponent = class _AlertComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AlertComponent, [{
     type: Component,
-    args: [{ selector: "alert", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (message) {\r
-<div\r
-  [ngClass]="{\r
-    alert: message,\r
-    'alert-success': message.type === 'success',\r
-    'alert-danger': message.type === 'error'\r
-  }"\r
->\r
-  {{ message.text }}\r
-</div>\r
-}\r
+    args: [{ selector: "alert", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (message) {
+<div
+  [ngClass]="{
+    alert: message,
+    'alert-success': message.type === 'success',
+    'alert-danger': message.type === 'error'
+  }"
+>
+  {{ message.text }}
+</div>
+}
 ` }]
   }], () => [{ type: AlertService }], null);
 })();
@@ -44952,56 +44952,56 @@ var LoginComponent = class _LoginComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LoginComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h2>Login</h2>\r
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">\r
-  <div class="form-item">\r
-    <label for="username">Username</label>\r
-    <input\r
-      type="text"\r
-      formControlName="username"\r
-      class="form-control"\r
-      autofocus\r
-      [ngClass]="{ 'is-invalid': submitted && f.username.errors }"\r
-    />\r
-    @if (submitted && f.username.errors) {\r
-    <div class="error-message">\r
-      @if (f.username.errors.required) {\r
-      <div>Username is required</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-item">\r
-    <label for="password">Password</label>\r
-    <input\r
-      type="password"\r
-      formControlName="password"\r
-      class="form-control"\r
-      [ngClass]="{ 'is-invalid': submitted && f.password.errors }"\r
-    />\r
-    @if (submitted && f.password.errors) {\r
-    <div class="error-message">\r
-      @if (f.password.errors.required) {\r
-      <div>Password is required</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-item text-align-center">\r
-    @if (loading) {\r
-    <img\r
-      class="pl-3"\r
-      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="\r
-    />\r
-    }\r
-    <br />\r
-    <button [disabled]="loading" class="btn btn-primary">Login</button>\r
-    <br />\r
-    <br />\r
-    <a routerLink="/register" class="btn btn-link">Register</a>\r
-  </div>\r
-  <alert></alert>\r
-</form>\r
+    args: [{ changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+  <div class="form-item">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      formControlName="username"
+      class="form-control"
+      autofocus
+      [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+    />
+    @if (submitted && f.username.errors) {
+    <div class="error-message">
+      @if (f.username.errors.required) {
+      <div>Username is required</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-item">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      formControlName="password"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+    />
+    @if (submitted && f.password.errors) {
+    <div class="error-message">
+      @if (f.password.errors.required) {
+      <div>Password is required</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-item text-align-center">
+    @if (loading) {
+    <img
+      class="pl-3"
+      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+    />
+    }
+    <br />
+    <button [disabled]="loading" class="btn btn-primary">Login</button>
+    <br />
+    <br />
+    <a routerLink="/register" class="btn btn-link">Register</a>
+  </div>
+  <alert></alert>
+</form>
 `, styles: ["/* src/app/common/login.css */\n.login-form {\n  display: flex;\n  justify-items: center;\n  align-items: center;\n  flex-direction: column;\n  border: 1px dotted black;\n  padding: 20px;\n  margin: 0 auto;\n  width: 300px;\n}\nh2 {\n  text-align: center;\n}\n.form-item,\nlabel {\n  padding: 5px;\n}\nbutton,\na {\n  margin: 5px;\n}\n.is-invalid {\n  border: 1px solid red;\n}\n.error-message {\n  color: red;\n}\n/*# sourceMappingURL=login-UR7H7DHF.css.map */\n"] }]
   }], () => [{ type: UntypedFormBuilder }, { type: ActivatedRoute }, { type: Router }, { type: AuthenticationService }, { type: AlertService }, { type: SyncAPI }], null);
 })();
@@ -45260,101 +45260,101 @@ var RegisterComponent = class _RegisterComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(RegisterComponent, [{
     type: Component,
-    args: [{ changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h2>Register</h2>\r
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">\r
-  <div class="form-group">\r
-    <label for="firstName">First Name</label>\r
-    <input\r
-      type="text"\r
-      formControlName="firstName"\r
-      class="form-control"\r
-      [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"\r
-    />\r
-    @if (submitted && f.firstName.errors) {\r
-    <div class="invalid-feedback">\r
-      @if (f.firstName.errors.required) {\r
-      <div>First Name is required</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-group">\r
-    <label for="lastName">Last Name</label>\r
-    <input\r
-      type="text"\r
-      formControlName="lastName"\r
-      class="form-control"\r
-      [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"\r
-    />\r
-    @if (submitted && f.lastName.errors) {\r
-    <div class="invalid-feedback">\r
-      @if (f.lastName.errors.required) {\r
-      <div>Last Name is required</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-group">\r
-    <label for="username">Username</label>\r
-    <input\r
-      type="text"\r
-      formControlName="username"\r
-      class="form-control"\r
-      [ngClass]="{ 'is-invalid': submitted && f.username.errors }"\r
-    />\r
-    @if (submitted && f.username.errors) {\r
-    <div class="invalid-feedback">\r
-      @if (f.username.errors.required) {\r
-      <div>Username is required</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-group">\r
-    <label for="password">Password</label>\r
-    <input\r
-      type="password"\r
-      formControlName="password"\r
-      class="form-control"\r
-      [ngClass]="{ 'is-invalid': submitted && f.password.errors }"\r
-    />\r
-    @if (submitted && f.password.errors) {\r
-    <div class="invalid-feedback">\r
-      @if (f.password.errors.required) {\r
-      <div>Password is required</div>\r
-      } @if (f.password.errors.minlength) {\r
-      <div>Password must be at least 6 characters</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-group">\r
-    <label for="email">Email</label>\r
-    <input\r
-      type="email"\r
-      formControlName="email"\r
-      class="form-control"\r
-      [ngClass]="{ 'is-invalid': submitted && f.email.errors }"\r
-    />\r
-    @if (submitted && f.email.errors) {\r
-    <div class="invalid-feedback">\r
-      @if (f.email.errors.required) {\r
-      <div>Email is required</div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-  <div class="form-group">\r
-    <button [disabled]="loading" class="btn btn-primary">Register</button>\r
-    @if (loading) {\r
-    <img\r
-      class="pl-3"\r
-      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="\r
-    />\r
-    }\r
-    <a routerLink="/login" class="btn btn-link">Cancel</a>\r
-  </div>\r
-</form>\r
+    args: [{ changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h2>Register</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      type="text"
+      formControlName="firstName"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+    />
+    @if (submitted && f.firstName.errors) {
+    <div class="invalid-feedback">
+      @if (f.firstName.errors.required) {
+      <div>First Name is required</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input
+      type="text"
+      formControlName="lastName"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+    />
+    @if (submitted && f.lastName.errors) {
+    <div class="invalid-feedback">
+      @if (f.lastName.errors.required) {
+      <div>Last Name is required</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      formControlName="username"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+    />
+    @if (submitted && f.username.errors) {
+    <div class="invalid-feedback">
+      @if (f.username.errors.required) {
+      <div>Username is required</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      formControlName="password"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+    />
+    @if (submitted && f.password.errors) {
+    <div class="invalid-feedback">
+      @if (f.password.errors.required) {
+      <div>Password is required</div>
+      } @if (f.password.errors.minlength) {
+      <div>Password must be at least 6 characters</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      formControlName="email"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+    />
+    @if (submitted && f.email.errors) {
+    <div class="invalid-feedback">
+      @if (f.email.errors.required) {
+      <div>Email is required</div>
+      }
+    </div>
+    }
+  </div>
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-primary">Register</button>
+    @if (loading) {
+    <img
+      class="pl-3"
+      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+    />
+    }
+    <a routerLink="/login" class="btn btn-link">Cancel</a>
+  </div>
+</form>
 ` }]
   }], () => [{ type: UntypedFormBuilder }, { type: Router }, { type: AuthenticationService }, { type: UserService }, { type: AlertService }], null);
 })();
@@ -69174,7 +69174,7 @@ var StopwatchComponent = class _StopwatchComponent {
       \u0275\u0275advance();
       \u0275\u0275property("ngIf", ctx.showControls);
     }
-  }, dependencies: [CommonModule, NgIf], styles: ["\n.stopwatch-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-toggle-and-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.add-minutes-group[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-left: 8px;\n}\n.stopwatch-time[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  min-width: 90px;\n  text-align: center;\n}\nbutton[_ngcontent-%COMP%] {\n  padding: 4px 10px;\n}\n.stopwatch-timestamp-edit[_ngcontent-%COMP%] {\n  margin-top: 8px;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.stopwatch-timestamp-edit[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 120px;\n  text-align: center;\n}\n.stopwatch-date[_ngcontent-%COMP%] {\n  margin-left: 10px;\n  font-size: 1em;\n  color: #555;\n  min-width: 200px;\n}\n/*# sourceMappingURL=Stopwatch.component-SO4ELC7W.css.map */"] });
+  }, dependencies: [CommonModule, NgIf], styles: ["\n.stopwatch-container[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-toggle-and-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-controls[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.add-minutes-group[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-left: 8px;\n}\n.stopwatch-time[_ngcontent-%COMP%] {\n  font-size: 1.2em;\n  min-width: 90px;\n  text-align: center;\n}\nbutton[_ngcontent-%COMP%] {\n  padding: 4px 10px;\n}\n.stopwatch-timestamp-edit[_ngcontent-%COMP%] {\n  margin-top: 8px;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.stopwatch-timestamp-edit[_ngcontent-%COMP%]   input[_ngcontent-%COMP%] {\n  width: 120px;\n  text-align: center;\n}\n.stopwatch-date[_ngcontent-%COMP%] {\n  margin-left: 10px;\n  font-size: 1em;\n  color: #555;\n  min-width: 200px;\n}\n/*# sourceMappingURL=Stopwatch.component-2ZHHWKD5.css.map */"] });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(StopwatchComponent, [{
@@ -69212,7 +69212,7 @@ var StopwatchComponent = class _StopwatchComponent {
         <button (click)="addMinutes(15)">+15min</button>
       </div>
     </div>
-  `, styles: ["/* angular:styles/component:css;5c69346132dd46870a41ee918a01ac7d56d3b5080bd2fc2d9b738440ca642a20;C:/data/code/intranet/src/app/task/Stopwatch.component.ts */\n.stopwatch-container {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-toggle-and-controls {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.add-minutes-group {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-left: 8px;\n}\n.stopwatch-time {\n  font-size: 1.2em;\n  min-width: 90px;\n  text-align: center;\n}\nbutton {\n  padding: 4px 10px;\n}\n.stopwatch-timestamp-edit {\n  margin-top: 8px;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.stopwatch-timestamp-edit input {\n  width: 120px;\n  text-align: center;\n}\n.stopwatch-date {\n  margin-left: 10px;\n  font-size: 1em;\n  color: #555;\n  min-width: 200px;\n}\n/*# sourceMappingURL=Stopwatch.component-SO4ELC7W.css.map */\n"] }]
+  `, styles: ["/* angular:styles/component:css;5c69346132dd46870a41ee918a01ac7d56d3b5080bd2fc2d9b738440ca642a20;C:/data/code/intranet-copy/src/app/task/Stopwatch.component.ts */\n.stopwatch-container {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-toggle-and-controls {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.stopwatch-controls {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n}\n.add-minutes-group {\n  display: flex;\n  align-items: center;\n  gap: 6px;\n  margin-left: 8px;\n}\n.stopwatch-time {\n  font-size: 1.2em;\n  min-width: 90px;\n  text-align: center;\n}\nbutton {\n  padding: 4px 10px;\n}\n.stopwatch-timestamp-edit {\n  margin-top: 8px;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n.stopwatch-timestamp-edit input {\n  width: 120px;\n  text-align: center;\n}\n.stopwatch-date {\n  margin-left: 10px;\n  font-size: 1em;\n  color: #555;\n  min-width: 200px;\n}\n/*# sourceMappingURL=Stopwatch.component-2ZHHWKD5.css.map */\n"] }]
   }], null, null);
 })();
 (() => {
@@ -70405,217 +70405,217 @@ var TaskComponent = class _TaskComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TaskComponent, [{
     type: Component,
-    args: [{ selector: "task", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div\r
-  id="{{ task.tsk_id }}"\r
-  [ngClass]="{\r
-    'task-item-in-process': task.tsk_ctg_in_process === 2\r
-  }"\r
->\r
-  <input\r
-    type="checkbox"\r
-    [checked]="task.tsk_ctg_status === 3"\r
-    (click)="handlers.onTaskMarkAsDone(task, $event)"\r
-  />\r
-  <!-- #region Time tracking history -->\r
-  @if (task.tsk_total_time_spent !== 0 && options.optShowTimeTrackingHistory) {\r
-  <span\r
-    [ngClass]="{\r
-      'task-open-with-tt':\r
-        task.tsk_ctg_status === this.taskStatus.OPEN &&\r
-        task.tsk_time_history.length > 0\r
-    }"\r
-    >[{{ task.tsk_time_history.length }}/<time-format\r
-      class="notification-date"\r
-      [value]="task.tsk_total_time_spent"\r
-      format="[HH]:[mm]:[ss]"\r
-    ></time-format\r
-    >]\r
-    <!-- #region Task with time tracking history and not in progress -->\r
-    @if (task.tsk_ctg_in_process !== 2 && task.tsk_time_history.length) {\r
-    <span>\r
-      [<span\r
-        class="tt-start"\r
-        contenteditable="true"\r
-        spellcheck="false"\r
-        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'start')"\r
-        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&\r
-        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start\r
-        | date: "HH:mm:ss" }}</span\r
-      >\r
-      -\r
-      <span\r
-        class="tt-end"\r
-        contenteditable="true"\r
-        spellcheck="false"\r
-        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'end')"\r
-        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&\r
-        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_end |\r
-        date: "HH:mm:ss" }}</span\r
-      >]\r
-    </span>\r
-    }\r
-    <!-- #endregion -->\r
-    <!-- #region Task with time tracking history and in progress -->\r
-    @if (task.tsk_ctg_in_process === 2 && task.tsk_time_history.length) {\r
-    <span>\r
-      [<span\r
-        class="tt-start"\r
-        contenteditable="true"\r
-        spellcheck="false"\r
-        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'start')"\r
-        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&\r
-        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start\r
-        | date: "HH:mm:ss" }}</span\r
-      >\r
-      <!-- #region Toggle timer mode -->\r
-      <span\r
-        (click)="handlers.onToggleTimeMode()"\r
-        class="clickable"\r
-        title="click to toggle timer mode"\r
-      >\r
-        {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : "" }}\r
-      </span>\r
-      <!-- #endregion -->\r
-    </span>\r
-    }\r
-    <!-- #endregion -->\r
-  </span>\r
-  } @if (task.tsk_date_done && options.optShowTimeTrackingHistory) {\r
-  <span\r
-    >({{ TEXT.FINISHED_AT }}:\r
-    <span contenteditable="true" spellcheck="false"\r
-      >{{ task.tsk_date_done | date: format }}</span\r
-    >)&nbsp;</span\r
-  >\r
-  } @if (task.tsk_date_done && !options.optShowTimeTrackingHistory) {\r
-  <span\r
-    >({{ TEXT.FINISHED_AT }}:\r
-    <span contenteditable="true" spellcheck="false"\r
-      >{{ task.tsk_date_done | date: 'yyyy-MM-dd' }}</span\r
-    >)&nbsp;</span\r
-  >\r
-  }\r
-  <!-- #endregion -->\r
-  <!-- #region Qualifiers styling -->\r
-  @if (task.tsk_qualifiers.indexOf('star') !== -1) {\r
-  <span class="task-qualifier-icon">&#9733;</span>\r
-  } @if (task.tsk_qualifiers.indexOf('urgent') !== -1) {\r
-  <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
-  } @if (task.tsk_qualifiers.indexOf('people') !== -1) {\r
-  <span class="task-qualifier-icon">\r
-    <img\r
-      src="/assets/icons/people.svg"\r
-      alt="Requires reaching out people"\r
-      title="Requires reaching out people"\r
-    />\r
-  </span>\r
-  } @if (task.tsk_qualifiers.indexOf('mobile') !== -1) {\r
-  <span class="task-qualifier-icon">\r
-    <img\r
-      src="/assets/icons/smartphone.svg"\r
-      alt="Can be done using phone"\r
-      title="Can be done using phone"\r
-    />\r
-  </span>\r
-  } @if (task.tsk_qualifiers.indexOf('flag') !== -1) {\r
-  <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
-  } @if (task.tsk_qualifiers.indexOf('blocked') !== -1) {\r
-  <span class="task-qualifier-icon">&#10006;</span>\r
-  } @if (task['inNextToDo']) {\r
-  <span class="task-next-todo-icon">\r
-    <img\r
-      src="/assets/icons/energy.svg"\r
-      alt="In Next To Do Today listing"\r
-      title="In Next To Do Today listing"\r
-    />\r
-  </span>\r
-  }\r
-  <!-- #endregion -->\r
-  <!-- #region Main task description -->\r
-  <span\r
-    contenteditable="true"\r
-    spellcheck="false"\r
-    [ngClass]="{\r
-      'task-done': task.tsk_ctg_status === this.taskStatus.CLOSED,\r
-      'task-in-process': task.tsk_ctg_in_process === 2,\r
-      'task-highlighted': task.tsk_qualifiers.indexOf('highlighted') !== -1,\r
-      'task-priority': task.tsk_qualifiers.indexOf('priority') !== -1,\r
-      'task-important': task.tsk_qualifiers.indexOf('important') !== -1,\r
-      'task-unexpected': task.tsk_qualifiers.indexOf('unexpected') !== -1,\r
-      'task-q-progressed': task.tsk_qualifiers.indexOf('progressed') !== -1,\r
-      'task-directions': task.tsk_qualifiers.indexOf('directions') !== -1,\r
-      'task-critical': task.tsk_qualifiers.indexOf('critical') !== -1\r
-    }"\r
-    (keyup)="handlerTaskKeyUp(task, $event)"\r
-    (blur)="handlerTaskBlur(task, $event)"\r
-    (focus)="handlerTaskFocus(task, $event)"\r
-    (keydown)="handlerTaskKeyDown(task, $event)"\r
-    tabindex="0"\r
-    class="editable task-text"\r
-    >{{ task.tsk_name }}</span\r
-  >\r
-  <!-- #endregion -->\r
-  <!-- #region Link -->\r
-  @if (task.tsk_url) {\r
-  <span class="task-link"\r
-    ><a href="{{ task.tsk_url }}" title="{{ task.tsk_url }}" target="_blank"\r
-      >link</a\r
-    >&nbsp;</span\r
-  >\r
-  }\r
-  <!-- #endregion -->\r
-  <!-- #region ETA -->\r
-  <span\r
-    [attr.contenteditable]="options.optAllowToEditETA"\r
-    spellcheck="false"\r
-    (blur)="handlers.onTaskEditEstimatedDuration(task, $event)"\r
-    (keydown)="handlers.onTaskEditEtaKeyDown(task, $event)"\r
-    [ngClass]="{ 'task-no-eta': task.tsk_estimated_duration === 0 }"\r
-    class="task-eta"\r
-    >{{ formatTime(task.tsk_estimated_duration * 60, "#h#m") }}</span\r
-  >\r
-  <!-- #endregion -->\r
-  <!-- #region Tags -->\r
-  @if (task.tsk_tags) {\r
-  <span class="task-tags"\r
-    >&nbsp;@for (tag of task.tsk_tags.split(' '); track tag) {\r
-    <span (click)="handlers.onShowTagStats(tag)" class="tag"\r
-      >#{{ tag }}&nbsp;</span\r
-    >\r
-    }\r
-  </span>\r
-  }\r
-  <!-- #endregion -->\r
-  <!-- #region Schedule -->\r
-  @if (task.tsk_schedule_date_start) {\r
-  <span\r
-    ><strong\r
-      >&nbsp;at {{ formatDateTime(task.tsk_schedule_date_start) }}\r
-      &#9200;</strong\r
-    ></span\r
-  >\r
-  }&nbsp;@if (options.optViewElapsedDays) {\r
-  <span [ngClass]="handlers.onGetTaskAgeClass(task)"\r
-    >{{ handlers.onGetTaskAge(task) }}</span\r
-  >\r
-  }\r
-  <!-- #endregion -->\r
-  <!-- #region Record name -->\r
-  @if (options.optShowRecordNameInline) {\r
-  <span class="task-record-name">[{{ task.tsk_id_record }}]</span>\r
-  }\r
-  <!-- #endregion -->\r
-  <!-- #region Is in backlog -->\r
-  @if (options.optShowBadgeIfTaskIsInBacklog && task.tsk_ctg_status === 1) {\r
-  <span class="task-badge-status-backlog">BACKLOG</span>\r
-  }\r
-  <!-- #endregion -->\r
-  @if (task['not_sync']) {\r
-  <span>(Not in sync)</span>\r
-  }&nbsp;@if (handlers.onViewTaskDetails && options.optShowDetailsButton) {\r
-  <button (click)="handlers.onViewTaskDetails(task)">details</button>\r
-  }\r
-</div>\r
+    args: [{ selector: "task", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div
+  id="{{ task.tsk_id }}"
+  [ngClass]="{
+    'task-item-in-process': task.tsk_ctg_in_process === 2
+  }"
+>
+  <input
+    type="checkbox"
+    [checked]="task.tsk_ctg_status === 3"
+    (click)="handlers.onTaskMarkAsDone(task, $event)"
+  />
+  <!-- #region Time tracking history -->
+  @if (task.tsk_total_time_spent !== 0 && options.optShowTimeTrackingHistory) {
+  <span
+    [ngClass]="{
+      'task-open-with-tt':
+        task.tsk_ctg_status === this.taskStatus.OPEN &&
+        task.tsk_time_history.length > 0
+    }"
+    >[{{ task.tsk_time_history.length }}/<time-format
+      class="notification-date"
+      [value]="task.tsk_total_time_spent"
+      format="[HH]:[mm]:[ss]"
+    ></time-format
+    >]
+    <!-- #region Task with time tracking history and not in progress -->
+    @if (task.tsk_ctg_in_process !== 2 && task.tsk_time_history.length) {
+    <span>
+      [<span
+        class="tt-start"
+        contenteditable="true"
+        spellcheck="false"
+        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'start')"
+        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
+        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start
+        | date: "HH:mm:ss" }}</span
+      >
+      -
+      <span
+        class="tt-end"
+        contenteditable="true"
+        spellcheck="false"
+        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'end')"
+        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
+        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_end |
+        date: "HH:mm:ss" }}</span
+      >]
+    </span>
+    }
+    <!-- #endregion -->
+    <!-- #region Task with time tracking history and in progress -->
+    @if (task.tsk_ctg_in_process === 2 && task.tsk_time_history.length) {
+    <span>
+      [<span
+        class="tt-start"
+        contenteditable="true"
+        spellcheck="false"
+        (keyup)="handlers.onTimeTrackingQuickEdit(task, $event, 'start')"
+        >{{ task.tsk_time_history[task.tsk_time_history.length - 1] &&
+        task.tsk_time_history[task.tsk_time_history.length - 1] .tsh_date_start
+        | date: "HH:mm:ss" }}</span
+      >
+      <!-- #region Toggle timer mode -->
+      <span
+        (click)="handlers.onToggleTimeMode()"
+        class="clickable"
+        title="click to toggle timer mode"
+      >
+        {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : "" }}
+      </span>
+      <!-- #endregion -->
+    </span>
+    }
+    <!-- #endregion -->
+  </span>
+  } @if (task.tsk_date_done && options.optShowTimeTrackingHistory) {
+  <span
+    >({{ TEXT.FINISHED_AT }}:
+    <span contenteditable="true" spellcheck="false"
+      >{{ task.tsk_date_done | date: format }}</span
+    >)&nbsp;</span
+  >
+  } @if (task.tsk_date_done && !options.optShowTimeTrackingHistory) {
+  <span
+    >({{ TEXT.FINISHED_AT }}:
+    <span contenteditable="true" spellcheck="false"
+      >{{ task.tsk_date_done | date: 'yyyy-MM-dd' }}</span
+    >)&nbsp;</span
+  >
+  }
+  <!-- #endregion -->
+  <!-- #region Qualifiers styling -->
+  @if (task.tsk_qualifiers.indexOf('star') !== -1) {
+  <span class="task-qualifier-icon">&#9733;</span>
+  } @if (task.tsk_qualifiers.indexOf('urgent') !== -1) {
+  <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>
+  } @if (task.tsk_qualifiers.indexOf('people') !== -1) {
+  <span class="task-qualifier-icon">
+    <img
+      src="/assets/icons/people.svg"
+      alt="Requires reaching out people"
+      title="Requires reaching out people"
+    />
+  </span>
+  } @if (task.tsk_qualifiers.indexOf('mobile') !== -1) {
+  <span class="task-qualifier-icon">
+    <img
+      src="/assets/icons/smartphone.svg"
+      alt="Can be done using phone"
+      title="Can be done using phone"
+    />
+  </span>
+  } @if (task.tsk_qualifiers.indexOf('flag') !== -1) {
+  <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>
+  } @if (task.tsk_qualifiers.indexOf('blocked') !== -1) {
+  <span class="task-qualifier-icon">&#10006;</span>
+  } @if (task['inNextToDo']) {
+  <span class="task-next-todo-icon">
+    <img
+      src="/assets/icons/energy.svg"
+      alt="In Next To Do Today listing"
+      title="In Next To Do Today listing"
+    />
+  </span>
+  }
+  <!-- #endregion -->
+  <!-- #region Main task description -->
+  <span
+    contenteditable="true"
+    spellcheck="false"
+    [ngClass]="{
+      'task-done': task.tsk_ctg_status === this.taskStatus.CLOSED,
+      'task-in-process': task.tsk_ctg_in_process === 2,
+      'task-highlighted': task.tsk_qualifiers.indexOf('highlighted') !== -1,
+      'task-priority': task.tsk_qualifiers.indexOf('priority') !== -1,
+      'task-important': task.tsk_qualifiers.indexOf('important') !== -1,
+      'task-unexpected': task.tsk_qualifiers.indexOf('unexpected') !== -1,
+      'task-q-progressed': task.tsk_qualifiers.indexOf('progressed') !== -1,
+      'task-directions': task.tsk_qualifiers.indexOf('directions') !== -1,
+      'task-critical': task.tsk_qualifiers.indexOf('critical') !== -1
+    }"
+    (keyup)="handlerTaskKeyUp(task, $event)"
+    (blur)="handlerTaskBlur(task, $event)"
+    (focus)="handlerTaskFocus(task, $event)"
+    (keydown)="handlerTaskKeyDown(task, $event)"
+    tabindex="0"
+    class="editable task-text"
+    >{{ task.tsk_name }}</span
+  >
+  <!-- #endregion -->
+  <!-- #region Link -->
+  @if (task.tsk_url) {
+  <span class="task-link"
+    ><a href="{{ task.tsk_url }}" title="{{ task.tsk_url }}" target="_blank"
+      >link</a
+    >&nbsp;</span
+  >
+  }
+  <!-- #endregion -->
+  <!-- #region ETA -->
+  <span
+    [attr.contenteditable]="options.optAllowToEditETA"
+    spellcheck="false"
+    (blur)="handlers.onTaskEditEstimatedDuration(task, $event)"
+    (keydown)="handlers.onTaskEditEtaKeyDown(task, $event)"
+    [ngClass]="{ 'task-no-eta': task.tsk_estimated_duration === 0 }"
+    class="task-eta"
+    >{{ formatTime(task.tsk_estimated_duration * 60, "#h#m") }}</span
+  >
+  <!-- #endregion -->
+  <!-- #region Tags -->
+  @if (task.tsk_tags) {
+  <span class="task-tags"
+    >&nbsp;@for (tag of task.tsk_tags.split(' '); track tag) {
+    <span (click)="handlers.onShowTagStats(tag)" class="tag"
+      >#{{ tag }}&nbsp;</span
+    >
+    }
+  </span>
+  }
+  <!-- #endregion -->
+  <!-- #region Schedule -->
+  @if (task.tsk_schedule_date_start) {
+  <span
+    ><strong
+      >&nbsp;at {{ formatDateTime(task.tsk_schedule_date_start) }}
+      &#9200;</strong
+    ></span
+  >
+  }&nbsp;@if (options.optViewElapsedDays) {
+  <span [ngClass]="handlers.onGetTaskAgeClass(task)"
+    >{{ handlers.onGetTaskAge(task) }}</span
+  >
+  }
+  <!-- #endregion -->
+  <!-- #region Record name -->
+  @if (options.optShowRecordNameInline) {
+  <span class="task-record-name">[{{ task.tsk_id_record }}]</span>
+  }
+  <!-- #endregion -->
+  <!-- #region Is in backlog -->
+  @if (options.optShowBadgeIfTaskIsInBacklog && task.tsk_ctg_status === 1) {
+  <span class="task-badge-status-backlog">BACKLOG</span>
+  }
+  <!-- #endregion -->
+  @if (task['not_sync']) {
+  <span>(Not in sync)</span>
+  }&nbsp;@if (handlers.onViewTaskDetails && options.optShowDetailsButton) {
+  <button (click)="handlers.onViewTaskDetails(task)">details</button>
+  }
+</div>
 `, styles: ["/* src/app/task/task.css */\nspan.task-badge-status-backlog {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n/*# sourceMappingURL=task-VJEB4HXQ.css.map */\n"] }]
   }], () => [{ type: SyncAPI }], { task: [{
     type: Input
@@ -70720,48 +70720,48 @@ var TaskToolbarComponent = class _TaskToolbarComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TaskToolbarComponent, [{
     type: Component,
-    args: [{ selector: "task-toolbar", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (task) {\r
-<div\r
-  class="task-toolbar"\r
-  [ngClass]="{\r
-  'mobile-only': !options.optShowTaskToolbar\r
-}"\r
->\r
-  <div>{{ task.tsk_name }}</div>\r
-  <div class="task-toolbar-content">\r
-    <!--\r
-      <span\r
-        class="play-button clickable"\r
-        *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"\r
-        (click)="toggleTimeTracking(selectedTask, $event)"\r
-        >&#9654;</span\r
-        >\r
-        <span\r
-          class="stop-button clickable"\r
-          *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"\r
-          (click)="toggleTimeTracking(selectedTask, $event)"\r
-          >&#9724;</span\r
-          >\r
-          <span\r
-            class="set-selected-button clickable"\r
-            (click)="handlerViewDetails(task)"\r
-            >&#9998;</span\r
-            >\r
-            -->\r
-    <span\r
-      class="task-toolbar-btn-move-up clickable"\r
-      (click)="handlerMoveUp(task, $event, groupTasks)"\r
-      >up</span\r
-    >\r
-    <span\r
-      class="task-toolbar-btn-move-up clickable"\r
-      (click)="handlerMoveDown(task, $event, groupTasks)"\r
-      >down</span\r
-    >\r
-    <span class="close-button clickable" (click)="task = null">&times;</span>\r
-  </div>\r
-</div>\r
-}\r
+    args: [{ selector: "task-toolbar", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (task) {
+<div
+  class="task-toolbar"
+  [ngClass]="{
+  'mobile-only': !options.optShowTaskToolbar
+}"
+>
+  <div>{{ task.tsk_name }}</div>
+  <div class="task-toolbar-content">
+    <!--
+      <span
+        class="play-button clickable"
+        *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 1"
+        (click)="toggleTimeTracking(selectedTask, $event)"
+        >&#9654;</span
+        >
+        <span
+          class="stop-button clickable"
+          *ngIf="selectedTask && selectedTask.tsk_ctg_in_process === 2"
+          (click)="toggleTimeTracking(selectedTask, $event)"
+          >&#9724;</span
+          >
+          <span
+            class="set-selected-button clickable"
+            (click)="handlerViewDetails(task)"
+            >&#9998;</span
+            >
+            -->
+    <span
+      class="task-toolbar-btn-move-up clickable"
+      (click)="handlerMoveUp(task, $event, groupTasks)"
+      >up</span
+    >
+    <span
+      class="task-toolbar-btn-move-up clickable"
+      (click)="handlerMoveDown(task, $event, groupTasks)"
+      >down</span
+    >
+    <span class="close-button clickable" (click)="task = null">&times;</span>
+  </div>
+</div>
+}
 `, styles: ["/* src/app/task/task-toolbar.css */\n.task-toolbar {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  background-color: var(--background-color);\n  width: 100%;\n  height: auto;\n  border-top: 1px solid black;\n}\n.task-toolbar-content {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  font-size: 200%;\n}\n/*# sourceMappingURL=task-toolbar-QZ55DDNV.css.map */\n"] }]
   }], () => [{ type: SyncAPI }], { task: [{
     type: Input
@@ -70876,7 +70876,7 @@ var _forTrack8 = ($index, $item) => $item.displayName;
 function TasksComponent_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "input", 20);
+    \u0275\u0275elementStart(0, "input", 21);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_2_Template_input_keyup_0_listener($event) {
       \u0275\u0275restoreView(_r1);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -70900,7 +70900,7 @@ function TasksComponent_Conditional_2_Template(rf, ctx) {
 function TasksComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r3 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 2)(1, "textarea", 21);
+    \u0275\u0275elementStart(0, "div", 2)(1, "textarea", 22);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_3_Template_textarea_keyup_1_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -70914,10 +70914,10 @@ function TasksComponent_Conditional_3_Template(rf, ctx) {
     });
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
-    \u0275\u0275elementStart(2, "label", 22);
+    \u0275\u0275elementStart(2, "label", 23);
     \u0275\u0275text(3, "Target date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "input", 23);
+    \u0275\u0275elementStart(4, "input", 24);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_3_Template_input_ngModelChange_4_listener($event) {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -70941,7 +70941,7 @@ function TasksComponent_Conditional_3_Template(rf, ctx) {
 function TasksComponent_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "button", 24);
+    \u0275\u0275elementStart(0, "button", 25);
     \u0275\u0275listener("click", function TasksComponent_Conditional_4_Template_button_click_0_listener() {
       \u0275\u0275restoreView(_r4);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71024,7 +71024,7 @@ function TasksComponent_Conditional_11_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_12_Conditional_40_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 53);
+    \u0275\u0275elementStart(0, "option", 54);
     \u0275\u0275text(1, "Grid Lanes");
     \u0275\u0275elementEnd();
   }
@@ -71032,7 +71032,7 @@ function TasksComponent_Conditional_12_Conditional_40_Template(rf, ctx) {
 function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
   if (rf & 1) {
     const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 58);
+    \u0275\u0275elementStart(0, "div")(1, "checkbox-option", 59);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_1_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71040,7 +71040,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "checkbox-option", 59);
+    \u0275\u0275elementStart(2, "checkbox-option", 60);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_2_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71048,7 +71048,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "checkbox-option", 60);
+    \u0275\u0275elementStart(3, "checkbox-option", 61);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_3_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71056,7 +71056,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "checkbox-option", 61);
+    \u0275\u0275elementStart(4, "checkbox-option", 62);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_4_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71064,7 +71064,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "checkbox-option", 62);
+    \u0275\u0275elementStart(5, "checkbox-option", 63);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_5_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71072,7 +71072,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "checkbox-option", 63);
+    \u0275\u0275elementStart(6, "checkbox-option", 64);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_6_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71080,7 +71080,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "checkbox-option", 64);
+    \u0275\u0275elementStart(7, "checkbox-option", 65);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71088,7 +71088,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "checkbox-option", 65);
+    \u0275\u0275elementStart(8, "checkbox-option", 66);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_8_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71096,7 +71096,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 66);
+    \u0275\u0275elementStart(9, "checkbox-option", 67);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71104,7 +71104,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 67);
+    \u0275\u0275elementStart(10, "checkbox-option", 68);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71112,7 +71112,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 68);
+    \u0275\u0275elementStart(11, "checkbox-option", 69);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71120,7 +71120,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 69);
+    \u0275\u0275elementStart(12, "checkbox-option", 70);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71128,7 +71128,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 70);
+    \u0275\u0275elementStart(13, "checkbox-option", 71);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71136,7 +71136,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "checkbox-option", 71);
+    \u0275\u0275elementStart(14, "checkbox-option", 72);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_14_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71144,7 +71144,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(15, "checkbox-option", 72);
+    \u0275\u0275elementStart(15, "checkbox-option", 73);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_15_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71152,7 +71152,7 @@ function TasksComponent_Conditional_12_Conditional_52_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.calculateIndicators());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "checkbox-option", 73);
+    \u0275\u0275elementStart(16, "checkbox-option", 74);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Conditional_52_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r10);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71202,7 +71202,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     const _r9 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 25);
+    \u0275\u0275elementStart(2, "button", 26);
     \u0275\u0275listener("click", function TasksComponent_Conditional_12_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71211,104 +71211,104 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275text(3, " delete all tasks ");
     \u0275\u0275elementEnd();
     \u0275\u0275element(4, "br");
-    \u0275\u0275elementStart(5, "div", 26);
+    \u0275\u0275elementStart(5, "div", 27);
     \u0275\u0275text(6, "Showing / hiding sections");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(7, "checkbox-option", 27);
+    \u0275\u0275elementStart(7, "checkbox-option", 28);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_7_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "checkbox-option", 28);
+    \u0275\u0275elementStart(8, "checkbox-option", 29);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_8_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "checkbox-option", 29);
+    \u0275\u0275elementStart(9, "checkbox-option", 30);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_9_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "checkbox-option", 30);
+    \u0275\u0275elementStart(10, "checkbox-option", 31);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_10_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "checkbox-option", 31);
+    \u0275\u0275elementStart(11, "checkbox-option", 32);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_11_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "checkbox-option", 32);
+    \u0275\u0275elementStart(12, "checkbox-option", 33);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_12_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(13, "checkbox-option", 33);
+    \u0275\u0275elementStart(13, "checkbox-option", 34);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_13_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "div", 26);
+    \u0275\u0275elementStart(14, "div", 27);
     \u0275\u0275text(15, "Customize features");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(16, "checkbox-option", 34);
+    \u0275\u0275elementStart(16, "checkbox-option", 35);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_16_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "checkbox-option", 35);
+    \u0275\u0275elementStart(17, "checkbox-option", 36);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_17_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(18, "checkbox-option", 36);
+    \u0275\u0275elementStart(18, "checkbox-option", 37);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_18_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(19, "checkbox-option", 37);
+    \u0275\u0275elementStart(19, "checkbox-option", 38);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_19_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(20, "checkbox-option", 38);
+    \u0275\u0275elementStart(20, "checkbox-option", 39);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_20_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(21, "checkbox-option", 39);
+    \u0275\u0275elementStart(21, "checkbox-option", 40);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_21_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(22, "checkbox-option", 40);
+    \u0275\u0275elementStart(22, "checkbox-option", 41);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_22_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71316,63 +71316,63 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(23, "checkbox-option", 41);
+    \u0275\u0275elementStart(23, "checkbox-option", 42);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_23_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(24, "checkbox-option", 42);
+    \u0275\u0275elementStart(24, "checkbox-option", 43);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_24_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(25, "checkbox-option", 43);
+    \u0275\u0275elementStart(25, "checkbox-option", 44);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_25_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(26, "checkbox-option", 44);
+    \u0275\u0275elementStart(26, "checkbox-option", 45);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_26_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(27, "checkbox-option", 45);
+    \u0275\u0275elementStart(27, "checkbox-option", 46);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_27_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(28, "checkbox-option", 46);
+    \u0275\u0275elementStart(28, "checkbox-option", 47);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_28_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(29, "checkbox-option", 47);
+    \u0275\u0275elementStart(29, "checkbox-option", 48);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_29_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(30, "checkbox-option", 48);
+    \u0275\u0275elementStart(30, "checkbox-option", 49);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_30_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOptionById($event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(31, "checkbox-option", 49);
+    \u0275\u0275elementStart(31, "checkbox-option", 50);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_31_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71382,7 +71382,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(32, "div")(33, "label");
     \u0275\u0275text(34, "Grid Layout");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(35, "select", 50);
+    \u0275\u0275elementStart(35, "select", 51);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_12_Template_select_ngModelChange_35_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71394,17 +71394,17 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.onGridLayoutChange($event.target.value));
     });
-    \u0275\u0275elementStart(36, "option", 51);
+    \u0275\u0275elementStart(36, "option", 52);
     \u0275\u0275text(37, "Float");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(38, "option", 52);
+    \u0275\u0275elementStart(38, "option", 53);
     \u0275\u0275text(39, "Grid");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_12_Conditional_40_Template, 2, 0, "option", 53);
+    \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_12_Conditional_40_Template, 2, 0, "option", 54);
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(41, "div")(42, "input", 54);
+    \u0275\u0275elementStart(41, "div")(42, "input", 55);
     \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_42_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71420,7 +71420,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(43, "label");
     \u0275\u0275text(44, "Record listing width (in px, desktop only, minimum is 200)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(45, "div")(46, "input", 55);
+    \u0275\u0275elementStart(45, "div")(46, "input", 56);
     \u0275\u0275twoWayListener("valueChange", function TasksComponent_Conditional_12_Template_input_valueChange_46_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71436,10 +71436,10 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(47, "label");
     \u0275\u0275text(48, "Record listing height (in px, desktop only)");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(49, "div", 26);
+    \u0275\u0275elementStart(49, "div", 27);
     \u0275\u0275text(50, "Showing / hiding Indicators");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(51, "checkbox-option", 56);
+    \u0275\u0275elementStart(51, "checkbox-option", 57);
     \u0275\u0275listener("onClick", function TasksComponent_Conditional_12_Template_checkbox_option_onClick_51_listener($event) {
       \u0275\u0275restoreView(_r9);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -71447,7 +71447,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     });
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(52, TasksComponent_Conditional_12_Conditional_52_Template, 17, 16, "div");
-    \u0275\u0275elementStart(53, "div")(54, "div", 26);
+    \u0275\u0275elementStart(53, "div")(54, "div", 27);
     \u0275\u0275text(55, "Keyboard Shortcuts Reference");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(56, "table")(57, "thead")(58, "tr")(59, "th");
@@ -71728,7 +71728,7 @@ function TasksComponent_Conditional_12_Template(rf, ctx) {
     \u0275\u0275elementStart(292, "td");
     \u0275\u0275text(293, " Stops other tasks in progress, starts time tracking for current task ");
     \u0275\u0275elementEnd()()()()();
-    \u0275\u0275element(294, "div", 57);
+    \u0275\u0275element(294, "div", 58);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -71850,7 +71850,7 @@ function TasksComponent_Conditional_13_Conditional_17_Template(rf, ctx) {
     const _r12 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Date Done: ");
-    \u0275\u0275elementStart(2, "span", 76);
+    \u0275\u0275elementStart(2, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_17_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -71901,7 +71901,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275elementStart(3, "td");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td")(6, "span", 76);
+    \u0275\u0275elementStart(5, "td")(6, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_6_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -71910,7 +71910,7 @@ function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Templ
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(9, "td")(10, "span", 76);
+    \u0275\u0275elementStart(9, "td")(10, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_13_Conditional_19_Conditional_1_For_24_Template_span_keyup_10_listener($event) {
       const h_r14 = \u0275\u0275restoreView(_r13).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -72030,7 +72030,7 @@ function TasksComponent_Conditional_13_Conditional_21_Template(rf, ctx) {
     const _r16 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Qualifiers: ");
-    \u0275\u0275elementStart(2, "span", 77);
+    \u0275\u0275elementStart(2, "span", 78);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_21_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r16);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72050,7 +72050,7 @@ function TasksComponent_Conditional_13_Conditional_22_Template(rf, ctx) {
     const _r17 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " Tags: ");
-    \u0275\u0275elementStart(2, "span", 77);
+    \u0275\u0275elementStart(2, "span", 78);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Conditional_22_Template_span_blur_2_listener($event) {
       \u0275\u0275restoreView(_r17);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72126,7 +72126,7 @@ function TasksComponent_Conditional_13_Conditional_26_Template(rf, ctx) {
 function TasksComponent_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 5)(1, "img", 74);
+    \u0275\u0275elementStart(0, "div", 5)(1, "img", 75);
     \u0275\u0275listener("click", function TasksComponent_Conditional_13_Template_img_click_1_listener() {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72145,7 +72145,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
     \u0275\u0275elementStart(10, "div");
     \u0275\u0275text(11, " Notes: ");
     \u0275\u0275element(12, "br");
-    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 75);
+    \u0275\u0275elementStart(13, "div", 2)(14, "textarea", 76);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_13_Template_textarea_blur_14_listener($event) {
       \u0275\u0275restoreView(_r11);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72202,7 +72202,7 @@ function TasksComponent_Conditional_13_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "task", 80);
+    \u0275\u0275element(0, "task", 81);
   }
   if (rf & 2) {
     const t_r21 = ctx.$implicit;
@@ -72214,7 +72214,7 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template(rf, ct
 function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r19 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 78)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 79)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_14_Conditional_6_For_2_Template_button_click_2_listener() {
       const item_r20 = \u0275\u0275restoreView(_r19).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72225,8 +72225,8 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(6, "div", 79);
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 80, _forTrack2);
+    \u0275\u0275elementStart(6, "div", 80);
+    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_14_Conditional_6_For_2_For_8_Template, 1, 11, "task", 81, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -72246,7 +72246,7 @@ function TasksComponent_Conditional_14_Conditional_6_For_2_Template(rf, ctx) {
 function TasksComponent_Conditional_14_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 78, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_14_Conditional_6_For_2_Template, 9, 12, "div", 79, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72316,7 +72316,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " - ");
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_15_For_4_Conditional_2_Template, 2, 2, "span");
-    \u0275\u0275elementStart(3, "span", 81);
+    \u0275\u0275elementStart(3, "span", 82);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_15_For_4_Template_span_keyup_3_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72328,7 +72328,7 @@ function TasksComponent_Conditional_15_For_4_Template(rf, ctx) {
     });
     \u0275\u0275text(4);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "span", 82);
+    \u0275\u0275elementStart(5, "span", 83);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_15_For_4_Template_span_blur_5_listener($event) {
       const t_r23 = \u0275\u0275restoreView(_r22).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72435,7 +72435,7 @@ function TasksComponent_Conditional_24_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_25_For_4_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "option", 84);
+    \u0275\u0275elementStart(0, "option", 85);
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
@@ -72452,7 +72452,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
     const _r26 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span", 10);
     \u0275\u0275text(1, " Filter ");
-    \u0275\u0275elementStart(2, "select", 83);
+    \u0275\u0275elementStart(2, "select", 84);
     \u0275\u0275twoWayListener("ngModelChange", function TasksComponent_Conditional_25_Template_select_ngModelChange_2_listener($event) {
       \u0275\u0275restoreView(_r26);
       const ctx_r1 = \u0275\u0275nextContext();
@@ -72464,7 +72464,7 @@ function TasksComponent_Conditional_25_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.updateState());
     });
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 84, _forTrack3);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_25_For_4_Template, 2, 3, "option", 85, _forTrack3);
     \u0275\u0275elementEnd();
     \u0275\u0275controlCreate();
     \u0275\u0275elementEnd();
@@ -72489,7 +72489,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Conditional_5_Templat
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 87);
+    \u0275\u0275elementStart(2, "span", 88);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72530,7 +72530,7 @@ function TasksComponent_Conditional_27_For_3_Conditional_1_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_For_3_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 78);
+    \u0275\u0275elementStart(0, "div", 79);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_27_For_3_Conditional_1_Template, 6, 4, "div");
     \u0275\u0275elementEnd();
   }
@@ -72546,7 +72546,7 @@ function TasksComponent_Conditional_27_For_5_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " | ");
-    \u0275\u0275elementStart(2, "span", 87);
+    \u0275\u0275elementStart(2, "span", 88);
     \u0275\u0275text(3);
     \u0275\u0275elementEnd()();
   }
@@ -72562,7 +72562,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     const _r34 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 103);
+    \u0275\u0275elementStart(2, "span", 105);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72573,7 +72573,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 104);
+    \u0275\u0275elementStart(6, "span", 106);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r34);
       const t_r33 = \u0275\u0275nextContext(2).$implicit;
@@ -72616,7 +72616,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
     const _r35 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "[");
-    \u0275\u0275elementStart(2, "span", 76);
+    \u0275\u0275elementStart(2, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r35);
       const t_r33 = \u0275\u0275nextContext().$implicit;
@@ -72638,7 +72638,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template(rf, c
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r36 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 105);
+    \u0275\u0275elementStart(0, "span", 107);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template_span_click_0_listener() {
       \u0275\u0275restoreView(_r36);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -72656,72 +72656,79 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template(rf, c
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275element(1, "img", 106);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 108);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275element(1, "img", 107);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 109);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 97);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 97);
-    \u0275\u0275element(1, "img", 108);
+    \u0275\u0275elementStart(0, "span", 98);
+    \u0275\u0275element(1, "img", 110);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 98);
-    \u0275\u0275element(1, "img", 109);
+    \u0275\u0275elementStart(0, "span", 99);
+    \u0275\u0275element(1, "img", 111);
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 100);
+    \u0275\u0275text(1, " \u{1F4BC} ");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 102);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275elementStart(2, "a", 110);
+    \u0275\u0275elementStart(2, "a", 112);
     \u0275\u0275text(3, "link");
     \u0275\u0275elementEnd()();
   }
@@ -72731,11 +72738,11 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template(rf, 
     \u0275\u0275property("href", \u0275\u0275interpolate(t_r33.tsk_url), \u0275\u0275sanitizeUrl)("title", \u0275\u0275interpolate(t_r33.tsk_url));
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r37 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 112);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template_span_click_0_listener() {
+    \u0275\u0275elementStart(0, "span", 114);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Template_span_click_0_listener() {
       const tag_r38 = \u0275\u0275restoreView(_r37).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(5);
       return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r38));
@@ -72749,11 +72756,11 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Templat
     \u0275\u0275textInterpolate1("#", tag_r38);
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 102);
+    \u0275\u0275elementStart(0, "span", 104);
     \u0275\u0275text(1, "\xA0");
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_For_3_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_For_3_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -72762,7 +72769,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template(rf, 
     \u0275\u0275repeater(t_r33.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
     \u0275\u0275text(2);
@@ -72775,7 +72782,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template(rf, 
     \u0275\u0275textInterpolate1("\xA0at ", ctx_r1.formatDateTime(t_r33.tsk_schedule_date_start), " \u23F0");
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
@@ -72789,7 +72796,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template(rf, 
     \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r33));
   }
 }
-function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, ctx) {
+function TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "\u21BA");
@@ -72799,7 +72806,7 @@ function TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template(rf, 
 function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
   if (rf & 1) {
     const _r32 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 90)(1, "input", 91);
+    \u0275\u0275elementStart(0, "div", 91)(1, "input", 92);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_For_12_Template_input_click_1_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -72808,61 +72815,62 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_27_For_5_For_12_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_27_For_5_For_12_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 92);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 93);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 97);
-    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 98);
-    \u0275\u0275elementStart(14, "span", 99);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keyup_14_listener($event) {
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_27_For_5_For_12_Conditional_4_Template, 2, 1, "span", 93);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_27_For_5_For_12_Conditional_5_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_27_For_5_For_12_Conditional_6_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_For_12_Conditional_7_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_27_For_5_For_12_Conditional_8_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_27_For_5_For_12_Conditional_9_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_27_For_5_For_12_Conditional_10_Template, 2, 0, "span", 97);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_27_For_5_For_12_Conditional_11_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_27_For_5_For_12_Conditional_12_Template, 2, 0, "span", 98);
+    \u0275\u0275conditionalCreate(13, TasksComponent_Conditional_27_For_5_For_12_Conditional_13_Template, 2, 0, "span", 99);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_27_For_5_For_12_Conditional_14_Template, 2, 0, "span", 100);
+    \u0275\u0275elementStart(15, "span", 101);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keyup_15_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.taskEdit(t_r33, $event));
-    })("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_14_listener($event) {
+    })("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_15_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r33, $event));
-    })("focus", function TasksComponent_Conditional_27_For_5_For_12_Template_span_focus_14_listener($event) {
+    })("focus", function TasksComponent_Conditional_27_For_5_For_12_Template_span_focus_15_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       ctx_r1.setFocus(t_r33, $event);
       return \u0275\u0275resetView(ctx_r1.setTaskSelected(t_r33));
-    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_14_listener($event) {
+    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_15_listener($event) {
       \u0275\u0275restoreView(_r32);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.taskKeyDown($event));
     });
-    \u0275\u0275text(15);
+    \u0275\u0275text(16);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_27_For_5_For_12_Conditional_16_Template, 4, 4, "span", 100);
-    \u0275\u0275elementStart(17, "span", 101);
-    \u0275\u0275listener("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_17_listener($event) {
+    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_27_For_5_For_12_Conditional_17_Template, 4, 4, "span", 102);
+    \u0275\u0275elementStart(18, "span", 103);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_27_For_5_For_12_Template_span_blur_18_listener($event) {
       const t_r33 = \u0275\u0275restoreView(_r32).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r33, $event));
-    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_17_listener($event) {
+    })("keydown", function TasksComponent_Conditional_27_For_5_For_12_Template_span_keydown_18_listener($event) {
       \u0275\u0275restoreView(_r32);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.etaKeyDown($event));
     });
-    \u0275\u0275text(18);
+    \u0275\u0275text(19);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_27_For_5_For_12_Conditional_19_Template, 4, 0, "span", 102);
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template, 3, 1, "span");
-    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template, 2, 2, "span", 11);
-    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_27_For_5_For_12_Conditional_20_Template, 4, 0, "span", 104);
+    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_27_For_5_For_12_Conditional_21_Template, 3, 1, "span");
+    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_27_For_5_For_12_Conditional_22_Template, 2, 2, "span", 11);
+    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_27_For_5_For_12_Conditional_23_Template, 2, 0, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
     const t_r33 = ctx.$implicit;
     const \u0275$index_912_r39 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id))("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(30, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(32, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_912_r39 >= 3 && t_r33.tsk_time_history.length === 0));
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id))("data-id", \u0275\u0275interpolate(t_r33.tsk_id))("ngStyle", \u0275\u0275pureFunction1(31, _c7, ctx_r1.ageFontSizeNormalization(t_r33) + "px"))("ngClass", \u0275\u0275pureFunction1(33, _c6, ctx_r1.options.optShowLimitedTasksPerRecord && ctx_r1.options.optLimitTasksPerRecord && \u0275$index_912_r39 >= 3 && t_r33.tsk_time_history.length === 0));
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r33.tsk_id));
     \u0275\u0275advance();
@@ -72890,30 +72898,32 @@ function TasksComponent_Conditional_27_For_5_For_12_Template(rf, ctx) {
     \u0275\u0275advance();
     \u0275\u0275conditional(t_r33.inPinnedToDo ? 13 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction8(34, _c16, t_r33.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r33.tsk_ctg_in_process === 2, t_r33.tsk_qualifiers.indexOf("highlighted") !== -1, t_r33.tsk_qualifiers.indexOf("priority") !== -1, t_r33.tsk_qualifiers.indexOf("important") !== -1, t_r33.tsk_qualifiers.indexOf("unexpected") !== -1, t_r33.tsk_qualifiers.indexOf("progressed") !== -1, t_r33.tsk_qualifiers.indexOf("directions") !== -1));
+    \u0275\u0275conditional(t_r33.inWorkToDo ? 14 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction8(35, _c16, t_r33.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r33.tsk_ctg_in_process === 2, t_r33.tsk_qualifiers.indexOf("highlighted") !== -1, t_r33.tsk_qualifiers.indexOf("priority") !== -1, t_r33.tsk_qualifiers.indexOf("important") !== -1, t_r33.tsk_qualifiers.indexOf("unexpected") !== -1, t_r33.tsk_qualifiers.indexOf("progressed") !== -1, t_r33.tsk_qualifiers.indexOf("directions") !== -1));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(t_r33.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.tsk_url ? 16 : -1);
+    \u0275\u0275conditional(t_r33.tsk_url ? 17 : -1);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(43, _c9, t_r33.tsk_estimated_duration === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(44, _c9, t_r33.tsk_estimated_duration === 0));
     \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
     \u0275\u0275advance();
     \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r33.tsk_estimated_duration * 60, "#h#m"));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.tsk_tags ? 19 : -1);
+    \u0275\u0275conditional(t_r33.tsk_tags ? 20 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.tsk_schedule_date_start ? 20 : -1);
+    \u0275\u0275conditional(t_r33.tsk_schedule_date_start ? 21 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 21 : -1);
+    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 22 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r33.not_sync ? 22 : -1);
+    \u0275\u0275conditional(t_r33.not_sync ? 23 : -1);
   }
 }
 function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
   if (rf & 1) {
     const _r30 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 86)(1, "div", 88)(2, "span")(3, "button", 9);
+    \u0275\u0275elementStart(0, "div", 87)(1, "div", 89)(2, "span")(3, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_button_click_3_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72925,7 +72935,7 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     \u0275\u0275text(6);
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_27_For_5_Conditional_7_Template, 4, 1, "span");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 89);
+    \u0275\u0275elementStart(8, "span", 90);
     \u0275\u0275listener("click", function TasksComponent_Conditional_27_For_5_Template_span_click_8_listener() {
       const item_r31 = \u0275\u0275restoreView(_r30).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -72933,8 +72943,8 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
     });
     \u0275\u0275text(9, " \u{1F4CC} ");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(10, "div", 79);
-    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 23, 45, "div", 90, _forTrack2);
+    \u0275\u0275elementStart(10, "div", 80);
+    \u0275\u0275repeaterCreate(11, TasksComponent_Conditional_27_For_5_For_12_Template, 24, 46, "div", 91, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -72959,10 +72969,10 @@ function TasksComponent_Conditional_27_For_5_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_27_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 11)(1, "div", 85);
-    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 78, _forTrack4);
+    \u0275\u0275elementStart(0, "div", 11)(1, "div", 86);
+    \u0275\u0275repeaterCreate(2, TasksComponent_Conditional_27_For_3_Template, 2, 5, "div", 79, _forTrack4);
     \u0275\u0275elementEnd();
-    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 86, _forTrack4);
+    \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_27_For_5_Template, 13, 28, "div", 87, _forTrack4);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73018,8 +73028,8 @@ function TasksComponent_Conditional_34_Conditional_5_For_5_Template(rf, ctx) {
   }
   if (rf & 2) {
     const c_r41 = ctx.$implicit;
-    const \u0275$index_1067_r42 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1067_r42 < 3));
+    const \u0275$index_1071_r42 = ctx.$index;
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(2, _c18, \u0275$index_1071_r42 < 3));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", c_r41, " ");
   }
@@ -73046,11 +73056,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_For_7_Template(rf, ct
   }
   if (rf & 2) {
     const v_r43 = ctx.$implicit;
-    const \u0275$index_1090_r44 = ctx.$index;
+    const \u0275$index_1094_r44 = ctx.$index;
     const indicator_r45 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1090_r44 < 3));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c18, \u0275$index_1094_r44 < 3));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1090_r44 > 0 && (indicator_r45.values[\u0275$index_1090_r44 - 1] < indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1090_r44 - 1] > indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1090_r44 > 0 && (indicator_r45.values[\u0275$index_1090_r44 - 1] > indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1090_r44 - 1] < indicator_r45.values[\u0275$index_1090_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c19, \u0275$index_1094_r44 > 0 && (indicator_r45.values[\u0275$index_1094_r44 - 1] < indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1094_r44 - 1] > indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "LESS_IS_BETTER"), \u0275$index_1094_r44 > 0 && (indicator_r45.values[\u0275$index_1094_r44 - 1] > indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "MORE_IS_BETTER" || indicator_r45.values[\u0275$index_1094_r44 - 1] < indicator_r45.values[\u0275$index_1094_r44] && indicator_r45.metric === "LESS_IS_BETTER")));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", v_r43, " ");
   }
@@ -73084,11 +73094,11 @@ function TasksComponent_Conditional_34_Conditional_5_For_9_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_34_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "table", 113)(1, "tr")(2, "td");
+    \u0275\u0275elementStart(0, "table", 115)(1, "tr")(2, "td");
     \u0275\u0275text(3, "Indicator");
     \u0275\u0275elementEnd();
     \u0275\u0275repeaterCreate(4, TasksComponent_Conditional_34_Conditional_5_For_5_Template, 2, 4, "td", 11, \u0275\u0275repeaterTrackByIdentity);
-    \u0275\u0275elementStart(6, "td", 114);
+    \u0275\u0275elementStart(6, "td", 116);
     \u0275\u0275text(7, "%");
     \u0275\u0275elementEnd()();
     \u0275\u0275repeaterCreate(8, TasksComponent_Conditional_34_Conditional_5_For_9_Template, 10, 4, "tr", null, _forTrack5);
@@ -73114,7 +73124,7 @@ function TasksComponent_Conditional_34_Template(rf, ctx) {
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 113);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_34_Conditional_5_Template, 10, 0, "table", 115);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73139,13 +73149,13 @@ function TasksComponent_Conditional_36_For_4_Conditional_9_Template(rf, ctx) {
 }
 function TasksComponent_Conditional_36_For_4_div_13_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "img", 124);
+    \u0275\u0275element(0, "img", 126);
   }
 }
 function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
   if (rf & 1) {
     const _r47 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 121)(1, "button", 4);
+    \u0275\u0275elementStart(0, "div", 123)(1, "button", 4);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_13_Template_button_click_1_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73153,7 +73163,7 @@ function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
     });
     \u0275\u0275text(2, "Clear listing");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "button", 122);
+    \u0275\u0275elementStart(3, "button", 124);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_13_Template_button_click_3_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73161,7 +73171,7 @@ function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
     });
     \u0275\u0275text(4, " Stop and clear in-progress tasks ");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "button", 123);
+    \u0275\u0275elementStart(5, "button", 125);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_div_13_Template_button_click_5_listener() {
       \u0275\u0275restoreView(_r47);
       const ctx_r1 = \u0275\u0275nextContext(3);
@@ -73169,7 +73179,7 @@ function TasksComponent_Conditional_36_For_4_div_13_Template(rf, ctx) {
     });
     \u0275\u0275text(6, " Mark all as done ");
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_div_13_Conditional_7_Template, 1, 0, "img", 124);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_36_For_4_div_13_Conditional_7_Template, 1, 0, "img", 126);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73187,7 +73197,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "hr", 126);
+    \u0275\u0275element(0, "hr", 128);
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Conditional_2_Template(rf, ctx) {
@@ -73195,7 +73205,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10
     const _r50 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 103);
+    \u0275\u0275elementStart(2, "span", 105);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r50);
       const t_r49 = \u0275\u0275nextContext(2).$implicit;
@@ -73206,7 +73216,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 104);
+    \u0275\u0275elementStart(6, "span", 106);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r50);
       const t_r49 = \u0275\u0275nextContext(2).$implicit;
@@ -73249,7 +73259,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11
     const _r51 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 76);
+    \u0275\u0275elementStart(2, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r51);
       const t_r49 = \u0275\u0275nextContext().$implicit;
@@ -73270,49 +73280,49 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275element(1, "img", 106);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 108);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_18_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275element(1, "img", 107);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 109);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_19_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 97);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
@@ -73320,7 +73330,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r52 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 112);
+    \u0275\u0275elementStart(0, "span", 114);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template_span_click_0_listener() {
       const tag_r53 = \u0275\u0275restoreView(_r52).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
@@ -73337,8 +73347,8 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28
 }
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 102);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 104);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73384,10 +73394,10 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_31
 function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r48 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 125);
+    \u0275\u0275elementStart(0, "div", 127);
     \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_1_Template, 1, 0, "hr");
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 126);
-    \u0275\u0275elementStart(3, "input", 91);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_2_Template, 1, 0, "hr", 128);
+    \u0275\u0275elementStart(3, "input", 92);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_input_click_3_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73404,7 +73414,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_10_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_11_Template, 6, 4, "span");
-    \u0275\u0275elementStart(12, "span", 105);
+    \u0275\u0275elementStart(12, "span", 107);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_click_12_listener() {
       \u0275\u0275restoreView(_r48);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73412,14 +73422,14 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     });
     \u0275\u0275text(13);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 93);
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(18, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_18_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_19_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20_Template, 2, 0, "span", 95);
-    \u0275\u0275elementStart(21, "span", 127);
+    \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_14_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_15_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(16, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_16_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(17, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_17_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(18, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_18_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(19, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_19_Template, 2, 0, "span", 97);
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_20_Template, 2, 0, "span", 96);
+    \u0275\u0275elementStart(21, "span", 129);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_keyup_21_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73436,7 +73446,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275text(22);
     \u0275\u0275elementEnd();
     \u0275\u0275text(23, "\xA0");
-    \u0275\u0275elementStart(24, "span", 128);
+    \u0275\u0275elementStart(24, "span", 130);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template_span_blur_24_listener($event) {
       const t_r49 = \u0275\u0275restoreView(_r48).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73447,7 +73457,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
     \u0275\u0275elementStart(26, "span");
     \u0275\u0275text(27);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template, 3, 0, "span", 102);
+    \u0275\u0275conditionalCreate(28, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_28_Template, 3, 0, "span", 104);
     \u0275\u0275conditionalCreate(29, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_29_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(30, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_30_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(31, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Conditional_31_Template, 2, 0, "span");
@@ -73455,14 +73465,14 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
   }
   if (rf & 2) {
     const t_r49 = ctx.$implicit;
-    const \u0275$index_1152_r54 = ctx.$index;
+    const \u0275$index_1156_r54 = ctx.$index;
     const item_r55 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext(2);
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id))("data-id", \u0275\u0275interpolate(t_r49.tsk_id))("ngClass", \u0275\u0275pureFunction1(39, _c222, t_r49.tsk_ctg_in_process === 2));
     \u0275\u0275advance();
-    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1152_r54 > 0 && item_r55.tasks[\u0275$index_1152_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
+    \u0275\u0275conditional(t_r49["projectedDate"].getHours() < 2 && \u0275$index_1156_r54 > 0 && item_r55.tasks[\u0275$index_1156_r54 - 1]["projectedDate"].getHours() >= 23 ? 1 : -1);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1152_r54 > 0 && \u0275$index_1152_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
+    \u0275\u0275conditional(\u0275$index_1156_r54 > 0 && \u0275$index_1156_r54 === ctx_r1.viewData.nextToDoCutlineForAddedTasks ? 2 : -1);
     \u0275\u0275advance();
     \u0275\u0275property("id", \u0275\u0275interpolate(t_r49.tsk_id));
     \u0275\u0275advance();
@@ -73517,7 +73527,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template(rf, c
 function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 32, 60, "div", 125, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_36_For_4_Conditional_14_For_2_Template, 32, 60, "div", 127, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73531,7 +73541,7 @@ function TasksComponent_Conditional_36_For_4_Conditional_14_Template(rf, ctx) {
 function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r46 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 118)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73541,11 +73551,11 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 117);
+    \u0275\u0275element(6, "time-format", 119);
     \u0275\u0275text(7, " | ");
-    \u0275\u0275element(8, "time-format", 118);
+    \u0275\u0275element(8, "time-format", 120);
     \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_36_For_4_Conditional_9_Template, 2, 1, "span");
-    \u0275\u0275elementStart(10, "button", 119);
+    \u0275\u0275elementStart(10, "button", 121);
     \u0275\u0275listener("click", function TasksComponent_Conditional_36_For_4_Template_button_click_10_listener() {
       \u0275\u0275restoreView(_r46);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73554,7 +73564,7 @@ function TasksComponent_Conditional_36_For_4_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "strong");
     \u0275\u0275text(12);
     \u0275\u0275elementEnd()();
-    \u0275\u0275template(13, TasksComponent_Conditional_36_For_4_div_13_Template, 8, 2, "div", 120);
+    \u0275\u0275template(13, TasksComponent_Conditional_36_For_4_div_13_Template, 8, 2, "div", 122);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(14, TasksComponent_Conditional_36_For_4_Conditional_14_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
@@ -73584,8 +73594,8 @@ function TasksComponent_Conditional_36_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 14);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 115);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 116, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(2, "div", 117);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_36_For_4_Template, 15, 12, "div", 118, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73599,7 +73609,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_C
     const _r59 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 103);
+    \u0275\u0275elementStart(2, "span", 105);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r59);
       const t_r58 = \u0275\u0275nextContext(2).$implicit;
@@ -73610,7 +73620,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_C
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 104);
+    \u0275\u0275elementStart(6, "span", 106);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
       \u0275\u0275restoreView(_r59);
       const t_r58 = \u0275\u0275nextContext(2).$implicit;
@@ -73653,7 +73663,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_T
     const _r60 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 76);
+    \u0275\u0275elementStart(2, "span", 77);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
       \u0275\u0275restoreView(_r60);
       const t_r58 = \u0275\u0275nextContext().$implicit;
@@ -73674,49 +73684,49 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_T
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 93);
+    \u0275\u0275elementStart(0, "span", 94);
     \u0275\u0275text(1, "\u{1F525}");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275elementStart(0, "span", 95);
     \u0275\u0275text(1, "!");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2605");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275element(1, "img", 106);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 108);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
-    \u0275\u0275element(1, "img", 107);
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 109);
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275elementStart(0, "span", 97);
     \u0275\u0275text(1, "\u2691");
     \u0275\u0275elementEnd();
   }
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275elementStart(0, "span", 96);
     \u0275\u0275text(1, "\u2716");
     \u0275\u0275elementEnd();
   }
@@ -73724,7 +73734,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r61 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 112);
+    \u0275\u0275elementStart(0, "span", 114);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
       const tag_r62 = \u0275\u0275restoreView(_r61).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
@@ -73741,8 +73751,8 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_
 }
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 102);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 104);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73788,7 +73798,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_
 function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r57 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 129)(1, "input", 91);
+    \u0275\u0275elementStart(0, "div", 131)(1, "input", 92);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73797,7 +73807,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
-    \u0275\u0275elementStart(4, "span", 105);
+    \u0275\u0275elementStart(4, "span", 107);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
       \u0275\u0275restoreView(_r57);
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73805,14 +73815,14 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     });
     \u0275\u0275text(5);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 93);
-    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 94);
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 95);
-    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 96);
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 95);
-    \u0275\u0275elementStart(13, "span", 127);
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 97);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 96);
+    \u0275\u0275elementStart(13, "span", 129);
     \u0275\u0275listener("keyup", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73829,7 +73839,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275text(14);
     \u0275\u0275elementEnd();
     \u0275\u0275text(15, "\xA0");
-    \u0275\u0275elementStart(16, "span", 128);
+    \u0275\u0275elementStart(16, "span", 130);
     \u0275\u0275listener("blur", function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
       const t_r58 = \u0275\u0275restoreView(_r57).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
@@ -73840,7 +73850,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
     \u0275\u0275elementStart(18, "span");
     \u0275\u0275text(19);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 102);
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 104);
     \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
     \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
     \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
@@ -73896,7 +73906,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template(rf, ct
 function TasksComponent_Conditional_37_For_4_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 11);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 24, 39, "div", 129, _forTrack2);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_37_For_4_Conditional_7_For_2_Template, 24, 39, "div", 131, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -73910,7 +73920,7 @@ function TasksComponent_Conditional_37_For_4_Conditional_7_Template(rf, ctx) {
 function TasksComponent_Conditional_37_For_4_Template(rf, ctx) {
   if (rf & 1) {
     const _r56 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 116)(1, "div")(2, "button", 9);
+    \u0275\u0275elementStart(0, "div", 118)(1, "div")(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_37_For_4_Template_button_click_2_listener() {
       \u0275\u0275restoreView(_r56);
       const ctx_r1 = \u0275\u0275nextContext(2);
@@ -73920,7 +73930,7 @@ function TasksComponent_Conditional_37_For_4_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275element(6, "time-format", 117);
+    \u0275\u0275element(6, "time-format", 119);
     \u0275\u0275elementEnd();
     \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_37_For_4_Conditional_7_Template, 3, 3, "div", 11);
     \u0275\u0275elementEnd();
@@ -73942,8 +73952,8 @@ function TasksComponent_Conditional_37_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 15);
     \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "div", 115);
-    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 116, _forTrack2);
+    \u0275\u0275elementStart(2, "div", 117);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_37_For_4_Template, 8, 4, "div", 118, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -73952,9 +73962,367 @@ function TasksComponent_Conditional_37_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.pinnedTasks);
   }
 }
-function TasksComponent_Conditional_38_Conditional_9_For_14_Template(rf, ctx) {
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r67 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, " [");
+    \u0275\u0275elementStart(2, "span", 105);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r67);
+      const t_r66 = \u0275\u0275nextContext(2).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r66, $event, "start"));
+    });
+    \u0275\u0275text(3);
+    \u0275\u0275pipe(4, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(5, " - ");
+    \u0275\u0275elementStart(6, "span", 106);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
+      \u0275\u0275restoreView(_r67);
+      const t_r66 = \u0275\u0275nextContext(2).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r66, $event, "end"));
+    });
+    \u0275\u0275text(7);
+    \u0275\u0275pipe(8, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(9, "] ");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r66 = \u0275\u0275nextContext(2).$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, t_r66.tsk_time_history[t_r66.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, t_r66.tsk_time_history[t_r66.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 11);
+    \u0275\u0275text(1);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Conditional_2_Template, 10, 8, "span");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r66 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, t_r66.tsk_ctg_status === ctx_r1.taskStatus.OPEN && t_r66.tsk_time_history.length > 0));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate2("[", t_r66.tsk_time_history.length, "/", ctx_r1.formatTime(t_r66.tsk_total_time_spent), "] ");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_ctg_in_process !== 2 ? 2 : -1);
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_3_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r68 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, " [");
+    \u0275\u0275elementStart(2, "span", 77);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_3_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r68);
+      const t_r66 = \u0275\u0275nextContext().$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(t_r66, $event, "start"));
+    });
+    \u0275\u0275text(3);
+    \u0275\u0275pipe(4, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(5, "] ");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r66 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 1, t_r66.tsk_time_history[t_r66.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 94);
+    \u0275\u0275text(1, "\u{1F525}");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 95);
+    \u0275\u0275text(1, "!");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275text(1, "\u2605");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 108);
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275element(1, "img", 109);
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 97);
+    \u0275\u0275text(1, "\u2691");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_12_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 96);
+    \u0275\u0275text(1, "\u2716");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r69 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 114);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_For_2_Template_span_click_0_listener() {
+      const tag_r70 = \u0275\u0275restoreView(_r69).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(6);
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r70));
+    });
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const tag_r70 = ctx.$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" #", tag_r70, " ");
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 104);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r66 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275advance();
+    \u0275\u0275repeater(t_r66.tsk_tags.split(" "));
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_21_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span")(1, "strong");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const t_r66 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1("(start at ", ctx_r1.formatDateTime(t_r66.tsk_schedule_date_start), ")");
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_22_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span", 11);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r66 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("ngClass", ctx_r1.taskAgeClass(t_r66));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.taskAge(t_r66));
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_23_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "span");
+    \u0275\u0275text(1, "(Not in sync)");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template(rf, ctx) {
   if (rf & 1) {
     const _r65 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 131)(1, "input", 92);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_input_click_1_listener($event) {
+      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(t_r66, $event));
+    });
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_2_Template, 3, 6, "span", 11);
+    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_3_Template, 6, 4, "span");
+    \u0275\u0275elementStart(4, "span", 107);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_click_4_listener() {
+      \u0275\u0275restoreView(_r65);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.toggleTimeMode());
+    });
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_6_Template, 2, 0, "span", 94);
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_7_Template, 2, 0, "span", 95);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_8_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_9_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(10, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_10_Template, 2, 0, "span", 96);
+    \u0275\u0275conditionalCreate(11, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_11_Template, 2, 0, "span", 97);
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_12_Template, 2, 0, "span", 96);
+    \u0275\u0275elementStart(13, "span", 129);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_keyup_13_listener($event) {
+      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.taskEdit(t_r66, $event));
+    })("keydown", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_keydown_13_listener($event) {
+      \u0275\u0275restoreView(_r65);
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.workTaskKeyDown($event));
+    })("blur", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_blur_13_listener($event) {
+      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.commandOnTask(t_r66, $event));
+    });
+    \u0275\u0275text(14);
+    \u0275\u0275elementEnd();
+    \u0275\u0275text(15, "\xA0");
+    \u0275\u0275elementStart(16, "span", 130);
+    \u0275\u0275listener("blur", function TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template_span_blur_16_listener($event) {
+      const t_r66 = \u0275\u0275restoreView(_r65).$implicit;
+      const ctx_r1 = \u0275\u0275nextContext(4);
+      return \u0275\u0275resetView(ctx_r1.taskEstimatedDurationEdit(t_r66, $event));
+    });
+    \u0275\u0275text(17);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(18, "span");
+    \u0275\u0275text(19);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(20, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_20_Template, 3, 0, "span", 104);
+    \u0275\u0275conditionalCreate(21, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_21_Template, 3, 1, "span");
+    \u0275\u0275conditionalCreate(22, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_22_Template, 2, 2, "span", 11);
+    \u0275\u0275conditionalCreate(23, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Conditional_23_Template, 2, 0, "span");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const t_r66 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(4);
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r66.tsk_id))("data-id", \u0275\u0275interpolate(t_r66.tsk_id));
+    \u0275\u0275advance();
+    \u0275\u0275property("id", \u0275\u0275interpolate(t_r66.tsk_id));
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_total_time_spent !== 0 ? 2 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_ctg_in_process === 2 ? 3 : -1);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", ctx_r1.timers[t_r66.tsk_id] ? "[" + ctx_r1.timers[t_r66.tsk_id].timerString + "]" : "", " ");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("critical") !== -1 ? 6 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("urgent") !== -1 ? 7 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("star") !== -1 ? 8 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("people") !== -1 ? 9 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("mobile") !== -1 ? 10 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("flag") !== -1 ? 11 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_qualifiers.indexOf("blocked") !== -1 ? 12 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunctionV(26, _c23, [t_r66.tsk_ctg_status === ctx_r1.taskStatus.CLOSED, t_r66.tsk_ctg_in_process === 2, t_r66.tsk_qualifiers.indexOf("important") !== -1, t_r66.tsk_qualifiers.indexOf("urgent") !== -1, t_r66.tsk_qualifiers.indexOf("highlighted") !== -1, t_r66.tsk_qualifiers.indexOf("progressed") !== -1, t_r66.tsk_qualifiers.indexOf("unexpected") !== -1, t_r66.tsk_qualifiers.indexOf("call") !== -1, t_r66.tsk_qualifiers.indexOf("priority") !== -1, t_r66.tsk_qualifiers.indexOf("directions") !== -1]));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(t_r66.tsk_name);
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(37, _c9, t_r66.tsk_estimated_duration === 0));
+    \u0275\u0275attribute("contenteditable", ctx_r1.options.optAllowToEditETA);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(t_r66.tsk_estimated_duration * 60, "#h#m"));
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" [", t_r66.tsk_id_record, "] ");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_tags ? 20 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.tsk_schedule_date_start ? 21 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(ctx_r1.options.optViewElapsedDays ? 22 : -1);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(t_r66.not_sync ? 23 : -1);
+  }
+}
+function TasksComponent_Conditional_38_For_4_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 11);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_38_For_4_Conditional_7_For_2_Template, 24, 39, "div", 131, _forTrack2);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const item_r71 = \u0275\u0275nextContext().$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(1, _c21, ctx_r1.workTasks[0].tasks.length > 20));
+    \u0275\u0275advance();
+    \u0275\u0275repeater(item_r71.tasks);
+  }
+}
+function TasksComponent_Conditional_38_For_4_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r64 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 118)(1, "div")(2, "button", 9);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_38_For_4_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r64);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseWorkTasks"));
+    });
+    \u0275\u0275elementStart(3, "strong");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275text(5);
+    \u0275\u0275element(6, "time-format", 119);
+    \u0275\u0275elementEnd();
+    \u0275\u0275conditionalCreate(7, TasksComponent_Conditional_38_For_4_Conditional_7_Template, 3, 3, "div", 11);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const item_r71 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseWorkTasks ? "+" : "-", " Work To Do");
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" | ", item_r71.tasks.length, " ");
+    \u0275\u0275advance();
+    \u0275\u0275property("value", item_r71.estimatedDuration);
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r1.options.optCollapseWorkTasks ? 7 : -1);
+  }
+}
+function TasksComponent_Conditional_38_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 16);
+    \u0275\u0275element(1, "hr");
+    \u0275\u0275elementStart(2, "div", 117);
+    \u0275\u0275repeaterCreate(3, TasksComponent_Conditional_38_For_4_Template, 8, 4, "div", 118, _forTrack2);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(3);
+    \u0275\u0275repeater(ctx_r1.workTasks);
+  }
+}
+function TasksComponent_Conditional_39_Conditional_9_For_14_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r73 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
@@ -73968,28 +74336,28 @@ function TasksComponent_Conditional_38_Conditional_9_For_14_Template(rf, ctx) {
     \u0275\u0275text(8);
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(9, "td")(10, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Conditional_9_For_14_Template_button_click_10_listener() {
-      const e_r66 = \u0275\u0275restoreView(_r65).$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_9_For_14_Template_button_click_10_listener() {
+      const e_r74 = \u0275\u0275restoreView(_r73).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.setSelected(e_r66));
+      return \u0275\u0275resetView(ctx_r1.setSelected(e_r74));
     });
     \u0275\u0275text(11, "details");
     \u0275\u0275elementEnd()()();
   }
   if (rf & 2) {
-    const e_r66 = ctx.$implicit;
+    const e_r74 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(e_r66.tsk_name);
+    \u0275\u0275textInterpolate(e_r74.tsk_name);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r66.tsk_estimated_duration * 60));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r74.tsk_estimated_duration * 60));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r66.tsk_total_time_spent));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(e_r74.tsk_total_time_spent));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.statusText(e_r66.tsk_ctg_status));
+    \u0275\u0275textInterpolate(ctx_r1.statusText(e_r74.tsk_ctg_status));
   }
 }
-function TasksComponent_Conditional_38_Conditional_9_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Conditional_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
     \u0275\u0275text(4, "Name");
@@ -74006,7 +74374,7 @@ function TasksComponent_Conditional_38_Conditional_9_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "td");
     \u0275\u0275text(12, "Actions");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_38_Conditional_9_For_14_Template, 12, 4, "tr", null, _forTrack2);
+    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_39_Conditional_9_For_14_Template, 12, 4, "tr", null, _forTrack2);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -74015,12 +74383,12 @@ function TasksComponent_Conditional_38_Conditional_9_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.tagInfo.tasks);
   }
 }
-function TasksComponent_Conditional_38_Template(rf, ctx) {
+function TasksComponent_Conditional_39_Template(rf, ctx) {
   if (rf & 1) {
-    const _r64 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 16)(1, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_38_Template_button_click_1_listener() {
-      \u0275\u0275restoreView(_r64);
+    const _r72 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 17)(1, "button", 4);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r72);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.tagInfo.display = false);
     });
@@ -74033,7 +74401,7 @@ function TasksComponent_Conditional_38_Template(rf, ctx) {
     \u0275\u0275text(6);
     \u0275\u0275element(7, "br");
     \u0275\u0275text(8);
-    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_38_Conditional_9_Template, 15, 0, "div");
+    \u0275\u0275conditionalCreate(9, TasksComponent_Conditional_39_Conditional_9_Template, 15, 0, "div");
     \u0275\u0275element(10, "hr");
     \u0275\u0275elementEnd();
   }
@@ -74047,28 +74415,28 @@ function TasksComponent_Conditional_38_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.tagInfo.tasks.length > 0 ? 9 : -1);
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r70 = \u0275\u0275getCurrentView();
+    const _r78 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, " [");
-    \u0275\u0275elementStart(2, "span", 103);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
-      \u0275\u0275restoreView(_r70);
-      const item_r69 = \u0275\u0275nextContext(3).$implicit;
+    \u0275\u0275elementStart(2, "span", 105);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_2_listener($event) {
+      \u0275\u0275restoreView(_r78);
+      const item_r77 = \u0275\u0275nextContext(3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r69, $event, "start"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r77, $event, "start"));
     });
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275text(5, " - ");
-    \u0275\u0275elementStart(6, "span", 104);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
-      \u0275\u0275restoreView(_r70);
-      const item_r69 = \u0275\u0275nextContext(3).$implicit;
+    \u0275\u0275elementStart(6, "span", 106);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template_span_keyup_6_listener($event) {
+      \u0275\u0275restoreView(_r78);
+      const item_r77 = \u0275\u0275nextContext(3).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r69, $event, "end"));
+      return \u0275\u0275resetView(ctx_r1.timeTrackingQuickEdit(item_r77, $event, "end"));
     });
     \u0275\u0275text(7);
     \u0275\u0275pipe(8, "date");
@@ -74077,57 +74445,57 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditi
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r69 = \u0275\u0275nextContext(3).$implicit;
+    const item_r77 = \u0275\u0275nextContext(3).$implicit;
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1] && item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(4, 2, item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1] && item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1].tsh_date_start, "HH:mm:ss"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1] && item_r69.tsk_time_history[item_r69.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(8, 5, item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1] && item_r77.tsk_time_history[item_r77.tsk_time_history.length - 1].tsh_date_end, "HH:mm:ss"));
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 11);
     \u0275\u0275text(1);
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template, 10, 8, "span");
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Conditional_2_Template, 10, 8, "span");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r69 = \u0275\u0275nextContext(2).$implicit;
+    const item_r77 = \u0275\u0275nextContext(2).$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, item_r69.tsk_ctg_status === ctx_r1.taskStatus.OPEN && item_r69.tsk_time_history.length > 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(4, _c17, item_r77.tsk_ctg_status === ctx_r1.taskStatus.OPEN && item_r77.tsk_time_history.length > 0));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("[", item_r69.tsk_time_history.length, "/", ctx_r1.formatTime(item_r69.tsk_total_time_spent), "] ");
+    \u0275\u0275textInterpolate2("[", item_r77.tsk_time_history.length, "/", ctx_r1.formatTime(item_r77.tsk_total_time_spent), "] ");
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r69.tsk_ctg_in_process !== 2 ? 2 : -1);
+    \u0275\u0275conditional(item_r77.tsk_ctg_in_process !== 2 ? 2 : -1);
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_12_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_12_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1, "(Not in sync)");
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
-    const _r68 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "input", 130);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_input_click_1_listener($event) {
-      \u0275\u0275restoreView(_r68);
-      const item_r69 = \u0275\u0275nextContext().$implicit;
+    const _r76 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "input", 132);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template_input_click_1_listener($event) {
+      \u0275\u0275restoreView(_r76);
+      const item_r77 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(item_r69, $event));
+      return \u0275\u0275resetView(ctx_r1.taskCheckboxHandler(item_r77, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_2_Template, 3, 6, "span", 11);
+    \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_2_Template, 3, 6, "span", 11);
     \u0275\u0275elementStart(3, "span");
     \u0275\u0275text(4, "(Done at: ");
-    \u0275\u0275elementStart(5, "span", 76);
-    \u0275\u0275listener("keyup", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_span_keyup_5_listener($event) {
-      \u0275\u0275restoreView(_r68);
-      const item_r69 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275elementStart(5, "span", 77);
+    \u0275\u0275listener("keyup", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template_span_keyup_5_listener($event) {
+      \u0275\u0275restoreView(_r76);
+      const item_r77 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.editDateDone(item_r69, $event));
+      return \u0275\u0275resetView(ctx_r1.editDateDone(item_r77, $event));
     });
     \u0275\u0275text(6);
     \u0275\u0275pipe(7, "date");
@@ -74138,53 +74506,53 @@ function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Templat
     \u0275\u0275elementStart(10, "span", 11);
     \u0275\u0275text(11);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Conditional_12_Template, 2, 0, "span");
+    \u0275\u0275conditionalCreate(12, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Conditional_12_Template, 2, 0, "span");
     \u0275\u0275elementStart(13, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template_button_click_13_listener() {
-      \u0275\u0275restoreView(_r68);
-      const item_r69 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template_button_click_13_listener() {
+      \u0275\u0275restoreView(_r76);
+      const item_r77 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(3);
-      return \u0275\u0275resetView(ctx_r1.setSelected(item_r69));
+      return \u0275\u0275resetView(ctx_r1.setSelected(item_r77));
     });
     \u0275\u0275text(14, "details");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const item_r69 = \u0275\u0275nextContext().$implicit;
+    const item_r77 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275property("id", \u0275\u0275interpolate(item_r69.tsk_id));
+    \u0275\u0275property("id", \u0275\u0275interpolate(item_r77.tsk_id));
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r69.tsk_total_time_spent !== 0 ? 2 : -1);
+    \u0275\u0275conditional(item_r77.tsk_total_time_spent !== 0 ? 2 : -1);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(7, 7, item_r69.tsk_date_done, ctx_r1.format));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(7, 7, item_r77.tsk_date_done, ctx_r1.format));
     \u0275\u0275advance(4);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(10, _c24, item_r69.tsk_ctg_status === ctx_r1.taskStatus.CLOSED));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(10, _c24, item_r77.tsk_ctg_status === ctx_r1.taskStatus.CLOSED));
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate(item_r69.tsk_name);
+    \u0275\u0275textInterpolate(item_r77.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r69.not_sync ? 12 : -1);
+    \u0275\u0275conditional(item_r77.not_sync ? 12 : -1);
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_39_Conditional_6_For_2_Conditional_1_Template, 15, 12, "div");
+    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template, 15, 12, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const \u0275$index_1454_r71 = ctx.$index;
+    const \u0275$index_1577_r79 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1454_r71 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
+    \u0275\u0275conditional(\u0275$index_1577_r79 < 3 || ctx_r1.viewAllFinishedToday ? 1 : -1);
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r72 = \u0275\u0275getCurrentView();
+    const _r80 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r72);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r80);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.toggleView("viewAllFinishedToday"));
     });
@@ -74197,11 +74565,11 @@ function TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template(rf, 
     \u0275\u0275textInterpolate1(" ", ctx_r1.viewAllFinishedToday ? "Do not show all" : "Show all", " ");
   }
 }
-function TasksComponent_Conditional_39_Conditional_6_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_39_Conditional_6_For_2_Template, 2, 1, "div", null, _forTrack2);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_39_Conditional_6_Conditional_3_Template, 2, 1, "button");
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Template, 2, 1, "div", null, _forTrack2);
+    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template, 2, 1, "button");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74212,14 +74580,14 @@ function TasksComponent_Conditional_39_Conditional_6_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.state.closedTodayTasks.length > 3 ? 3 : -1);
   }
 }
-function TasksComponent_Conditional_39_Template(rf, ctx) {
+function TasksComponent_Conditional_40_Template(rf, ctx) {
   if (rf & 1) {
-    const _r67 = \u0275\u0275getCurrentView();
+    const _r75 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_39_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r67);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r75);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseFinishedToday"));
     });
@@ -74227,7 +74595,7 @@ function TasksComponent_Conditional_39_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_39_Conditional_6_Template, 4, 1, "div");
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_40_Conditional_6_Template, 4, 1, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74240,38 +74608,38 @@ function TasksComponent_Conditional_39_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseFinishedToday ? 6 : -1);
   }
 }
-function TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_6_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275element(1, "task", 131);
+    \u0275\u0275element(1, "task", 133);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r74 = \u0275\u0275nextContext().$implicit;
+    const item_r82 = \u0275\u0275nextContext().$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275property("task", item_r74)("handlers", ctx_r1.handlersForClosedYesterday)("options", \u0275\u0275pureFunction0(3, _c25));
+    \u0275\u0275property("task", item_r82)("handlers", ctx_r1.handlersForClosedYesterday)("options", \u0275\u0275pureFunction0(3, _c25));
   }
 }
-function TasksComponent_Conditional_40_Conditional_6_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_6_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Conditional_1_Template, 2, 4, "div");
+    \u0275\u0275conditionalCreate(1, TasksComponent_Conditional_41_Conditional_6_For_2_Conditional_1_Template, 2, 4, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const \u0275$index_1517_r75 = ctx.$index;
+    const \u0275$index_1640_r83 = ctx.$index;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance();
-    \u0275\u0275conditional(\u0275$index_1517_r75 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
+    \u0275\u0275conditional(\u0275$index_1640_r83 < 3 || ctx_r1.viewAllFinishedYesterday ? 1 : -1);
   }
 }
-function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_6_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
-    const _r76 = \u0275\u0275getCurrentView();
+    const _r84 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template_button_click_0_listener() {
-      \u0275\u0275restoreView(_r76);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_6_Conditional_3_Template_button_click_0_listener() {
+      \u0275\u0275restoreView(_r84);
       const ctx_r1 = \u0275\u0275nextContext(3);
       return \u0275\u0275resetView(ctx_r1.toggleView("viewAllFinishedYesterday"));
     });
@@ -74284,11 +74652,11 @@ function TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template(rf, 
     \u0275\u0275textInterpolate1(" ", ctx_r1.viewAllFinishedYesterday ? "Do not show all" : "Show all", " ");
   }
 }
-function TasksComponent_Conditional_40_Conditional_6_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Conditional_6_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_40_Conditional_6_For_2_Template, 2, 1, "div", null, _forTrack2);
-    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_40_Conditional_6_Conditional_3_Template, 2, 1, "button");
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_6_For_2_Template, 2, 1, "div", null, _forTrack2);
+    \u0275\u0275conditionalCreate(3, TasksComponent_Conditional_41_Conditional_6_Conditional_3_Template, 2, 1, "button");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74299,14 +74667,14 @@ function TasksComponent_Conditional_40_Conditional_6_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.state.closedYesterdayTasks.length > 3 ? 3 : -1);
   }
 }
-function TasksComponent_Conditional_40_Template(rf, ctx) {
+function TasksComponent_Conditional_41_Template(rf, ctx) {
   if (rf & 1) {
-    const _r73 = \u0275\u0275getCurrentView();
+    const _r81 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_40_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r73);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r81);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseFinishedYesterday"));
     });
@@ -74314,7 +74682,7 @@ function TasksComponent_Conditional_40_Template(rf, ctx) {
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
     \u0275\u0275text(5);
-    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_40_Conditional_6_Template, 4, 1, "div");
+    \u0275\u0275conditionalCreate(6, TasksComponent_Conditional_41_Conditional_6_Template, 4, 1, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74327,39 +74695,39 @@ function TasksComponent_Conditional_40_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseFinishedYesterday ? 6 : -1);
   }
 }
-function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r79 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 112);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template_span_click_0_listener() {
-      const tag_r80 = \u0275\u0275restoreView(_r79).$implicit;
+    const _r87 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 114);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_For_2_Template_span_click_0_listener() {
+      const tag_r88 = \u0275\u0275restoreView(_r87).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(6);
-      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r80));
+      return \u0275\u0275resetView(ctx_r1.showTagStats(tag_r88));
     });
     \u0275\u0275text(1);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const tag_r80 = ctx.$implicit;
+    const tag_r88 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate1(" #", tag_r80, " ");
+    \u0275\u0275textInterpolate1(" #", tag_r88, " ");
   }
 }
-function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template(rf, ctx) {
+function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "span", 102);
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 111, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275elementStart(0, "span", 104);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_For_2_Template, 2, 1, "span", 113, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const item_r81 = \u0275\u0275nextContext().$implicit;
+    const item_r89 = \u0275\u0275nextContext().$implicit;
     \u0275\u0275advance();
-    \u0275\u0275repeater(item_r81.tsk_tags.split(" "));
+    \u0275\u0275repeater(item_r89.tsk_tags.split(" "));
   }
 }
-function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template(rf, ctx) {
+function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Template(rf, ctx) {
   if (rf & 1) {
-    const _r78 = \u0275\u0275getCurrentView();
+    const _r86 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1, " - ");
     \u0275\u0275elementStart(2, "span");
@@ -74371,30 +74739,30 @@ function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template(rf, c
     \u0275\u0275elementStart(6, "span");
     \u0275\u0275text(7);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 102);
+    \u0275\u0275conditionalCreate(8, TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Conditional_8_Template, 3, 0, "span", 104);
     \u0275\u0275elementStart(9, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template_button_click_9_listener() {
-      const item_r81 = \u0275\u0275restoreView(_r78).$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Template_button_click_9_listener() {
+      const item_r89 = \u0275\u0275restoreView(_r86).$implicit;
       const ctx_r1 = \u0275\u0275nextContext(4);
-      return \u0275\u0275resetView(ctx_r1.setSelected(item_r81));
+      return \u0275\u0275resetView(ctx_r1.setSelected(item_r89));
     });
     \u0275\u0275text(10, "details");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const item_r81 = ctx.$implicit;
+    const item_r89 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(4);
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate2("[", item_r81.tsk_time_history.length, "/", ctx_r1.formatTime(item_r81.tsk_total_time_spent), "]");
+    \u0275\u0275textInterpolate2("[", item_r89.tsk_time_history.length, "/", ctx_r1.formatTime(item_r89.tsk_total_time_spent), "]");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate1("[", item_r81.tsk_id_record, "]");
+    \u0275\u0275textInterpolate1("[", item_r89.tsk_id_record, "]");
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(item_r81.tsk_name);
+    \u0275\u0275textInterpolate(item_r89.tsk_name);
     \u0275\u0275advance();
-    \u0275\u0275conditional(item_r81.tsk_tags ? 8 : -1);
+    \u0275\u0275conditional(item_r89.tsk_tags ? 8 : -1);
   }
 }
-function TasksComponent_Conditional_41_Conditional_5_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_42_Conditional_5_For_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "div");
     \u0275\u0275element(2, "br");
@@ -74406,24 +74774,24 @@ function TasksComponent_Conditional_41_Conditional_5_For_2_Template(rf, ctx) {
     \u0275\u0275elementStart(7, "span");
     \u0275\u0275text(8);
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_41_Conditional_5_For_2_For_10_Template, 11, 5, "div", null, _forTrack2);
+    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_42_Conditional_5_For_2_For_10_Template, 11, 5, "div", null, _forTrack2);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const group_r82 = ctx.$implicit;
+    const group_r90 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(5, 2, group_r82.header, "yyyy-MM-dd"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(5, 2, group_r90.header, "yyyy-MM-dd"));
     \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("(Spent ", ctx_r1.formatTime(group_r82.totalTimeSpent), ")");
+    \u0275\u0275textInterpolate1("(Spent ", ctx_r1.formatTime(group_r90.totalTimeSpent), ")");
     \u0275\u0275advance();
-    \u0275\u0275repeater(group_r82.tasks);
+    \u0275\u0275repeater(group_r90.tasks);
   }
 }
-function TasksComponent_Conditional_41_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_41_Conditional_5_For_2_Template, 11, 5, "div", null, _forTrack4);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_42_Conditional_5_For_2_Template, 11, 5, "div", null, _forTrack4);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74432,67 +74800,16 @@ function TasksComponent_Conditional_41_Conditional_5_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.state.closedTasks);
   }
 }
-function TasksComponent_Conditional_41_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r77 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 17);
-    \u0275\u0275element(1, "hr");
-    \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_41_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r77);
-      const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseClosedTasks"));
-    });
-    \u0275\u0275elementStart(3, "strong");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_41_Conditional_5_Template, 3, 0, "div");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext();
-    \u0275\u0275advance(4);
-    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseClosedTasks ? "+" : "-", " Closed Tasks");
-    \u0275\u0275advance();
-    \u0275\u0275conditional(!ctx_r1.options.optCollapseClosedTasks ? 5 : -1);
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_For_2_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275text(1);
-    \u0275\u0275pipe(2, "date");
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const s_r84 = ctx.$implicit;
-    const ctx_r1 = \u0275\u0275nextContext(3);
-    \u0275\u0275advance();
-    \u0275\u0275textInterpolate6(" date: ", \u0275\u0275pipeBind2(2, 6, s_r84.date, "yyyy-MM-dd"), " tasks done: ", s_r84.tasksDone, " estimated: ", ctx_r1.formatTime(s_r84.estimated * 60), " spent: ", ctx_r1.formatTime(s_r84.timeSpent), " Productivity: ", s_r84.productivity, " Real Time Elapsed: ", ctx_r1.formatTime(s_r84.realTimeElapsed), " ");
-  }
-}
-function TasksComponent_Conditional_42_Conditional_5_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "div");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_42_Conditional_5_For_2_Template, 3, 9, "div", null, _forTrack6);
-    \u0275\u0275elementEnd();
-  }
-  if (rf & 2) {
-    const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance();
-    \u0275\u0275repeater(ctx_r1.reports.week);
-  }
-}
 function TasksComponent_Conditional_42_Template(rf, ctx) {
   if (rf & 1) {
-    const _r83 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div");
+    const _r85 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 18);
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
     \u0275\u0275listener("click", function TasksComponent_Conditional_42_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r83);
+      \u0275\u0275restoreView(_r85);
       const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsWeekDistribution"));
+      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseClosedTasks"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
@@ -74503,12 +74820,63 @@ function TasksComponent_Conditional_42_Template(rf, ctx) {
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext();
     \u0275\u0275advance(4);
+    \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseClosedTasks ? "+" : "-", " Closed Tasks");
+    \u0275\u0275advance();
+    \u0275\u0275conditional(!ctx_r1.options.optCollapseClosedTasks ? 5 : -1);
+  }
+}
+function TasksComponent_Conditional_43_Conditional_5_For_2_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1);
+    \u0275\u0275pipe(2, "date");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const s_r92 = ctx.$implicit;
+    const ctx_r1 = \u0275\u0275nextContext(3);
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate6(" date: ", \u0275\u0275pipeBind2(2, 6, s_r92.date, "yyyy-MM-dd"), " tasks done: ", s_r92.tasksDone, " estimated: ", ctx_r1.formatTime(s_r92.estimated * 60), " spent: ", ctx_r1.formatTime(s_r92.timeSpent), " Productivity: ", s_r92.productivity, " Real Time Elapsed: ", ctx_r1.formatTime(s_r92.realTimeElapsed), " ");
+  }
+}
+function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_43_Conditional_5_For_2_Template, 3, 9, "div", null, _forTrack6);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r1.reports.week);
+  }
+}
+function TasksComponent_Conditional_43_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r91 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275element(1, "hr");
+    \u0275\u0275elementStart(2, "button", 9);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_43_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r91);
+      const ctx_r1 = \u0275\u0275nextContext();
+      return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsWeekDistribution"));
+    });
+    \u0275\u0275elementStart(3, "strong");
+    \u0275\u0275text(4);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_43_Conditional_5_Template, 3, 0, "div");
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(4);
     \u0275\u0275textInterpolate1("", ctx_r1.options.optCollapseReportsWeekDistribution ? "+" : "-", " Week Distribution Report");
     \u0275\u0275advance();
     \u0275\u0275conditional(!ctx_r1.options.optCollapseReportsWeekDistribution ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_43_Conditional_5_For_14_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Conditional_5_For_14_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
@@ -74527,30 +74895,30 @@ function TasksComponent_Conditional_43_Conditional_5_For_14_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const r_r86 = ctx.$implicit;
+    const r_r94 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r86.record);
+    \u0275\u0275textInterpolate(r_r94.record);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r86.eta * 60));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r94.eta * 60));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r86.real));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(r_r94.real));
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r86.percentageEta);
+    \u0275\u0275textInterpolate(r_r94.percentageEta);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(r_r86.percentageReal);
+    \u0275\u0275textInterpolate(r_r94.percentageReal);
   }
 }
-function TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Conditional_5_Conditional_15_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275element(0, "canvas", 132);
+    \u0275\u0275element(0, "canvas", 134);
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275property("datasets", ctx_r1.viewData.dayDistributionChart.chartData)("labels", ctx_r1.viewData.dayDistributionChart.chartLabels)("options", ctx_r1.viewData.dayDistributionChart.chartOptions)("legend", ctx_r1.viewData.dayDistributionChart.chartLegend)("type", ctx_r1.viewData.dayDistributionChart.chartType);
   }
 }
-function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
     \u0275\u0275text(4, "Record");
@@ -74567,9 +74935,9 @@ function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementStart(11, "td");
     \u0275\u0275text(12, "Percentage Real");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_43_Conditional_5_For_14_Template, 11, 5, "tr", null, _forTrack0);
+    \u0275\u0275repeaterCreate(13, TasksComponent_Conditional_44_Conditional_5_For_14_Template, 11, 5, "tr", null, _forTrack0);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_43_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 132);
+    \u0275\u0275conditionalCreate(15, TasksComponent_Conditional_44_Conditional_5_Conditional_15_Template, 1, 5, "canvas", 134);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74580,21 +74948,21 @@ function TasksComponent_Conditional_43_Conditional_5_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.viewData.dayDistributionChart.chartData[0].data.length > 0 ? 15 : -1);
   }
 }
-function TasksComponent_Conditional_43_Template(rf, ctx) {
+function TasksComponent_Conditional_44_Template(rf, ctx) {
   if (rf & 1) {
-    const _r85 = \u0275\u0275getCurrentView();
+    const _r93 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_43_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r85);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_44_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r93);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseReportsDayDistribution"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_43_Conditional_5_Template, 16, 1, "div");
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_44_Conditional_5_Template, 16, 1, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74605,7 +74973,7 @@ function TasksComponent_Conditional_43_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseReportsDayDistribution ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_44_Conditional_5_For_10_Template(rf, ctx) {
+function TasksComponent_Conditional_45_Conditional_5_For_10_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
@@ -74618,17 +74986,17 @@ function TasksComponent_Conditional_44_Conditional_5_For_10_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const q_r88 = ctx.$implicit;
+    const q_r96 = ctx.$implicit;
     const ctx_r1 = \u0275\u0275nextContext(3);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(q_r88.qualifier);
+    \u0275\u0275textInterpolate(q_r96.qualifier);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(q_r88.taskCount);
+    \u0275\u0275textInterpolate(q_r96.taskCount);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(ctx_r1.formatTime(q_r88.totalETA * 60));
+    \u0275\u0275textInterpolate(ctx_r1.formatTime(q_r96.totalETA * 60));
   }
 }
-function TasksComponent_Conditional_44_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_45_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "td");
     \u0275\u0275text(4, "Qualifier");
@@ -74639,7 +75007,7 @@ function TasksComponent_Conditional_44_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementStart(7, "td");
     \u0275\u0275text(8, "Total ETA");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_44_Conditional_5_For_10_Template, 7, 3, "tr", null, _forTrack7);
+    \u0275\u0275repeaterCreate(9, TasksComponent_Conditional_45_Conditional_5_For_10_Template, 7, 3, "tr", null, _forTrack7);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -74648,21 +75016,21 @@ function TasksComponent_Conditional_44_Conditional_5_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.reports.qualifierTotals);
   }
 }
-function TasksComponent_Conditional_44_Template(rf, ctx) {
+function TasksComponent_Conditional_45_Template(rf, ctx) {
   if (rf & 1) {
-    const _r87 = \u0275\u0275getCurrentView();
+    const _r95 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275element(1, "hr");
     \u0275\u0275elementStart(2, "button", 9);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_44_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r87);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_45_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r95);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleOption("optCollapseQualifiersTotals"));
     });
     \u0275\u0275elementStart(3, "strong");
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_44_Conditional_5_Template, 11, 0, "div");
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_45_Conditional_5_Template, 11, 0, "div");
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -74673,40 +75041,40 @@ function TasksComponent_Conditional_44_Template(rf, ctx) {
     \u0275\u0275conditional(!ctx_r1.options.optCollapseQualifiersTotals ? 5 : -1);
   }
 }
-function TasksComponent_Conditional_45_For_8_For_2_Template(rf, ctx) {
+function TasksComponent_Conditional_46_For_8_For_2_Template(rf, ctx) {
   if (rf & 1) {
-    const _r89 = \u0275\u0275getCurrentView();
+    const _r97 = \u0275\u0275getCurrentView();
     \u0275\u0275elementStart(0, "td");
     \u0275\u0275text(1);
     \u0275\u0275elementStart(2, "button", 4);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_45_For_8_For_2_Template_button_click_2_listener() {
-      \u0275\u0275restoreView(_r89);
-      const c_r90 = \u0275\u0275nextContext().$implicit;
+    \u0275\u0275listener("click", function TasksComponent_Conditional_46_For_8_For_2_Template_button_click_2_listener() {
+      \u0275\u0275restoreView(_r97);
+      const c_r98 = \u0275\u0275nextContext().$implicit;
       const ctx_r1 = \u0275\u0275nextContext(2);
-      return \u0275\u0275resetView(ctx_r1.sendFEToBE(c_r90));
+      return \u0275\u0275resetView(ctx_r1.sendFEToBE(c_r98));
     });
     \u0275\u0275text(3, "Send FE data to BE");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const f_r91 = ctx.$implicit;
+    const f_r99 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate5(" displayName: ", f_r91.displayName, " | name: ", f_r91.name, " | comparison: ", f_r91.isEqual, " | data FE: ", f_r91.client, " | data BE: ", f_r91.server, " ");
+    \u0275\u0275textInterpolate5(" displayName: ", f_r99.displayName, " | name: ", f_r99.name, " | comparison: ", f_r99.isEqual, " | data FE: ", f_r99.client, " | data BE: ", f_r99.server, " ");
   }
 }
-function TasksComponent_Conditional_45_For_8_Template(rf, ctx) {
+function TasksComponent_Conditional_46_For_8_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr");
-    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_45_For_8_For_2_Template, 4, 5, "td", null, _forTrack8);
+    \u0275\u0275repeaterCreate(1, TasksComponent_Conditional_46_For_8_For_2_Template, 4, 5, "td", null, _forTrack8);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
-    const c_r90 = ctx.$implicit;
+    const c_r98 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275repeater(c_r90);
+    \u0275\u0275repeater(c_r98);
   }
 }
-function TasksComponent_Conditional_45_Template(rf, ctx) {
+function TasksComponent_Conditional_46_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div");
     \u0275\u0275text(1);
@@ -74715,7 +75083,7 @@ function TasksComponent_Conditional_45_Template(rf, ctx) {
     \u0275\u0275element(4, "br");
     \u0275\u0275text(5);
     \u0275\u0275elementStart(6, "table");
-    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_45_For_8_Template, 3, 0, "tr", null, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(7, TasksComponent_Conditional_46_For_8_Template, 3, 0, "tr", null, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -74730,12 +75098,12 @@ function TasksComponent_Conditional_45_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.comparisonData.results);
   }
 }
-function TasksComponent_Conditional_46_Conditional_4_Template(rf, ctx) {
+function TasksComponent_Conditional_47_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
-    const _r93 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 140);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Conditional_4_Template_span_click_0_listener($event) {
-      \u0275\u0275restoreView(_r93);
+    const _r101 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 142);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Conditional_4_Template_span_click_0_listener($event) {
+      \u0275\u0275restoreView(_r101);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleTimeTracking(ctx_r1.selectedTask, $event));
     });
@@ -74743,12 +75111,12 @@ function TasksComponent_Conditional_46_Conditional_4_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_46_Conditional_5_Template(rf, ctx) {
+function TasksComponent_Conditional_47_Conditional_5_Template(rf, ctx) {
   if (rf & 1) {
-    const _r94 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "span", 141);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Conditional_5_Template_span_click_0_listener($event) {
-      \u0275\u0275restoreView(_r94);
+    const _r102 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "span", 143);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Conditional_5_Template_span_click_0_listener($event) {
+      \u0275\u0275restoreView(_r102);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.toggleTimeTracking(ctx_r1.selectedTask, $event));
     });
@@ -74756,42 +75124,42 @@ function TasksComponent_Conditional_46_Conditional_5_Template(rf, ctx) {
     \u0275\u0275elementEnd();
   }
 }
-function TasksComponent_Conditional_46_Template(rf, ctx) {
+function TasksComponent_Conditional_47_Template(rf, ctx) {
   if (rf & 1) {
-    const _r92 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div", 18)(1, "div");
+    const _r100 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div", 19)(1, "div");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 133);
-    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_46_Conditional_4_Template, 2, 0, "span", 134);
-    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_46_Conditional_5_Template, 2, 0, "span", 135);
-    \u0275\u0275elementStart(6, "span", 136);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_6_listener() {
-      \u0275\u0275restoreView(_r92);
+    \u0275\u0275elementStart(3, "div", 135);
+    \u0275\u0275conditionalCreate(4, TasksComponent_Conditional_47_Conditional_4_Template, 2, 0, "span", 136);
+    \u0275\u0275conditionalCreate(5, TasksComponent_Conditional_47_Conditional_5_Template, 2, 0, "span", 137);
+    \u0275\u0275elementStart(6, "span", 138);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_6_listener() {
+      \u0275\u0275restoreView(_r100);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.adjustTimeTracking(ctx_r1.selectedTask));
     });
     \u0275\u0275text(7, "\u21E4");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "span", 137);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_8_listener() {
-      \u0275\u0275restoreView(_r92);
+    \u0275\u0275elementStart(8, "span", 139);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_8_listener() {
+      \u0275\u0275restoreView(_r100);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.setSelected(ctx_r1.selectedTask));
     });
     \u0275\u0275text(9, "\u270E");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(10, "span", 138);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_10_listener() {
-      \u0275\u0275restoreView(_r92);
+    \u0275\u0275elementStart(10, "span", 140);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_10_listener() {
+      \u0275\u0275restoreView(_r100);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.removeQualifiersFromTask(ctx_r1.selectedTask));
     });
     \u0275\u0275text(11, "\u2612");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(12, "span", 139);
-    \u0275\u0275listener("click", function TasksComponent_Conditional_46_Template_span_click_12_listener() {
-      \u0275\u0275restoreView(_r92);
+    \u0275\u0275elementStart(12, "span", 141);
+    \u0275\u0275listener("click", function TasksComponent_Conditional_47_Template_span_click_12_listener() {
+      \u0275\u0275restoreView(_r100);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.selectedTask = null);
     });
@@ -74865,6 +75233,8 @@ var TasksComponent = class _TasksComponent {
     optCollapseFinishedToday: false,
     optCollapseBacklog: false,
     optCollapseClosedTasks: false,
+    optCollapsePinnedTasks: false,
+    optCollapseWorkTasks: false,
     optCollapseReportsWeekDistribution: false,
     optCollapseReportsDayDistribution: false,
     optCollapseQualifiersTotals: false,
@@ -74887,6 +75257,7 @@ var TasksComponent = class _TasksComponent {
   comparisonData;
   nextTasks;
   pinnedTasks;
+  workTasks;
   focusedTask = {
     task: null,
     element: null
@@ -75023,6 +75394,7 @@ var TasksComponent = class _TasksComponent {
     }
     this.nextTasks = [];
     this.pinnedTasks = [];
+    this.workTasks = [];
     this.updateState();
     this.fetchTasks();
     this.subscribe("updateTimeTracking", (timeTrackingItem) => {
@@ -75091,7 +75463,7 @@ var TasksComponent = class _TasksComponent {
     };
     this.tasks = this.services.tasksCore.tasks();
     this.state.backlogTasks = this.createGroupedTasks(this.tasks.filter((t3) => t3.tsk_ctg_status == this.taskStatus.BACKLOG).sort(this.sortByGroup));
-    this.state.openTasks = this.createGroupedTasks(this.tasks.filter((t3) => t3.tsk_ctg_status == this.taskStatus.OPEN && (t3.tsk_date_view_until ? new Date(t3.tsk_date_view_until) < today : true) && ((this.options.optShowQualifiedTasksOnly ? t3.tsk_qualifiers !== "" : true) || t3.tsk_ctg_in_process == 2)).filter((t3) => this.viewData.selectedFilter === "next" ? t3["inNextToDo"] : true).filter((t3) => this.viewData.selectedFilter === "today-and-urgent" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "pinned" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo : true).filter((t3) => this.viewData.selectedFilter === "pinned-and-urgent" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "due-today" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() : true).filter((t3) => this.viewData.selectedFilter === "today" ? today0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < tomorrow0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "yesterday" ? yesterday0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < today0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "old-30" ? new Date(t3.tsk_date_add).getTime() < DateUtils.addDays(today0, -30).getTime() : true).filter((t3) => this.viewData.selectedFilter === "with-schedule" ? !!t3.tsk_schedule_date_start : true).filter((t3) => this.viewData.selectedFilter === "in-progress" ? t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "not-today" ? today0.getTime() > new Date(t3.tsk_date_add).getTime() : true).filter((t3) => this.viewData.selectedFilter === "qualifiers" ? !!t3.tsk_qualifiers : true).filter((t3) => {
+    this.state.openTasks = this.createGroupedTasks(this.tasks.filter((t3) => t3.tsk_ctg_status == this.taskStatus.OPEN && (t3.tsk_date_view_until ? new Date(t3.tsk_date_view_until) < today : true) && ((this.options.optShowQualifiedTasksOnly ? t3.tsk_qualifiers !== "" : true) || t3.tsk_ctg_in_process == 2)).filter((t3) => this.viewData.selectedFilter === "next" ? t3["inNextToDo"] : true).filter((t3) => this.viewData.selectedFilter === "today-and-urgent" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "pinned" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.inWorkToDo : true).filter((t3) => this.viewData.selectedFilter === "pinned-and-urgent" ? this.isRecordPinned(t3.tsk_id_record) || t3.inPinnedToDo || t3.inWorkToDo || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("urgent") || t3.tsk_qualifiers && t3.tsk_qualifiers.includes("critical") || t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "due-today" ? today0.getTime() === new Date(t3.tsk_date_due).getTime() : true).filter((t3) => this.viewData.selectedFilter === "today" ? today0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < tomorrow0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "yesterday" ? yesterday0.getTime() < new Date(t3.tsk_date_add).getTime() && new Date(t3.tsk_date_add).getTime() < today0.getTime() : true).filter((t3) => this.viewData.selectedFilter === "old-30" ? new Date(t3.tsk_date_add).getTime() < DateUtils.addDays(today0, -30).getTime() : true).filter((t3) => this.viewData.selectedFilter === "with-schedule" ? !!t3.tsk_schedule_date_start : true).filter((t3) => this.viewData.selectedFilter === "in-progress" ? t3.tsk_ctg_in_process === 2 : true).filter((t3) => this.viewData.selectedFilter === "not-today" ? today0.getTime() > new Date(t3.tsk_date_add).getTime() : true).filter((t3) => this.viewData.selectedFilter === "qualifiers" ? !!t3.tsk_qualifiers : true).filter((t3) => {
       const qFilters = this.CONSTANTS.filters.filter((f2) => f2.id.startsWith("q-"));
       if (qFilters.some((filter2) => this.viewData.selectedFilter === filter2.id)) {
         return t3.tsk_qualifiers && t3.tsk_qualifiers.includes(this.viewData.selectedFilter.substring(2));
@@ -75180,6 +75552,10 @@ var TasksComponent = class _TasksComponent {
       }
     });
     this.projectNextTasksDates();
+    this.tasks.forEach((t3) => {
+      t3["inPinnedToDo"] = false;
+      t3["inWorkToDo"] = false;
+    });
     if (this.pinnedTasks.length === 0) {
       this.pinnedTasks.push({
         estimatedDuration: 0,
@@ -75189,7 +75565,7 @@ var TasksComponent = class _TasksComponent {
       this.pinnedTasks[0].tasks = [];
     }
     if (this.tasks.length && typeof window.localStorage !== "undefined") {
-      let pinnedTasksIds = JSON.parse(localStorage.getItem("PinnedTasks"));
+      let pinnedTasksIds = JSON.parse(localStorage.getItem("PinnedTasks") || "[]");
       if (pinnedTasksIds) {
         pinnedTasksIds.forEach((id) => {
           let nt2 = this.tasks.find((e2) => e2.tsk_id === id && e2.tsk_ctg_status === this.taskStatus.OPEN);
@@ -75208,6 +75584,36 @@ var TasksComponent = class _TasksComponent {
       } else {
         let index2 = this.pinnedTasks[0].tasks.findIndex((e2) => e2.tsk_id === t3.tsk_id);
         this.pinnedTasks[0].tasks.splice(index2, 1);
+      }
+    });
+    if (this.workTasks.length === 0) {
+      this.workTasks.push({
+        estimatedDuration: 0,
+        tasks: []
+      });
+    } else {
+      this.workTasks[0].tasks = [];
+    }
+    if (this.tasks.length && typeof window.localStorage !== "undefined") {
+      let workTasksIds = JSON.parse(localStorage.getItem("WorkTasks") || "[]");
+      if (workTasksIds) {
+        workTasksIds.forEach((id) => {
+          let nt2 = this.tasks.find((e2) => e2.tsk_id === id && e2.tsk_ctg_status === this.taskStatus.OPEN);
+          if (nt2) {
+            this.workTasks[0].tasks.push(nt2);
+            nt2["inWorkToDo"] = true;
+          }
+        });
+        localStorage.setItem("WorkTasks", JSON.stringify(this.workTasks[0].tasks.map((e2) => e2.tsk_id)));
+      }
+    }
+    this.workTasks[0].estimatedDuration = 0;
+    this.workTasks[0].tasks.forEach((t3) => {
+      if (t3.tsk_ctg_status === this.taskStatus.OPEN) {
+        this.workTasks[0].estimatedDuration += t3.tsk_estimated_duration * 60;
+      } else {
+        let index2 = this.workTasks[0].tasks.findIndex((e2) => e2.tsk_id === t3.tsk_id);
+        this.workTasks[0].tasks.splice(index2, 1);
       }
     });
     const lastTTEntryFromDay = this.lastTTEntryFromDay(DateUtils.addDays(/* @__PURE__ */ new Date(), 1)) || this.lastTTEntryFromDay(today) || this.lastTTEntryFromDay(DateUtils.addDays(/* @__PURE__ */ new Date(), -1));
@@ -75363,6 +75769,9 @@ var TasksComponent = class _TasksComponent {
     if (event.altKey && event.key === "p") {
       this.togglePinnedToDo(t3);
     }
+    if (event.altKey && event.key === "w") {
+      this.toggleWorkToDo(t3);
+    }
     if (event.altKey && event.keyCode == 84) {
       this.adjustTimeTracking(t3, true);
     }
@@ -75450,6 +75859,32 @@ var TasksComponent = class _TasksComponent {
       this.taskMoveDown(parent, (t1, t22) => this.interchangePinnedTaskOrder(t1, t22));
       if (parent.nextElementSibling && parent.nextElementSibling.id) {
         this.focusElement(`#pinnedToDoTodayList #${parent.id} span.task-text[contenteditable=true]`);
+      }
+    }
+    if (!event.altKey && event.keyCode == 38) {
+      this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (!event.altKey && event.keyCode == 40) {
+      this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+  }
+  /**
+   * Jumps cursor up and below the current task in the work task listing
+   * modifying order based in localStorage saved work tasks.
+   * @param event keyboard event to handle
+   */
+  workTaskKeyDown(event) {
+    const parent = event.target["parentNode"];
+    if (event.altKey && event.keyCode == 38) {
+      this.taskMoveUp(parent, (t1, t22) => this.interchangeWorkTaskOrder(t1, t22));
+      setTimeout(() => {
+        this.focusElement(`#workToDoList #${parent.id} span.task-text[contenteditable=true]`);
+      }, 100);
+    }
+    if (event.altKey && event.keyCode == 40) {
+      this.taskMoveDown(parent, (t1, t22) => this.interchangeWorkTaskOrder(t1, t22));
+      if (parent.nextElementSibling && parent.nextElementSibling.id) {
+        this.focusElement(`#workToDoList #${parent.id} span.task-text[contenteditable=true]`);
       }
     }
     if (!event.altKey && event.keyCode == 38) {
@@ -75573,6 +76008,25 @@ var TasksComponent = class _TasksComponent {
       this.pinnedTasks[0].tasks[index1]
     ];
     localStorage.setItem("PinnedTasks", JSON.stringify(currentPinnedTasks));
+  }
+  /**
+   * Interchanges tasks order and updates it in the work tasks listing.
+   * @param tsk_id1 task id to be interchanged
+   * @param tsk_id2 task id to be interchanged
+   */
+  interchangeWorkTaskOrder(tsk_id1, tsk_id2) {
+    let currentWorkTasks = localStorage && JSON.parse(localStorage.getItem("WorkTasks") || "[]");
+    let index1 = currentWorkTasks.findIndex((e2) => e2 === tsk_id1);
+    let index2 = currentWorkTasks.findIndex((e2) => e2 === tsk_id2);
+    [currentWorkTasks[index1], currentWorkTasks[index2]] = [
+      currentWorkTasks[index2],
+      currentWorkTasks[index1]
+    ];
+    [this.workTasks[0].tasks[index1], this.workTasks[0].tasks[index2]] = [
+      this.workTasks[0].tasks[index2],
+      this.workTasks[0].tasks[index1]
+    ];
+    localStorage.setItem("WorkTasks", JSON.stringify(currentWorkTasks));
   }
   taskJumpUp(current, selector) {
     const previous = current.previousElementSibling;
@@ -76920,6 +77374,20 @@ var TasksComponent = class _TasksComponent {
     }
     localStorage.setItem("PinnedTasks", JSON.stringify(p2.map((e2) => e2.tsk_id)));
   }
+  toggleWorkToDo(t3) {
+    let p2 = this.workTasks[0].tasks;
+    let index2 = p2.findIndex((e2) => e2.tsk_id === t3.tsk_id);
+    if (index2 === -1) {
+      p2.push(t3);
+      this.workTasks[0].estimatedDuration += t3.tsk_estimated_duration * 60;
+      t3["inWorkToDo"] = true;
+    } else {
+      p2.splice(index2, 1);
+      this.workTasks[0].estimatedDuration -= t3.tsk_estimated_duration * 60;
+      t3["inWorkToDo"] = false;
+    }
+    localStorage.setItem("WorkTasks", JSON.stringify(p2.map((e2) => e2.tsk_id)));
+  }
   setTaskNotes(task, event) {
     const newNotes = event.target["value"];
     if (task.tsk_notes !== newNotes) {
@@ -77077,6 +77545,14 @@ var TasksComponent = class _TasksComponent {
     });
     localStorage.setItem("PinnedTasks", JSON.stringify(this.pinnedTasks[0].tasks.map((e2) => e2.tsk_id)));
   }
+  clearWorkTasks() {
+    this.workTasks = [];
+    this.workTasks.push({
+      estimatedDuration: 0,
+      tasks: []
+    });
+    localStorage.setItem("WorkTasks", JSON.stringify(this.workTasks[0].tasks.map((e2) => e2.tsk_id)));
+  }
   syncTasks() {
     this.fetchTasks();
   }
@@ -77144,7 +77620,7 @@ var TasksComponent = class _TasksComponent {
   static \u0275fac = function TasksComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _TasksComponent)(\u0275\u0275directiveInject(TasksCore), \u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(TaskIndicator), \u0275\u0275directiveInject(DateCommon), \u0275\u0275directiveInject(NotificationService), \u0275\u0275directiveInject(Title));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 48, vars: 41, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], [3, "ngModelChange", "change", "ngModel"], ["value", "Float"], ["value", "Grid"], ["value", "Grid Lanes"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "id", "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px; margin-bottom: 8px", 4, "ngIf"], [1, "next-options", 2, "margin-top", "8px", "margin-bottom", "8px"], [2, "margin-left", "8px", 3, "click"], [2, "margin-left", "8px", 3, "click", "disabled"], ["src", "data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==", 1, "pl-3"], [3, "id", "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "id", "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksComponent, selectors: [["tasks"]], standalone: false, features: [\u0275\u0275ProvidersFeature([TasksCore, TaskIndicator])], decls: 49, vars: 42, consts: [["tasksForm", "ngForm"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "ngModel"], [1, "grow-wrap"], ["type", "submit", "id", "btnAddTask"], [3, "click"], ["id", "taskDetails", 1, "tasks-details"], ["id", "backlogTaskList"], ["id", "postponedTaskList"], ["id", "openTaskList"], [1, "button-link", "no-underline", 3, "click"], [1, "padding-left-5", "padding-right-5"], [3, "ngClass"], ["id", "Info"], [1, "task-indicators-container"], ["id", "nextToDoTodayList"], ["id", "pinnedToDoTodayList"], ["id", "workToDoList"], ["id", "tagInfo"], ["id", "closedTaskList"], [1, "task-item-toolbar", 3, "ngClass"], [3, "task", "groupTasks", "handlers", "options"], ["type", "text", "name", "tsk_name", "placeholder", "Write a task...", "autocomplete", "off", "autofocus", "true", 1, "task", 3, "keyup", "ngModelChange", "ngModel"], ["name", "tsk_multiple_name", "placeholder", "Write a task per line...", "spellcheck", "false", "autofocus", "true", 1, "task-multiple", 3, "keyup", "ngModelChange", "ngModel"], ["for", "target_date"], ["type", "date", "id", "target_date", "name", "target_date", 2, "width", "fit-content", 3, "ngModelChange", "ngModel"], ["type", "submit", "id", "btnAddTask", 3, "click"], [1, "btn-secondary", 3, "click"], [1, "task-options-section-title"], ["label", "Show backlog section", "optionId", "optShowBacklog", 3, "onClick", "checked"], ["label", "Show Finished Today", "optionId", "optShowFinishedToday", 3, "onClick", "checked"], ["label", "Show Finished Yesterday", "optionId", "optShowFinishedYesterday", 3, "onClick", "checked"], ["label", "Show closed tasks section", "optionId", "optShowClosedTasks", 3, "onClick", "checked"], ["label", "Show week distribution report section", "optionId", "optShowReportsWeekDistribution", 3, "onClick", "checked"], ["label", "Show day distribution report section", "optionId", "optShowReportsDayDistribution", 3, "onClick", "checked"], ["label", "Show qualifiers totals section", "optionId", "optShowQualifiersTotals", 3, "onClick", "checked"], ["label", "Display days elapsed since task was added", "optionId", "optViewElapsedDays", 3, "onClick", "checked"], ["label", "Show Collapse/Expand buttons for record listings", "optionId", "optShowCollapseRecords", 3, "onClick", "checked"], ["label", "Show tasks filter", "optionId", "optShowFilter", 3, "onClick", "checked"], ["label", "Show sync tasks button", "optionId", "optShowSyncButton", 3, "onClick", "checked"], ["label", "Use presentation mode for meetings", "optionId", "optUsePresentationMode", 3, "onClick", "checked"], ["label", "When a new task is added, add it to BACKLOG instead (of adding it to OPEN)", "optionId", "optNewTaskStatusIsBacklog", 3, "onClick", "checked"], ["label", "Show first 3 tasks per record", "optionId", "optShowLimitedTasksPerRecord", 3, "onClick", "checked"], ["label", "Colorize record listing without finished tasks today", "optionId", "optColorizeRecordWithoutDoneTasks", 3, "onClick", "checked"], ["label", "Use end datetime of task timetracking as task done date when this one is a future datetime", "optionId", "optUseEndTTDateAsDoneDate", 3, "onClick", "checked"], ["label", "Allow to edit ETA in tasks", "optionId", "optAllowToEditETA", 3, "onClick", "checked"], ["label", "Show task toolbar in desktop", "optionId", "optShowTaskToolbar", 3, "onClick", "checked"], ["label", "Add newly created tasks to Next Tasks listing", "optionId", "optAddNewTasksToNextTasks", 3, "onClick", "checked"], ["label", "Move time tracking to an available slot when task is marked done", "optionId", "optMoveTimetrackingToAvailableSlotWhenDone", 3, "onClick", "checked"], ["label", "Hide scrollbars for all Record listings when it has too much items", "optionId", "optHideScrollbarsInRecord", 3, "onClick", "checked"], ["label", "When starting a task in progress, push 15 minutes forward its start timer", "optionId", "optPushStartTimer", 3, "onClick", "checked"], ["label", "Use columns and full width for records (useful when record has too much items)", "optionId", "optUseColumnsForRecords", 3, "onClick", "checked"], [3, "ngModelChange", "change", "ngModel"], ["value", "Float"], ["value", "Grid"], ["value", "Grid Lanes"], ["type", "number", "step", "1", "name", "optRecordWidth", 1, "field-input-small", 3, "valueChange", "change", "value"], ["type", "number", "step", "1", "name", "optRecordHeight", 1, "field-input-small", 3, "valueChange", "change", "value"], ["label", "Show Indicators Table", "optionId", "optShowIndicatorsTable", 3, "onClick", "checked"], ["id", "optionsMessages"], ["label", "Show Indicator - Open Count", "optionId", "optShowIndicatorOpenCountEOD", 3, "onClick", "checked"], ["label", "Show Indicator - Added ETA", "optionId", "optShowIndicatorAddedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Added Count", "optionId", "optShowIndicatorAddedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Closed ETA", "optionId", "optShowIndicatorClosedETA", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Spent", "optionId", "optShowIndicatorClosedSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Closed Count", "optionId", "optShowIndicatorClosedCount", 3, "onClick", "checked"], ["label", "Show Indicator - Productivity Ratio", "optionId", "optShowIndicatorProductivityRatio", 3, "onClick", "checked"], ["label", "Show Indicator - Time Management Ratio", "optionId", "optShowIndicatorTimeManagementRatio", 3, "onClick", "checked"], ["label", "Show Indicator - First TimeTracking Stamp of Day", "optionId", "optShowIndicatorFirstTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Last TimeTracking Stamp of Day", "optionId", "optShowIndicatorLastTTStamp", 3, "onClick", "checked"], ["label", "Show Indicator - Open ETA", "optionId", "optShowIndicatorOpenETA", 3, "onClick", "checked"], ["label", "Show Indicator - Open Spent", "optionId", "optShowIndicatorOpenSpent", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog Count", "optionId", "optShowIndicatorBacklogCount", 3, "onClick", "checked"], ["label", "Show Indicator - Backlog ETA", "optionId", "optShowIndicatorBacklogETA", 3, "onClick", "checked"], ["label", "Show Indicator - All Open Count", "optionId", "optShowIndicatorAllOpenCount", 3, "onClick", "checked"], ["label", "Show Indicator - All Open ETA", "optionId", "optShowIndicatorAllOpenETA", 3, "onClick", "checked"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], ["spellcheck", "false", 3, "blur"], ["contenteditable", "true", "spellcheck", "false", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 3, "blur"], [1, "task-record", 3, "ngClass"], [1, "task-record-items", 3, "ngClass", "ngStyle"], ["containerSelector", "#backlogTaskList", 3, "task", "groupTasks", "handlers", "options", "ngClass", "ngStyle"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", 3, "keyup", "blur", "ngClass"], ["contenteditable", "true", "spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], ["name", "fFilter", "id", "fFilter", 1, "field-select", 3, "ngModelChange", "change", "ngModel"], [3, "value", "selected"], [1, "task-record-collapsed", "display-block"], [1, "task-record", 3, "ngClass", "ngStyle"], ["title", "tasks done today from this record list", 1, "task-done"], [3, "ngStyle"], [3, "click", "ngStyle"], [3, "id", "data-id", "ngStyle", "ngClass"], ["type", "checkbox", 3, "click", "id"], ["title", "click to toggle timer mode", 1, "clickable"], ["title", "Critical task", 1, "task-q-critical"], [1, "task-qualifier-icon", "task-qualifier-urgent"], [1, "task-qualifier-icon"], [1, "task-qualifier-icon", "task-qualifier-flag"], [1, "task-next-todo-icon"], [1, "task-pinned-todo-icon"], ["aria-label", "In Work To Do listing", "title", "In Work To Do listing", 2, "margin", "0 -4px"], ["contenteditable", "true", "spellcheck", "false", "tabindex", "0", 1, "editable", "task-text", 3, "keyup", "blur", "focus", "keydown", "ngClass"], [1, "task-link"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "keydown", "ngClass"], [1, "task-tags"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-start", 3, "keyup"], ["contenteditable", "true", "spellcheck", "false", 1, "tt-end", 3, "keyup"], ["title", "click to toggle timer mode", 1, "clickable", 3, "click"], ["src", "/assets/icons/people.svg", "alt", "Requires reaching out people", "title", "Requires reaching out people"], ["src", "/assets/icons/smartphone.svg", "alt", "Can be done using phone", "title", "Can be done using phone"], ["src", "/assets/icons/energy.svg", "alt", "In Next To Do Today listing", "title", "In Next To Do Today listing"], ["src", "/assets/icons/pin.svg", "alt", "In Pinned To Do listing", "title", "In Pinned To Do listing"], ["target", "_blank", 3, "href", "title"], [1, "tag"], [1, "tag", 3, "click"], [1, "indicators-table"], [1, "text-align-center"], [1, "task-open-task-list-container"], [1, "task-record"], ["format", "([H]h[m]m)", 3, "value"], ["format", "([H]h[m]m)", "title", "Time ahead/behind of the last task closed", 3, "value", "ngClass"], [1, "button-link", "no-underline", 2, "margin-left", "8px", 3, "click"], ["class", "next-options", "style", "margin-top: 8px; margin-bottom: 8px", 4, "ngIf"], [1, "next-options", 2, "margin-top", "8px", "margin-bottom", "8px"], [2, "margin-left", "8px", 3, "click"], [2, "margin-left", "8px", 3, "click", "disabled"], ["src", "data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==", 1, "pl-3"], [3, "id", "data-id", "ngClass"], [1, "next-to-do-cutline"], ["contenteditable", "true", "spellcheck", "false", 1, "editable", "task-text", 3, "keyup", "keydown", "blur", "ngClass"], ["spellcheck", "false", 1, "task-eta", 3, "blur", "ngClass"], [3, "id", "data-id"], ["type", "checkbox", "checked", "", 3, "click", "id"], [3, "task", "handlers", "options"], ["id", "dayDistributionChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], [1, "task-item-toolbar-content"], [1, "play-button", "clickable"], [1, "stop-button", "clickable"], [1, "adjust-timetracking-button", "clickable", 3, "click"], [1, "set-selected-button", "clickable", 3, "click"], [1, "remove-qualifiers-button", "clickable", 3, "click"], [1, "close-button", "clickable", 3, "click"], [1, "play-button", "clickable", 3, "click"], [1, "stop-button", "clickable", 3, "click"]], template: function TasksComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "form", null, 0);
       \u0275\u0275conditionalCreate(2, TasksComponent_Conditional_2_Template, 1, 1, "input", 1);
@@ -77198,16 +77674,17 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275element(35, "app-stopwatch");
       \u0275\u0275conditionalCreate(36, TasksComponent_Conditional_36_Template, 5, 0, "div", 14);
       \u0275\u0275conditionalCreate(37, TasksComponent_Conditional_37_Template, 5, 0, "div", 15);
-      \u0275\u0275conditionalCreate(38, TasksComponent_Conditional_38_Template, 11, 5, "div", 16);
-      \u0275\u0275conditionalCreate(39, TasksComponent_Conditional_39_Template, 7, 3, "div");
+      \u0275\u0275conditionalCreate(38, TasksComponent_Conditional_38_Template, 5, 0, "div", 16);
+      \u0275\u0275conditionalCreate(39, TasksComponent_Conditional_39_Template, 11, 5, "div", 17);
       \u0275\u0275conditionalCreate(40, TasksComponent_Conditional_40_Template, 7, 3, "div");
-      \u0275\u0275conditionalCreate(41, TasksComponent_Conditional_41_Template, 6, 2, "div", 17);
-      \u0275\u0275conditionalCreate(42, TasksComponent_Conditional_42_Template, 6, 2, "div");
+      \u0275\u0275conditionalCreate(41, TasksComponent_Conditional_41_Template, 7, 3, "div");
+      \u0275\u0275conditionalCreate(42, TasksComponent_Conditional_42_Template, 6, 2, "div", 18);
       \u0275\u0275conditionalCreate(43, TasksComponent_Conditional_43_Template, 6, 2, "div");
       \u0275\u0275conditionalCreate(44, TasksComponent_Conditional_44_Template, 6, 2, "div");
-      \u0275\u0275conditionalCreate(45, TasksComponent_Conditional_45_Template, 9, 3, "div");
-      \u0275\u0275conditionalCreate(46, TasksComponent_Conditional_46_Template, 14, 6, "div", 18);
-      \u0275\u0275element(47, "task-toolbar", 19);
+      \u0275\u0275conditionalCreate(45, TasksComponent_Conditional_45_Template, 6, 2, "div");
+      \u0275\u0275conditionalCreate(46, TasksComponent_Conditional_46_Template, 9, 3, "div");
+      \u0275\u0275conditionalCreate(47, TasksComponent_Conditional_47_Template, 14, 6, "div", 19);
+      \u0275\u0275element(48, "task-toolbar", 20);
     }
     if (rf & 2) {
       const tasksForm_r5 = \u0275\u0275reference(1);
@@ -77262,25 +77739,27 @@ var TasksComponent = class _TasksComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.pinnedTasks[0].tasks.length ? 37 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.tagInfo.display === true ? 38 : -1);
+      \u0275\u0275conditional(ctx.workTasks[0].tasks.length ? 38 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowFinishedToday ? 39 : -1);
+      \u0275\u0275conditional(ctx.tagInfo.display === true ? 39 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowFinishedYesterday ? 40 : -1);
+      \u0275\u0275conditional(ctx.options.optShowFinishedToday ? 40 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowClosedTasks ? 41 : -1);
+      \u0275\u0275conditional(ctx.options.optShowFinishedYesterday ? 41 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowReportsWeekDistribution ? 42 : -1);
+      \u0275\u0275conditional(ctx.options.optShowClosedTasks ? 42 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowReportsDayDistribution ? 43 : -1);
+      \u0275\u0275conditional(ctx.options.optShowReportsWeekDistribution ? 43 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.options.optShowQualifiersTotals ? 44 : -1);
+      \u0275\u0275conditional(ctx.options.optShowReportsDayDistribution ? 44 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.comparisonData ? 45 : -1);
+      \u0275\u0275conditional(ctx.options.optShowQualifiersTotals ? 45 : -1);
       \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.selectedTask ? 46 : -1);
+      \u0275\u0275conditional(ctx.comparisonData ? 46 : -1);
       \u0275\u0275advance();
-      \u0275\u0275property("task", ctx.selectedTask)("groupTasks", ctx.selectedRecord)("handlers", ctx.handlersForTaskToolbar)("options", \u0275\u0275pureFunction0(40, _c06));
+      \u0275\u0275conditional(ctx.selectedTask ? 47 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275property("task", ctx.selectedTask)("groupTasks", ctx.selectedRecord)("handlers", ctx.handlersForTaskToolbar)("options", \u0275\u0275pureFunction0(41, _c06));
     }
   }, dependencies: [NgClass, NgIf, NgStyle, \u0275NgNoValidate, NgSelectOption, \u0275NgSelectMultipleOption, DefaultValueAccessor, SelectControlValueAccessor, NgControlStatus, NgControlStatusGroup, NgModel, NgForm, BaseChartDirective, StopwatchComponent, TaskComponent, TaskToolbarComponent, CheckboxOptionComponent, TimeFormatComponent, DatePipe], styles: ['\nspan.task-in-process[_ngcontent-%COMP%] {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions[_ngcontent-%COMP%] {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-directions[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted[_ngcontent-%COMP%] {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-highlighted[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important[_ngcontent-%COMP%] {\n  background-color: var(--task-q-important);\n}\n[data-theme="dark"][_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%], [data-theme="dark"]   [_nghost-%COMP%]   span.task-important[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority[_ngcontent-%COMP%] {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-priority[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected[_ngcontent-%COMP%] {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark][_ngcontent-%COMP%]   span.task-unexpected[_ngcontent-%COMP%] {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical[_ngcontent-%COMP%] {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical[_ngcontent-%COMP%] {\n  padding-right: 2px;\n}\nspan.task-q-progressed[_ngcontent-%COMP%] {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process[_ngcontent-%COMP%] {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed[_ngcontent-%COMP%] {\n  display: inline-block;\n}\n.task-record-use-columns[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-record-background[_ngcontent-%COMP%] {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead[_ngcontent-%COMP%] {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind[_ngcontent-%COMP%] {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1[_ngcontent-%COMP%] {\n  columns: 1;\n}\n.task-columns-3[_ngcontent-%COMP%] {\n  columns: 3 !important;\n}\n.task-columns-5[_ngcontent-%COMP%] {\n  columns: 5;\n}\n.task-columns-8[_ngcontent-%COMP%] {\n  columns: 8 !important;\n}\n.task-columns-10[_ngcontent-%COMP%] {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns[_ngcontent-%COMP%] {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%] {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes[_ngcontent-%COMP%]   .task-record[_ngcontent-%COMP%] {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n/*# sourceMappingURL=tasks-ZXMBNNA3.css.map */'], changeDetection: 1 });
 };
@@ -78305,6 +78784,10 @@ var TasksComponent = class _TasksComponent {
               title="In Pinned To Do listing"\r
             />\r
           </span>\r
+          } @if (t.inWorkToDo) {\r
+          <span style="margin: 0 -4px" aria-label="In Work To Do listing" title="In Work To Do listing">\r
+            &#128188;\r
+          </span>\r
           }\r
           <span\r
             contenteditable="true"\r
@@ -78806,6 +79289,165 @@ var TasksComponent = class _TasksComponent {
             spellcheck="false"\r
             (keyup)="taskEdit(t, $event)"\r
             (keydown)="pinnedTaskKeyDown($event)"\r
+            [ngClass]="{\r
+              'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
+              'task-in-process': t.tsk_ctg_in_process === 2,\r
+              'task-important': t.tsk_qualifiers.indexOf('important') !== -1,\r
+              'task-urgent': t.tsk_qualifiers.indexOf('urgent') !== -1,\r
+              'task-highlighted': t.tsk_qualifiers.indexOf('highlighted') !== -1,\r
+              'task-q-progressed': t.tsk_qualifiers.indexOf('progressed') !== -1,\r
+              'task-unexpected': t.tsk_qualifiers.indexOf('unexpected') !== -1,\r
+              'task-call': t.tsk_qualifiers.indexOf('call') !== -1,\r
+              'task-priority': t.tsk_qualifiers.indexOf('priority') !== -1,\r
+              'task-directions': t.tsk_qualifiers.indexOf('directions') !== -1\r
+            }"\r
+            (blur)="commandOnTask(t, $event)"\r
+            class="editable task-text"\r
+            >{{ t.tsk_name }}</span\r
+          >&nbsp;<span\r
+            [attr.contenteditable]="options.optAllowToEditETA"\r
+            spellcheck="false"\r
+            (blur)="taskEstimatedDurationEdit(t, $event)"\r
+            [ngClass]="{ 'task-no-eta': t.tsk_estimated_duration === 0 }"\r
+            class="task-eta"\r
+            >{{ formatTime(t.tsk_estimated_duration * 60, "#h#m") }}</span\r
+          ><span> [{{t.tsk_id_record}}] </span>\r
+          @if (t.tsk_tags) {\r
+          <span class="task-tags">\r
+            @for (tag of t.tsk_tags.split(' '); track tag) {\r
+            <span (click)="showTagStats(tag)" class="tag"> #{{ tag }} </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_schedule_date_start) {\r
+          <span\r
+            ><strong\r
+              >(start at {{ formatDateTime(t.tsk_schedule_date_start)\r
+              }})</strong\r
+            ></span\r
+          >\r
+          } @if (options.optViewElapsedDays) {\r
+          <span [ngClass]="taskAgeClass(t)">{{ taskAge(t) }}</span>\r
+          } @if (t.not_sync) {\r
+          <span>(Not in sync)</span>\r
+          }\r
+        </div>\r
+        }\r
+      </div>\r
+      }\r
+    </div>\r
+    }\r
+  </div>\r
+</div>\r
+} @if (workTasks[0].tasks.length) {\r
+<div id="workToDoList">\r
+  <hr />\r
+  <div class="task-open-task-list-container">\r
+    @for (item of workTasks; track item.tsk_id) {\r
+    <div class="task-record">\r
+      <div>\r
+        <button\r
+          class="button-link no-underline"\r
+          (click)="toggleOption('optCollapseWorkTasks')"\r
+        >\r
+          <strong>{{ options.optCollapseWorkTasks ? '+' : '-' }} Work To Do</strong>\r
+        </button>\r
+        | {{ item.tasks.length }}\r
+        <time-format\r
+          format="([H]h[m]m)"\r
+          [value]="item.estimatedDuration"\r
+        ></time-format>\r
+      </div>\r
+      @if (!options.optCollapseWorkTasks) {\r
+      <div [ngClass]="{ 'columns-3': workTasks[0].tasks.length > 20 }">\r
+        @for (t of item.tasks; track t.tsk_id; let count = $index) {\r
+        <div id="{{ t.tsk_id }}" data-id="{{ t.tsk_id }}">\r
+          <input\r
+            type="checkbox"\r
+            id="{{ t.tsk_id }}"\r
+            (click)="taskCheckboxHandler(t, $event)"\r
+          />\r
+          @if (t.tsk_total_time_spent !== 0) {\r
+          <span\r
+            [ngClass]="{\r
+              'task-open-with-tt':\r
+                t.tsk_ctg_status === this.taskStatus.OPEN &&\r
+                t.tsk_time_history.length > 0\r
+            }"\r
+            >[{{ t.tsk_time_history.length }}/{{\r
+            formatTime(t.tsk_total_time_spent) }}] @if (t.tsk_ctg_in_process !==\r
+            2) {\r
+            <span>\r
+              [<span\r
+                class="tt-start"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length - 1]\r
+                .tsh_date_start | date: "HH:mm:ss" }}</span\r
+              >\r
+              -\r
+              <span\r
+                class="tt-end"\r
+                contenteditable="true"\r
+                spellcheck="false"\r
+                (keyup)="timeTrackingQuickEdit(t, $event, 'end')"\r
+                >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+                1].tsh_date_end | date: "HH:mm:ss" }}</span\r
+              >]\r
+            </span>\r
+            }\r
+          </span>\r
+          } @if (t.tsk_ctg_in_process === 2) {\r
+          <span>\r
+            [<span\r
+              contenteditable="true"\r
+              spellcheck="false"\r
+              (keyup)="timeTrackingQuickEdit(t, $event, 'start')"\r
+              >{{ t.tsk_time_history[t.tsk_time_history.length -\r
+              1].tsh_date_start | date: "HH:mm:ss" }}</span\r
+            >]\r
+          </span>\r
+          }\r
+          <span\r
+            (click)="toggleTimeMode()"\r
+            class="clickable"\r
+            title="click to toggle timer mode"\r
+          >\r
+            {{ timers[t.tsk_id] ? "[" + timers[t.tsk_id].timerString + "]" : ""\r
+            }}\r
+          </span>\r
+          @if (t.tsk_qualifiers.indexOf('critical') !== -1) {\r
+          <span class="task-q-critical" title="Critical task">\u{1F525}</span>\r
+          } @if (t.tsk_qualifiers.indexOf('urgent') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-urgent">&#33;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('star') !== -1) {\r
+          <span class="task-qualifier-icon">&#9733;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('people') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/people.svg"\r
+              alt="Requires reaching out people"\r
+              title="Requires reaching out people"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('mobile') !== -1) {\r
+          <span class="task-qualifier-icon">\r
+            <img\r
+              src="/assets/icons/smartphone.svg"\r
+              alt="Can be done using phone"\r
+              title="Can be done using phone"\r
+            />\r
+          </span>\r
+          } @if (t.tsk_qualifiers.indexOf('flag') !== -1) {\r
+          <span class="task-qualifier-icon task-qualifier-flag">&#9873;</span>\r
+          } @if (t.tsk_qualifiers.indexOf('blocked') !== -1) {\r
+          <span class="task-qualifier-icon">&#10006;</span>\r
+          }\r
+          <span\r
+            contenteditable="true"\r
+            spellcheck="false"\r
+            (keyup)="taskEdit(t, $event)"\r
+            (keydown)="workTaskKeyDown($event)"\r
             [ngClass]="{\r
               'task-done': t.tsk_ctg_status === this.taskStatus.CLOSED,\r
               'task-in-process': t.tsk_ctg_in_process === 2,\r
@@ -80241,167 +80883,167 @@ var AccountComponent = class _AccountComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AccountComponent, [{
     type: Component,
-    args: [{ selector: "account", providers: [AccountService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  <div>\r
-    <a [routerLink]="['/places']">Places</a>\r
-    <a [routerLink]="['/presets']">Presets</a>\r
-  </div>\r
-\r
-  <strong>Accounts</strong>\r
-\r
-  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\r
-    <button\r
-      type="button"\r
-      (click)="viewData.showItemForm = !viewData.showItemForm"\r
-    >\r
-      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}\r
-    </button>\r
-\r
-    @if (viewData.showItemForm) {\r
-    <div id="newAccountFormSection">\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="field-input-small"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fName" class="label-left">Name</label>\r
-        <input\r
-          type="text"\r
-          name="fName"\r
-          id="fName"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fType" class="label-left">Type</label>\r
-        <select\r
-          name="fType"\r
-          id="fType"\r
-          class="field-select"\r
-          [(ngModel)]="model.fType"\r
-        >\r
-          @for (opt of viewData.typeList; track opt) {\r
-          <option\r
-            [value]="opt.ctg_sequential"\r
-            [selected]="opt.ctg_sequential === itemForm.value.fType"\r
-          >\r
-            {{ opt.ctg_name }}\r
-          </option>\r
-          }\r
-        </select>\r
-      </span>\r
-      <span class="field">\r
-        <label for="fComment" class="label-left">Comment</label>\r
-        <input\r
-          type="text"\r
-          name="fComment"\r
-          id="fComment"\r
-          class="field-input field-input-large"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fCheckDay" class="label-left">Check Day</label>\r
-        <input\r
-          type="number"\r
-          name="fCheckDay"\r
-          id="fCheckDay"\r
-          class="field-input field-input-number"\r
-          step="1"\r
-          min="0"\r
-          max="31"\r
-          maxlength="2"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fAverageMinBalance" class="label-left"\r
-          >Average Min Balance</label\r
-        >\r
-        <input\r
-          type="number"\r
-          name="fAverageMinBalance"\r
-          id="fAverageMinBalance"\r
-          class="field-input field-input-number"\r
-          step="1"\r
-          min="0"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fPaymentDay" class="label-left">Payment Day</label>\r
-        <input\r
-          type="number"\r
-          name="fPaymentDay"\r
-          id="fPaymentDay"\r
-          class="field-input field-input-number"\r
-          step="1"\r
-          min="0"\r
-          max="31"\r
-          maxlength="2"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r
-    </div>\r
-    }\r
-  </form>\r
-\r
-  <checkbox-option\r
-    label="Include archived items"\r
-    optionId="accounts-options-archived"\r
-    [checked]="viewData.includeArchived"\r
-    (onClick)="reloadItems($event)"\r
-  ></checkbox-option>\r
-\r
-  <div class="card-list">\r
-    @for (item of viewData.accountList; track item) {\r
-    <div class="card-item-container">\r
-      <span class="account-name">{{ item.acc_name }}</span>\r
-      <br />\r
-      <span class="account-type">{{ item.acc_txt_type }}</span>\r
-      <span (click)="item.showOptions = !item.showOptions">\r
-        {{ item.showOptions ? "-" : "+" }}\r
-      </span>\r
-      <br />\r
-      <span> Check day: {{ item.acc_check_day }} </span>\r
-      @if (item.acc_comment) {\r
-      <span> | Comment: {{ item.acc_comment }}</span>\r
-      }\r
-      <br />\r
-      @if (item.acc_average_min_balance != 0) {\r
-      <span>\r
-        Average min balance: {{ item.acc_average_min_balance | currency:\r
-        "USD":"symbol-narrow":"1.2-2" }}\r
-      </span>\r
-      }\r
-      <br />\r
-      <span>Payment day: {{ item.acc_payment_day }}</span>\r
-      <br />\r
-      <span>Status: {{ item.acc_txt_status }}</span>\r
-      @if (item.isNew) {\r
-      <span class="general-badge-new">new</span>\r
-      } @if (item.isEdited) {\r
-      <span class="general-badge-edited">edited</span>\r
-      }\r
-      <br />\r
-      @if (item.showOptions) {\r
-      <span>\r
-        <button (click)="setModelDetails(item.acc_id, itemForm)">Edit</button>\r
-        <button (click)="toggleStatus(item)">\r
-          {{ item.acc_ctg_status === 1 ? "Disable" : "Enable" }}\r
-        </button>\r
-      </span>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-</div>\r
+    args: [{ selector: "account", providers: [AccountService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  <div>
+    <a [routerLink]="['/places']">Places</a>
+    <a [routerLink]="['/presets']">Presets</a>
+  </div>
+
+  <strong>Accounts</strong>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    @if (viewData.showItemForm) {
+    <div id="newAccountFormSection">
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          id="fName"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fType" class="label-left">Type</label>
+        <select
+          name="fType"
+          id="fType"
+          class="field-select"
+          [(ngModel)]="model.fType"
+        >
+          @for (opt of viewData.typeList; track opt) {
+          <option
+            [value]="opt.ctg_sequential"
+            [selected]="opt.ctg_sequential === itemForm.value.fType"
+          >
+            {{ opt.ctg_name }}
+          </option>
+          }
+        </select>
+      </span>
+      <span class="field">
+        <label for="fComment" class="label-left">Comment</label>
+        <input
+          type="text"
+          name="fComment"
+          id="fComment"
+          class="field-input field-input-large"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fCheckDay" class="label-left">Check Day</label>
+        <input
+          type="number"
+          name="fCheckDay"
+          id="fCheckDay"
+          class="field-input field-input-number"
+          step="1"
+          min="0"
+          max="31"
+          maxlength="2"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fAverageMinBalance" class="label-left"
+          >Average Min Balance</label
+        >
+        <input
+          type="number"
+          name="fAverageMinBalance"
+          id="fAverageMinBalance"
+          class="field-input field-input-number"
+          step="1"
+          min="0"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fPaymentDay" class="label-left">Payment Day</label>
+        <input
+          type="number"
+          name="fPaymentDay"
+          id="fPaymentDay"
+          class="field-input field-input-number"
+          step="1"
+          min="0"
+          max="31"
+          maxlength="2"
+          ngModel
+        />
+      </span>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+    }
+  </form>
+
+  <checkbox-option
+    label="Include archived items"
+    optionId="accounts-options-archived"
+    [checked]="viewData.includeArchived"
+    (onClick)="reloadItems($event)"
+  ></checkbox-option>
+
+  <div class="card-list">
+    @for (item of viewData.accountList; track item) {
+    <div class="card-item-container">
+      <span class="account-name">{{ item.acc_name }}</span>
+      <br />
+      <span class="account-type">{{ item.acc_txt_type }}</span>
+      <span (click)="item.showOptions = !item.showOptions">
+        {{ item.showOptions ? "-" : "+" }}
+      </span>
+      <br />
+      <span> Check day: {{ item.acc_check_day }} </span>
+      @if (item.acc_comment) {
+      <span> | Comment: {{ item.acc_comment }}</span>
+      }
+      <br />
+      @if (item.acc_average_min_balance != 0) {
+      <span>
+        Average min balance: {{ item.acc_average_min_balance | currency:
+        "USD":"symbol-narrow":"1.2-2" }}
+      </span>
+      }
+      <br />
+      <span>Payment day: {{ item.acc_payment_day }}</span>
+      <br />
+      <span>Status: {{ item.acc_txt_status }}</span>
+      @if (item.isNew) {
+      <span class="general-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="general-badge-edited">edited</span>
+      }
+      <br />
+      @if (item.showOptions) {
+      <span>
+        <button (click)="setModelDetails(item.acc_id, itemForm)">Edit</button>
+        <button (click)="toggleStatus(item)">
+          {{ item.acc_ctg_status === 1 ? "Disable" : "Enable" }}
+        </button>
+      </span>
+      }
+    </div>
+    }
+  </div>
+</div>
 ` }]
   }], () => [{ type: AccountService }, { type: SyncAPI }, { type: Title }], null);
 })();
@@ -85389,177 +86031,177 @@ var MovementListingComponent = class _MovementListingComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MovementListingComponent, [{
     type: Component,
-    args: [{ selector: "movement-listing", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  Use View\r
-  <select [(ngModel)]="selectedView">\r
-    <option value="cards">Cards</option>\r
-    <option value="compact">Compact</option>\r
-    <option value="grid">Grid</option>\r
-  </select>\r
-  Showing {{movementList.length}} items.\r
-</div>\r
-\r
-@if (showSearch) {\r
-<div>\r
-  <label for="fSearch" class="label-left">Search term</label>\r
-  <input\r
-    type="text"\r
-    name="fSearch"\r
-    id="fSearch"\r
-    class="field-input"\r
-    [(ngModel)]="searchTerm"\r
-    (keyup.enter)="handleSearch()"\r
-  />\r
-  <button (click)="handleSearch()">Search</button>\r
-</div>\r
-} @if (movementList.length && selectedView === 'grid') {\r
-<table>\r
-  <tr>\r
-    <th>Id</th>\r
-    <th>Date</th>\r
-    <th>Account</th>\r
-    <th>Account To</th>\r
-    <th>Type</th>\r
-    <th>Amount</th>\r
-    <th>Budget</th>\r
-    <th>Category</th>\r
-    <th>Place</th>\r
-    <th>Description</th>\r
-    <th>Notes</th>\r
-    <th>Status</th>\r
-  </tr>\r
-  @for (m of movementList; track m) {\r
-  <tr>\r
-    <td>{{ m.mov_id }}</td>\r
-    <td>{{ m.mov_date | date: "yyyy-MM-dd" }}</td>\r
-    <td>{{ m.mov_txt_account }}</td>\r
-    <td>{{ m.mov_txt_account_to }}</td>\r
-    <td>{{ m.mov_txt_type }}</td>\r
-    <td>{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</td>\r
-    <td>{{ m.mov_budget }}</td>\r
-    <td>{{ m.mov_txt_category }}</td>\r
-    <td>{{ m.mov_txt_place }}</td>\r
-    <td>{{ m.mov_desc }}</td>\r
-    <td>{{ m.mov_notes }}</td>\r
-    <td>{{ m.mov_txt_status }}</td>\r
-  </tr>\r
-  }\r
-</table>\r
-} @if (movementList.length && selectedView === 'cards') {\r
-<div>\r
-  <div class="movement-list">\r
-    @for (m of movementList; track m) {\r
-    <div class="movement-box" (click)="handleClick(m.mov_id)">\r
-      @if (false) {\r
-      <span>{{ m.mov_id }}<br /></span>\r
-      }\r
-      <span\r
-        [ngClass]="{\r
-          'movement-amount-income': m.mov_ctg_type === 2,\r
-          'movement-amount-expense': m.mov_ctg_type === 1,\r
-          'movement-amount-transfer': m.mov_ctg_type === 3\r
-        }"\r
-      >\r
-        @if (m.mov_txt_type === 'EXPENSE') {\r
-        <span>-</span>\r
-        } @if (m.mov_txt_type === 'INCOME') {\r
-        <span>+</span>\r
-        }\r
-        <span\r
-          >{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span\r
-        >\r
-      </span>\r
-      <span class="movement-account">&nbsp;[{{ m.mov_txt_account }}]</span>\r
-      @if (m.mov_txt_account_to) {\r
-      <span class="movement-account"> -> [{{ m.mov_txt_account_to }}]</span>\r
-      }<br />\r
-      <span class="movement-date">[{{ m.mov_date | date: "yyyy-MM-dd" }}]</span>\r
-      <span class="movement-description">&nbsp;{{ m.mov_desc }}</span>\r
-      <br />\r
-      @if (m.mov_txt_category) {\r
-      <span class="movement-category">{{ m.mov_txt_category }}</span>\r
-      } @if (m.mov_txt_place) {\r
-      <span class="movement-place"> | {{ m.mov_txt_place }}</span>\r
-      } @if (m.mov_budget) {\r
-      <span class="movement-budget"> | #[{{ m.mov_budget }}]</span>\r
-      } @if (m.mov_ctg_type === 1 || m.mov_ctg_type === 2) {\r
-      <br />\r
-      }\r
-      <span class="movement-notes">{{ m.mov_notes }}</span>\r
-      @if (m.mov_ctg_status !== 1) {\r
-      <span class="movement-status">{{ m.mov_txt_status }}</span>\r
-      } @if (m.isNew) {\r
-      <span class="movement-badge-new">new</span>\r
-      } @if (m.isEdited) {\r
-      <span class="movement-badge-edited">edited</span>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-</div>\r
-} @if (movementList.length && selectedView === 'compact') {\r
-<div>\r
-  <table>\r
-    <tr>\r
-      <th class="padding-all-5">-</th>\r
-      <th class="padding-all-5 width-80">Date</th>\r
-      <th class="padding-all-5 width-80">Amount</th>\r
-      <th class="padding-all-5">Place</th>\r
-      <th class="padding-all-5">Description</th>\r
-    </tr>\r
-    @if (selectedBalance) {\r
-    <tr class="movements-listing-row vertical-align-top">\r
-      <td class="padding-all-5"></td>\r
-      <td class="padding-all-5"></td>\r
-      <td class="padding-all-5 text-align-right">\r
-        <strong\r
-          >{{ selectedBalance.bal_initial | currency:\r
-          "USD":"symbol-narrow":"1.2-2" }}</strong\r
-        >\r
-      </td>\r
-      <td class="padding-all-5"></td>\r
-      <td class="padding-all-5"><strong>INITIAL BALANCE</strong></td>\r
-    </tr>\r
-    } @for (m of movementList; track m) {\r
-    <tr class="movements-listing-row vertical-align-top">\r
-      <td class="padding-all-5">\r
-        <input type="checkbox" (click)="handleSelectMovement(m, $event)" />\r
-      </td>\r
-      <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>\r
-      @if (selectedBalance) {\r
-      <td class="padding-all-5 text-align-right">\r
-        {{ (m.mov_ctg_type === 1 || (m.mov_ctg_type === 3 && m.mov_id_account\r
-        === selectedBalance.bal_id_account) ? -1 * m.mov_amount : m.mov_amount)\r
-        | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-      </td>\r
-      } @if (!selectedBalance) {\r
-      <td class="padding-all-5 text-align-right">\r
-        {{ (m.mov_ctg_type === 1 ? -1 * m.mov_amount : m.mov_amount) | currency:\r
-        "USD":"symbol-narrow":"1.2-2" }}\r
-      </td>\r
-      }\r
-      <td class="padding-all-5">\r
-        {{ m.mov_ctg_type === 3 ? "TRANSFER" : m.mov_txt_place }}\r
-      </td>\r
-      <td class="padding-all-5">{{ m.mov_desc }}</td>\r
-    </tr>\r
-    } @if (selectedBalance) {\r
-    <tr class="movements-listing-row vertical-align-top">\r
-      <td class="padding-all-5"></td>\r
-      <td class="padding-all-5"></td>\r
-      <td class="padding-all-5 text-align-right">\r
-        <strong\r
-          >{{ selectedBalance.bal_final | currency:\r
-          "USD":"symbol-narrow":"1.2-2" }}</strong\r
-        >\r
-      </td>\r
-      <td class="padding-all-5"></td>\r
-      <td class="padding-all-5"><strong>FINAL BALANCE</strong></td>\r
-    </tr>\r
-    }\r
-  </table>\r
-</div>\r
-}\r
+    args: [{ selector: "movement-listing", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  Use View
+  <select [(ngModel)]="selectedView">
+    <option value="cards">Cards</option>
+    <option value="compact">Compact</option>
+    <option value="grid">Grid</option>
+  </select>
+  Showing {{movementList.length}} items.
+</div>
+
+@if (showSearch) {
+<div>
+  <label for="fSearch" class="label-left">Search term</label>
+  <input
+    type="text"
+    name="fSearch"
+    id="fSearch"
+    class="field-input"
+    [(ngModel)]="searchTerm"
+    (keyup.enter)="handleSearch()"
+  />
+  <button (click)="handleSearch()">Search</button>
+</div>
+} @if (movementList.length && selectedView === 'grid') {
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Date</th>
+    <th>Account</th>
+    <th>Account To</th>
+    <th>Type</th>
+    <th>Amount</th>
+    <th>Budget</th>
+    <th>Category</th>
+    <th>Place</th>
+    <th>Description</th>
+    <th>Notes</th>
+    <th>Status</th>
+  </tr>
+  @for (m of movementList; track m) {
+  <tr>
+    <td>{{ m.mov_id }}</td>
+    <td>{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
+    <td>{{ m.mov_txt_account }}</td>
+    <td>{{ m.mov_txt_account_to }}</td>
+    <td>{{ m.mov_txt_type }}</td>
+    <td>{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</td>
+    <td>{{ m.mov_budget }}</td>
+    <td>{{ m.mov_txt_category }}</td>
+    <td>{{ m.mov_txt_place }}</td>
+    <td>{{ m.mov_desc }}</td>
+    <td>{{ m.mov_notes }}</td>
+    <td>{{ m.mov_txt_status }}</td>
+  </tr>
+  }
+</table>
+} @if (movementList.length && selectedView === 'cards') {
+<div>
+  <div class="movement-list">
+    @for (m of movementList; track m) {
+    <div class="movement-box" (click)="handleClick(m.mov_id)">
+      @if (false) {
+      <span>{{ m.mov_id }}<br /></span>
+      }
+      <span
+        [ngClass]="{
+          'movement-amount-income': m.mov_ctg_type === 2,
+          'movement-amount-expense': m.mov_ctg_type === 1,
+          'movement-amount-transfer': m.mov_ctg_type === 3
+        }"
+      >
+        @if (m.mov_txt_type === 'EXPENSE') {
+        <span>-</span>
+        } @if (m.mov_txt_type === 'INCOME') {
+        <span>+</span>
+        }
+        <span
+          >{{ m.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span
+        >
+      </span>
+      <span class="movement-account">&nbsp;[{{ m.mov_txt_account }}]</span>
+      @if (m.mov_txt_account_to) {
+      <span class="movement-account"> -> [{{ m.mov_txt_account_to }}]</span>
+      }<br />
+      <span class="movement-date">[{{ m.mov_date | date: "yyyy-MM-dd" }}]</span>
+      <span class="movement-description">&nbsp;{{ m.mov_desc }}</span>
+      <br />
+      @if (m.mov_txt_category) {
+      <span class="movement-category">{{ m.mov_txt_category }}</span>
+      } @if (m.mov_txt_place) {
+      <span class="movement-place"> | {{ m.mov_txt_place }}</span>
+      } @if (m.mov_budget) {
+      <span class="movement-budget"> | #[{{ m.mov_budget }}]</span>
+      } @if (m.mov_ctg_type === 1 || m.mov_ctg_type === 2) {
+      <br />
+      }
+      <span class="movement-notes">{{ m.mov_notes }}</span>
+      @if (m.mov_ctg_status !== 1) {
+      <span class="movement-status">{{ m.mov_txt_status }}</span>
+      } @if (m.isNew) {
+      <span class="movement-badge-new">new</span>
+      } @if (m.isEdited) {
+      <span class="movement-badge-edited">edited</span>
+      }
+    </div>
+    }
+  </div>
+</div>
+} @if (movementList.length && selectedView === 'compact') {
+<div>
+  <table>
+    <tr>
+      <th class="padding-all-5">-</th>
+      <th class="padding-all-5 width-80">Date</th>
+      <th class="padding-all-5 width-80">Amount</th>
+      <th class="padding-all-5">Place</th>
+      <th class="padding-all-5">Description</th>
+    </tr>
+    @if (selectedBalance) {
+    <tr class="movements-listing-row vertical-align-top">
+      <td class="padding-all-5"></td>
+      <td class="padding-all-5"></td>
+      <td class="padding-all-5 text-align-right">
+        <strong
+          >{{ selectedBalance.bal_initial | currency:
+          "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
+      </td>
+      <td class="padding-all-5"></td>
+      <td class="padding-all-5"><strong>INITIAL BALANCE</strong></td>
+    </tr>
+    } @for (m of movementList; track m) {
+    <tr class="movements-listing-row vertical-align-top">
+      <td class="padding-all-5">
+        <input type="checkbox" (click)="handleSelectMovement(m, $event)" />
+      </td>
+      <td class="padding-all-5">{{ m.mov_date | date: "yyyy-MM-dd" }}</td>
+      @if (selectedBalance) {
+      <td class="padding-all-5 text-align-right">
+        {{ (m.mov_ctg_type === 1 || (m.mov_ctg_type === 3 && m.mov_id_account
+        === selectedBalance.bal_id_account) ? -1 * m.mov_amount : m.mov_amount)
+        | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </td>
+      } @if (!selectedBalance) {
+      <td class="padding-all-5 text-align-right">
+        {{ (m.mov_ctg_type === 1 ? -1 * m.mov_amount : m.mov_amount) | currency:
+        "USD":"symbol-narrow":"1.2-2" }}
+      </td>
+      }
+      <td class="padding-all-5">
+        {{ m.mov_ctg_type === 3 ? "TRANSFER" : m.mov_txt_place }}
+      </td>
+      <td class="padding-all-5">{{ m.mov_desc }}</td>
+    </tr>
+    } @if (selectedBalance) {
+    <tr class="movements-listing-row vertical-align-top">
+      <td class="padding-all-5"></td>
+      <td class="padding-all-5"></td>
+      <td class="padding-all-5 text-align-right">
+        <strong
+          >{{ selectedBalance.bal_final | currency:
+          "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
+      </td>
+      <td class="padding-all-5"></td>
+      <td class="padding-all-5"><strong>FINAL BALANCE</strong></td>
+    </tr>
+    }
+  </table>
+</div>
+}
 `, styles: ["/* src/app/money/movementListing.css */\n.movements-listing-row:nth-child(even) {\n  background-color: lightgrey;\n}\n/*# sourceMappingURL=movementListing-BZDRZXWZ.css.map */\n"] }]
   }], null, { selectedView: [{
     type: Input
@@ -85674,7 +86316,7 @@ var ComboItemComponent = class _ComboItemComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ComboItemComponent, [{
     type: Component,
-    args: [{ selector: "combo-item", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<button\r\n  (click)="toggleView()"\r\n  title="Click to add an item to this list and select it"\r\n>\r\n  {{addLabel}}\r\n</button>\r\n\r\n@if (viewAddForm) {\r\n<div class="combo-item-container">\r\n  <label for="{{name}}">{{inputLabel}}</label>\r\n  <input\r\n    type="text"\r\n    name="{{name}}"\r\n    id="{{name}}"\r\n    [(ngModel)]="value"\r\n    (keydown.enter)="onNewItem(value)"\r\n    autofocus\r\n  />\r\n  <button (click)="onNewItem(value)" [disabled]="!value">\r\n    {{buttonLabel}}\r\n  </button>\r\n</div>\r\n}\r\n' }]
+    args: [{ selector: "combo-item", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<button\n  (click)="toggleView()"\n  title="Click to add an item to this list and select it"\n>\n  {{addLabel}}\n</button>\n\n@if (viewAddForm) {\n<div class="combo-item-container">\n  <label for="{{name}}">{{inputLabel}}</label>\n  <input\n    type="text"\n    name="{{name}}"\n    id="{{name}}"\n    [(ngModel)]="value"\n    (keydown.enter)="onNewItem(value)"\n    autofocus\n  />\n  <button (click)="onNewItem(value)" [disabled]="!value">\n    {{buttonLabel}}\n  </button>\n</div>\n}\n' }]
   }], null, { addNewItem: [{
     type: Input
   }], name: [{
@@ -87284,304 +87926,304 @@ var MovementComponent = class _MovementComponent {
       EntryService,
       BalanceService,
       PresetService
-    ], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<strong>Movements</strong>\r
-<br />\r
-\r
-<form\r
-  #newMovementForm="ngForm"\r
-  (ngSubmit)="newMovement(newMovementForm)"\r
-  (keydown)="onFormKeydown($event, newMovementForm)"\r
->\r
-  <button type="button" (click)="handleNewMovement(newMovementForm)">\r
-    {{ viewData.showCreateForm ? "Hide Movement Form" : "New Movement" }}\r
-  </button>\r
-\r
-  @if (viewData.showCreateForm) {\r
-  <div>\r
-    <input\r
-      type="radio"\r
-      name="fMovementFlowType"\r
-      id="fMovementFlowTypeCustom"\r
-      [(ngModel)]="_movementFlowType"\r
-      (click)="movementFlowType('custom')"\r
-      value="custom"\r
-    />\r
-    <label for="fMovementFlowTypeCustom">Custom</label>\r
-    <input\r
-      type="radio"\r
-      name="fMovementFlowType"\r
-      id="fMovementFlowTypeTransfer"\r
-      [(ngModel)]="_movementFlowType"\r
-      (click)="movementFlowType('transfer')"\r
-      value="transfer"\r
-    />\r
-    <label for="fMovementFlowTypeTransfer">Transfer</label>\r
-    <div>\r
-      @if (isCustom) {\r
-      <h4>Custom</h4>\r
-      } @if (isTransfer) {\r
-      <h4>Transfer</h4>\r
-      }\r
-      @if (viewData.presets.length > 1 && !model.id) {\r
-      <span class="field">\r
-      <datalist-input\r
-        label="Use a Preset"\r
-        inputName="fPresetText"\r
-        inputId="fPresetText"\r
-        datalistId="presetOptions"\r
-        [(value)]="model.selectedPresetText"\r
-        [(selectedId)]="model.selectedPreset"\r
-        [options]="viewData.presets"\r
-        optionLabelField="pre_name"\r
-        optionValueField="pre_id"\r
-        (selectedIdChange)="onPresetChange($event, newMovementForm)"\r
-        hiddenName="fPreset"\r
-      ></datalist-input>\r
-      <input type="hidden" name="fPreset" [ngModel]="model.selectedPreset" />\r
-      <hr />\r
-      </span>\r
-      } @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span class="movement-input-id">{{ model.id }}</span>\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fDescription" class="label-left">Description</label>\r
-        <input\r
-          type="text"\r
-          name="fDescription"\r
-          id="fDescription"\r
-          class="field-input movement-input-description"\r
-          (blur)="onDescriptionBlurHandler($event.target.value, newMovementForm)"\r
-          ngModel\r
-        />\r
-        @if (newMovementForm.value.fDescription) {\r
-        <span>\r
-          {{ newMovementForm.value.fDescription.length }} / 200 characters\r
-        </span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fAmount" class="label-left">Amount</label>\r
-        <input\r
-          type="number"\r
-          name="fAmount"\r
-          id="fAmount"\r
-          class="field-input"\r
-          step="0.01"\r
-          inputmode="decimal"\r
-          [(ngModel)]="model.amount"\r
-        />\r
-      </span>\r
-      <span class="field">\r
-      <datalist-input\r
-        label="Account"\r
-        inputName="fAccountText"\r
-        inputId="fAccountText"\r
-        datalistId="accountOptions"\r
-        [(value)]="model.accountText"\r
-        [(selectedId)]="model.account"\r
-        [options]="viewData.accounts"\r
-        optionLabelField="acc_name"\r
-        optionValueField="acc_id"\r
-        optionSecondaryField="bal_final"\r
-      ></datalist-input>\r
-      <input type="hidden" name="fAccount" [ngModel]="model.account" />\r
-      @if (selectedAccountBalance !== null) {\r
-      <div class="field-note">\r
-        <span>Balance: {{ selectedAccountBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>\r
-        <br />\r
-        <span>\r
-          Balance after movement:\r
-          {{ balanceAfterMovement | currency:"USD":"symbol-narrow":"1.2-2" }}\r
-        </span>\r
-      </div>\r
-      }\r
-      </span>\r
-      @if (isTransfer) {\r
-      <span class="field">\r
-      <datalist-input\r
-        label="Account To"\r
-        inputName="fAccountToText"\r
-        inputId="fAccountToText"\r
-        datalistId="accountToOptions"\r
-        [(value)]="model.accountToText"\r
-        [(selectedId)]="model.accountTo"\r
-        [options]="viewData.accounts"\r
-        optionLabelField="acc_name"\r
-        optionValueField="acc_id"\r
-        optionSecondaryField="bal_final"\r
-      ></datalist-input>\r
-      <input type="hidden" name="fAccountTo" [ngModel]="model.accountTo" />\r
-      @if (selectedAccountToBalance !== null) {\r
-      <div class="field-note">\r
-        <span>Balance: {{ selectedAccountToBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>\r
-        <br />\r
-        <span>\r
-          Balance after movement:\r
-          {{ balanceAfterMovementTo | currency:"USD":"symbol-narrow":"1.2-2" }}\r
-        </span>\r
-      </div>\r
-      }\r
-      </span>\r
-      } @if (!isTransfer) {\r
-      <span class="field">\r
-        <input\r
-          type="radio"\r
-          [value]="1"\r
-          name="fMovementType"\r
-          id="fMovementType_1"\r
-          [(ngModel)]="model.type"\r
-        />\r
-        <label for="fMovementType_1" class="label-radio">Expense</label>\r
-        <input\r
-          type="radio"\r
-          [value]="2"\r
-          name="fMovementType"\r
-          id="fMovementType_2"\r
-          [(ngModel)]="model.type"\r
-        />\r
-        <label for="fMovementType_2" class="label-radio">Income</label>\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fDate" class="label-left">Movement Date</label>\r
-        <input type="date" name="fDate" [(ngModel)]="model.date" />\r
-      </span>\r
-      @if (!isTransfer) {\r
-      <span class="field">\r
-      <datalist-input\r
-        label="Place"\r
-        inputName="fPlaceText"\r
-        inputId="fPlaceText"\r
-        datalistId="placeOptions"\r
-        [(value)]="model.placeText"\r
-        [(selectedId)]="model.place"\r
-        [options]="viewData.places"\r
-        optionLabelField="mpl_name"\r
-        optionValueField="mpl_id"\r
-      ></datalist-input>\r
-      <input type="hidden" name="fPlace" [ngModel]="model.place" />\r
-      <combo-item\r
-        [name]="place"\r
-        [addNewItem]="addNewPlaceForUser"\r
-      ></combo-item>\r
-      </span>\r
-      } @if (!isTransfer) {\r
-      <span class="field">\r
-      <datalist-input\r
-        label="Category"\r
-        inputName="fCategoryText"\r
-        inputId="fCategoryText"\r
-        datalistId="categoryOptions"\r
-        [(value)]="model.categoryText"\r
-        [(selectedId)]="model.category"\r
-        [options]="viewData.categories"\r
-        optionLabelField="mct_name"\r
-        optionValueField="mct_id"\r
-      ></datalist-input>\r
-      <input type="hidden" name="fCategory" [ngModel]="model.category" />\r
-      <combo-item\r
-        [name]="category"\r
-        [addNewItem]="addNewCategoryForUser"\r
-      ></combo-item>\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fBudget" class="field-input label-left">Tags</label>\r
-        <input\r
-          type="text"\r
-          name="fBudget"\r
-          id="fBudget"\r
-          class="field-input movement-input-budget"\r
-          ngModel\r
-        />\r
-        @if (newMovementForm.value.fBudget) {\r
-        <span>\r
-          {{ newMovementForm.value.fBudget.length }} / 50 characters\r
-        </span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fNotes" class="label-left">Notes</label>\r
-        <input\r
-          type="text"\r
-          name="fNotes"\r
-          id="fNotes"\r
-          class="field-input movement-input-notes"\r
-          ngModel\r
-        />\r
-        @if (newMovementForm.value.fNotes) {\r
-        <span>\r
-          {{ newMovementForm.value.fNotes.length }} / 200 characters\r
-        </span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <hr />\r
-        <label for="fAsPreset" class="label-left">As Preset</label>\r
-        <input\r
-          type="checkbox"\r
-          name="fAsPreset"\r
-          id="fAsPreset"\r
-          [(ngModel)]="model.asPreset"\r
-        />\r
-      </span>\r
-      @if (model.asPreset) {\r
-      <span class="field">\r
-        <label for="fName" class="label-left">Preset Name</label>\r
-        <input\r
-          type="text"\r
-          name="fName"\r
-          id="fName"\r
-          class="field-input"\r
-          ngModel\r
-        />\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fResetForm" class="label-left">Reset form after save</label>\r
-        <input\r
-          type="checkbox"\r
-          name="fResetForm"\r
-          id="fResetForm"\r
-          [(ngModel)]="model.resetForm"\r
-        />\r
-      </span>\r
-      <button type="submit" id="newFormSubmitButton">\r
-        {{ model.asPreset ? "Save as Preset" : model.id !== null ? "Update\r
-        Movement" : "Save Movement" }}\r
-      </button>\r
-      @if (model.id !== null) {\r
-      <button\r
-        type="button"\r
-        (click)="cancel(model.id)"\r
-        title="Sets status to Cancelled"\r
-      >\r
-        Cancel\r
-      </button>\r
-      } @if (model.id !== null) {\r
-      <button\r
-        type="button"\r
-        (click)="deleteMovement(model.id)"\r
-        title="Deletes this movement"\r
-      >\r
-        Delete\r
-      </button>\r
-      }\r
-    </div>\r
-  </div>\r
-  }\r
-</form>\r
-\r
-<movement-listing\r
-  [movementList]="viewData.movements"\r
-  selectedView="cards"\r
-  (onItemClick)="setModelDetails($event, newMovementForm, 'mov')"\r
-  showSearch="true"\r
-  (onSearch)="onSearch($event)"\r
-></movement-listing>\r
+    ], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<strong>Movements</strong>
+<br />
+
+<form
+  #newMovementForm="ngForm"
+  (ngSubmit)="newMovement(newMovementForm)"
+  (keydown)="onFormKeydown($event, newMovementForm)"
+>
+  <button type="button" (click)="handleNewMovement(newMovementForm)">
+    {{ viewData.showCreateForm ? "Hide Movement Form" : "New Movement" }}
+  </button>
+
+  @if (viewData.showCreateForm) {
+  <div>
+    <input
+      type="radio"
+      name="fMovementFlowType"
+      id="fMovementFlowTypeCustom"
+      [(ngModel)]="_movementFlowType"
+      (click)="movementFlowType('custom')"
+      value="custom"
+    />
+    <label for="fMovementFlowTypeCustom">Custom</label>
+    <input
+      type="radio"
+      name="fMovementFlowType"
+      id="fMovementFlowTypeTransfer"
+      [(ngModel)]="_movementFlowType"
+      (click)="movementFlowType('transfer')"
+      value="transfer"
+    />
+    <label for="fMovementFlowTypeTransfer">Transfer</label>
+    <div>
+      @if (isCustom) {
+      <h4>Custom</h4>
+      } @if (isTransfer) {
+      <h4>Transfer</h4>
+      }
+      @if (viewData.presets.length > 1 && !model.id) {
+      <span class="field">
+      <datalist-input
+        label="Use a Preset"
+        inputName="fPresetText"
+        inputId="fPresetText"
+        datalistId="presetOptions"
+        [(value)]="model.selectedPresetText"
+        [(selectedId)]="model.selectedPreset"
+        [options]="viewData.presets"
+        optionLabelField="pre_name"
+        optionValueField="pre_id"
+        (selectedIdChange)="onPresetChange($event, newMovementForm)"
+        hiddenName="fPreset"
+      ></datalist-input>
+      <input type="hidden" name="fPreset" [ngModel]="model.selectedPreset" />
+      <hr />
+      </span>
+      } @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span class="movement-input-id">{{ model.id }}</span>
+      </span>
+      }
+      <span class="field">
+        <label for="fDescription" class="label-left">Description</label>
+        <input
+          type="text"
+          name="fDescription"
+          id="fDescription"
+          class="field-input movement-input-description"
+          (blur)="onDescriptionBlurHandler($event.target.value, newMovementForm)"
+          ngModel
+        />
+        @if (newMovementForm.value.fDescription) {
+        <span>
+          {{ newMovementForm.value.fDescription.length }} / 200 characters
+        </span>
+        }
+      </span>
+      <span class="field">
+        <label for="fAmount" class="label-left">Amount</label>
+        <input
+          type="number"
+          name="fAmount"
+          id="fAmount"
+          class="field-input"
+          step="0.01"
+          inputmode="decimal"
+          [(ngModel)]="model.amount"
+        />
+      </span>
+      <span class="field">
+      <datalist-input
+        label="Account"
+        inputName="fAccountText"
+        inputId="fAccountText"
+        datalistId="accountOptions"
+        [(value)]="model.accountText"
+        [(selectedId)]="model.account"
+        [options]="viewData.accounts"
+        optionLabelField="acc_name"
+        optionValueField="acc_id"
+        optionSecondaryField="bal_final"
+      ></datalist-input>
+      <input type="hidden" name="fAccount" [ngModel]="model.account" />
+      @if (selectedAccountBalance !== null) {
+      <div class="field-note">
+        <span>Balance: {{ selectedAccountBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>
+        <br />
+        <span>
+          Balance after movement:
+          {{ balanceAfterMovement | currency:"USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      }
+      </span>
+      @if (isTransfer) {
+      <span class="field">
+      <datalist-input
+        label="Account To"
+        inputName="fAccountToText"
+        inputId="fAccountToText"
+        datalistId="accountToOptions"
+        [(value)]="model.accountToText"
+        [(selectedId)]="model.accountTo"
+        [options]="viewData.accounts"
+        optionLabelField="acc_name"
+        optionValueField="acc_id"
+        optionSecondaryField="bal_final"
+      ></datalist-input>
+      <input type="hidden" name="fAccountTo" [ngModel]="model.accountTo" />
+      @if (selectedAccountToBalance !== null) {
+      <div class="field-note">
+        <span>Balance: {{ selectedAccountToBalance | currency:"USD":"symbol-narrow":"1.2-2" }}</span>
+        <br />
+        <span>
+          Balance after movement:
+          {{ balanceAfterMovementTo | currency:"USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      }
+      </span>
+      } @if (!isTransfer) {
+      <span class="field">
+        <input
+          type="radio"
+          [value]="1"
+          name="fMovementType"
+          id="fMovementType_1"
+          [(ngModel)]="model.type"
+        />
+        <label for="fMovementType_1" class="label-radio">Expense</label>
+        <input
+          type="radio"
+          [value]="2"
+          name="fMovementType"
+          id="fMovementType_2"
+          [(ngModel)]="model.type"
+        />
+        <label for="fMovementType_2" class="label-radio">Income</label>
+      </span>
+      }
+      <span class="field">
+        <label for="fDate" class="label-left">Movement Date</label>
+        <input type="date" name="fDate" [(ngModel)]="model.date" />
+      </span>
+      @if (!isTransfer) {
+      <span class="field">
+      <datalist-input
+        label="Place"
+        inputName="fPlaceText"
+        inputId="fPlaceText"
+        datalistId="placeOptions"
+        [(value)]="model.placeText"
+        [(selectedId)]="model.place"
+        [options]="viewData.places"
+        optionLabelField="mpl_name"
+        optionValueField="mpl_id"
+      ></datalist-input>
+      <input type="hidden" name="fPlace" [ngModel]="model.place" />
+      <combo-item
+        [name]="place"
+        [addNewItem]="addNewPlaceForUser"
+      ></combo-item>
+      </span>
+      } @if (!isTransfer) {
+      <span class="field">
+      <datalist-input
+        label="Category"
+        inputName="fCategoryText"
+        inputId="fCategoryText"
+        datalistId="categoryOptions"
+        [(value)]="model.categoryText"
+        [(selectedId)]="model.category"
+        [options]="viewData.categories"
+        optionLabelField="mct_name"
+        optionValueField="mct_id"
+      ></datalist-input>
+      <input type="hidden" name="fCategory" [ngModel]="model.category" />
+      <combo-item
+        [name]="category"
+        [addNewItem]="addNewCategoryForUser"
+      ></combo-item>
+      </span>
+      }
+      <span class="field">
+        <label for="fBudget" class="field-input label-left">Tags</label>
+        <input
+          type="text"
+          name="fBudget"
+          id="fBudget"
+          class="field-input movement-input-budget"
+          ngModel
+        />
+        @if (newMovementForm.value.fBudget) {
+        <span>
+          {{ newMovementForm.value.fBudget.length }} / 50 characters
+        </span>
+        }
+      </span>
+      <span class="field">
+        <label for="fNotes" class="label-left">Notes</label>
+        <input
+          type="text"
+          name="fNotes"
+          id="fNotes"
+          class="field-input movement-input-notes"
+          ngModel
+        />
+        @if (newMovementForm.value.fNotes) {
+        <span>
+          {{ newMovementForm.value.fNotes.length }} / 200 characters
+        </span>
+        }
+      </span>
+      <span class="field">
+        <hr />
+        <label for="fAsPreset" class="label-left">As Preset</label>
+        <input
+          type="checkbox"
+          name="fAsPreset"
+          id="fAsPreset"
+          [(ngModel)]="model.asPreset"
+        />
+      </span>
+      @if (model.asPreset) {
+      <span class="field">
+        <label for="fName" class="label-left">Preset Name</label>
+        <input
+          type="text"
+          name="fName"
+          id="fName"
+          class="field-input"
+          ngModel
+        />
+      </span>
+      }
+      <span class="field">
+        <label for="fResetForm" class="label-left">Reset form after save</label>
+        <input
+          type="checkbox"
+          name="fResetForm"
+          id="fResetForm"
+          [(ngModel)]="model.resetForm"
+        />
+      </span>
+      <button type="submit" id="newFormSubmitButton">
+        {{ model.asPreset ? "Save as Preset" : model.id !== null ? "Update
+        Movement" : "Save Movement" }}
+      </button>
+      @if (model.id !== null) {
+      <button
+        type="button"
+        (click)="cancel(model.id)"
+        title="Sets status to Cancelled"
+      >
+        Cancel
+      </button>
+      } @if (model.id !== null) {
+      <button
+        type="button"
+        (click)="deleteMovement(model.id)"
+        title="Deletes this movement"
+      >
+        Delete
+      </button>
+      }
+    </div>
+  </div>
+  }
+</form>
+
+<movement-listing
+  [movementList]="viewData.movements"
+  selectedView="cards"
+  (onItemClick)="setModelDetails($event, newMovementForm, 'mov')"
+  showSearch="true"
+  (onSearch)="onSearch($event)"
+></movement-listing>
 ` }]
   }], () => [{ type: AccountService }, { type: CategoryService }, { type: PlaceService }, { type: MovementService }, { type: EntryService }, { type: BalanceService }, { type: PresetService }, { type: NotificationService }, { type: Title }], null);
 })();
@@ -88694,379 +89336,379 @@ var BalanceComponent = class _BalanceComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BalanceComponent, [{
     type: Component,
-    args: [{ selector: "balance", providers: [BalanceService, MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  <button (click)="viewData.showOptions = !viewData.showOptions">\r
-    {{ viewData.showOptions ? "Hide" : "Show" }} Options\r
-  </button>\r
-  @if (viewData.showOptions) {\r
-  <div class="balance-options">\r
-    <button (click)="rebuild()">Rebuild</button>\r
-    <button (click)="transfer()">Transfer</button>\r
-    <button (click)="rebuildAndTransfer()">Rebuild & Transfer</button>\r
-    <button (click)="rebuildAndTransferUntilCurrentMonth()">\r
-      Rebuild & Transfer Until Current Month\r
-    </button>\r
-  </div>\r
-  }\r
-  <br />\r
-  <strong>Balance</strong>\r
-\r
-  <span class="field">\r
-    <label for="fMonth" class="label-left">Year-Month</label>\r
-    <select\r
-      [(ngModel)]="model.iterable"\r
-      name="fMonth"\r
-      id="fMonth"\r
-      (change)="reloadBalance()"\r
-    >\r
-      @for (opt of viewData.monthList; track opt) {\r
-      <option value="{{ opt.iterable }}">{{ opt.name }}</option>\r
-      }\r
-    </select>\r
-\r
-    <button (click)="refreshData()">Refresh data</button>\r
-\r
-    <br />\r
-    <input\r
-      name="fFilterNonZero"\r
-      id="fFilterNonZero"\r
-      type="checkbox"\r
-      (click)="toggleFilterNonZero()"\r
-      [(ngModel)]="viewData.filterNonZero"\r
-    />\r
-    <label for="fFilterNonZero">Filter Non Zero Balance</label>\r
-  </span>\r
-\r
-  <div class="balance-listing-container">\r
-    <table>\r
-      <tr>\r
-        <th>Account</th>\r
-        <th class="desktop-only">Initial</th>\r
-        <th class="desktop-only">Charges</th>\r
-        <th class="desktop-only">Withdrawals</th>\r
-        <th>Final</th>\r
-      </tr>\r
-      @for (b of viewData.monthBalance; track b) {\r
-      <tr\r
-        class="balance-row"\r
-        [ngClass]="{\r
-        'balance-row-debit': b.bal_ctg_account_type === 1,\r
-        'balance-row-investment': b.bal_ctg_account_type === 2,\r
-        'balance-row-credit': b.bal_ctg_account_type === 3,\r
-        'balance-row-loan': b.bal_ctg_account_type === 4,\r
-        'balance-row-capital': b.bal_ctg_account_type === 5,\r
-        'balance-row-crypto': b.bal_ctg_account_type === 6\r
-      }"\r
-      >\r
-        <td>\r
-          <span\r
-            (click)="b.showOptions = !b.showOptions"\r
-            tabindex="0"\r
-            (keydown.enter)="b.showOptions = !b.showOptions"\r
-          >\r
-            {{ b.showOptions ? "-" : "+" }}\r
-          </span>\r
-          <span>\r
-            <button\r
-              type="button"\r
-              class="no-button"\r
-              (click)="renderMovements(b, $event);"\r
-            >\r
-              {{ b.bal_txt_account }}\r
-            </button>\r
-          </span>\r
-          @if (b.showOptions) {\r
-          <div>\r
-            <button\r
-              type="button"\r
-              (click)="renderMovements(b, $event); b.showOptions = false;"\r
-            >\r
-              details\r
-            </button>\r
-          </div>\r
-          }\r
-        </td>\r
-        <td class="text-align-right padding-all-5 desktop-only">\r
-          {{ b.bal_initial | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-        </td>\r
-        <td class="text-align-right padding-all-5 desktop-only">\r
-          {{ b.bal_charges | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-        </td>\r
-        <td class="text-align-right padding-all-5 desktop-only">\r
-          {{ b.bal_withdrawals | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-        </td>\r
-        <td\r
-          class="text-align-right padding-all-5"\r
-          [ngClass]="{\r
-            'balance-zero': b.bal_final == 0,\r
-            'balance-positive': b.bal_final > 0,\r
-            'balance-negative': b.bal_final < 0\r
-          }"\r
-        >\r
-          {{ b.bal_final | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </table>\r
-  </div>\r
-\r
-  <br />\r
-  <div class="balance-listing-container">\r
-    <table>\r
-      <tr>\r
-        <th>Account Type</th>\r
-        <th>Final</th>\r
-      </tr>\r
-      @for (b of viewData.balanceDistribution; track b) {\r
-      <tr class="balance-row">\r
-        <td>{{ b.name }}</td>\r
-        <td\r
-          class="text-align-right padding-all-5"\r
-          [ngClass]="{\r
-            'balance-zero': b.total == 0,\r
-            'balance-positive': b.total > 0,\r
-            'balance-negative': b.total < 0\r
-          }"\r
-        >\r
-          {{ b.total | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </table>\r
-  </div>\r
-\r
-  <div>\r
-    <div><strong>Movement Summary</strong></div>\r
-    <div>Total count: {{ viewData.movementSummary.movementCount }}</div>\r
-    <div>Expense count: {{ viewData.movementSummary.expenseCount }}</div>\r
-    <div>Income count: {{ viewData.movementSummary.incomeCount }}</div>\r
-    <div>Transfer count: {{ viewData.movementSummary.transferCount }}</div>\r
-  </div>\r
-\r
-  @if (model.selectedBalance) {\r
-  <div>\r
-    <button\r
-      type="button"\r
-      (click)="model.selectedBalance = null; viewData.movements = [];"\r
-    >\r
-      hide details\r
-    </button>\r
-    <br />\r
-    Account:\r
-    <strong>{{model.selectedBalance.bal_txt_account}}</strong>\r
-    <br />\r
-    Movement count: {{ viewData.movements.length }}\r
-    <br />\r
-    Period: {{model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}\r
-    <br />\r
-    <div>\r
-      <div>\r
-        Average Balance: {{ viewData.averageBalanceInfo.averageBalance |\r
-        currency: "USD":"symbol-narrow":"1.2-2" }} @if (\r
-        viewData.averageBalanceInfo.averageBalance >=\r
-        viewData.averageBalanceInfo.averageMinBalance ) {\r
-        <span>\r
-          &gt;= {{ viewData.averageBalanceInfo.averageMinBalance | currency:\r
-          "USD":"symbol-narrow":"1.2-2" }}\r
-        </span>\r
-        } @if ( viewData.averageBalanceInfo.averageBalance <\r
-        viewData.averageBalanceInfo.averageMinBalance ) {\r
-        <span>\r
-          &lt; {{ viewData.averageBalanceInfo.averageMinBalance | currency:\r
-          "USD":"symbol-narrow":"1.2-2" }}\r
-        </span>\r
-        }\r
-      </div>\r
-      <div>\r
-        Date Range: {{ viewData.averageBalanceInfo.startingDate | date:\r
-        "yyyy-MM-dd" }} - {{ viewData.averageBalanceInfo.finalDate | date:\r
-        "yyyy-MM-dd" }}\r
-      </div>\r
-      <button (click)="toggleDailyBalance()">\r
-        {{ viewData.showDailyBalance ? "Hide" : "Show" }} daily balance\r
-      </button>\r
-      @if (viewData.showDailyBalance) {\r
-      <div>\r
-        <table>\r
-          <tr>\r
-            <th class="padding-all-5 width-80">Date</th>\r
-            <th class="padding-all-5 width-100">Balance</th>\r
-          </tr>\r
-          @for (m of viewData.averageBalanceInfo.dailyBalance; track m) {\r
-          <tr class="movements-listing-row">\r
-            <td class="padding-all-5">{{ m.date | date: "yyyy-MM-dd" }}</td>\r
-            <td class="padding-all-5 text-align-right">\r
-              {{ m.balance | currency: "USD":"symbol-narrow":"1.2-2" }}\r
-            </td>\r
-          </tr>\r
-          }\r
-        </table>\r
-      </div>\r
-      }\r
-    </div>\r
-  </div>\r
-  } @if (viewData.movements.length) {\r
-  <movement-listing\r
-    [movementList]="viewData.movements"\r
-    [selectedBalance]="model.selectedBalance"\r
-    selectedView="compact"\r
-    (onSelectMovement)="selectMovement($event)"\r
-  ></movement-listing>\r
-  } @if (viewData.selectedTotal !== 0) {\r
-  <div>\r
-    <table>\r
-      <thead>\r
-        <tr>\r
-          <td>Type</td>\r
-          <td>Sum</td>\r
-        </tr>\r
-      </thead>\r
-      <tbody>\r
-        <tr>\r
-          <td>Income</td>\r
-          <td>\r
-            {{viewData.selectedIncome | currency: "USD":"symbol-narrow":"1.2-2"\r
-            }}\r
-          </td>\r
-        </tr>\r
-        <tr>\r
-          <td>Expense</td>\r
-          <td>\r
-            {{viewData.selectedExpense | currency: "USD":"symbol-narrow":"1.2-2"\r
-            }}\r
-          </td>\r
-        </tr>\r
-      </tbody>\r
-      <tfoot>\r
-        <tr>\r
-          <td>Total</td>\r
-          <td>\r
-            {{viewData.selectedTotal | currency: "USD":"symbol-narrow":"1.2-2"\r
-            }}\r
-          </td>\r
-        </tr>\r
-      </tfoot>\r
-    </table>\r
-  </div>\r
-  }\r
-\r
-  <canvas\r
-    id="monthlyExpenseChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyExpenseChart.chartData"\r
-    [labels]="viewData.monthlyExpenseChart.chartLabels"\r
-    [options]="viewData.monthlyExpenseChart.chartOptions"\r
-    [legend]="viewData.monthlyExpenseChart.chartLegend"\r
-    [type]="viewData.monthlyExpenseChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <canvas\r
-    id="monthlyIncomeChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyIncomeChart.chartData"\r
-    [labels]="viewData.monthlyIncomeChart.chartLabels"\r
-    [options]="viewData.monthlyIncomeChart.chartOptions"\r
-    [legend]="viewData.monthlyIncomeChart.chartLegend"\r
-    [type]="viewData.monthlyIncomeChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <canvas\r
-    id="monthlyExpenseVsIncomeChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyExpenseVsIncomeChart.chartData"\r
-    [labels]="viewData.monthlyExpenseVsIncomeChart.chartLabels"\r
-    [type]="viewData.monthlyExpenseVsIncomeChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <canvas\r
-    id="monthlyExpenseComparisonChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyExpenseComparisonChart.chartData"\r
-    [labels]="viewData.monthlyExpenseComparisonChart.chartLabels"\r
-    [type]="viewData.monthlyExpenseComparisonChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <canvas\r
-    id="monthlyExpenseComparisonFoodChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyExpenseComparisonFoodChart.chartData"\r
-    [labels]="viewData.monthlyExpenseComparisonFoodChart.chartLabels"\r
-    [type]="viewData.monthlyExpenseComparisonFoodChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <div>\r
-    <button type="button" (click)="selectAllCategories()">\r
-      select all categories\r
-    </button>\r
-    <div>\r
-      Total Expenses {{ viewData.totalExpenses | currency:\r
-      "USD":"symbol-narrow":"1.2-2" }}\r
-    </div>\r
-    <div>\r
-      Total Selected Categories {{ viewData.totalSelectedCategories | currency:\r
-      "USD":"symbol-narrow":"1.2-2" }}\r
-    </div>\r
-    <div class="balance-category-list">\r
-      @for (c of viewData.totalsByCategory; track c) {\r
-      <div>\r
-        <input\r
-          type="checkbox"\r
-          [id]="'cat' + c.category.mct_id"\r
-          (click)="toggleCategorySelection(c.category.mct_id, $event)"\r
-          [checked]="c.selected"\r
-        />\r
-        <label [for]="'cat' + c.category.mct_id"\r
-          >{{ c.category.mct_name}} ({{ c.total | currency:\r
-          "USD":"symbol-narrow":"1.2-2" }})</label\r
-        >\r
-      </div>\r
-      }\r
-    </div>\r
-\r
-    @if (viewData.movementsPerSelectedCategories.length) {\r
-    <movement-listing\r
-      [movementList]="viewData.movementsPerSelectedCategories"\r
-      [selectedBalance]="model.selectedBalance"\r
-      selectedView="compact"\r
-      (onSelectMovement)="selectMovement($event)"\r
-    ></movement-listing>\r
-    }\r
-  </div>\r
-\r
-  <div class="budget-table-container">\r
-    <h3>Presupuesto por Categor\xEDa</h3>\r
-    <table>\r
-      <thead>\r
-        <tr>\r
-          <th>Categor\xEDa</th>\r
-          <th>Presupuesto</th>\r
-        </tr>\r
-      </thead>\r
-      <tbody>\r
-        @for (cat of budgetPerCategory(); track cat) {\r
-        <tr>\r
-          <td>{{ cat.name }}</td>\r
-          <td>{{ cat.value | currency:'USD':'symbol-narrow':'1.2-2' }}</td>\r
-        </tr>\r
-        }\r
-      </tbody>\r
-      <tfoot>\r
-        <tr>\r
-          <th>Total</th>\r
-          <th>\r
-            {{ totalBudgetForAllCategories() | currency:\r
-            'USD':'symbol-narrow':'1.2-2' }}\r
-          </th>\r
-        </tr>\r
-      </tfoot>\r
-    </table>\r
-  </div>\r
-</div>\r
+    args: [{ selector: "balance", providers: [BalanceService, MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  <button (click)="viewData.showOptions = !viewData.showOptions">
+    {{ viewData.showOptions ? "Hide" : "Show" }} Options
+  </button>
+  @if (viewData.showOptions) {
+  <div class="balance-options">
+    <button (click)="rebuild()">Rebuild</button>
+    <button (click)="transfer()">Transfer</button>
+    <button (click)="rebuildAndTransfer()">Rebuild & Transfer</button>
+    <button (click)="rebuildAndTransferUntilCurrentMonth()">
+      Rebuild & Transfer Until Current Month
+    </button>
+  </div>
+  }
+  <br />
+  <strong>Balance</strong>
+
+  <span class="field">
+    <label for="fMonth" class="label-left">Year-Month</label>
+    <select
+      [(ngModel)]="model.iterable"
+      name="fMonth"
+      id="fMonth"
+      (change)="reloadBalance()"
+    >
+      @for (opt of viewData.monthList; track opt) {
+      <option value="{{ opt.iterable }}">{{ opt.name }}</option>
+      }
+    </select>
+
+    <button (click)="refreshData()">Refresh data</button>
+
+    <br />
+    <input
+      name="fFilterNonZero"
+      id="fFilterNonZero"
+      type="checkbox"
+      (click)="toggleFilterNonZero()"
+      [(ngModel)]="viewData.filterNonZero"
+    />
+    <label for="fFilterNonZero">Filter Non Zero Balance</label>
+  </span>
+
+  <div class="balance-listing-container">
+    <table>
+      <tr>
+        <th>Account</th>
+        <th class="desktop-only">Initial</th>
+        <th class="desktop-only">Charges</th>
+        <th class="desktop-only">Withdrawals</th>
+        <th>Final</th>
+      </tr>
+      @for (b of viewData.monthBalance; track b) {
+      <tr
+        class="balance-row"
+        [ngClass]="{
+        'balance-row-debit': b.bal_ctg_account_type === 1,
+        'balance-row-investment': b.bal_ctg_account_type === 2,
+        'balance-row-credit': b.bal_ctg_account_type === 3,
+        'balance-row-loan': b.bal_ctg_account_type === 4,
+        'balance-row-capital': b.bal_ctg_account_type === 5,
+        'balance-row-crypto': b.bal_ctg_account_type === 6
+      }"
+      >
+        <td>
+          <span
+            (click)="b.showOptions = !b.showOptions"
+            tabindex="0"
+            (keydown.enter)="b.showOptions = !b.showOptions"
+          >
+            {{ b.showOptions ? "-" : "+" }}
+          </span>
+          <span>
+            <button
+              type="button"
+              class="no-button"
+              (click)="renderMovements(b, $event);"
+            >
+              {{ b.bal_txt_account }}
+            </button>
+          </span>
+          @if (b.showOptions) {
+          <div>
+            <button
+              type="button"
+              (click)="renderMovements(b, $event); b.showOptions = false;"
+            >
+              details
+            </button>
+          </div>
+          }
+        </td>
+        <td class="text-align-right padding-all-5 desktop-only">
+          {{ b.bal_initial | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+        <td class="text-align-right padding-all-5 desktop-only">
+          {{ b.bal_charges | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+        <td class="text-align-right padding-all-5 desktop-only">
+          {{ b.bal_withdrawals | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+        <td
+          class="text-align-right padding-all-5"
+          [ngClass]="{
+            'balance-zero': b.bal_final == 0,
+            'balance-positive': b.bal_final > 0,
+            'balance-negative': b.bal_final < 0
+          }"
+        >
+          {{ b.bal_final | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+      </tr>
+      }
+    </table>
+  </div>
+
+  <br />
+  <div class="balance-listing-container">
+    <table>
+      <tr>
+        <th>Account Type</th>
+        <th>Final</th>
+      </tr>
+      @for (b of viewData.balanceDistribution; track b) {
+      <tr class="balance-row">
+        <td>{{ b.name }}</td>
+        <td
+          class="text-align-right padding-all-5"
+          [ngClass]="{
+            'balance-zero': b.total == 0,
+            'balance-positive': b.total > 0,
+            'balance-negative': b.total < 0
+          }"
+        >
+          {{ b.total | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+      </tr>
+      }
+    </table>
+  </div>
+
+  <div>
+    <div><strong>Movement Summary</strong></div>
+    <div>Total count: {{ viewData.movementSummary.movementCount }}</div>
+    <div>Expense count: {{ viewData.movementSummary.expenseCount }}</div>
+    <div>Income count: {{ viewData.movementSummary.incomeCount }}</div>
+    <div>Transfer count: {{ viewData.movementSummary.transferCount }}</div>
+  </div>
+
+  @if (model.selectedBalance) {
+  <div>
+    <button
+      type="button"
+      (click)="model.selectedBalance = null; viewData.movements = [];"
+    >
+      hide details
+    </button>
+    <br />
+    Account:
+    <strong>{{model.selectedBalance.bal_txt_account}}</strong>
+    <br />
+    Movement count: {{ viewData.movements.length }}
+    <br />
+    Period: {{model.selectedBalance.bal_year }} - {{ model.selectedMonthName }}
+    <br />
+    <div>
+      <div>
+        Average Balance: {{ viewData.averageBalanceInfo.averageBalance |
+        currency: "USD":"symbol-narrow":"1.2-2" }} @if (
+        viewData.averageBalanceInfo.averageBalance >=
+        viewData.averageBalanceInfo.averageMinBalance ) {
+        <span>
+          &gt;= {{ viewData.averageBalanceInfo.averageMinBalance | currency:
+          "USD":"symbol-narrow":"1.2-2" }}
+        </span>
+        } @if ( viewData.averageBalanceInfo.averageBalance <
+        viewData.averageBalanceInfo.averageMinBalance ) {
+        <span>
+          &lt; {{ viewData.averageBalanceInfo.averageMinBalance | currency:
+          "USD":"symbol-narrow":"1.2-2" }}
+        </span>
+        }
+      </div>
+      <div>
+        Date Range: {{ viewData.averageBalanceInfo.startingDate | date:
+        "yyyy-MM-dd" }} - {{ viewData.averageBalanceInfo.finalDate | date:
+        "yyyy-MM-dd" }}
+      </div>
+      <button (click)="toggleDailyBalance()">
+        {{ viewData.showDailyBalance ? "Hide" : "Show" }} daily balance
+      </button>
+      @if (viewData.showDailyBalance) {
+      <div>
+        <table>
+          <tr>
+            <th class="padding-all-5 width-80">Date</th>
+            <th class="padding-all-5 width-100">Balance</th>
+          </tr>
+          @for (m of viewData.averageBalanceInfo.dailyBalance; track m) {
+          <tr class="movements-listing-row">
+            <td class="padding-all-5">{{ m.date | date: "yyyy-MM-dd" }}</td>
+            <td class="padding-all-5 text-align-right">
+              {{ m.balance | currency: "USD":"symbol-narrow":"1.2-2" }}
+            </td>
+          </tr>
+          }
+        </table>
+      </div>
+      }
+    </div>
+  </div>
+  } @if (viewData.movements.length) {
+  <movement-listing
+    [movementList]="viewData.movements"
+    [selectedBalance]="model.selectedBalance"
+    selectedView="compact"
+    (onSelectMovement)="selectMovement($event)"
+  ></movement-listing>
+  } @if (viewData.selectedTotal !== 0) {
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <td>Type</td>
+          <td>Sum</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Income</td>
+          <td>
+            {{viewData.selectedIncome | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>Expense</td>
+          <td>
+            {{viewData.selectedExpense | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          <td>
+            {{viewData.selectedTotal | currency: "USD":"symbol-narrow":"1.2-2"
+            }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  }
+
+  <canvas
+    id="monthlyExpenseChart"
+    baseChart
+    [datasets]="viewData.monthlyExpenseChart.chartData"
+    [labels]="viewData.monthlyExpenseChart.chartLabels"
+    [options]="viewData.monthlyExpenseChart.chartOptions"
+    [legend]="viewData.monthlyExpenseChart.chartLegend"
+    [type]="viewData.monthlyExpenseChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyIncomeChart"
+    baseChart
+    [datasets]="viewData.monthlyIncomeChart.chartData"
+    [labels]="viewData.monthlyIncomeChart.chartLabels"
+    [options]="viewData.monthlyIncomeChart.chartOptions"
+    [legend]="viewData.monthlyIncomeChart.chartLegend"
+    [type]="viewData.monthlyIncomeChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyExpenseVsIncomeChart"
+    baseChart
+    [datasets]="viewData.monthlyExpenseVsIncomeChart.chartData"
+    [labels]="viewData.monthlyExpenseVsIncomeChart.chartLabels"
+    [type]="viewData.monthlyExpenseVsIncomeChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyExpenseComparisonChart"
+    baseChart
+    [datasets]="viewData.monthlyExpenseComparisonChart.chartData"
+    [labels]="viewData.monthlyExpenseComparisonChart.chartLabels"
+    [type]="viewData.monthlyExpenseComparisonChart.chartType"
+  >
+  </canvas>
+
+  <canvas
+    id="monthlyExpenseComparisonFoodChart"
+    baseChart
+    [datasets]="viewData.monthlyExpenseComparisonFoodChart.chartData"
+    [labels]="viewData.monthlyExpenseComparisonFoodChart.chartLabels"
+    [type]="viewData.monthlyExpenseComparisonFoodChart.chartType"
+  >
+  </canvas>
+
+  <div>
+    <button type="button" (click)="selectAllCategories()">
+      select all categories
+    </button>
+    <div>
+      Total Expenses {{ viewData.totalExpenses | currency:
+      "USD":"symbol-narrow":"1.2-2" }}
+    </div>
+    <div>
+      Total Selected Categories {{ viewData.totalSelectedCategories | currency:
+      "USD":"symbol-narrow":"1.2-2" }}
+    </div>
+    <div class="balance-category-list">
+      @for (c of viewData.totalsByCategory; track c) {
+      <div>
+        <input
+          type="checkbox"
+          [id]="'cat' + c.category.mct_id"
+          (click)="toggleCategorySelection(c.category.mct_id, $event)"
+          [checked]="c.selected"
+        />
+        <label [for]="'cat' + c.category.mct_id"
+          >{{ c.category.mct_name}} ({{ c.total | currency:
+          "USD":"symbol-narrow":"1.2-2" }})</label
+        >
+      </div>
+      }
+    </div>
+
+    @if (viewData.movementsPerSelectedCategories.length) {
+    <movement-listing
+      [movementList]="viewData.movementsPerSelectedCategories"
+      [selectedBalance]="model.selectedBalance"
+      selectedView="compact"
+      (onSelectMovement)="selectMovement($event)"
+    ></movement-listing>
+    }
+  </div>
+
+  <div class="budget-table-container">
+    <h3>Presupuesto por Categor\xEDa</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Categor\xEDa</th>
+          <th>Presupuesto</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cat of budgetPerCategory(); track cat) {
+        <tr>
+          <td>{{ cat.name }}</td>
+          <td>{{ cat.value | currency:'USD':'symbol-narrow':'1.2-2' }}</td>
+        </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total</th>
+          <th>
+            {{ totalBudgetForAllCategories() | currency:
+            'USD':'symbol-narrow':'1.2-2' }}
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
 `, styles: ["/* src/app/money/balance.css */\n.balance-row:nth-child(even) {\n  background-color: lightgrey;\n}\n.balance-row:hover {\n  background-color: lightblue;\n}\n@media (max-width: 504px) {\n  .padding-all-5 {\n    padding: 8px;\n  }\n}\n.balance-listing-container {\n  overflow-x: auto;\n}\n.balance-listing-container table {\n  width: 100%;\n}\n@media (min-width: 505px) {\n  .balance-listing-container table {\n    width: initial;\n  }\n}\n.balance-row-debit td:first-child .no-button {\n  color: #0061a7;\n}\n.balance-row-investment td:first-child .no-button {\n  color: #0dab19;\n}\n.balance-row-credit td:first-child .no-button {\n  color: #de0000;\n}\n.balance-row-loan td:first-child .no-button {\n  color: brown;\n}\n.balance-row-capital td:first-child .no-button {\n  color: purple;\n}\n.balance-row-crypto td:first-child .no-button {\n  color: darkgreen;\n}\n.balance-category-list {\n  columns: 2;\n}\n@media (min-width: 504px) {\n  .balance-category-list {\n    columns: 4;\n  }\n}\n/*# sourceMappingURL=balance-2QHUN5EQ.css.map */\n"] }]
   }], () => [{ type: BalanceService }, { type: MovementService }, { type: SyncAPI }, { type: Title }, { type: AuthenticationService }, { type: NotificationService }], null);
 })();
@@ -89455,106 +90097,106 @@ var CategoryComponent = class _CategoryComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CategoryComponent, [{
     type: Component,
-    args: [{ selector: "category", providers: [CategoryService, MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  <strong>Categories</strong>\r
-\r
-  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\r
-    <button\r
-      type="button"\r
-      (click)="viewData.showItemForm = !viewData.showItemForm"\r
-    >\r
-      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}\r
-    </button>\r
-\r
-    @if (viewData.showItemForm) {\r
-    <div id="newItemFormSection">\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="field-input-small"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fName" class="label-left">Name</label>\r
-        <input\r
-          type="text"\r
-          name="fName"\r
-          id="fName"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r
-      @if (viewData.selectedCategory &&\r
-      viewData.selectedCategory['movementList'] &&\r
-      viewData.selectedCategory['movementList'].length === 0) {\r
-      <button\r
-        type="button"\r
-        class="btn-secondary"\r
-        (click)="deleteItem(model.id)"\r
-      >\r
-        Delete\r
-      </button>\r
-      }\r
-    </div>\r
-    } @if (viewData.showItemForm) {\r
-    <div>\r
-      @if (viewData.selectedCategory) {\r
-      <movement-listing\r
-        [movementList]="viewData.selectedCategory['movementList']"\r
-        [selectedBalance]="viewData.selectedCategory"\r
-        selectedView="compact"\r
-      ></movement-listing>\r
-      }\r
-      <span> Replace uses of this category with a different one </span>\r
-      <select\r
-        name="replaceCategoryId"\r
-        id="replaceCategoryId"\r
-        class="field-select"\r
-        [(ngModel)]="replaceCategoryId"\r
-      >\r
-        @for (opt of viewData.replaceCategoryList; track opt) {\r
-        <option [value]="opt.mct_id">{{ opt.mct_name }}</option>\r
-        }\r
-      </select>\r
-      <button\r
-        type="button"\r
-        (click)="applyCategoryReplacement(model.id, replaceCategoryId)"\r
-      >\r
-        Apply replacement\r
-      </button>\r
-    </div>\r
-    }\r
-  </form>\r
-\r
-  <div class="card-list">\r
-    @for (item of viewData.categoryList; track item) {\r
-    <div\r
-      class="card-item-container"\r
-      (click)="setModelDetails(item.mct_id, itemForm)"\r
-    >\r
-      <span class="category-name">{{ item.mct_name }}</span>\r
-      <br />\r
-      Used: {{ item.movementList && item.movementList.length }}\r
-      <br />\r
-      <span>Status: {{ item.mct_txt_status }}</span>\r
-      @if (item.isNew) {\r
-      <span class="category-badge-new">new</span>\r
-      } @if (item.isEdited) {\r
-      <span class="category-badge-edited">edited</span>\r
-      }\r
-      <!--\r
-          <span *ngIf="item.showOptions">\r
-            <button (click)="archiveRecord(item)">archive</button>\r
-            <button (click)="editNotes(item)">edit notes</button>\r
-            <button (click)="viewHistory(item)">view history</button>\r
-          </span>    -->\r
-    </div>\r
-    }\r
-  </div>\r
-</div>\r
+    args: [{ selector: "category", providers: [CategoryService, MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  <strong>Categories</strong>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    @if (viewData.showItemForm) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          id="fName"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+      @if (viewData.selectedCategory &&
+      viewData.selectedCategory['movementList'] &&
+      viewData.selectedCategory['movementList'].length === 0) {
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="deleteItem(model.id)"
+      >
+        Delete
+      </button>
+      }
+    </div>
+    } @if (viewData.showItemForm) {
+    <div>
+      @if (viewData.selectedCategory) {
+      <movement-listing
+        [movementList]="viewData.selectedCategory['movementList']"
+        [selectedBalance]="viewData.selectedCategory"
+        selectedView="compact"
+      ></movement-listing>
+      }
+      <span> Replace uses of this category with a different one </span>
+      <select
+        name="replaceCategoryId"
+        id="replaceCategoryId"
+        class="field-select"
+        [(ngModel)]="replaceCategoryId"
+      >
+        @for (opt of viewData.replaceCategoryList; track opt) {
+        <option [value]="opt.mct_id">{{ opt.mct_name }}</option>
+        }
+      </select>
+      <button
+        type="button"
+        (click)="applyCategoryReplacement(model.id, replaceCategoryId)"
+      >
+        Apply replacement
+      </button>
+    </div>
+    }
+  </form>
+
+  <div class="card-list">
+    @for (item of viewData.categoryList; track item) {
+    <div
+      class="card-item-container"
+      (click)="setModelDetails(item.mct_id, itemForm)"
+    >
+      <span class="category-name">{{ item.mct_name }}</span>
+      <br />
+      Used: {{ item.movementList && item.movementList.length }}
+      <br />
+      <span>Status: {{ item.mct_txt_status }}</span>
+      @if (item.isNew) {
+      <span class="category-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="category-badge-edited">edited</span>
+      }
+      <!--
+          <span *ngIf="item.showOptions">
+            <button (click)="archiveRecord(item)">archive</button>
+            <button (click)="editNotes(item)">edit notes</button>
+            <button (click)="viewHistory(item)">view history</button>
+          </span>    -->
+    </div>
+    }
+  </div>
+</div>
 ` }]
   }], () => [{ type: CategoryService }, { type: MovementService }, { type: NotificationService }], null);
 })();
@@ -89776,7 +90418,7 @@ var PlaceComponent = class _PlaceComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PlaceComponent, [{
     type: Component,
-    args: [{ selector: "place", providers: [PlaceService, MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div>\r\n  <strong>Places</strong>\r\n\r\n  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\r\n    <button\r\n      type="button"\r\n      (click)="viewData.showItemForm = !viewData.showItemForm"\r\n    >\r\n      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}\r\n    </button>\r\n\r\n    @if (viewData.showItemForm) {\r\n    <div id="newItemFormSection">\r\n      @if (model.id) {\r\n      <span class="field">\r\n        <label for="id" class="label-left">Id</label>\r\n        <span type="text" name="id" id="id" class="field-input-small"\r\n          >{{ model.id }}</span\r\n        >\r\n      </span>\r\n      }\r\n      <span class="field">\r\n        <label for="fName" class="label-left">Name</label>\r\n        <input\r\n          type="text"\r\n          name="fName"\r\n          id="fName"\r\n          class="field-input field-input-medium"\r\n          ngModel\r\n        />\r\n      </span>\r\n      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r\n    </div>\r\n    }\r\n  </form>\r\n\r\n  <div class="card-list">\r\n    @for (item of viewData.placeList; track item) {\r\n    <div\r\n      class="card-item-container"\r\n      (click)="setModelDetails(item.mpl_id, itemForm)"\r\n    >\r\n      <span class="place-name">{{ item.mpl_name }}</span>\r\n      <br />\r\n      Used: {{ item.movementList.length }}\r\n      <br />\r\n      <span>Status: {{ item.mpl_txt_status }}</span>\r\n      @if (item.isNew) {\r\n      <span class="place-badge-new">new</span>\r\n      } @if (item.isEdited) {\r\n      <span class="place-badge-edited">edited</span>\r\n      }\r\n      <!--\r\n          <span *ngIf="item.showOptions">\r\n            <button (click)="archiveRecord(item)">archive</button>\r\n            <button (click)="editNotes(item)">edit notes</button>\r\n            <button (click)="viewHistory(item)">view history</button>\r\n          </span>    -->\r\n    </div>\r\n    }\r\n  </div>\r\n</div>\r\n' }]
+    args: [{ selector: "place", providers: [PlaceService, MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div>\n  <strong>Places</strong>\n\n  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\n    <button\n      type="button"\n      (click)="viewData.showItemForm = !viewData.showItemForm"\n    >\n      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}\n    </button>\n\n    @if (viewData.showItemForm) {\n    <div id="newItemFormSection">\n      @if (model.id) {\n      <span class="field">\n        <label for="id" class="label-left">Id</label>\n        <span type="text" name="id" id="id" class="field-input-small"\n          >{{ model.id }}</span\n        >\n      </span>\n      }\n      <span class="field">\n        <label for="fName" class="label-left">Name</label>\n        <input\n          type="text"\n          name="fName"\n          id="fName"\n          class="field-input field-input-medium"\n          ngModel\n        />\n      </span>\n      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\n    </div>\n    }\n  </form>\n\n  <div class="card-list">\n    @for (item of viewData.placeList; track item) {\n    <div\n      class="card-item-container"\n      (click)="setModelDetails(item.mpl_id, itemForm)"\n    >\n      <span class="place-name">{{ item.mpl_name }}</span>\n      <br />\n      Used: {{ item.movementList.length }}\n      <br />\n      <span>Status: {{ item.mpl_txt_status }}</span>\n      @if (item.isNew) {\n      <span class="place-badge-new">new</span>\n      } @if (item.isEdited) {\n      <span class="place-badge-edited">edited</span>\n      }\n      <!--\n          <span *ngIf="item.showOptions">\n            <button (click)="archiveRecord(item)">archive</button>\n            <button (click)="editNotes(item)">edit notes</button>\n            <button (click)="viewHistory(item)">view history</button>\n          </span>    -->\n    </div>\n    }\n  </div>\n</div>\n' }]
   }], () => [{ type: PlaceService }, { type: MovementService }], null);
 })();
 (() => {
@@ -90501,248 +91143,248 @@ var PresetComponent = class _PresetComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PresetComponent, [{
     type: Component,
-    args: [{ selector: "preset", providers: [PresetService, AccountService, CategoryService, PlaceService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  <strong>Presets</strong>\r
-\r
-  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\r
-    <button\r
-      type="button"\r
-      (click)="viewData.showItemForm = !viewData.showItemForm"\r
-    >\r
-      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}\r
-    </button>\r
-\r
-    @if (viewData.showItemForm) {\r
-    <div id="newItemFormSection">\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="field-input-small"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fName" class="label-left">Name</label>\r
-        <input\r
-          type="text"\r
-          name="fName"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <input\r
-        type="radio"\r
-        name="fMovementFlowType"\r
-        id="fMovementFlowTypeCustom"\r
-        [(ngModel)]="_movementFlowType"\r
-        (click)="movementFlowType('custom')"\r
-        value="custom"\r
-      />\r
-      <label for="fMovementFlowTypeCustom">Custom</label>\r
-      <input\r
-        type="radio"\r
-        name="fMovementFlowType"\r
-        id="fMovementFlowTypeTransfer"\r
-        [(ngModel)]="_movementFlowType"\r
-        (click)="movementFlowType('transfer')"\r
-        value="transfer"\r
-      />\r
-      <label for="fMovementFlowTypeTransfer">Transfer</label>\r
-      <span class="field">\r
-        <label for="fDescription" class="label-left">Description</label>\r
-        <input\r
-          type="text"\r
-          name="fDescription"\r
-          id="fDescription"\r
-          class="field-input movement-input-description"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fAmount" class="label-left">Amount</label>\r
-        <input\r
-          type="number"\r
-          name="fAmount"\r
-          id="fAmount"\r
-          class="field-input"\r
-          step="0.01"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fAccount" class="label-left">Account</label>\r
-        <select name="fAccount" id="fAccount" class="field-select" ngModel>\r
-          @for (opt of viewData.accountList; track opt) {\r
-          <option value="{{ opt.acc_id }}">{{ opt.acc_name }}</option>\r
-          }\r
-        </select>\r
-      </span>\r
-      @if (isTransfer) {\r
-      <span class="field">\r
-        <label for="fAccountTo" class="label-left">Account To</label>\r
-        <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>\r
-          @for (opt of viewData.accountList; track opt) {\r
-          <option value="{{ opt.acc_id }}">{{ opt.acc_name }}</option>\r
-          }\r
-        </select>\r
-      </span>\r
-      } @if (!isTransfer) {\r
-      <span class="field">\r
-        <input\r
-          type="radio"\r
-          [value]="1"\r
-          name="fMovementType"\r
-          id="fMovementType_1"\r
-          [(ngModel)]="model.type"\r
-        />\r
-        <label for="fMovementType_1" class="label-radio">Expense</label>\r
-        <input\r
-          type="radio"\r
-          [value]="2"\r
-          name="fMovementType"\r
-          id="fMovementType_2"\r
-          [(ngModel)]="model.type"\r
-        />\r
-        <label for="fMovementType_2" class="label-radio">Income</label>\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fDate" class="label-left">Movement Date</label>\r
-        <input type="date" name="fDate" [(ngModel)]="model.date" />\r
-      </span>\r
-      @if (!isTransfer) {\r
-      <span class="field">\r
-        <label for="fPlace" class="label-left">Place</label>\r
-        <select\r
-          name="fPlace"\r
-          id="fPlace"\r
-          class="field-select"\r
-          [(ngModel)]="model.place"\r
-        >\r
-          @for (opt of viewData.placeList; track opt) {\r
-          <option\r
-            [value]="opt.mpl_id"\r
-            [selected]="opt.mpl_id === itemForm.value.fPlace"\r
-          >\r
-            {{ opt.mpl_name }}\r
-          </option>\r
-          }\r
-        </select>\r
-        <combo-item\r
-          [name]="place"\r
-          [addNewItem]="addNewPlaceForUser"\r
-        ></combo-item>\r
-      </span>\r
-      } @if (!isTransfer) {\r
-      <span class="field">\r
-        <label for="fCategory" class="label-left">Category</label>\r
-        <select\r
-          name="fCategory"\r
-          id="fCategory"\r
-          class="field-select"\r
-          [(ngModel)]="model.category"\r
-        >\r
-          @for (opt of viewData.categoryList; track opt) {\r
-          <option\r
-            [value]="opt.mct_id"\r
-            [selected]="opt.mct_id === itemForm.value.fCategory"\r
-          >\r
-            {{ opt.mct_name }}\r
-          </option>\r
-          }\r
-        </select>\r
-        <combo-item\r
-          [name]="category"\r
-          [addNewItem]="addNewCategoryForUser"\r
-        ></combo-item>\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fBudget" class="field-input label-left">Tags</label>\r
-        <input\r
-          type="text"\r
-          name="fBudget"\r
-          id="fBudget"\r
-          class="field-input movement-input-budget"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fNotes" class="label-left">Notes</label>\r
-        <input\r
-          type="text"\r
-          name="fNotes"\r
-          id="fNotes"\r
-          class="field-input movement-input-notes"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r
-    </div>\r
-    }\r
-  </form>\r
-\r
-  <div class="card-list">\r
-    @for (item of viewData.presetList; track item) {\r
-    <div\r
-      class="card-item-container"\r
-      (click)="setModelDetails(item.pre_id, itemForm)"\r
-    >\r
-      <span class="preset-name">{{ item.pre_name }}</span>\r
-      <br />\r
-      <span\r
-        [ngClass]="{\r
-          'movement-amount-income': item.pre_ctg_type === 2,\r
-          'movement-amount-expense': item.pre_ctg_type === 1,\r
-          'movement-amount-transfer': item.pre_ctg_type === 3\r
-        }"\r
-      >\r
-        @if (item.pre_txt_type === 'EXPENSE') {\r
-        <span>-</span>\r
-        } @if (item.pre_txt_type === 'INCOME') {\r
-        <span>+</span>\r
-        }\r
-        <span\r
-          >{{ item.pre_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span\r
-        >\r
-      </span>\r
-      <span class="movement-account">[{{ item.pre_txt_account }}]</span>\r
-      @if (item.pre_txt_account_to) {\r
-      <span class="movement-account"> -> [{{ item.pre_txt_account_to }}]</span>\r
-      }<br />\r
-      <span class="movement-date"\r
-        >[{{ item.pre_date | date: "yyyy-MM-dd" }}]</span\r
-      >\r
-      <span class="movement-description">{{ item.pre_desc }}</span>\r
-      <br />\r
-      @if (item.pre_txt_category) {\r
-      <span class="movement-category">{{ item.pre_txt_category }}</span>\r
-      } @if (item.pre_txt_place) {\r
-      <span class="movement-place"> | {{ item.pre_txt_place }}</span>\r
-      } @if (item.pre_budget) {\r
-      <span class="movement-budget"> | #[{{ item.pre_budget }}]</span>\r
-      } @if (item.pre_ctg_type === 1 || item.pre_ctg_type === 2) {\r
-      <br />\r
-      }\r
-      <span class="movement-notes">{{ item.pre_notes }}</span>\r
-      @if (false) {\r
-      <span class="movement-status">{{ item.pre_txt_status }}</span>\r
-      } @if (item.isNew) {\r
-      <span class="movement-badge-new">new</span>\r
-      } @if (item.isEdited) {\r
-      <span class="movement-badge-edited">edited</span>\r
-      }\r
-      <!--\r
-                                      <span *ngIf="item.showOptions">\r
-                                        <button (click)="archiveRecord(item)">archive</button>\r
-                                        <button (click)="editNotes(item)">edit notes</button>\r
-                                        <button (click)="viewHistory(item)">view history</button>\r
-                                      </span>    -->\r
-    </div>\r
-    }\r
-  </div>\r
-</div>\r
+    args: [{ selector: "preset", providers: [PresetService, AccountService, CategoryService, PlaceService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  <strong>Presets</strong>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    @if (viewData.showItemForm) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <input
+        type="radio"
+        name="fMovementFlowType"
+        id="fMovementFlowTypeCustom"
+        [(ngModel)]="_movementFlowType"
+        (click)="movementFlowType('custom')"
+        value="custom"
+      />
+      <label for="fMovementFlowTypeCustom">Custom</label>
+      <input
+        type="radio"
+        name="fMovementFlowType"
+        id="fMovementFlowTypeTransfer"
+        [(ngModel)]="_movementFlowType"
+        (click)="movementFlowType('transfer')"
+        value="transfer"
+      />
+      <label for="fMovementFlowTypeTransfer">Transfer</label>
+      <span class="field">
+        <label for="fDescription" class="label-left">Description</label>
+        <input
+          type="text"
+          name="fDescription"
+          id="fDescription"
+          class="field-input movement-input-description"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fAmount" class="label-left">Amount</label>
+        <input
+          type="number"
+          name="fAmount"
+          id="fAmount"
+          class="field-input"
+          step="0.01"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fAccount" class="label-left">Account</label>
+        <select name="fAccount" id="fAccount" class="field-select" ngModel>
+          @for (opt of viewData.accountList; track opt) {
+          <option value="{{ opt.acc_id }}">{{ opt.acc_name }}</option>
+          }
+        </select>
+      </span>
+      @if (isTransfer) {
+      <span class="field">
+        <label for="fAccountTo" class="label-left">Account To</label>
+        <select name="fAccountTo" id="fAccountTo" class="field-select" ngModel>
+          @for (opt of viewData.accountList; track opt) {
+          <option value="{{ opt.acc_id }}">{{ opt.acc_name }}</option>
+          }
+        </select>
+      </span>
+      } @if (!isTransfer) {
+      <span class="field">
+        <input
+          type="radio"
+          [value]="1"
+          name="fMovementType"
+          id="fMovementType_1"
+          [(ngModel)]="model.type"
+        />
+        <label for="fMovementType_1" class="label-radio">Expense</label>
+        <input
+          type="radio"
+          [value]="2"
+          name="fMovementType"
+          id="fMovementType_2"
+          [(ngModel)]="model.type"
+        />
+        <label for="fMovementType_2" class="label-radio">Income</label>
+      </span>
+      }
+      <span class="field">
+        <label for="fDate" class="label-left">Movement Date</label>
+        <input type="date" name="fDate" [(ngModel)]="model.date" />
+      </span>
+      @if (!isTransfer) {
+      <span class="field">
+        <label for="fPlace" class="label-left">Place</label>
+        <select
+          name="fPlace"
+          id="fPlace"
+          class="field-select"
+          [(ngModel)]="model.place"
+        >
+          @for (opt of viewData.placeList; track opt) {
+          <option
+            [value]="opt.mpl_id"
+            [selected]="opt.mpl_id === itemForm.value.fPlace"
+          >
+            {{ opt.mpl_name }}
+          </option>
+          }
+        </select>
+        <combo-item
+          [name]="place"
+          [addNewItem]="addNewPlaceForUser"
+        ></combo-item>
+      </span>
+      } @if (!isTransfer) {
+      <span class="field">
+        <label for="fCategory" class="label-left">Category</label>
+        <select
+          name="fCategory"
+          id="fCategory"
+          class="field-select"
+          [(ngModel)]="model.category"
+        >
+          @for (opt of viewData.categoryList; track opt) {
+          <option
+            [value]="opt.mct_id"
+            [selected]="opt.mct_id === itemForm.value.fCategory"
+          >
+            {{ opt.mct_name }}
+          </option>
+          }
+        </select>
+        <combo-item
+          [name]="category"
+          [addNewItem]="addNewCategoryForUser"
+        ></combo-item>
+      </span>
+      }
+      <span class="field">
+        <label for="fBudget" class="field-input label-left">Tags</label>
+        <input
+          type="text"
+          name="fBudget"
+          id="fBudget"
+          class="field-input movement-input-budget"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fNotes" class="label-left">Notes</label>
+        <input
+          type="text"
+          name="fNotes"
+          id="fNotes"
+          class="field-input movement-input-notes"
+          ngModel
+        />
+      </span>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+    }
+  </form>
+
+  <div class="card-list">
+    @for (item of viewData.presetList; track item) {
+    <div
+      class="card-item-container"
+      (click)="setModelDetails(item.pre_id, itemForm)"
+    >
+      <span class="preset-name">{{ item.pre_name }}</span>
+      <br />
+      <span
+        [ngClass]="{
+          'movement-amount-income': item.pre_ctg_type === 2,
+          'movement-amount-expense': item.pre_ctg_type === 1,
+          'movement-amount-transfer': item.pre_ctg_type === 3
+        }"
+      >
+        @if (item.pre_txt_type === 'EXPENSE') {
+        <span>-</span>
+        } @if (item.pre_txt_type === 'INCOME') {
+        <span>+</span>
+        }
+        <span
+          >{{ item.pre_amount | currency: "USD":"symbol-narrow":"1.2-2" }}</span
+        >
+      </span>
+      <span class="movement-account">[{{ item.pre_txt_account }}]</span>
+      @if (item.pre_txt_account_to) {
+      <span class="movement-account"> -> [{{ item.pre_txt_account_to }}]</span>
+      }<br />
+      <span class="movement-date"
+        >[{{ item.pre_date | date: "yyyy-MM-dd" }}]</span
+      >
+      <span class="movement-description">{{ item.pre_desc }}</span>
+      <br />
+      @if (item.pre_txt_category) {
+      <span class="movement-category">{{ item.pre_txt_category }}</span>
+      } @if (item.pre_txt_place) {
+      <span class="movement-place"> | {{ item.pre_txt_place }}</span>
+      } @if (item.pre_budget) {
+      <span class="movement-budget"> | #[{{ item.pre_budget }}]</span>
+      } @if (item.pre_ctg_type === 1 || item.pre_ctg_type === 2) {
+      <br />
+      }
+      <span class="movement-notes">{{ item.pre_notes }}</span>
+      @if (false) {
+      <span class="movement-status">{{ item.pre_txt_status }}</span>
+      } @if (item.isNew) {
+      <span class="movement-badge-new">new</span>
+      } @if (item.isEdited) {
+      <span class="movement-badge-edited">edited</span>
+      }
+      <!--
+                                      <span *ngIf="item.showOptions">
+                                        <button (click)="archiveRecord(item)">archive</button>
+                                        <button (click)="editNotes(item)">edit notes</button>
+                                        <button (click)="viewHistory(item)">view history</button>
+                                      </span>    -->
+    </div>
+    }
+  </div>
+</div>
 ` }]
   }], () => [{ type: PresetService }, { type: AccountService }, { type: CategoryService }, { type: PlaceService }], null);
 })();
@@ -92331,161 +92973,161 @@ var LastTimeComponent = class _LastTimeComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LastTimeComponent, [{
     type: Component,
-    args: [{ selector: "lasttime", providers: [LastTimeService, LastTimeHistoryService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<form #newForm="ngForm" (ngSubmit)="newItem(newForm)">\r
-  <button type="button" (click)="handleNewItem(newForm)">\r
-    {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}\r
-  </button>\r
-\r
-  @if (viewData.showCreateForm) {\r
-  <div>\r
-    <div>\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="lasttime-input-id"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fName" class="label-left">Name</label>\r
-        <input\r
-          type="text"\r
-          name="fName"\r
-          id="fName"\r
-          class="field-input lasttime-input-name"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fValue" class="label-left">Value</label>\r
-        <input\r
-          type="text"\r
-          name="fValue"\r
-          id="fValue"\r
-          class="field-input lasttime-input-value"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fValidity" class="label-left">Validity</label>\r
-        <input\r
-          type="number"\r
-          name="fValidity"\r
-          id="fValidity"\r
-          class="field-input lasttime-input-validity"\r
-          step="1"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fTags" class="label-left">Tags</label>\r
-        <input\r
-          type="text"\r
-          name="fTags"\r
-          id="fTags"\r
-          class="field-input lasttime-input-tags"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fNotes" class="label-left">Notes</label>\r
-        <input\r
-          type="text"\r
-          name="fNotes"\r
-          id="fNotes"\r
-          class="field-input lasttime-input-notes"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r
-    </div>\r
-  </div>\r
-  }\r
-</form>\r
-\r
-@if (viewData.historyList.length) {\r
-<div>\r
-  Showing history for: {{ viewData.historyMetadata.lst_name }}\r
-  <br />\r
-  <button (click)="hideHistory()">Hide History</button>\r
-  <table>\r
-    <tr>\r
-      <td>#</td>\r
-      <td>Value</td>\r
-      <td>Notes</td>\r
-      <td>Date Mod</td>\r
-    </tr>\r
-    @for (item of viewData.historyList; track item) {\r
-    <tr>\r
-      <td>{{ item.lth_num_sequential }}</td>\r
-      <td>{{ item.lth_value }}</td>\r
-      <td>{{ item.lth_notes }}</td>\r
-      <td>{{ item.lth_date_mod | date: "yyyy-MM-dd HH:mm" }}</td>\r
-    </tr>\r
-    }\r
-  </table>\r
-</div>\r
-}\r
-\r
-<div>\r
-  {{ viewData.lastTime.length }} items.\r
-  <br />\r
-  <checkbox-option\r
-    label="Include archived items"\r
-    optionId="lasttime-options-archived"\r
-    [checked]="viewData.includeArchived"\r
-    (onClick)="reloadItems($event)"\r
-  ></checkbox-option>\r
-  <br />\r
-  <label>Search</label>\r
-  <input (keyup)="filter($event)" placeholder="Filter" />\r
-</div>\r
-\r
-<div class="lasttime-list">\r
-  @for (item of viewData.lastTime; track item) {\r
-  <div class="lasttime-item-container">\r
-    <span class="lasttime-name">{{ item.lst_name }}:</span>\r
-    <span\r
-      contenteditable="true"\r
-      (blur)="editValue(item, $event)"\r
-      (focus)="selectValue($event)"\r
-      class="lasttime-value"\r
-      >{{ item.lst_value }}</span\r
-    >\r
-    <br />\r
-    <span\r
-      [ngClass]="item.ageClass"\r
-      class="lasttime-age"\r
-      [title]="item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'"\r
-    >\r
-      {{ item.ageSentence }}\r
-    </span>\r
-    <span (click)="item.showOptions = !item.showOptions">\r
-      {{ item.showOptions ? "-" : "+" }}\r
-    </span>\r
-    <br />\r
-    <span class="lasttime-tags"> #[{{ item.lst_tags }}] </span>\r
-    <span class="lasttime-notes"> {{ item.lst_notes }} </span>\r
-    @if (item.lst_ctg_status === 3) {\r
-    <span class="lasttime-badge-archived">archived</span>\r
-    } @if (item.isNew) {\r
-    <span class="lasttime-badge-new">new</span>\r
-    } @if (item.isEdited) {\r
-    <span class="lasttime-badge-edited">edited</span>\r
-    }\r
-    <br />\r
-    @if (item.showOptions) {\r
-    <span>\r
-      <button (click)="setModelDetails(item, newForm)">details</button>\r
-      <button (click)="archiveRecord(item)">archive</button>\r
-      <button (click)="editNotes(item)">edit notes</button>\r
-      <button (click)="viewHistory(item)">view history</button>\r
-    </span>\r
-    }\r
-  </div>\r
-  }\r
-</div>\r
+    args: [{ selector: "lasttime", providers: [LastTimeService, LastTimeHistoryService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<form #newForm="ngForm" (ngSubmit)="newItem(newForm)">
+  <button type="button" (click)="handleNewItem(newForm)">
+    {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}
+  </button>
+
+  @if (viewData.showCreateForm) {
+  <div>
+    <div>
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="lasttime-input-id"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          id="fName"
+          class="field-input lasttime-input-name"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fValue" class="label-left">Value</label>
+        <input
+          type="text"
+          name="fValue"
+          id="fValue"
+          class="field-input lasttime-input-value"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fValidity" class="label-left">Validity</label>
+        <input
+          type="number"
+          name="fValidity"
+          id="fValidity"
+          class="field-input lasttime-input-validity"
+          step="1"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fTags" class="label-left">Tags</label>
+        <input
+          type="text"
+          name="fTags"
+          id="fTags"
+          class="field-input lasttime-input-tags"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fNotes" class="label-left">Notes</label>
+        <input
+          type="text"
+          name="fNotes"
+          id="fNotes"
+          class="field-input lasttime-input-notes"
+          ngModel
+        />
+      </span>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+  </div>
+  }
+</form>
+
+@if (viewData.historyList.length) {
+<div>
+  Showing history for: {{ viewData.historyMetadata.lst_name }}
+  <br />
+  <button (click)="hideHistory()">Hide History</button>
+  <table>
+    <tr>
+      <td>#</td>
+      <td>Value</td>
+      <td>Notes</td>
+      <td>Date Mod</td>
+    </tr>
+    @for (item of viewData.historyList; track item) {
+    <tr>
+      <td>{{ item.lth_num_sequential }}</td>
+      <td>{{ item.lth_value }}</td>
+      <td>{{ item.lth_notes }}</td>
+      <td>{{ item.lth_date_mod | date: "yyyy-MM-dd HH:mm" }}</td>
+    </tr>
+    }
+  </table>
+</div>
+}
+
+<div>
+  {{ viewData.lastTime.length }} items.
+  <br />
+  <checkbox-option
+    label="Include archived items"
+    optionId="lasttime-options-archived"
+    [checked]="viewData.includeArchived"
+    (onClick)="reloadItems($event)"
+  ></checkbox-option>
+  <br />
+  <label>Search</label>
+  <input (keyup)="filter($event)" placeholder="Filter" />
+</div>
+
+<div class="lasttime-list">
+  @for (item of viewData.lastTime; track item) {
+  <div class="lasttime-item-container">
+    <span class="lasttime-name">{{ item.lst_name }}:</span>
+    <span
+      contenteditable="true"
+      (blur)="editValue(item, $event)"
+      (focus)="selectValue($event)"
+      class="lasttime-value"
+      >{{ item.lst_value }}</span
+    >
+    <br />
+    <span
+      [ngClass]="item.ageClass"
+      class="lasttime-age"
+      [title]="item.lst_date_mod | date: 'yyyy-MM-dd HH:mm'"
+    >
+      {{ item.ageSentence }}
+    </span>
+    <span (click)="item.showOptions = !item.showOptions">
+      {{ item.showOptions ? "-" : "+" }}
+    </span>
+    <br />
+    <span class="lasttime-tags"> #[{{ item.lst_tags }}] </span>
+    <span class="lasttime-notes"> {{ item.lst_notes }} </span>
+    @if (item.lst_ctg_status === 3) {
+    <span class="lasttime-badge-archived">archived</span>
+    } @if (item.isNew) {
+    <span class="lasttime-badge-new">new</span>
+    } @if (item.isEdited) {
+    <span class="lasttime-badge-edited">edited</span>
+    }
+    <br />
+    @if (item.showOptions) {
+    <span>
+      <button (click)="setModelDetails(item, newForm)">details</button>
+      <button (click)="archiveRecord(item)">archive</button>
+      <button (click)="editNotes(item)">edit notes</button>
+      <button (click)="viewHistory(item)">view history</button>
+    </span>
+    }
+  </div>
+  }
+</div>
 `, styles: ["/* src/app/lasttime/lasttime.css */\n.lasttime-list {\n  display: flex;\n  flex-wrap: wrap;\n  flex: 1;\n}\n.lasttime-item-container {\n  border: 1px solid lightgray;\n  margin: 5px;\n  padding: 5px;\n  display: block;\n  width: 100%;\n  cursor: pointer;\n}\n@media (min-width: 505px) {\n  .lasttime-item-container {\n    width: 350px;\n  }\n}\n.lasttime-value {\n  font-weight: bold;\n}\n.lasttime-age-0 {\n  color: black;\n}\n.lasttime-age-1-ago {\n  color: rgb(107, 0, 0);\n}\n.lasttime-age-2-ago {\n  color: brown;\n}\n.lasttime-age-10-ago {\n  color: red;\n}\n.lasttime-age-1-left {\n  color: gray;\n}\n.lasttime-age-2-left {\n  color: green;\n}\n.lasttime-age-10-left {\n  color: blue;\n}\n/*# sourceMappingURL=lasttime-UKZLPFJL.css.map */\n"] }]
   }], () => [{ type: LastTimeService }, { type: LastTimeHistoryService }, { type: Title }], null);
 })();
@@ -95794,498 +96436,498 @@ var MultimediaComponent = class _MultimediaComponent {
       MultimediaDetService,
       MultimediaViewService,
       SyncAPI
-    ], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<form #newForm="ngForm" (ngSubmit)="newItem(newForm)">\r
-  <button type="button" (click)="toggleShowItemForm()">\r
-    {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}\r
-  </button>\r
-\r
-  @if (viewData.showCreateForm) {\r
-  <div>\r
-    <div>\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="multimedia-input-id"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fTitle" class="label-left">Title</label>\r
-        <input\r
-          type="text"\r
-          name="fTitle"\r
-          id="fTitle"\r
-          class="field-input multimedia-input-title"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fMediaType" class="label-left">Media Type</label>\r
-        <select\r
-          name="fMediaType"\r
-          id="fMediaType"\r
-          class="field-select"\r
-          [(ngModel)]="model.fMediaType"\r
-        >\r
-          @for (opt of viewData.mediaTypeList; track opt) {\r
-          <option\r
-            [value]="opt.ctg_sequential"\r
-            [selected]="opt.ctg_sequential === newForm.value.fMediaType"\r
-          >\r
-            {{ opt.ctg_name }}\r
-          </option>\r
-          }\r
-        </select>\r
-      </span>\r
-      <span class="field">\r
-        <label for="fSeason" class="label-left">Season</label>\r
-        <input\r
-          type="number"\r
-          name="fSeason"\r
-          id="fSeason"\r
-          class="field-input multimedia-input-season"\r
-          step="1"\r
-          [(ngModel)]="model.fSeason"\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fYear" class="label-left">Year</label>\r
-        <input\r
-          type="number"\r
-          name="fYear"\r
-          id="fYear"\r
-          class="field-input multimedia-input-year"\r
-          step="1"\r
-          [(ngModel)]="model.fYear"\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fCurrentEp" class="label-left">Current Episode</label>\r
-        <input\r
-          type="text"\r
-          name="fCurrentEp"\r
-          id="fCurrentEp"\r
-          class="field-input multimedia-input-currentep"\r
-          [(ngModel)]="model.fCurrentEp"\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fTotalEp" class="label-left">Total Episodes</label>\r
-        <input\r
-          type="text"\r
-          name="fTotalEp"\r
-          id="fTotalEp"\r
-          class="field-input multimedia-input-totalep"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fUrl" class="label-left">Url</label>\r
-        <input\r
-          type="text"\r
-          name="fUrl"\r
-          id="fUrl"\r
-          class="field-input multimedia-input-url"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <button type="submit">Save</button>\r
-    </div>\r
-  </div>\r
-  }\r
-</form>\r
-\r
-<table class="multimedia-listing">\r
-  <tr>\r
-    <th class="padding-left-5 padding-right-5">#</th>\r
-    <th class="padding-left-5 padding-right-5 width-100">\r
-      Last Viewed / Title\r
-    </th>\r
-    <th class="padding-left-5 padding-right-5">Episode</th>\r
-  </tr>\r
-  @for (item of viewData.multimediaList; track item; let i = $index) {\r
-  <tr class="multimedia-listing-row">\r
-    <td\r
-      class="padding-left-5 padding-right-5 text-align-right vertical-align-top"\r
-    >\r
-      {{ i + 1 }}\r
-    </td>\r
-    <td class="padding-left-5 padding-right-5 vertical-align-top">\r
-      <span\r
-        (click)="item.showOptions = !item.showOptions"\r
-        tabindex="0"\r
-        (keydown.enter)="item.showOptions = !item.showOptions"\r
-      >\r
-        {{ item.showOptions ? "-" : "+" }}\r
-      </span>\r
-      <span [ngClass]="item.ageClassname" class="desktop-only">\r
-        {{ item.mma_date_mod | date: "yyyy-MM-dd" }}\r
-      </span>\r
-      <span [ngClass]="item.ageClassname" class="mobile-only">\r
-        {{ item.mma_date_mod | date: "MM-dd" }}\r
-      </span>\r
-      <!--\r
-                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 1">MOVIE</span>\r
-                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 2">SERIES</span>\r
-                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 3">ANIME</span>\r
-                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 4">EBOOK</span>\r
-                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 5">MANGA</span>\r
-                      -->\r
-      <span\r
-        [ngClass]="{\r
-          'multimedia-movies': item.mma_ctg_media_type === 1,\r
-          'multimedia-tvseries': item.mma_ctg_media_type === 2,\r
-          'multimedia-anime': item.mma_ctg_media_type === 3,\r
-          'multimedia-book': item.mma_ctg_media_type === 4,\r
-          'multimedia-manga': item.mma_ctg_media_type === 5\r
-        }"\r
-      >\r
-        {{ item.mma_title }}\r
-      </span>\r
-      @if (item.mma_url) {\r
-      <span>\r
-        <a [href]="item.mma_url" target="_blank">{{ "T" + item.mma_season }}</a>\r
-      </span>\r
-      } @if (!item.mma_url) {\r
-      <span>{{ "T" + item.mma_season }}</span>\r
-      }\r
-      <span class="desktop-only">&nbsp;({{ item.mma_year }})</span>\r
-      <br />\r
-      @if (item.showOptions) {\r
-      <span>\r
-        @if (item.mma_ctg_status === 1) {\r
-        <button type="button" (click)="showNewEpForm(item)">add episode</button>\r
-        } @if (item.mma_ctg_status === 1) {\r
-        <button type="button" (click)="showDetListing(item.mma_id)">\r
-          list episodes\r
-        </button>\r
-        }\r
-        <button type="button" (click)="setModelDetails(item.mma_id, newForm)">\r
-          details\r
-        </button>\r
-      </span>\r
-      }\r
-    </td>\r
-    <td\r
-      class="padding-left-5 padding-right-5 text-align-right vertical-align-top"\r
-    >\r
-      @if (item.mma_total_ep !== '0') {\r
-      <span\r
-        [ngClass]="{\r
-        'multimedia-last-ep': item.mma_current_ep === item.mma_total_ep\r
-      }"\r
-      >\r
-        @if (item.mma_current_ep === item.mma_total_ep) {\r
-        <span>***</span>\r
-        } {{ item.mma_current_ep + "/" + item.mma_total_ep }}\r
-      </span>\r
-      } @if (item.mma_total_ep === '0') {\r
-      <span> {{ item.mma_current_ep }} </span>\r
-      }\r
-    </td>\r
-  </tr>\r
-  }\r
-</table>\r
-\r
-<!--\r
-              <table>\r
-                <tr>\r
-                  <th class="padding-left-5 padding-right-5 width-80">Episode Id</th>\r
-                  <th class="padding-left-5 padding-right-5 width-100">Episode Title</th>\r
-\r
-                  <th class="padding-left-5 padding-right-5">Date Viewed</th>\r
-                  <th class="padding-left-5 padding-right-5">Rating</th>\r
-                  <th class="padding-left-5 padding-right-5">Notes</th>\r
-                </tr>\r
-                <tr class="multimedia-listing-row" *ngFor="let item of viewData.multimediaList; let i = index">\r
-                  <td class="padding-left-5 padding-right-5 text-align-right">{{i + 1}}</td>\r
-                  <td class="padding-left-5 padding-right-5">{{item.mma_title + ' T' + item.mma_season}}</td>\r
-                  <td class="padding-left-5 padding-right-5">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>\r
-                  <td class="padding-left-5 padding-right-5">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>\r
-                </tr>\r
-              </table>\r
-              -->\r
-\r
-<form #newEpForm="ngForm" (ngSubmit)="newEpItem(newEpForm)">\r
-  @if (viewData.showCreateEpForm) {\r
-  <div>\r
-    <button type="button" (click)="hideNewEpForm()">Hide Ep Form</button>\r
-    <div>\r
-      <span class="field">\r
-        <label for="fTitle" class="label-left">Title</label>\r
-        @if (epModel.mediaUrl) {\r
-        <span class="multimedia-input-id">\r
-          <a [href]="epModel.mediaUrl" target="_blank">{{ epModel.fTitle }}</a>\r
-        </span>\r
-        } @if (!epModel.mediaUrl) {\r
-        <span class="multimedia-input-id">{{ epModel.fTitle }}</span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <input\r
-          type="text"\r
-          name="fEpId"\r
-          id="fEpId"\r
-          class="field-input multimedia-input-id"\r
-          [(ngModel)]="epModel.epId"\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fEpTitle" class="label-left">Episode Title</label>\r
-        <input\r
-          type="text"\r
-          name="fEpTitle"\r
-          id="fEpTitle"\r
-          class="field-input multimedia-input-eptitle"\r
-          [(ngModel)]="epModel.fEpTitle"\r
-          (blur)="splitEpInfo(epModel.fEpTitle)"\r
-        />\r
-        @if (epModel.fEpTitle) {\r
-        <span> {{ epModel.fEpTitle.length }} / 500 characters </span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fAltEpTitle" class="label-left">Alternative Title</label>\r
-        <input\r
-          type="text"\r
-          name="fAltEpTitle"\r
-          id="fAltEpTitle"\r
-          class="field-input multimedia-input-alteptitle"\r
-          [(ngModel)]="epModel.fAltEpTitle"\r
-        />\r
-        @if (epModel.fAltEpTitle) {\r
-        <span> {{ epModel.fAltEpTitle.length }} / 500 characters </span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fYear" class="label-left">Year</label>\r
-        <input\r
-          type="number"\r
-          name="fYear"\r
-          id="fYear"\r
-          class="field-input multimedia-input-year"\r
-          step="1"\r
-          [(ngModel)]="epModel.fYear"\r
-        />\r
-        @if (!epModel.fYear) {\r
-        <span class="color-red padding-left-5">Year is required</span>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fUrl" class="label-left">Url</label>\r
-        <input\r
-          type="text"\r
-          name="fUrl"\r
-          id="fUrl"\r
-          class="field-input multimedia-input-url"\r
-          [(ngModel)]="epModel.fUrl"\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <hr />\r
-        <label for="fIsViewed" class="label-left">Viewed</label>\r
-        <input\r
-          type="checkbox"\r
-          name="fIsViewed"\r
-          id="fIsViewed"\r
-          [(ngModel)]="epModel.isViewed"\r
-        />\r
-      </span>\r
-      @if (epModel.isViewed) {\r
-      <span>\r
-        <span class="field">\r
-          <label for="fSummary" class="label-left">Summary</label>\r
-          <div class="grow-wrap">\r
-            <textarea\r
-              name="fSummary"\r
-              id="fSummary"\r
-              class="multimedia-input-summary"\r
-              [(ngModel)]="epModel.fSummary"\r
-            ></textarea>\r
-          </div>\r
-          @if (epModel.fSummary) {\r
-          <span> {{ epModel.fSummary.length }} / 4000 characters </span>\r
-          }\r
-        </span>\r
-        <span class="field">\r
-          <label for="fDateViewed" class="label-left">Date Viewed</label>\r
-          <input\r
-            type="radio"\r
-            name="fDateViewedType"\r
-            id="fDateViewedTypeCurrent"\r
-            [(ngModel)]="epModel._DateViewedType"\r
-            value="current"\r
-          />\r
-          <label for="fDateViewedTypeCurrent">Current Timestamp</label>\r
-          <input\r
-            type="radio"\r
-            name="fDateViewedType"\r
-            id="fDateViewedTypeCustom"\r
-            [(ngModel)]="epModel._DateViewedType"\r
-            value="custom"\r
-          />\r
-          <label for="fDateViewedTypeCustom">Custom</label>\r
-          @if (epModel._DateViewedType !== 'current') {\r
-          <input\r
-            type="date"\r
-            name="fDateViewed"\r
-            [(ngModel)]="epModel.fDateViewed"\r
-          />\r
-          } @if (epModel._DateViewedType !== 'current') {\r
-          <input\r
-            type="time"\r
-            name="fTimeViewed"\r
-            [(ngModel)]="epModel.fTimeViewed"\r
-          />\r
-          }\r
-          <button\r
-            (click)="setDateViewedInModel(viewData.latestViewedDate, $event)"\r
-            id="btnSetDateViewedInModel"\r
-          >\r
-            {{ viewData.latestViewedDate | date: "yyyy-MM-dd" }}\r
-          </button>\r
-        </span>\r
-        <span class="field">\r
-          <label for="fRating" class="label-left">Rating</label>\r
-          <input\r
-            type="number"\r
-            name="fRating"\r
-            id="fRating"\r
-            class="field-input multimedia-input-rating"\r
-            step="1"\r
-            [(ngModel)]="epModel.fRating"\r
-          />\r
-          @if (!epModel.fRating) {\r
-          <span class="color-red padding-left-5">Rating is required</span>\r
-          }\r
-        </span>\r
-        <span class="field">\r
-          <label for="fPlatform" class="label-left">Platform</label>\r
-          <select\r
-            name="fPlatform"\r
-            id="fPlatform"\r
-            class="field-select"\r
-            [(ngModel)]="epModel.fPlatform"\r
-          >\r
-            @for (opt of viewData.platformList; track opt) {\r
-            <option\r
-              [value]="opt.ctg_sequential"\r
-              [selected]="opt.ctg_sequential === newEpForm.value.fPlatform"\r
-            >\r
-              {{ opt.ctg_name }}\r
-            </option>\r
-            }\r
-          </select>\r
-        </span>\r
-        <span class="field">\r
-          <label for="fNotes" class="label-left">Notes</label>\r
-          <input\r
-            type="text"\r
-            name="fNotes"\r
-            id="fNotes"\r
-            class="field-input multimedia-input-notes"\r
-            [(ngModel)]="epModel.fNotes"\r
-            (keydown)="submitOnEnter($event, newEpForm)"\r
-          />\r
-          @if (epModel.fNotes) {\r
-          <span> {{ epModel.fNotes.length }} / 500 characters </span>\r
-          }\r
-          <button type="button" (click)="dictate()">Dictate</button>\r
-        </span>\r
-        @if (newEpForm.value.fEpId !== epModel.fNextEpId) {\r
-        <span class="field">\r
-          <hr />\r
-          <label for="fNextEpId" class="label-left">Next Episode Id</label>\r
-          <input\r
-            type="text"\r
-            name="fNextEpId"\r
-            id="fNextEpId"\r
-            class="field-input multimedia-input-nextepid"\r
-            [(ngModel)]="epModel.fNextEpId"\r
-          />\r
-        </span>\r
-        } @if (newEpForm.value.fEpId !== epModel.fNextEpId) {\r
-        <span class="field">\r
-          <label for="fNextEpTitle" class="label-left"\r
-            >Next Episode Title</label\r
-          >\r
-          <input\r
-            type="text"\r
-            name="fNextEpTitle"\r
-            id="fNextEpTitle"\r
-            class="field-input multimedia-input-nexteptitle"\r
-            [(ngModel)]="epModel.fNextEpTitle"\r
-          />\r
-        </span>\r
-        } @if (newEpForm.value.fEpId !== epModel.fNextEpId) {\r
-        <span class="field">\r
-          <br />\r
-          <label for="fNextEpUrl" class="label-left">Next Episode Url</label>\r
-          <input\r
-            type="text"\r
-            name="fNextEpUrl"\r
-            id="fNextEpUrl"\r
-            class="field-input multimedia-input-nextepurl"\r
-            [(ngModel)]="epModel.fNextEpUrl"\r
-          />\r
-        </span>\r
-        } @if (newEpForm.value.fEpId === epModel.fNextEpId) {\r
-        <span class="field"> This is the last episode :-D </span>\r
-        }\r
-      </span>\r
-      }\r
-      <button type="submit" [disabled]="!epModel.fYear || !epModel.fRating">\r
-        Save\r
-      </button>\r
-    </div>\r
-  </div>\r
-  }\r
-</form>\r
-\r
-@if (viewData.showDetList) {\r
-<button (click)="showDetListing()">Remove filter</button>\r
-} @if (viewData.showDetList) {\r
-<span>Listing for media: {{ viewData.detListTitle }}</span>\r
-} @if (viewData.multimediaDetListWithGroups) {\r
-<div>\r
-  <div class="multimedia-listing-section">Title | Ep Title | Year - link</div>\r
-  @for (group of viewData.multimediaDetListWithGroups; track group) {\r
-  <div class="multimedia-listing-row">\r
-    <br />\r
-    <span class="padding-left-5 padding-right-5 width-80">\r
-      {{ group.date | date: "yyyy-MM-dd" }} | {{ group.items.length }} viewed\r
-    </span>\r
-    <br />\r
-    @for (item of group.items; track item) {\r
-    <div class="multimedia-listing-row">\r
-      <span class="padding-left-5 padding-right-5">\r
-        <span>\r
-          - {{ !viewData.showDetList && item.mmd_txt_title ? item.mmd_txt_title\r
-          + " | " + item.mmd_id_ep + " - " + item.mmd_ep_title : item.mmd_id_ep\r
-          + " - " + item.mmd_ep_title }}\r
-        </span>\r
-        @if (item.mmd_year) {\r
-        <span>\r
-          @if (item.mmd_url) {\r
-          <a [href]="item.mmd_url" target="_blank"> [{{ item.mmd_year }}] </a>\r
-          } @if (!item.mmd_url) {\r
-          <span>[{{ item.mmd_year }}]</span>\r
-          }\r
-          <span>\r
-            | {{ item["viewedInfo"].mmv_date_viewed | date: "HH:mm:ss" }}\r
-          </span>\r
-          <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9733;</span>\r
-        </span>\r
-        }\r
-      </span>\r
-    </div>\r
-    }\r
-  </div>\r
-  }\r
-</div>\r
-}\r
+    ], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<form #newForm="ngForm" (ngSubmit)="newItem(newForm)">
+  <button type="button" (click)="toggleShowItemForm()">
+    {{ viewData.showCreateForm ? "Hide Form" : "New Item" }}
+  </button>
+
+  @if (viewData.showCreateForm) {
+  <div>
+    <div>
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="multimedia-input-id"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fTitle" class="label-left">Title</label>
+        <input
+          type="text"
+          name="fTitle"
+          id="fTitle"
+          class="field-input multimedia-input-title"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fMediaType" class="label-left">Media Type</label>
+        <select
+          name="fMediaType"
+          id="fMediaType"
+          class="field-select"
+          [(ngModel)]="model.fMediaType"
+        >
+          @for (opt of viewData.mediaTypeList; track opt) {
+          <option
+            [value]="opt.ctg_sequential"
+            [selected]="opt.ctg_sequential === newForm.value.fMediaType"
+          >
+            {{ opt.ctg_name }}
+          </option>
+          }
+        </select>
+      </span>
+      <span class="field">
+        <label for="fSeason" class="label-left">Season</label>
+        <input
+          type="number"
+          name="fSeason"
+          id="fSeason"
+          class="field-input multimedia-input-season"
+          step="1"
+          [(ngModel)]="model.fSeason"
+        />
+      </span>
+      <span class="field">
+        <label for="fYear" class="label-left">Year</label>
+        <input
+          type="number"
+          name="fYear"
+          id="fYear"
+          class="field-input multimedia-input-year"
+          step="1"
+          [(ngModel)]="model.fYear"
+        />
+      </span>
+      <span class="field">
+        <label for="fCurrentEp" class="label-left">Current Episode</label>
+        <input
+          type="text"
+          name="fCurrentEp"
+          id="fCurrentEp"
+          class="field-input multimedia-input-currentep"
+          [(ngModel)]="model.fCurrentEp"
+        />
+      </span>
+      <span class="field">
+        <label for="fTotalEp" class="label-left">Total Episodes</label>
+        <input
+          type="text"
+          name="fTotalEp"
+          id="fTotalEp"
+          class="field-input multimedia-input-totalep"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fUrl" class="label-left">Url</label>
+        <input
+          type="text"
+          name="fUrl"
+          id="fUrl"
+          class="field-input multimedia-input-url"
+          ngModel
+        />
+      </span>
+      <button type="submit">Save</button>
+    </div>
+  </div>
+  }
+</form>
+
+<table class="multimedia-listing">
+  <tr>
+    <th class="padding-left-5 padding-right-5">#</th>
+    <th class="padding-left-5 padding-right-5 width-100">
+      Last Viewed / Title
+    </th>
+    <th class="padding-left-5 padding-right-5">Episode</th>
+  </tr>
+  @for (item of viewData.multimediaList; track item; let i = $index) {
+  <tr class="multimedia-listing-row">
+    <td
+      class="padding-left-5 padding-right-5 text-align-right vertical-align-top"
+    >
+      {{ i + 1 }}
+    </td>
+    <td class="padding-left-5 padding-right-5 vertical-align-top">
+      <span
+        (click)="item.showOptions = !item.showOptions"
+        tabindex="0"
+        (keydown.enter)="item.showOptions = !item.showOptions"
+      >
+        {{ item.showOptions ? "-" : "+" }}
+      </span>
+      <span [ngClass]="item.ageClassname" class="desktop-only">
+        {{ item.mma_date_mod | date: "yyyy-MM-dd" }}
+      </span>
+      <span [ngClass]="item.ageClassname" class="mobile-only">
+        {{ item.mma_date_mod | date: "MM-dd" }}
+      </span>
+      <!--
+                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 1">MOVIE</span>
+                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 2">SERIES</span>
+                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 3">ANIME</span>
+                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 4">EBOOK</span>
+                      <span class="multimedia-badge" *ngIf="item.mma_ctg_media_type === 5">MANGA</span>
+                      -->
+      <span
+        [ngClass]="{
+          'multimedia-movies': item.mma_ctg_media_type === 1,
+          'multimedia-tvseries': item.mma_ctg_media_type === 2,
+          'multimedia-anime': item.mma_ctg_media_type === 3,
+          'multimedia-book': item.mma_ctg_media_type === 4,
+          'multimedia-manga': item.mma_ctg_media_type === 5
+        }"
+      >
+        {{ item.mma_title }}
+      </span>
+      @if (item.mma_url) {
+      <span>
+        <a [href]="item.mma_url" target="_blank">{{ "T" + item.mma_season }}</a>
+      </span>
+      } @if (!item.mma_url) {
+      <span>{{ "T" + item.mma_season }}</span>
+      }
+      <span class="desktop-only">&nbsp;({{ item.mma_year }})</span>
+      <br />
+      @if (item.showOptions) {
+      <span>
+        @if (item.mma_ctg_status === 1) {
+        <button type="button" (click)="showNewEpForm(item)">add episode</button>
+        } @if (item.mma_ctg_status === 1) {
+        <button type="button" (click)="showDetListing(item.mma_id)">
+          list episodes
+        </button>
+        }
+        <button type="button" (click)="setModelDetails(item.mma_id, newForm)">
+          details
+        </button>
+      </span>
+      }
+    </td>
+    <td
+      class="padding-left-5 padding-right-5 text-align-right vertical-align-top"
+    >
+      @if (item.mma_total_ep !== '0') {
+      <span
+        [ngClass]="{
+        'multimedia-last-ep': item.mma_current_ep === item.mma_total_ep
+      }"
+      >
+        @if (item.mma_current_ep === item.mma_total_ep) {
+        <span>***</span>
+        } {{ item.mma_current_ep + "/" + item.mma_total_ep }}
+      </span>
+      } @if (item.mma_total_ep === '0') {
+      <span> {{ item.mma_current_ep }} </span>
+      }
+    </td>
+  </tr>
+  }
+</table>
+
+<!--
+              <table>
+                <tr>
+                  <th class="padding-left-5 padding-right-5 width-80">Episode Id</th>
+                  <th class="padding-left-5 padding-right-5 width-100">Episode Title</th>
+
+                  <th class="padding-left-5 padding-right-5">Date Viewed</th>
+                  <th class="padding-left-5 padding-right-5">Rating</th>
+                  <th class="padding-left-5 padding-right-5">Notes</th>
+                </tr>
+                <tr class="multimedia-listing-row" *ngFor="let item of viewData.multimediaList; let i = index">
+                  <td class="padding-left-5 padding-right-5 text-align-right">{{i + 1}}</td>
+                  <td class="padding-left-5 padding-right-5">{{item.mma_title + ' T' + item.mma_season}}</td>
+                  <td class="padding-left-5 padding-right-5">{{item.mma_current_ep + '/' + item.mma_total_ep}}</td>
+                  <td class="padding-left-5 padding-right-5">{{item.mma_date_mod | date: 'yyyy-MM-dd'}}</td>
+                </tr>
+              </table>
+              -->
+
+<form #newEpForm="ngForm" (ngSubmit)="newEpItem(newEpForm)">
+  @if (viewData.showCreateEpForm) {
+  <div>
+    <button type="button" (click)="hideNewEpForm()">Hide Ep Form</button>
+    <div>
+      <span class="field">
+        <label for="fTitle" class="label-left">Title</label>
+        @if (epModel.mediaUrl) {
+        <span class="multimedia-input-id">
+          <a [href]="epModel.mediaUrl" target="_blank">{{ epModel.fTitle }}</a>
+        </span>
+        } @if (!epModel.mediaUrl) {
+        <span class="multimedia-input-id">{{ epModel.fTitle }}</span>
+        }
+      </span>
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <input
+          type="text"
+          name="fEpId"
+          id="fEpId"
+          class="field-input multimedia-input-id"
+          [(ngModel)]="epModel.epId"
+        />
+      </span>
+      <span class="field">
+        <label for="fEpTitle" class="label-left">Episode Title</label>
+        <input
+          type="text"
+          name="fEpTitle"
+          id="fEpTitle"
+          class="field-input multimedia-input-eptitle"
+          [(ngModel)]="epModel.fEpTitle"
+          (blur)="splitEpInfo(epModel.fEpTitle)"
+        />
+        @if (epModel.fEpTitle) {
+        <span> {{ epModel.fEpTitle.length }} / 500 characters </span>
+        }
+      </span>
+      <span class="field">
+        <label for="fAltEpTitle" class="label-left">Alternative Title</label>
+        <input
+          type="text"
+          name="fAltEpTitle"
+          id="fAltEpTitle"
+          class="field-input multimedia-input-alteptitle"
+          [(ngModel)]="epModel.fAltEpTitle"
+        />
+        @if (epModel.fAltEpTitle) {
+        <span> {{ epModel.fAltEpTitle.length }} / 500 characters </span>
+        }
+      </span>
+      <span class="field">
+        <label for="fYear" class="label-left">Year</label>
+        <input
+          type="number"
+          name="fYear"
+          id="fYear"
+          class="field-input multimedia-input-year"
+          step="1"
+          [(ngModel)]="epModel.fYear"
+        />
+        @if (!epModel.fYear) {
+        <span class="color-red padding-left-5">Year is required</span>
+        }
+      </span>
+      <span class="field">
+        <label for="fUrl" class="label-left">Url</label>
+        <input
+          type="text"
+          name="fUrl"
+          id="fUrl"
+          class="field-input multimedia-input-url"
+          [(ngModel)]="epModel.fUrl"
+        />
+      </span>
+      <span class="field">
+        <hr />
+        <label for="fIsViewed" class="label-left">Viewed</label>
+        <input
+          type="checkbox"
+          name="fIsViewed"
+          id="fIsViewed"
+          [(ngModel)]="epModel.isViewed"
+        />
+      </span>
+      @if (epModel.isViewed) {
+      <span>
+        <span class="field">
+          <label for="fSummary" class="label-left">Summary</label>
+          <div class="grow-wrap">
+            <textarea
+              name="fSummary"
+              id="fSummary"
+              class="multimedia-input-summary"
+              [(ngModel)]="epModel.fSummary"
+            ></textarea>
+          </div>
+          @if (epModel.fSummary) {
+          <span> {{ epModel.fSummary.length }} / 4000 characters </span>
+          }
+        </span>
+        <span class="field">
+          <label for="fDateViewed" class="label-left">Date Viewed</label>
+          <input
+            type="radio"
+            name="fDateViewedType"
+            id="fDateViewedTypeCurrent"
+            [(ngModel)]="epModel._DateViewedType"
+            value="current"
+          />
+          <label for="fDateViewedTypeCurrent">Current Timestamp</label>
+          <input
+            type="radio"
+            name="fDateViewedType"
+            id="fDateViewedTypeCustom"
+            [(ngModel)]="epModel._DateViewedType"
+            value="custom"
+          />
+          <label for="fDateViewedTypeCustom">Custom</label>
+          @if (epModel._DateViewedType !== 'current') {
+          <input
+            type="date"
+            name="fDateViewed"
+            [(ngModel)]="epModel.fDateViewed"
+          />
+          } @if (epModel._DateViewedType !== 'current') {
+          <input
+            type="time"
+            name="fTimeViewed"
+            [(ngModel)]="epModel.fTimeViewed"
+          />
+          }
+          <button
+            (click)="setDateViewedInModel(viewData.latestViewedDate, $event)"
+            id="btnSetDateViewedInModel"
+          >
+            {{ viewData.latestViewedDate | date: "yyyy-MM-dd" }}
+          </button>
+        </span>
+        <span class="field">
+          <label for="fRating" class="label-left">Rating</label>
+          <input
+            type="number"
+            name="fRating"
+            id="fRating"
+            class="field-input multimedia-input-rating"
+            step="1"
+            [(ngModel)]="epModel.fRating"
+          />
+          @if (!epModel.fRating) {
+          <span class="color-red padding-left-5">Rating is required</span>
+          }
+        </span>
+        <span class="field">
+          <label for="fPlatform" class="label-left">Platform</label>
+          <select
+            name="fPlatform"
+            id="fPlatform"
+            class="field-select"
+            [(ngModel)]="epModel.fPlatform"
+          >
+            @for (opt of viewData.platformList; track opt) {
+            <option
+              [value]="opt.ctg_sequential"
+              [selected]="opt.ctg_sequential === newEpForm.value.fPlatform"
+            >
+              {{ opt.ctg_name }}
+            </option>
+            }
+          </select>
+        </span>
+        <span class="field">
+          <label for="fNotes" class="label-left">Notes</label>
+          <input
+            type="text"
+            name="fNotes"
+            id="fNotes"
+            class="field-input multimedia-input-notes"
+            [(ngModel)]="epModel.fNotes"
+            (keydown)="submitOnEnter($event, newEpForm)"
+          />
+          @if (epModel.fNotes) {
+          <span> {{ epModel.fNotes.length }} / 500 characters </span>
+          }
+          <button type="button" (click)="dictate()">Dictate</button>
+        </span>
+        @if (newEpForm.value.fEpId !== epModel.fNextEpId) {
+        <span class="field">
+          <hr />
+          <label for="fNextEpId" class="label-left">Next Episode Id</label>
+          <input
+            type="text"
+            name="fNextEpId"
+            id="fNextEpId"
+            class="field-input multimedia-input-nextepid"
+            [(ngModel)]="epModel.fNextEpId"
+          />
+        </span>
+        } @if (newEpForm.value.fEpId !== epModel.fNextEpId) {
+        <span class="field">
+          <label for="fNextEpTitle" class="label-left"
+            >Next Episode Title</label
+          >
+          <input
+            type="text"
+            name="fNextEpTitle"
+            id="fNextEpTitle"
+            class="field-input multimedia-input-nexteptitle"
+            [(ngModel)]="epModel.fNextEpTitle"
+          />
+        </span>
+        } @if (newEpForm.value.fEpId !== epModel.fNextEpId) {
+        <span class="field">
+          <br />
+          <label for="fNextEpUrl" class="label-left">Next Episode Url</label>
+          <input
+            type="text"
+            name="fNextEpUrl"
+            id="fNextEpUrl"
+            class="field-input multimedia-input-nextepurl"
+            [(ngModel)]="epModel.fNextEpUrl"
+          />
+        </span>
+        } @if (newEpForm.value.fEpId === epModel.fNextEpId) {
+        <span class="field"> This is the last episode :-D </span>
+        }
+      </span>
+      }
+      <button type="submit" [disabled]="!epModel.fYear || !epModel.fRating">
+        Save
+      </button>
+    </div>
+  </div>
+  }
+</form>
+
+@if (viewData.showDetList) {
+<button (click)="showDetListing()">Remove filter</button>
+} @if (viewData.showDetList) {
+<span>Listing for media: {{ viewData.detListTitle }}</span>
+} @if (viewData.multimediaDetListWithGroups) {
+<div>
+  <div class="multimedia-listing-section">Title | Ep Title | Year - link</div>
+  @for (group of viewData.multimediaDetListWithGroups; track group) {
+  <div class="multimedia-listing-row">
+    <br />
+    <span class="padding-left-5 padding-right-5 width-80">
+      {{ group.date | date: "yyyy-MM-dd" }} | {{ group.items.length }} viewed
+    </span>
+    <br />
+    @for (item of group.items; track item) {
+    <div class="multimedia-listing-row">
+      <span class="padding-left-5 padding-right-5">
+        <span>
+          - {{ !viewData.showDetList && item.mmd_txt_title ? item.mmd_txt_title
+          + " | " + item.mmd_id_ep + " - " + item.mmd_ep_title : item.mmd_id_ep
+          + " - " + item.mmd_ep_title }}
+        </span>
+        @if (item.mmd_year) {
+        <span>
+          @if (item.mmd_url) {
+          <a [href]="item.mmd_url" target="_blank"> [{{ item.mmd_year }}] </a>
+          } @if (!item.mmd_url) {
+          <span>[{{ item.mmd_year }}]</span>
+          }
+          <span>
+            | {{ item["viewedInfo"].mmv_date_viewed | date: "HH:mm:ss" }}
+          </span>
+          <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9733;</span>
+        </span>
+        }
+      </span>
+    </div>
+    }
+  </div>
+  }
+</div>
+}
 `, styles: ["/* src/app/multimedia/multimedia.css */\n.multimedia-oldest {\n  color: red;\n  font-weight: bold;\n}\n.multimedia-old {\n  color: red;\n}\n.multimedia-normal {\n  color: black;\n}\n.multimedia-recent {\n  color: blue;\n}\n.multimedia-today {\n  color: blue;\n  font-weight: bold;\n}\n.multimedia-movies {\n  color: black;\n}\n.multimedia-tvseries {\n  color: brown;\n}\n.multimedia-anime {\n  color: #ca00e2;\n}\n.multimedia-book {\n  color: green;\n}\n.multimedia-manga {\n  color: blue;\n}\n.multimedia-input-summary {\n  vertical-align: text-top;\n  width: 100%;\n  min-height: 60px;\n}\n@media all and (min-width: 505px) {\n  .multimedia-input-summary {\n    width: 60%;\n  }\n}\n.multimedia-listing {\n  border-spacing: 0;\n}\n.multimedia-listing td {\n  padding: 5px;\n}\n.multimedia-listing .multimedia-listing-row:nth-child(even) {\n  background-color: #e6e6e6;\n}\n.multimedia-last-ep {\n  color: rgb(111, 22, 22);\n  font-weight: bold;\n}\n/*# sourceMappingURL=multimedia-XHSRMYIX.css.map */\n"] }]
   }], () => [{ type: MultimediaService }, { type: MultimediaDetService }, { type: MultimediaViewService }, { type: SyncAPI }, { type: Title }, { type: NotificationService }], null);
 })();
@@ -97504,190 +98146,190 @@ var LinkComponent = class _LinkComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LinkComponent, [{
     type: Component,
-    args: [{ selector: "link", providers: [LinkService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  <strong>Links</strong>\r
-\r
-  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\r
-    <button\r
-      type="button"\r
-      (click)="viewData.showItemForm = !viewData.showItemForm"\r
-    >\r
-      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}\r
-    </button>\r
-\r
-    @if (viewData.showItemForm) {\r
-    <div id="newItemFormSection">\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="field-input-small"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fUrl" class="label-left">Url</label>\r
-        <input\r
-          type="text"\r
-          name="fUrl"\r
-          id="fUrl"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fTitle" class="label-left">Title</label>\r
-        <input\r
-          type="text"\r
-          name="fTitle"\r
-          id="fTitle"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fTags" class="label-left">Tags</label>\r
-        <input\r
-          type="text"\r
-          name="fTags"\r
-          id="fTags"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fComment" class="label-left">Comment</label>\r
-        <input\r
-          type="text"\r
-          name="fComment"\r
-          id="fComment"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r
-    </div>\r
-    }\r
-  </form>\r
-\r
-  <div>\r
-    {{ viewData.linkList.length }} items.\r
-    <br />\r
-    <label>Search</label>\r
-    <input (keyup)="filter($event)" placeholder="Filter" />\r
-  </div>\r
-\r
-  <button (click)="toggleMainLinks()">\r
-    {{ showMainLinks ? 'Ocultar links' : 'Mostrar links' }}\r
-  </button>\r
-\r
-  @if (showMainLinks) {\r
-  <div>\r
-    <div class="card-list">\r
-      @for (item of viewData.linkList; track item) {\r
-      <div class="card-item-container">\r
-        <span class="link-url">{{ item.lnk_url }}</span>\r
-        <br />\r
-        <span>Tags: {{ item.lnk_tags }}</span>\r
-        <br />\r
-        <span\r
-          >Date Mod: {{ item.lnk_date_mod | date: "yyyy-MM-dd HH:mm" }}</span\r
-        >\r
-        <span (click)="item.showOptions = !item.showOptions">\r
-          {{ item.showOptions ? "-" : "+" }}\r
-        </span>\r
-        @if (item.isNew) {\r
-        <span class="link-badge-new">new</span>\r
-        } @if (item.isEdited) {\r
-        <span class="link-badge-edited">edited</span>\r
-        } @if (item.showOptions) {\r
-        <span>\r
-          <button (click)="setModelDetails(item.lnk_id, itemForm)">edit</button>\r
-          <button (click)="copyAndUpdateItem(item)">copy</button>\r
-        </span>\r
-        }\r
-      </div>\r
-      }\r
-    </div>\r
-  </div>\r
-  }\r
-\r
-  <button (click)="toggleBatchSection()">\r
-    {{ showBatchSection ? 'Hide batch add' : 'Show batch add' }}\r
-  </button>\r
-\r
-  @if (showBatchSection) {\r
-  <div style="margin-top: 16px">\r
-    <label for="batchTextarea">Multiple links</label><br />\r
-    <textarea\r
-      id="batchTextarea"\r
-      [(ngModel)]="batchTextarea"\r
-      style="width: 500px; height: 300px"\r
-    ></textarea\r
-    ><br />\r
-    <button (click)="addLinksBatch()">Add links</button>\r
-  </div>\r
-  }\r
-\r
-  <hr />\r
-\r
-  <label>\r
-    Minutes between copies:\r
-    <input\r
-      type="number"\r
-      min="1"\r
-      [(ngModel)]="delayedCopyMinutes"\r
-      [disabled]="delayedCopyActive"\r
-    />\r
-  </label>\r
-  <button (click)="launchDelayedCopy()" [disabled]="delayedCopyActive">\r
-    Launch delayed copy\r
-  </button>\r
-  <button (click)="stopDelayedCopy()" [disabled]="!delayedCopyActive">\r
-    Stop delayed copy\r
-  </button>\r
-  <div>\r
-    <strong>Pendientes por copiar: {{ pendingLinksCount() }}</strong>\r
-  </div>\r
-\r
-  @if (delayedCopyActive || delayedCopyTable.length > 0) {\r
-  <div style="margin-top: 16px">\r
-    @if (delayedCopyActive) {\r
-    <div>\r
-      <strong>Next copy in: {{ getDelayedCopyTimeLeft() }}</strong>\r
-    </div>\r
-    }\r
-    <table border="1" style="margin-top: 8px">\r
-      <thead>\r
-        <tr>\r
-          <th>Link</th>\r
-          <th>Status</th>\r
-          <th>Action</th>\r
-        </tr>\r
-      </thead>\r
-      <tbody>\r
-        @for (row of delayedCopyTable; track row) {\r
-        <tr>\r
-          <td>{{ row.link.lnk_url }}</td>\r
-          <td>\r
-            @if (row.copied) {\r
-            <span>&#10003; Copied</span>\r
-            } @if (!row.copied) {\r
-            <span>Pending</span>\r
-            }\r
-          </td>\r
-          <td>\r
-            @if (!row.copied) {\r
-            <button (click)="copyLinkNow(row.link)">Copy now</button>\r
-            }\r
-          </td>\r
-        </tr>\r
-        }\r
-      </tbody>\r
-    </table>\r
-  </div>\r
-  }\r
-</div>\r
+    args: [{ selector: "link", providers: [LinkService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  <strong>Links</strong>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button
+      type="button"
+      (click)="viewData.showItemForm = !viewData.showItemForm"
+    >
+      {{ viewData.showItemForm ? "Hide Form" : "New Item" }}
+    </button>
+
+    @if (viewData.showItemForm) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fUrl" class="label-left">Url</label>
+        <input
+          type="text"
+          name="fUrl"
+          id="fUrl"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fTitle" class="label-left">Title</label>
+        <input
+          type="text"
+          name="fTitle"
+          id="fTitle"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fTags" class="label-left">Tags</label>
+        <input
+          type="text"
+          name="fTags"
+          id="fTags"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fComment" class="label-left">Comment</label>
+        <input
+          type="text"
+          name="fComment"
+          id="fComment"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+    }
+  </form>
+
+  <div>
+    {{ viewData.linkList.length }} items.
+    <br />
+    <label>Search</label>
+    <input (keyup)="filter($event)" placeholder="Filter" />
+  </div>
+
+  <button (click)="toggleMainLinks()">
+    {{ showMainLinks ? 'Ocultar links' : 'Mostrar links' }}
+  </button>
+
+  @if (showMainLinks) {
+  <div>
+    <div class="card-list">
+      @for (item of viewData.linkList; track item) {
+      <div class="card-item-container">
+        <span class="link-url">{{ item.lnk_url }}</span>
+        <br />
+        <span>Tags: {{ item.lnk_tags }}</span>
+        <br />
+        <span
+          >Date Mod: {{ item.lnk_date_mod | date: "yyyy-MM-dd HH:mm" }}</span
+        >
+        <span (click)="item.showOptions = !item.showOptions">
+          {{ item.showOptions ? "-" : "+" }}
+        </span>
+        @if (item.isNew) {
+        <span class="link-badge-new">new</span>
+        } @if (item.isEdited) {
+        <span class="link-badge-edited">edited</span>
+        } @if (item.showOptions) {
+        <span>
+          <button (click)="setModelDetails(item.lnk_id, itemForm)">edit</button>
+          <button (click)="copyAndUpdateItem(item)">copy</button>
+        </span>
+        }
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+  <button (click)="toggleBatchSection()">
+    {{ showBatchSection ? 'Hide batch add' : 'Show batch add' }}
+  </button>
+
+  @if (showBatchSection) {
+  <div style="margin-top: 16px">
+    <label for="batchTextarea">Multiple links</label><br />
+    <textarea
+      id="batchTextarea"
+      [(ngModel)]="batchTextarea"
+      style="width: 500px; height: 300px"
+    ></textarea
+    ><br />
+    <button (click)="addLinksBatch()">Add links</button>
+  </div>
+  }
+
+  <hr />
+
+  <label>
+    Minutes between copies:
+    <input
+      type="number"
+      min="1"
+      [(ngModel)]="delayedCopyMinutes"
+      [disabled]="delayedCopyActive"
+    />
+  </label>
+  <button (click)="launchDelayedCopy()" [disabled]="delayedCopyActive">
+    Launch delayed copy
+  </button>
+  <button (click)="stopDelayedCopy()" [disabled]="!delayedCopyActive">
+    Stop delayed copy
+  </button>
+  <div>
+    <strong>Pendientes por copiar: {{ pendingLinksCount() }}</strong>
+  </div>
+
+  @if (delayedCopyActive || delayedCopyTable.length > 0) {
+  <div style="margin-top: 16px">
+    @if (delayedCopyActive) {
+    <div>
+      <strong>Next copy in: {{ getDelayedCopyTimeLeft() }}</strong>
+    </div>
+    }
+    <table border="1" style="margin-top: 8px">
+      <thead>
+        <tr>
+          <th>Link</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of delayedCopyTable; track row) {
+        <tr>
+          <td>{{ row.link.lnk_url }}</td>
+          <td>
+            @if (row.copied) {
+            <span>&#10003; Copied</span>
+            } @if (!row.copied) {
+            <span>Pending</span>
+            }
+          </td>
+          <td>
+            @if (!row.copied) {
+            <button (click)="copyLinkNow(row.link)">Copy now</button>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+</div>
 ` }]
   }], () => [{ type: LinkService }, { type: NotificationService }], null);
 })();
@@ -99511,7 +100153,7 @@ var TimelineComponent = class _TimelineComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TimelineComponent, [{
     type: Component,
-    args: [{ selector: "timeline", providers: [TimelineService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div class="hide-on-print">\r\n  <form #newItemForm="ngForm" (ngSubmit)="handleNewItem(newItemForm)">\r\n    <button type="button" (click)="viewData.showForm = !viewData.showForm">\r\n      {{ viewData.showForm ? "Hide timeline form" : "Add timeline comment" }}\r\n    </button>\r\n\r\n    @if (viewData.showForm) {\r\n    <div>\r\n      @if (model.id) {\r\n      <span class="field">\r\n        <label for="id" class="label-left">Id</label>\r\n        <span class="general-input-id">{{ model.id }}</span>\r\n      </span>\r\n      }\r\n      <span class="field">\r\n        <label for="fDescription" class="label-left vertical-align-top"\r\n          >Description</label\r\n        >\r\n        <textarea\r\n          name="fDescription"\r\n          id="fDescription"\r\n          class="field-input general-input-description vertical-align-top timeline-input-description"\r\n          [(ngModel)]="model.fDescription"\r\n        ></textarea>\r\n        @if (model.fDescription) {\r\n        <span> {{ model.fDescription.length }} / 4000 characters </span>\r\n        }\r\n      </span>\r\n      <span class="field">\r\n        <label for="fDate" class="label-left">Date</label>\r\n        <input type="date" name="fDate" [(ngModel)]="model.date" />\r\n        <input type="time" name="fTime" [(ngModel)]="model.time" />\r\n      </span>\r\n      <span class="field">\r\n        <label for="fTags" class="label-left">Tags</label>\r\n        <input\r\n          type="text"\r\n          name="fTags"\r\n          id="fTags"\r\n          class="field-input general-input-tags"\r\n          ngModel\r\n        />\r\n        @if (model.fTags) {\r\n        <span> {{ model.fTags.length }} / 1000 characters </span>\r\n        }\r\n      </span>\r\n      <button type="submit" id="newItemFormSubmitButton">Save comment</button>\r\n    </div>\r\n    }\r\n  </form>\r\n</div>\r\n', styles: ["/* src/app/common/Timeline.css */\n.timeline-input-description {\n  width: 100%;\n  height: 100px;\n}\n@media (min-width: 505px) {\n  .timeline-input-description {\n    width: 60%;\n  }\n}\n/*# sourceMappingURL=Timeline-X5UIIMXC.css.map */\n"] }]
+    args: [{ selector: "timeline", providers: [TimelineService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div class="hide-on-print">\n  <form #newItemForm="ngForm" (ngSubmit)="handleNewItem(newItemForm)">\n    <button type="button" (click)="viewData.showForm = !viewData.showForm">\n      {{ viewData.showForm ? "Hide timeline form" : "Add timeline comment" }}\n    </button>\n\n    @if (viewData.showForm) {\n    <div>\n      @if (model.id) {\n      <span class="field">\n        <label for="id" class="label-left">Id</label>\n        <span class="general-input-id">{{ model.id }}</span>\n      </span>\n      }\n      <span class="field">\n        <label for="fDescription" class="label-left vertical-align-top"\n          >Description</label\n        >\n        <textarea\n          name="fDescription"\n          id="fDescription"\n          class="field-input general-input-description vertical-align-top timeline-input-description"\n          [(ngModel)]="model.fDescription"\n        ></textarea>\n        @if (model.fDescription) {\n        <span> {{ model.fDescription.length }} / 4000 characters </span>\n        }\n      </span>\n      <span class="field">\n        <label for="fDate" class="label-left">Date</label>\n        <input type="date" name="fDate" [(ngModel)]="model.date" />\n        <input type="time" name="fTime" [(ngModel)]="model.time" />\n      </span>\n      <span class="field">\n        <label for="fTags" class="label-left">Tags</label>\n        <input\n          type="text"\n          name="fTags"\n          id="fTags"\n          class="field-input general-input-tags"\n          ngModel\n        />\n        @if (model.fTags) {\n        <span> {{ model.fTags.length }} / 1000 characters </span>\n        }\n      </span>\n      <button type="submit" id="newItemFormSubmitButton">Save comment</button>\n    </div>\n    }\n  </form>\n</div>\n', styles: ["/* src/app/common/Timeline.css */\n.timeline-input-description {\n  width: 100%;\n  height: 100px;\n}\n@media (min-width: 505px) {\n  .timeline-input-description {\n    width: 60%;\n  }\n}\n/*# sourceMappingURL=Timeline-X5UIIMXC.css.map */\n"] }]
   }], () => [{ type: AuthenticationService }, { type: TimelineService }], { recordId: [{
     type: Input
   }], onNewItem: [{
@@ -100584,325 +101226,325 @@ var ActivityComponent = class _ActivityComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ActivityComponent, [{
     type: Component,
-    args: [{ selector: "activity", encapsulation: ViewEncapsulation.None, providers: [ActivityService, TimelineService, KeyvalService, TaskCore], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>\r
-  <h1 class="page-title text-align-center">\r
-    {{ viewData.TEXT.ACTIVITIES_REPORT_TITLE }} {{ REPORT_DATE | date:\r
-    "yyyy-MM-dd" }}\r
-  </h1>\r
-\r
-  <span class="field hide-on-print">\r
-    <label for="fSelectedProject" class="label-left">Project</label>\r
-    <select\r
-      name="fSelectedProject"\r
-      id="fSelectedProject"\r
-      class="field-select"\r
-      [(ngModel)]="selectedProject"\r
-      (ngModelChange)="onChangeProject($event)"\r
-    >\r
-      @for (opt of projectList(); track opt) {\r
-      <option value="{{ opt.id }}">{{ opt.name }} ({{ opt.count }})</option>\r
-      }\r
-    </select>\r
-  </span>\r
-\r
-  <span class="field hide-on-print">\r
-    <label for="fSelectedLayout" class="label-left">Layout</label>\r
-    <select\r
-      name="fSelectedLayout"\r
-      id="fSelectedLayout"\r
-      class="field-select"\r
-      [(ngModel)]="selectedLayout"\r
-      (ngModelChange)="onChangeLayout($event)"\r
-    >\r
-      @for (opt of LAYOUT_LIST; track opt) {\r
-      <option value="{{ opt.id }}">{{ opt.name }}</option>\r
-      }\r
-    </select>\r
-  </span>\r
-\r
-  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">\r
-    <button type="button" (click)="toggleShowItemForm()" class="hide-on-print">\r
-      {{ showItemForm() ? "Hide Form" : "New Item" }}\r
-    </button>\r
-\r
-    @if (showItemForm()) {\r
-    <div id="newItemFormSection">\r
-      @if (model.id) {\r
-      <span class="field">\r
-        <label for="id" class="label-left">Id</label>\r
-        <span type="text" name="id" id="id" class="field-input-small"\r
-          >{{ model.id }}</span\r
-        >\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        <label for="fName" class="label-left">Name</label>\r
-        <input\r
-          type="text"\r
-          name="fName"\r
-          id="fName"\r
-          class="field-input field-input-large"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fTags" class="label-left">Tags</label>\r
-        <input\r
-          type="text"\r
-          name="fTags"\r
-          id="fTags"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-      </span>\r
-      <span class="field">\r
-        <label for="fTasksTag" class="label-left">Tasks Tag</label>\r
-        <input\r
-          type="text"\r
-          name="fTasksTag"\r
-          id="fTasksTag"\r
-          class="field-input field-input-medium"\r
-          ngModel\r
-        />\r
-        <div>\r
-          @for (f of viewData.nextFolioList; track f) {\r
-          <button (click)="setFolioFromSuggestion(f, itemForm)">{{f}}</button>\r
-          }\r
-        </div>\r
-      </span>\r
-      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>\r
-    </div>\r
-    }\r
-  </form>\r
-\r
-  @if (model.id) {\r
-  <div class="activity-details">\r
-    <div class="activity-actions">\r
-      <button (click)="changeStatus(model.id, 'CLOSED')">Close Activity</button>\r
-    </div>\r
-    <span> Details </span>\r
-    @for (k of model.activity.additional?.keyvalItems; track k) {\r
-    <div>{{ k.key_name }} / {{ k.key_value }}</div>\r
-    }\r
-    <hr />\r
-    <span\r
-      ><strong>\r
-        Timeline (x{{model.activity.additional?.timeline?.length}})\r
-      </strong></span\r
-    >\r
-    @for (t of model.activity.additional?.timeline; track t) {\r
-    <div>\r
-      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |\r
-      <span [innerHtml]="t.tim_description"></span>\r
-    </div>\r
-    }\r
-    <timeline\r
-      [recordId]="TIMELINE_KEY + model.id"\r
-      (onNewItem)="handleNewTimeline($event)"\r
-    ></timeline>\r
-    <span\r
-      ><strong>\r
-        Notes (x{{model.activity.additional?.notes?.length}})\r
-      </strong></span\r
-    >\r
-    @for (t of model.activity.additional?.notes; track t) {\r
-    <div>\r
-      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |\r
-      <span [innerHtml]="t.tim_description"></span>\r
-    </div>\r
-    }\r
-    <span\r
-      ><strong>\r
-        Notes hidden (x{{model.activity.additional?.notesHidden?.length}})\r
-      </strong></span\r
-    >\r
-    @for (t of model.activity.additional?.notesHidden; track t) {\r
-    <div>\r
-      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |\r
-      <span [innerHtml]="t.tim_description"></span>\r
-    </div>\r
-    }\r
-    <div>\r
-      <span> Tasks </span>\r
-      <div>\r
-        @for (item of model.activity.additional?.tasks; track item) {\r
-        <div>\r
-          <task\r
-            [task]="item"\r
-            [handlers]="handlers"\r
-            [options]="{\r
-            optShowRecordNameInline: true,\r
-            optShowBadgeIfTaskIsInBacklog: true\r
-          }"\r
-          ></task>\r
-        </div>\r
-        }\r
-      </div>\r
-    </div>\r
-  </div>\r
-  }\r
-\r
-  <div>\r
-    <div>Leyenda de colores</div>\r
-    @for (h of viewData.healthGroup; track h) {\r
-    <div>\r
-      <span\r
-        [ngClass]="[\r
-        'status-block',\r
-        h.className\r
-      ]"\r
-      ></span>\r
-      <span class="activity-name"\r
-        >{{ h.label }} ({{ h.count }} actividades)</span\r
-      >\r
-    </div>\r
-    }\r
-  </div>\r
-\r
-  <div class="card-group-list width-100-pct">\r
-    @for (group of activityGroups(); track group) {\r
-    <div class="card-group-item">\r
-      <details [attr.open]="group.key !== 6 ? 'true' : null">\r
-        <summary>\r
-          <div class="card-group-header">\r
-            <span class="card-group-header-title"\r
-              >{{ group.act_txt_status }}</span\r
-            >\r
-            <span class="card-group-header-subtitle"\r
-              >{{ group.items.length }} items</span\r
-            >\r
-          </div>\r
-        </summary>\r
-        <div class="card-list">\r
-          @for (item of group.items; track item) {\r
-          <div class="card-item-container">\r
-            <div class="activity-card-header">\r
-              <span class="status-block {{item?.additional?.health}}"></span>\r
-              <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>\r
-              <span class="activity-name">{{ item.act_name }}</span>\r
-              <div class="activity-card-options-group">\r
-                <span class="activity-status-text"\r
-                  >[{{ group.act_txt_status }}]</span\r
-                >\r
-                <span\r
-                  class="activity-options-toggle"\r
-                  (click)="item.showOptions = !item.showOptions"\r
-                >\r
-                  {{ item.showOptions ? "-" : "+" }}\r
-                </span>\r
-                @if (item.isNew) {\r
-                <span class="activity-badge-new">new</span>\r
-                } @if (item.isEdited) {\r
-                <span class="activity-badge-edited">edited</span>\r
-                } @if (item.showOptions) {\r
-                <span>\r
-                  <br />\r
-                  <button (click)="setModelDetails(item.act_id, itemForm)">\r
-                    details\r
-                  </button>\r
-                  @if (item.act_ctg_status === 1 || item.act_ctg_status === 3) {\r
-                  <button (click)="changeStatus(item.act_id, 'BACKLOG')">\r
-                    To Backlog\r
-                  </button>\r
-                  } @if (item.act_ctg_status === 2 || item.act_ctg_status === 4)\r
-                  {\r
-                  <button (click)="changeStatus(item.act_id, 'OPEN')">\r
-                    To Open\r
-                  </button>\r
-                  } @if (item.act_ctg_status === 3 || item.act_ctg_status === 5)\r
-                  {\r
-                  <button (click)="changeStatus(item.act_id, 'IN PROGRESS')">\r
-                    To In Progress\r
-                  </button>\r
-                  } @if (item.act_ctg_status === 4) {\r
-                  <button (click)="changeStatus(item.act_id, 'VERIFICATION')">\r
-                    To Verification\r
-                  </button>\r
-                  } @if (item.act_ctg_status === 5) {\r
-                  <button (click)="changeStatus(item.act_id, 'CLOSED')">\r
-                    To Closed\r
-                  </button>\r
-                  } @if (item.act_ctg_status !== 6) {\r
-                  <button (click)="addNewTask(item)">Add new task</button>\r
-                  }\r
-                </span>\r
-                }\r
-              </div>\r
-            </div>\r
-            <div class="activity-card-body">\r
-              @if (item.additional.lastTimeline && showTimeline()) {\r
-              <div>\r
-                <span\r
-                  ><strong>\r
-                    \xDAltimo Estatus (x{{item.additional.timeline.length}})\r
-                  </strong></span\r
-                >\r
-                <div>\r
-                  - {{ item.additional.lastTimeline.tim_date | date:\r
-                  "yyyy-MM-dd" }} |\r
-                  <span\r
-                    [innerHtml]="item.additional.lastTimeline.tim_description"\r
-                  ></span>\r
-                </div>\r
-                @if (item['additional']?.tasks?.length > 0) {\r
-                <hr />\r
-                }\r
-              </div>\r
-              } @if (item['additional']?.uniqueTasks?.length > 0 &&\r
-              showActivities()) {\r
-              <div>\r
-                <span><strong> Actividades </strong></span>\r
-                @for (t of item['additional'].uniqueTasks; track t) {\r
-                <div>\r
-                  <task\r
-                    [task]="t.task"\r
-                    [handlers]="handlers"\r
-                    [options]="{\r
-                    optShowRecordNameInline: true,\r
-                    optShowBadgeIfTaskIsInBacklog: true,\r
-                    optShowTimeTrackingHistory: false\r
-                  }"\r
-                  ></task>\r
-                </div>\r
-                }\r
-              </div>\r
-              }\r
-            </div>\r
-          </div>\r
-          }\r
-        </div>\r
-      </details>\r
-    </div>\r
-    }\r
-  </div>\r
-\r
-  <div class="timeline-list">\r
-    <h2>L\xEDnea de tiempo</h2>\r
-\r
-    <div>Secuencia de actividades en orden cronol\xF3gico</div>\r
-\r
-    @for (d of timelineGroup().days; track d) {\r
-    <div>\r
-      <h3>{{ d.date | date: "yyyy-MM-dd" }} {{ d.dayName }}</h3>\r
-      @for (a of d.activityList; track a) {\r
-      <div class="timeline-list-activity">\r
-        <div class="timeline-list-activity-header">\r
-          + {{ a.act_tasks_tag }} - {{a.act_name}}\r
-        </div>\r
-        @for (t of a.additional.timeline; track t) {\r
-        <div>\r
-          <div class="timeline-list-item">\r
-            - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |\r
-            <span [innerHtml]="t.tim_description"></span>\r
-          </div>\r
-        </div>\r
-        }\r
-      </div>\r
-      }\r
-    </div>\r
-    }\r
-  </div>\r
-</div>\r
+    args: [{ selector: "activity", encapsulation: ViewEncapsulation.None, providers: [ActivityService, TimelineService, KeyvalService, TaskCore], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div>
+  <h1 class="page-title text-align-center">
+    {{ viewData.TEXT.ACTIVITIES_REPORT_TITLE }} {{ REPORT_DATE | date:
+    "yyyy-MM-dd" }}
+  </h1>
+
+  <span class="field hide-on-print">
+    <label for="fSelectedProject" class="label-left">Project</label>
+    <select
+      name="fSelectedProject"
+      id="fSelectedProject"
+      class="field-select"
+      [(ngModel)]="selectedProject"
+      (ngModelChange)="onChangeProject($event)"
+    >
+      @for (opt of projectList(); track opt) {
+      <option value="{{ opt.id }}">{{ opt.name }} ({{ opt.count }})</option>
+      }
+    </select>
+  </span>
+
+  <span class="field hide-on-print">
+    <label for="fSelectedLayout" class="label-left">Layout</label>
+    <select
+      name="fSelectedLayout"
+      id="fSelectedLayout"
+      class="field-select"
+      [(ngModel)]="selectedLayout"
+      (ngModelChange)="onChangeLayout($event)"
+    >
+      @for (opt of LAYOUT_LIST; track opt) {
+      <option value="{{ opt.id }}">{{ opt.name }}</option>
+      }
+    </select>
+  </span>
+
+  <form #itemForm="ngForm" (ngSubmit)="newItem(itemForm)">
+    <button type="button" (click)="toggleShowItemForm()" class="hide-on-print">
+      {{ showItemForm() ? "Hide Form" : "New Item" }}
+    </button>
+
+    @if (showItemForm()) {
+    <div id="newItemFormSection">
+      @if (model.id) {
+      <span class="field">
+        <label for="id" class="label-left">Id</label>
+        <span type="text" name="id" id="id" class="field-input-small"
+          >{{ model.id }}</span
+        >
+      </span>
+      }
+      <span class="field">
+        <label for="fName" class="label-left">Name</label>
+        <input
+          type="text"
+          name="fName"
+          id="fName"
+          class="field-input field-input-large"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fTags" class="label-left">Tags</label>
+        <input
+          type="text"
+          name="fTags"
+          id="fTags"
+          class="field-input field-input-medium"
+          ngModel
+        />
+      </span>
+      <span class="field">
+        <label for="fTasksTag" class="label-left">Tasks Tag</label>
+        <input
+          type="text"
+          name="fTasksTag"
+          id="fTasksTag"
+          class="field-input field-input-medium"
+          ngModel
+        />
+        <div>
+          @for (f of viewData.nextFolioList; track f) {
+          <button (click)="setFolioFromSuggestion(f, itemForm)">{{f}}</button>
+          }
+        </div>
+      </span>
+      <button type="submit">{{ model.id === null ? "Save" : "Update" }}</button>
+    </div>
+    }
+  </form>
+
+  @if (model.id) {
+  <div class="activity-details">
+    <div class="activity-actions">
+      <button (click)="changeStatus(model.id, 'CLOSED')">Close Activity</button>
+    </div>
+    <span> Details </span>
+    @for (k of model.activity.additional?.keyvalItems; track k) {
+    <div>{{ k.key_name }} / {{ k.key_value }}</div>
+    }
+    <hr />
+    <span
+      ><strong>
+        Timeline (x{{model.activity.additional?.timeline?.length}})
+      </strong></span
+    >
+    @for (t of model.activity.additional?.timeline; track t) {
+    <div>
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+      <span [innerHtml]="t.tim_description"></span>
+    </div>
+    }
+    <timeline
+      [recordId]="TIMELINE_KEY + model.id"
+      (onNewItem)="handleNewTimeline($event)"
+    ></timeline>
+    <span
+      ><strong>
+        Notes (x{{model.activity.additional?.notes?.length}})
+      </strong></span
+    >
+    @for (t of model.activity.additional?.notes; track t) {
+    <div>
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+      <span [innerHtml]="t.tim_description"></span>
+    </div>
+    }
+    <span
+      ><strong>
+        Notes hidden (x{{model.activity.additional?.notesHidden?.length}})
+      </strong></span
+    >
+    @for (t of model.activity.additional?.notesHidden; track t) {
+    <div>
+      - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+      <span [innerHtml]="t.tim_description"></span>
+    </div>
+    }
+    <div>
+      <span> Tasks </span>
+      <div>
+        @for (item of model.activity.additional?.tasks; track item) {
+        <div>
+          <task
+            [task]="item"
+            [handlers]="handlers"
+            [options]="{
+            optShowRecordNameInline: true,
+            optShowBadgeIfTaskIsInBacklog: true
+          }"
+          ></task>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  }
+
+  <div>
+    <div>Leyenda de colores</div>
+    @for (h of viewData.healthGroup; track h) {
+    <div>
+      <span
+        [ngClass]="[
+        'status-block',
+        h.className
+      ]"
+      ></span>
+      <span class="activity-name"
+        >{{ h.label }} ({{ h.count }} actividades)</span
+      >
+    </div>
+    }
+  </div>
+
+  <div class="card-group-list width-100-pct">
+    @for (group of activityGroups(); track group) {
+    <div class="card-group-item">
+      <details [attr.open]="group.key !== 6 ? 'true' : null">
+        <summary>
+          <div class="card-group-header">
+            <span class="card-group-header-title"
+              >{{ group.act_txt_status }}</span
+            >
+            <span class="card-group-header-subtitle"
+              >{{ group.items.length }} items</span
+            >
+          </div>
+        </summary>
+        <div class="card-list">
+          @for (item of group.items; track item) {
+          <div class="card-item-container">
+            <div class="activity-card-header">
+              <span class="status-block {{item?.additional?.health}}"></span>
+              <span><strong>{{ item.act_tasks_tag }}</strong>&nbsp;</span>
+              <span class="activity-name">{{ item.act_name }}</span>
+              <div class="activity-card-options-group">
+                <span class="activity-status-text"
+                  >[{{ group.act_txt_status }}]</span
+                >
+                <span
+                  class="activity-options-toggle"
+                  (click)="item.showOptions = !item.showOptions"
+                >
+                  {{ item.showOptions ? "-" : "+" }}
+                </span>
+                @if (item.isNew) {
+                <span class="activity-badge-new">new</span>
+                } @if (item.isEdited) {
+                <span class="activity-badge-edited">edited</span>
+                } @if (item.showOptions) {
+                <span>
+                  <br />
+                  <button (click)="setModelDetails(item.act_id, itemForm)">
+                    details
+                  </button>
+                  @if (item.act_ctg_status === 1 || item.act_ctg_status === 3) {
+                  <button (click)="changeStatus(item.act_id, 'BACKLOG')">
+                    To Backlog
+                  </button>
+                  } @if (item.act_ctg_status === 2 || item.act_ctg_status === 4)
+                  {
+                  <button (click)="changeStatus(item.act_id, 'OPEN')">
+                    To Open
+                  </button>
+                  } @if (item.act_ctg_status === 3 || item.act_ctg_status === 5)
+                  {
+                  <button (click)="changeStatus(item.act_id, 'IN PROGRESS')">
+                    To In Progress
+                  </button>
+                  } @if (item.act_ctg_status === 4) {
+                  <button (click)="changeStatus(item.act_id, 'VERIFICATION')">
+                    To Verification
+                  </button>
+                  } @if (item.act_ctg_status === 5) {
+                  <button (click)="changeStatus(item.act_id, 'CLOSED')">
+                    To Closed
+                  </button>
+                  } @if (item.act_ctg_status !== 6) {
+                  <button (click)="addNewTask(item)">Add new task</button>
+                  }
+                </span>
+                }
+              </div>
+            </div>
+            <div class="activity-card-body">
+              @if (item.additional.lastTimeline && showTimeline()) {
+              <div>
+                <span
+                  ><strong>
+                    \xDAltimo Estatus (x{{item.additional.timeline.length}})
+                  </strong></span
+                >
+                <div>
+                  - {{ item.additional.lastTimeline.tim_date | date:
+                  "yyyy-MM-dd" }} |
+                  <span
+                    [innerHtml]="item.additional.lastTimeline.tim_description"
+                  ></span>
+                </div>
+                @if (item['additional']?.tasks?.length > 0) {
+                <hr />
+                }
+              </div>
+              } @if (item['additional']?.uniqueTasks?.length > 0 &&
+              showActivities()) {
+              <div>
+                <span><strong> Actividades </strong></span>
+                @for (t of item['additional'].uniqueTasks; track t) {
+                <div>
+                  <task
+                    [task]="t.task"
+                    [handlers]="handlers"
+                    [options]="{
+                    optShowRecordNameInline: true,
+                    optShowBadgeIfTaskIsInBacklog: true,
+                    optShowTimeTrackingHistory: false
+                  }"
+                  ></task>
+                </div>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </details>
+    </div>
+    }
+  </div>
+
+  <div class="timeline-list">
+    <h2>L\xEDnea de tiempo</h2>
+
+    <div>Secuencia de actividades en orden cronol\xF3gico</div>
+
+    @for (d of timelineGroup().days; track d) {
+    <div>
+      <h3>{{ d.date | date: "yyyy-MM-dd" }} {{ d.dayName }}</h3>
+      @for (a of d.activityList; track a) {
+      <div class="timeline-list-activity">
+        <div class="timeline-list-activity-header">
+          + {{ a.act_tasks_tag }} - {{a.act_name}}
+        </div>
+        @for (t of a.additional.timeline; track t) {
+        <div>
+          <div class="timeline-list-item">
+            - {{ t.tim_date | date: "yyyy-MM-dd HH:mm" }} |
+            <span [innerHtml]="t.tim_description"></span>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>
 `, styles: ['/* src/app/task/tasks.css */\nspan.task-in-process {\n  font-style: italic;\n  font-weight: bold;\n  color: var(--task-st-in-progress);\n}\nspan.task-directions {\n  background-color: var(--task-q-directions);\n}\n[data-theme=dark] span.task-directions {\n  background-color: transparent;\n  color: var(--task-q-directions);\n}\nspan.task-highlighted {\n  background-color: var(--task-q-highlighted);\n}\n[data-theme=dark] span.task-highlighted {\n  background-color: transparent;\n  color: var(--task-q-highlighted);\n}\nspan.task-important {\n  background-color: var(--task-q-important);\n}\n:host-context([data-theme="dark"]) span.task-important {\n  background-color: transparent;\n  color: var(--task-q-important);\n}\nspan.task-priority {\n  background-color: var(--task-q-priority);\n}\n[data-theme=dark] span.task-priority {\n  background-color: transparent;\n  color: var(--task-q-priority);\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n[data-theme=dark] span.task-unexpected {\n  background-color: transparent;\n  color: var(--task-q-unexpected);\n}\nspan.task-critical {\n  background-color: var(--task-q-critical);\n}\nspan.task-q-critical {\n  padding-right: 2px;\n}\nspan.task-q-progressed {\n  background-color: var(--task-q-progressed);\n}\n.task-item-in-process {\n  background: var(--task-item-in-process-background-color);\n  border: var(--task-item-in-process-border);\n}\n.task-record-collapsed {\n  display: inline-block;\n}\n.task-record-use-columns {\n  columns: 1;\n}\n.task-record-background {\n  background-color: var(--task-record-background);\n}\n.task-next-time-ahead {\n  background-color: var(--task-time-ahead);\n}\n.task-next-time-behind {\n  background-color: var(--task-time-behind);\n}\n.task-columns-1 {\n  columns: 1;\n}\n.task-columns-3 {\n  columns: 3 !important;\n}\n.task-columns-5 {\n  columns: 5;\n}\n.task-columns-8 {\n  columns: 8 !important;\n}\n.task-columns-10 {\n  columns: 10 !important;\n}\n@media (min-width: 504px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n@media (min-width: 1036px) {\n  .task-record-use-columns {\n    columns: 5;\n    max-width: 100% !important;\n  }\n}\n.task-open-task-list-container--grid-lanes {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  grid-auto-flow: dense;\n  gap: 4px;\n  flow-tolerance: 1em;\n}\n.task-open-task-list-container--grid-lanes .task-record {\n  break-inside: avoid;\n  -webkit-column-break-inside: avoid;\n  page-break-inside: avoid;\n  margin: 0;\n}\n\n/* src/app/task/task.css */\nspan.task-badge-status-backlog {\n  background: var(--task-st-backlog);\n  margin-left: 5px;\n  padding: 0px 5px;\n}\nspan.task-unexpected {\n  background-color: var(--task-q-unexpected);\n}\n\n/* src/app/activities/activity.css */\n.card-group-header {\n  margin: 10px 0;\n  padding: 10px 0;\n  font-size: 1.4rem;\n  border-bottom: 1px solid black;\n}\n.card-group-header-title {\n  font-size: 1.4rem;\n}\n.card-group-header-subtitle {\n  font-size: 1rem;\n  margin-left: 10px;\n}\n.card-group-container {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n}\n.activity-card-header {\n  border-bottom: 1px solid lightgray;\n  padding-bottom: 8px;\n  margin: 0 0 5px 0;\n}\n.card-group-item:first-child {\n  page-break-inside: initial;\n  page-break-before: initial;\n}\n.card-group-item,\n.card-item-container,\n.timeline-list {\n  page-break-inside: avoid;\n  page-break-before: auto;\n}\n@media print {\n  body {\n    font-size: 9px !important;\n  }\n  .card-list {\n    display: block;\n  }\n  .card-item-container {\n    width: 100%;\n  }\n  task input[type=checkbox] {\n    appearance: none;\n  }\n  task input[type=checkbox]::before {\n    content: "-";\n  }\n  .task-eta,\n  .task-tags,\n  .task-record-name,\n  .activity-card-options-group {\n    display: none;\n  }\n  task .task-in-process {\n    font-style: normal;\n    font-weight: normal;\n    color: initial;\n  }\n  task .task-item-in-process {\n    background: initial;\n    border: none;\n  }\n  span.task-unexpected,\n  .task-q-progressed,\n  .task-directions,\n  .task-highlighted {\n    background-color: initial !important;\n  }\n  task .task-qualifier-urgent,\n  .task-badge-status-backlog {\n    display: none !important;\n  }\n}\n.activity-health-undetermined {\n  background-color: black;\n}\n.activity-health-green {\n  background-color: #87e187;\n}\n.activity-health-yellow {\n  background-color: yellow;\n}\n.activity-health-orange {\n  background-color: #ffbc00;\n}\n.activity-health-red {\n  background-color: red;\n}\n.status-block {\n  margin-right: 5px;\n}\nsummary {\n  display: block;\n}\nsummary:hover {\n  cursor: pointer;\n}\n.timeline-list h3 {\n  font-weight: bold;\n}\n.timeline-list .timeline-list-activity {\n  border: 1px solid #818181;\n  padding: 10px 0;\n  margin: 10px 0;\n  border-radius: 10px;\n}\n.timeline-list .timeline-list-activity-header {\n  font-weight: bold;\n  margin: 5px 0px 10px 20px;\n}\n.timeline-list .timeline-list-item {\n  margin-left: 40px;\n}\n@media (min-width: 504px) and (max-width: 1024px) {\n  .task-record-use-columns {\n    columns: 3;\n    max-width: 100% !important;\n  }\n}\n.activity-details {\n  border: 1px solid black;\n  padding: 10px;\n}\n/*# sourceMappingURL=activity-XFYI37L6.css.map */\n'] }]
   }], () => [{ type: ActivityService }, { type: TimelineService }, { type: KeyvalService }, { type: TasksCore }, { type: NotificationService }, { type: Title }, { type: SyncAPI }, { type: AuthenticationService }], { selectedProject: [{ type: Input, args: [{ isSignal: true, alias: "selectedProject", required: false }] }, { type: Output, args: ["selectedProjectChange"] }], selectedLayout: [{ type: Input, args: [{ isSignal: true, alias: "selectedLayout", required: false }] }, { type: Output, args: ["selectedLayoutChange"] }] });
 })();
@@ -102906,419 +103548,419 @@ var PendingProvisionReportComponent = class _PendingProvisionReportComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PendingProvisionReportComponent, [{
     type: Component,
-    args: [{ selector: "pending-payments-report", providers: [PendingProvisionService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div class="page-container">\r
-  <h1 class="page-title text-align-center">{{viewData.title}}</h1>\r
-\r
-  @if (viewData.layout === '1-page') {\r
-  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>\r
-  } @if (viewData.layout === '2-pages') {\r
-  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 2</div>\r
-  }\r
-\r
-  <h2 class="pending-provision-subtitle margin-all-0">Detalle de adeudos</h2>\r
-\r
-  <table\r
-    class="pending-provision-listing desktop-only width-100-pct-print-only"\r
-  >\r
-    <thead>\r
-      <tr>\r
-        <th>#</th>\r
-        <th>Unidad</th>\r
-        <th>Concepto</th>\r
-        <th>Monto</th>\r
-        <th>Condonado</th>\r
-        <th>Recaudado</th>\r
-        <th>Adeudo</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.pendingProvisionList; track provision; let\r
-      counter = $index) {\r
-      <tr\r
-        class="pending-provision-listing-row"\r
-        [ngClass]="{\r
-          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month),\r
-          'provision-payed-row': provision.cpr_remaining === 0\r
-        }"\r
-      >\r
-        <td class="padding-all-3 text-align-center">{{counter + 1}}</td>\r
-        <td class="padding-all-3 text-align-center">\r
-          {{provision.cpr_id_unit}}\r
-        </td>\r
-        <td class="padding-all-3">\r
-          <span> {{provision.cpr_concept}} </span>\r
-          @if (isProvisionForCurrentRenderedMonth(provision, viewData.year,\r
-          viewData.month)) {\r
-          <span>\r
-            <!-- added row -->\r
-            [A]\r
-          </span>\r
-          } @if (provision.cpr_remaining === 0) {\r
-          <span>\r
-            <!-- payed row -->\r
-            [R]\r
-          </span>\r
-          }\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_condoned | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3">Totales</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalCondoned | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalRemaining | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-\r
-  <table\r
-    class="pending-provision-listing mobile-only width-100-pct-mobile-only"\r
-  >\r
-    <thead>\r
-      <tr>\r
-        <th># - Unidad - Concepto</th>\r
-        <th>Monto</th>\r
-        <th>Recaudado</th>\r
-        <th>Adeudo</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.pendingProvisionList; track provision; let\r
-      counter = $index) {\r
-      <tr\r
-        class="pending-provision-listing-row"\r
-        [ngClass]="{\r
-          'provision-payed-row': provision.cpr_remaining === 0,\r
-          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)\r
-        }"\r
-      >\r
-        <td class="padding-all-3">\r
-          #{{counter + 1}} - {{provision.cpr_id_unit}} -\r
-          {{provision.cpr_concept}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3">Totales</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalRemaining | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-\r
-  <div\r
-    class="pending-provision-color-legend"\r
-    [ngClass]="{\r
-      'page-break-after': viewData.layout === '2-pages'\r
-    }"\r
-  >\r
-    <br />\r
-    <span>Leyenda sobre los colores</span>\r
-\r
-    <div class="margin-top-3">\r
-      <span class="provision-added-row provision-legend-box">[A]</span>\r
-      <span> = Cuota no cubierta en este mes (agregada en este mes) </span>\r
-    </div>\r
-\r
-    <div class="margin-top-3">\r
-      <span class="provision-payed-row provision-legend-box">[R]</span>\r
-      <span>\r
-        = Cuota cubierta en este mes (se retira fila para el siguiente mes)\r
-      </span>\r
-    </div>\r
-  </div>\r
-\r
-  @if (viewData.layout === '2-pages') {\r
-  <h1 class="page-title text-align-center page-top print-only">\r
-    {{viewData.title}}\r
-  </h1>\r
-  } @if (viewData.layout === '2-pages') {\r
-  <div class="text-align-center width-100-pct print-only">P\xE1gina 2 de 2</div>\r
-  }\r
-\r
-  <h2 class="pending-provision-subtitle">Resumen de adeudos</h2>\r
-\r
-  <table class="pending-provision-summary width-100-pct-mobile-only">\r
-    <thead>\r
-      <tr>\r
-        <th>Unidad</th>\r
-        <th>Adeudo</th>\r
-        <th>Principales adeudos</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.pendingTotals; track provision) {\r
-      <tr class="pending-provision-listing-row">\r
-        <td class="padding-all-3 text-align-center">{{provision.unit}}</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3">\r
-          @if (provision.normalProvisionCount > 1) {\r
-          <span> {{provision.normalProvisionCount}} cuotas ordinarias </span>\r
-          } @if (provision.normalProvisionCount === 1) {\r
-          <span> {{provision.normalProvisionCount}} cuota ordinaria </span>\r
-          }\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3">Total</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.totalRemainingFromPendingTotals | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td></td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-\r
-  <h2 class="pending-provision-subtitle">Saldos a favor</h2>\r
-\r
-  <table class="pending-provision-future desktop-only">\r
-    <thead>\r
-      <tr>\r
-        <th>Unidad</th>\r
-        <th>Concepto</th>\r
-        <th>Monto</th>\r
-        <th>Recaudado</th>\r
-        <th>Adeudo</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.futureProvisionList; track provision) {\r
-      <tr class="pending-provision-listing-row">\r
-        <td\r
-          class="padding-all-3 text-align-center"\r
-          title="{{provision.cpr_id}}"\r
-        >\r
-          {{provision.cpr_id_unit}}\r
-        </td>\r
-        <td class="padding-all-3">{{provision.cpr_concept}}</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3">Totales</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalRemaining | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-\r
-  <table class="pending-provision-future mobile-only width-100-pct-mobile-only">\r
-    <thead>\r
-      <tr>\r
-        <th>Unidad - Concepto</th>\r
-        <th>Monto</th>\r
-        <th>Recaudado</th>\r
-        <th>Adeudo</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.futureProvisionList; track provision) {\r
-      <tr class="pending-provision-listing-row">\r
-        <td class="padding-all-3">\r
-          {{provision.cpr_id_unit}} - {{provision.cpr_concept}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3">Totales</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalRemaining | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-\r
-  @if (viewData.nonIdentifiedPaymentList.length) {\r
-  <h2 class="pending-provision-subtitle">\r
-    Dep\xF3sitos pendientes de identificar\r
-  </h2>\r
-  } @if (viewData.nonIdentifiedPaymentList.length) {\r
-  <table class="non-identified-payments width-100-pct-mobile-only">\r
-    <thead>\r
-      <tr>\r
-        <th>Fecha</th>\r
-        <th>Descripci\xF3n</th>\r
-        <th>Monto</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (payment of viewData.nonIdentifiedPaymentList; track payment) {\r
-      <tr\r
-        class="pending-payment-listing-row"\r
-        [ngClass]="{\r
-          'provision-payed-row': payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month\r
-        }"\r
-      >\r
-        <td class="padding-all-3 text-align-center width-80">\r
-          {{payment.cpy_date | date: "yyyy-MM-dd"}}\r
-        </td>\r
-        <td class="padding-all-3">\r
-          @if (!payment.cpy_date_identification ||\r
-          payment.cpy_date_identification &&\r
-          payment.cpy_date_identification.getFullYear() * 100 +\r
-          payment.cpy_date_identification.getMonth()+1 > viewData.year * 100 +\r
-          viewData.month) {\r
-          <span>Dep\xF3sito sin identificar</span>\r
-          } @if (payment.cpy_date_identification &&\r
-          payment.cpy_date_identification.getFullYear() * 100 +\r
-          payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 +\r
-          viewData.month &&\r
-          payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)\r
-          === '000') {\r
-          <span>Aplicado al fondo</span>\r
-          } @if (payment.cpy_date_identification &&\r
-          payment.cpy_date_identification.getFullYear() * 100 +\r
-          payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 +\r
-          viewData.month &&\r
-          payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)\r
-          !== '000') {\r
-          <span\r
-            >Aplicado a {{\r
-            payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)\r
-            }}</span\r
-          >\r
-          }\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{payment.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3">Total</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.nonIdentifiedTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-  }\r
-\r
-  <div\r
-    [ngClass]="{\r
-    'pending-provision-top-block-30': viewData.timelineList.length > 0\r
-  }"\r
-  >\r
-    @if (viewData.timelineList.length > 0) {\r
-    <div class="pending-provision-timeline-list">\r
-      <div>\r
-        <strong> Observaciones </strong>\r
-      </div>\r
-      <br />\r
-      @for (t of viewData.timelineList; track t) {\r
-      <div [innerHTML]="t.tim_description"></div>\r
-      }\r
-    </div>\r
-    }\r
-\r
-    <br />\r
-    <timeline\r
-      [recordId]="'cartera-pending-provision|' + viewData.year + '-' + viewData.month"\r
-      (onNewItem)="handleNewTimeline($event)"\r
-    ></timeline>\r
-  </div>\r
-</div>\r
+    args: [{ selector: "pending-payments-report", providers: [PendingProvisionService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div class="page-container">
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
+
+  @if (viewData.layout === '1-page') {
+  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>
+  } @if (viewData.layout === '2-pages') {
+  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 2</div>
+  }
+
+  <h2 class="pending-provision-subtitle margin-all-0">Detalle de adeudos</h2>
+
+  <table
+    class="pending-provision-listing desktop-only width-100-pct-print-only"
+  >
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Unidad</th>
+        <th>Concepto</th>
+        <th>Monto</th>
+        <th>Condonado</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.pendingProvisionList; track provision; let
+      counter = $index) {
+      <tr
+        class="pending-provision-listing-row"
+        [ngClass]="{
+          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month),
+          'provision-payed-row': provision.cpr_remaining === 0
+        }"
+      >
+        <td class="padding-all-3 text-align-center">{{counter + 1}}</td>
+        <td class="padding-all-3 text-align-center">
+          {{provision.cpr_id_unit}}
+        </td>
+        <td class="padding-all-3">
+          <span> {{provision.cpr_concept}} </span>
+          @if (isProvisionForCurrentRenderedMonth(provision, viewData.year,
+          viewData.month)) {
+          <span>
+            <!-- added row -->
+            [A]
+          </span>
+          } @if (provision.cpr_remaining === 0) {
+          <span>
+            <!-- payed row -->
+            [R]
+          </span>
+          }
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_condoned | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalCondoned | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <table
+    class="pending-provision-listing mobile-only width-100-pct-mobile-only"
+  >
+    <thead>
+      <tr>
+        <th># - Unidad - Concepto</th>
+        <th>Monto</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.pendingProvisionList; track provision; let
+      counter = $index) {
+      <tr
+        class="pending-provision-listing-row"
+        [ngClass]="{
+          'provision-payed-row': provision.cpr_remaining === 0,
+          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+        }"
+      >
+        <td class="padding-all-3">
+          #{{counter + 1}} - {{provision.cpr_id_unit}} -
+          {{provision.cpr_concept}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div
+    class="pending-provision-color-legend"
+    [ngClass]="{
+      'page-break-after': viewData.layout === '2-pages'
+    }"
+  >
+    <br />
+    <span>Leyenda sobre los colores</span>
+
+    <div class="margin-top-3">
+      <span class="provision-added-row provision-legend-box">[A]</span>
+      <span> = Cuota no cubierta en este mes (agregada en este mes) </span>
+    </div>
+
+    <div class="margin-top-3">
+      <span class="provision-payed-row provision-legend-box">[R]</span>
+      <span>
+        = Cuota cubierta en este mes (se retira fila para el siguiente mes)
+      </span>
+    </div>
+  </div>
+
+  @if (viewData.layout === '2-pages') {
+  <h1 class="page-title text-align-center page-top print-only">
+    {{viewData.title}}
+  </h1>
+  } @if (viewData.layout === '2-pages') {
+  <div class="text-align-center width-100-pct print-only">P\xE1gina 2 de 2</div>
+  }
+
+  <h2 class="pending-provision-subtitle">Resumen de adeudos</h2>
+
+  <table class="pending-provision-summary width-100-pct-mobile-only">
+    <thead>
+      <tr>
+        <th>Unidad</th>
+        <th>Adeudo</th>
+        <th>Principales adeudos</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.pendingTotals; track provision) {
+      <tr class="pending-provision-listing-row">
+        <td class="padding-all-3 text-align-center">{{provision.unit}}</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3">
+          @if (provision.normalProvisionCount > 1) {
+          <span> {{provision.normalProvisionCount}} cuotas ordinarias </span>
+          } @if (provision.normalProvisionCount === 1) {
+          <span> {{provision.normalProvisionCount}} cuota ordinaria </span>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3">Total</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.totalRemainingFromPendingTotals | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h2 class="pending-provision-subtitle">Saldos a favor</h2>
+
+  <table class="pending-provision-future desktop-only">
+    <thead>
+      <tr>
+        <th>Unidad</th>
+        <th>Concepto</th>
+        <th>Monto</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.futureProvisionList; track provision) {
+      <tr class="pending-provision-listing-row">
+        <td
+          class="padding-all-3 text-align-center"
+          title="{{provision.cpr_id}}"
+        >
+          {{provision.cpr_id_unit}}
+        </td>
+        <td class="padding-all-3">{{provision.cpr_concept}}</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <table class="pending-provision-future mobile-only width-100-pct-mobile-only">
+    <thead>
+      <tr>
+        <th>Unidad - Concepto</th>
+        <th>Monto</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.futureProvisionList; track provision) {
+      <tr class="pending-provision-listing-row">
+        <td class="padding-all-3">
+          {{provision.cpr_id_unit}} - {{provision.cpr_concept}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  @if (viewData.nonIdentifiedPaymentList.length) {
+  <h2 class="pending-provision-subtitle">
+    Dep\xF3sitos pendientes de identificar
+  </h2>
+  } @if (viewData.nonIdentifiedPaymentList.length) {
+  <table class="non-identified-payments width-100-pct-mobile-only">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Descripci\xF3n</th>
+        <th>Monto</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (payment of viewData.nonIdentifiedPaymentList; track payment) {
+      <tr
+        class="pending-payment-listing-row"
+        [ngClass]="{
+          'provision-payed-row': payment.cpy_date_identification && payment.cpy_date_identification.getFullYear() * 100 + payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 + viewData.month
+        }"
+      >
+        <td class="padding-all-3 text-align-center width-80">
+          {{payment.cpy_date | date: "yyyy-MM-dd"}}
+        </td>
+        <td class="padding-all-3">
+          @if (!payment.cpy_date_identification ||
+          payment.cpy_date_identification &&
+          payment.cpy_date_identification.getFullYear() * 100 +
+          payment.cpy_date_identification.getMonth()+1 > viewData.year * 100 +
+          viewData.month) {
+          <span>Dep\xF3sito sin identificar</span>
+          } @if (payment.cpy_date_identification &&
+          payment.cpy_date_identification.getFullYear() * 100 +
+          payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 +
+          viewData.month &&
+          payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)
+          === '000') {
+          <span>Aplicado al fondo</span>
+          } @if (payment.cpy_date_identification &&
+          payment.cpy_date_identification.getFullYear() * 100 +
+          payment.cpy_date_identification.getMonth()+1 === viewData.year * 100 +
+          viewData.month &&
+          payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)
+          !== '000') {
+          <span
+            >Aplicado a {{
+            payment.cpy_match_hint.substring(payment.cpy_match_hint.lastIndexOf('|')+1)
+            }}</span
+          >
+          }
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{payment.cpy_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3">Total</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.nonIdentifiedTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  }
+
+  <div
+    [ngClass]="{
+    'pending-provision-top-block-30': viewData.timelineList.length > 0
+  }"
+  >
+    @if (viewData.timelineList.length > 0) {
+    <div class="pending-provision-timeline-list">
+      <div>
+        <strong> Observaciones </strong>
+      </div>
+      <br />
+      @for (t of viewData.timelineList; track t) {
+      <div [innerHTML]="t.tim_description"></div>
+      }
+    </div>
+    }
+
+    <br />
+    <timeline
+      [recordId]="'cartera-pending-provision|' + viewData.year + '-' + viewData.month"
+      (onNewItem)="handleNewTimeline($event)"
+    ></timeline>
+  </div>
+</div>
 `, styles: ["/* src/app/cartera/CarteraReportsCommon.css */\n@media screen, print {\n  thead tr,\n  tfoot tr {\n    background-color: #d0e4f5;\n  }\n  thead tr,\n  tbody tr,\n  tfoot tr {\n    border-top: 1px solid black;\n  }\n  thead tr th,\n  tfoot tr td {\n    font-weight: bold;\n  }\n  table {\n    border: 1px solid black;\n    border-collapse: collapse;\n    border-spacing: 0;\n  }\n}\n@media print {\n  body {\n    font-size: 5pt;\n  }\n  .padding-all-3 {\n    padding: 0px 3px;\n  }\n  .page-title {\n    margin: 0;\n    display: block;\n  }\n}\n\n/* src/app/cartera/PendingProvisionReport.css */\n@media screen {\n  .page-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    max-width: 800px;\n    margin: 0 auto;\n  }\n  .pending-provision-summary,\n  .pending-provision-future {\n    align-self: flex-start;\n  }\n}\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  .provision-added-row {\n    background-color: #f5d498;\n  }\n  .provision-payed-row {\n    background-color: #b7e4b2;\n  }\n  .provision-legend-box {\n    width: 50px;\n    height: 12px;\n    display: inline-block;\n    border: 1px solid black;\n    vertical-align: middle;\n    text-align: center;\n  }\n  .pending-provision-top-block-30 {\n    margin-top: 30px;\n  }\n  .pending-provision-timeline-list {\n    border: 1px solid black;\n    padding: 10px;\n  }\n}\n/*# sourceMappingURL=PendingProvisionReport-S5DJ6ZBM.css.map */\n"] }]
   }], () => [{ type: PendingProvisionService }, { type: Title }], null);
 })();
@@ -105100,377 +105742,377 @@ var UnitStatusReportComponent = class _UnitStatusReportComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UnitStatusReportComponent, [{
     type: Component,
-    args: [{ selector: "unit-status-report", providers: [UnitStatusService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h1 class="page-title text-align-center">{{viewData.title}}</h1>\r
-\r
-@if (viewData.layout === '1-page') {\r
-<div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>\r
-} @if (viewData.layout === '2-pages') {\r
-<div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 2</div>\r
-}\r
-\r
-<h2 class="pending-provision-subtitle">Historial de movimientos</h2>\r
-\r
-<table class="unit-status-listing width-100-pct-print-only desktop-only">\r
-  <thead>\r
-    <tr>\r
-      <th>#</th>\r
-      <th>Fecha</th>\r
-      <th>Concepto</th>\r
-      <th>Adeudo (-)</th>\r
-      <th>Recaudado (+)</th>\r
-      <th>Saldo</th>\r
-    </tr>\r
-  </thead>\r
-  <tbody>\r
-    @for (item of viewData.movementList; track item; let counter = $index) {\r
-    <tr\r
-      class="unit-status-listing-row"\r
-      [ngClass]="{\r
-        'unit-status-highlight': item.highlight\r
-      }"\r
-    >\r
-      <td class="padding-all-3 text-align-center vertical-align-top">\r
-        {{counter + 1}}\r
-      </td>\r
-      <td class="padding-all-3 width-80 vertical-align-top">\r
-        {{item.date | date: "yyyy-MM-dd"}}\r
-      </td>\r
-      <td class="padding-all-3 vertical-align-top">{{item.concept}}</td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        @if (item.type === 'PROVISION') {\r
-        <span> {{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}} </span>\r
-        } @if (item.type !== 'PROVISION') {\r
-        <span></span>\r
-        }\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        @if (item.type === 'PAYMENT') {\r
-        <span>{{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}</span>\r
-        } @if (item.type !== 'PAYMENT') {\r
-        <span></span>\r
-        }\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        {{item.balance | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-    }\r
-  </tbody>\r
-  <tfoot>\r
-    <tr>\r
-      <td class="padding-all-3"></td>\r
-      <td class="padding-all-3"></td>\r
-      <td class="padding-all-3">Saldo Final</td>\r
-      <td class="padding-all-3"></td>\r
-      <td class="padding-all-3"></td>\r
-      <td class="padding-all-3 text-align-right width-80">\r
-        {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-  </tfoot>\r
-</table>\r
-\r
-<table class="unit-status-listing width-100-pct mobile-only">\r
-  <thead>\r
-    <tr>\r
-      <th># - Fecha - Concepto</th>\r
-      <th>Monto</th>\r
-      <th>Saldo</th>\r
-    </tr>\r
-  </thead>\r
-  <tbody>\r
-    @for (item of viewData.movementList; track item; let counter = $index) {\r
-    <tr\r
-      class="unit-status-listing-row"\r
-      [ngClass]="{\r
-        'unit-status-highlight': item.highlight\r
-      }"\r
-    >\r
-      <td class="padding-all-3 vertical-align-top">\r
-        @if (item.type === 'PAYMENT') {\r
-        <span>\r
-          #{{counter + 1}} {{item.concept}} con fecha {{item.date | date:\r
-          "yyyy-MM-dd"}}\r
-        </span>\r
-        } @if (item.type === 'PROVISION') {\r
-        <span> #{{counter + 1}} {{item.concept}} </span>\r
-        }\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        @if (item.type === 'PROVISION') {\r
-        <span>\r
-          {{-1 * item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </span>\r
-        } @if (item.type === 'PAYMENT') {\r
-        <span class="display-inline"\r
-          >+{{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}</span\r
-        >\r
-        }\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        {{item.balance | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-    }\r
-  </tbody>\r
-  <tfoot>\r
-    <tr>\r
-      <td class="padding-all-3">Saldo Final</td>\r
-      <td class="padding-all-3"></td>\r
-      <td class="padding-all-3 text-align-right width-80">\r
-        {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-  </tfoot>\r
-</table>\r
-\r
-@if (viewData.futureProvisionList.length > 0) {\r
-<div class="width-100-pct-print-only">\r
-  <h2 class="pending-provision-subtitle">Aplicaci\xF3n de saldos a favor</h2>\r
-  <table class="pending-provision-future">\r
-    <thead>\r
-      <tr>\r
-        <th>Concepto</th>\r
-        <th>Monto</th>\r
-        <th>Recaudado</th>\r
-        <th>Adeudo</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.futureProvisionList; track provision) {\r
-      <tr class="pending-provision-listing-row">\r
-        <td class="padding-all-3">{{provision.cpr_concept}}</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3">Totales</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.futureTotalRemaining | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-</div>\r
-} @if (viewData.layout !== '1-page') {\r
-<h1 class="page-title text-align-center print-only page-top page-break-before">\r
-  {{viewData.title}}\r
-</h1>\r
-} @if (viewData.layout === '2-pages') {\r
-<div class="text-align-center width-100-pct print-only">P\xE1gina 2 de 2</div>\r
-}\r
-\r
-<h2 class="pending-provision-subtitle">\r
-  Detalle de aplicaci\xF3n de la recaudaci\xF3n\r
-</h2>\r
-\r
-<table class="unit-status-listing width-100-pct-print-only desktop-only">\r
-  <thead>\r
-    <tr>\r
-      <th>#</th>\r
-      <th>Concepto</th>\r
-      <th>Monto</th>\r
-      <th>Recaudado</th>\r
-      <th>Adeudo</th>\r
-    </tr>\r
-  </thead>\r
-  <tbody>\r
-    @for (item of viewData.provisionList; track item; let counter = $index) {\r
-    <tr\r
-      class="unit-status-listing-row"\r
-      [ngClass]="{\r
-        'unit-status-highlight': item.highlight\r
-      }"\r
-    >\r
-      <td class="padding-all-3 text-align-center vertical-align-top">\r
-        {{counter + 1}}\r
-      </td>\r
-      <td class="padding-all-3">\r
-        <div>{{item.provision.cpr_concept}}</div>\r
-        <div>\r
-          @for (payDet of item.payDetList; track payDet) {\r
-          <div>\r
-            @if (payDet.cpd_ctg_type === 2) {\r
-            <span\r
-              [ngClass]="{\r
-              'unit-status-highlight': payDet.cpd_txt_status === 'highlight'\r
-            }"\r
-            >\r
-              - Ajuste {{payDet.cpd_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonaci\xF3n/Ajuste\r
-              #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{\r
-              getPayment(payDet.cpd_id_payment).cpy_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2" }}\r
-            </span>\r
-            } @if (payDet.cpd_ctg_type === 1) {\r
-            <span\r
-              [ngClass]="{\r
-              'unit-status-highlight': payDet.cpd_txt_status === 'highlight'\r
-            }"\r
-            >\r
-              - Recaudado {{payDet.cpd_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{\r
-              getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{\r
-              getPayment(payDet.cpd_id_payment).cpy_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2" }} fecha\r
-              {{getPayment(payDet.cpd_id_payment).cpy_date | date:\r
-              "yyyy-MM-dd"}}\r
-            </span>\r
-            }\r
-          </div>\r
-          }\r
-        </div>\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        {{item.provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        @if (item.payDetList.length > 1) {\r
-        <div>\r
-          <div>\r
-            {{item.provision.cpr_payed | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}} =\r
-          </div>\r
-          @for (payDet of item.payDetList; track payDet; let c = $index) {\r
-          <div>\r
-            {{c === 0 ? '' : '+'}} {{payDet.cpd_amount | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}\r
-          </div>\r
-          }\r
-        </div>\r
-        } @if (item.payDetList.length === 1) {\r
-        <div>\r
-          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </div>\r
-        }\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        {{item.provision.cpr_remaining | currency:\r
-        "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-    }\r
-  </tbody>\r
-  <tfoot>\r
-    <tr>\r
-      <td class="padding-all-3"></td>\r
-      <td class="padding-all-3">Totales</td>\r
-      <td class="padding-all-3 text-align-right width-80">\r
-        {{viewData.pendingTotalAmount | currency:\r
-        "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80">\r
-        {{viewData.pendingTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80">\r
-        {{viewData.pendingTotalRemaining | currency:\r
-        "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-  </tfoot>\r
-</table>\r
-\r
-<table class="unit-status-listing width-100-pct mobile-only">\r
-  <thead>\r
-    <tr>\r
-      <th># - Concepto</th>\r
-      <th>Monto / Recaudado / Adeudo</th>\r
-    </tr>\r
-  </thead>\r
-  <tbody>\r
-    @for (item of viewData.provisionList; track item; let counter = $index) {\r
-    <tr class="unit-status-listing-row">\r
-      <td class="padding-all-3 vertical-align-top">\r
-        #{{counter + 1}} - {{item.provision.cpr_concept}}\r
-        <div>\r
-          @for (payDet of item.payDetList; track payDet) {\r
-          <div>\r
-            @if (payDet.cpd_ctg_type === 2) {\r
-            <span>\r
-              - Ajuste {{payDet.cpd_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonaci\xF3n/Ajuste\r
-              #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{\r
-              getPayment(payDet.cpd_id_payment).cpy_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2" }}\r
-            </span>\r
-            } @if (payDet.cpd_ctg_type === 1) {\r
-            <span>\r
-              - Recaudado {{payDet.cpd_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{\r
-              getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{\r
-              getPayment(payDet.cpd_id_payment).cpy_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2" }} fecha\r
-              {{getPayment(payDet.cpd_id_payment).cpy_date | date:\r
-              "yyyy-MM-dd"}}\r
-            </span>\r
-            }\r
-          </div>\r
-          }\r
-        </div>\r
-      </td>\r
-      <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r
-        @if (item.provision.cpr_payed !== 0) {\r
-        <span>\r
-          Monto {{item.provision.cpr_amount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </span>\r
-        } @if (item.payDetList.length > 1) {\r
-        <div>\r
-          Recaudado\r
-          <div>\r
-            {{item.provision.cpr_payed | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}} =\r
-          </div>\r
-          @for (payDet of item.payDetList; track payDet; let c = $index) {\r
-          <div>\r
-            {{c === 0 ? '' : '+'}}{{payDet.cpd_amount | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}\r
-          </div>\r
-          }\r
-        </div>\r
-        } @if (item.payDetList.length === 1) {\r
-        <div>\r
-          Recaudado {{item.provision.cpr_payed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </div>\r
-        } Adeudo {{item.provision.cpr_remaining | currency:\r
-        "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-    }\r
-  </tbody>\r
-  <tfoot>\r
-    <tr>\r
-      <td class="padding-all-3 vertical-align-top">Totales</td>\r
-      <td class="padding-all-3">\r
-        Monto: {{viewData.pendingTotalAmount | currency:\r
-        "USD":"symbol-narrow":"1.2-2"}} <br />Recaudado:\r
-        {{viewData.pendingTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        <br />Adeudo: {{viewData.pendingTotalRemaining | currency:\r
-        "USD":"symbol-narrow":"1.2-2"}}\r
-      </td>\r
-    </tr>\r
-  </tfoot>\r
-</table>\r
+    args: [{ selector: "unit-status-report", providers: [UnitStatusService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<h1 class="page-title text-align-center">{{viewData.title}}</h1>
+
+@if (viewData.layout === '1-page') {
+<div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>
+} @if (viewData.layout === '2-pages') {
+<div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 2</div>
+}
+
+<h2 class="pending-provision-subtitle">Historial de movimientos</h2>
+
+<table class="unit-status-listing width-100-pct-print-only desktop-only">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Fecha</th>
+      <th>Concepto</th>
+      <th>Adeudo (-)</th>
+      <th>Recaudado (+)</th>
+      <th>Saldo</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of viewData.movementList; track item; let counter = $index) {
+    <tr
+      class="unit-status-listing-row"
+      [ngClass]="{
+        'unit-status-highlight': item.highlight
+      }"
+    >
+      <td class="padding-all-3 text-align-center vertical-align-top">
+        {{counter + 1}}
+      </td>
+      <td class="padding-all-3 width-80 vertical-align-top">
+        {{item.date | date: "yyyy-MM-dd"}}
+      </td>
+      <td class="padding-all-3 vertical-align-top">{{item.concept}}</td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        @if (item.type === 'PROVISION') {
+        <span> {{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}} </span>
+        } @if (item.type !== 'PROVISION') {
+        <span></span>
+        }
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        @if (item.type === 'PAYMENT') {
+        <span>{{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}</span>
+        } @if (item.type !== 'PAYMENT') {
+        <span></span>
+        }
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        {{item.balance | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3">Saldo Final</td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<table class="unit-status-listing width-100-pct mobile-only">
+  <thead>
+    <tr>
+      <th># - Fecha - Concepto</th>
+      <th>Monto</th>
+      <th>Saldo</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of viewData.movementList; track item; let counter = $index) {
+    <tr
+      class="unit-status-listing-row"
+      [ngClass]="{
+        'unit-status-highlight': item.highlight
+      }"
+    >
+      <td class="padding-all-3 vertical-align-top">
+        @if (item.type === 'PAYMENT') {
+        <span>
+          #{{counter + 1}} {{item.concept}} con fecha {{item.date | date:
+          "yyyy-MM-dd"}}
+        </span>
+        } @if (item.type === 'PROVISION') {
+        <span> #{{counter + 1}} {{item.concept}} </span>
+        }
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        @if (item.type === 'PROVISION') {
+        <span>
+          {{-1 * item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </span>
+        } @if (item.type === 'PAYMENT') {
+        <span class="display-inline"
+          >+{{item.amount | currency: "USD":"symbol-narrow":"1.2-2"}}</span
+        >
+        }
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        {{item.balance | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3">Saldo Final</td>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.finalBalance | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+@if (viewData.futureProvisionList.length > 0) {
+<div class="width-100-pct-print-only">
+  <h2 class="pending-provision-subtitle">Aplicaci\xF3n de saldos a favor</h2>
+  <table class="pending-provision-future">
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Monto</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.futureProvisionList; track provision) {
+      <tr class="pending-provision-listing-row">
+        <td class="padding-all-3">{{provision.cpr_concept}}</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.futureTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+} @if (viewData.layout !== '1-page') {
+<h1 class="page-title text-align-center print-only page-top page-break-before">
+  {{viewData.title}}
+</h1>
+} @if (viewData.layout === '2-pages') {
+<div class="text-align-center width-100-pct print-only">P\xE1gina 2 de 2</div>
+}
+
+<h2 class="pending-provision-subtitle">
+  Detalle de aplicaci\xF3n de la recaudaci\xF3n
+</h2>
+
+<table class="unit-status-listing width-100-pct-print-only desktop-only">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Concepto</th>
+      <th>Monto</th>
+      <th>Recaudado</th>
+      <th>Adeudo</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of viewData.provisionList; track item; let counter = $index) {
+    <tr
+      class="unit-status-listing-row"
+      [ngClass]="{
+        'unit-status-highlight': item.highlight
+      }"
+    >
+      <td class="padding-all-3 text-align-center vertical-align-top">
+        {{counter + 1}}
+      </td>
+      <td class="padding-all-3">
+        <div>{{item.provision.cpr_concept}}</div>
+        <div>
+          @for (payDet of item.payDetList; track payDet) {
+          <div>
+            @if (payDet.cpd_ctg_type === 2) {
+            <span
+              [ngClass]="{
+              'unit-status-highlight': payDet.cpd_txt_status === 'highlight'
+            }"
+            >
+              - Ajuste {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonaci\xF3n/Ajuste
+              #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </span>
+            } @if (payDet.cpd_ctg_type === 1) {
+            <span
+              [ngClass]="{
+              'unit-status-highlight': payDet.cpd_txt_status === 'highlight'
+            }"
+            >
+              - Recaudado {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
+              getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }} fecha
+              {{getPayment(payDet.cpd_id_payment).cpy_date | date:
+              "yyyy-MM-dd"}}
+            </span>
+            }
+          </div>
+          }
+        </div>
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        {{item.provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        @if (item.payDetList.length > 1) {
+        <div>
+          <div>
+            {{item.provision.cpr_payed | currency:
+            "USD":"symbol-narrow":"1.2-2"}} =
+          </div>
+          @for (payDet of item.payDetList; track payDet; let c = $index) {
+          <div>
+            {{c === 0 ? '' : '+'}} {{payDet.cpd_amount | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
+          </div>
+          }
+        </div>
+        } @if (item.payDetList.length === 1) {
+        <div>
+          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </div>
+        }
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        {{item.provision.cpr_remaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3"></td>
+      <td class="padding-all-3">Totales</td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalAmount | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+      <td class="padding-all-3 text-align-right width-80">
+        {{viewData.pendingTotalRemaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<table class="unit-status-listing width-100-pct mobile-only">
+  <thead>
+    <tr>
+      <th># - Concepto</th>
+      <th>Monto / Recaudado / Adeudo</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of viewData.provisionList; track item; let counter = $index) {
+    <tr class="unit-status-listing-row">
+      <td class="padding-all-3 vertical-align-top">
+        #{{counter + 1}} - {{item.provision.cpr_concept}}
+        <div>
+          @for (payDet of item.payDetList; track payDet) {
+          <div>
+            @if (payDet.cpd_ctg_type === 2) {
+            <span>
+              - Ajuste {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir de la Condonaci\xF3n/Ajuste
+              #{{ getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </span>
+            } @if (payDet.cpd_ctg_type === 1) {
+            <span>
+              - Recaudado {{payDet.cpd_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}} a partir del pago #{{
+              getPaymentIndex(payDet.cpd_id_payment) + 1 }} por {{
+              getPayment(payDet.cpd_id_payment).cpy_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }} fecha
+              {{getPayment(payDet.cpd_id_payment).cpy_date | date:
+              "yyyy-MM-dd"}}
+            </span>
+            }
+          </div>
+          }
+        </div>
+      </td>
+      <td class="padding-all-3 text-align-right width-80 vertical-align-top">
+        @if (item.provision.cpr_payed !== 0) {
+        <span>
+          Monto {{item.provision.cpr_amount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </span>
+        } @if (item.payDetList.length > 1) {
+        <div>
+          Recaudado
+          <div>
+            {{item.provision.cpr_payed | currency:
+            "USD":"symbol-narrow":"1.2-2"}} =
+          </div>
+          @for (payDet of item.payDetList; track payDet; let c = $index) {
+          <div>
+            {{c === 0 ? '' : '+'}}{{payDet.cpd_amount | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
+          </div>
+          }
+        </div>
+        } @if (item.payDetList.length === 1) {
+        <div>
+          Recaudado {{item.provision.cpr_payed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </div>
+        } Adeudo {{item.provision.cpr_remaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr>
+      <td class="padding-all-3 vertical-align-top">Totales</td>
+      <td class="padding-all-3">
+        Monto: {{viewData.pendingTotalAmount | currency:
+        "USD":"symbol-narrow":"1.2-2"}} <br />Recaudado:
+        {{viewData.pendingTotalPayed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        <br />Adeudo: {{viewData.pendingTotalRemaining | currency:
+        "USD":"symbol-narrow":"1.2-2"}}
+      </td>
+    </tr>
+  </tfoot>
+</table>
 `, styles: ["/* src/app/cartera/CarteraReportsCommon.css */\n@media screen, print {\n  thead tr,\n  tfoot tr {\n    background-color: #d0e4f5;\n  }\n  thead tr,\n  tbody tr,\n  tfoot tr {\n    border-top: 1px solid black;\n  }\n  thead tr th,\n  tfoot tr td {\n    font-weight: bold;\n  }\n  table {\n    border: 1px solid black;\n    border-collapse: collapse;\n    border-spacing: 0;\n  }\n}\n@media print {\n  body {\n    font-size: 5pt;\n  }\n  .padding-all-3 {\n    padding: 0px 3px;\n  }\n  .page-title {\n    margin: 0;\n    display: block;\n  }\n}\n\n/* src/app/cartera/UnitStatusReport.css */\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  .unit-status-listing-row:nth-child(even) {\n    background-color: #e0e0e0;\n  }\n  .unit-status-highlight {\n    background-color: #5cdeb2;\n  }\n}\n/*# sourceMappingURL=UnitStatusReport-HN5WZQDA.css.map */\n"] }]
   }], () => [{ type: UnitStatusService }, { type: Title }], null);
 })();
@@ -106380,7 +107022,7 @@ var MovementsReportComponent = class _MovementsReportComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MovementsReportComponent, [{
     type: Component,
-    args: [{ selector: "movements-report", providers: [MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div class="page-container">\r\n  <h1 class="page-title text-align-center">{{viewData.title}}</h1>\r\n\r\n  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>\r\n\r\n  <table class="movements-report desktop-only width-100-pct-print-only">\r\n    <thead>\r\n      <tr>\r\n        <th>#</th>\r\n        <th>Fecha</th>\r\n        <th>Folio</th>\r\n        <th>Concepto</th>\r\n        <th>Ingreso</th>\r\n        <th>Egreso</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      @for (movement of viewData.movementList; track movement; let counter =\r\n      $index) {\r\n      <tr class="movements-report-row">\r\n        <td class="padding-all-3 text-align-center vertical-align-top">\r\n          {{counter + 1}}\r\n        </td>\r\n        <td class="padding-all-3 text-align-center width-80 vertical-align-top">\r\n          {{movement.mov_date | date: "yyyy-MM-dd"}}\r\n        </td>\r\n        <td class="padding-all-3 movements-report-folio vertical-align-top">\r\n          {{movement.mov_budget}}\r\n        </td>\r\n        <td class="padding-all-3">{{movement.mov_desc}}</td>\r\n        <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r\n          @if (movement.mov_ctg_type === 2) {\r\n          <span>\r\n            {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r\n          </span>\r\n          } @if (movement.mov_ctg_type !== 2) {\r\n          <span></span>\r\n          }\r\n        </td>\r\n        <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r\n          @if (movement.mov_ctg_type === 1) {\r\n          <span>\r\n            {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r\n          </span>\r\n          } @if (movement.mov_ctg_type !== 1) {\r\n          <span></span>\r\n          }\r\n        </td>\r\n      </tr>\r\n      }\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td class="padding-all-3"></td>\r\n        <td class="padding-all-3"></td>\r\n        <td class="padding-all-3"></td>\r\n        <td class="padding-all-3">Totales</td>\r\n        <td class="padding-all-3 text-align-right width-80">\r\n          {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}\r\n        </td>\r\n        <td class="padding-all-3 text-align-right width-80">\r\n          {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table>\r\n\r\n  <table class="movements-report mobile-only width-100-pct">\r\n    <thead>\r\n      <tr>\r\n        <th># - Fecha - Concepto</th>\r\n        <th>Monto</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      @for (movement of viewData.movementList; track movement; let counter =\r\n      $index) {\r\n      <tr class="movements-report-row">\r\n        <td class="padding-all-3 vertical-align-top">\r\n          #{{counter + 1}} - {{movement.mov_date | date: "yyyy-MM-dd"}} -\r\n          {{movement.mov_desc}}\r\n        </td>\r\n        <td class="padding-all-3 text-align-right width-80 vertical-align-top">\r\n          @if (movement.mov_ctg_type === 2) {\r\n          <span\r\n            >+{{movement.mov_amount | currency:\r\n            "USD":"symbol-narrow":"1.2-2"}}</span\r\n          >\r\n          } @if (movement.mov_ctg_type === 1) {\r\n          <span>\r\n            {{-1 * movement.mov_amount | currency:\r\n            "USD":"symbol-narrow":"1.2-2"}}\r\n          </span>\r\n          }\r\n        </td>\r\n      </tr>\r\n      }\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td class="padding-all-3">Totales</td>\r\n        <td class="padding-all-3 text-align-right width-80">\r\n          Ingresos: {{viewData.incomeTotal | currency:\r\n          "USD":"symbol-narrow":"1.2-2"}}\r\n          <br />Egresos: {{viewData.expenseTotal | currency:\r\n          "USD":"symbol-narrow":"1.2-2"}}\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table>\r\n</div>\r\n', styles: ["/* src/app/cartera/CarteraReportsCommon.css */\n@media screen, print {\n  thead tr,\n  tfoot tr {\n    background-color: #d0e4f5;\n  }\n  thead tr,\n  tbody tr,\n  tfoot tr {\n    border-top: 1px solid black;\n  }\n  thead tr th,\n  tfoot tr td {\n    font-weight: bold;\n  }\n  table {\n    border: 1px solid black;\n    border-collapse: collapse;\n    border-spacing: 0;\n  }\n}\n@media print {\n  body {\n    font-size: 5pt;\n  }\n  .padding-all-3 {\n    padding: 0px 3px;\n  }\n  .page-title {\n    margin: 0;\n    display: block;\n  }\n}\n\n/* src/app/cartera/MovementsReport.css */\n@media screen {\n  .page-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    max-width: 800px;\n    margin: 0 auto;\n  }\n}\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  .movements-report-row:nth-child(even) {\n    background-color: #e0e0e0;\n  }\n  .movements-report-folio {\n    white-space: nowrap;\n  }\n}\n/*# sourceMappingURL=MovementsReport-MEZWED6C.css.map */\n"] }]
+    args: [{ selector: "movements-report", providers: [MovementService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div class="page-container">\n  <h1 class="page-title text-align-center">{{viewData.title}}</h1>\n\n  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>\n\n  <table class="movements-report desktop-only width-100-pct-print-only">\n    <thead>\n      <tr>\n        <th>#</th>\n        <th>Fecha</th>\n        <th>Folio</th>\n        <th>Concepto</th>\n        <th>Ingreso</th>\n        <th>Egreso</th>\n      </tr>\n    </thead>\n    <tbody>\n      @for (movement of viewData.movementList; track movement; let counter =\n      $index) {\n      <tr class="movements-report-row">\n        <td class="padding-all-3 text-align-center vertical-align-top">\n          {{counter + 1}}\n        </td>\n        <td class="padding-all-3 text-align-center width-80 vertical-align-top">\n          {{movement.mov_date | date: "yyyy-MM-dd"}}\n        </td>\n        <td class="padding-all-3 movements-report-folio vertical-align-top">\n          {{movement.mov_budget}}\n        </td>\n        <td class="padding-all-3">{{movement.mov_desc}}</td>\n        <td class="padding-all-3 text-align-right width-80 vertical-align-top">\n          @if (movement.mov_ctg_type === 2) {\n          <span>\n            {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\n          </span>\n          } @if (movement.mov_ctg_type !== 2) {\n          <span></span>\n          }\n        </td>\n        <td class="padding-all-3 text-align-right width-80 vertical-align-top">\n          @if (movement.mov_ctg_type === 1) {\n          <span>\n            {{movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\n          </span>\n          } @if (movement.mov_ctg_type !== 1) {\n          <span></span>\n          }\n        </td>\n      </tr>\n      }\n    </tbody>\n    <tfoot>\n      <tr>\n        <td class="padding-all-3"></td>\n        <td class="padding-all-3"></td>\n        <td class="padding-all-3"></td>\n        <td class="padding-all-3">Totales</td>\n        <td class="padding-all-3 text-align-right width-80">\n          {{viewData.incomeTotal | currency: "USD":"symbol-narrow":"1.2-2"}}\n        </td>\n        <td class="padding-all-3 text-align-right width-80">\n          {{viewData.expenseTotal | currency: "USD":"symbol-narrow":"1.2-2"}}\n        </td>\n      </tr>\n    </tfoot>\n  </table>\n\n  <table class="movements-report mobile-only width-100-pct">\n    <thead>\n      <tr>\n        <th># - Fecha - Concepto</th>\n        <th>Monto</th>\n      </tr>\n    </thead>\n    <tbody>\n      @for (movement of viewData.movementList; track movement; let counter =\n      $index) {\n      <tr class="movements-report-row">\n        <td class="padding-all-3 vertical-align-top">\n          #{{counter + 1}} - {{movement.mov_date | date: "yyyy-MM-dd"}} -\n          {{movement.mov_desc}}\n        </td>\n        <td class="padding-all-3 text-align-right width-80 vertical-align-top">\n          @if (movement.mov_ctg_type === 2) {\n          <span\n            >+{{movement.mov_amount | currency:\n            "USD":"symbol-narrow":"1.2-2"}}</span\n          >\n          } @if (movement.mov_ctg_type === 1) {\n          <span>\n            {{-1 * movement.mov_amount | currency:\n            "USD":"symbol-narrow":"1.2-2"}}\n          </span>\n          }\n        </td>\n      </tr>\n      }\n    </tbody>\n    <tfoot>\n      <tr>\n        <td class="padding-all-3">Totales</td>\n        <td class="padding-all-3 text-align-right width-80">\n          Ingresos: {{viewData.incomeTotal | currency:\n          "USD":"symbol-narrow":"1.2-2"}}\n          <br />Egresos: {{viewData.expenseTotal | currency:\n          "USD":"symbol-narrow":"1.2-2"}}\n        </td>\n      </tr>\n    </tfoot>\n  </table>\n</div>\n', styles: ["/* src/app/cartera/CarteraReportsCommon.css */\n@media screen, print {\n  thead tr,\n  tfoot tr {\n    background-color: #d0e4f5;\n  }\n  thead tr,\n  tbody tr,\n  tfoot tr {\n    border-top: 1px solid black;\n  }\n  thead tr th,\n  tfoot tr td {\n    font-weight: bold;\n  }\n  table {\n    border: 1px solid black;\n    border-collapse: collapse;\n    border-spacing: 0;\n  }\n}\n@media print {\n  body {\n    font-size: 5pt;\n  }\n  .padding-all-3 {\n    padding: 0px 3px;\n  }\n  .page-title {\n    margin: 0;\n    display: block;\n  }\n}\n\n/* src/app/cartera/MovementsReport.css */\n@media screen {\n  .page-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    max-width: 800px;\n    margin: 0 auto;\n  }\n}\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  .movements-report-row:nth-child(even) {\n    background-color: #e0e0e0;\n  }\n  .movements-report-folio {\n    white-space: nowrap;\n  }\n}\n/*# sourceMappingURL=MovementsReport-MEZWED6C.css.map */\n"] }]
   }], () => [{ type: MovementService }, { type: Title }], null);
 })();
 (() => {
@@ -106603,7 +107245,7 @@ var CarteraSendReceiptsComponent = class _CarteraSendReceiptsComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CarteraSendReceiptsComponent, [{
     type: Component,
-    args: [{ selector: "cartera-send-receipts", standalone: true, providers: [CarteraSendReceiptService], changeDetection: ChangeDetectionStrategy.Eager, imports: [FormsModule], template: '<div class="cartera-send-receipts">\r\n  <label for="periodSelect">Periodo</label>\r\n  <select id="periodSelect" [(ngModel)]="selectedPeriod">\r\n    @for (opt of periodOptions; track opt) {\r\n    <option [value]="opt.value">{{ opt.label }}</option>\r\n    }\r\n  </select>\r\n  <button (click)="sendReceipts()" [disabled]="loading">Enviar recibos</button>\r\n</div>\r\n' }]
+    args: [{ selector: "cartera-send-receipts", standalone: true, providers: [CarteraSendReceiptService], changeDetection: ChangeDetectionStrategy.Eager, imports: [FormsModule], template: '<div class="cartera-send-receipts">\n  <label for="periodSelect">Periodo</label>\n  <select id="periodSelect" [(ngModel)]="selectedPeriod">\n    @for (opt of periodOptions; track opt) {\n    <option [value]="opt.value">{{ opt.label }}</option>\n    }\n  </select>\n  <button (click)="sendReceipts()" [disabled]="loading">Enviar recibos</button>\n</div>\n' }]
   }], () => [{ type: CarteraSendReceiptService }, { type: NotificationService }, { type: ActivatedRoute }], null);
 })();
 (() => {
@@ -108375,585 +109017,585 @@ var CarteraComponent = class _CarteraComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CarteraComponent, [{
     type: Component,
-    args: [{ selector: "cartera", providers: [CarteraService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<button\r
-  (click)="viewData.showGenerateReportSection = !viewData.showGenerateReportSection"\r
->\r
-  {{ viewData.showGenerateReportSection ? 'Hide Generate Reports' : 'Generate\r
-  Reports' }}\r
-</button>\r
-<button\r
-  (click)="viewData.showGenerateProvisionsSection = !viewData.showGenerateProvisionsSection"\r
->\r
-  {{ viewData.showGenerateProvisionsSection ? 'Hide Generate Provisions' :\r
-  'Generate Provisions' }}\r
-</button>\r
-<button\r
-  (click)="viewData.showBatchPaymentsSection = !viewData.showBatchPaymentsSection"\r
->\r
-  {{ viewData.showBatchPaymentsSection ? 'Hide Batch Payments' : 'Batch\r
-  Payments' }}\r
-</button>\r
-\r
-@if (viewData.showBatchPaymentsSection) {\r
-<div>\r
-  <span class="field">\r
-    <label for="fBatchPaymentInput" class="label-left"\r
-      >Batch Payment Input</label\r
-    >\r
-    <textarea\r
-      name="batchPaymentInput"\r
-      placeholder="Write a payment per line..."\r
-      class="task-multiple"\r
-      [(ngModel)]="model.batchPaymentInput"\r
-      spellcheck="false"\r
-    ></textarea>\r
-  </span>\r
-  <button (click)="parseBatchPayments(model.batchPaymentInput)">\r
-    Parse batch payments\r
-  </button>\r
-  <div>\r
-    <table>\r
-      @for (p of viewData.appliedPayments; track p; let counter = $index) {\r
-      <tr>\r
-        <td>\r
-          #{{counter + 1}} {{p.unit}} {{p.date | date: "yyyy-MM-dd" }}\r
-          {{p.amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td>\r
-          @for (d of p.payDet; track d) {\r
-          <div>\r
-            {{d.provision.cpr_code_reference}} - {{d.provision.cpr_remaining |\r
-            currency: "USD":"symbol-narrow":"1.2-2"}} - {{d.amount | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}} - {{d.folio}} @if\r
-            (d.provision.cpr_remaining < d.amount) {\r
-            <span><strong>don't match! too high!</strong></span>\r
-            }\r
-          </div>\r
-          }\r
-        </td>\r
-        <td>\r
-          @if (p.applied) {\r
-          <span>SAVED!</span>\r
-          }\r
-        </td>\r
-      </tr>\r
-      }\r
-      <tr>\r
-        <td></td>\r
-        <td>\r
-          Total: {{ viewData.parsedTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2" }}\r
-        </td>\r
-        <td></td>\r
-      </tr>\r
-    </table>\r
-  </div>\r
-  @if (viewData.appliedPayments.length) {\r
-  <button (click)="saveBatchPayments()">Save batch payments</button>\r
-  }\r
-</div>\r
-} @if (viewData.showGenerateReportSection) {\r
-<div>\r
-  <span class="field">\r
-    <label for="fReport" class="label-left">Report</label>\r
-    <select [(ngModel)]="model.report" name="fReport" id="fReport">\r
-      @for (opt of viewData.reportList; track opt) {\r
-      <option value="{{ opt.iterable }}">{{ opt.name }}</option>\r
-      }\r
-    </select>\r
-  </span>\r
-  <span class="field">\r
-    <label for="fPeriod" class="label-left">Year-Month</label>\r
-    <select [(ngModel)]="model.period" name="fPeriod" id="fPeriod">\r
-      @for (opt of viewData.periodList; track opt) {\r
-      <option value="{{ opt.iterable }}">{{ opt.name }}</option>\r
-      }\r
-    </select>\r
-  </span>\r
-  <button (click)="openReport(model.report, '' + model.period)">\r
-    Open Report\r
-  </button>\r
-</div>\r
-}\r
-\r
-<cartera-send-receipts></cartera-send-receipts>\r
-\r
-@if (viewData.showGenerateProvisionsSection) {\r
-<div>\r
-  <span class="field">\r
-    <label for="fPeriod" class="label-left">Period</label>\r
-    <select [(ngModel)]="model.nextPeriod" name="fNextPeriod" id="fNextPeriod">\r
-      @for (opt of viewData.nextMonthWithProvisionsToGenerate; track opt) {\r
-      <option value="{{ opt.iterable }}" selected="true">{{ opt.name }}</option>\r
-      }\r
-    </select>\r
-    <button (click)="generateProvisionsForMonth(model.nextPeriod)">\r
-      Generate Provisions for selected period\r
-    </button>\r
-  </span>\r
-  <p>For Extraordinary Provisions</p>\r
-  <span class="field">\r
-    <label for="fPeriod" class="label-left">Period</label>\r
-    <select\r
-      [(ngModel)]="model.extraPeriod"\r
-      name="fExtraPeriod"\r
-      id="fExtraPeriod"\r
-    >\r
-      @for (opt of viewData.nextMonthsForExtraordinaryProvisions; track opt) {\r
-      <option value="{{ opt.iterable }}" selected="true">{{ opt.name }}</option>\r
-      }\r
-    </select>\r
-  </span>\r
-  <span class="field">\r
-    <label for="fAmount" class="label-left">Amount</label>\r
-    <input\r
-      type="text"\r
-      [(ngModel)]="model.extraAmount"\r
-      name="fExtraAmount"\r
-      id="fExtraAmount"\r
-    />\r
-  </span>\r
-  <button\r
-    (click)="generateExtraordinaryProvisionsForMonth(model.extraPeriod, model.extraAmount)"\r
-  >\r
-    Generate Extraordinary Provisions for selected period\r
-  </button>\r
-</div>\r
-}\r
-\r
-<form #newItemForm="ngForm" (ngSubmit)="newItem(newItemForm)">\r
-  <button\r
-    type="button"\r
-    (click)="viewData.showItemForm = !viewData.showItemForm"\r
-  >\r
-    {{ viewData.showItemForm ? "Hide Payment Form" : "New Payment" }}\r
-  </button>\r
-\r
-  @if (viewData.showItemForm) {\r
-  <div>\r
-    <input\r
-      type="radio"\r
-      name="fPaymentType"\r
-      id="fPaymentTypeNormal"\r
-      [(ngModel)]="model._paymentType"\r
-      (click)="model._paymentType = 'normal'"\r
-      value="normal"\r
-    />\r
-    <label for="fPaymentTypeNormal">Pago identificado</label>\r
-    <input\r
-      type="radio"\r
-      name="fPaymentType"\r
-      id="fPaymentTypeNonIdentified"\r
-      [(ngModel)]="model._paymentType"\r
-      (click)="model._paymentType = 'nonidentified'; model.unitId = '000'"\r
-      value="nonidentified"\r
-    />\r
-    <label for="fPaymentTypeNonIdentified">Pago no identificado</label>\r
-    <input\r
-      type="radio"\r
-      name="fPaymentType"\r
-      id="fPaymentTypeCondonation"\r
-      [(ngModel)]="model._paymentType"\r
-      (click)="model._paymentType = 'condonation'"\r
-      value="condonation"\r
-    />\r
-    <label for="fPaymentTypeCondonation">Condonaci\xF3n</label>\r
-    <input\r
-      type="radio"\r
-      name="fPaymentType"\r
-      id="fPaymentTypeIdentification"\r
-      [(ngModel)]="model._paymentType"\r
-      (click)="model._paymentType = 'identification'"\r
-      value="identification"\r
-    />\r
-    <label for="fPaymentTypeIdentification">Identificaci\xF3n de pago</label>\r
-    <div>\r
-      @if (model._paymentType === 'normal') {\r
-      <h4>Pago identificado</h4>\r
-      } @if (model._paymentType === 'nonidentified') {\r
-      <h4>Pago no identificado</h4>\r
-      } @if (model._paymentType === 'condonation') {\r
-      <h4>Condonaci\xF3n</h4>\r
-      } @if (model._paymentType === 'identification') {\r
-      <h4>Identificaci\xF3n de pago</h4>\r
-      } @if (model._paymentType === 'identification') {\r
-      <span class="field">\r
-        <label for="fPayment" class="label-left">Pago sin identificar</label>\r
-        <select\r
-          name="fPayment"\r
-          id="fPayment"\r
-          class="field-select"\r
-          [(ngModel)]="model.paymentId"\r
-          (change)="setPaymentDetailsInForm(newItemForm, model.paymentId)"\r
-        >\r
-          @for (opt of viewData.nonIdentifiedPaymentList; track opt) {\r
-          <option value="{{ opt.cpy_id }}">\r
-            {{ opt.cpy_date | date: "yyyy-MM-dd" }} {{ opt.cpy_amount |\r
-            currency: "USD":"symbol-narrow":"1.2-2"}}\r
-          </option>\r
-          }\r
-        </select>\r
-      </span>\r
-      }\r
-      <span class="field">\r
-        @if (model._paymentType !== 'identification') {\r
-        <label for="fDate" class="label-left">Fecha</label>\r
-        } @if (model._paymentType === 'identification') {\r
-        <label for="fDate" class="label-left">Fecha de Identificaci\xF3n</label>\r
-        }\r
-        <input\r
-          type="radio"\r
-          name="fDateType"\r
-          id="fDateTypeCurrent"\r
-          [(ngModel)]="model._dateType"\r
-          value="current"\r
-        />\r
-        <label for="fDateTypeCurrent">Fecha actual</label>\r
-        <input\r
-          type="radio"\r
-          name="fDateType"\r
-          id="fDateTypeCustom"\r
-          [(ngModel)]="model._dateType"\r
-          value="custom"\r
-        />\r
-        <label for="fDateTypeCustom">Otra fecha</label>\r
-        @if (model._dateType !== 'current') {\r
-        <input type="date" name="fDate" [(ngModel)]="model.fDate" />\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fAmount" class="label-left">Amount</label>\r
-        <input\r
-          type="number"\r
-          name="fAmount"\r
-          id="fAmount"\r
-          class="field-input"\r
-          step="0.01"\r
-          [(ngModel)]="model.fAmount"\r
-          [disabled]="viewData.showPayDetList || model._paymentType === 'nonidentified' || model._paymentType === 'identification'"\r
-          (change)="setDescription(model.fAmount, model.fDate)"\r
-        />&nbsp;@if (!model.fAmount) {\r
-        <button\r
-          (click)="model.fAmount = 2000;setDescription(model.fAmount, model.fDate)"\r
-        >\r
-          $2,000\r
-        </button>\r
-        }&nbsp;@if (!model.fAmount) {\r
-        <button\r
-          (click)="model.fAmount = 1500;setDescription(model.fAmount, model.fDate)"\r
-        >\r
-          $1,500\r
-        </button>\r
-        }\r
-      </span>\r
-      <span class="field">\r
-        <label for="fUnit" class="label-left">Unidad</label>\r
-        <select\r
-          name="fUnit"\r
-          id="fUnit"\r
-          class="field-select"\r
-          [(ngModel)]="model.unitId"\r
-          [disabled]="model._paymentType === 'nonidentified' || viewData.showPayDetList"\r
-        >\r
-          @for (opt of viewData.unitList; track opt) {\r
-          <option value="{{ opt }}">{{ opt }}</option>\r
-          }\r
-        </select>\r
-        &nbsp;<button\r
-          (click)="toggleUnitList()"\r
-          [disabled]="viewData.showPayDetList"\r
-        >\r
-          {{ viewData.showOnlyUnitsWithoutPayment ? 'Ver todas' : 'Ver faltantes\r
-          de pago' }}\r
-        </button>\r
-      </span>\r
-      <span class="field">\r
-        <label for="fDescription" class="label-left">Description</label>\r
-        <input\r
-          type="text"\r
-          name="fDescription"\r
-          id="fDescription"\r
-          class="field-input movement-input-description"\r
-          [(ngModel)]="model.fDescription"\r
-        />\r
-      </span>\r
-      @if (!viewData.showPayDetList) {\r
-      <button\r
-        type="button"\r
-        id="detailButton"\r
-        (click)="setUnitProvisionList(model.unitId)"\r
-        [disabled]="!model.fAmount || !model.unitId"\r
-        [ngClass]="{\r
-          'hidden': model._paymentType === 'nonidentified'\r
-        }"\r
-      >\r
-        Desglose de pago &gt;\r
-      </button>\r
-      } @if (viewData.showPayDetList) {\r
-      <button\r
-        type="button"\r
-        id="detailBackButton"\r
-        (click)="viewData.showPayDetList = !viewData.showPayDetList"\r
-      >\r
-        &lt; Modificar pago\r
-      </button>\r
-      } @if (viewData.showPayDetList) {\r
-      <button\r
-        type="button"\r
-        id="showMoreProvisionsButton"\r
-        (click)="showFutureProvisions(model.unitId)"\r
-      >\r
-        Ver Provisiones futuras\r
-      </button>\r
-      } @if (viewData.showPayDetList) {\r
-      <div>\r
-        <table\r
-          class="pending-provision-listing desktop-only width-100-pct-print-only"\r
-        >\r
-          <thead>\r
-            <tr>\r
-              <th>#</th>\r
-              <th>Unidad</th>\r
-              <th>Concepto</th>\r
-              <th>Monto</th>\r
-              <th>Recaudado</th>\r
-              <th>Adeudo</th>\r
-              <th>Pago</th>\r
-              <th>Recibo</th>\r
-            </tr>\r
-          </thead>\r
-          <tbody>\r
-            @for (provision of viewData.unitPendingProvisionList; track\r
-            provision; let counter = $index) {\r
-            <tr\r
-              class="pending-provision-listing-row"\r
-              [ngClass]="{\r
-                'provision-payed-row': provision.cpr_remaining === 0,\r
-                'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)\r
-              }"\r
-            >\r
-              <td class="padding-all-3 text-align-center">{{counter + 1}}</td>\r
-              <td class="padding-all-3 text-align-center">\r
-                {{provision.cpr_id_unit}}\r
-              </td>\r
-              <td class="padding-all-3">\r
-                <span> {{provision.cpr_concept}} </span>\r
-                @if (provision.cpr_remaining === 0) {\r
-                <span>\r
-                  <!-- payed row -->\r
-                  [R]\r
-                </span>\r
-                } @if (isProvisionForCurrentRenderedMonth(provision,\r
-                viewData.year, viewData.month)) {\r
-                <span>\r
-                  <!-- added row -->\r
-                  [A]\r
-                </span>\r
-                }\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                {{provision.cpr_amount | currency:\r
-                "USD":"symbol-narrow":"1.2-2"}}\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                {{provision.cpr_payed | currency:\r
-                "USD":"symbol-narrow":"1.2-2"}}\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                <a\r
-                  href="#"\r
-                  tabindex="0"\r
-                  (click)="setPayDetAmount(provision); validatePayDetTotal(model.fAmount); $event.preventDefault();"\r
-                >\r
-                  {{provision.cpr_remaining | currency:\r
-                  "USD":"symbol-narrow":"1.2-2"}}\r
-                </a>\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                <input\r
-                  [name]="provision.cpr_id"\r
-                  type="number"\r
-                  class="field-input width-80"\r
-                  step="0.01"\r
-                  [(ngModel)]="payDetModel[provision.cpr_id]"\r
-                  (change)="validatePayDetTotal(model.fAmount)"\r
-                  [ngClass]="{\r
-                    'input-invalid': viewData.payDetCaptureStatus === 'invalid' && payDetModel[provision.cpr_id]\r
-                  }"\r
-                  [disabled]="(viewData.payDetCaptureStatus === 'invalid' && !payDetModel[provision.cpr_id]) || (viewData.payDetCaptureStatus === 'valid' && !payDetModel[provision.cpr_id])"\r
-                  min="0"\r
-                  [max]="provision.cpr_remaining"\r
-                />\r
-              </td>\r
-              <td class="padding-all-3">\r
-                <input\r
-                  [name]="provision.cpr_id + '_folio'"\r
-                  type="text"\r
-                  class="field-input width-80"\r
-                  [(ngModel)]="payDetFolioModel[provision.cpr_id]"\r
-                  (change)="validatePayDetFolio(provision)"\r
-                  [ngClass]="{\r
-                    'input-invalid': viewData.payDetFolioCaptureStatus === 'invalid' && payDetFolioModel[provision.cpr_id]\r
-                  }"\r
-                  [disabled]="payDetModel[provision.cpr_id] !== provision.cpr_remaining"\r
-                  maxlength="9"\r
-                />\r
-              </td>\r
-            </tr>\r
-            }\r
-          </tbody>\r
-          <tfoot>\r
-            <tr>\r
-              <td class="padding-all-3"></td>\r
-              <td class="padding-all-3"></td>\r
-              <td class="padding-all-3">Totales</td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                {{viewData.pendingTotalAmount | currency:\r
-                "USD":"symbol-narrow":"1.2-2"}}\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                {{viewData.pendingTotalPayed | currency:\r
-                "USD":"symbol-narrow":"1.2-2"}}\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                {{viewData.pendingTotalRemaining | currency:\r
-                "USD":"symbol-narrow":"1.2-2"}}\r
-              </td>\r
-              <td class="padding-all-3 text-align-right width-80">\r
-                {{viewData.payDetCaptureTotal | currency:\r
-                "USD":"symbol-narrow":"1.2-2"}}\r
-                <br />rem {{model.fAmount - viewData.payDetCaptureTotal |\r
-                currency: "USD":"symbol-narrow":"1.2-2"}}\r
-              </td>\r
-              <td class="padding-all-3"></td>\r
-            </tr>\r
-          </tfoot>\r
-        </table>\r
-        <div>\r
-          <span class="field">\r
-            <label for="fResetForm" class="label-left"\r
-              >Reset form after save</label\r
-            >\r
-            <input\r
-              type="checkbox"\r
-              id="fResetForm"\r
-              [(ngModel)]="model.resetForm"\r
-              [checked]="model.resetForm"\r
-              (change)="model.resetForm = !model.resetForm"\r
-            />\r
-          </span>\r
-        </div>\r
-      </div>\r
-      } @if (viewData.showPayDetList) {\r
-      <button\r
-        type="submit"\r
-        id="newFormSubmitButton"\r
-        [disabled]="viewData.payDetCaptureStatus !== 'valid'"\r
-      >\r
-        Aplicar pago\r
-      </button>\r
-      }\r
-    </div>\r
-  </div>\r
-  }\r
-</form>\r
-\r
-@if (viewData.showPayDetListAfterPayment) {\r
-<div>\r
-  <table\r
-    class="pending-provision-listing desktop-only width-100-pct-print-only"\r
-  >\r
-    <thead>\r
-      <tr>\r
-        <th>#</th>\r
-        <th>Unidad</th>\r
-        <th>Concepto</th>\r
-        <th>Monto</th>\r
-        <th>Recaudado</th>\r
-        <th>Adeudo</th>\r
-        <th>Acci\xF3n</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (provision of viewData.unitPendingProvisionListAfterPayment; track\r
-      provision; let counter = $index) {\r
-      <tr\r
-        class="pending-provision-listing-row"\r
-        [ngClass]="{\r
-          'provision-payed-row': provision.cpr_remaining === 0,\r
-          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)\r
-        }"\r
-      >\r
-        <td class="padding-all-3 text-align-center">{{counter + 1}}</td>\r
-        <td class="padding-all-3 text-align-center">\r
-          {{provision.cpr_id_unit}}\r
-        </td>\r
-        <td class="padding-all-3">\r
-          <span> {{provision.cpr_concept}} </span>\r
-          @if (provision.cpr_remaining === 0) {\r
-          <span>\r
-            <!-- payed row -->\r
-            [R]\r
-          </span>\r
-          } @if (isProvisionForCurrentRenderedMonth(provision, viewData.year,\r
-          viewData.month)) {\r
-          <span>\r
-            <!-- added row -->\r
-            [A]\r
-          </span>\r
-          }\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          @if (provision.cpr_remaining === 0) {\r
-          <span>\r
-            <a\r
-              [href]="'/receipt-report?folio=' + provision.cpr_folio"\r
-              target="_blank"\r
-              >Ver recibo</a\r
-            >\r
-          </span>\r
-          }\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3">Totales</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalAmount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalPayed | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.pendingTotalRemaining | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          {{viewData.payDetCaptureTotal | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-          <br />rem {{model.fAmount - viewData.payDetCaptureTotal | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-</div>\r
-}\r
+    args: [{ selector: "cartera", providers: [CarteraService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<button
+  (click)="viewData.showGenerateReportSection = !viewData.showGenerateReportSection"
+>
+  {{ viewData.showGenerateReportSection ? 'Hide Generate Reports' : 'Generate
+  Reports' }}
+</button>
+<button
+  (click)="viewData.showGenerateProvisionsSection = !viewData.showGenerateProvisionsSection"
+>
+  {{ viewData.showGenerateProvisionsSection ? 'Hide Generate Provisions' :
+  'Generate Provisions' }}
+</button>
+<button
+  (click)="viewData.showBatchPaymentsSection = !viewData.showBatchPaymentsSection"
+>
+  {{ viewData.showBatchPaymentsSection ? 'Hide Batch Payments' : 'Batch
+  Payments' }}
+</button>
+
+@if (viewData.showBatchPaymentsSection) {
+<div>
+  <span class="field">
+    <label for="fBatchPaymentInput" class="label-left"
+      >Batch Payment Input</label
+    >
+    <textarea
+      name="batchPaymentInput"
+      placeholder="Write a payment per line..."
+      class="task-multiple"
+      [(ngModel)]="model.batchPaymentInput"
+      spellcheck="false"
+    ></textarea>
+  </span>
+  <button (click)="parseBatchPayments(model.batchPaymentInput)">
+    Parse batch payments
+  </button>
+  <div>
+    <table>
+      @for (p of viewData.appliedPayments; track p; let counter = $index) {
+      <tr>
+        <td>
+          #{{counter + 1}} {{p.unit}} {{p.date | date: "yyyy-MM-dd" }}
+          {{p.amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td>
+          @for (d of p.payDet; track d) {
+          <div>
+            {{d.provision.cpr_code_reference}} - {{d.provision.cpr_remaining |
+            currency: "USD":"symbol-narrow":"1.2-2"}} - {{d.amount | currency:
+            "USD":"symbol-narrow":"1.2-2"}} - {{d.folio}} @if
+            (d.provision.cpr_remaining < d.amount) {
+            <span><strong>don't match! too high!</strong></span>
+            }
+          </div>
+          }
+        </td>
+        <td>
+          @if (p.applied) {
+          <span>SAVED!</span>
+          }
+        </td>
+      </tr>
+      }
+      <tr>
+        <td></td>
+        <td>
+          Total: {{ viewData.parsedTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
+  @if (viewData.appliedPayments.length) {
+  <button (click)="saveBatchPayments()">Save batch payments</button>
+  }
+</div>
+} @if (viewData.showGenerateReportSection) {
+<div>
+  <span class="field">
+    <label for="fReport" class="label-left">Report</label>
+    <select [(ngModel)]="model.report" name="fReport" id="fReport">
+      @for (opt of viewData.reportList; track opt) {
+      <option value="{{ opt.iterable }}">{{ opt.name }}</option>
+      }
+    </select>
+  </span>
+  <span class="field">
+    <label for="fPeriod" class="label-left">Year-Month</label>
+    <select [(ngModel)]="model.period" name="fPeriod" id="fPeriod">
+      @for (opt of viewData.periodList; track opt) {
+      <option value="{{ opt.iterable }}">{{ opt.name }}</option>
+      }
+    </select>
+  </span>
+  <button (click)="openReport(model.report, '' + model.period)">
+    Open Report
+  </button>
+</div>
+}
+
+<cartera-send-receipts></cartera-send-receipts>
+
+@if (viewData.showGenerateProvisionsSection) {
+<div>
+  <span class="field">
+    <label for="fPeriod" class="label-left">Period</label>
+    <select [(ngModel)]="model.nextPeriod" name="fNextPeriod" id="fNextPeriod">
+      @for (opt of viewData.nextMonthWithProvisionsToGenerate; track opt) {
+      <option value="{{ opt.iterable }}" selected="true">{{ opt.name }}</option>
+      }
+    </select>
+    <button (click)="generateProvisionsForMonth(model.nextPeriod)">
+      Generate Provisions for selected period
+    </button>
+  </span>
+  <p>For Extraordinary Provisions</p>
+  <span class="field">
+    <label for="fPeriod" class="label-left">Period</label>
+    <select
+      [(ngModel)]="model.extraPeriod"
+      name="fExtraPeriod"
+      id="fExtraPeriod"
+    >
+      @for (opt of viewData.nextMonthsForExtraordinaryProvisions; track opt) {
+      <option value="{{ opt.iterable }}" selected="true">{{ opt.name }}</option>
+      }
+    </select>
+  </span>
+  <span class="field">
+    <label for="fAmount" class="label-left">Amount</label>
+    <input
+      type="text"
+      [(ngModel)]="model.extraAmount"
+      name="fExtraAmount"
+      id="fExtraAmount"
+    />
+  </span>
+  <button
+    (click)="generateExtraordinaryProvisionsForMonth(model.extraPeriod, model.extraAmount)"
+  >
+    Generate Extraordinary Provisions for selected period
+  </button>
+</div>
+}
+
+<form #newItemForm="ngForm" (ngSubmit)="newItem(newItemForm)">
+  <button
+    type="button"
+    (click)="viewData.showItemForm = !viewData.showItemForm"
+  >
+    {{ viewData.showItemForm ? "Hide Payment Form" : "New Payment" }}
+  </button>
+
+  @if (viewData.showItemForm) {
+  <div>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeNormal"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'normal'"
+      value="normal"
+    />
+    <label for="fPaymentTypeNormal">Pago identificado</label>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeNonIdentified"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'nonidentified'; model.unitId = '000'"
+      value="nonidentified"
+    />
+    <label for="fPaymentTypeNonIdentified">Pago no identificado</label>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeCondonation"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'condonation'"
+      value="condonation"
+    />
+    <label for="fPaymentTypeCondonation">Condonaci\xF3n</label>
+    <input
+      type="radio"
+      name="fPaymentType"
+      id="fPaymentTypeIdentification"
+      [(ngModel)]="model._paymentType"
+      (click)="model._paymentType = 'identification'"
+      value="identification"
+    />
+    <label for="fPaymentTypeIdentification">Identificaci\xF3n de pago</label>
+    <div>
+      @if (model._paymentType === 'normal') {
+      <h4>Pago identificado</h4>
+      } @if (model._paymentType === 'nonidentified') {
+      <h4>Pago no identificado</h4>
+      } @if (model._paymentType === 'condonation') {
+      <h4>Condonaci\xF3n</h4>
+      } @if (model._paymentType === 'identification') {
+      <h4>Identificaci\xF3n de pago</h4>
+      } @if (model._paymentType === 'identification') {
+      <span class="field">
+        <label for="fPayment" class="label-left">Pago sin identificar</label>
+        <select
+          name="fPayment"
+          id="fPayment"
+          class="field-select"
+          [(ngModel)]="model.paymentId"
+          (change)="setPaymentDetailsInForm(newItemForm, model.paymentId)"
+        >
+          @for (opt of viewData.nonIdentifiedPaymentList; track opt) {
+          <option value="{{ opt.cpy_id }}">
+            {{ opt.cpy_date | date: "yyyy-MM-dd" }} {{ opt.cpy_amount |
+            currency: "USD":"symbol-narrow":"1.2-2"}}
+          </option>
+          }
+        </select>
+      </span>
+      }
+      <span class="field">
+        @if (model._paymentType !== 'identification') {
+        <label for="fDate" class="label-left">Fecha</label>
+        } @if (model._paymentType === 'identification') {
+        <label for="fDate" class="label-left">Fecha de Identificaci\xF3n</label>
+        }
+        <input
+          type="radio"
+          name="fDateType"
+          id="fDateTypeCurrent"
+          [(ngModel)]="model._dateType"
+          value="current"
+        />
+        <label for="fDateTypeCurrent">Fecha actual</label>
+        <input
+          type="radio"
+          name="fDateType"
+          id="fDateTypeCustom"
+          [(ngModel)]="model._dateType"
+          value="custom"
+        />
+        <label for="fDateTypeCustom">Otra fecha</label>
+        @if (model._dateType !== 'current') {
+        <input type="date" name="fDate" [(ngModel)]="model.fDate" />
+        }
+      </span>
+      <span class="field">
+        <label for="fAmount" class="label-left">Amount</label>
+        <input
+          type="number"
+          name="fAmount"
+          id="fAmount"
+          class="field-input"
+          step="0.01"
+          [(ngModel)]="model.fAmount"
+          [disabled]="viewData.showPayDetList || model._paymentType === 'nonidentified' || model._paymentType === 'identification'"
+          (change)="setDescription(model.fAmount, model.fDate)"
+        />&nbsp;@if (!model.fAmount) {
+        <button
+          (click)="model.fAmount = 2000;setDescription(model.fAmount, model.fDate)"
+        >
+          $2,000
+        </button>
+        }&nbsp;@if (!model.fAmount) {
+        <button
+          (click)="model.fAmount = 1500;setDescription(model.fAmount, model.fDate)"
+        >
+          $1,500
+        </button>
+        }
+      </span>
+      <span class="field">
+        <label for="fUnit" class="label-left">Unidad</label>
+        <select
+          name="fUnit"
+          id="fUnit"
+          class="field-select"
+          [(ngModel)]="model.unitId"
+          [disabled]="model._paymentType === 'nonidentified' || viewData.showPayDetList"
+        >
+          @for (opt of viewData.unitList; track opt) {
+          <option value="{{ opt }}">{{ opt }}</option>
+          }
+        </select>
+        &nbsp;<button
+          (click)="toggleUnitList()"
+          [disabled]="viewData.showPayDetList"
+        >
+          {{ viewData.showOnlyUnitsWithoutPayment ? 'Ver todas' : 'Ver faltantes
+          de pago' }}
+        </button>
+      </span>
+      <span class="field">
+        <label for="fDescription" class="label-left">Description</label>
+        <input
+          type="text"
+          name="fDescription"
+          id="fDescription"
+          class="field-input movement-input-description"
+          [(ngModel)]="model.fDescription"
+        />
+      </span>
+      @if (!viewData.showPayDetList) {
+      <button
+        type="button"
+        id="detailButton"
+        (click)="setUnitProvisionList(model.unitId)"
+        [disabled]="!model.fAmount || !model.unitId"
+        [ngClass]="{
+          'hidden': model._paymentType === 'nonidentified'
+        }"
+      >
+        Desglose de pago &gt;
+      </button>
+      } @if (viewData.showPayDetList) {
+      <button
+        type="button"
+        id="detailBackButton"
+        (click)="viewData.showPayDetList = !viewData.showPayDetList"
+      >
+        &lt; Modificar pago
+      </button>
+      } @if (viewData.showPayDetList) {
+      <button
+        type="button"
+        id="showMoreProvisionsButton"
+        (click)="showFutureProvisions(model.unitId)"
+      >
+        Ver Provisiones futuras
+      </button>
+      } @if (viewData.showPayDetList) {
+      <div>
+        <table
+          class="pending-provision-listing desktop-only width-100-pct-print-only"
+        >
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Unidad</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Recaudado</th>
+              <th>Adeudo</th>
+              <th>Pago</th>
+              <th>Recibo</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (provision of viewData.unitPendingProvisionList; track
+            provision; let counter = $index) {
+            <tr
+              class="pending-provision-listing-row"
+              [ngClass]="{
+                'provision-payed-row': provision.cpr_remaining === 0,
+                'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+              }"
+            >
+              <td class="padding-all-3 text-align-center">{{counter + 1}}</td>
+              <td class="padding-all-3 text-align-center">
+                {{provision.cpr_id_unit}}
+              </td>
+              <td class="padding-all-3">
+                <span> {{provision.cpr_concept}} </span>
+                @if (provision.cpr_remaining === 0) {
+                <span>
+                  <!-- payed row -->
+                  [R]
+                </span>
+                } @if (isProvisionForCurrentRenderedMonth(provision,
+                viewData.year, viewData.month)) {
+                <span>
+                  <!-- added row -->
+                  [A]
+                </span>
+                }
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{provision.cpr_amount | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{provision.cpr_payed | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                <a
+                  href="#"
+                  tabindex="0"
+                  (click)="setPayDetAmount(provision); validatePayDetTotal(model.fAmount); $event.preventDefault();"
+                >
+                  {{provision.cpr_remaining | currency:
+                  "USD":"symbol-narrow":"1.2-2"}}
+                </a>
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                <input
+                  [name]="provision.cpr_id"
+                  type="number"
+                  class="field-input width-80"
+                  step="0.01"
+                  [(ngModel)]="payDetModel[provision.cpr_id]"
+                  (change)="validatePayDetTotal(model.fAmount)"
+                  [ngClass]="{
+                    'input-invalid': viewData.payDetCaptureStatus === 'invalid' && payDetModel[provision.cpr_id]
+                  }"
+                  [disabled]="(viewData.payDetCaptureStatus === 'invalid' && !payDetModel[provision.cpr_id]) || (viewData.payDetCaptureStatus === 'valid' && !payDetModel[provision.cpr_id])"
+                  min="0"
+                  [max]="provision.cpr_remaining"
+                />
+              </td>
+              <td class="padding-all-3">
+                <input
+                  [name]="provision.cpr_id + '_folio'"
+                  type="text"
+                  class="field-input width-80"
+                  [(ngModel)]="payDetFolioModel[provision.cpr_id]"
+                  (change)="validatePayDetFolio(provision)"
+                  [ngClass]="{
+                    'input-invalid': viewData.payDetFolioCaptureStatus === 'invalid' && payDetFolioModel[provision.cpr_id]
+                  }"
+                  [disabled]="payDetModel[provision.cpr_id] !== provision.cpr_remaining"
+                  maxlength="9"
+                />
+              </td>
+            </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="padding-all-3"></td>
+              <td class="padding-all-3"></td>
+              <td class="padding-all-3">Totales</td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.pendingTotalAmount | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.pendingTotalPayed | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.pendingTotalRemaining | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3 text-align-right width-80">
+                {{viewData.payDetCaptureTotal | currency:
+                "USD":"symbol-narrow":"1.2-2"}}
+                <br />rem {{model.fAmount - viewData.payDetCaptureTotal |
+                currency: "USD":"symbol-narrow":"1.2-2"}}
+              </td>
+              <td class="padding-all-3"></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div>
+          <span class="field">
+            <label for="fResetForm" class="label-left"
+              >Reset form after save</label
+            >
+            <input
+              type="checkbox"
+              id="fResetForm"
+              [(ngModel)]="model.resetForm"
+              [checked]="model.resetForm"
+              (change)="model.resetForm = !model.resetForm"
+            />
+          </span>
+        </div>
+      </div>
+      } @if (viewData.showPayDetList) {
+      <button
+        type="submit"
+        id="newFormSubmitButton"
+        [disabled]="viewData.payDetCaptureStatus !== 'valid'"
+      >
+        Aplicar pago
+      </button>
+      }
+    </div>
+  </div>
+  }
+</form>
+
+@if (viewData.showPayDetListAfterPayment) {
+<div>
+  <table
+    class="pending-provision-listing desktop-only width-100-pct-print-only"
+  >
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Unidad</th>
+        <th>Concepto</th>
+        <th>Monto</th>
+        <th>Recaudado</th>
+        <th>Adeudo</th>
+        <th>Acci\xF3n</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (provision of viewData.unitPendingProvisionListAfterPayment; track
+      provision; let counter = $index) {
+      <tr
+        class="pending-provision-listing-row"
+        [ngClass]="{
+          'provision-payed-row': provision.cpr_remaining === 0,
+          'provision-added-row': isProvisionForCurrentRenderedMonth(provision, viewData.year, viewData.month)
+        }"
+      >
+        <td class="padding-all-3 text-align-center">{{counter + 1}}</td>
+        <td class="padding-all-3 text-align-center">
+          {{provision.cpr_id_unit}}
+        </td>
+        <td class="padding-all-3">
+          <span> {{provision.cpr_concept}} </span>
+          @if (provision.cpr_remaining === 0) {
+          <span>
+            <!-- payed row -->
+            [R]
+          </span>
+          } @if (isProvisionForCurrentRenderedMonth(provision, viewData.year,
+          viewData.month)) {
+          <span>
+            <!-- added row -->
+            [A]
+          </span>
+          }
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{provision.cpr_remaining | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          @if (provision.cpr_remaining === 0) {
+          <span>
+            <a
+              [href]="'/receipt-report?folio=' + provision.cpr_folio"
+              target="_blank"
+              >Ver recibo</a
+            >
+          </span>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3">Totales</td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalAmount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalPayed | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.pendingTotalRemaining | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right width-80">
+          {{viewData.payDetCaptureTotal | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+          <br />rem {{model.fAmount - viewData.payDetCaptureTotal | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+}
 ` }]
   }], () => [{ type: CarteraService }, { type: NotificationService }, { type: Title }, { type: AuthenticationService }], null);
 })();
@@ -109735,292 +110377,292 @@ var PaymentReportComponent = class _PaymentReportComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PaymentReportComponent, [{
     type: Component,
-    args: [{ selector: "payment-report", providers: [PaymentReportService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div class="page-container">\r
-  <h1 class="page-title text-align-center">{{viewData.title}}</h1>\r
-\r
-  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>\r
-\r
-  <table class="payment-listing width-100-pct-print-only desktop-only">\r
-    <thead>\r
-      <tr>\r
-        <th>#</th>\r
-        <th>Unidad</th>\r
-        @if (viewData.layout === 'print') {\r
-        <th>Firma Condomino</th>\r
-        }\r
-        <th>Saldo</th>\r
-        <th>Fecha</th>\r
-        <th>Monto</th>\r
-        <th>Concepto / Observaciones</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (item of viewData.paymentReportData.provisionList; track item; let\r
-      counter = $index) {\r
-      <tr class="payment-listing-row">\r
-        <td\r
-          class="padding-all-3 text-align-center vertical-align-top payment-report-counter"\r
-        >\r
-          {{counter + 1}}\r
-        </td>\r
-        <td\r
-          class="padding-all-3 text-align-center vertical-align-top payment-report-unit"\r
-        >\r
-          {{item.provision.cpr_id_unit}}\r
-        </td>\r
-        @if (viewData.layout === 'print') {\r
-        <td class="padding-all-3 vertical-align-top payment-report-sign"></td>\r
-        }\r
-        <td\r
-          class="padding-all-3 text-align-right vertical-align-top payment-report-in-favor"\r
-        >\r
-          @if (item.previousPayDetTotal && !viewData.extraordinary) {\r
-          <span>\r
-            {{item.previousPayDetTotal | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          }\r
-        </td>\r
-        <td\r
-          class="padding-all-3 width-80-strict text-align-center vertical-align-top"\r
-        >\r
-          @if (item.paymentList.length > 0) {\r
-          <span>\r
-            {{item.paymentList.length && item.paymentList[0].payment.cpy_date |\r
-            date: "yyyy-MM-dd"}}\r
-          </span>\r
-          } @if (item.paymentList.length === 0 && viewData.layout === 'print' &&\r
-          !viewData.extraordinary) {\r
-          <span>\r
-            {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +\r
-            viewData.month }}-___\r
-          </span>\r
-          }\r
-        </td>\r
-        <td\r
-          class="padding-all-3 vertical-align-top"\r
-          [ngClass]="{\r
-          'text-align-right': viewData.layout !== 'print',\r
-          'payment-report-amount': viewData.layout !== 'print',\r
-          'payment-report-amount-print': viewData.layout === 'print'\r
-        }"\r
-        >\r
-          @if (item.paymentList.length > 0) {\r
-          <span>\r
-            {{item.paymentList.length && item.totalPayment | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {\r
-          <span>\r
-            <input type="checkbox" />\r
-            <span>\r
-              {{ item.provision.cpr_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2"}}\r
-            </span>\r
-            <span> / otro: $_______ </span>\r
-          </span>\r
-          }\r
-        </td>\r
-        <td class="padding-all-3 vertical-align-top">\r
-          @if (item.paymentList.length > 0) {\r
-          <div>\r
-            @for (pay of item.paymentList; track pay; let payIndex = $index) {\r
-            <div>\r
-              @for (det of pay.payDetList; track det) {\r
-              <div>\r
-                @if (item.paymentList.length > 1) {\r
-                <span>\r
-                  => {{pay.payment.cpy_amount | currency:\r
-                  "USD":"symbol-narrow":"1.2-2"}}\r
-                </span>\r
-                } @if (pay.payDetList.length > 1) {\r
-                <span>\r
-                  + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-                  {{det.cpd_concept}}\r
-                </span>\r
-                } @if (pay.payDetList.length === 1) {\r
-                <span> {{det.cpd_concept}} </span>\r
-                } @if (item.paymentList.length > 1) {\r
-                <span>\r
-                  ({{item.paymentList.length && pay.payment.cpy_date | date:\r
-                  "yyyy-MM-dd"}})\r
-                </span>\r
-                }\r
-              </div>\r
-              }\r
-            </div>\r
-            }\r
-          </div>\r
-          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {\r
-          <div>\r
-            @if (!item.isCurrentProvisionPayed) {\r
-            <input type="checkbox" />\r
-            } @if (!item.isCurrentProvisionPayed) {\r
-            <span>\r
-              {{ viewData.extraordinary ? viewData.displayYearMonth : 'Mantto '\r
-              + viewData.displayYearMonth }}\r
-            </span>\r
-            } @if (item.isCurrentProvisionPayed) {\r
-            <span> (Cuota de este mes cubierta) </span>\r
-            }\r
-          </div>\r
-          }\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3"></td>\r
-        @if (viewData.layout === 'print') {\r
-        <td class="padding-all-3"></td>\r
-        }\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          @if (!viewData.extraordinary) {\r
-          <span>\r
-            {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          }\r
-        </td>\r
-        <td class="padding-all-3 text-align-center">Total</td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          @if (viewData.total > 0) {\r
-          <span>\r
-            {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          }\r
-        </td>\r
-        <td class="padding-all-3"></td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-\r
-  <table class="payment-listing width-100-pct mobile-only">\r
-    <thead>\r
-      <tr>\r
-        <th>#</th>\r
-        <th>Unidad</th>\r
-        <th>Monto</th>\r
-        <th>Fecha / Concepto / Observaciones</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (item of viewData.paymentReportData.provisionList; track item; let\r
-      counter = $index) {\r
-      <tr class="payment-listing-row">\r
-        <td\r
-          class="padding-all-3 text-align-center vertical-align-top payment-report-counter"\r
-        >\r
-          {{counter + 1}}\r
-        </td>\r
-        <td\r
-          class="padding-all-3 text-align-center vertical-align-top payment-report-unit"\r
-        >\r
-          {{item.provision.cpr_id_unit}}\r
-        </td>\r
-        <td\r
-          class="padding-all-3 vertical-align-top"\r
-          [ngClass]="{\r
-          'text-align-right': viewData.layout !== 'print',\r
-          'payment-report-amount': viewData.layout !== 'print',\r
-          'payment-report-amount-print': viewData.layout === 'print'\r
-        }"\r
-        >\r
-          @if (item.paymentList.length > 0) {\r
-          <span>\r
-            {{item.paymentList.length && item.totalPayment | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {\r
-          <span>\r
-            <input type="checkbox" />\r
-            <span>\r
-              {{ item.provision.cpr_amount | currency:\r
-              "USD":"symbol-narrow":"1.2-2"}}\r
-            </span>\r
-            <span> / otro: $_______ </span>\r
-          </span>\r
-          }\r
-        </td>\r
-        <td\r
-          class="padding-all-3 vertical-align-top payment-listing-description"\r
-        >\r
-          @if (item.paymentList.length > 0) {\r
-          <span>\r
-            {{item.paymentList.length && item.paymentList[0].payment.cpy_date |\r
-            date: "yyyy-MM-dd"}}\r
-          </span>\r
-          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {\r
-          <span>\r
-            {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +\r
-            viewData.month }}-___\r
-          </span>\r
-          } @if (item.paymentList.length > 0) {\r
-          <div>\r
-            @for (pay of item.paymentList; track pay; let payIndex = $index) {\r
-            <div>\r
-              @for (det of pay.payDetList; track det) {\r
-              <div>\r
-                @if (item.paymentList.length > 1) {\r
-                <span>\r
-                  => {{pay.payment.cpy_amount | currency:\r
-                  "USD":"symbol-narrow":"1.2-2"}}\r
-                </span>\r
-                } @if (pay.payDetList.length > 1) {\r
-                <span>\r
-                  + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-                  {{det.cpd_concept}}\r
-                </span>\r
-                } @if (pay.payDetList.length === 1) {\r
-                <span> {{det.cpd_concept}} </span>\r
-                } @if (item.paymentList.length > 1) {\r
-                <span>\r
-                  ({{item.paymentList.length && pay.payment.cpy_date | date:\r
-                  "yyyy-MM-dd"}})\r
-                </span>\r
-                }\r
-              </div>\r
-              }\r
-            </div>\r
-            }\r
-          </div>\r
-          } @if (item.previousPayDetTotal) {\r
-          <span>\r
-            Saldo: {{item.previousPayDetTotal | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {\r
-          <div>\r
-            <input type="checkbox" />\r
-            <span> Mantto {{ viewData.displayYearMonth }} </span>\r
-          </div>\r
-          }\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3 text-align-right width-80">\r
-          @if (viewData.total > 0) {\r
-          <span>\r
-            {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-          </span>\r
-          }\r
-        </td>\r
-        <td class="padding-all-3">\r
-          <span\r
-            >Total Saldo: {{viewData.previousTotal | currency:\r
-            "USD":"symbol-narrow":"1.2-2"}}</span\r
-          >\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-</div>\r
+    args: [{ selector: "payment-report", providers: [PaymentReportService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `<div class="page-container">
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
+
+  <div class="text-align-center width-100-pct print-only">P\xE1gina 1 de 1</div>
+
+  <table class="payment-listing width-100-pct-print-only desktop-only">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Unidad</th>
+        @if (viewData.layout === 'print') {
+        <th>Firma Condomino</th>
+        }
+        <th>Saldo</th>
+        <th>Fecha</th>
+        <th>Monto</th>
+        <th>Concepto / Observaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of viewData.paymentReportData.provisionList; track item; let
+      counter = $index) {
+      <tr class="payment-listing-row">
+        <td
+          class="padding-all-3 text-align-center vertical-align-top payment-report-counter"
+        >
+          {{counter + 1}}
+        </td>
+        <td
+          class="padding-all-3 text-align-center vertical-align-top payment-report-unit"
+        >
+          {{item.provision.cpr_id_unit}}
+        </td>
+        @if (viewData.layout === 'print') {
+        <td class="padding-all-3 vertical-align-top payment-report-sign"></td>
+        }
+        <td
+          class="padding-all-3 text-align-right vertical-align-top payment-report-in-favor"
+        >
+          @if (item.previousPayDetTotal && !viewData.extraordinary) {
+          <span>
+            {{item.previousPayDetTotal | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          }
+        </td>
+        <td
+          class="padding-all-3 width-80-strict text-align-center vertical-align-top"
+        >
+          @if (item.paymentList.length > 0) {
+          <span>
+            {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
+            date: "yyyy-MM-dd"}}
+          </span>
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print' &&
+          !viewData.extraordinary) {
+          <span>
+            {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +
+            viewData.month }}-___
+          </span>
+          }
+        </td>
+        <td
+          class="padding-all-3 vertical-align-top"
+          [ngClass]="{
+          'text-align-right': viewData.layout !== 'print',
+          'payment-report-amount': viewData.layout !== 'print',
+          'payment-report-amount-print': viewData.layout === 'print'
+        }"
+        >
+          @if (item.paymentList.length > 0) {
+          <span>
+            {{item.paymentList.length && item.totalPayment | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <span>
+            <input type="checkbox" />
+            <span>
+              {{ item.provision.cpr_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
+            </span>
+            <span> / otro: $_______ </span>
+          </span>
+          }
+        </td>
+        <td class="padding-all-3 vertical-align-top">
+          @if (item.paymentList.length > 0) {
+          <div>
+            @for (pay of item.paymentList; track pay; let payIndex = $index) {
+            <div>
+              @for (det of pay.payDetList; track det) {
+              <div>
+                @if (item.paymentList.length > 1) {
+                <span>
+                  => {{pay.payment.cpy_amount | currency:
+                  "USD":"symbol-narrow":"1.2-2"}}
+                </span>
+                } @if (pay.payDetList.length > 1) {
+                <span>
+                  + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+                  {{det.cpd_concept}}
+                </span>
+                } @if (pay.payDetList.length === 1) {
+                <span> {{det.cpd_concept}} </span>
+                } @if (item.paymentList.length > 1) {
+                <span>
+                  ({{item.paymentList.length && pay.payment.cpy_date | date:
+                  "yyyy-MM-dd"}})
+                </span>
+                }
+              </div>
+              }
+            </div>
+            }
+          </div>
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <div>
+            @if (!item.isCurrentProvisionPayed) {
+            <input type="checkbox" />
+            } @if (!item.isCurrentProvisionPayed) {
+            <span>
+              {{ viewData.extraordinary ? viewData.displayYearMonth : 'Mantto '
+              + viewData.displayYearMonth }}
+            </span>
+            } @if (item.isCurrentProvisionPayed) {
+            <span> (Cuota de este mes cubierta) </span>
+            }
+          </div>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        @if (viewData.layout === 'print') {
+        <td class="padding-all-3"></td>
+        }
+        <td class="padding-all-3 text-align-right width-80">
+          @if (!viewData.extraordinary) {
+          <span>
+            {{viewData.previousTotal | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          }
+        </td>
+        <td class="padding-all-3 text-align-center">Total</td>
+        <td class="padding-all-3 text-align-right width-80">
+          @if (viewData.total > 0) {
+          <span>
+            {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          }
+        </td>
+        <td class="padding-all-3"></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <table class="payment-listing width-100-pct mobile-only">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Unidad</th>
+        <th>Monto</th>
+        <th>Fecha / Concepto / Observaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of viewData.paymentReportData.provisionList; track item; let
+      counter = $index) {
+      <tr class="payment-listing-row">
+        <td
+          class="padding-all-3 text-align-center vertical-align-top payment-report-counter"
+        >
+          {{counter + 1}}
+        </td>
+        <td
+          class="padding-all-3 text-align-center vertical-align-top payment-report-unit"
+        >
+          {{item.provision.cpr_id_unit}}
+        </td>
+        <td
+          class="padding-all-3 vertical-align-top"
+          [ngClass]="{
+          'text-align-right': viewData.layout !== 'print',
+          'payment-report-amount': viewData.layout !== 'print',
+          'payment-report-amount-print': viewData.layout === 'print'
+        }"
+        >
+          @if (item.paymentList.length > 0) {
+          <span>
+            {{item.paymentList.length && item.totalPayment | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <span>
+            <input type="checkbox" />
+            <span>
+              {{ item.provision.cpr_amount | currency:
+              "USD":"symbol-narrow":"1.2-2"}}
+            </span>
+            <span> / otro: $_______ </span>
+          </span>
+          }
+        </td>
+        <td
+          class="padding-all-3 vertical-align-top payment-listing-description"
+        >
+          @if (item.paymentList.length > 0) {
+          <span>
+            {{item.paymentList.length && item.paymentList[0].payment.cpy_date |
+            date: "yyyy-MM-dd"}}
+          </span>
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <span>
+            {{ viewData.year }}-{{ viewData.month >= 10 ? viewData.month : '0' +
+            viewData.month }}-___
+          </span>
+          } @if (item.paymentList.length > 0) {
+          <div>
+            @for (pay of item.paymentList; track pay; let payIndex = $index) {
+            <div>
+              @for (det of pay.payDetList; track det) {
+              <div>
+                @if (item.paymentList.length > 1) {
+                <span>
+                  => {{pay.payment.cpy_amount | currency:
+                  "USD":"symbol-narrow":"1.2-2"}}
+                </span>
+                } @if (pay.payDetList.length > 1) {
+                <span>
+                  + {{det.cpd_amount | currency: "USD":"symbol-narrow":"1.2-2"}}
+                  {{det.cpd_concept}}
+                </span>
+                } @if (pay.payDetList.length === 1) {
+                <span> {{det.cpd_concept}} </span>
+                } @if (item.paymentList.length > 1) {
+                <span>
+                  ({{item.paymentList.length && pay.payment.cpy_date | date:
+                  "yyyy-MM-dd"}})
+                </span>
+                }
+              </div>
+              }
+            </div>
+            }
+          </div>
+          } @if (item.previousPayDetTotal) {
+          <span>
+            Saldo: {{item.previousPayDetTotal | currency:
+            "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          } @if (item.paymentList.length === 0 && viewData.layout === 'print') {
+          <div>
+            <input type="checkbox" />
+            <span> Mantto {{ viewData.displayYearMonth }} </span>
+          </div>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3 text-align-right width-80">
+          @if (viewData.total > 0) {
+          <span>
+            {{viewData.total | currency: "USD":"symbol-narrow":"1.2-2"}}
+          </span>
+          }
+        </td>
+        <td class="padding-all-3">
+          <span
+            >Total Saldo: {{viewData.previousTotal | currency:
+            "USD":"symbol-narrow":"1.2-2"}}</span
+          >
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
 `, styles: ["/* src/app/cartera/CarteraReportsCommon.css */\n@media screen, print {\n  thead tr,\n  tfoot tr {\n    background-color: #d0e4f5;\n  }\n  thead tr,\n  tbody tr,\n  tfoot tr {\n    border-top: 1px solid black;\n  }\n  thead tr th,\n  tfoot tr td {\n    font-weight: bold;\n  }\n  table {\n    border: 1px solid black;\n    border-collapse: collapse;\n    border-spacing: 0;\n  }\n}\n@media print {\n  body {\n    font-size: 5pt;\n  }\n  .padding-all-3 {\n    padding: 0px 3px;\n  }\n  .page-title {\n    margin: 0;\n    display: block;\n  }\n}\n\n/* src/app/cartera/PaymentReport/PaymentReport.css */\n@media screen {\n  .page-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    max-width: 800px;\n    margin: 0 auto;\n  }\n  .payment-report-unit {\n    width: 30px;\n  }\n}\n@media (max-width: 504px) {\n  .payment-report-unit {\n    width: 20px;\n  }\n}\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  .payment-report-listing-row:nth-child(even) {\n    background-color: #e0e0e0;\n  }\n  table tr td.padding-all-3 {\n    padding: 5px 3px;\n    border: 1px solid black;\n  }\n  .payment-report-counter {\n    width: 20px;\n  }\n  .payment-report-unit {\n    width: 30px;\n  }\n  .payment-report-in-favor {\n    width: 50px;\n  }\n  .payment-report-amount {\n    width: 60px;\n  }\n  .payment-report-amount-print {\n    width: 160px;\n  }\n  .payment-report-sign {\n    padding: 0px !important;\n    vertical-align: top;\n    font-size: 0.75rem;\n    width: 140px;\n  }\n}\n@media print {\n  @page {\n    size: auto;\n  }\n  .width-80 {\n    min-width: 50px;\n  }\n}\n/*# sourceMappingURL=PaymentReport-WXCHDXPS.css.map */\n"] }]
   }], () => [{ type: PaymentReportService }, { type: Title }], null);
 })();
@@ -123945,150 +124587,150 @@ var ReceiptReportComponent = class _ReceiptReportComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(ReceiptReportComponent, [{
     type: Component,
-    args: [{ selector: "receipt-report", providers: [ReceiptReportService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (!viewData.folio) {\r
-<div class="page-container">\r
-  <h1 class="page-title text-align-center">{{viewData.title}}</h1>\r
-  <table class="receipt-top-block">\r
-    <thead>\r
-      <tr>\r
-        <th class="padding-all-3">#</th>\r
-        <th class="padding-all-3">Unidad</th>\r
-        <th class="padding-all-3">Folio</th>\r
-        <th class="padding-all-3">Fecha de pago</th>\r
-        <th class="padding-all-3">Concepto</th>\r
-        <th class="padding-all-3">Cargo original</th>\r
-        <th class="padding-all-3">Abono</th>\r
-        <th class="padding-all-3 hide-on-print">Individual</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      @for (item of viewData.paymentReportData; track item; let count = $index)\r
-      {\r
-      <tr class="receipt-item receipt-top-block">\r
-        <td class="padding-all-3 text-align-center">{{count + 1}}</td>\r
-        <td class="padding-all-3 text-align-center">\r
-          {{item.provision.cpr_id_unit}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-center">\r
-          {{item.provision.cpr_folio}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-center">\r
-          {{item.paymentDate | date: "yyyy-MM-dd"}}\r
-        </td>\r
-        <td class="padding-all-3">{{item.provision.cpr_concept}}</td>\r
-        <td class="padding-all-3 text-align-right">\r
-          {{item.provision.cpr_amount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right">\r
-          {{item.provision.cpr_payed + item.provision.cpr_condoned | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-center hide-on-print">\r
-          <a\r
-            [href]="'/receipt-report?folio=' + item.provision.cpr_folio"\r
-            target="_blank"\r
-            >Ver recibo</a\r
-          >\r
-        </td>\r
-      </tr>\r
-      }\r
-    </tbody>\r
-  </table>\r
-</div>\r
-} @for (item of viewData.paymentReportData; track item; let count = $index) {\r
-<div\r
-  class="receipt-item receipt-top-block page-container"\r
-  [ngClass]="{\r
-    'page-break-before': !viewData.folio || (viewData.paymentReportData.length > 1 && count > 0)\r
-      }"\r
->\r
-  <h1 class="page-title text-align-center">Recibo de pago</h1>\r
-  <div class="receipt-header receipt-top-block padding-all-3">\r
-    <div>\r
-      <strong>FFJ78</strong>\r
-      <div>Francisco Field Jurado #78</div>\r
-      <div>Independencia, Benito Ju\xE1rez</div>\r
-      <div>CDMX</div>\r
-    </div>\r
-    <div>\r
-      <div>Fecha de Impresi\xF3n: {{viewData.date | date: "yyyy-MM-dd"}}</div>\r
-    </div>\r
-  </div>\r
-  <div class="receipt-information receipt-top-block">\r
-    <div>\r
-      <div>Folio: <strong>{{item.provision.cpr_folio}}</strong></div>\r
-    </div>\r
-    <div class="text-align-right">\r
-      <div>Condomino: {{item.name}}</div>\r
-      <div>Departamento: {{item.provision.cpr_id_unit}}</div>\r
-    </div>\r
-  </div>\r
-  <table class="receipt-top-block" cellspacing="0">\r
-    <thead>\r
-      <tr>\r
-        <th class="padding-all-3">Fecha</th>\r
-        <th class="padding-all-3">Concepto</th>\r
-        <th class="padding-all-3">Cargo original</th>\r
-        <th class="padding-all-3">Condonado</th>\r
-        <th class="padding-all-3">Abono</th>\r
-      </tr>\r
-    </thead>\r
-    <tbody>\r
-      <tr>\r
-        <td class="padding-all-3 text-align-center">\r
-          {{item.paymentDate | date: "yyyy-MM-dd"}}\r
-        </td>\r
-        <td class="padding-all-3">{{item.provision.cpr_concept}}</td>\r
-        <td class="padding-all-3 text-align-right">\r
-          {{item.provision.cpr_amount | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right">\r
-          {{item.provision.cpr_condoned | currency:\r
-          "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-        <td class="padding-all-3 text-align-right">\r
-          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tbody>\r
-    <tfoot>\r
-      <tr>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3"></td>\r
-        <td class="padding-all-3 text-align-right">Total recibido</td>\r
-        <td class="padding-all-3 text-align-right">\r
-          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}\r
-        </td>\r
-      </tr>\r
-    </tfoot>\r
-  </table>\r
-  <div class="receipt-sign-list receipt-top-block">\r
-    <table>\r
-      <tr class="no-border">\r
-        <td class="padding-all-3 text-align-center">\r
-          <img src="/assets/images/firma-comite.png" class="receipt-sign-img" />\r
-        </td>\r
-      </tr>\r
-      <tr>\r
-        <td class="padding-all-3 text-align-center">Comit\xE9 de Vigilancia</td>\r
-      </tr>\r
-    </table>\r
-  </div>\r
-  <div class="receipt-notes">\r
-    <div class="receipt-top-block">\r
-      Nota: El pago de este recibo no lo libera de adeudos anteriores.\r
-    </div>\r
-    <br />\r
-    <div>Cadena de Verificaci\xF3n: {{item.hash}}</div>\r
-  </div>\r
-  <div class="hide-on-print">\r
-    <button (click)="generatePDFReceipt()">Descargar recibo</button>\r
-  </div>\r
-</div>\r
-}\r
+    args: [{ selector: "receipt-report", providers: [ReceiptReportService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: `@if (!viewData.folio) {
+<div class="page-container">
+  <h1 class="page-title text-align-center">{{viewData.title}}</h1>
+  <table class="receipt-top-block">
+    <thead>
+      <tr>
+        <th class="padding-all-3">#</th>
+        <th class="padding-all-3">Unidad</th>
+        <th class="padding-all-3">Folio</th>
+        <th class="padding-all-3">Fecha de pago</th>
+        <th class="padding-all-3">Concepto</th>
+        <th class="padding-all-3">Cargo original</th>
+        <th class="padding-all-3">Abono</th>
+        <th class="padding-all-3 hide-on-print">Individual</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of viewData.paymentReportData; track item; let count = $index)
+      {
+      <tr class="receipt-item receipt-top-block">
+        <td class="padding-all-3 text-align-center">{{count + 1}}</td>
+        <td class="padding-all-3 text-align-center">
+          {{item.provision.cpr_id_unit}}
+        </td>
+        <td class="padding-all-3 text-align-center">
+          {{item.provision.cpr_folio}}
+        </td>
+        <td class="padding-all-3 text-align-center">
+          {{item.paymentDate | date: "yyyy-MM-dd"}}
+        </td>
+        <td class="padding-all-3">{{item.provision.cpr_concept}}</td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_amount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_payed + item.provision.cpr_condoned | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-center hide-on-print">
+          <a
+            [href]="'/receipt-report?folio=' + item.provision.cpr_folio"
+            target="_blank"
+            >Ver recibo</a
+          >
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+} @for (item of viewData.paymentReportData; track item; let count = $index) {
+<div
+  class="receipt-item receipt-top-block page-container"
+  [ngClass]="{
+    'page-break-before': !viewData.folio || (viewData.paymentReportData.length > 1 && count > 0)
+      }"
+>
+  <h1 class="page-title text-align-center">Recibo de pago</h1>
+  <div class="receipt-header receipt-top-block padding-all-3">
+    <div>
+      <strong>FFJ78</strong>
+      <div>Francisco Field Jurado #78</div>
+      <div>Independencia, Benito Ju\xE1rez</div>
+      <div>CDMX</div>
+    </div>
+    <div>
+      <div>Fecha de Impresi\xF3n: {{viewData.date | date: "yyyy-MM-dd"}}</div>
+    </div>
+  </div>
+  <div class="receipt-information receipt-top-block">
+    <div>
+      <div>Folio: <strong>{{item.provision.cpr_folio}}</strong></div>
+    </div>
+    <div class="text-align-right">
+      <div>Condomino: {{item.name}}</div>
+      <div>Departamento: {{item.provision.cpr_id_unit}}</div>
+    </div>
+  </div>
+  <table class="receipt-top-block" cellspacing="0">
+    <thead>
+      <tr>
+        <th class="padding-all-3">Fecha</th>
+        <th class="padding-all-3">Concepto</th>
+        <th class="padding-all-3">Cargo original</th>
+        <th class="padding-all-3">Condonado</th>
+        <th class="padding-all-3">Abono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="padding-all-3 text-align-center">
+          {{item.paymentDate | date: "yyyy-MM-dd"}}
+        </td>
+        <td class="padding-all-3">{{item.provision.cpr_concept}}</td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_amount | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_condoned | currency:
+          "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3"></td>
+        <td class="padding-all-3 text-align-right">Total recibido</td>
+        <td class="padding-all-3 text-align-right">
+          {{item.provision.cpr_payed | currency: "USD":"symbol-narrow":"1.2-2"}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <div class="receipt-sign-list receipt-top-block">
+    <table>
+      <tr class="no-border">
+        <td class="padding-all-3 text-align-center">
+          <img src="/assets/images/firma-comite.png" class="receipt-sign-img" />
+        </td>
+      </tr>
+      <tr>
+        <td class="padding-all-3 text-align-center">Comit\xE9 de Vigilancia</td>
+      </tr>
+    </table>
+  </div>
+  <div class="receipt-notes">
+    <div class="receipt-top-block">
+      Nota: El pago de este recibo no lo libera de adeudos anteriores.
+    </div>
+    <br />
+    <div>Cadena de Verificaci\xF3n: {{item.hash}}</div>
+  </div>
+  <div class="hide-on-print">
+    <button (click)="generatePDFReceipt()">Descargar recibo</button>
+  </div>
+</div>
+}
 `, styles: ["/* src/app/cartera/CarteraReportsCommon.css */\n@media screen, print {\n  thead tr,\n  tfoot tr {\n    background-color: #d0e4f5;\n  }\n  thead tr,\n  tbody tr,\n  tfoot tr {\n    border-top: 1px solid black;\n  }\n  thead tr th,\n  tfoot tr td {\n    font-weight: bold;\n  }\n  table {\n    border: 1px solid black;\n    border-collapse: collapse;\n    border-spacing: 0;\n  }\n}\n@media print {\n  body {\n    font-size: 5pt;\n  }\n  .padding-all-3 {\n    padding: 0px 3px;\n  }\n  .page-title {\n    margin: 0;\n    display: block;\n  }\n}\n\n/* src/app/cartera/ReceiptReport/ReceiptReport.css */\n@media screen {\n  .page-container {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    max-width: 800px;\n    margin: 0 auto;\n  }\n}\n@media screen, print {\n  * {\n    font-family: sans-serif;\n  }\n  .receipt-top-block {\n    margin-top: 50px;\n  }\n  .receipt-item {\n    width: 60%;\n  }\n  h1,\n  table,\n  .receipt-header,\n  .receipt-information {\n    width: 100%;\n  }\n  .receipt-item-pdf h1,\n  .receipt-item-pdf table,\n  .receipt-item-pdf .receipt-header,\n  .receipt-item-pdf .receipt-information,\n  .receipt-item-pdf .receipt-sign-list,\n  .receipt-item-pdf .receipt-notes {\n    width: 760px;\n    margin-left: 70px;\n    margin-right: 70px;\n  }\n  .receipt-item-pdf thead tr,\n  .receipt-item-pdf tbody tr,\n  .receipt-item-pdf tfoot tr {\n    border-left: 1px solid black;\n  }\n  .receipt-header,\n  .receipt-information {\n    display: flex;\n    justify-content: space-between;\n  }\n  .receipt-sign-list {\n    display: flex;\n    justify-content: center;\n  }\n  .receipt-sign-list table {\n    border: 0;\n    width: 300px;\n  }\n  .receipt-sign-list table tr {\n    border-top: 1px solid black;\n    text-align: center;\n  }\n  .receipt-sign-list table tr td {\n    padding-top: 5px;\n  }\n  .receipt-sign-list table tr.no-border {\n    border-top: 0;\n  }\n  .receipt-sign-img {\n    width: 80px;\n  }\n  .receipt-item {\n    width: 100%;\n  }\n  .padding-all-3 {\n    padding: 5px;\n  }\n}\n/*# sourceMappingURL=ReceiptReport-MJUQB5MN.css.map */\n"] }]
   }], () => [{ type: ReceiptReportService }, { type: Title }], null);
 })();
@@ -124268,7 +124910,7 @@ var TypeGeneratorComponent = class _TypeGeneratorComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TypeGeneratorComponent, [{
     type: Component,
-    args: [{ selector: "type-generator", providers: [TypeGeneratorService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div>\r\n  @for (e of viewData.entityList; track e) {\r\n  <div>\r\n    <input type="checkbox" [id]="e" (click)="toggleSelection(e)" />\r\n    <label [for]="e">{{e}}</label>\r\n  </div>\r\n  }\r\n\r\n  <hr />\r\n  <div>\r\n    <input type="checkbox" id="all" (click)="toggleSelectAll($event)" />\r\n    <label for="all">Select All</label>\r\n  </div>\r\n\r\n  <button (click)="generate()">Generate Types</button>\r\n  <br /><button (click)="check()">Check Definition</button> <br /><button\r\n    (click)="checkDatabase()"\r\n  >\r\n    Check Database\r\n  </button>\r\n  <div id="generator-messages"></div>\r\n</div>\r\n' }]
+    args: [{ selector: "type-generator", providers: [TypeGeneratorService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<div>\n  @for (e of viewData.entityList; track e) {\n  <div>\n    <input type="checkbox" [id]="e" (click)="toggleSelection(e)" />\n    <label [for]="e">{{e}}</label>\n  </div>\n  }\n\n  <hr />\n  <div>\n    <input type="checkbox" id="all" (click)="toggleSelectAll($event)" />\n    <label for="all">Select All</label>\n  </div>\n\n  <button (click)="generate()">Generate Types</button>\n  <br /><button (click)="check()">Check Definition</button> <br /><button\n    (click)="checkDatabase()"\n  >\n    Check Database\n  </button>\n  <div id="generator-messages"></div>\n</div>\n' }]
   }], () => [{ type: TypeGeneratorService }], null);
 })();
 (() => {
@@ -124515,81 +125157,81 @@ var CarouselComponent = class _CarouselComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CarouselComponent, [{
     type: Component,
-    args: [{ selector: "app-carousel", standalone: true, changeDetection: ChangeDetectionStrategy.Eager, imports: [], template: `<div class="carousel-component">\r
-  <ng-container>\r
-    <div class="carousel-image-wrapper">\r
-      <img\r
-        [src]="validImages()[current()]"\r
-        [alt]="altTexts[current()] || 'Imagen ' + (current() + 1)"\r
-        class="carousel-image"\r
-        (click)="togglePlayPause()"\r
-        style="cursor: pointer"\r
-      />\r
-    </div>\r
-    <div class="carousel-controls">\r
-      <button (click)="prev()" title="Anterior">\u23EE\uFE0F</button>\r
-      @if (paused() === false) {\r
-      <button (click)="pause()" title="Pausar">\u23F8\uFE0F</button>\r
-      } @if (paused() === true) {\r
-      <button (click)="play()" title="Reanudar">\u25B6\uFE0F</button>\r
-      }\r
-      <button (click)="next()" title="Siguiente">\u23ED\uFE0F</button>\r
-      <label style="margin-left: 16px; font-size: 1rem">\r
-        Intervalo (seg):\r
-        <input\r
-          type="number"\r
-          min="1"\r
-          step="1"\r
-          [value]="rotationInterval()"\r
-          (input)="onIntervalChange($event)"\r
-          style="width: 90px; margin-left: 4px"\r
-        />\r
-      </label>\r
-      @if (paused()) {\r
-      <span\r
-        class="carousel-paused-indicator"\r
-        title="Pausado"\r
-        style="\r
-          margin-left: 16px;\r
-          color: #d32f2f;\r
-          font-weight: bold;\r
-          font-size: 1.2rem;\r
-          display: flex;\r
-          align-items: center;\r
-          gap: 4px;\r
-        "\r
-      >\r
-        <span style="font-size: 1.3em">\u23F8\uFE0F</span> Pausa\r
-      </span>\r
-      }\r
-    </div>\r
-    @if (validImages().length > 0) {\r
-    <div class="carousel-index-indicator">\r
-      {{ current() + 1 }} / {{ validImages().length }}\r
-    </div>\r
-    }\r
-    <div style="text-align: center; margin-top: 8px">\r
-      @for (img of validImages(); track img; let idx = $index) {\r
-      <span\r
-        (click)="goTo(idx)"\r
-        [attr.aria-label]="'Ir a la imagen ' + (idx + 1)"\r
-        [ngStyle]="{\r
-        display: 'inline-block',\r
-        width: '10px',\r
-        height: '10px',\r
-        borderRadius: '50%',\r
-        background: idx === current() ? '#333' : '#ccc',\r
-        margin: '0 4px',\r
-        cursor: 'pointer'\r
-        }"\r
-      ></span>\r
-      }\r
-    </div>\r
-  </ng-container>\r
-  <ng-template #noImages>\r
-    <div>No hay im\xE1genes v\xE1lidas.</div>\r
-  </ng-template>\r
-</div>\r
+    args: [{ selector: "app-carousel", standalone: true, changeDetection: ChangeDetectionStrategy.Eager, imports: [], template: `<div class="carousel-component">
+  <ng-container>
+    <div class="carousel-image-wrapper">
+      <img
+        [src]="validImages()[current()]"
+        [alt]="altTexts[current()] || 'Imagen ' + (current() + 1)"
+        class="carousel-image"
+        (click)="togglePlayPause()"
+        style="cursor: pointer"
+      />
+    </div>
+    <div class="carousel-controls">
+      <button (click)="prev()" title="Anterior">\u23EE\uFE0F</button>
+      @if (paused() === false) {
+      <button (click)="pause()" title="Pausar">\u23F8\uFE0F</button>
+      } @if (paused() === true) {
+      <button (click)="play()" title="Reanudar">\u25B6\uFE0F</button>
+      }
+      <button (click)="next()" title="Siguiente">\u23ED\uFE0F</button>
+      <label style="margin-left: 16px; font-size: 1rem">
+        Intervalo (seg):
+        <input
+          type="number"
+          min="1"
+          step="1"
+          [value]="rotationInterval()"
+          (input)="onIntervalChange($event)"
+          style="width: 90px; margin-left: 4px"
+        />
+      </label>
+      @if (paused()) {
+      <span
+        class="carousel-paused-indicator"
+        title="Pausado"
+        style="
+          margin-left: 16px;
+          color: #d32f2f;
+          font-weight: bold;
+          font-size: 1.2rem;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        "
+      >
+        <span style="font-size: 1.3em">\u23F8\uFE0F</span> Pausa
+      </span>
+      }
+    </div>
+    @if (validImages().length > 0) {
+    <div class="carousel-index-indicator">
+      {{ current() + 1 }} / {{ validImages().length }}
+    </div>
+    }
+    <div style="text-align: center; margin-top: 8px">
+      @for (img of validImages(); track img; let idx = $index) {
+      <span
+        (click)="goTo(idx)"
+        [attr.aria-label]="'Ir a la imagen ' + (idx + 1)"
+        [ngStyle]="{
+        display: 'inline-block',
+        width: '10px',
+        height: '10px',
+        borderRadius: '50%',
+        background: idx === current() ? '#333' : '#ccc',
+        margin: '0 4px',
+        cursor: 'pointer'
+        }"
+      ></span>
+      }
+    </div>
+  </ng-container>
+  <ng-template #noImages>
+    <div>No hay im\xE1genes v\xE1lidas.</div>
+  </ng-template>
+</div>
 `, styles: ["/* src/app/carousel.component.css */\n.carousel-component {\n  width: 100vw;\n  max-width: 100vw;\n  height: 90vh;\n  max-height: 90vh;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: #fff;\n}\nhtml,\nbody,\n.carousel-component {\n  height: 90vh;\n  min-height: 90vh;\n  max-height: 90vh;\n  margin: 0;\n  padding: 0;\n}\n.carousel-image-wrapper {\n  width: 100vw;\n  height: 90vh;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background: #fff;\n}\n.carousel-image {\n  max-width: 100vw;\n  max-height: 90vh;\n  width: auto;\n  height: auto;\n  display: block;\n  border-radius: 8px;\n  object-fit: contain;\n  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);\n}\n.carousel-controls {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 12px;\n  margin: 12px 0 0 0;\n}\n.carousel-controls button {\n  font-size: 1.5rem;\n  background: #f5f5f5;\n  border: 1px solid #ccc;\n  border-radius: 50%;\n  width: 44px;\n  height: 44px;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.carousel-controls button:hover {\n  background: #e0e0e0;\n}\n.carousel-index-indicator {\n  position: absolute;\n  top: 12px;\n  right: 24px;\n  background: rgba(0, 0, 0, 0.5);\n  color: #fff;\n  padding: 4px 12px;\n  border-radius: 16px;\n  font-size: 1.1rem;\n  z-index: 10;\n  -webkit-user-select: none;\n  user-select: none;\n}\n.carousel-paused-indicator {\n  margin-left: 16px;\n  color: #d32f2f;\n  font-weight: bold;\n  font-size: 1.2rem;\n  display: flex;\n  align-items: center;\n  gap: 4px;\n}\n/*# sourceMappingURL=carousel.component-MS3QTCBR.css.map */\n"] }]
   }], () => [{ type: ActivatedRoute }], { interval: [{
     type: Input
@@ -125358,7 +126000,7 @@ var DrinkWaterComponent = class _DrinkWaterComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DrinkWaterComponent, [{
     type: Component,
-    args: [{ selector: "drink-water", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<span class="drink-water-widget">\r\n  <button (click)="showDialog()" title="Click to view configuration">\r\n    configure\r\n  </button>\r\n</span>\r\n\r\n<dialog id="reminders-dialog">\r\n  <strong>Reminders</strong>\r\n  <br />\r\n\r\n  <table>\r\n    <thead>\r\n      <tr>\r\n        <th>Description</th>\r\n        <th>Start Time</th>\r\n        <th>Schedule</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      @for (item of viewData.reminders; track item) {\r\n      <tr>\r\n        <td>{{ item.title }}</td>\r\n        <td>\r\n          <input type="time" [value]="item.startTimeFormatted" />\r\n        </td>\r\n        <td>\r\n          <input type="text" [value]="item.schedule" />\r\n          <span>{{item.nextOcurrence | date: "yyyy-MM-dd HH:mm" }}</span>\r\n          <button>apply changes</button>\r\n        </td>\r\n      </tr>\r\n      }\r\n    </tbody>\r\n  </table>\r\n\r\n  <br />\r\n  <button (click)="addReminder()">add reminder</button>\r\n  <br />\r\n  <button (click)="launchReminders()">launch reminders</button>\r\n  <br />\r\n  <button (click)="stopReminders()">stop reminders</button>\r\n  <br />\r\n  <button (click)="clearReminderNotifications()">\r\n    clear reminder notifications\r\n  </button>\r\n  <br />\r\n  <button (click)="closeDialog()">close dialog</button>\r\n  <br />\r\n  <br />\r\n  <button (click)="toggleDarkMode()">toggle dark mode</button>\r\n</dialog>\r\n' }]
+    args: [{ selector: "drink-water", providers: [], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<span class="drink-water-widget">\n  <button (click)="showDialog()" title="Click to view configuration">\n    configure\n  </button>\n</span>\n\n<dialog id="reminders-dialog">\n  <strong>Reminders</strong>\n  <br />\n\n  <table>\n    <thead>\n      <tr>\n        <th>Description</th>\n        <th>Start Time</th>\n        <th>Schedule</th>\n      </tr>\n    </thead>\n    <tbody>\n      @for (item of viewData.reminders; track item) {\n      <tr>\n        <td>{{ item.title }}</td>\n        <td>\n          <input type="time" [value]="item.startTimeFormatted" />\n        </td>\n        <td>\n          <input type="text" [value]="item.schedule" />\n          <span>{{item.nextOcurrence | date: "yyyy-MM-dd HH:mm" }}</span>\n          <button>apply changes</button>\n        </td>\n      </tr>\n      }\n    </tbody>\n  </table>\n\n  <br />\n  <button (click)="addReminder()">add reminder</button>\n  <br />\n  <button (click)="launchReminders()">launch reminders</button>\n  <br />\n  <button (click)="stopReminders()">stop reminders</button>\n  <br />\n  <button (click)="clearReminderNotifications()">\n    clear reminder notifications\n  </button>\n  <br />\n  <button (click)="closeDialog()">close dialog</button>\n  <br />\n  <br />\n  <button (click)="toggleDarkMode()">toggle dark mode</button>\n</dialog>\n' }]
   }], () => [{ type: NotificationService }], null);
 })();
 (() => {
@@ -125437,7 +126079,7 @@ var SyncComponent = class _SyncComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(SyncComponent, [{
     type: Component,
-    args: [{ selector: "sync", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<span>\r\n  @if (viewData.showCheckIcon) {\r\n  <span>&#10003;</span>\r\n  }\r\n  <span>{{ viewData.message }}</span>\r\n  <!--<div *ngFor="let q of viewData.queue">\r\n  [item] => {{ q.action }} | {{ q.entity }} | {{ q.recordNameString }} |\r\n  {{ q.status }}\r\n</div>-->\r\n</span>\r\n' }]
+    args: [{ selector: "sync", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<span>\n  @if (viewData.showCheckIcon) {\n  <span>&#10003;</span>\n  }\n  <span>{{ viewData.message }}</span>\n  <!--<div *ngFor="let q of viewData.queue">\n  [item] => {{ q.action }} | {{ q.entity }} | {{ q.recordNameString }} |\n  {{ q.status }}\n</div>-->\n</span>\n' }]
   }], () => [{ type: SyncAPI }], null);
 })();
 (() => {
@@ -125781,7 +126423,7 @@ var AppComponent = class _AppComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AppComponent, [{
     type: Component,
-    args: [{ selector: "app-root", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<menu></menu>\n<div class="app-container">\n  <router-outlet></router-outlet>\n</div>\n<notification></notification>\n' }]
+    args: [{ selector: "app-root", changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '<menu></menu>\r\n<div class="app-container">\r\n  <router-outlet></router-outlet>\r\n</div>\r\n<notification></notification>\r\n' }]
   }], () => [], null);
 })();
 (() => {
@@ -126381,4 +127023,4 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# sourceMappingURL=main-MWEXREJ5.js.map
+//# sourceMappingURL=main-5UPP7SO3.js.map

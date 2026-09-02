@@ -85,6 +85,8 @@ export class TasksComponent implements OnInit {
     optCollapseFinishedToday: false,
     optCollapseBacklog: false,
     optCollapseClosedTasks: false,
+    optCollapsePinnedTasks: false,
+    optCollapseWorkTasks: false,
     optCollapseReportsWeekDistribution: false,
     optCollapseReportsDayDistribution: false,
     optCollapseQualifiersTotals: false,
@@ -107,6 +109,7 @@ export class TasksComponent implements OnInit {
   public comparisonData: any;
   public nextTasks: any[];
   public pinnedTasks: any[];
+  public workTasks: any[];
   public focusedTask: {
     task: Task;
     element: HTMLElement;
@@ -285,6 +288,7 @@ export class TasksComponent implements OnInit {
     }
     this.nextTasks = [];
     this.pinnedTasks = [];
+    this.workTasks = [];
     this.updateState();
     this.fetchTasks();
     // this.services.tasksCore.computeComparisonData().then((data: any) => this.comparisonData = data);
@@ -422,13 +426,14 @@ export class TasksComponent implements OnInit {
         )
         .filter((t) =>
           this.viewData.selectedFilter === "pinned"
-            ? this.isRecordPinned(t.tsk_id_record) || t.inPinnedToDo
+            ? this.isRecordPinned(t.tsk_id_record) || t.inPinnedToDo || t.inWorkToDo
             : true
         )
         .filter((t) =>
           this.viewData.selectedFilter === "pinned-and-urgent"
             ? this.isRecordPinned(t.tsk_id_record) ||
               t.inPinnedToDo ||
+              t.inWorkToDo ||
               (t.tsk_qualifiers && t.tsk_qualifiers.includes("urgent")) ||
               (t.tsk_qualifiers && t.tsk_qualifiers.includes("critical")) ||
               t.tsk_ctg_in_process === 2
@@ -680,6 +685,10 @@ export class TasksComponent implements OnInit {
     this.projectNextTasksDates();
 
     // Pinned tasks
+    this.tasks.forEach((t: any) => {
+      t["inPinnedToDo"] = false;
+      t["inWorkToDo"] = false;
+    });
     if (this.pinnedTasks.length === 0) {
       this.pinnedTasks.push({
         estimatedDuration: 0,
@@ -689,7 +698,7 @@ export class TasksComponent implements OnInit {
       this.pinnedTasks[0].tasks = [];
     }
     if (this.tasks.length && typeof window.localStorage !== "undefined") {
-      let pinnedTasksIds = JSON.parse(localStorage.getItem("PinnedTasks"));
+      let pinnedTasksIds = JSON.parse(localStorage.getItem("PinnedTasks") || "[]");
       if (pinnedTasksIds) {
         pinnedTasksIds.forEach((id: string) => {
           let nt = this.tasks.find(
@@ -698,11 +707,9 @@ export class TasksComponent implements OnInit {
           );
           if (nt) {
             this.pinnedTasks[0].tasks.push(nt);
-            // add a badge
             nt["inPinnedToDo"] = true;
           }
         });
-        // We set them again to filter out done tasks
         localStorage.setItem(
           "PinnedTasks",
           JSON.stringify(this.pinnedTasks[0].tasks.map((e: any) => e.tsk_id))
@@ -719,6 +726,47 @@ export class TasksComponent implements OnInit {
           (e: any) => e.tsk_id === t.tsk_id
         );
         this.pinnedTasks[0].tasks.splice(index, 1);
+      }
+    });
+
+    // Work tasks
+    if (this.workTasks.length === 0) {
+      this.workTasks.push({
+        estimatedDuration: 0,
+        tasks: [],
+      });
+    } else {
+      this.workTasks[0].tasks = [];
+    }
+    if (this.tasks.length && typeof window.localStorage !== "undefined") {
+      let workTasksIds = JSON.parse(localStorage.getItem("WorkTasks") || "[]");
+      if (workTasksIds) {
+        workTasksIds.forEach((id: string) => {
+          let nt = this.tasks.find(
+            (e: any) =>
+              e.tsk_id === id && e.tsk_ctg_status === this.taskStatus.OPEN
+          );
+          if (nt) {
+            this.workTasks[0].tasks.push(nt);
+            nt["inWorkToDo"] = true;
+          }
+        });
+        localStorage.setItem(
+          "WorkTasks",
+          JSON.stringify(this.workTasks[0].tasks.map((e: any) => e.tsk_id))
+        );
+      }
+    }
+
+    this.workTasks[0].estimatedDuration = 0;
+    this.workTasks[0].tasks.forEach((t: any) => {
+      if (t.tsk_ctg_status === this.taskStatus.OPEN) {
+        this.workTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+      } else {
+        let index = this.workTasks[0].tasks.findIndex(
+          (e: any) => e.tsk_id === t.tsk_id
+        );
+        this.workTasks[0].tasks.splice(index, 1);
       }
     });
 
@@ -948,6 +996,10 @@ export class TasksComponent implements OnInit {
       // detect 'p'
       this.togglePinnedToDo(t);
     }
+    if (event.altKey && event.key === "w") {
+      // detect 'w'
+      this.toggleWorkToDo(t);
+    }
     if (event.altKey && event.keyCode == 84) {
       // detect 't'
       this.adjustTimeTracking(t, true);
@@ -1097,6 +1149,38 @@ export class TasksComponent implements OnInit {
     }
     if (!event.altKey && event.keyCode == 40) {
       // detect jump down
+      this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
+    }
+  }
+
+  /**
+   * Jumps cursor up and below the current task in the work task listing
+   * modifying order based in localStorage saved work tasks.
+   * @param event keyboard event to handle
+   */
+  workTaskKeyDown(event: KeyboardEvent) {
+    const parent = event.target["parentNode"];
+
+    if (event.altKey && event.keyCode == 38) {
+      this.taskMoveUp(parent, (t1, t2) => this.interchangeWorkTaskOrder(t1, t2));
+      setTimeout(() => {
+        this.focusElement(
+          `#workToDoList #${parent.id} span.task-text[contenteditable=true]`
+        );
+      }, 100);
+    }
+    if (event.altKey && event.keyCode == 40) {
+      this.taskMoveDown(parent, (t1, t2) => this.interchangeWorkTaskOrder(t1, t2));
+      if (parent.nextElementSibling && parent.nextElementSibling.id) {
+        this.focusElement(
+          `#workToDoList #${parent.id} span.task-text[contenteditable=true]`
+        );
+      }
+    }
+    if (!event.altKey && event.keyCode == 38) {
+      this.taskJumpUp(parent, "span.task-text[contenteditable=true]");
+    }
+    if (!event.altKey && event.keyCode == 40) {
       this.taskJumpDown(parent, "span.task-text[contenteditable=true]");
     }
   }
@@ -1302,6 +1386,29 @@ export class TasksComponent implements OnInit {
 
     // update localStorage
     localStorage.setItem("PinnedTasks", JSON.stringify(currentPinnedTasks));
+  }
+
+  /**
+   * Interchanges tasks order and updates it in the work tasks listing.
+   * @param tsk_id1 task id to be interchanged
+   * @param tsk_id2 task id to be interchanged
+   */
+  interchangeWorkTaskOrder(tsk_id1: string, tsk_id2: string) {
+    let currentWorkTasks =
+      localStorage && JSON.parse(localStorage.getItem("WorkTasks") || "[]");
+
+    let index1 = currentWorkTasks.findIndex((e) => e === tsk_id1);
+    let index2 = currentWorkTasks.findIndex((e) => e === tsk_id2);
+    [currentWorkTasks[index1], currentWorkTasks[index2]] = [
+      currentWorkTasks[index2],
+      currentWorkTasks[index1],
+    ];
+    [this.workTasks[0].tasks[index1], this.workTasks[0].tasks[index2]] = [
+      this.workTasks[0].tasks[index2],
+      this.workTasks[0].tasks[index1],
+    ];
+
+    localStorage.setItem("WorkTasks", JSON.stringify(currentWorkTasks));
   }
 
   taskJumpUp(current: any, selector: string) {
@@ -3411,6 +3518,25 @@ export class TasksComponent implements OnInit {
     );
   }
 
+  toggleWorkToDo(t: any) {
+    let p = this.workTasks[0].tasks;
+    let index = p.findIndex((e: any) => e.tsk_id === t.tsk_id);
+    if (index === -1) {
+      p.push(t);
+      this.workTasks[0].estimatedDuration += t.tsk_estimated_duration * 60;
+      t["inWorkToDo"] = true;
+    } else {
+      p.splice(index, 1);
+      this.workTasks[0].estimatedDuration -= t.tsk_estimated_duration * 60;
+      t["inWorkToDo"] = false;
+    }
+
+    localStorage.setItem(
+      "WorkTasks",
+      JSON.stringify(p.map((e: any) => e.tsk_id))
+    );
+  }
+
   setTaskNotes(task: any, event: KeyboardEvent) {
     const newNotes = event.target["value"];
 
@@ -3673,6 +3799,19 @@ export class TasksComponent implements OnInit {
     localStorage.setItem(
       "PinnedTasks",
       JSON.stringify(this.pinnedTasks[0].tasks.map((e: any) => e.tsk_id))
+    );
+  }
+
+  clearWorkTasks() {
+    this.workTasks = [];
+    this.workTasks.push({
+      estimatedDuration: 0,
+      tasks: [],
+    });
+
+    localStorage.setItem(
+      "WorkTasks",
+      JSON.stringify(this.workTasks[0].tasks.map((e: any) => e.tsk_id))
     );
   }
 
