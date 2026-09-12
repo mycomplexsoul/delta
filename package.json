@@ -72,7 +72,7 @@
     "express": "4.22.2",
     "html2canvas": "^1.0.0-rc.5",
     "jsonwebtoken": "^9.0.0",
-    "jspdf": "^3.0.1",
+    "jspdf": "^4.2.1",
     "mysql": "2.18.1",
     "ng2-charts": "5.0.4",
     "nodemailer": "6.9.13",
