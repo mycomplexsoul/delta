@@ -72,6 +72,7 @@ import { TasksCore } from "./task/tasks.core";
 import { TaskCore } from "./task/task.core";
 import { TaskToolbarComponent } from "./task/task-toolbar.component";
 import { StopwatchComponent } from "./task/Stopwatch.component";
+import { TaskLengthWarningComponent } from "./task/task-length-warning.component";
 import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.component";
 
 @NgModule({
@@ -80,6 +81,7 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
     TasksComponent,
     TaskComponent,
     TaskToolbarComponent,
+    TaskLengthWarningComponent,
     AccountComponent,
     MovementComponent,
     BalanceComponent,

@@ -61,7 +61,8 @@ export class SyncCustom {
     let resultPromiseList: any[] = [];
 
     queue.forEach((q: syncItem) => {
-      if (q.status !== "queue") { //TODO: is this really needed? deprecate status in request, process everything
+      if (q.status !== "queue") {
+        //TODO: is this really needed? deprecate status in request, process everything
         return false;
       }
 
@@ -90,26 +91,52 @@ export class SyncCustom {
         return false;
       }
 
-      const result: Promise<any> = q.server[q.action](q.model, q.pk);
-      resultPromiseList.push(result);
-      console.log("-- [SyncCustom.syncAll] Promise triggered");
+      // Call the server action and push a wrapped promise that ensures q.result is set
+      const result: Promise<any> = q.server[q.action](q.model, q.pk)
+        .then(
+          (response: {
+            success: boolean;
+            message: string;
+            data?: any;
+            pk: any;
+          }) => {
+            console.log(
+              "-- [SyncCustom.syncAll] Promise resolved for entity",
+              q.entity
+            );
+            response.pk = q.pk;
 
-      result.then(
-        (response: {
-          success: boolean;
-          message: string;
-          data?: any;
-          pk: any;
-        }) => {
-          console.log("-- [SyncCustom.syncAll] Promise resolved");
-          response.pk = q.pk;
+            if (q.callback) {
+              try {
+                q.callback(response);
+              } catch (cbErr) {
+                console.error("callback error", cbErr);
+              }
+            }
 
-          if (q.callback) { // TODO: is this needed? if so, add it to the contract
-            q.callback(response);
+            q.result = response;
+            return response;
           }
+        )
+        .catch((err) => {
+          console.error(
+            "-- [SyncCustom.syncAll] Promise rejected for entity",
+            q.entity,
+            err
+          );
+          // Ensure we set a result entry for this queue item to avoid undefined/null in final map
+          q.result = {
+            success: false,
+            message: err && err.message ? err.message : "sync action failed",
+            pk: q.pk,
+          };
+          return q.result;
+        });
 
-          q.result = response;
-        }
+      resultPromiseList.push(result);
+      console.log(
+        "-- [SyncCustom.syncAll] Promise triggered for entity",
+        q.entity
       );
     });
 

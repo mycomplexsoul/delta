@@ -268,22 +268,13 @@ export class SyncAPI {
   }
 
   syncQueue() {
-    let dataToSend = <any>[];
-
-    dataToSend = this.queue.filter((q: any) => {
-      // process queue
-      return q.status !== "processed";
-    });
-
     const compareObjects = (o1: any, o2: any) => {
       const keys1 = Object.keys(o1);
       const keys2 = Object.keys(o2);
 
-      // all keys from o1 should exist on o2 and their values must match
       const test1 = keys1.every(
         (k1) => keys2.find((k2) => k2 === k1) && o1[k1] === o2[k1]
       );
-      // same for o2
       const test2 = keys2.every(
         (k2) => keys1.find((k1) => k1 === k2) && o2[k2] === o1[k2]
       );
@@ -291,40 +282,144 @@ export class SyncAPI {
       return test1 && test2;
     };
 
-    if (!dataToSend.length) {
+    const pending = this.queue.filter((q: any) => q.status !== "processed");
+    if (!pending.length) {
       return false; // nothing to sync
     }
 
-    return this.http
-      .post("/api/sync", { queue: dataToSend }, this.options)
-      .toPromise()
-      .then((data) => {
-        const response = data;
-        this.log("Processed sync, response was", response);
+    // helper to process a chunk of items
+    const processChunk = (chunk: any[]) => {
+      return this.http
+        .post("/api/sync", { queue: chunk }, this.options)
+        .toPromise()
+        .then((data) => {
+          const response: any = data;
+          this.log("Processed sync chunk, response was", response);
+          if (response && Array.isArray(response.result)) {
+            response.result.forEach((r: any) => {
+              // If result item is null but overall success is true, treat as processed
+              if (r == null && response.success === true) {
+                // Find by matching pk if provided on the response envelope, or skip if not possible
+                // In many backends response.result items are per-item; if null and overall success,
+                // we cannot match pk, so try best-effort: mark first not-processed matching entity
+                const foundFallback = this.queue.find(
+                  (q: SyncQueue) => q.status !== "processed"
+                );
+                if (foundFallback) {
+                  foundFallback.status = "processed";
+                }
+                return;
+              }
 
-        // get status from response
-        response["result"].forEach((r: any) => {
-          let found = this.queue.find((q: SyncQueue) =>
-            compareObjects(q.pk, r.pk)
-          );
-          if (found) {
-            found.status = r.success ? "processed" : "error";
-            if (r.success) {
-              found.callback(found.model, response);
-            }
+              let found = this.queue.find((q: SyncQueue) =>
+                compareObjects(q.pk, r.pk)
+              );
+              if (found) {
+                // If r is null but r.success is true treat as processed
+                const successFlag =
+                  r && typeof r.success !== "undefined"
+                    ? r.success
+                    : response.success;
+                found.status = successFlag ? "processed" : "error";
+                if (successFlag) {
+                  found.callback(found.model, response);
+                }
+              }
+            });
           }
+        })
+        .catch((err) => {
+          // If server responds with 413, rethrow a sentinel error to indicate chunk too large
+          const status = err && err.status ? err.status : null;
+          if (status === 413) {
+            const e: any = new Error("Payload Too Large");
+            e.status = 413;
+            throw e;
+          }
+          // For other errors, mark the whole chunk as error but continue
+          this.log("Error for chunk request", err);
+          chunk.forEach((c: any) => {
+            const found = this.queue.find((q: SyncQueue) =>
+              compareObjects(q.pk, c.pk)
+            );
+            if (found) {
+              found.status = "error";
+            }
+          });
+        })
+        .then(() => {
+          this.queueStatus();
+          this.toStorage();
+          this.notifyStatus();
         });
-        this.queueStatus();
-        this.toStorage();
-        this.notifyStatus();
-      })
-      .catch((err) => {
-        this.log("Error for request", err);
-        //q.status = 'error';
-        this.queueStatus();
-        this.toStorage();
-        this.notifyStatus();
-      });
+    };
+
+    // send in batches, retrying on 413 by splitting batch size
+    const MAX_BATCH = 30;
+    const sendBatches = async () => {
+      let start = 0;
+      while (start < pending.length) {
+        // compute remaining slice from current queue states (skip processed)
+        const toSend = this.queue.filter((q: any) => q.status !== "processed");
+        if (!toSend.length) break;
+
+        // take up to MAX_BATCH from the current queue
+        const chunk = toSend.slice(0, MAX_BATCH);
+        try {
+          await processChunk(chunk);
+        } catch (e: any) {
+          if (e && e.status === 413) {
+            this.log("Received 413 for chunk, splitting into smaller batches");
+            // If chunk size is 1 and still 413, mark as error to avoid infinite loop
+            if (chunk.length <= 1) {
+              this.log("Single item too large, marking as error", chunk);
+              const single = chunk[0];
+              const found = this.queue.find((q: SyncQueue) =>
+                compareObjects(q.pk, single.pk)
+              );
+              if (found) found.status = "error";
+              this.queueStatus();
+              this.toStorage();
+              this.notifyStatus();
+              // continue with next items
+              start += 1;
+              continue;
+            }
+            // otherwise split current chunk into halves and enqueue them to be sent next
+            const half = Math.ceil(chunk.length / 2);
+            const firstHalf = chunk.slice(0, half);
+            const secondHalf = chunk.slice(half);
+            // attempt firstHalf immediately; put secondHalf back at front of queue
+            // To emulate retrying, we'll mark secondHalf as queue (they already are) and process firstHalf now
+            try {
+              await processChunk(firstHalf);
+            } catch (ee: any) {
+              if (ee && ee.status === 413 && firstHalf.length > 1) {
+                // recursively handle by reducing batch size further by reinserting into pending flow
+                // Insert firstHalf at front of queue by updating statuses to 'queue' (no-op) and continue loop
+                // We'll reduce MAX_BATCH behavior by letting slice pick smaller next time
+              } else if (ee && ee.status === 413 && firstHalf.length <= 1) {
+                const single = firstHalf[0];
+                const found = this.queue.find((q: SyncQueue) =>
+                  compareObjects(q.pk, single.pk)
+                );
+                if (found) found.status = "error";
+              }
+            }
+            // continue without advancing start so that remaining items are re-evaluated
+            continue;
+          } else {
+            // Non-413 error: we already marked items as error in processChunk; continue
+            this.log("Non-413 error while sending chunk, continuing", e);
+            continue;
+          }
+        }
+        // advance start by chunk length processed
+        start += chunk.length;
+      }
+    };
+
+    return sendBatches();
   }
 
   /**

@@ -18,7 +18,11 @@ import { TextToSpeech } from "../common/speechRecognition";
 import { autogrowSetup } from "../common/autogrow";
 // format dates used in charts
 import "chartjs-adapter-date-fns";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Chart } from "chart.js";
 import { Utils } from "../../crosscommon/Utility";
+
+Chart.register(ChartDataLabels);
 
 @Component({
   selector: "tasks",
@@ -123,12 +127,22 @@ export class TasksComponent implements OnInit {
   public selectedTask: Task = null;
   public selectedRecord: Task[] = [];
   public differenceLastClosedToRealTime: number = 0;
+  public readonly textLengthWarningThreshold: number = 100;
+  public readonly taskNameMaxLength: number = 500;
+  public liveTextLengthByTask: { [tsk_id: string]: any } = {};
   speech = new TextToSpeech();
 
   public viewData: {
     selectedFilter: string;
     pinnedRecords: Array<string>;
     dayDistributionChart: {
+      chartData: any[];
+      chartLabels: string[];
+      chartOptions: any;
+      chartLegend: boolean;
+      chartType: string;
+    };
+    allOpenCountChart: {
       chartData: any[];
       chartLabels: string[];
       chartOptions: any;
@@ -161,6 +175,58 @@ export class TasksComponent implements OnInit {
       },
       chartLegend: true,
       chartType: "bar",
+    },
+    allOpenCountChart: {
+      chartData: [{ data: [] }],
+      chartLabels: [],
+      chartOptions: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: "Open tasks",
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: "Day",
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+          },
+          tooltip: {
+            enabled: true,
+          },
+          datalabels: {
+            display: true,
+            align: "top",
+            anchor: "end",
+            formatter: (value: number, context: any) => {
+              const data = context.chart.data.datasets[0].data;
+              const index = context.dataIndex;
+              if (index === 0) {
+                return `${value}`;
+              }
+              const previousValue = data[index - 1];
+              const diff = value - previousValue;
+              const sign = diff >= 0 ? "+" : "";
+              return `${value} (${sign}${diff})`;
+            },
+            color: "#333",
+            font: {
+              weight: "bold",
+            },
+          },
+        },
+      },
+      chartLegend: true,
+      chartType: "line",
     },
     nextToDoCutlineForAddedTasks: 0,
   };
@@ -586,9 +652,24 @@ export class TasksComponent implements OnInit {
     }
 
     const applyIndicatorDerivedState = () => {
-      this.configChartOpenCountEOD.data =
-        this.state.indicators.find((i) => i.name === "All Open Count")
-          ?.values || [];
+      const allOpenCountIndicator = this.state.indicators.find(
+        (i) => i.name === "All Open Count"
+      );
+      this.configChartOpenCountEOD.data = allOpenCountIndicator?.values || [];
+      this.viewData.allOpenCountChart.chartLabels =
+        this.state.indicatorLabels || [];
+      this.viewData.allOpenCountChart.chartData = allOpenCountIndicator
+        ? [
+            {
+              label: "All Open Count",
+              data: allOpenCountIndicator.values,
+              fill: false,
+              borderColor: "#3f51b5",
+              backgroundColor: "rgba(63, 81, 181, 0.2)",
+              tension: 0.2,
+            },
+          ]
+        : [{ data: [] }];
 
       // use added count for today to add a line in next to do section
       const addedToday = this.state.indicators.find(
@@ -706,7 +787,9 @@ export class TasksComponent implements OnInit {
       this.pinnedTasks[0].tasks = [];
     }
     if (this.tasks.length && typeof window.localStorage !== "undefined") {
-      let pinnedTasksIds = JSON.parse(localStorage.getItem("PinnedTasks") || "[]");
+      let pinnedTasksIds = JSON.parse(
+        localStorage.getItem("PinnedTasks") || "[]"
+      );
       if (pinnedTasksIds) {
         pinnedTasksIds.forEach((id: string) => {
           let nt = this.tasks.find(
@@ -788,7 +871,9 @@ export class TasksComponent implements OnInit {
       this.todayTasks[0].tasks = [];
     }
     if (this.tasks.length && typeof window.localStorage !== "undefined") {
-      let todayTasksIds = JSON.parse(localStorage.getItem("TodayTasks") || "[]");
+      let todayTasksIds = JSON.parse(
+        localStorage.getItem("TodayTasks") || "[]"
+      );
       if (todayTasksIds) {
         todayTasksIds.forEach((id: string) => {
           let nt = this.tasks.find(
@@ -927,7 +1012,61 @@ export class TasksComponent implements OnInit {
     this.taskToggleTimeTracking(t, parent);
   }
 
+  getTextLengthStatus(
+    text: string | null | undefined,
+    maxLength: number
+  ): {
+    length: number;
+    maxLength: number;
+    remaining: number;
+    visible: boolean;
+    isWarning: boolean;
+    isExceeded: boolean;
+  } {
+    const length = (text ?? "").length;
+    const remaining = maxLength - length;
+    const isExceeded = length > maxLength;
+    const isWarning =
+      length >= maxLength - this.textLengthWarningThreshold || isExceeded;
+
+    return {
+      length,
+      maxLength,
+      remaining,
+      visible: isWarning,
+      isWarning,
+      isExceeded,
+    };
+  }
+
+  getTaskNameLengthStatus(task: Task | null | undefined) {
+    if (!task) {
+      return this.getTextLengthStatus("", this.taskNameMaxLength);
+    }
+
+    const currentText =
+      this.liveTextLengthByTask[task.tsk_id]?.text ?? task.tsk_name ?? "";
+    return this.getTextLengthStatus(currentText, this.taskNameMaxLength);
+  }
+
+  updateTaskLengthStatus(
+    taskId: string,
+    rawText: string | null | undefined,
+    maxLength: number
+  ) {
+    const status = this.getTextLengthStatus(rawText, maxLength);
+    this.liveTextLengthByTask[taskId] = {
+      ...status,
+      text: rawText ?? "",
+    };
+    return status;
+  }
+
   taskEdit(t: Task, event: KeyboardEvent) {
+    const rawText =
+      (event.target as HTMLElement | null)?.textContent ?? t.tsk_name ?? "";
+    this.updateTaskLengthStatus(t.tsk_id, rawText, this.taskNameMaxLength);
+
     let parent = event.target["parentNode"];
 
     const optIncludesKey = (key: string, options: string | string[]) => {
@@ -1215,7 +1354,9 @@ export class TasksComponent implements OnInit {
     const parent = event.target["parentNode"];
 
     if (event.altKey && event.keyCode == 38) {
-      this.taskMoveUp(parent, (t1, t2) => this.interchangeWorkTaskOrder(t1, t2));
+      this.taskMoveUp(parent, (t1, t2) =>
+        this.interchangeWorkTaskOrder(t1, t2)
+      );
       setTimeout(() => {
         this.focusElement(
           `#workToDoList #${parent.id} span.task-text[contenteditable=true]`
@@ -1223,7 +1364,9 @@ export class TasksComponent implements OnInit {
       }, 100);
     }
     if (event.altKey && event.keyCode == 40) {
-      this.taskMoveDown(parent, (t1, t2) => this.interchangeWorkTaskOrder(t1, t2));
+      this.taskMoveDown(parent, (t1, t2) =>
+        this.interchangeWorkTaskOrder(t1, t2)
+      );
       if (parent.nextElementSibling && parent.nextElementSibling.id) {
         this.focusElement(
           `#workToDoList #${parent.id} span.task-text[contenteditable=true]`
@@ -1247,7 +1390,9 @@ export class TasksComponent implements OnInit {
     const parent = event.target["parentNode"];
 
     if (event.altKey && event.keyCode == 38) {
-      this.taskMoveUp(parent, (t1, t2) => this.interchangeTodayTaskOrder(t1, t2));
+      this.taskMoveUp(parent, (t1, t2) =>
+        this.interchangeTodayTaskOrder(t1, t2)
+      );
       setTimeout(() => {
         this.focusElement(
           `#todayToDoList #${parent.id} span.task-text[contenteditable=true]`
@@ -1255,7 +1400,9 @@ export class TasksComponent implements OnInit {
       }, 100);
     }
     if (event.altKey && event.keyCode == 40) {
-      this.taskMoveDown(parent, (t1, t2) => this.interchangeTodayTaskOrder(t1, t2));
+      this.taskMoveDown(parent, (t1, t2) =>
+        this.interchangeTodayTaskOrder(t1, t2)
+      );
       if (parent.nextElementSibling && parent.nextElementSibling.id) {
         this.focusElement(
           `#todayToDoList #${parent.id} span.task-text[contenteditable=true]`
@@ -3254,6 +3401,15 @@ export class TasksComponent implements OnInit {
     let days: Array<Date> = [];
     let dayLabels: Array<String> = [];
     let nextDay: Date;
+    for (let i = 1; i < 7; i++) {
+      nextDay = this.services.dateUtils.addDays(today0, 1 * i);
+      if (this.dayHasActivity(nextDay)) {
+        days.push(nextDay);
+        dayLabels.push(i === 1 ? "Tomorrow" : `+${i}d`);
+      }
+    }
+    days.reverse();
+    dayLabels.reverse();
     for (let i = 0; i < 7; i++) {
       nextDay = this.services.dateUtils.addDays(today0, -1 * i);
       if (this.dayHasActivity(nextDay)) {
@@ -3721,76 +3877,34 @@ export class TasksComponent implements OnInit {
   }
 
   adjustTimeTracking(t: Task, triggerUpdateTask: boolean) {
-    let randomDiff = 6;
-    // try peeking into 3 days ahead if any ;-)
-    let tt = this.lastTTEntryFromDay(
-      this.services.dateUtils.dateOnly(
-        this.services.dateUtils.addDays(new Date(), 3)
-      )
+    let randomDiff = 2;
+    let daysAhead = 0;
+    const MAX_DAYS_BEHIND = -4;
+    const MAX_DAYS_FORWARD = 6;
+
+    const daysCollection: number[] = Array.from(
+      { length: MAX_DAYS_FORWARD - MAX_DAYS_BEHIND },
+      (_, index) => MAX_DAYS_FORWARD - index
     );
-    if (!tt) {
-      // no task 3 days ahead, try 2 days ahead
-      tt = this.lastTTEntryFromDay(
+
+    let tt: Date | null = null;
+    daysCollection.find((day: number) => {
+      let foundTT = this.lastTTEntryFromDay(
         this.services.dateUtils.dateOnly(
-          this.services.dateUtils.addDays(new Date(), 2)
+          this.services.dateUtils.addDays(new Date(), day)
         )
       );
-      randomDiff = 5;
-    }
-    if (!tt) {
-      // no task 2 days ahead, try tomorrow
-      tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(
-          this.services.dateUtils.addDays(new Date(), 1)
-        )
-      );
-      randomDiff = 4;
-    }
-    if (!tt) {
-      // no task tomorrow, try today
-      tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(new Date())
-      );
-      randomDiff = 3;
-    }
-    if (!tt) {
-      // no task today, try yesterday
-      tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(
-          this.services.dateUtils.addDays(new Date(), -1)
-        )
-      );
-      randomDiff = 2;
-    }
-    if (!tt) {
-      // no task today, try 2 days earlier
-      tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(
-          this.services.dateUtils.addDays(new Date(), -2)
-        )
-      );
-      randomDiff = 2;
-    }
-    if (!tt) {
-      // no task, try 3 days earlier
-      tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(
-          this.services.dateUtils.addDays(new Date(), -3)
-        )
-      );
-      randomDiff = 1;
-    }
-    if (!tt) {
-      // no task, try 4 days earlier
-      tt = this.lastTTEntryFromDay(
-        this.services.dateUtils.dateOnly(
-          this.services.dateUtils.addDays(new Date(), -4)
-        )
-      );
-      randomDiff = 1;
-    }
+      if (foundTT) {
+        daysAhead = day;
+        tt = foundTT;
+        return true;
+      }
+      return false;
+    });
+
     const calcRandomFinish = (estimated: number) =>
-      (estimated - randomDiff) * 60 + Math.floor(Math.random() * 10 * 6);
+      (estimated - randomDiff - (daysAhead > 0 ? daysAhead : 0)) * 60 +
+      Math.floor(Math.random() * 10 * 6);
     if (tt && t["tsk_time_history"].length) {
       // task with history
       t["tsk_time_history"][t["tsk_time_history"].length - 1].tsh_date_start =
@@ -4028,8 +4142,9 @@ export class TasksComponent implements OnInit {
     const isPinned = this.viewData.pinnedRecords.find((p) => p === recordName);
 
     if (
-      (isPinned || this.options.optUseColumnsForRecords) &&
-      attribute === "height"
+      ((isPinned || this.options.optUseColumnsForRecords) &&
+        attribute === "height") ||
+      this.options.optGridLayout === "Grid Lanes"
     ) {
       return "initial";
     }

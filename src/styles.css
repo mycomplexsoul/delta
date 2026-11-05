@@ -684,6 +684,24 @@ link {
   text-align: center;
 }
 
+.inline-loader {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgb(0 0 0 / 15%);
+  border-top-color: #0d6efd;
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: inline-loader-spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes inline-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .margin-all-0 {
   margin: 0;
 }
@@ -752,6 +770,8 @@ link {
 }
 
 #nextToDoTodayList .task-record,
+#todayToDoList .task-record,
+#workToDoList .task-record,
 #pinnedToDoTodayList .task-record {
   max-width: 100%;
   max-height: none;

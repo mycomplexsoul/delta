@@ -124,6 +124,15 @@ export class DrinkWaterComponent implements OnInit {
         startTimeFormatted: null,
         timeoutReference: null,
       },
+      {
+        title: "Update Lili notes",
+        startTime: 10 * 60 + 25,
+        started: false,
+        schedule: 60,
+        nextOcurrence: null,
+        startTimeFormatted: null,
+        timeoutReference: null,
+      },
     ],
   };
 

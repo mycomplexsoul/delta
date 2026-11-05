@@ -408,10 +408,10 @@ var require_shared_store = __commonJS({
     var SHARED = "__core-js_shared__";
     var store = module.exports = globalThis2[SHARED] || defineGlobalProperty(SHARED, {});
     (store.versions || (store.versions = [])).push({
-      version: "3.49.0",
+      version: "3.50.0",
       mode: IS_PURE ? "pure" : "global",
       copyright: "\xA9 2013\u20132025 Denis Pushkarev (zloirock.ru), 2025\u20132026 CoreJS Company (core-js.io). All rights reserved.",
-      license: "https://github.com/zloirock/core-js/blob/v3.49.0/LICENSE",
+      license: "https://github.com/zloirock/core-js/blob/v3.50.0/LICENSE",
       source: "https://github.com/zloirock/core-js"
     });
   }
@@ -422,8 +422,9 @@ var require_shared = __commonJS({
   "node_modules/core-js/internals/shared.js"(exports, module) {
     "use strict";
     var store = require_shared_store();
+    var create = Object.create || Object;
     module.exports = function(key, value) {
-      return store[key] || (store[key] = value || {});
+      return store[key] || (store[key] = value || create(null));
     };
   }
 });
@@ -2161,7 +2162,7 @@ var require_es_promise_constructor = __commonJS({
 var require_iterators = __commonJS({
   "node_modules/core-js/internals/iterators.js"(exports, module) {
     "use strict";
-    module.exports = {};
+    module.exports = Object.create ? /* @__PURE__ */ Object.create(null) : {};
   }
 });
 
@@ -2179,35 +2180,35 @@ var require_is_array_iterator_method = __commonJS({
   }
 });
 
-// node_modules/core-js/internals/get-iterator-method.js
-var require_get_iterator_method = __commonJS({
-  "node_modules/core-js/internals/get-iterator-method.js"(exports, module) {
+// node_modules/core-js/internals/get-iterator-method-internal.js
+var require_get_iterator_method_internal = __commonJS({
+  "node_modules/core-js/internals/get-iterator-method-internal.js"(exports, module) {
     "use strict";
-    var classof = require_classof();
-    var getMethod = require_get_method();
+    var classof = require_classof_raw();
     var isNullOrUndefined = require_is_null_or_undefined();
-    var Iterators = require_iterators();
+    var getMethod = require_get_method();
     var wellKnownSymbol = require_well_known_symbol();
     var ITERATOR = wellKnownSymbol("iterator");
+    var ArrayPrototype = Array.prototype;
     module.exports = function(it) {
-      if (!isNullOrUndefined(it)) return getMethod(it, ITERATOR) || getMethod(it, "@@iterator") || Iterators[classof(it)];
+      if (!isNullOrUndefined(it)) return getMethod(it, ITERATOR) || getMethod(it, "@@iterator") || (classof(it) === "Arguments" ? ArrayPrototype[ITERATOR] : void 0);
     };
   }
 });
 
-// node_modules/core-js/internals/get-iterator.js
-var require_get_iterator = __commonJS({
-  "node_modules/core-js/internals/get-iterator.js"(exports, module) {
+// node_modules/core-js/internals/get-iterator-internal.js
+var require_get_iterator_internal = __commonJS({
+  "node_modules/core-js/internals/get-iterator-internal.js"(exports, module) {
     "use strict";
     var call = require_function_call();
-    var aCallable = require_a_callable();
+    var isCallable = require_is_callable();
     var anObject = require_an_object();
     var tryToString = require_try_to_string();
-    var getIteratorMethod = require_get_iterator_method();
+    var getIteratorMethod = require_get_iterator_method_internal();
     var $TypeError = TypeError;
     module.exports = function(argument, usingIterator) {
       var iteratorMethod = arguments.length < 2 ? getIteratorMethod(argument) : usingIterator;
-      if (aCallable(iteratorMethod)) return anObject(call(iteratorMethod, argument));
+      if (isCallable(iteratorMethod)) return anObject(call(iteratorMethod, argument));
       throw new $TypeError(tryToString(argument) + " is not iterable");
     };
   }
@@ -2253,8 +2254,8 @@ var require_iterate = __commonJS({
     var isArrayIteratorMethod = require_is_array_iterator_method();
     var lengthOfArrayLike = require_length_of_array_like();
     var isPrototypeOf = require_object_is_prototype_of();
-    var getIterator = require_get_iterator();
-    var getIteratorMethod = require_get_iterator_method();
+    var getIterator = require_get_iterator_internal();
+    var getIteratorMethod = require_get_iterator_method_internal();
     var iteratorClose = require_iterator_close();
     var $TypeError = TypeError;
     var Result = function(stopped, result) {
@@ -3060,7 +3061,9 @@ var require_es_string_match = __commonJS({
         function match(regexp) {
           var O2 = requireObjectCoercible(this);
           var matcher = isObject(regexp) ? getMethod(regexp, MATCH) : void 0;
-          return matcher ? call(matcher, regexp, O2) : new RegExp(regexp)[MATCH](toString(O2));
+          if (matcher) return call(matcher, regexp, O2);
+          var S = toString(O2);
+          return new RegExp(regexp)[MATCH](S);
         },
         // `RegExp.prototype[@@match]` method
         // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
@@ -10475,4 +10478,5 @@ export {
   vectorsAngle,
   vectorsRatio
 };
-//# sourceMappingURL=chunk-XXTYNOUF.js.map
+//# debugId=cc45db3d-995e-5372-932b-3782a386c3e2
+//# sourceMappingURL=chunk-LI76K3FA.js.map

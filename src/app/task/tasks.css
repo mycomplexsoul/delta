@@ -55,8 +55,26 @@ span.task-q-progressed {
 }
 /* #endregion */
 
-.task-record-collapsed {
+.task-char-counter {
   display: inline-block;
+  margin-left: 4px;
+  font-size: 0.72em;
+  font-weight: 600;
+  opacity: 0.9;
+  vertical-align: middle;
+}
+
+.task-char-counter-warning {
+  color: #c77d12;
+}
+
+.task-char-counter-exceeded {
+  color: #b42318;
+}
+
+.task-record-collapsed {
+  display: inline-flex;
+  flex-wrap: wrap;
 }
 
 .task-record-use-columns {
