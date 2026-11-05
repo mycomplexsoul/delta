@@ -1,6 +1,6 @@
 import {
-  _defineProperty
-} from "./chunk-REKUOEC5.js";
+  _typeof
+} from "./chunk-7YWLATDR.js";
 import {
   __commonJS,
   __toESM
@@ -408,10 +408,10 @@ var require_shared_store = __commonJS({
     var SHARED = "__core-js_shared__";
     var store = module.exports = globalThis2[SHARED] || defineGlobalProperty(SHARED, {});
     (store.versions || (store.versions = [])).push({
-      version: "3.49.0",
+      version: "3.50.0",
       mode: IS_PURE ? "pure" : "global",
       copyright: "\xA9 2013\u20132025 Denis Pushkarev (zloirock.ru), 2025\u20132026 CoreJS Company (core-js.io). All rights reserved.",
-      license: "https://github.com/zloirock/core-js/blob/v3.49.0/LICENSE",
+      license: "https://github.com/zloirock/core-js/blob/v3.50.0/LICENSE",
       source: "https://github.com/zloirock/core-js"
     });
   }
@@ -422,8 +422,9 @@ var require_shared = __commonJS({
   "node_modules/core-js/internals/shared.js"(exports, module) {
     "use strict";
     var store = require_shared_store();
+    var create = Object.create || Object;
     module.exports = function(key, value) {
-      return store[key] || (store[key] = value || {});
+      return store[key] || (store[key] = value || create(null));
     };
   }
 });
@@ -521,10 +522,10 @@ var require_to_primitive = __commonJS({
 var require_to_property_key = __commonJS({
   "node_modules/core-js/internals/to-property-key.js"(exports, module) {
     "use strict";
-    var toPrimitive = require_to_primitive();
+    var toPrimitive2 = require_to_primitive();
     var isSymbol = require_is_symbol();
     module.exports = function(argument) {
-      var key = toPrimitive(argument, "string");
+      var key = toPrimitive2(argument, "string");
       return isSymbol(key) ? key : key + "";
     };
   }
@@ -570,13 +571,13 @@ var require_object_get_own_property_descriptor = __commonJS({
     var propertyIsEnumerableModule = require_object_property_is_enumerable();
     var createPropertyDescriptor = require_create_property_descriptor();
     var toIndexedObject = require_to_indexed_object();
-    var toPropertyKey = require_to_property_key();
+    var toPropertyKey2 = require_to_property_key();
     var hasOwn = require_has_own_property();
     var IE8_DOM_DEFINE = require_ie8_dom_define();
     var $getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
     exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function getOwnPropertyDescriptor(O2, P) {
       O2 = toIndexedObject(O2);
-      P = toPropertyKey(P);
+      P = toPropertyKey2(P);
       if (IE8_DOM_DEFINE) try {
         return $getOwnPropertyDescriptor(O2, P);
       } catch (error) {
@@ -624,7 +625,7 @@ var require_object_define_property = __commonJS({
     var IE8_DOM_DEFINE = require_ie8_dom_define();
     var V8_PROTOTYPE_DEFINE_BUG = require_v8_prototype_define_bug();
     var anObject = require_an_object();
-    var toPropertyKey = require_to_property_key();
+    var toPropertyKey2 = require_to_property_key();
     var $TypeError = TypeError;
     var $defineProperty = Object.defineProperty;
     var $getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
@@ -633,7 +634,7 @@ var require_object_define_property = __commonJS({
     var WRITABLE = "writable";
     exports.f = DESCRIPTORS ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O2, P, Attributes) {
       anObject(O2);
-      P = toPropertyKey(P);
+      P = toPropertyKey2(P);
       anObject(Attributes);
       if (typeof O2 === "function" && P === "prototype" && "value" in Attributes && WRITABLE in Attributes && !Attributes[WRITABLE]) {
         var current = $getOwnPropertyDescriptor(O2, P);
@@ -649,7 +650,7 @@ var require_object_define_property = __commonJS({
       return $defineProperty(O2, P, Attributes);
     } : $defineProperty : function defineProperty(O2, P, Attributes) {
       anObject(O2);
-      P = toPropertyKey(P);
+      P = toPropertyKey2(P);
       anObject(Attributes);
       if (IE8_DOM_DEFINE) try {
         return $defineProperty(O2, P, Attributes);
@@ -2161,7 +2162,7 @@ var require_es_promise_constructor = __commonJS({
 var require_iterators = __commonJS({
   "node_modules/core-js/internals/iterators.js"(exports, module) {
     "use strict";
-    module.exports = {};
+    module.exports = Object.create ? /* @__PURE__ */ Object.create(null) : {};
   }
 });
 
@@ -2179,35 +2180,35 @@ var require_is_array_iterator_method = __commonJS({
   }
 });
 
-// node_modules/core-js/internals/get-iterator-method.js
-var require_get_iterator_method = __commonJS({
-  "node_modules/core-js/internals/get-iterator-method.js"(exports, module) {
+// node_modules/core-js/internals/get-iterator-method-internal.js
+var require_get_iterator_method_internal = __commonJS({
+  "node_modules/core-js/internals/get-iterator-method-internal.js"(exports, module) {
     "use strict";
-    var classof = require_classof();
-    var getMethod = require_get_method();
+    var classof = require_classof_raw();
     var isNullOrUndefined = require_is_null_or_undefined();
-    var Iterators = require_iterators();
+    var getMethod = require_get_method();
     var wellKnownSymbol = require_well_known_symbol();
     var ITERATOR = wellKnownSymbol("iterator");
+    var ArrayPrototype = Array.prototype;
     module.exports = function(it) {
-      if (!isNullOrUndefined(it)) return getMethod(it, ITERATOR) || getMethod(it, "@@iterator") || Iterators[classof(it)];
+      if (!isNullOrUndefined(it)) return getMethod(it, ITERATOR) || getMethod(it, "@@iterator") || (classof(it) === "Arguments" ? ArrayPrototype[ITERATOR] : void 0);
     };
   }
 });
 
-// node_modules/core-js/internals/get-iterator.js
-var require_get_iterator = __commonJS({
-  "node_modules/core-js/internals/get-iterator.js"(exports, module) {
+// node_modules/core-js/internals/get-iterator-internal.js
+var require_get_iterator_internal = __commonJS({
+  "node_modules/core-js/internals/get-iterator-internal.js"(exports, module) {
     "use strict";
     var call = require_function_call();
-    var aCallable = require_a_callable();
+    var isCallable = require_is_callable();
     var anObject = require_an_object();
     var tryToString = require_try_to_string();
-    var getIteratorMethod = require_get_iterator_method();
+    var getIteratorMethod = require_get_iterator_method_internal();
     var $TypeError = TypeError;
     module.exports = function(argument, usingIterator) {
       var iteratorMethod = arguments.length < 2 ? getIteratorMethod(argument) : usingIterator;
-      if (aCallable(iteratorMethod)) return anObject(call(iteratorMethod, argument));
+      if (isCallable(iteratorMethod)) return anObject(call(iteratorMethod, argument));
       throw new $TypeError(tryToString(argument) + " is not iterable");
     };
   }
@@ -2253,8 +2254,8 @@ var require_iterate = __commonJS({
     var isArrayIteratorMethod = require_is_array_iterator_method();
     var lengthOfArrayLike = require_length_of_array_like();
     var isPrototypeOf = require_object_is_prototype_of();
-    var getIterator = require_get_iterator();
-    var getIteratorMethod = require_get_iterator_method();
+    var getIterator = require_get_iterator_internal();
+    var getIteratorMethod = require_get_iterator_method_internal();
     var iteratorClose = require_iterator_close();
     var $TypeError = TypeError;
     var Result = function(stopped, result) {
@@ -3060,7 +3061,9 @@ var require_es_string_match = __commonJS({
         function match(regexp) {
           var O2 = requireObjectCoercible(this);
           var matcher = isObject(regexp) ? getMethod(regexp, MATCH) : void 0;
-          return matcher ? call(matcher, regexp, O2) : new RegExp(regexp)[MATCH](toString(O2));
+          if (matcher) return call(matcher, regexp, O2);
+          var S = toString(O2);
+          return new RegExp(regexp)[MATCH](S);
         },
         // `RegExp.prototype[@@match]` method
         // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
@@ -4525,6 +4528,36 @@ var import_es_string_replace = __toESM(require_es_string_replace(), 1);
 var import_es_string_starts_with = __toESM(require_es_string_starts_with(), 1);
 var import_es_array_iterator = __toESM(require_es_array_iterator(), 1);
 var import_web_dom_collections_iterator = __toESM(require_web_dom_collections_iterator(), 1);
+
+// node_modules/@babel/runtime/helpers/esm/toPrimitive.js
+function toPrimitive(t2, r2) {
+  if ("object" != _typeof(t2) || !t2) return t2;
+  var e2 = t2[Symbol.toPrimitive];
+  if (void 0 !== e2) {
+    var i2 = e2.call(t2, r2 || "default");
+    if ("object" != _typeof(i2)) return i2;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r2 ? String : Number)(t2);
+}
+
+// node_modules/@babel/runtime/helpers/esm/toPropertyKey.js
+function toPropertyKey(t2) {
+  var i2 = toPrimitive(t2, "string");
+  return "symbol" == _typeof(i2) ? i2 : i2 + "";
+}
+
+// node_modules/@babel/runtime/helpers/esm/defineProperty.js
+function _defineProperty(e2, r2, t2) {
+  return (r2 = toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, {
+    value: t2,
+    enumerable: true,
+    configurable: true,
+    writable: true
+  }) : e2[r2] = t2, e2;
+}
+
+// node_modules/canvg/lib/index.es.js
 var import_es_array_reduce = __toESM(require_es_array_reduce(), 1);
 var import_es_string_ends_with = __toESM(require_es_string_ends_with(), 1);
 var import_es_string_split = __toESM(require_es_string_split(), 1);
@@ -4933,18 +4966,18 @@ var N = ((O = {})[_.MOVE_TO] = 2, O[_.LINE_TO] = 2, O[_.HORIZ_LINE_TO] = 1, O[_.
 var import_es_regexp_to_string = __toESM(require_es_regexp_to_string(), 1);
 
 // node_modules/stackblur-canvas/dist/stackblur-es.js
-function _typeof(obj) {
+function _typeof2(obj) {
   "@babel/helpers - typeof";
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function(obj2) {
+    _typeof2 = function(obj2) {
       return typeof obj2;
     };
   } else {
-    _typeof = function(obj2) {
+    _typeof2 = function(obj2) {
       return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
     };
   }
-  return _typeof(obj);
+  return _typeof2(obj);
 }
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -4957,7 +4990,7 @@ function getImageDataFromCanvas(canvas, topX, topY, width, height) {
   if (typeof canvas === "string") {
     canvas = document.getElementById(canvas);
   }
-  if (!canvas || _typeof(canvas) !== "object" || !("getContext" in canvas)) {
+  if (!canvas || _typeof2(canvas) !== "object" || !("getContext" in canvas)) {
     throw new TypeError("Expecting canvas with `getContext` method in processCanvasRGB(A) calls!");
   }
   var context = canvas.getContext("2d");
@@ -10475,4 +10508,5 @@ export {
   vectorsAngle,
   vectorsRatio
 };
-//# sourceMappingURL=chunk-XXTYNOUF.js.map
+//# debugId=87c371ac-d340-5db2-b317-829946d9e019
+//# sourceMappingURL=chunk-GYTRO7UU.js.map
