@@ -20,6 +20,103 @@
   width: 100%;
 }
 
+.account-type-chart-wrapper {
+  margin: 1rem 0 1.25rem;
+  max-width: 640px;
+  height: 300px;
+}
+
+.balance-listing-container {
+  overflow-x: auto;
+}
+
+.balance-listing-container table {
+  width: 100%;
+}
+
+.account-type-chart-wrapper {
+  margin: 1.25rem 0 3rem;
+  max-width: 640px;
+  height: 320px;
+  padding-top: 0.5rem;
+}
+
+#monthlyExpenseChart,
+#monthlyIncomeChart,
+#capitalComparisonChart,
+#monthlyExpenseVsIncomeChart,
+#selectedAccountBalanceHistoryChart {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+}
+
+.selected-account-history-panel {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-width: 900px;
+  height: 300px;
+}
+
+.capital-chart-note {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.movement-summary-panel {
+  margin-top: 6rem;
+  margin-bottom: 1rem;
+}
+
+.top-movements-panel {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.top-categories-panel {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-width: 420px;
+}
+
+.top-movements-table,
+.top-categories-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.top-movements-table th,
+.top-movements-table td,
+.top-categories-table th,
+.top-categories-table td {
+  border: 1px solid #d0d0d0;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.movement-date,
+.movement-account,
+.movement-category,
+.movement-description-place,
+.movement-place,
+.movement-amount {
+  overflow-wrap: anywhere;
+}
+
+.movement-income {
+  color: #0b7a0b;
+  font-weight: 600;
+}
+
+.movement-expense {
+  color: #d62728;
+  font-weight: 600;
+}
+
 @media (min-width: 505px) {
   .balance-listing-container table {
     width: initial;

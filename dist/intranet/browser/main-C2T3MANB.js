@@ -90561,13 +90561,77 @@ var MovementComponent = class _MovementComponent {
       form.controls["fDate"].setValue(parts[0]);
       form.controls["fDescription"].setValue(parts[1]);
       const account = this.viewData.accounts.find((e2) => e2.acc_name === parts[3]);
-      form.controls["fAccount"].setValue(account.acc_id);
+      if (account) {
+        this.model.account = account.acc_id;
+        this.model.accountText = account.acc_name || "";
+        if (form.controls["fAccount"]) {
+          form.controls["fAccount"].setValue(account.acc_id);
+        }
+        if (form.controls["fAccountText"]) {
+          form.controls["fAccountText"].setValue(account.acc_name || "");
+        }
+      } else {
+        this.model.account = null;
+        this.model.accountText = "";
+        if (form.controls["fAccount"]) {
+          form.controls["fAccount"].setValue(null);
+        }
+        if (form.controls["fAccountText"]) {
+          form.controls["fAccountText"].setValue("");
+        }
+      }
+      if (form.controls["fAccountTo"]) {
+        form.controls["fAccountTo"].setValue(null);
+      }
+      this.model.accountTo = null;
+      this.model.accountToText = "";
       const place = this.viewData.places.find((e2) => e2.mpl_name === parts[4]);
-      form.controls["fPlace"].setValue(place.mpl_id);
+      if (place) {
+        this.model.place = place.mpl_id;
+        this.model.placeText = place.mpl_name || "";
+        if (form.controls["fPlace"]) {
+          form.controls["fPlace"].setValue(place.mpl_id);
+        }
+        if (form.controls["fPlaceText"]) {
+          form.controls["fPlaceText"].setValue(place.mpl_name || "");
+        }
+        this.onChangePlace(this.model.place);
+      } else {
+        this.model.place = null;
+        this.model.placeText = "";
+        if (form.controls["fPlace"]) {
+          form.controls["fPlace"].setValue(null);
+        }
+        if (form.controls["fPlaceText"]) {
+          form.controls["fPlaceText"].setValue("");
+        }
+      }
       const category = this.viewData.categories.find((e2) => e2.mct_name === parts[5]);
-      form.controls["fCategory"].setValue(category.mct_id);
-      form.controls["fBudget"].setValue(parts[6]);
-      form.controls["fNotes"].setValue(parts[7]);
+      if (category) {
+        this.model.category = category.mct_id;
+        this.model.categoryText = category.mct_name || "";
+        if (form.controls["fCategory"]) {
+          form.controls["fCategory"].setValue(category.mct_id);
+        }
+        if (form.controls["fCategoryText"]) {
+          form.controls["fCategoryText"].setValue(category.mct_name || "");
+        }
+      } else {
+        this.model.category = null;
+        this.model.categoryText = "";
+        if (form.controls["fCategory"]) {
+          form.controls["fCategory"].setValue(null);
+        }
+        if (form.controls["fCategoryText"]) {
+          form.controls["fCategoryText"].setValue("");
+        }
+      }
+      if (form.controls["fBudget"]) {
+        form.controls["fBudget"].setValue(parts[6]);
+      }
+      if (form.controls["fNotes"]) {
+        form.controls["fNotes"].setValue(parts[7]);
+      }
     }
   }
   static \u0275fac = function MovementComponent_Factory(__ngFactoryType__) {
@@ -90968,8 +91032,35 @@ var totalExpenseByDate = (movementList, year, month, monthCount = 1, filterMetho
 };
 
 // src/app/money/balance.component.ts
-var _c010 = (a0, a1, a22, a32, a4, a5) => ({ "balance-row-debit": a0, "balance-row-investment": a1, "balance-row-credit": a22, "balance-row-loan": a32, "balance-row-capital": a4, "balance-row-crypto": a5 });
-var _c111 = (a0, a1, a22) => ({ "balance-zero": a0, "balance-positive": a1, "balance-negative": a22 });
+var _c010 = (a0, a1, a22) => [a0, a1, a22];
+var _c111 = () => ["#7b2cbf", "#4c6ef5", "#f59f00"];
+var _c28 = (a0, a1, a22) => ({ data: a0, label: "Total", backgroundColor: a1, borderColor: a22, borderWidth: 1 });
+var _c33 = (a0) => [a0];
+var _c42 = () => ["CAPITAL", "Suma de otros", "Diferencia"];
+var _c52 = () => ({ display: false });
+var _c62 = (a0) => ({ label: a0 });
+var _c72 = (a0) => ({ callbacks: a0 });
+var _c82 = () => ({ enabled: true });
+var _c92 = (a0, a1, a22) => ({ legend: a0, tooltip: a1, valueLabelPlugin: a22 });
+var _c102 = (a0) => ({ beginAtZero: true, suggestedMax: a0 });
+var _c112 = (a0) => ({ y: a0 });
+var _c123 = (a0, a1) => ({ responsive: true, maintainAspectRatio: false, plugins: a0, scales: a1 });
+var _c132 = (a0) => ({ valueLabelPlugin: a0 });
+var _c142 = (a0) => ({ plugins: a0 });
+var _c152 = () => ({ enabled: false });
+var _c162 = (a0, a1, a22, a32, a4, a5) => ({ "balance-row-debit": a0, "balance-row-investment": a1, "balance-row-credit": a22, "balance-row-loan": a32, "balance-row-capital": a4, "balance-row-crypto": a5 });
+var _c172 = (a0, a1, a22) => ({ "balance-zero": a0, "balance-positive": a1, "balance-negative": a22 });
+var _c182 = (a0, a1) => ({ "movement-income": a0, "movement-expense": a1 });
+var _c192 = (a0) => ({ data: a0, label: "Saldo final", borderColor: "#4c6ef5", backgroundColor: "rgba(76,110,245,0.15)", tension: 0.2, fill: true });
+var _c202 = () => ({ beginAtZero: false });
+var arrowFn0 = (ctx, view) => (ctx2) => ctx2.formatCurrency(ctx2.parsed.y);
+var _forTrack02 = ($index, $item) => $item.category;
+var _forTrack12 = ($index, $item) => $item.mov_id;
+var arrowFn1 = (ctx, view) => (ctx2) => {
+  \u0275\u0275restoreView(view);
+  const ctx_r1 = \u0275\u0275nextContext();
+  return \u0275\u0275resetView(ctx_r1.formatCurrency(ctx2.parsed.y));
+};
 function BalanceComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     const _r1 = \u0275\u0275getCurrentView();
@@ -91023,7 +91114,7 @@ function BalanceComponent_For_12_Template(rf, ctx) {
 function BalanceComponent_For_33_Conditional_7_Template(rf, ctx) {
   if (rf & 1) {
     const _r6 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "button", 18);
+    \u0275\u0275elementStart(0, "div")(1, "button", 25);
     \u0275\u0275listener("click", function BalanceComponent_For_33_Conditional_7_Template_button_click_1_listener($event) {
       \u0275\u0275restoreView(_r6);
       const b_r5 = \u0275\u0275nextContext().$implicit;
@@ -91038,7 +91129,7 @@ function BalanceComponent_For_33_Conditional_7_Template(rf, ctx) {
 function BalanceComponent_For_33_Template(rf, ctx) {
   if (rf & 1) {
     const _r4 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "tr", 10)(1, "td")(2, "span", 21);
+    \u0275\u0275elementStart(0, "tr", 10)(1, "td")(2, "span", 31);
     \u0275\u0275listener("click", function BalanceComponent_For_33_Template_span_click_2_listener() {
       const b_r5 = \u0275\u0275restoreView(_r4).$implicit;
       return \u0275\u0275resetView(b_r5.showOptions = !b_r5.showOptions);
@@ -91048,7 +91139,7 @@ function BalanceComponent_For_33_Template(rf, ctx) {
     });
     \u0275\u0275text(3);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "span")(5, "button", 22);
+    \u0275\u0275elementStart(4, "span")(5, "button", 32);
     \u0275\u0275listener("click", function BalanceComponent_For_33_Template_button_click_5_listener($event) {
       const b_r5 = \u0275\u0275restoreView(_r4).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
@@ -91058,26 +91149,26 @@ function BalanceComponent_For_33_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
     \u0275\u0275conditionalCreate(7, BalanceComponent_For_33_Conditional_7_Template, 3, 0, "div");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(8, "td", 23);
+    \u0275\u0275elementStart(8, "td", 33);
     \u0275\u0275text(9);
     \u0275\u0275pipe(10, "currency");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(11, "td", 23);
+    \u0275\u0275elementStart(11, "td", 33);
     \u0275\u0275text(12);
     \u0275\u0275pipe(13, "currency");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(14, "td", 23);
+    \u0275\u0275elementStart(14, "td", 33);
     \u0275\u0275text(15);
     \u0275\u0275pipe(16, "currency");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(17, "td", 24);
+    \u0275\u0275elementStart(17, "td", 34);
     \u0275\u0275text(18);
     \u0275\u0275pipe(19, "currency");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
     const b_r5 = ctx.$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction6(29, _c010, b_r5.bal_ctg_account_type === 1, b_r5.bal_ctg_account_type === 2, b_r5.bal_ctg_account_type === 3, b_r5.bal_ctg_account_type === 4, b_r5.bal_ctg_account_type === 5, b_r5.bal_ctg_account_type === 6));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction6(29, _c162, b_r5.bal_ctg_account_type === 1, b_r5.bal_ctg_account_type === 2, b_r5.bal_ctg_account_type === 3, b_r5.bal_ctg_account_type === 4, b_r5.bal_ctg_account_type === 5, b_r5.bal_ctg_account_type === 6));
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate1(" ", b_r5.showOptions ? "-" : "+", " ");
     \u0275\u0275advance(3);
@@ -91091,7 +91182,7 @@ function BalanceComponent_For_33_Template(rf, ctx) {
     \u0275\u0275advance(3);
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(16, 19, b_r5.bal_withdrawals, "USD", "symbol-narrow", "1.2-2"), " ");
     \u0275\u0275advance(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(36, _c111, b_r5.bal_final == 0, b_r5.bal_final > 0, b_r5.bal_final < 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(36, _c172, b_r5.bal_final == 0, b_r5.bal_final > 0, b_r5.bal_final < 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(19, 24, b_r5.bal_final, "USD", "symbol-narrow", "1.2-2"), " ");
   }
@@ -91101,7 +91192,7 @@ function BalanceComponent_For_43_Template(rf, ctx) {
     \u0275\u0275elementStart(0, "tr", 11)(1, "td");
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td", 24);
+    \u0275\u0275elementStart(3, "td", 34);
     \u0275\u0275text(4);
     \u0275\u0275pipe(5, "currency");
     \u0275\u0275elementEnd()();
@@ -91111,12 +91202,281 @@ function BalanceComponent_For_43_Template(rf, ctx) {
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(b_r7.name);
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(8, _c111, b_r7.total == 0, b_r7.total > 0, b_r7.total < 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction3(8, _c172, b_r7.total == 0, b_r7.total > 0, b_r7.total < 0));
     \u0275\u0275advance();
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(5, 3, b_r7.total, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function BalanceComponent_Conditional_56_Conditional_16_Template(rf, ctx) {
+function BalanceComponent_Conditional_71_For_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td", 35);
+    \u0275\u0275text(2);
+    \u0275\u0275pipe(3, "currency");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "td", 36);
+    \u0275\u0275text(5);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(6, "td", 37);
+    \u0275\u0275text(7);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const category_r8 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(3, 3, category_r8.total, "USD", "symbol-narrow", "1.2-2"), " ");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate(category_r8.category);
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate(category_r8.count);
+  }
+}
+function BalanceComponent_Conditional_71_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "table", 17)(1, "thead")(2, "tr")(3, "th");
+    \u0275\u0275text(4, "Monto");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "th");
+    \u0275\u0275text(6, "Categor\xEDa");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "th");
+    \u0275\u0275text(8, "Movimientos");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(9, "tbody");
+    \u0275\u0275repeaterCreate(10, BalanceComponent_Conditional_71_For_11_Template, 8, 8, "tr", null, _forTrack02);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(10);
+    \u0275\u0275repeater(ctx_r1.getCurrentMonthTopCategories());
+  }
+}
+function BalanceComponent_Conditional_72_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1, "No expense categories for the selected month.");
+    \u0275\u0275elementEnd();
+  }
+}
+function BalanceComponent_Conditional_78_For_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td", 38);
+    \u0275\u0275text(2);
+    \u0275\u0275pipe(3, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "td", 39);
+    \u0275\u0275text(5);
+    \u0275\u0275pipe(6, "currency");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "td", 40);
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "td", 41);
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "td", 42);
+    \u0275\u0275text(12);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "td", 43);
+    \u0275\u0275text(14);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const movement_r9 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind2(3, 7, movement_r9.mov_date, "yyyy-MM-dd"), " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(15, _c182, movement_r9.mov_amount > 0, movement_r9.mov_amount < 0));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(6, 10, movement_r9.mov_amount, "USD", "symbol-narrow", "1.2-2"), " ");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", movement_r9.mov_desc || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r9.mov_txt_account || movement_r9.mov_txt_account_to || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r9.mov_txt_category || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r9.mov_txt_place || "-", " ");
+  }
+}
+function BalanceComponent_Conditional_78_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "table", 19)(1, "thead")(2, "tr")(3, "th");
+    \u0275\u0275text(4, "Fecha");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "th");
+    \u0275\u0275text(6, "Monto");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "th");
+    \u0275\u0275text(8, "Descripci\xF3n");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "th");
+    \u0275\u0275text(10, "Cuenta");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "th");
+    \u0275\u0275text(12, "Categor\xEDa");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "th");
+    \u0275\u0275text(14, "Lugar");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(15, "tbody");
+    \u0275\u0275repeaterCreate(16, BalanceComponent_Conditional_78_For_17_Template, 15, 18, "tr", null, _forTrack12);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(16);
+    \u0275\u0275repeater(ctx_r1.getCurrentMonthTopMovements());
+  }
+}
+function BalanceComponent_Conditional_79_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1, "No expense movements for the selected month.");
+    \u0275\u0275elementEnd();
+  }
+}
+function BalanceComponent_Conditional_85_For_17_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td", 38);
+    \u0275\u0275text(2);
+    \u0275\u0275pipe(3, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "td", 39);
+    \u0275\u0275text(5);
+    \u0275\u0275pipe(6, "currency");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "td", 40);
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "td", 41);
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "td", 42);
+    \u0275\u0275text(12);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "td", 43);
+    \u0275\u0275text(14);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const movement_r10 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind2(3, 7, movement_r10.mov_date, "yyyy-MM-dd"), " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(15, _c182, movement_r10.mov_amount > 0, movement_r10.mov_amount < 0));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(6, 10, movement_r10.mov_amount, "USD", "symbol-narrow", "1.2-2"), " ");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", movement_r10.mov_desc || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r10.mov_txt_account || movement_r10.mov_txt_account_to || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r10.mov_txt_category || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r10.mov_txt_place || "-", " ");
+  }
+}
+function BalanceComponent_Conditional_85_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "table", 19)(1, "thead")(2, "tr")(3, "th");
+    \u0275\u0275text(4, "Fecha");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "th");
+    \u0275\u0275text(6, "Monto");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "th");
+    \u0275\u0275text(8, "Descripci\xF3n");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "th");
+    \u0275\u0275text(10, "Cuenta");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(11, "th");
+    \u0275\u0275text(12, "Categor\xEDa");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(13, "th");
+    \u0275\u0275text(14, "Lugar");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(15, "tbody");
+    \u0275\u0275repeaterCreate(16, BalanceComponent_Conditional_85_For_17_Template, 15, 18, "tr", null, _forTrack12);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(16);
+    \u0275\u0275repeater(ctx_r1.getCurrentMonthTopIncomeMovements());
+  }
+}
+function BalanceComponent_Conditional_86_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1, "No income movements for the selected month.");
+    \u0275\u0275elementEnd();
+  }
+}
+function BalanceComponent_Conditional_92_For_13_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "tr")(1, "td", 38);
+    \u0275\u0275text(2);
+    \u0275\u0275pipe(3, "date");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "td", 39);
+    \u0275\u0275text(5);
+    \u0275\u0275pipe(6, "currency");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "td", 41);
+    \u0275\u0275text(8);
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "td", 41);
+    \u0275\u0275text(10);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const movement_r11 = ctx.$implicit;
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind2(3, 5, movement_r11.mov_date, "yyyy-MM-dd"), " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(13, _c182, movement_r11.mov_amount > 0, movement_r11.mov_amount < 0));
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(6, 8, movement_r11.mov_amount, "USD", "symbol-narrow", "1.2-2"), " ");
+    \u0275\u0275advance(3);
+    \u0275\u0275textInterpolate1(" ", movement_r11.mov_txt_account || "-", " ");
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate1(" ", movement_r11.mov_txt_account_to || "-", " ");
+  }
+}
+function BalanceComponent_Conditional_92_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "table", 19)(1, "thead")(2, "tr")(3, "th");
+    \u0275\u0275text(4, "Fecha");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(5, "th");
+    \u0275\u0275text(6, "Monto");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(7, "th");
+    \u0275\u0275text(8, "Cuenta origen");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(9, "th");
+    \u0275\u0275text(10, "Cuenta destino");
+    \u0275\u0275elementEnd()()();
+    \u0275\u0275elementStart(11, "tbody");
+    \u0275\u0275repeaterCreate(12, BalanceComponent_Conditional_92_For_13_Template, 11, 16, "tr", null, _forTrack12);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(12);
+    \u0275\u0275repeater(ctx_r1.getCurrentMonthTopTransfers());
+  }
+}
+function BalanceComponent_Conditional_93_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div");
+    \u0275\u0275text(1, "No transfer movements for the selected month.");
+    \u0275\u0275elementEnd();
+  }
+}
+function BalanceComponent_Conditional_94_Conditional_16_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
@@ -91129,7 +91489,7 @@ function BalanceComponent_Conditional_56_Conditional_16_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" >= ", \u0275\u0275pipeBind4(2, 1, ctx_r1.viewData.averageBalanceInfo.averageMinBalance, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function BalanceComponent_Conditional_56_Conditional_17_Template(rf, ctx) {
+function BalanceComponent_Conditional_94_Conditional_17_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
     \u0275\u0275text(1);
@@ -91142,34 +91502,34 @@ function BalanceComponent_Conditional_56_Conditional_17_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" < ", \u0275\u0275pipeBind4(2, 1, ctx_r1.viewData.averageBalanceInfo.averageMinBalance, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function BalanceComponent_Conditional_56_Conditional_24_For_8_Template(rf, ctx) {
+function BalanceComponent_Conditional_94_Conditional_24_For_8_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr", 27)(1, "td", 28);
+    \u0275\u0275elementStart(0, "tr", 46)(1, "td", 47);
     \u0275\u0275text(2);
     \u0275\u0275pipe(3, "date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "td", 29);
+    \u0275\u0275elementStart(4, "td", 48);
     \u0275\u0275text(5);
     \u0275\u0275pipe(6, "currency");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const m_r9 = ctx.$implicit;
+    const m_r13 = ctx.$implicit;
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(3, 2, m_r9.date, "yyyy-MM-dd"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind2(3, 2, m_r13.date, "yyyy-MM-dd"));
     \u0275\u0275advance(3);
-    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(6, 5, m_r9.balance, "USD", "symbol-narrow", "1.2-2"), " ");
+    \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(6, 5, m_r13.balance, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function BalanceComponent_Conditional_56_Conditional_24_Template(rf, ctx) {
+function BalanceComponent_Conditional_94_Conditional_24_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "th", 25);
+    \u0275\u0275elementStart(0, "div")(1, "table")(2, "tr")(3, "th", 44);
     \u0275\u0275text(4, "Date");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "th", 26);
+    \u0275\u0275elementStart(5, "th", 45);
     \u0275\u0275text(6, "Balance");
     \u0275\u0275elementEnd()();
-    \u0275\u0275repeaterCreate(7, BalanceComponent_Conditional_56_Conditional_24_For_8_Template, 7, 10, "tr", 27, \u0275\u0275repeaterTrackByIdentity);
+    \u0275\u0275repeaterCreate(7, BalanceComponent_Conditional_94_Conditional_24_For_8_Template, 7, 10, "tr", 46, \u0275\u0275repeaterTrackByIdentity);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -91178,12 +91538,12 @@ function BalanceComponent_Conditional_56_Conditional_24_Template(rf, ctx) {
     \u0275\u0275repeater(ctx_r1.viewData.averageBalanceInfo.dailyBalance);
   }
 }
-function BalanceComponent_Conditional_56_Template(rf, ctx) {
+function BalanceComponent_Conditional_94_Template(rf, ctx) {
   if (rf & 1) {
-    const _r8 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "button", 18);
-    \u0275\u0275listener("click", function BalanceComponent_Conditional_56_Template_button_click_1_listener() {
-      \u0275\u0275restoreView(_r8);
+    const _r12 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "button", 25);
+    \u0275\u0275listener("click", function BalanceComponent_Conditional_94_Template_button_click_1_listener() {
+      \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext();
       ctx_r1.model.selectedBalance = null;
       return \u0275\u0275resetView(ctx_r1.viewData.movements = []);
@@ -91203,8 +91563,8 @@ function BalanceComponent_Conditional_56_Template(rf, ctx) {
     \u0275\u0275elementStart(12, "div")(13, "div");
     \u0275\u0275text(14);
     \u0275\u0275pipe(15, "currency");
-    \u0275\u0275conditionalCreate(16, BalanceComponent_Conditional_56_Conditional_16_Template, 3, 6, "span");
-    \u0275\u0275conditionalCreate(17, BalanceComponent_Conditional_56_Conditional_17_Template, 3, 6, "span");
+    \u0275\u0275conditionalCreate(16, BalanceComponent_Conditional_94_Conditional_16_Template, 3, 6, "span");
+    \u0275\u0275conditionalCreate(17, BalanceComponent_Conditional_94_Conditional_17_Template, 3, 6, "span");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(18, "div");
     \u0275\u0275text(19);
@@ -91212,14 +91572,14 @@ function BalanceComponent_Conditional_56_Template(rf, ctx) {
     \u0275\u0275pipe(21, "date");
     \u0275\u0275elementEnd();
     \u0275\u0275elementStart(22, "button", 0);
-    \u0275\u0275listener("click", function BalanceComponent_Conditional_56_Template_button_click_22_listener() {
-      \u0275\u0275restoreView(_r8);
+    \u0275\u0275listener("click", function BalanceComponent_Conditional_94_Template_button_click_22_listener() {
+      \u0275\u0275restoreView(_r12);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.toggleDailyBalance());
     });
     \u0275\u0275text(23);
     \u0275\u0275elementEnd();
-    \u0275\u0275conditionalCreate(24, BalanceComponent_Conditional_56_Conditional_24_Template, 9, 0, "div");
+    \u0275\u0275conditionalCreate(24, BalanceComponent_Conditional_94_Conditional_24_Template, 9, 0, "div");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -91244,12 +91604,12 @@ function BalanceComponent_Conditional_56_Template(rf, ctx) {
     \u0275\u0275conditional(ctx_r1.viewData.showDailyBalance ? 24 : -1);
   }
 }
-function BalanceComponent_Conditional_57_Template(rf, ctx) {
+function BalanceComponent_Conditional_95_Template(rf, ctx) {
   if (rf & 1) {
-    const _r10 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "movement-listing", 30);
-    \u0275\u0275listener("onSelectMovement", function BalanceComponent_Conditional_57_Template_movement_listing_onSelectMovement_0_listener($event) {
-      \u0275\u0275restoreView(_r10);
+    const _r14 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "movement-listing", 49);
+    \u0275\u0275listener("onSelectMovement", function BalanceComponent_Conditional_95_Template_movement_listing_onSelectMovement_0_listener($event) {
+      \u0275\u0275restoreView(_r14);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.selectMovement($event));
     });
@@ -91260,7 +91620,23 @@ function BalanceComponent_Conditional_57_Template(rf, ctx) {
     \u0275\u0275property("movementList", ctx_r1.viewData.movements)("selectedBalance", ctx_r1.model.selectedBalance);
   }
 }
-function BalanceComponent_Conditional_58_Template(rf, ctx) {
+function BalanceComponent_Conditional_96_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 21)(1, "h4");
+    \u0275\u0275text(2);
+    \u0275\u0275elementEnd();
+    \u0275\u0275element(3, "canvas", 50);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r1 = \u0275\u0275nextContext();
+    \u0275\u0275advance(2);
+    \u0275\u0275textInterpolate3(" Evoluci\xF3n de saldo final mes con mes - ", ctx_r1.model.selectedBalance.bal_txt_account, " (", ctx_r1.model.selectedMonthName, " ", ctx_r1.model.year, ") ");
+    \u0275\u0275advance();
+    \u0275\u0275property("datasets", \u0275\u0275pureFunction1(10, _c33, \u0275\u0275pureFunction1(8, _c192, ctx_r1.viewData.selectedAccountBalanceHistory.data)))("labels", ctx_r1.viewData.selectedAccountBalanceHistory.labels)("options", \u0275\u0275pureFunction2(25, _c123, \u0275\u0275pureFunction3(18, _c92, \u0275\u0275pureFunction0(12, _c52), \u0275\u0275pureFunction1(15, _c72, \u0275\u0275pureFunction1(13, _c62, \u0275\u0275arrowFunction(7, arrowFn1, ctx))), \u0275\u0275pureFunction0(17, _c82)), \u0275\u0275pureFunction1(23, _c112, \u0275\u0275pureFunction0(22, _c202))))("type", "line");
+  }
+}
+function BalanceComponent_Conditional_97_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div")(1, "table")(2, "thead")(3, "tr")(4, "td");
     \u0275\u0275text(5, "Type");
@@ -91300,37 +91676,37 @@ function BalanceComponent_Conditional_58_Template(rf, ctx) {
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(27, 13, ctx_r1.viewData.selectedTotal, "USD", "symbol-narrow", "1.2-2"), " ");
   }
 }
-function BalanceComponent_For_75_Template(rf, ctx) {
+function BalanceComponent_For_112_Template(rf, ctx) {
   if (rf & 1) {
-    const _r11 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "div")(1, "input", 31);
-    \u0275\u0275listener("click", function BalanceComponent_For_75_Template_input_click_1_listener($event) {
-      const c_r12 = \u0275\u0275restoreView(_r11).$implicit;
+    const _r15 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "div")(1, "input", 51);
+    \u0275\u0275listener("click", function BalanceComponent_For_112_Template_input_click_1_listener($event) {
+      const c_r16 = \u0275\u0275restoreView(_r15).$implicit;
       const ctx_r1 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r1.toggleCategorySelection(c_r12.category.mct_id, $event));
+      return \u0275\u0275resetView(ctx_r1.toggleCategorySelection(c_r16.category.mct_id, $event));
     });
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(2, "label", 32);
+    \u0275\u0275elementStart(2, "label", 52);
     \u0275\u0275text(3);
     \u0275\u0275pipe(4, "currency");
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const c_r12 = ctx.$implicit;
+    const c_r16 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275property("id", "cat" + c_r12.category.mct_id)("checked", c_r12.selected);
+    \u0275\u0275property("id", "cat" + c_r16.category.mct_id)("checked", c_r16.selected);
     \u0275\u0275advance();
-    \u0275\u0275property("for", "cat" + c_r12.category.mct_id);
+    \u0275\u0275property("for", "cat" + c_r16.category.mct_id);
     \u0275\u0275advance();
-    \u0275\u0275textInterpolate2("", c_r12.category.mct_name, " (", \u0275\u0275pipeBind4(4, 5, c_r12.total, "USD", "symbol-narrow", "1.2-2"), ")");
+    \u0275\u0275textInterpolate2("", c_r16.category.mct_name, " (", \u0275\u0275pipeBind4(4, 5, c_r16.total, "USD", "symbol-narrow", "1.2-2"), ")");
   }
 }
-function BalanceComponent_Conditional_76_Template(rf, ctx) {
+function BalanceComponent_Conditional_113_Template(rf, ctx) {
   if (rf & 1) {
-    const _r13 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "movement-listing", 30);
-    \u0275\u0275listener("onSelectMovement", function BalanceComponent_Conditional_76_Template_movement_listing_onSelectMovement_0_listener($event) {
-      \u0275\u0275restoreView(_r13);
+    const _r17 = \u0275\u0275getCurrentView();
+    \u0275\u0275elementStart(0, "movement-listing", 49);
+    \u0275\u0275listener("onSelectMovement", function BalanceComponent_Conditional_113_Template_movement_listing_onSelectMovement_0_listener($event) {
+      \u0275\u0275restoreView(_r17);
       const ctx_r1 = \u0275\u0275nextContext();
       return \u0275\u0275resetView(ctx_r1.selectMovement($event));
     });
@@ -91341,7 +91717,7 @@ function BalanceComponent_Conditional_76_Template(rf, ctx) {
     \u0275\u0275property("movementList", ctx_r1.viewData.movementsPerSelectedCategories)("selectedBalance", ctx_r1.model.selectedBalance);
   }
 }
-function BalanceComponent_For_89_Template(rf, ctx) {
+function BalanceComponent_For_126_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "tr")(1, "td");
     \u0275\u0275text(2);
@@ -91352,13 +91728,54 @@ function BalanceComponent_For_89_Template(rf, ctx) {
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
-    const cat_r14 = ctx.$implicit;
+    const cat_r18 = ctx.$implicit;
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(cat_r14.name);
+    \u0275\u0275textInterpolate(cat_r18.name);
     \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(\u0275\u0275pipeBind4(5, 2, cat_r14.value, "USD", "symbol-narrow", "1.2-2"));
+    \u0275\u0275textInterpolate(\u0275\u0275pipeBind4(5, 2, cat_r18.value, "USD", "symbol-narrow", "1.2-2"));
   }
 }
+var valueLabelPlugin = {
+  id: "valueLabelPlugin",
+  afterDatasetsDraw(chart, _2, options) {
+    const allowedCharts = [
+      "capitalComparisonChart",
+      "monthlyExpenseVsIncomeChart",
+      "selectedAccountBalanceHistoryChart"
+    ];
+    if (!options?.enabled || !allowedCharts.includes(chart.canvas.id)) {
+      return;
+    }
+    const { ctx } = chart;
+    ctx.save();
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+    chart.data.datasets.forEach((dataset, datasetIndex) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+      if (!meta || !meta.data) {
+        return;
+      }
+      meta.data.forEach((bar, index2) => {
+        const rawValue = Number(dataset.data[index2]);
+        if (!Number.isFinite(rawValue) || rawValue === 0) {
+          return;
+        }
+        const x4 = bar.x;
+        const y4 = bar.y;
+        const label = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0
+        }).format(rawValue);
+        ctx.fillStyle = "#222";
+        ctx.fillText(label, x4, y4 - 8);
+      });
+    });
+    ctx.restore();
+  }
+};
+Chart.register(valueLabelPlugin);
 var BalanceComponent = class _BalanceComponent {
   balanceService;
   movementService;
@@ -91455,6 +91872,7 @@ var BalanceComponent = class _BalanceComponent {
     selectedTotal: 0,
     selectedIncome: 0,
     selectedExpense: 0,
+    selectedAccountBalanceHistory: { labels: [], data: [] },
     comparisonMonthlyExpense: {},
     comparisonMonthlyExpenseFood: {},
     balanceDistribution: [],
@@ -91544,6 +91962,137 @@ var BalanceComponent = class _BalanceComponent {
       name: monthBalance.find((b3) => b3.bal_ctg_account_type === i4) && monthBalance.find((b3) => b3.bal_ctg_account_type === i4).bal_txt_account_type
     })).filter((t3) => t3.name);
   }
+  getCapitalTotal() {
+    const capital = this.viewData.balanceDistribution.find((item) => item.name && item.name.toUpperCase() === "CAPITAL");
+    return capital ? Number(capital.total) || 0 : 0;
+  }
+  getOtherAccountTypeTotal() {
+    return this.viewData.balanceDistribution.filter((item) => item.name && item.name.toUpperCase() !== "CAPITAL").reduce((sum, item) => sum + (Number(item.total) || 0), 0);
+  }
+  absoluteValue(value) {
+    return Math.abs(Number(value) || 0);
+  }
+  maxCapitalComparisonValue() {
+    const maxValue = Math.max(this.absoluteValue(this.getCapitalTotal()), this.absoluteValue(this.getOtherAccountTypeTotal()));
+    return maxValue > 0 ? maxValue * 1.1 : 1;
+  }
+  getCurrentMonthTopMovements() {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+    if (!year || !month) {
+      return [];
+    }
+    return this.state.movementList.filter((movement) => {
+      const movementDate = new Date(movement.mov_date);
+      const isExpense = movement.mov_ctg_type === 1;
+      const isTransfer = movement.mov_ctg_type === 3;
+      return isExpense && !isTransfer && movementDate.getFullYear() === year && movementDate.getMonth() + 1 === month;
+    }).sort((a4, b3) => this.absoluteValue(Number(b3.mov_amount) || 0) - this.absoluteValue(Number(a4.mov_amount) || 0)).slice(0, 10);
+  }
+  getCurrentMonthTopMovementsTotal() {
+    return this.getCurrentMonthTopMovements().reduce((sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0), 0);
+  }
+  getCurrentMonthTopIncomeMovements() {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+    if (!year || !month) {
+      return [];
+    }
+    return this.state.movementList.filter((movement) => {
+      const movementDate = new Date(movement.mov_date);
+      const isIncome = movement.mov_ctg_type === 2;
+      const isTransfer = movement.mov_ctg_type === 3;
+      return isIncome && !isTransfer && movementDate.getFullYear() === year && movementDate.getMonth() + 1 === month;
+    }).sort((a4, b3) => this.absoluteValue(Number(b3.mov_amount) || 0) - this.absoluteValue(Number(a4.mov_amount) || 0)).slice(0, 10);
+  }
+  getCurrentMonthTopIncomeMovementsTotal() {
+    return this.getCurrentMonthTopIncomeMovements().reduce((sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0), 0);
+  }
+  getCurrentMonthTopTransfers() {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+    if (!year || !month) {
+      return [];
+    }
+    return this.state.movementList.filter((movement) => {
+      const movementDate = new Date(movement.mov_date);
+      const isTransfer = movement.mov_ctg_type === 3;
+      return isTransfer && movementDate.getFullYear() === year && movementDate.getMonth() + 1 === month;
+    }).sort((a4, b3) => this.absoluteValue(Number(b3.mov_amount) || 0) - this.absoluteValue(Number(a4.mov_amount) || 0)).slice(0, 10);
+  }
+  getCurrentMonthTopTransfersTotal() {
+    return this.getCurrentMonthTopTransfers().reduce((sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0), 0);
+  }
+  updateSelectedAccountBalanceHistory() {
+    if (!this.model.selectedBalance?.bal_id_account) {
+      this.viewData.selectedAccountBalanceHistory = { labels: [], data: [] };
+      return;
+    }
+    const accountId = this.model.selectedBalance.bal_id_account;
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month;
+    const labels = [];
+    const data = [];
+    for (let monthOffset = 17; monthOffset >= 0; monthOffset--) {
+      const date = new Date(selectedYear, selectedMonth - 1 - monthOffset, 1);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const accountBalance = this.viewData.balance.find((balance) => balance.bal_id_account === accountId && balance.bal_year === year && balance.bal_month === month);
+      labels.push(date.toLocaleDateString("es-ES", { month: "short", year: "numeric" }));
+      data.push(accountBalance ? Number(accountBalance.bal_final) || 0 : 0);
+    }
+    this.viewData.selectedAccountBalanceHistory = { labels, data };
+  }
+  getCurrentMonthTopCategories() {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+    if (!year || !month) {
+      return [];
+    }
+    const categoryTotals = /* @__PURE__ */ new Map();
+    this.state.movementList.filter((movement) => {
+      const movementDate = new Date(movement.mov_date);
+      return movement.mov_ctg_type === 1 && movementDate.getFullYear() === year && movementDate.getMonth() + 1 === month;
+    }).forEach((movement) => {
+      const categoryName = movement.mov_txt_category || "Sin categor\xEDa";
+      const existing = categoryTotals.get(categoryName) || {
+        total: 0,
+        count: 0
+      };
+      existing.total += this.absoluteValue(Number(movement.mov_amount) || 0);
+      existing.count += 1;
+      categoryTotals.set(categoryName, existing);
+    });
+    return Array.from(categoryTotals.entries()).map(([category, data]) => ({
+      category,
+      total: data.total,
+      count: data.count
+    })).sort((a4, b3) => b3.total - a4.total).slice(0, 10);
+  }
+  getCurrentMonthTopCategoriesTotal() {
+    return this.getCurrentMonthTopCategories().reduce((sum, item) => sum + item.total, 0);
+  }
+  getCurrentMonthExpenseTotal() {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+    if (!year || !month) {
+      return 0;
+    }
+    return this.state.movementList.filter((movement) => {
+      const movementDate = new Date(movement.mov_date);
+      return movement.mov_ctg_type === 1 && movementDate.getFullYear() === year && movementDate.getMonth() + 1 === month;
+    }).reduce((sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0), 0);
+  }
+  getCapitalDifference() {
+    const capital = this.getCapitalTotal();
+    const others = this.getOtherAccountTypeTotal();
+    return Math.abs(capital + others);
+  }
   parseIterable() {
     this.model.year = Math.floor(this.model.iterable / 100);
     this.model.month = this.model.iterable % 100;
@@ -91551,11 +92100,14 @@ var BalanceComponent = class _BalanceComponent {
   reloadBalance() {
     this.parseIterable();
     this.viewData.monthBalance = this.filterMonthBalance();
+    this.viewData.balanceDistribution = this.balanceDistribution(this.viewData.monthBalance);
     if (this.model.selectedBalance) {
       this.model.selectedBalance = this.viewData.balance.find((b3) => b3.bal_id_account === this.model.selectedBalance.bal_id_account && b3.bal_year === this.model.year && b3.bal_month === this.model.month);
       this.renderMovements(this.model.selectedBalance, void 0);
     }
     this.monthlyTotals();
+    this.monthlyIncomeVsExpense();
+    this.updateSelectedAccountBalanceHistory();
   }
   filterMonthBalance() {
     let filter2 = (b3) => b3.bal_year == this.model.year && b3.bal_month == this.model.month;
@@ -91567,6 +92119,7 @@ var BalanceComponent = class _BalanceComponent {
   toggleFilterNonZero() {
     this.viewData.filterNonZero = !this.viewData.filterNonZero;
     this.viewData.monthBalance = this.filterMonthBalance();
+    this.viewData.balanceDistribution = this.balanceDistribution(this.viewData.monthBalance);
   }
   renderMovements(balance, event) {
     event && event.preventDefault && event.preventDefault();
@@ -91588,11 +92141,19 @@ var BalanceComponent = class _BalanceComponent {
       });
       this.model.selectedBalance = balance;
       this.model.selectedMonthName = DateUtils.getMonthName(balance.bal_month);
+      this.updateSelectedAccountBalanceHistory();
       console.log(`movements fetched for balance`, balance, this.viewData.movements);
     });
   }
   toggleDailyBalance() {
     this.viewData.showDailyBalance = !this.viewData.showDailyBalance;
+  }
+  formatCurrency(value) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2
+    }).format(value || 0);
   }
   monthlyTotals() {
     this.parseIterable();
@@ -91721,7 +92282,17 @@ var BalanceComponent = class _BalanceComponent {
     this.parseIterable();
     const capitalAccountId = "1";
     const itemCount = 18;
-    const monthList = this.viewData.monthList.filter((m4, index2) => index2 < itemCount).reverse();
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month;
+    const monthList = Array.from({ length: itemCount }, (_2, index2) => {
+      const target = new Date(selectedYear, selectedMonth - 1 - (itemCount - 1 - index2), 1);
+      return {
+        iterable: target.getFullYear() * 100 + (target.getMonth() + 1),
+        year: target.getFullYear(),
+        month: target.getMonth() + 1,
+        name: `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}`
+      };
+    });
     const capitalBalanceMonthly = this.balanceService.list().filter((b3) => b3.bal_id_account === capitalAccountId);
     const graphData = {
       chartLabels: monthList.map((m4) => m4.name),
@@ -91730,19 +92301,19 @@ var BalanceComponent = class _BalanceComponent {
           label: `Income`,
           backgroundColor: "rgb(54, 162, 235)",
           borderColor: "rgb(54, 162, 235)",
-          data: monthList.map((m4) => capitalBalanceMonthly.find((b3) => b3.bal_year === m4.year && b3.bal_month === m4.month).bal_withdrawals)
+          data: monthList.map((m4) => capitalBalanceMonthly.find((b3) => b3.bal_year === m4.year && b3.bal_month === m4.month)?.bal_withdrawals || 0)
         },
         {
           label: `Expenses`,
           backgroundColor: "rgb(255, 99, 132)",
           borderColor: "rgb(255, 99, 132)",
-          data: monthList.map((m4) => capitalBalanceMonthly.find((b3) => b3.bal_year === m4.year && b3.bal_month === m4.month).bal_charges)
+          data: monthList.map((m4) => capitalBalanceMonthly.find((b3) => b3.bal_year === m4.year && b3.bal_month === m4.month)?.bal_charges || 0)
         },
         {
           label: `Final`,
           backgroundColor: "rgb(75, 192, 192)",
           borderColor: "rgb(75, 192, 192)",
-          data: monthList.map((m4) => capitalBalanceMonthly.find((b3) => b3.bal_year === m4.year && b3.bal_month === m4.month).bal_final * -1)
+          data: monthList.map((m4) => (capitalBalanceMonthly.find((b3) => b3.bal_year === m4.year && b3.bal_month === m4.month)?.bal_final || 0) * -1)
         }
       ],
       chartType: "bar"
@@ -91859,7 +92430,7 @@ var BalanceComponent = class _BalanceComponent {
   static \u0275fac = function BalanceComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _BalanceComponent)(\u0275\u0275directiveInject(BalanceService), \u0275\u0275directiveInject(MovementService), \u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(Title), \u0275\u0275directiveInject(AuthenticationService), \u0275\u0275directiveInject(NotificationService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BalanceComponent, selectors: [["balance"]], standalone: false, features: [\u0275\u0275ProvidersFeature([BalanceService, MovementService])], decls: 97, vars: 49, consts: [[3, "click"], [1, "balance-options"], [1, "field"], ["for", "fMonth", 1, "label-left"], ["name", "fMonth", "id", "fMonth", 3, "ngModelChange", "change", "ngModel"], [3, "value"], ["name", "fFilterNonZero", "id", "fFilterNonZero", "type", "checkbox", 3, "click", "ngModelChange", "ngModel"], ["for", "fFilterNonZero"], [1, "balance-listing-container"], [1, "desktop-only"], [1, "balance-row", 3, "ngClass"], [1, "balance-row"], ["selectedView", "compact", 3, "movementList", "selectedBalance"], ["id", "monthlyExpenseChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], ["id", "monthlyIncomeChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], ["id", "monthlyExpenseVsIncomeChart", "baseChart", "", 3, "datasets", "labels", "type"], ["id", "monthlyExpenseComparisonChart", "baseChart", "", 3, "datasets", "labels", "type"], ["id", "monthlyExpenseComparisonFoodChart", "baseChart", "", 3, "datasets", "labels", "type"], ["type", "button", 3, "click"], [1, "balance-category-list"], [1, "budget-table-container"], ["tabindex", "0", 3, "click", "keydown.enter"], ["type", "button", 1, "no-button", 3, "click"], [1, "text-align-right", "padding-all-5", "desktop-only"], [1, "text-align-right", "padding-all-5", 3, "ngClass"], [1, "padding-all-5", "width-80"], [1, "padding-all-5", "width-100"], [1, "movements-listing-row"], [1, "padding-all-5"], [1, "padding-all-5", "text-align-right"], ["selectedView", "compact", 3, "onSelectMovement", "movementList", "selectedBalance"], ["type", "checkbox", 3, "click", "id", "checked"], [3, "for"]], template: function BalanceComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _BalanceComponent, selectors: [["balance"]], standalone: false, features: [\u0275\u0275ProvidersFeature([BalanceService, MovementService])], decls: 142, vars: 143, consts: [[3, "click"], [1, "balance-options"], [1, "field"], ["for", "fMonth", 1, "label-left"], ["name", "fMonth", "id", "fMonth", 3, "ngModelChange", "change", "ngModel"], [3, "value"], ["name", "fFilterNonZero", "id", "fFilterNonZero", "type", "checkbox", 3, "click", "ngModelChange", "ngModel"], ["for", "fFilterNonZero"], [1, "balance-listing-container"], [1, "desktop-only"], [1, "balance-row", 3, "ngClass"], [1, "balance-row"], [1, "account-type-chart-wrapper"], [1, "capital-chart-note"], ["id", "capitalComparisonChart", "baseChart", "", "chartType", "bar", 3, "datasets", "labels", "options"], [1, "movement-summary-panel"], ["open", "", 1, "top-categories-panel"], [1, "top-categories-table"], ["open", "", 1, "top-movements-panel"], [1, "top-movements-table"], ["selectedView", "compact", 3, "movementList", "selectedBalance"], [1, "selected-account-history-panel"], ["id", "monthlyExpenseVsIncomeChart", "baseChart", "", 3, "datasets", "labels", "options", "type"], ["id", "monthlyExpenseComparisonChart", "baseChart", "", 3, "datasets", "labels", "options", "type"], ["id", "monthlyExpenseComparisonFoodChart", "baseChart", "", 3, "datasets", "labels", "options", "type"], ["type", "button", 3, "click"], [1, "balance-category-list"], [1, "budget-table-container"], ["open", ""], ["id", "monthlyExpenseChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], ["id", "monthlyIncomeChart", "baseChart", "", 3, "datasets", "labels", "options", "legend", "type"], ["tabindex", "0", 3, "click", "keydown.enter"], ["type", "button", 1, "no-button", 3, "click"], [1, "text-align-right", "padding-all-5", "desktop-only"], [1, "text-align-right", "padding-all-5", 3, "ngClass"], [1, "category-total"], [1, "category-name"], [1, "category-count"], [1, "movement-date"], [1, "movement-amount", 3, "ngClass"], [1, "movement-description-place"], [1, "movement-account"], [1, "movement-category"], [1, "movement-place"], [1, "padding-all-5", "width-80"], [1, "padding-all-5", "width-100"], [1, "movements-listing-row"], [1, "padding-all-5"], [1, "padding-all-5", "text-align-right"], ["selectedView", "compact", 3, "onSelectMovement", "movementList", "selectedBalance"], ["id", "selectedAccountBalanceHistoryChart", "baseChart", "", 3, "datasets", "labels", "options", "type"], ["type", "checkbox", 3, "click", "id", "checked"], [3, "for"]], template: function BalanceComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div")(1, "button", 0);
       \u0275\u0275listener("click", function BalanceComponent_Template_button_click_1_listener() {
@@ -91932,63 +92503,111 @@ var BalanceComponent = class _BalanceComponent {
       \u0275\u0275elementEnd()();
       \u0275\u0275repeaterCreate(42, BalanceComponent_For_43_Template, 6, 12, "tr", 11, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(44, "div")(45, "div")(46, "strong");
-      \u0275\u0275text(47, "Movement Summary");
+      \u0275\u0275elementStart(44, "div", 12)(45, "h4");
+      \u0275\u0275text(46, "CAPITAL vs suma de los dem\xE1s tipos");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(47, "div", 13);
+      \u0275\u0275text(48);
+      \u0275\u0275pipe(49, "currency");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(50, "canvas", 14);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(51, "div", 15)(52, "div")(53, "strong");
+      \u0275\u0275text(54, "Movement Summary");
       \u0275\u0275elementEnd()();
-      \u0275\u0275elementStart(48, "div");
-      \u0275\u0275text(49);
+      \u0275\u0275elementStart(55, "div");
+      \u0275\u0275text(56);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(50, "div");
-      \u0275\u0275text(51);
+      \u0275\u0275elementStart(57, "div");
+      \u0275\u0275text(58);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(52, "div");
-      \u0275\u0275text(53);
+      \u0275\u0275elementStart(59, "div");
+      \u0275\u0275text(60);
+      \u0275\u0275pipe(61, "currency");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(54, "div");
-      \u0275\u0275text(55);
+      \u0275\u0275elementStart(62, "div");
+      \u0275\u0275text(63);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(64, "div");
+      \u0275\u0275text(65);
       \u0275\u0275elementEnd()();
-      \u0275\u0275conditionalCreate(56, BalanceComponent_Conditional_56_Template, 25, 22, "div");
-      \u0275\u0275conditionalCreate(57, BalanceComponent_Conditional_57_Template, 1, 2, "movement-listing", 12);
-      \u0275\u0275conditionalCreate(58, BalanceComponent_Conditional_58_Template, 28, 18, "div");
-      \u0275\u0275element(59, "canvas", 13)(60, "canvas", 14)(61, "canvas", 15)(62, "canvas", 16)(63, "canvas", 17);
-      \u0275\u0275elementStart(64, "div")(65, "button", 18);
-      \u0275\u0275listener("click", function BalanceComponent_Template_button_click_65_listener() {
+      \u0275\u0275elementStart(66, "details", 16)(67, "summary")(68, "strong");
+      \u0275\u0275text(69);
+      \u0275\u0275pipe(70, "currency");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275conditionalCreate(71, BalanceComponent_Conditional_71_Template, 12, 0, "table", 17)(72, BalanceComponent_Conditional_72_Template, 2, 0, "div");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(73, "details", 18)(74, "summary")(75, "strong");
+      \u0275\u0275text(76);
+      \u0275\u0275pipe(77, "currency");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275conditionalCreate(78, BalanceComponent_Conditional_78_Template, 18, 0, "table", 19)(79, BalanceComponent_Conditional_79_Template, 2, 0, "div");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(80, "details", 18)(81, "summary")(82, "strong");
+      \u0275\u0275text(83);
+      \u0275\u0275pipe(84, "currency");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275conditionalCreate(85, BalanceComponent_Conditional_85_Template, 18, 0, "table", 19)(86, BalanceComponent_Conditional_86_Template, 2, 0, "div");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(87, "details", 18)(88, "summary")(89, "strong");
+      \u0275\u0275text(90);
+      \u0275\u0275pipe(91, "currency");
+      \u0275\u0275elementEnd()();
+      \u0275\u0275conditionalCreate(92, BalanceComponent_Conditional_92_Template, 14, 0, "table", 19)(93, BalanceComponent_Conditional_93_Template, 2, 0, "div");
+      \u0275\u0275elementEnd();
+      \u0275\u0275conditionalCreate(94, BalanceComponent_Conditional_94_Template, 25, 22, "div");
+      \u0275\u0275conditionalCreate(95, BalanceComponent_Conditional_95_Template, 1, 2, "movement-listing", 20);
+      \u0275\u0275conditionalCreate(96, BalanceComponent_Conditional_96_Template, 4, 28, "div", 21);
+      \u0275\u0275conditionalCreate(97, BalanceComponent_Conditional_97_Template, 28, 18, "div");
+      \u0275\u0275element(98, "canvas", 22)(99, "canvas", 23)(100, "canvas", 24);
+      \u0275\u0275elementStart(101, "div")(102, "button", 25);
+      \u0275\u0275listener("click", function BalanceComponent_Template_button_click_102_listener() {
         return ctx.selectAllCategories();
       });
-      \u0275\u0275text(66, " select all categories ");
+      \u0275\u0275text(103, " select all categories ");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(67, "div");
-      \u0275\u0275text(68);
-      \u0275\u0275pipe(69, "currency");
+      \u0275\u0275elementStart(104, "div");
+      \u0275\u0275text(105);
+      \u0275\u0275pipe(106, "currency");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(70, "div");
-      \u0275\u0275text(71);
-      \u0275\u0275pipe(72, "currency");
+      \u0275\u0275elementStart(107, "div");
+      \u0275\u0275text(108);
+      \u0275\u0275pipe(109, "currency");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(73, "div", 19);
-      \u0275\u0275repeaterCreate(74, BalanceComponent_For_75_Template, 5, 10, "div", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275elementStart(110, "div", 26);
+      \u0275\u0275repeaterCreate(111, BalanceComponent_For_112_Template, 5, 10, "div", null, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275elementEnd();
-      \u0275\u0275conditionalCreate(76, BalanceComponent_Conditional_76_Template, 1, 2, "movement-listing", 12);
+      \u0275\u0275conditionalCreate(113, BalanceComponent_Conditional_113_Template, 1, 2, "movement-listing", 20);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(77, "div", 20)(78, "h3");
-      \u0275\u0275text(79, "Presupuesto por Categor\xEDa");
+      \u0275\u0275elementStart(114, "div", 27)(115, "h3");
+      \u0275\u0275text(116, "Presupuesto por Categor\xEDa");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(80, "table")(81, "thead")(82, "tr")(83, "th");
-      \u0275\u0275text(84, "Categor\xEDa");
+      \u0275\u0275elementStart(117, "table")(118, "thead")(119, "tr")(120, "th");
+      \u0275\u0275text(121, "Categor\xEDa");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(85, "th");
-      \u0275\u0275text(86, "Presupuesto");
+      \u0275\u0275elementStart(122, "th");
+      \u0275\u0275text(123, "Presupuesto");
       \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(87, "tbody");
-      \u0275\u0275repeaterCreate(88, BalanceComponent_For_89_Template, 6, 7, "tr", null, \u0275\u0275repeaterTrackByIdentity);
+      \u0275\u0275elementStart(124, "tbody");
+      \u0275\u0275repeaterCreate(125, BalanceComponent_For_126_Template, 6, 7, "tr", null, \u0275\u0275repeaterTrackByIdentity);
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(90, "tfoot")(91, "tr")(92, "th");
-      \u0275\u0275text(93, "Total");
+      \u0275\u0275elementStart(127, "tfoot")(128, "tr")(129, "th");
+      \u0275\u0275text(130, "Total");
       \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(94, "th");
-      \u0275\u0275text(95);
-      \u0275\u0275pipe(96, "currency");
-      \u0275\u0275elementEnd()()()()()();
+      \u0275\u0275elementStart(131, "th");
+      \u0275\u0275text(132);
+      \u0275\u0275pipe(133, "currency");
+      \u0275\u0275elementEnd()()()()();
+      \u0275\u0275elementStart(134, "details", 28)(135, "summary");
+      \u0275\u0275text(136, "Monthly Expense Chart");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(137, "canvas", 29);
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(138, "details", 28)(139, "summary");
+      \u0275\u0275text(140, "Monthly Income Chart");
+      \u0275\u0275elementEnd();
+      \u0275\u0275element(141, "canvas", 30);
+      \u0275\u0275elementEnd()();
     }
     if (rf & 2) {
       \u0275\u0275advance(2);
@@ -92007,44 +92626,68 @@ var BalanceComponent = class _BalanceComponent {
       \u0275\u0275repeater(ctx.viewData.monthBalance);
       \u0275\u0275advance(10);
       \u0275\u0275repeater(ctx.viewData.balanceDistribution);
-      \u0275\u0275advance(7);
+      \u0275\u0275advance(6);
+      \u0275\u0275textInterpolate2(" ", ctx.getCapitalTotal() < 0 ? "CAPITAL en negativo" : "CAPITAL en positivo", " \xB7 ", \u0275\u0275pipeBind4(49, 52, ctx.getCapitalTotal(), "USD", "symbol-narrow", "1.2-2"), " ");
+      \u0275\u0275advance(2);
+      \u0275\u0275property("datasets", \u0275\u0275pureFunction1(108, _c33, \u0275\u0275pureFunction3(104, _c28, \u0275\u0275pureFunction3(98, _c010, ctx.absoluteValue(ctx.getCapitalTotal()), ctx.absoluteValue(ctx.getOtherAccountTypeTotal()), ctx.getCapitalDifference()), \u0275\u0275pureFunction0(102, _c111), \u0275\u0275pureFunction0(103, _c111))))("labels", \u0275\u0275pureFunction0(110, _c42))("options", \u0275\u0275pureFunction2(125, _c123, \u0275\u0275pureFunction3(117, _c92, \u0275\u0275pureFunction0(111, _c52), \u0275\u0275pureFunction1(114, _c72, \u0275\u0275pureFunction1(112, _c62, \u0275\u0275arrowFunction(57, arrowFn0, ctx))), \u0275\u0275pureFunction0(116, _c82)), \u0275\u0275pureFunction1(123, _c112, \u0275\u0275pureFunction1(121, _c102, ctx.maxCapitalComparisonValue()))));
+      \u0275\u0275advance(6);
       \u0275\u0275textInterpolate1("Total count: ", ctx.viewData.movementSummary.movementCount);
       \u0275\u0275advance(2);
       \u0275\u0275textInterpolate1("Expense count: ", ctx.viewData.movementSummary.expenseCount);
       \u0275\u0275advance(2);
+      \u0275\u0275textInterpolate1(" Expense total: ", \u0275\u0275pipeBind4(61, 58, ctx.getCurrentMonthExpenseTotal(), "USD", "symbol-narrow", "1.2-2"), " ");
+      \u0275\u0275advance(3);
       \u0275\u0275textInterpolate1("Income count: ", ctx.viewData.movementSummary.incomeCount);
       \u0275\u0275advance(2);
       \u0275\u0275textInterpolate1("Transfer count: ", ctx.viewData.movementSummary.transferCount);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.model.selectedBalance ? 56 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.viewData.movements.length ? 57 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275conditional(ctx.viewData.selectedTotal !== 0 ? 58 : -1);
-      \u0275\u0275advance();
-      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseChart.chartData)("labels", ctx.viewData.monthlyExpenseChart.chartLabels)("options", ctx.viewData.monthlyExpenseChart.chartOptions)("legend", ctx.viewData.monthlyExpenseChart.chartLegend)("type", ctx.viewData.monthlyExpenseChart.chartType);
-      \u0275\u0275advance();
-      \u0275\u0275property("datasets", ctx.viewData.monthlyIncomeChart.chartData)("labels", ctx.viewData.monthlyIncomeChart.chartLabels)("options", ctx.viewData.monthlyIncomeChart.chartOptions)("legend", ctx.viewData.monthlyIncomeChart.chartLegend)("type", ctx.viewData.monthlyIncomeChart.chartType);
-      \u0275\u0275advance();
-      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseVsIncomeChart.chartData)("labels", ctx.viewData.monthlyExpenseVsIncomeChart.chartLabels)("type", ctx.viewData.monthlyExpenseVsIncomeChart.chartType);
-      \u0275\u0275advance();
-      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseComparisonChart.chartData)("labels", ctx.viewData.monthlyExpenseComparisonChart.chartLabels)("type", ctx.viewData.monthlyExpenseComparisonChart.chartType);
-      \u0275\u0275advance();
-      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseComparisonFoodChart.chartData)("labels", ctx.viewData.monthlyExpenseComparisonFoodChart.chartLabels)("type", ctx.viewData.monthlyExpenseComparisonFoodChart.chartType);
+      \u0275\u0275advance(4);
+      \u0275\u0275textInterpolate1(" Top 10 Categories (Total: ", \u0275\u0275pipeBind4(70, 63, ctx.getCurrentMonthTopCategoriesTotal(), "USD", "symbol-narrow", "1.2-2"), ") ");
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.getCurrentMonthTopCategories().length ? 71 : 72);
       \u0275\u0275advance(5);
-      \u0275\u0275textInterpolate1(" Total Expenses ", \u0275\u0275pipeBind4(69, 34, ctx.viewData.totalExpenses, "USD", "symbol-narrow", "1.2-2"), " ");
+      \u0275\u0275textInterpolate1(" Top 10 expenses (Total: ", \u0275\u0275pipeBind4(77, 68, ctx.getCurrentMonthTopMovementsTotal(), "USD", "symbol-narrow", "1.2-2"), ") ");
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.getCurrentMonthTopMovements().length ? 78 : 79);
+      \u0275\u0275advance(5);
+      \u0275\u0275textInterpolate1(" Top 10 income (Total: ", \u0275\u0275pipeBind4(84, 73, ctx.getCurrentMonthTopIncomeMovementsTotal(), "USD", "symbol-narrow", "1.2-2"), ") ");
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.getCurrentMonthTopIncomeMovements().length ? 85 : 86);
+      \u0275\u0275advance(5);
+      \u0275\u0275textInterpolate1(" Top 10 Transfers (Total: ", \u0275\u0275pipeBind4(91, 78, ctx.getCurrentMonthTopTransfersTotal(), "USD", "symbol-narrow", "1.2-2"), ") ");
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.getCurrentMonthTopTransfers().length ? 92 : 93);
+      \u0275\u0275advance(2);
+      \u0275\u0275conditional(ctx.model.selectedBalance ? 94 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.viewData.movements.length ? 95 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.model.selectedBalance && ctx.viewData.selectedAccountBalanceHistory.data.length ? 96 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.viewData.selectedTotal !== 0 ? 97 : -1);
+      \u0275\u0275advance();
+      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseVsIncomeChart.chartData)("labels", ctx.viewData.monthlyExpenseVsIncomeChart.chartLabels)("options", \u0275\u0275pureFunction1(131, _c142, \u0275\u0275pureFunction1(129, _c132, \u0275\u0275pureFunction0(128, _c82))))("type", ctx.viewData.monthlyExpenseVsIncomeChart.chartType);
+      \u0275\u0275advance();
+      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseComparisonChart.chartData)("labels", ctx.viewData.monthlyExpenseComparisonChart.chartLabels)("options", \u0275\u0275pureFunction1(136, _c142, \u0275\u0275pureFunction1(134, _c132, \u0275\u0275pureFunction0(133, _c152))))("type", ctx.viewData.monthlyExpenseComparisonChart.chartType);
+      \u0275\u0275advance();
+      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseComparisonFoodChart.chartData)("labels", ctx.viewData.monthlyExpenseComparisonFoodChart.chartLabels)("options", \u0275\u0275pureFunction1(141, _c142, \u0275\u0275pureFunction1(139, _c132, \u0275\u0275pureFunction0(138, _c152))))("type", ctx.viewData.monthlyExpenseComparisonFoodChart.chartType);
+      \u0275\u0275advance(5);
+      \u0275\u0275textInterpolate1(" Total Expenses ", \u0275\u0275pipeBind4(106, 83, ctx.viewData.totalExpenses, "USD", "symbol-narrow", "1.2-2"), " ");
       \u0275\u0275advance(3);
-      \u0275\u0275textInterpolate1(" Total Selected Categories ", \u0275\u0275pipeBind4(72, 39, ctx.viewData.totalSelectedCategories, "USD", "symbol-narrow", "1.2-2"), " ");
+      \u0275\u0275textInterpolate1(" Total Selected Categories ", \u0275\u0275pipeBind4(109, 88, ctx.viewData.totalSelectedCategories, "USD", "symbol-narrow", "1.2-2"), " ");
       \u0275\u0275advance(3);
       \u0275\u0275repeater(ctx.viewData.totalsByCategory);
       \u0275\u0275advance(2);
-      \u0275\u0275conditional(ctx.viewData.movementsPerSelectedCategories.length ? 76 : -1);
+      \u0275\u0275conditional(ctx.viewData.movementsPerSelectedCategories.length ? 113 : -1);
       \u0275\u0275advance(12);
       \u0275\u0275repeater(ctx.budgetPerCategory());
       \u0275\u0275advance(7);
-      \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(96, 44, ctx.totalBudgetForAllCategories(), "USD", "symbol-narrow", "1.2-2"), " ");
+      \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind4(133, 93, ctx.totalBudgetForAllCategories(), "USD", "symbol-narrow", "1.2-2"), " ");
+      \u0275\u0275advance(5);
+      \u0275\u0275property("datasets", ctx.viewData.monthlyExpenseChart.chartData)("labels", ctx.viewData.monthlyExpenseChart.chartLabels)("options", ctx.viewData.monthlyExpenseChart.chartOptions)("legend", ctx.viewData.monthlyExpenseChart.chartLegend)("type", ctx.viewData.monthlyExpenseChart.chartType);
+      \u0275\u0275advance(4);
+      \u0275\u0275property("datasets", ctx.viewData.monthlyIncomeChart.chartData)("labels", ctx.viewData.monthlyIncomeChart.chartLabels)("options", ctx.viewData.monthlyIncomeChart.chartOptions)("legend", ctx.viewData.monthlyIncomeChart.chartLegend)("type", ctx.viewData.monthlyIncomeChart.chartType);
     }
-  }, dependencies: [NgClass, NgSelectOption, \u0275NgSelectMultipleOption, CheckboxControlValueAccessor, SelectControlValueAccessor, NgControlStatus, NgModel, BaseChartDirective, MovementListingComponent, CurrencyPipe, DatePipe], styles: ["\n.balance-row[_ngcontent-%COMP%]:nth-child(even) {\n  background-color: lightgrey;\n}\n.balance-row[_ngcontent-%COMP%]:hover {\n  background-color: lightblue;\n}\n@media (max-width: 504px) {\n  .padding-all-5[_ngcontent-%COMP%] {\n    padding: 8px;\n  }\n}\n.balance-listing-container[_ngcontent-%COMP%] {\n  overflow-x: auto;\n}\n.balance-listing-container[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n  width: 100%;\n}\n@media (min-width: 505px) {\n  .balance-listing-container[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n    width: initial;\n  }\n}\n.balance-row-debit[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: #0061a7;\n}\n.balance-row-investment[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: #0dab19;\n}\n.balance-row-credit[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: #de0000;\n}\n.balance-row-loan[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: brown;\n}\n.balance-row-capital[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: purple;\n}\n.balance-row-crypto[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: darkgreen;\n}\n.balance-category-list[_ngcontent-%COMP%] {\n  columns: 2;\n}\n@media (min-width: 504px) {\n  .balance-category-list[_ngcontent-%COMP%] {\n    columns: 4;\n  }\n}\n/*# sourceMappingURL=balance-2QHUN5EQ.css.map */"], changeDetection: 1 });
+  }, dependencies: [NgClass, NgSelectOption, \u0275NgSelectMultipleOption, CheckboxControlValueAccessor, SelectControlValueAccessor, NgControlStatus, NgModel, BaseChartDirective, MovementListingComponent, CurrencyPipe, DatePipe], styles: ["\n.balance-row[_ngcontent-%COMP%]:nth-child(even) {\n  background-color: lightgrey;\n}\n.balance-row[_ngcontent-%COMP%]:hover {\n  background-color: lightblue;\n}\n@media (max-width: 504px) {\n  .padding-all-5[_ngcontent-%COMP%] {\n    padding: 8px;\n  }\n}\n.balance-listing-container[_ngcontent-%COMP%] {\n  overflow-x: auto;\n}\n.balance-listing-container[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.account-type-chart-wrapper[_ngcontent-%COMP%] {\n  margin: 1rem 0 1.25rem;\n  max-width: 640px;\n  height: 300px;\n}\n.balance-listing-container[_ngcontent-%COMP%] {\n  overflow-x: auto;\n}\n.balance-listing-container[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n  width: 100%;\n}\n.account-type-chart-wrapper[_ngcontent-%COMP%] {\n  margin: 1.25rem 0 3rem;\n  max-width: 640px;\n  height: 320px;\n  padding-top: 0.5rem;\n}\n#monthlyExpenseChart[_ngcontent-%COMP%], \n#monthlyIncomeChart[_ngcontent-%COMP%], \n#capitalComparisonChart[_ngcontent-%COMP%], \n#monthlyExpenseVsIncomeChart[_ngcontent-%COMP%], \n#selectedAccountBalanceHistoryChart[_ngcontent-%COMP%] {\n  display: block;\n  width: 100% !important;\n  max-width: 100% !important;\n  height: 100% !important;\n}\n.selected-account-history-panel[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n  margin-bottom: 1rem;\n  max-width: 900px;\n  height: 300px;\n}\n.capital-chart-note[_ngcontent-%COMP%] {\n  margin-bottom: 0.5rem;\n  font-size: 0.9rem;\n  color: #444;\n}\n.movement-summary-panel[_ngcontent-%COMP%] {\n  margin-top: 6rem;\n  margin-bottom: 1rem;\n}\n.top-movements-panel[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n  margin-bottom: 1rem;\n}\n.top-categories-panel[_ngcontent-%COMP%] {\n  margin-top: 1rem;\n  margin-bottom: 1rem;\n  max-width: 420px;\n}\n.top-movements-table[_ngcontent-%COMP%], \n.top-categories-table[_ngcontent-%COMP%] {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 0.5rem;\n}\n.top-movements-table[_ngcontent-%COMP%]   th[_ngcontent-%COMP%], \n.top-movements-table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%], \n.top-categories-table[_ngcontent-%COMP%]   th[_ngcontent-%COMP%], \n.top-categories-table[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\n  border: 1px solid #d0d0d0;\n  padding: 0.4rem 0.5rem;\n  text-align: left;\n  vertical-align: top;\n}\n.movement-date[_ngcontent-%COMP%], \n.movement-account[_ngcontent-%COMP%], \n.movement-category[_ngcontent-%COMP%], \n.movement-description-place[_ngcontent-%COMP%], \n.movement-place[_ngcontent-%COMP%], \n.movement-amount[_ngcontent-%COMP%] {\n  overflow-wrap: anywhere;\n}\n.movement-income[_ngcontent-%COMP%] {\n  color: #0b7a0b;\n  font-weight: 600;\n}\n.movement-expense[_ngcontent-%COMP%] {\n  color: #d62728;\n  font-weight: 600;\n}\n@media (min-width: 505px) {\n  .balance-listing-container[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] {\n    width: initial;\n  }\n}\n.balance-row-debit[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: #0061a7;\n}\n.balance-row-investment[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: #0dab19;\n}\n.balance-row-credit[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: #de0000;\n}\n.balance-row-loan[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: brown;\n}\n.balance-row-capital[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: purple;\n}\n.balance-row-crypto[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child   .no-button[_ngcontent-%COMP%] {\n  color: darkgreen;\n}\n.balance-category-list[_ngcontent-%COMP%] {\n  columns: 2;\n}\n@media (min-width: 504px) {\n  .balance-category-list[_ngcontent-%COMP%] {\n    columns: 4;\n  }\n}\n/*# sourceMappingURL=balance-QUC4TOEM.css.map */"], changeDetection: 1 });
 };
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(BalanceComponent, [{
@@ -92190,13 +92833,220 @@ var BalanceComponent = class _BalanceComponent {
     </table>\r
   </div>\r
 \r
-  <div>\r
+  <div class="account-type-chart-wrapper">\r
+    <h4>CAPITAL vs suma de los dem\xE1s tipos</h4>\r
+    <div class="capital-chart-note">\r
+      {{ getCapitalTotal() < 0 ? 'CAPITAL en negativo' : 'CAPITAL en positivo' }}\r
+      \xB7 {{ getCapitalTotal() | currency: "USD":"symbol-narrow":"1.2-2" }}\r
+    </div>\r
+    <canvas\r
+      id="capitalComparisonChart"\r
+      baseChart\r
+      [datasets]="[{ data: [absoluteValue(getCapitalTotal()), absoluteValue(getOtherAccountTypeTotal()), getCapitalDifference()], label: 'Total', backgroundColor: ['#7b2cbf', '#4c6ef5', '#f59f00'], borderColor: ['#7b2cbf', '#4c6ef5', '#f59f00'], borderWidth: 1 }]"\r
+      [labels]="['CAPITAL', 'Suma de otros', 'Diferencia']"\r
+      [options]="{ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => formatCurrency(ctx.parsed.y) } }, valueLabelPlugin: { enabled: true } }, scales: { y: { beginAtZero: true, suggestedMax: maxCapitalComparisonValue() } } }"\r
+      chartType="bar"\r
+    >\r
+    </canvas>\r
+  </div>\r
+\r
+  <div class="movement-summary-panel">\r
     <div><strong>Movement Summary</strong></div>\r
     <div>Total count: {{ viewData.movementSummary.movementCount }}</div>\r
     <div>Expense count: {{ viewData.movementSummary.expenseCount }}</div>\r
+    <div>\r
+      Expense total: {{\r
+      getCurrentMonthExpenseTotal() | currency: "USD":"symbol-narrow":"1.2-2"\r
+      }}\r
+    </div>\r
     <div>Income count: {{ viewData.movementSummary.incomeCount }}</div>\r
     <div>Transfer count: {{ viewData.movementSummary.transferCount }}</div>\r
   </div>\r
+\r
+  <details open class="top-categories-panel">\r
+    <summary>\r
+      <strong>\r
+        Top 10 Categories (Total: {{\r
+        getCurrentMonthTopCategoriesTotal() | currency: "USD":"symbol-narrow":"1.2-2"\r
+        }})\r
+      </strong>\r
+    </summary>\r
+    @if (getCurrentMonthTopCategories().length) {\r
+    <table class="top-categories-table">\r
+      <thead>\r
+        <tr>\r
+          <th>Monto</th>\r
+          <th>Categor\xEDa</th>\r
+          <th>Movimientos</th>\r
+        </tr>\r
+      </thead>\r
+      <tbody>\r
+        @for (category of getCurrentMonthTopCategories(); track category.category) {\r
+        <tr>\r
+          <td class="category-total">\r
+            {{ category.total | currency: "USD":"symbol-narrow":"1.2-2" }}\r
+          </td>\r
+          <td class="category-name">{{ category.category }}</td>\r
+          <td class="category-count">{{ category.count }}</td>\r
+        </tr>\r
+        }\r
+      </tbody>\r
+    </table>\r
+    } @else {\r
+    <div>No expense categories for the selected month.</div>\r
+    }\r
+  </details>\r
+\r
+  <details open class="top-movements-panel">\r
+    <summary>\r
+      <strong>\r
+        Top 10 expenses (Total: {{\r
+        getCurrentMonthTopMovementsTotal() | currency: "USD":"symbol-narrow":"1.2-2"\r
+        }})\r
+      </strong>\r
+    </summary>\r
+    @if (getCurrentMonthTopMovements().length) {\r
+    <table class="top-movements-table">\r
+      <thead>\r
+        <tr>\r
+          <th>Fecha</th>\r
+          <th>Monto</th>\r
+          <th>Descripci\xF3n</th>\r
+          <th>Cuenta</th>\r
+          <th>Categor\xEDa</th>\r
+          <th>Lugar</th>\r
+        </tr>\r
+      </thead>\r
+      <tbody>\r
+        @for (movement of getCurrentMonthTopMovements(); track movement.mov_id) {\r
+        <tr>\r
+          <td class="movement-date">\r
+            {{ movement.mov_date | date: "yyyy-MM-dd" }}\r
+          </td>\r
+          <td\r
+            class="movement-amount"\r
+            [ngClass]="{ 'movement-income': movement.mov_amount > 0, 'movement-expense': movement.mov_amount < 0 }"\r
+          >\r
+            {{ movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}\r
+          </td>\r
+          <td class="movement-description-place">\r
+            {{ movement.mov_desc || "-" }}\r
+          </td>\r
+          <td class="movement-account">\r
+            {{ movement.mov_txt_account || movement.mov_txt_account_to || "-" }}\r
+          </td>\r
+          <td class="movement-category">\r
+            {{ movement.mov_txt_category || "-" }}\r
+          </td>\r
+          <td class="movement-place">\r
+            {{ movement.mov_txt_place || "-" }}\r
+          </td>\r
+        </tr>\r
+        }\r
+      </tbody>\r
+    </table>\r
+    } @else {\r
+    <div>No expense movements for the selected month.</div>\r
+    }\r
+  </details>\r
+\r
+  <details open class="top-movements-panel">\r
+    <summary>\r
+      <strong>\r
+        Top 10 income (Total: {{\r
+        getCurrentMonthTopIncomeMovementsTotal() | currency: "USD":"symbol-narrow":"1.2-2"\r
+        }})\r
+      </strong>\r
+    </summary>\r
+    @if (getCurrentMonthTopIncomeMovements().length) {\r
+    <table class="top-movements-table">\r
+      <thead>\r
+        <tr>\r
+          <th>Fecha</th>\r
+          <th>Monto</th>\r
+          <th>Descripci\xF3n</th>\r
+          <th>Cuenta</th>\r
+          <th>Categor\xEDa</th>\r
+          <th>Lugar</th>\r
+        </tr>\r
+      </thead>\r
+      <tbody>\r
+        @for (movement of getCurrentMonthTopIncomeMovements(); track movement.mov_id) {\r
+        <tr>\r
+          <td class="movement-date">\r
+            {{ movement.mov_date | date: "yyyy-MM-dd" }}\r
+          </td>\r
+          <td\r
+            class="movement-amount"\r
+            [ngClass]="{ 'movement-income': movement.mov_amount > 0, 'movement-expense': movement.mov_amount < 0 }"\r
+          >\r
+            {{ movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}\r
+          </td>\r
+          <td class="movement-description-place">\r
+            {{ movement.mov_desc || "-" }}\r
+          </td>\r
+          <td class="movement-account">\r
+            {{ movement.mov_txt_account || movement.mov_txt_account_to || "-" }}\r
+          </td>\r
+          <td class="movement-category">\r
+            {{ movement.mov_txt_category || "-" }}\r
+          </td>\r
+          <td class="movement-place">\r
+            {{ movement.mov_txt_place || "-" }}\r
+          </td>\r
+        </tr>\r
+        }\r
+      </tbody>\r
+    </table>\r
+    } @else {\r
+    <div>No income movements for the selected month.</div>\r
+    }\r
+  </details>\r
+\r
+  <details open class="top-movements-panel">\r
+    <summary>\r
+      <strong>\r
+        Top 10 Transfers (Total: {{\r
+        getCurrentMonthTopTransfersTotal() | currency: "USD":"symbol-narrow":"1.2-2"\r
+        }})\r
+      </strong>\r
+    </summary>\r
+    @if (getCurrentMonthTopTransfers().length) {\r
+    <table class="top-movements-table">\r
+      <thead>\r
+        <tr>\r
+          <th>Fecha</th>\r
+          <th>Monto</th>\r
+          <th>Cuenta origen</th>\r
+          <th>Cuenta destino</th>\r
+        </tr>\r
+      </thead>\r
+      <tbody>\r
+        @for (movement of getCurrentMonthTopTransfers(); track movement.mov_id) {\r
+        <tr>\r
+          <td class="movement-date">\r
+            {{ movement.mov_date | date: "yyyy-MM-dd" }}\r
+          </td>\r
+          <td\r
+            class="movement-amount"\r
+            [ngClass]="{ 'movement-income': movement.mov_amount > 0, 'movement-expense': movement.mov_amount < 0 }"\r
+          >\r
+            {{ movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}\r
+          </td>\r
+          <td class="movement-account">\r
+            {{ movement.mov_txt_account || "-" }}\r
+          </td>\r
+          <td class="movement-account">\r
+            {{ movement.mov_txt_account_to || "-" }}\r
+          </td>\r
+        </tr>\r
+        }\r
+      </tbody>\r
+    </table>\r
+    } @else {\r
+    <div>No transfer movements for the selected month.</div>\r
+    }\r
+  </details>\r
 \r
   @if (model.selectedBalance) {\r
   <div>\r
@@ -92267,6 +93117,22 @@ var BalanceComponent = class _BalanceComponent {
     selectedView="compact"\r
     (onSelectMovement)="selectMovement($event)"\r
   ></movement-listing>\r
+  } @if (model.selectedBalance && viewData.selectedAccountBalanceHistory.data.length) {\r
+  <div class="selected-account-history-panel">\r
+    <h4>\r
+      Evoluci\xF3n de saldo final mes con mes - {{ model.selectedBalance.bal_txt_account }}\r
+      ({{ model.selectedMonthName }} {{ model.year }})\r
+    </h4>\r
+    <canvas\r
+      id="selectedAccountBalanceHistoryChart"\r
+      baseChart\r
+      [datasets]="[{ data: viewData.selectedAccountBalanceHistory.data, label: 'Saldo final', borderColor: '#4c6ef5', backgroundColor: 'rgba(76,110,245,0.15)', tension: 0.2, fill: true }]"\r
+      [labels]="viewData.selectedAccountBalanceHistory.labels"\r
+      [options]="{ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => formatCurrency(ctx.parsed.y) } }, valueLabelPlugin: { enabled: true } }, scales: { y: { beginAtZero: false } } }"\r
+      [type]="'line'"\r
+    >\r
+    </canvas>\r
+  </div>\r
   } @if (viewData.selectedTotal !== 0) {\r
   <div>\r
     <table>\r
@@ -92306,32 +93172,11 @@ var BalanceComponent = class _BalanceComponent {
   }\r
 \r
   <canvas\r
-    id="monthlyExpenseChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyExpenseChart.chartData"\r
-    [labels]="viewData.monthlyExpenseChart.chartLabels"\r
-    [options]="viewData.monthlyExpenseChart.chartOptions"\r
-    [legend]="viewData.monthlyExpenseChart.chartLegend"\r
-    [type]="viewData.monthlyExpenseChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <canvas\r
-    id="monthlyIncomeChart"\r
-    baseChart\r
-    [datasets]="viewData.monthlyIncomeChart.chartData"\r
-    [labels]="viewData.monthlyIncomeChart.chartLabels"\r
-    [options]="viewData.monthlyIncomeChart.chartOptions"\r
-    [legend]="viewData.monthlyIncomeChart.chartLegend"\r
-    [type]="viewData.monthlyIncomeChart.chartType"\r
-  >\r
-  </canvas>\r
-\r
-  <canvas\r
     id="monthlyExpenseVsIncomeChart"\r
     baseChart\r
     [datasets]="viewData.monthlyExpenseVsIncomeChart.chartData"\r
     [labels]="viewData.monthlyExpenseVsIncomeChart.chartLabels"\r
+    [options]="{ plugins: { valueLabelPlugin: { enabled: true } } }"\r
     [type]="viewData.monthlyExpenseVsIncomeChart.chartType"\r
   >\r
   </canvas>\r
@@ -92341,6 +93186,7 @@ var BalanceComponent = class _BalanceComponent {
     baseChart\r
     [datasets]="viewData.monthlyExpenseComparisonChart.chartData"\r
     [labels]="viewData.monthlyExpenseComparisonChart.chartLabels"\r
+    [options]="{ plugins: { valueLabelPlugin: { enabled: false } } }"\r
     [type]="viewData.monthlyExpenseComparisonChart.chartType"\r
   >\r
   </canvas>\r
@@ -92350,6 +93196,7 @@ var BalanceComponent = class _BalanceComponent {
     baseChart\r
     [datasets]="viewData.monthlyExpenseComparisonFoodChart.chartData"\r
     [labels]="viewData.monthlyExpenseComparisonFoodChart.chartLabels"\r
+    [options]="{ plugins: { valueLabelPlugin: { enabled: false } } }"\r
     [type]="viewData.monthlyExpenseComparisonFoodChart.chartType"\r
   >\r
   </canvas>\r
@@ -92421,12 +93268,40 @@ var BalanceComponent = class _BalanceComponent {
       </tfoot>\r
     </table>\r
   </div>\r
+\r
+  <details open>\r
+    <summary>Monthly Expense Chart</summary>\r
+    <canvas\r
+      id="monthlyExpenseChart"\r
+      baseChart\r
+      [datasets]="viewData.monthlyExpenseChart.chartData"\r
+      [labels]="viewData.monthlyExpenseChart.chartLabels"\r
+      [options]="viewData.monthlyExpenseChart.chartOptions"\r
+      [legend]="viewData.monthlyExpenseChart.chartLegend"\r
+      [type]="viewData.monthlyExpenseChart.chartType"\r
+    >\r
+    </canvas>\r
+  </details>\r
+\r
+  <details open>\r
+    <summary>Monthly Income Chart</summary>\r
+    <canvas\r
+      id="monthlyIncomeChart"\r
+      baseChart\r
+      [datasets]="viewData.monthlyIncomeChart.chartData"\r
+      [labels]="viewData.monthlyIncomeChart.chartLabels"\r
+      [options]="viewData.monthlyIncomeChart.chartOptions"\r
+      [legend]="viewData.monthlyIncomeChart.chartLegend"\r
+      [type]="viewData.monthlyIncomeChart.chartType"\r
+    >\r
+    </canvas>\r
+  </details>  \r
 </div>\r
-`, styles: ["/* src/app/money/balance.css */\n.balance-row:nth-child(even) {\n  background-color: lightgrey;\n}\n.balance-row:hover {\n  background-color: lightblue;\n}\n@media (max-width: 504px) {\n  .padding-all-5 {\n    padding: 8px;\n  }\n}\n.balance-listing-container {\n  overflow-x: auto;\n}\n.balance-listing-container table {\n  width: 100%;\n}\n@media (min-width: 505px) {\n  .balance-listing-container table {\n    width: initial;\n  }\n}\n.balance-row-debit td:first-child .no-button {\n  color: #0061a7;\n}\n.balance-row-investment td:first-child .no-button {\n  color: #0dab19;\n}\n.balance-row-credit td:first-child .no-button {\n  color: #de0000;\n}\n.balance-row-loan td:first-child .no-button {\n  color: brown;\n}\n.balance-row-capital td:first-child .no-button {\n  color: purple;\n}\n.balance-row-crypto td:first-child .no-button {\n  color: darkgreen;\n}\n.balance-category-list {\n  columns: 2;\n}\n@media (min-width: 504px) {\n  .balance-category-list {\n    columns: 4;\n  }\n}\n/*# sourceMappingURL=balance-2QHUN5EQ.css.map */\n"] }]
+`, styles: ["/* src/app/money/balance.css */\n.balance-row:nth-child(even) {\n  background-color: lightgrey;\n}\n.balance-row:hover {\n  background-color: lightblue;\n}\n@media (max-width: 504px) {\n  .padding-all-5 {\n    padding: 8px;\n  }\n}\n.balance-listing-container {\n  overflow-x: auto;\n}\n.balance-listing-container table {\n  width: 100%;\n}\n.account-type-chart-wrapper {\n  margin: 1rem 0 1.25rem;\n  max-width: 640px;\n  height: 300px;\n}\n.balance-listing-container {\n  overflow-x: auto;\n}\n.balance-listing-container table {\n  width: 100%;\n}\n.account-type-chart-wrapper {\n  margin: 1.25rem 0 3rem;\n  max-width: 640px;\n  height: 320px;\n  padding-top: 0.5rem;\n}\n#monthlyExpenseChart,\n#monthlyIncomeChart,\n#capitalComparisonChart,\n#monthlyExpenseVsIncomeChart,\n#selectedAccountBalanceHistoryChart {\n  display: block;\n  width: 100% !important;\n  max-width: 100% !important;\n  height: 100% !important;\n}\n.selected-account-history-panel {\n  margin-top: 1rem;\n  margin-bottom: 1rem;\n  max-width: 900px;\n  height: 300px;\n}\n.capital-chart-note {\n  margin-bottom: 0.5rem;\n  font-size: 0.9rem;\n  color: #444;\n}\n.movement-summary-panel {\n  margin-top: 6rem;\n  margin-bottom: 1rem;\n}\n.top-movements-panel {\n  margin-top: 1rem;\n  margin-bottom: 1rem;\n}\n.top-categories-panel {\n  margin-top: 1rem;\n  margin-bottom: 1rem;\n  max-width: 420px;\n}\n.top-movements-table,\n.top-categories-table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-top: 0.5rem;\n}\n.top-movements-table th,\n.top-movements-table td,\n.top-categories-table th,\n.top-categories-table td {\n  border: 1px solid #d0d0d0;\n  padding: 0.4rem 0.5rem;\n  text-align: left;\n  vertical-align: top;\n}\n.movement-date,\n.movement-account,\n.movement-category,\n.movement-description-place,\n.movement-place,\n.movement-amount {\n  overflow-wrap: anywhere;\n}\n.movement-income {\n  color: #0b7a0b;\n  font-weight: 600;\n}\n.movement-expense {\n  color: #d62728;\n  font-weight: 600;\n}\n@media (min-width: 505px) {\n  .balance-listing-container table {\n    width: initial;\n  }\n}\n.balance-row-debit td:first-child .no-button {\n  color: #0061a7;\n}\n.balance-row-investment td:first-child .no-button {\n  color: #0dab19;\n}\n.balance-row-credit td:first-child .no-button {\n  color: #de0000;\n}\n.balance-row-loan td:first-child .no-button {\n  color: brown;\n}\n.balance-row-capital td:first-child .no-button {\n  color: purple;\n}\n.balance-row-crypto td:first-child .no-button {\n  color: darkgreen;\n}\n.balance-category-list {\n  columns: 2;\n}\n@media (min-width: 504px) {\n  .balance-category-list {\n    columns: 4;\n  }\n}\n/*# sourceMappingURL=balance-QUC4TOEM.css.map */\n"] }]
   }], () => [{ type: BalanceService }, { type: MovementService }, { type: SyncAPI }, { type: Title }, { type: AuthenticationService }, { type: NotificationService }], null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BalanceComponent, { className: "BalanceComponent", filePath: "src/app/money/balance.component.ts", lineNumber: 32 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(BalanceComponent, { className: "BalanceComponent", filePath: "src/app/money/balance.component.ts", lineNumber: 82 });
 })();
 
 // src/app/common/common.component.ts
@@ -97655,7 +98530,7 @@ var MultimediaViewService = class _MultimediaViewService {
 
 // src/app/multimedia/multimedia.component.ts
 var _c012 = (a0, a1, a22, a32, a4) => ({ "multimedia-movies": a0, "multimedia-tvseries": a1, "multimedia-anime": a22, "multimedia-book": a32, "multimedia-manga": a4 });
-var _c112 = (a0) => ({ "multimedia-last-ep": a0 });
+var _c113 = (a0) => ({ "multimedia-last-ep": a0 });
 function MultimediaComponent_Conditional_4_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span", 8)(1, "label", 25);
@@ -97887,7 +98762,7 @@ function MultimediaComponent_For_14_Conditional_21_Template(rf, ctx) {
   }
   if (rf & 2) {
     const item_r7 = \u0275\u0275nextContext().$implicit;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c112, item_r7.mma_current_ep === item_r7.mma_total_ep));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c113, item_r7.mma_current_ep === item_r7.mma_total_ep));
     \u0275\u0275advance();
     \u0275\u0275conditional(item_r7.mma_current_ep === item_r7.mma_total_ep ? 1 : -1);
     \u0275\u0275advance();
@@ -102879,8 +103754,8 @@ var TimelineComponent = class _TimelineComponent {
 
 // src/app/activities/activity.component.ts
 var _c013 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true });
-var _c113 = (a0) => ["status-block", a0];
-var _c28 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true, optShowTimeTrackingHistory: false });
+var _c114 = (a0) => ["status-block", a0];
+var _c29 = () => ({ optShowRecordNameInline: true, optShowBadgeIfTaskIsInBacklog: true, optShowTimeTrackingHistory: false });
 function ActivityComponent_For_9_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "option", 5);
@@ -103133,7 +104008,7 @@ function ActivityComponent_For_26_Template(rf, ctx) {
   if (rf & 2) {
     const h_r14 = ctx.$implicit;
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c113, h_r14.className));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(3, _c114, h_r14.className));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate2("", h_r14.label, " (", h_r14.count, " actividades)");
   }
@@ -103315,7 +104190,7 @@ function ActivityComponent_For_29_For_10_Conditional_19_For_5_Template(rf, ctx) 
     const t_r24 = ctx.$implicit;
     const ctx_r4 = \u0275\u0275nextContext(4);
     \u0275\u0275advance();
-    \u0275\u0275property("task", t_r24.task)("handlers", ctx_r4.handlers)("options", \u0275\u0275pureFunction0(3, _c28));
+    \u0275\u0275property("task", t_r24.task)("handlers", ctx_r4.handlers)("options", \u0275\u0275pureFunction0(3, _c29));
   }
 }
 function ActivityComponent_For_29_For_10_Conditional_19_Template(rf, ctx) {
@@ -105503,10 +106378,10 @@ var PendingProvisionService = class _PendingProvisionService {
 
 // src/app/cartera/PendingProvisionReportComponent.ts
 var _c014 = (a0) => ({ "page-break-after": a0 });
-var _c114 = (a0) => ({ "pending-provision-top-block-30": a0 });
-var _c29 = (a0, a1) => ({ "provision-added-row": a0, "provision-payed-row": a1 });
-var _c33 = (a0, a1) => ({ "provision-payed-row": a0, "provision-added-row": a1 });
-var _c42 = (a0) => ({ "provision-payed-row": a0 });
+var _c115 = (a0) => ({ "pending-provision-top-block-30": a0 });
+var _c210 = (a0, a1) => ({ "provision-added-row": a0, "provision-payed-row": a1 });
+var _c34 = (a0, a1) => ({ "provision-payed-row": a0, "provision-added-row": a1 });
+var _c43 = (a0) => ({ "provision-payed-row": a0 });
 function PendingProvisionReportComponent_Conditional_3_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 2);
@@ -105570,7 +106445,7 @@ function PendingProvisionReportComponent_For_26_Template(rf, ctx) {
     const provision_r1 = ctx.$implicit;
     const \u0275$index_46_r2 = ctx.$index;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(30, _c29, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r1, ctx_r2.viewData.year, ctx_r2.viewData.month), provision_r1.cpr_remaining === 0));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(30, _c210, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r1, ctx_r2.viewData.year, ctx_r2.viewData.month), provision_r1.cpr_remaining === 0));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275$index_46_r2 + 1);
     \u0275\u0275advance(2);
@@ -105613,7 +106488,7 @@ function PendingProvisionReportComponent_For_58_Template(rf, ctx) {
     const provision_r4 = ctx.$implicit;
     const \u0275$index_131_r5 = ctx.$index;
     const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(22, _c33, provision_r4.cpr_remaining === 0, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r4, ctx_r2.viewData.year, ctx_r2.viewData.month)));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(22, _c34, provision_r4.cpr_remaining === 0, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r4, ctx_r2.viewData.year, ctx_r2.viewData.month)));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate3(" #", \u0275$index_131_r5 + 1, " - ", provision_r4.cpr_id_unit, " - ", provision_r4.cpr_concept, " ");
     \u0275\u0275advance(2);
@@ -105812,7 +106687,7 @@ function PendingProvisionReportComponent_Conditional_170_For_11_Template(rf, ctx
   if (rf & 2) {
     const payment_r9 = ctx.$implicit;
     const ctx_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(14, _c42, payment_r9.cpy_date_identification && payment_r9.cpy_date_identification.getFullYear() * 100 + payment_r9.cpy_date_identification.getMonth() + 1 === ctx_r2.viewData.year * 100 + ctx_r2.viewData.month));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(14, _c43, payment_r9.cpy_date_identification && payment_r9.cpy_date_identification.getFullYear() * 100 + payment_r9.cpy_date_identification.getMonth() + 1 === ctx_r2.viewData.year * 100 + ctx_r2.viewData.month));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", \u0275\u0275pipeBind2(3, 6, payment_r9.cpy_date, "yyyy-MM-dd"), " ");
     \u0275\u0275advance(3);
@@ -106250,7 +107125,7 @@ var PendingProvisionReportComponent = class _PendingProvisionReportComponent {
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.viewData.nonIdentifiedPaymentList.length ? 170 : -1);
       \u0275\u0275advance();
-      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(97, _c114, ctx.viewData.timelineList.length > 0));
+      \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(97, _c115, ctx.viewData.timelineList.length > 0));
       \u0275\u0275advance();
       \u0275\u0275conditional(ctx.viewData.timelineList.length > 0 ? 172 : -1);
       \u0275\u0275advance(2);
@@ -108880,8 +109755,8 @@ var ResultsReportService = class _ResultsReportService {
 
 // src/app/cartera/ResultsReportComponent.ts
 var _c016 = (a0) => ({ "results-top-block-50": a0 });
-var _c115 = (a0, a1) => ({ "results-header-row": a0, "results-total-row": a1 });
-var _c210 = (a0) => ({ "text-align-right": a0 });
+var _c116 = (a0, a1) => ({ "results-header-row": a0, "results-total-row": a1 });
+var _c211 = (a0) => ({ "text-align-right": a0 });
 function ResultsReportComponent_For_17_Conditional_2_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span");
@@ -108957,7 +109832,7 @@ function ResultsReportComponent_For_17_Template(rf, ctx) {
   if (rf & 2) {
     const movement_r1 = ctx.$implicit;
     const \u0275$index_27_r2 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(6, _c115, movement_r1.type === "header", movement_r1.type === "total"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(6, _c116, movement_r1.type === "header", movement_r1.type === "total"));
     \u0275\u0275advance(2);
     \u0275\u0275conditional(movement_r1.type === "header" ? 2 : -1);
     \u0275\u0275advance(2);
@@ -109003,9 +109878,9 @@ function ResultsReportComponent_For_21_Template(rf, ctx) {
   if (rf & 2) {
     const movement_r3 = ctx.$implicit;
     const \u0275$index_63_r4 = ctx.$index;
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c115, movement_r3.type === "header", movement_r3.type === "total"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(5, _c116, movement_r3.type === "header", movement_r3.type === "total"));
     \u0275\u0275advance();
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(8, _c210, movement_r3.type === "total"));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(8, _c211, movement_r3.type === "total"));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate1(" ", movement_r3.concept, " ");
     \u0275\u0275advance(2);
@@ -109967,8 +110842,8 @@ var CarteraSendReceiptsComponent = class _CarteraSendReceiptsComponent {
 
 // src/app/cartera/CarteraComponent.ts
 var _c017 = (a0) => ({ "hidden": a0 });
-var _c116 = (a0, a1) => ({ "provision-payed-row": a0, "provision-added-row": a1 });
-var _c211 = (a0) => ({ "input-invalid": a0 });
+var _c117 = (a0, a1) => ({ "provision-payed-row": a0, "provision-added-row": a1 });
+var _c212 = (a0) => ({ "input-invalid": a0 });
 function CarteraComponent_Conditional_6_For_10_For_7_Conditional_4_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "span")(1, "strong");
@@ -110550,7 +111425,7 @@ function CarteraComponent_Conditional_14_Conditional_52_For_22_Template(rf, ctx)
     const provision_r27 = ctx.$implicit;
     const \u0275$index_308_r28 = ctx.$index;
     const ctx_r2 = \u0275\u0275nextContext(3);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(33, _c116, provision_r27.cpr_remaining === 0, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r27, ctx_r2.viewData.year, ctx_r2.viewData.month)));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(33, _c117, provision_r27.cpr_remaining === 0, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r27, ctx_r2.viewData.year, ctx_r2.viewData.month)));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275$index_308_r28 + 1);
     \u0275\u0275advance(2);
@@ -110570,12 +111445,12 @@ function CarteraComponent_Conditional_14_Conditional_52_For_22_Template(rf, ctx)
     \u0275\u0275advance(3);
     \u0275\u0275property("name", provision_r27.cpr_id);
     \u0275\u0275twoWayProperty("ngModel", ctx_r2.payDetModel[provision_r27.cpr_id]);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(36, _c211, ctx_r2.viewData.payDetCaptureStatus === "invalid" && ctx_r2.payDetModel[provision_r27.cpr_id]))("disabled", ctx_r2.viewData.payDetCaptureStatus === "invalid" && !ctx_r2.payDetModel[provision_r27.cpr_id] || ctx_r2.viewData.payDetCaptureStatus === "valid" && !ctx_r2.payDetModel[provision_r27.cpr_id])("max", provision_r27.cpr_remaining);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(36, _c212, ctx_r2.viewData.payDetCaptureStatus === "invalid" && ctx_r2.payDetModel[provision_r27.cpr_id]))("disabled", ctx_r2.viewData.payDetCaptureStatus === "invalid" && !ctx_r2.payDetModel[provision_r27.cpr_id] || ctx_r2.viewData.payDetCaptureStatus === "valid" && !ctx_r2.payDetModel[provision_r27.cpr_id])("max", provision_r27.cpr_remaining);
     \u0275\u0275control();
     \u0275\u0275advance(2);
     \u0275\u0275property("name", provision_r27.cpr_id + "_folio");
     \u0275\u0275twoWayProperty("ngModel", ctx_r2.payDetFolioModel[provision_r27.cpr_id]);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(38, _c211, ctx_r2.viewData.payDetFolioCaptureStatus === "invalid" && ctx_r2.payDetFolioModel[provision_r27.cpr_id]))("disabled", ctx_r2.payDetModel[provision_r27.cpr_id] !== provision_r27.cpr_remaining);
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction1(38, _c212, ctx_r2.viewData.payDetFolioCaptureStatus === "invalid" && ctx_r2.payDetFolioModel[provision_r27.cpr_id]))("disabled", ctx_r2.payDetModel[provision_r27.cpr_id] !== provision_r27.cpr_remaining);
     \u0275\u0275control();
   }
 }
@@ -110984,7 +111859,7 @@ function CarteraComponent_Conditional_15_For_20_Template(rf, ctx) {
     const provision_r29 = ctx.$implicit;
     const \u0275$index_430_r30 = ctx.$index;
     const ctx_r2 = \u0275\u0275nextContext(2);
-    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(25, _c116, provision_r29.cpr_remaining === 0, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r29, ctx_r2.viewData.year, ctx_r2.viewData.month)));
+    \u0275\u0275property("ngClass", \u0275\u0275pureFunction2(25, _c117, provision_r29.cpr_remaining === 0, ctx_r2.isProvisionForCurrentRenderedMonth(provision_r29, ctx_r2.viewData.year, ctx_r2.viewData.month)));
     \u0275\u0275advance(2);
     \u0275\u0275textInterpolate(\u0275$index_430_r30 + 1);
     \u0275\u0275advance(2);
@@ -128175,7 +129050,7 @@ var appRoutes = [
 var routing = RouterModule.forRoot(appRoutes);
 
 // src/app/common/notification.component.ts
-var _forTrack02 = ($index, $item) => $item.id;
+var _forTrack03 = ($index, $item) => $item.id;
 function NotificationComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 2)(1, "span");
@@ -128311,7 +129186,7 @@ var NotificationComponent = class _NotificationComponent {
   static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NotificationComponent, selectors: [["notification"]], standalone: false, decls: 3, vars: 0, consts: [[1, "notification-area"], [1, "notification-item"], [1, "notification-head"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], [1, "notification-body"], [1, "notification-footer"], [1, "notification-close-button"], ["format", "[HH]:[mm]", 1, "notification-date", 3, "value"], [1, "notification-close-button", 3, "click"]], template: function NotificationComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0);
-      \u0275\u0275repeaterCreate(1, NotificationComponent_For_2_Template, 9, 4, "div", 1, _forTrack02);
+      \u0275\u0275repeaterCreate(1, NotificationComponent_For_2_Template, 9, 4, "div", 1, _forTrack03);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -129746,5 +130621,5 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# debugId=f018106e-e56a-5ecc-b9d7-fd4089ebfc02
-//# sourceMappingURL=main-DCG5IEMQ.js.map
+//# debugId=a4407b7a-884f-53de-893b-9b0ff8008c76
+//# sourceMappingURL=main-C2T3MANB.js.map

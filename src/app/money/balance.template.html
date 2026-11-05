@@ -139,13 +139,220 @@
     </table>
   </div>
 
-  <div>
+  <div class="account-type-chart-wrapper">
+    <h4>CAPITAL vs suma de los demás tipos</h4>
+    <div class="capital-chart-note">
+      {{ getCapitalTotal() < 0 ? 'CAPITAL en negativo' : 'CAPITAL en positivo' }}
+      · {{ getCapitalTotal() | currency: "USD":"symbol-narrow":"1.2-2" }}
+    </div>
+    <canvas
+      id="capitalComparisonChart"
+      baseChart
+      [datasets]="[{ data: [absoluteValue(getCapitalTotal()), absoluteValue(getOtherAccountTypeTotal()), getCapitalDifference()], label: 'Total', backgroundColor: ['#7b2cbf', '#4c6ef5', '#f59f00'], borderColor: ['#7b2cbf', '#4c6ef5', '#f59f00'], borderWidth: 1 }]"
+      [labels]="['CAPITAL', 'Suma de otros', 'Diferencia']"
+      [options]="{ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => formatCurrency(ctx.parsed.y) } }, valueLabelPlugin: { enabled: true } }, scales: { y: { beginAtZero: true, suggestedMax: maxCapitalComparisonValue() } } }"
+      chartType="bar"
+    >
+    </canvas>
+  </div>
+
+  <div class="movement-summary-panel">
     <div><strong>Movement Summary</strong></div>
     <div>Total count: {{ viewData.movementSummary.movementCount }}</div>
     <div>Expense count: {{ viewData.movementSummary.expenseCount }}</div>
+    <div>
+      Expense total: {{
+      getCurrentMonthExpenseTotal() | currency: "USD":"symbol-narrow":"1.2-2"
+      }}
+    </div>
     <div>Income count: {{ viewData.movementSummary.incomeCount }}</div>
     <div>Transfer count: {{ viewData.movementSummary.transferCount }}</div>
   </div>
+
+  <details open class="top-categories-panel">
+    <summary>
+      <strong>
+        Top 10 Categories (Total: {{
+        getCurrentMonthTopCategoriesTotal() | currency: "USD":"symbol-narrow":"1.2-2"
+        }})
+      </strong>
+    </summary>
+    @if (getCurrentMonthTopCategories().length) {
+    <table class="top-categories-table">
+      <thead>
+        <tr>
+          <th>Monto</th>
+          <th>Categoría</th>
+          <th>Movimientos</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of getCurrentMonthTopCategories(); track category.category) {
+        <tr>
+          <td class="category-total">
+            {{ category.total | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </td>
+          <td class="category-name">{{ category.category }}</td>
+          <td class="category-count">{{ category.count }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    } @else {
+    <div>No expense categories for the selected month.</div>
+    }
+  </details>
+
+  <details open class="top-movements-panel">
+    <summary>
+      <strong>
+        Top 10 expenses (Total: {{
+        getCurrentMonthTopMovementsTotal() | currency: "USD":"symbol-narrow":"1.2-2"
+        }})
+      </strong>
+    </summary>
+    @if (getCurrentMonthTopMovements().length) {
+    <table class="top-movements-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Monto</th>
+          <th>Descripción</th>
+          <th>Cuenta</th>
+          <th>Categoría</th>
+          <th>Lugar</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (movement of getCurrentMonthTopMovements(); track movement.mov_id) {
+        <tr>
+          <td class="movement-date">
+            {{ movement.mov_date | date: "yyyy-MM-dd" }}
+          </td>
+          <td
+            class="movement-amount"
+            [ngClass]="{ 'movement-income': movement.mov_amount > 0, 'movement-expense': movement.mov_amount < 0 }"
+          >
+            {{ movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </td>
+          <td class="movement-description-place">
+            {{ movement.mov_desc || "-" }}
+          </td>
+          <td class="movement-account">
+            {{ movement.mov_txt_account || movement.mov_txt_account_to || "-" }}
+          </td>
+          <td class="movement-category">
+            {{ movement.mov_txt_category || "-" }}
+          </td>
+          <td class="movement-place">
+            {{ movement.mov_txt_place || "-" }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    } @else {
+    <div>No expense movements for the selected month.</div>
+    }
+  </details>
+
+  <details open class="top-movements-panel">
+    <summary>
+      <strong>
+        Top 10 income (Total: {{
+        getCurrentMonthTopIncomeMovementsTotal() | currency: "USD":"symbol-narrow":"1.2-2"
+        }})
+      </strong>
+    </summary>
+    @if (getCurrentMonthTopIncomeMovements().length) {
+    <table class="top-movements-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Monto</th>
+          <th>Descripción</th>
+          <th>Cuenta</th>
+          <th>Categoría</th>
+          <th>Lugar</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (movement of getCurrentMonthTopIncomeMovements(); track movement.mov_id) {
+        <tr>
+          <td class="movement-date">
+            {{ movement.mov_date | date: "yyyy-MM-dd" }}
+          </td>
+          <td
+            class="movement-amount"
+            [ngClass]="{ 'movement-income': movement.mov_amount > 0, 'movement-expense': movement.mov_amount < 0 }"
+          >
+            {{ movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </td>
+          <td class="movement-description-place">
+            {{ movement.mov_desc || "-" }}
+          </td>
+          <td class="movement-account">
+            {{ movement.mov_txt_account || movement.mov_txt_account_to || "-" }}
+          </td>
+          <td class="movement-category">
+            {{ movement.mov_txt_category || "-" }}
+          </td>
+          <td class="movement-place">
+            {{ movement.mov_txt_place || "-" }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    } @else {
+    <div>No income movements for the selected month.</div>
+    }
+  </details>
+
+  <details open class="top-movements-panel">
+    <summary>
+      <strong>
+        Top 10 Transfers (Total: {{
+        getCurrentMonthTopTransfersTotal() | currency: "USD":"symbol-narrow":"1.2-2"
+        }})
+      </strong>
+    </summary>
+    @if (getCurrentMonthTopTransfers().length) {
+    <table class="top-movements-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Monto</th>
+          <th>Cuenta origen</th>
+          <th>Cuenta destino</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (movement of getCurrentMonthTopTransfers(); track movement.mov_id) {
+        <tr>
+          <td class="movement-date">
+            {{ movement.mov_date | date: "yyyy-MM-dd" }}
+          </td>
+          <td
+            class="movement-amount"
+            [ngClass]="{ 'movement-income': movement.mov_amount > 0, 'movement-expense': movement.mov_amount < 0 }"
+          >
+            {{ movement.mov_amount | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </td>
+          <td class="movement-account">
+            {{ movement.mov_txt_account || "-" }}
+          </td>
+          <td class="movement-account">
+            {{ movement.mov_txt_account_to || "-" }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    } @else {
+    <div>No transfer movements for the selected month.</div>
+    }
+  </details>
 
   @if (model.selectedBalance) {
   <div>
@@ -216,6 +423,22 @@
     selectedView="compact"
     (onSelectMovement)="selectMovement($event)"
   ></movement-listing>
+  } @if (model.selectedBalance && viewData.selectedAccountBalanceHistory.data.length) {
+  <div class="selected-account-history-panel">
+    <h4>
+      Evolución de saldo final mes con mes - {{ model.selectedBalance.bal_txt_account }}
+      ({{ model.selectedMonthName }} {{ model.year }})
+    </h4>
+    <canvas
+      id="selectedAccountBalanceHistoryChart"
+      baseChart
+      [datasets]="[{ data: viewData.selectedAccountBalanceHistory.data, label: 'Saldo final', borderColor: '#4c6ef5', backgroundColor: 'rgba(76,110,245,0.15)', tension: 0.2, fill: true }]"
+      [labels]="viewData.selectedAccountBalanceHistory.labels"
+      [options]="{ responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => formatCurrency(ctx.parsed.y) } }, valueLabelPlugin: { enabled: true } }, scales: { y: { beginAtZero: false } } }"
+      [type]="'line'"
+    >
+    </canvas>
+  </div>
   } @if (viewData.selectedTotal !== 0) {
   <div>
     <table>
@@ -255,32 +478,11 @@
   }
 
   <canvas
-    id="monthlyExpenseChart"
-    baseChart
-    [datasets]="viewData.monthlyExpenseChart.chartData"
-    [labels]="viewData.monthlyExpenseChart.chartLabels"
-    [options]="viewData.monthlyExpenseChart.chartOptions"
-    [legend]="viewData.monthlyExpenseChart.chartLegend"
-    [type]="viewData.monthlyExpenseChart.chartType"
-  >
-  </canvas>
-
-  <canvas
-    id="monthlyIncomeChart"
-    baseChart
-    [datasets]="viewData.monthlyIncomeChart.chartData"
-    [labels]="viewData.monthlyIncomeChart.chartLabels"
-    [options]="viewData.monthlyIncomeChart.chartOptions"
-    [legend]="viewData.monthlyIncomeChart.chartLegend"
-    [type]="viewData.monthlyIncomeChart.chartType"
-  >
-  </canvas>
-
-  <canvas
     id="monthlyExpenseVsIncomeChart"
     baseChart
     [datasets]="viewData.monthlyExpenseVsIncomeChart.chartData"
     [labels]="viewData.monthlyExpenseVsIncomeChart.chartLabels"
+    [options]="{ plugins: { valueLabelPlugin: { enabled: true } } }"
     [type]="viewData.monthlyExpenseVsIncomeChart.chartType"
   >
   </canvas>
@@ -290,6 +492,7 @@
     baseChart
     [datasets]="viewData.monthlyExpenseComparisonChart.chartData"
     [labels]="viewData.monthlyExpenseComparisonChart.chartLabels"
+    [options]="{ plugins: { valueLabelPlugin: { enabled: false } } }"
     [type]="viewData.monthlyExpenseComparisonChart.chartType"
   >
   </canvas>
@@ -299,6 +502,7 @@
     baseChart
     [datasets]="viewData.monthlyExpenseComparisonFoodChart.chartData"
     [labels]="viewData.monthlyExpenseComparisonFoodChart.chartLabels"
+    [options]="{ plugins: { valueLabelPlugin: { enabled: false } } }"
     [type]="viewData.monthlyExpenseComparisonFoodChart.chartType"
   >
   </canvas>
@@ -370,4 +574,32 @@
       </tfoot>
     </table>
   </div>
+
+  <details open>
+    <summary>Monthly Expense Chart</summary>
+    <canvas
+      id="monthlyExpenseChart"
+      baseChart
+      [datasets]="viewData.monthlyExpenseChart.chartData"
+      [labels]="viewData.monthlyExpenseChart.chartLabels"
+      [options]="viewData.monthlyExpenseChart.chartOptions"
+      [legend]="viewData.monthlyExpenseChart.chartLegend"
+      [type]="viewData.monthlyExpenseChart.chartType"
+    >
+    </canvas>
+  </details>
+
+  <details open>
+    <summary>Monthly Income Chart</summary>
+    <canvas
+      id="monthlyIncomeChart"
+      baseChart
+      [datasets]="viewData.monthlyIncomeChart.chartData"
+      [labels]="viewData.monthlyIncomeChart.chartLabels"
+      [options]="viewData.monthlyIncomeChart.chartOptions"
+      [legend]="viewData.monthlyIncomeChart.chartLegend"
+      [type]="viewData.monthlyIncomeChart.chartType"
+    >
+    </canvas>
+  </details>  
 </div>
