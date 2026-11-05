@@ -1259,23 +1259,90 @@ export class MovementComponent implements OnInit {
       }
       form.controls["fDate"].setValue(parts[0]);
       form.controls["fDescription"].setValue(parts[1]);
-      // get account by name
-      const account = this.viewData.accounts.find(
-        (e) => e.acc_name === parts[3]
-      );
-      form.controls["fAccount"].setValue(account.acc_id);
-      // form.controls["fAccountTo"].setValue(null);
+      // get account by exact name (match by full text) and set both id and text inputs
+      const account = this.viewData.accounts.find((e) => e.acc_name === parts[3]);
+      if (account) {
+        this.model.account = account.acc_id;
+        this.model.accountText = account.acc_name || "";
+        if (form.controls["fAccount"]) {
+          form.controls["fAccount"].setValue(account.acc_id);
+        }
+        if (form.controls["fAccountText"]) {
+          form.controls["fAccountText"].setValue(account.acc_name || "");
+        }
+      } else {
+        // do NOT assign if the provided text is not an existing datalist option
+        this.model.account = null;
+        this.model.accountText = "";
+        if (form.controls["fAccount"]) {
+          form.controls["fAccount"].setValue(null);
+        }
+        if (form.controls["fAccountText"]) {
+          form.controls["fAccountText"].setValue("");
+        }
+      }
 
+      // accountTo is not provided by the import format; ensure related controls cleared
+      if (form.controls["fAccountTo"]) {
+        form.controls["fAccountTo"].setValue(null);
+      }
+      this.model.accountTo = null;
+      this.model.accountToText = "";
+
+      // place: match by full text and set both id and text
       const place = this.viewData.places.find((e) => e.mpl_name === parts[4]);
-      form.controls["fPlace"].setValue(place.mpl_id);
+      if (place) {
+        this.model.place = place.mpl_id;
+        this.model.placeText = place.mpl_name || "";
+        if (form.controls["fPlace"]) {
+          form.controls["fPlace"].setValue(place.mpl_id);
+        }
+        if (form.controls["fPlaceText"]) {
+          form.controls["fPlaceText"].setValue(place.mpl_name || "");
+        }
+        // trigger any place-related suggestions
+        this.onChangePlace(this.model.place);
+      } else {
+        // do NOT assign if the provided text is not an existing datalist option
+        this.model.place = null;
+        this.model.placeText = "";
+        if (form.controls["fPlace"]) {
+          form.controls["fPlace"].setValue(null);
+        }
+        if (form.controls["fPlaceText"]) {
+          form.controls["fPlaceText"].setValue("");
+        }
+      }
 
-      const category = this.viewData.categories.find(
-        (e) => e.mct_name === parts[5]
-      );
-      form.controls["fCategory"].setValue(category.mct_id);
+      // category: match by full text and set both id and text
+      const category = this.viewData.categories.find((e) => e.mct_name === parts[5]);
+      if (category) {
+        this.model.category = category.mct_id;
+        this.model.categoryText = category.mct_name || "";
+        if (form.controls["fCategory"]) {
+          form.controls["fCategory"].setValue(category.mct_id);
+        }
+        if (form.controls["fCategoryText"]) {
+          form.controls["fCategoryText"].setValue(category.mct_name || "");
+        }
+      } else {
+        // do NOT assign if the provided text is not an existing datalist option
+        this.model.category = null;
+        this.model.categoryText = "";
+        if (form.controls["fCategory"]) {
+          form.controls["fCategory"].setValue(null);
+        }
+        if (form.controls["fCategoryText"]) {
+          form.controls["fCategoryText"].setValue("");
+        }
+      }
 
-      form.controls["fBudget"].setValue(parts[6]);
-      form.controls["fNotes"].setValue(parts[7]);
+      if (form.controls["fBudget"]) {
+        form.controls["fBudget"].setValue(parts[6]);
+      }
+      if (form.controls["fNotes"]) {
+        form.controls["fNotes"].setValue(parts[7]);
+      }
     }
   }
 }

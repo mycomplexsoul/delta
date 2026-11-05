@@ -6,6 +6,7 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
+import { Chart } from "chart.js";
 
 // types
 import { Balance } from "../../crosscommon/entities/Balance";
@@ -20,6 +21,55 @@ import { DateUtils } from "../../crosscommon/DateUtility";
 import { AuthenticationService } from "../common/authentication.service";
 import { totalExpenseByDate } from "./movement.indicators";
 import { NotificationService } from "../common/notification.service";
+
+const valueLabelPlugin = {
+  id: "valueLabelPlugin",
+  afterDatasetsDraw(chart: any, _: any, options: any) {
+    const allowedCharts = [
+      "capitalComparisonChart",
+      "monthlyExpenseVsIncomeChart",
+      "selectedAccountBalanceHistoryChart",
+    ];
+    if (!options?.enabled || !allowedCharts.includes(chart.canvas.id)) {
+      return;
+    }
+
+    const { ctx } = chart;
+    ctx.save();
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+
+    chart.data.datasets.forEach((dataset: any, datasetIndex: number) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+      if (!meta || !meta.data) {
+        return;
+      }
+
+      meta.data.forEach((bar: any, index: number) => {
+        const rawValue = Number(dataset.data[index]);
+        if (!Number.isFinite(rawValue) || rawValue === 0) {
+          return;
+        }
+
+        const x = bar.x;
+        const y = bar.y;
+        const label = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0,
+        }).format(rawValue);
+
+        ctx.fillStyle = "#222";
+        ctx.fillText(label, x, y - 8);
+      });
+    });
+
+    ctx.restore();
+  },
+};
+
+Chart.register(valueLabelPlugin);
 
 @Component({
   selector: "balance",
@@ -81,6 +131,7 @@ export class BalanceComponent implements OnInit {
     selectedTotal: number;
     selectedIncome: number;
     selectedExpense: number;
+    selectedAccountBalanceHistory: { labels: string[]; data: number[] };
     comparisonMonthlyExpense: any;
     comparisonMonthlyExpenseFood: any;
     balanceDistribution: any[];
@@ -166,6 +217,7 @@ export class BalanceComponent implements OnInit {
     selectedTotal: 0,
     selectedIncome: 0,
     selectedExpense: 0,
+    selectedAccountBalanceHistory: { labels: [], data: [] },
     comparisonMonthlyExpense: {},
     comparisonMonthlyExpenseFood: {},
     balanceDistribution: [],
@@ -291,6 +343,251 @@ export class BalanceComponent implements OnInit {
       .filter((t) => t.name);
   }
 
+  getCapitalTotal(): number {
+    const capital = this.viewData.balanceDistribution.find(
+      (item) => item.name && item.name.toUpperCase() === "CAPITAL"
+    );
+    return capital ? Number(capital.total) || 0 : 0;
+  }
+
+  getOtherAccountTypeTotal(): number {
+    return this.viewData.balanceDistribution
+      .filter((item) => item.name && item.name.toUpperCase() !== "CAPITAL")
+      .reduce((sum, item) => sum + (Number(item.total) || 0), 0);
+  }
+
+  absoluteValue(value: number): number {
+    return Math.abs(Number(value) || 0);
+  }
+
+  maxCapitalComparisonValue(): number {
+    const maxValue = Math.max(
+      this.absoluteValue(this.getCapitalTotal()),
+      this.absoluteValue(this.getOtherAccountTypeTotal())
+    );
+    return maxValue > 0 ? maxValue * 1.1 : 1;
+  }
+
+  getCurrentMonthTopMovements(): Movement[] {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+
+    if (!year || !month) {
+      return [];
+    }
+
+    return this.state.movementList
+      .filter((movement) => {
+        const movementDate = new Date(movement.mov_date);
+        const isExpense = movement.mov_ctg_type === 1;
+        const isTransfer = movement.mov_ctg_type === 3;
+        return (
+          isExpense &&
+          !isTransfer &&
+          movementDate.getFullYear() === year &&
+          movementDate.getMonth() + 1 === month
+        );
+      })
+      .sort(
+        (a, b) =>
+          this.absoluteValue(Number(b.mov_amount) || 0) -
+          this.absoluteValue(Number(a.mov_amount) || 0)
+      )
+      .slice(0, 10);
+  }
+
+  getCurrentMonthTopMovementsTotal(): number {
+    return this.getCurrentMonthTopMovements().reduce(
+      (sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0),
+      0
+    );
+  }
+
+  getCurrentMonthTopIncomeMovements(): Movement[] {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+
+    if (!year || !month) {
+      return [];
+    }
+
+    return this.state.movementList
+      .filter((movement) => {
+        const movementDate = new Date(movement.mov_date);
+        const isIncome = movement.mov_ctg_type === 2;
+        const isTransfer = movement.mov_ctg_type === 3;
+        return (
+          isIncome &&
+          !isTransfer &&
+          movementDate.getFullYear() === year &&
+          movementDate.getMonth() + 1 === month
+        );
+      })
+      .sort(
+        (a, b) =>
+          this.absoluteValue(Number(b.mov_amount) || 0) -
+          this.absoluteValue(Number(a.mov_amount) || 0)
+      )
+      .slice(0, 10);
+  }
+
+  getCurrentMonthTopIncomeMovementsTotal(): number {
+    return this.getCurrentMonthTopIncomeMovements().reduce(
+      (sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0),
+      0
+    );
+  }
+
+  getCurrentMonthTopTransfers(): Movement[] {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+
+    if (!year || !month) {
+      return [];
+    }
+
+    return this.state.movementList
+      .filter((movement) => {
+        const movementDate = new Date(movement.mov_date);
+        const isTransfer = movement.mov_ctg_type === 3;
+        return (
+          isTransfer &&
+          movementDate.getFullYear() === year &&
+          movementDate.getMonth() + 1 === month
+        );
+      })
+      .sort(
+        (a, b) =>
+          this.absoluteValue(Number(b.mov_amount) || 0) -
+          this.absoluteValue(Number(a.mov_amount) || 0)
+      )
+      .slice(0, 10);
+  }
+
+  getCurrentMonthTopTransfersTotal(): number {
+    return this.getCurrentMonthTopTransfers().reduce(
+      (sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0),
+      0
+    );
+  }
+
+  updateSelectedAccountBalanceHistory(): void {
+    if (!this.model.selectedBalance?.bal_id_account) {
+      this.viewData.selectedAccountBalanceHistory = { labels: [], data: [] };
+      return;
+    }
+
+    const accountId = this.model.selectedBalance.bal_id_account;
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month;
+    const labels: string[] = [];
+    const data: number[] = [];
+
+    for (let monthOffset = 17; monthOffset >= 0; monthOffset--) {
+      const date = new Date(selectedYear, selectedMonth - 1 - monthOffset, 1);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const accountBalance = this.viewData.balance.find(
+        (balance) =>
+          balance.bal_id_account === accountId &&
+          balance.bal_year === year &&
+          balance.bal_month === month
+      );
+
+      labels.push(
+        date.toLocaleDateString("es-ES", { month: "short", year: "numeric" })
+      );
+      data.push(accountBalance ? Number(accountBalance.bal_final) || 0 : 0);
+    }
+
+    this.viewData.selectedAccountBalanceHistory = { labels, data };
+  }
+
+  getCurrentMonthTopCategories(): Array<{
+    category: string;
+    total: number;
+    count: number;
+  }> {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+
+    if (!year || !month) {
+      return [];
+    }
+
+    const categoryTotals = new Map<
+      string,
+      { total: number; count: number }
+    >();
+
+    this.state.movementList
+      .filter((movement) => {
+        const movementDate = new Date(movement.mov_date);
+        return (
+          movement.mov_ctg_type === 1 &&
+          movementDate.getFullYear() === year &&
+          movementDate.getMonth() + 1 === month
+        );
+      })
+      .forEach((movement) => {
+        const categoryName = movement.mov_txt_category || "Sin categoría";
+        const existing = categoryTotals.get(categoryName) || {
+          total: 0,
+          count: 0,
+        };
+        existing.total += this.absoluteValue(Number(movement.mov_amount) || 0);
+        existing.count += 1;
+        categoryTotals.set(categoryName, existing);
+      });
+
+    return Array.from(categoryTotals.entries())
+      .map(([category, data]) => ({
+        category,
+        total: data.total,
+        count: data.count,
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+  }
+
+  getCurrentMonthTopCategoriesTotal(): number {
+    return this.getCurrentMonthTopCategories().reduce(
+      (sum, item) => sum + item.total,
+      0
+    );
+  }
+
+  getCurrentMonthExpenseTotal(): number {
+    const currentMonth = this.model.iterable || 0;
+    const year = Math.floor(currentMonth / 100);
+    const month = currentMonth % 100;
+
+    if (!year || !month) {
+      return 0;
+    }
+
+    return this.state.movementList
+      .filter((movement) => {
+        const movementDate = new Date(movement.mov_date);
+        return (
+          movement.mov_ctg_type === 1 &&
+          movementDate.getFullYear() === year &&
+          movementDate.getMonth() + 1 === month
+        );
+      })
+      .reduce((sum, movement) => sum + this.absoluteValue(Number(movement.mov_amount) || 0), 0);
+  }
+
+  getCapitalDifference(): number {
+    const capital = this.getCapitalTotal();
+    const others = this.getOtherAccountTypeTotal();
+    return Math.abs(capital + others);
+  }
+
   parseIterable() {
     this.model.year = Math.floor(this.model.iterable / 100);
     this.model.month = this.model.iterable % 100;
@@ -299,6 +596,9 @@ export class BalanceComponent implements OnInit {
   reloadBalance() {
     this.parseIterable();
     this.viewData.monthBalance = this.filterMonthBalance();
+    this.viewData.balanceDistribution = this.balanceDistribution(
+      this.viewData.monthBalance
+    );
     if (this.model.selectedBalance) {
       this.model.selectedBalance = this.viewData.balance.find(
         (b) =>
@@ -309,6 +609,8 @@ export class BalanceComponent implements OnInit {
       this.renderMovements(this.model.selectedBalance, undefined);
     }
     this.monthlyTotals();
+    this.monthlyIncomeVsExpense();
+    this.updateSelectedAccountBalanceHistory();
   }
 
   filterMonthBalance() {
@@ -335,6 +637,9 @@ export class BalanceComponent implements OnInit {
   toggleFilterNonZero() {
     this.viewData.filterNonZero = !this.viewData.filterNonZero;
     this.viewData.monthBalance = this.filterMonthBalance();
+    this.viewData.balanceDistribution = this.balanceDistribution(
+      this.viewData.monthBalance
+    );
   }
 
   renderMovements(balance: Balance, event: Event) {
@@ -371,6 +676,7 @@ export class BalanceComponent implements OnInit {
       });
       this.model.selectedBalance = balance;
       this.model.selectedMonthName = DateUtils.getMonthName(balance.bal_month);
+      this.updateSelectedAccountBalanceHistory();
       console.log(
         `movements fetched for balance`,
         balance,
@@ -381,6 +687,14 @@ export class BalanceComponent implements OnInit {
 
   toggleDailyBalance() {
     this.viewData.showDailyBalance = !this.viewData.showDailyBalance;
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2,
+    }).format(value || 0);
   }
 
   monthlyTotals() {
@@ -591,14 +905,24 @@ export class BalanceComponent implements OnInit {
     this.parseIterable();
     const capitalAccountId: string = "1";
     const itemCount: number = 18;
+    const selectedYear = this.model.year;
+    const selectedMonth = this.model.month;
+
     const monthList: {
       iterable: number;
       year: number;
       month: number;
       name: string;
-    }[] = this.viewData.monthList
-      .filter((m, index) => index < itemCount)
-      .reverse();
+    }[] = Array.from({ length: itemCount }, (_, index) => {
+      const target = new Date(selectedYear, selectedMonth - 1 - (itemCount - 1 - index), 1);
+      return {
+        iterable: target.getFullYear() * 100 + (target.getMonth() + 1),
+        year: target.getFullYear(),
+        month: target.getMonth() + 1,
+        name: `${target.getFullYear()}-${String(target.getMonth() + 1).padStart(2, "0")}`,
+      };
+    });
+
     const capitalBalanceMonthly: Balance[] = this.balanceService
       .list()
       .filter((b) => b.bal_id_account === capitalAccountId);
@@ -613,7 +937,7 @@ export class BalanceComponent implements OnInit {
             (m) =>
               capitalBalanceMonthly.find(
                 (b) => b.bal_year === m.year && b.bal_month === m.month
-              ).bal_withdrawals
+              )?.bal_withdrawals || 0
           ),
         },
         {
@@ -624,7 +948,7 @@ export class BalanceComponent implements OnInit {
             (m) =>
               capitalBalanceMonthly.find(
                 (b) => b.bal_year === m.year && b.bal_month === m.month
-              ).bal_charges
+              )?.bal_charges || 0
           ),
         },
         {
@@ -633,9 +957,9 @@ export class BalanceComponent implements OnInit {
           borderColor: "rgb(75, 192, 192)",
           data: monthList.map(
             (m) =>
-              capitalBalanceMonthly.find(
+              (capitalBalanceMonthly.find(
                 (b) => b.bal_year === m.year && b.bal_month === m.month
-              ).bal_final * -1
+              )?.bal_final || 0) * -1
           ),
         },
       ],
