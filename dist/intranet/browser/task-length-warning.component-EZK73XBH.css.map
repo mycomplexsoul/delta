@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "sources": ["angular:styles/component:css;85f0417ac61f0c12406fb006bed6d438ff99e42000e10ec6d2bdce05244bcc37;C:/data/code/intranet/src/app/task/task-length-warning.component.ts"],
+  "sources": ["angular:styles/component:css;d48961a45430e4a6;C:\\data\\code\\intranet-copy2\\src\\app\\task\\task-length-warning.component.ts"],
   "sourcesContent": ["\n      .task-char-counter {\n        display: inline-block;\n        margin-left: 4px;\n        font-size: inherit;\n        font-weight: 600;\n        opacity: 0.9;\n        vertical-align: middle;\n      }\n\n      .task-char-counter-warning {\n        color: #c77d12;\n      }\n\n      .task-char-counter-exceeded {\n        color: #b42318;\n      }\n    "],
   "mappings": ";AACM,CAAC;AACC,WAAS;AACT,eAAa;AACb,aAAW;AACX,eAAa;AACb,WAAS;AACT,kBAAgB;AAClB;AAEA,CAAC;AACC,SAAO;AACT;AAEA,CAAC;AACC,SAAO;AACT;",
   "names": []

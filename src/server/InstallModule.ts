@@ -55,8 +55,9 @@ export class InstallModule {
             , new Activity(), new Keyval()
             , new CarteraProvision(), new CarteraPayment(), new CarteraPayDet()
             , new Timeline()
-            , new Profile(), new Permission()*/
-            new Budget()
+            , new Profile(), new Permission()
+            , new Budget() */
+            new Task()
         ];
         const method = (msgOk: string) => {
             return (err: any) => {
@@ -74,12 +75,12 @@ export class InstallModule {
         models.forEach(async (model) => {
             await connection.runSql(`drop view if exists ${model.metadata.viewName}`);
             method(`view ${model.metadata.viewName} droped`);
-            await connection.runSql(`drop table if exists ${model.metadata.tableName}`);
-            method(`table ${model.metadata.tableName} droped`);
-            await connection.runSql(installMotor.createTableSQL(model));
-            method(`table ${model.metadata.tableName} created`);
-            await connection.runSql(installMotor.createPKSQL(model));
-            method(`PK created`);
+            // await connection.runSql(`drop table if exists ${model.metadata.tableName}`);
+            // method(`table ${model.metadata.tableName} droped`);
+            // await connection.runSql(installMotor.createTableSQL(model));
+            // method(`table ${model.metadata.tableName} created`);
+            // await connection.runSql(installMotor.createPKSQL(model));
+            // method(`PK created`);
             await connection.runSql(installMotor.createViewSQL(model));
             method(`view ${model.metadata.viewName} created`);
         });

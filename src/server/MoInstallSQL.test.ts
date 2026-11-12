@@ -59,24 +59,11 @@ describe("MoInstallSQL", () => {
         task.tsk_url,
         task.tsk_ctg_repeats,
         task.tsk_id_main,
-        task.tsk_ctg_rep_type,
-        task.tsk_ctg_rep_after_completion,
-        task.tsk_ctg_rep_end,
-        task.tsk_rep_date_end,
-        task.tsk_rep_end_iteration,
-        task.tsk_rep_iteration,
-        task.tsk_rep_frequency,
-        task.tsk_ctg_rep_frequency_rule,
-        task.tsk_rep_weekdays,
         task.tsk_date_add,
         task.tsk_date_mod,
         task.tsk_ctg_status,
         (select ctg_name from catalog where ctg_id = 'BOOLEAN' and ctg_sequential = tsk_ctg_in_process) as tsk_txt_in_process,
         (select ctg_name from catalog where ctg_id = 'BOOLEAN' and ctg_sequential = tsk_ctg_repeats) as tsk_txt_repeats,
-        (select ctg_name from catalog where ctg_id = 'TASK_REPETITION_TYPE' and ctg_sequential = tsk_ctg_rep_type) as tsk_txt_rep_type,
-        (select ctg_name from catalog where ctg_id = 'BOOLEAN' and ctg_sequential = tsk_ctg_rep_after_completion) as tsk_txt_rep_after_completion,
-        (select ctg_name from catalog where ctg_id = 'TASK_REPETITION_END_AT' and ctg_sequential = tsk_ctg_rep_end) as tsk_txt_rep_end,
-        (select ctg_name from catalog where ctg_id = 'TASK_REPETITION_FREQUENCY' and ctg_sequential = tsk_ctg_rep_frequency_rule) as tsk_txt_rep_frequency_rule,
         (select ctg_name from catalog where ctg_id = 'RECORD_STATUS' and ctg_sequential = tsk_ctg_status) as tsk_txt_status
         from task`);
 
@@ -113,33 +100,16 @@ describe("MoInstallSQL", () => {
         task.tsk_url,
         task.tsk_ctg_repeats,
         task.tsk_id_main,
-        task.tsk_ctg_rep_type,
-        task.tsk_ctg_rep_after_completion,
-        task.tsk_ctg_rep_end,
-        task.tsk_rep_date_end,
-        task.tsk_rep_end_iteration,
-        task.tsk_rep_iteration,
-        task.tsk_rep_frequency,
-        task.tsk_ctg_rep_frequency_rule,
-        task.tsk_rep_weekdays,
         task.tsk_date_add,
         task.tsk_date_mod,
         task.tsk_ctg_status,
         catalog1.ctg_name as tsk_txt_in_process,
         catalog2.ctg_name as tsk_txt_repeats,
-        catalog3.ctg_name as tsk_txt_rep_type,
-        catalog4.ctg_name as tsk_txt_rep_after_completion,
-        catalog5.ctg_name as tsk_txt_rep_end,
-        catalog6.ctg_name as tsk_txt_rep_frequency_rule,
-        catalog7.ctg_name as tsk_txt_status
+        catalog3.ctg_name as tsk_txt_status
         from task
         LEFT JOIN catalog catalog1 on (catalog1.ctg_id = 'BOOLEAN' and catalog1.ctg_sequential = tsk_ctg_in_process)
         LEFT JOIN catalog catalog2 on (catalog2.ctg_id = 'BOOLEAN' and catalog2.ctg_sequential = tsk_ctg_repeats)
-        LEFT JOIN catalog catalog3 on (catalog3.ctg_id = 'TASK_REPETITION_TYPE' and catalog3.ctg_sequential = tsk_ctg_rep_type)
-        LEFT JOIN catalog catalog4 on (catalog4.ctg_id = 'BOOLEAN' and catalog4.ctg_sequential = tsk_ctg_rep_after_completion)
-        LEFT JOIN catalog catalog5 on (catalog5.ctg_id = 'TASK_REPETITION_END_AT' and catalog5.ctg_sequential = tsk_ctg_rep_end)
-        LEFT JOIN catalog catalog6 on (catalog6.ctg_id = 'TASK_REPETITION_FREQUENCY' and catalog6.ctg_sequential = tsk_ctg_rep_frequency_rule)
-        LEFT JOIN catalog catalog7 on (catalog7.ctg_id = 'RECORD_STATUS' and catalog7.ctg_sequential = tsk_ctg_status)`);
+        LEFT JOIN catalog catalog3 on (catalog3.ctg_id = 'RECORD_STATUS' and catalog3.ctg_sequential = tsk_ctg_status)`);
 
       equal(instance.createViewSQLNoSubQuery(model), expected);
     });

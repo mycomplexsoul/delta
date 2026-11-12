@@ -27,24 +27,11 @@ export declare class Task implements iEntity {
     tsk_url: string;
     tsk_ctg_repeats: number;
     tsk_id_main: string;
-    tsk_ctg_rep_type: number;
-    tsk_ctg_rep_after_completion: number;
-    tsk_ctg_rep_end: number;
-    tsk_rep_date_end: Date;
-    tsk_rep_end_iteration: number;
-    tsk_rep_iteration: number;
-    tsk_rep_frequency: number;
-    tsk_ctg_rep_frequency_rule: number;
-    tsk_rep_weekdays: string;
     tsk_date_add: Date;
     tsk_date_mod: Date;
     tsk_ctg_status: number;
     tsk_txt_in_process: string;
     tsk_txt_repeats: string;
-    tsk_txt_rep_type: string;
-    tsk_txt_rep_after_completion: string;
-    tsk_txt_rep_end: string;
-    tsk_txt_rep_frequency_rule: string;
     tsk_txt_status: string;
     metadata: {
         name: string;

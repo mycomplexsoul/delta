@@ -382,12 +382,6 @@ export class TasksCore {
       task,
       (t: Task, expression: string) => {
         let repetitionBasis: string = ""; // daily|weekly|monthly
-        let completionCriteria: string = "onCompletion";
-        let terminationCriteria: string = "iterations";
-        let terminationValue: string = "10";
-        let frequency: number = 0;
-        let frequencyRule: string = "";
-        const patternDate = /\d{4}-\d{2}-\d{2}/i;
 
         const repetitionTypeValues: Array<string> = [
           "",
@@ -400,99 +394,29 @@ export class TasksCore {
           "weekdays",
           "onDay",
         ];
-        const completionValues: Array<string> = ["", "strict", "onCompletion"];
-        const repetitionEndValues: Array<string> = [
-          "",
-          "forever",
-          "date",
-          "iterations",
-        ];
-        const frequencyRuleValues: Array<string> = ["", "d", "w", "m"];
-        const weekdaysValues: Array<string> = [
-          "",
-          "Mo",
-          "Tu",
-          "We",
-          "Th",
-          "Fr",
-          "Sa",
-          "Su",
-        ];
 
         if (expression) {
           if (expression.indexOf("|") !== -1) {
             let basis: Array<string> = expression.split("|");
             if (basis[0].indexOf("-") !== -1) {
               repetitionBasis = basis[0].split("-")[0].trim();
-              completionCriteria = basis[0].split("-")[1].trim();
             } else {
-              completionCriteria = "";
               repetitionBasis = basis[0].trim();
             }
-            terminationCriteria = basis[1].split(":")[0].trim();
-            terminationValue = basis[1].split(":")[1].trim();
           } else {
             if (expression.indexOf("-") !== -1) {
               repetitionBasis = expression.split("-")[0].trim();
-              completionCriteria = expression.split("-")[1].trim();
             } else {
-              completionCriteria = "";
               repetitionBasis = expression.trim();
             }
-            terminationCriteria = "";
-            terminationValue = "";
           }
 
           if (repetitionBasis.indexOf(":") !== -1) {
-            if (/[A-Z]+/.test(repetitionBasis.split(":")[1].trim())) {
-              // weekdays only
-              frequencyRule = repetitionBasis.split(":")[1].trim();
-            }
-            if (/\d+[a-zA-Z]+/.test(repetitionBasis.split(":")[1].trim())) {
-              // number and literal
-              frequency = parseInt(repetitionBasis.split(":")[1].trim()); // parse ignoring literal chars
-              if (repetitionBasis.split(":")[0].trim() === "each") {
-                frequencyRule = repetitionBasis.split(":")[1].trim().substr(-1); // last char is literal
-              }
-              if (repetitionBasis.split(":")[0].trim() === "onDay") {
-                frequencyRule = repetitionBasis.split(":")[1].trim().substr(-2); // last chars is weekday
-              }
-            }
             repetitionBasis = repetitionBasis.split(":")[0].trim();
           }
 
-          t.tsk_ctg_rep_type = repetitionTypeValues.indexOf(repetitionBasis);
-          t.tsk_ctg_repeats = t.tsk_ctg_rep_type > 0 ? 2 : 1;
-          t.tsk_ctg_rep_after_completion =
-            completionValues.indexOf(completionCriteria);
-          t.tsk_ctg_rep_end = repetitionEndValues.indexOf(terminationCriteria);
-          if (terminationValue && patternDate.test(terminationValue)) {
-            t.tsk_rep_date_end = new Date(
-              parseInt(terminationValue.split("-")[0]),
-              parseInt(terminationValue.split("-")[1]) - 1,
-              parseInt(terminationValue.split("-")[2])
-            );
-          }
-          if (
-            terminationValue &&
-            /\d+/.test(terminationValue) &&
-            !patternDate.test(terminationValue)
-          ) {
-            t.tsk_rep_end_iteration = parseInt(terminationValue);
-          }
-          t.tsk_rep_iteration = 1;
-          t.tsk_rep_frequency = frequency;
-          if (repetitionBasis === "each") {
-            t.tsk_ctg_rep_frequency_rule =
-              frequencyRuleValues.indexOf(frequencyRule);
-          }
-          if (repetitionBasis === "onDay") {
-            t.tsk_ctg_rep_frequency_rule =
-              weekdaysValues.indexOf(frequencyRule);
-          }
-          if (repetitionBasis === "weekdays") {
-            t.tsk_rep_weekdays = frequencyRule;
-          }
+          t.tsk_ctg_repeats =
+            repetitionTypeValues.indexOf(repetitionBasis) > 0 ? 2 : 1;
         }
         console.log("task with repetition", t);
       },
@@ -540,15 +464,6 @@ export class TasksCore {
       tsk_url: task.tsk_url || "",
       tsk_ctg_repeats: task.tsk_ctg_repeats || 0,
       tsk_id_main: task.tsk_id_main || id,
-      tsk_ctg_rep_type: task.tsk_ctg_rep_type || 0,
-      tsk_ctg_rep_after_completion: task.tsk_ctg_rep_after_completion || 0,
-      tsk_ctg_rep_end: task.tsk_ctg_rep_end || 0,
-      tsk_rep_date_end: task.tsk_rep_date_end || null,
-      tsk_rep_end_iteration: task.tsk_rep_end_iteration || 0,
-      tsk_rep_iteration: task.tsk_rep_iteration || 0,
-      tsk_rep_frequency: task.tsk_rep_frequency || 0,
-      tsk_ctg_rep_frequency_rule: task.tsk_ctg_rep_frequency_rule || 0,
-      tsk_rep_weekdays: task.tsk_rep_weekdays || "",
       tsk_date_add: task.tsk_date_add || DateUtils.newDateUpToSeconds(),
       tsk_date_mod: DateUtils.newDateUpToSeconds(),
       tsk_ctg_status: task.tsk_ctg_status,
@@ -1154,7 +1069,6 @@ export class TasksCore {
 
   compareTask(t: any, s: any) {
     //let fields = ['tsk_id_container','tsk_id_record','tsk_name','tsk_notes', 'tsk_parent', 'tsk_order', 'tsk_date_done', 'tsk_total_time_spent', 'tsk_ctg_in_process', 'tsk_qualifiers', 'tsk_tags', 'tsk_estimated_duration', 'tsk_schedule_date_start', 'tsk_schedule_date_end', 'tsk_date_view_until', 'tsk_id_user_added', 'tsk_id_user_asigned', 'tsk_date_add', 'tsk_date_mod', 'tsk_ctg_status'];
-    //let fields = ['tsk_id_container','tsk_id_record','tsk_name','tsk_notes','tsk_parent','tsk_order','tsk_date_done','tsk_total_time_spent','tsk_ctg_in_process','tsk_qualifiers','tsk_tags','tsk_estimated_duration','tsk_schedule_date_start','tsk_schedule_date_end','tsk_date_view_until','tsk_id_user_added','tsk_id_user_asigned','tsk_template','tsk_template_state','tsk_date_due','tsk_id_related','tsk_url','tsk_ctg_repeats','tsk_id_main','tsk_ctg_rep_type','tsk_ctg_rep_after_completion','tsk_ctg_rep_end','tsk_rep_date_end','tsk_rep_end_iteration','tsk_rep_iteration','tsk_rep_frequency','tsk_ctg_rep_frequency_rule','tsk_rep_weekdays','tsk_date_add','tsk_date_mod','tsk_ctg_status'];
     let fields = [
       "tsk_id_container",
       "tsk_id_record",
@@ -1178,8 +1092,6 @@ export class TasksCore {
       "tsk_id_related",
       "tsk_url",
       "tsk_id_main",
-      "tsk_rep_date_end",
-      "tsk_rep_weekdays",
       "tsk_date_add",
       "tsk_ctg_status",
     ];

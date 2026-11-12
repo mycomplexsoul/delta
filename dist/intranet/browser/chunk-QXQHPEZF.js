@@ -7809,5 +7809,5 @@ var require_html2canvas = __commonJS({
 export {
   require_html2canvas
 };
-//# debugId=9ef79b8a-6e93-5497-9b4f-4a377fce0483
-//# sourceMappingURL=chunk-I54GVBXP.js.map
+//# debugId=9c67d5ba-8adf-57b2-82d1-a5e3dcd5cc7e
+//# sourceMappingURL=chunk-QXQHPEZF.js.map

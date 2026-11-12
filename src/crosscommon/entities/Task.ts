@@ -28,25 +28,12 @@ export class Task implements iEntity {
 	public tsk_url: string;
 	public tsk_ctg_repeats: number;
 	public tsk_id_main: string;
-	public tsk_ctg_rep_type: number;
-	public tsk_ctg_rep_after_completion: number;
-	public tsk_ctg_rep_end: number;
-	public tsk_rep_date_end: Date;
-	public tsk_rep_end_iteration: number;
-	public tsk_rep_iteration: number;
-	public tsk_rep_frequency: number;
-	public tsk_ctg_rep_frequency_rule: number;
-	public tsk_rep_weekdays: string;
 	public tsk_date_add: Date;
 	public tsk_date_mod: Date;
 	public tsk_ctg_status: number;
 
 	public tsk_txt_in_process: string;
 	public tsk_txt_repeats: string;
-	public tsk_txt_rep_type: string;
-	public tsk_txt_rep_after_completion: string;
-	public tsk_txt_rep_end: string;
-	public tsk_txt_rep_frequency_rule: string;
 	public tsk_txt_status: string;
 
 	public metadata: {
@@ -866,285 +853,6 @@ export class Task implements iEntity {
 				, globalOrder: 0
 				, value: null
 			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_ctg_rep_type'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Indicates the repetition rule that applies to the task when finished'
-				, catalogId: 'TASK_REPETITION_TYPE'
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionType'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Type'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 25
-				, orderOnNew: 25
-				, orderOnDetails: 25
-				, orderOnEdit: 25
-				, orderOnImport: 25
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_ctg_rep_after_completion'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Indicates the repetition projection should be calculated after the repetition or not'
-				, catalogId: 'BOOLEAN'
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepeatAfterCompletion'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repeat After Completion'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 26
-				, orderOnNew: 26
-				, orderOnDetails: 26
-				, orderOnEdit: 26
-				, orderOnImport: 26
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_ctg_rep_end'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Indicates the repetition end rule'
-				, catalogId: 'TASK_REPETITION_END_AT'
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionEnd'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Ends At'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 27
-				, orderOnNew: 27
-				, orderOnDetails: 27
-				, orderOnEdit: 27
-				, orderOnImport: 27
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'datetime'
-				, dbName: 'tsk_rep_date_end'
-				, dbType: 'datetime'
-				, isTableField: true
-				, isPK: false
-				, size: 16
-				, decimal: 0
-				, minLength: 0
-				, allowNull: true
-				, default: ''
-				, dbComment: 'Date when the repetitions end'
-				, catalogId: ''
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionEndDate'
-				, formControl: 'datetime'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition End Date'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 28
-				, orderOnNew: 28
-				, orderOnDetails: 28
-				, orderOnEdit: 28
-				, orderOnImport: 28
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_rep_end_iteration'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Total number of iterations that the task should be done to end repetition'
-				, catalogId: ''
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionEndIterations'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition End Iterations'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 29
-				, orderOnNew: 29
-				, orderOnDetails: 29
-				, orderOnEdit: 29
-				, orderOnImport: 29
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_rep_iteration'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Number of iteration of this task'
-				, catalogId: ''
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionIteration'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Iteration'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 30
-				, orderOnNew: 30
-				, orderOnDetails: 30
-				, orderOnEdit: 30
-				, orderOnImport: 30
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_rep_frequency'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Frequency of repetition'
-				, catalogId: ''
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionFrequency'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Frequency'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 31
-				, orderOnNew: 31
-				, orderOnDetails: 31
-				, orderOnEdit: 31
-				, orderOnImport: 31
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'integer'
-				, dbName: 'tsk_ctg_rep_frequency_rule'
-				, dbType: 'integer'
-				, isTableField: true
-				, isPK: false
-				, size: 4
-				, decimal: 0
-				, minLength: 1
-				, allowNull: false
-				, default: ''
-				, dbComment: 'Indicates the repetition frequency rule'
-				, catalogId: 'TASK_REPETITION_FREQUENCY'
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionFrequencyRule'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Frequency Rule'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 32
-				, orderOnNew: 32
-				, orderOnDetails: 32
-				, orderOnEdit: 32
-				, orderOnImport: 32
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'string'
-				, dbName: 'tsk_rep_weekdays'
-				, dbType: 'string'
-				, isTableField: true
-				, isPK: false
-				, size: 7
-				, decimal: 0
-				, minLength: 0
-				, allowNull: true
-				, default: ''
-				, dbComment: 'Selected days of the week on task repetition'
-				, catalogId: ''
-				, originTable: ''
-				, linkedField: ''
-				, entName: 'RepetitionWeekdays'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Days of the Week'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 33
-				, orderOnNew: 33
-				, orderOnDetails: 33
-				, orderOnEdit: 33
-				, orderOnImport: 33
-				, globalOrder: 0
-				, value: null
-			}, {
 				templateId: 'creationDate'
 				, dbName: 'tsk_date_add'
 				, dbType: 'datetime'
@@ -1169,11 +877,11 @@ export class Task implements iEntity {
 				, displayName: 'Creation Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 34
-				, orderOnNew: 34
-				, orderOnDetails: 34
-				, orderOnEdit: 34
-				, orderOnImport: 34
+				, gridOrder: 25
+				, orderOnNew: 25
+				, orderOnDetails: 25
+				, orderOnEdit: 25
+				, orderOnImport: 25
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -1202,11 +910,11 @@ export class Task implements iEntity {
 				, displayName: 'Last Modification Date'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 35
-				, orderOnNew: 35
-				, orderOnDetails: 35
-				, orderOnEdit: 35
-				, orderOnImport: 35
+				, gridOrder: 26
+				, orderOnNew: 26
+				, orderOnDetails: 26
+				, orderOnEdit: 26
+				, orderOnImport: 26
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -1233,11 +941,11 @@ export class Task implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 36
-				, orderOnNew: 36
-				, orderOnDetails: 36
-				, orderOnEdit: 36
-				, orderOnImport: 36
+				, gridOrder: 27
+				, orderOnNew: 27
+				, orderOnDetails: 27
+				, orderOnEdit: 27
+				, orderOnImport: 27
 				, globalOrder: undefined
 				, value: null
 			}, {
@@ -1264,11 +972,11 @@ export class Task implements iEntity {
 				, displayName: 'In Progress'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 37
-				, orderOnNew: 37
-				, orderOnDetails: 37
-				, orderOnEdit: 37
-				, orderOnImport: 37
+				, gridOrder: 28
+				, orderOnNew: 28
+				, orderOnDetails: 28
+				, orderOnEdit: 28
+				, orderOnImport: 28
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -1295,135 +1003,11 @@ export class Task implements iEntity {
 				, displayName: 'Repeats'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 38
-				, orderOnNew: 38
-				, orderOnDetails: 38
-				, orderOnEdit: 38
-				, orderOnImport: 38
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'catalog'
-				, dbName: 'tsk_txt_rep_type'
-				, dbType: 'string'
-				, isTableField: false
-				, isPK: false
-				, size: 250
-				, decimal: 0
-				, minLength: 0
-				, allowNull: true
-				, default: ''
-				, dbComment: 'Indicates the repetition rule that applies to the task when finished'
-				, catalogId: 'TASK_REPETITION_TYPE'
-				, originTable: 'CATALOG'
-				, linkedField: 'tsk_ctg_rep_type'
-				, entName: 'TextRepetitionType'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Type'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 39
-				, orderOnNew: 39
-				, orderOnDetails: 39
-				, orderOnEdit: 39
-				, orderOnImport: 39
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'catalog'
-				, dbName: 'tsk_txt_rep_after_completion'
-				, dbType: 'string'
-				, isTableField: false
-				, isPK: false
-				, size: 250
-				, decimal: 0
-				, minLength: 0
-				, allowNull: true
-				, default: ''
-				, dbComment: 'Indicates the repetition projection should be calculated after the repetition or not'
-				, catalogId: 'BOOLEAN'
-				, originTable: 'CATALOG'
-				, linkedField: 'tsk_ctg_rep_after_completion'
-				, entName: 'TextRepeatAfterCompletion'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repeat After Completion'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 40
-				, orderOnNew: 40
-				, orderOnDetails: 40
-				, orderOnEdit: 40
-				, orderOnImport: 40
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'catalog'
-				, dbName: 'tsk_txt_rep_end'
-				, dbType: 'string'
-				, isTableField: false
-				, isPK: false
-				, size: 250
-				, decimal: 0
-				, minLength: 0
-				, allowNull: true
-				, default: ''
-				, dbComment: 'Indicates the repetition end rule'
-				, catalogId: 'TASK_REPETITION_END_AT'
-				, originTable: 'CATALOG'
-				, linkedField: 'tsk_ctg_rep_end'
-				, entName: 'TextRepetitionEnd'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Ends At'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 41
-				, orderOnNew: 41
-				, orderOnDetails: 41
-				, orderOnEdit: 41
-				, orderOnImport: 41
-				, globalOrder: 0
-				, value: null
-			}, {
-				templateId: 'catalog'
-				, dbName: 'tsk_txt_rep_frequency_rule'
-				, dbType: 'string'
-				, isTableField: false
-				, isPK: false
-				, size: 250
-				, decimal: 0
-				, minLength: 0
-				, allowNull: true
-				, default: ''
-				, dbComment: 'Indicates the repetition frequency rule'
-				, catalogId: 'TASK_REPETITION_FREQUENCY'
-				, originTable: 'CATALOG'
-				, linkedField: 'tsk_ctg_rep_frequency_rule'
-				, entName: 'TextRepetitionFrequencyRule'
-				, formControl: 'Textbox'
-				, captureRequired: false
-				, appearsByDefaultOnGrid: true
-				, specialRules: [
-				]
-				, displayName: 'Repetition Frequency Rule'
-				, tooltip: ''
-				, isRecordName: false
-				, gridOrder: 42
-				, orderOnNew: 42
-				, orderOnDetails: 42
-				, orderOnEdit: 42
-				, orderOnImport: 42
+				, gridOrder: 29
+				, orderOnNew: 29
+				, orderOnDetails: 29
+				, orderOnEdit: 29
+				, orderOnImport: 29
 				, globalOrder: 0
 				, value: null
 			}, {
@@ -1450,11 +1034,11 @@ export class Task implements iEntity {
 				, displayName: 'Status'
 				, tooltip: ''
 				, isRecordName: false
-				, gridOrder: 43
-				, orderOnNew: 43
-				, orderOnDetails: 43
-				, orderOnEdit: 43
-				, orderOnImport: 43
+				, gridOrder: 30
+				, orderOnNew: 30
+				, orderOnDetails: 30
+				, orderOnEdit: 30
+				, orderOnImport: 30
 				, globalOrder: 0
 				, value: null
 			}
@@ -1490,25 +1074,12 @@ export class Task implements iEntity {
 			this.tsk_url = base.tsk_url;
 			this.tsk_ctg_repeats = base.tsk_ctg_repeats;
 			this.tsk_id_main = base.tsk_id_main;
-			this.tsk_ctg_rep_type = base.tsk_ctg_rep_type;
-			this.tsk_ctg_rep_after_completion = base.tsk_ctg_rep_after_completion;
-			this.tsk_ctg_rep_end = base.tsk_ctg_rep_end;
-			this.tsk_rep_date_end = (base.tsk_rep_date_end !== null) ? new Date(base.tsk_rep_date_end) : null;
-			this.tsk_rep_end_iteration = base.tsk_rep_end_iteration;
-			this.tsk_rep_iteration = base.tsk_rep_iteration;
-			this.tsk_rep_frequency = base.tsk_rep_frequency;
-			this.tsk_ctg_rep_frequency_rule = base.tsk_ctg_rep_frequency_rule;
-			this.tsk_rep_weekdays = base.tsk_rep_weekdays;
 			this.tsk_date_add = (base.tsk_date_add !== null) ? new Date(base.tsk_date_add) : null;
 			this.tsk_date_mod = (base.tsk_date_mod !== null) ? new Date(base.tsk_date_mod) : null;
 			this.tsk_ctg_status = base.tsk_ctg_status;
 
 			this.tsk_txt_in_process = base.tsk_txt_in_process;
 			this.tsk_txt_repeats = base.tsk_txt_repeats;
-			this.tsk_txt_rep_type = base.tsk_txt_rep_type;
-			this.tsk_txt_rep_after_completion = base.tsk_txt_rep_after_completion;
-			this.tsk_txt_rep_end = base.tsk_txt_rep_end;
-			this.tsk_txt_rep_frequency_rule = base.tsk_txt_rep_frequency_rule;
 			this.tsk_txt_status = base.tsk_txt_status;
 		}
 	}
