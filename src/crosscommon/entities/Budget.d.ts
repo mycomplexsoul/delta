@@ -4,7 +4,7 @@ import { ViewJoinDefinition } from "../ViewJoinDefinition";
 export declare class Budget implements iEntity {
     bud_year: number;
     bud_month: number;
-    bud_id_category: number;
+    bud_id_category: string;
     bud_ctg_type: number;
     bud_expected_amount: number;
     bud_real_amount: number;

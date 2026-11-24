@@ -26,6 +26,7 @@ import { BalanceComponent } from "./money/balance.component";
 import { CategoryComponent } from "./money/category.component";
 import { PlaceComponent } from "./money/place.component";
 import { PresetComponent } from "./money/preset.component";
+import { BudgetComponent } from "./money/budget.component";
 import { MovementListingComponent } from "./money/movementListing.component";
 
 import { LastTimeComponent } from "./lasttime/lasttime.component";
@@ -88,6 +89,7 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
     CategoryComponent,
     PlaceComponent,
     PresetComponent,
+    BudgetComponent,
     MovementListingComponent,
     ComboItemComponent,
     CheckboxOptionComponent,

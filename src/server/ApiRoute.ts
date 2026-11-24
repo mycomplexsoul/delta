@@ -20,4 +20,14 @@ const post = (
   });
 };
 
-export default { get, post };
+const deleteRoute = (
+  router: Router,
+  route: string,
+  handler: ({ request, response }) => any | void
+) => {
+  router.delete(route, (request, response) => {
+    handler({ request, response });
+  });
+};
+
+export default { get, post, delete: deleteRoute };

@@ -29,9 +29,11 @@
             , "displayName": "Month"
             , "isRecordName": true
         },{
-            "templateId": "integer"
+            "templateId": "string"
             , "dbName": "bud_id_category"
             , "isPK": true
+            , "size": 32
+            , "minLength": 32
             , "dbComment": "Category identifier for the budget record, matches with category id"
             , "entName": "BudgetCategory"
             , "captureRequired": true

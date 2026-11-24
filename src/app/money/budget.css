@@ -1,0 +1,110 @@
+.budget-page {
+  padding: 1rem;
+}
+
+.budget-period,
+.budget-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+}
+
+.budget-sticky-header {
+  position: sticky;
+  top: 2rem;
+  z-index: 5;
+  background-color: var(--background-color, #eee);
+}
+
+.budget-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding: 0.5rem 0;
+  background-color: var(--background-color, #eee);
+}
+
+.budget-actions {
+  margin: 0;
+  padding: 0.25rem 0 0.5rem;
+  background-color: var(--background-color, #eee);
+}
+
+.budget-totals > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 13rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.35rem;
+  background-color: var(--background-color, #eee);
+}
+
+.budget-totals strong {
+  margin-top: 0.25rem;
+  font-size: 1.15rem;
+}
+
+.budget-table-container {
+  overflow-x: auto;
+}
+
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.budget-table th,
+.budget-table td {
+  padding: 0.25rem 0.4rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.budget-table input[type="number"],
+.budget-table select {
+  min-width: 10rem;
+  max-width: 100%;
+  padding: 0.25rem;
+}
+
+.budget-suggestion {
+  border: 1px solid #9aa;
+  border-radius: 0.25rem;
+  padding: 0.2rem 0.35rem;
+  cursor: pointer;
+}
+
+.budget-no-suggestion {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #a52a2a;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+}
+
+.budget-error {
+  color: #a52a2a;
+}
+
+@media (max-width: 700px) {
+  .budget-table th,
+  .budget-table td {
+    padding: 0.4rem 0.3rem;
+  }
+
+  .budget-table input[type="number"],
+  .budget-table select {
+    min-width: 8rem;
+  }
+}
