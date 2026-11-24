@@ -58,6 +58,39 @@ export class TaskCustom {
     });
   };
 
+  listFinishedTasksForReport = (node: iNode) => {
+    const { username } = node.request["userData"];
+    const taskFilter = `(tsk_ctg_status <> 3 or tsk_date_done >= DATE_SUB(CURRENT_DATE, INTERVAL 60 DAY)) and tsk_id_user_added = '${MoGen.parseApostropheForSQL(
+      username
+    )}'`;
+    const connection: iConnection = ConnectionService.getConnection();
+    const queries = [
+      `select * from vitask where ${taskFilter} order by tsk_date_done desc`,
+      `select * from vitasktimetracking where tsh_id in (select tsk_id from task where ${taskFilter}) order by tsh_id, tsh_num_secuential`,
+    ];
+
+    Promise.all(connection.runSqlArray(queries))
+      .then((results) => {
+        const failedQuery = results.find((result) => result.err);
+        if (failedQuery) {
+          throw failedQuery.err;
+        }
+
+        node.response.json({
+          tasks: results[0].rows,
+          timetracking: results[1].rows,
+        });
+      })
+      .catch((error) => {
+        console.error("[TaskCustom.listFinishedTasksForReport] query failed", error);
+        node.response.status(500).json({
+          operationResult: false,
+          message: "Unable to load the finished tasks report.",
+        });
+      })
+      .finally(() => connection.close());
+  };
+
   createRequestHandler = (node: iNode) => {
     this.create(node.request.body).then((response) => {
       node.response.end(JSON.stringify(response));

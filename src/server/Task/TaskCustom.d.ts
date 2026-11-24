@@ -6,6 +6,7 @@ export declare class TaskCustom {
      */
     list: (node: iNode) => void;
     listOpenTasks: (node: iNode) => void;
+    listFinishedTasksForReport: (node: iNode) => void;
     createRequestHandler: (node: iNode) => void;
     create: (body: any) => Promise<any>;
     insertTimeTracking: (taskList: Task[]) => Promise<any>;

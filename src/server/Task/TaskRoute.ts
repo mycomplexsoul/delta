@@ -22,6 +22,15 @@ router.get("/list-open", (req, res) => {
   server.listOpenTasks(node);
 });
 
+router.get("/finished-report", (req, res) => {
+  let server: TaskCustom = new TaskCustom();
+  let node: iNode = {
+    request: req,
+    response: res,
+  };
+  server.listFinishedTasksForReport(node);
+});
+
 router.post("/batch", (req, res) => {
   let server: TaskCustom = new TaskCustom();
   let node: iNode = {

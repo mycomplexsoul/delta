@@ -1,0 +1,50 @@
+<section class="tasks-report">
+  <h1>Tasks Report</h1>
+
+  <label for="tasks-report-date">Completion date</label>
+  <input
+    id="tasks-report-date"
+    type="date"
+    [(ngModel)]="selectedDate"
+    [min]="minDate"
+    [max]="maxDate"
+  />
+
+  @if (isLoading) {
+  <p>Loading finished tasks...</p>
+  } @else if (loadError) {
+  <p class="tasks-report-error" role="alert">{{ loadError }}</p>
+  } @else if (selectedTasks.length === 0) {
+  <p>No finished tasks for this date.</p>
+  } @else {
+  <p>{{ selectedTasks.length }} finished task(s)</p>
+  @for (task of selectedTasks; track task.tsk_id) {
+  <div class="tasks-report-task">
+    <task
+      [task]="task"
+      [options]="taskOptions"
+      [handlers]="taskViewHandlers"
+    ></task>
+  </div>
+  }
+  }
+
+  @if (allOpenCountChart.chartData[0]?.data?.length) {
+  <section class="tasks-report-chart">
+    <hr />
+    <strong>All Open Count</strong>
+    <div class="tasks-report-chart-viewport">
+      <canvas
+        baseChart
+        [style.min-width.px]="chartMinWidth"
+        [datasets]="allOpenCountChart.chartData"
+        [labels]="allOpenCountChart.chartLabels"
+        [options]="allOpenCountChart.chartOptions"
+        [legend]="allOpenCountChart.chartLegend"
+        [type]="allOpenCountChart.chartType"
+      >
+      </canvas>
+    </div>
+  </section>
+  }
+</section>
