@@ -16,6 +16,7 @@ import { NgChartsModule } from "ng2-charts";
 
 import { AppComponent } from "./app.component";
 import { TasksComponent } from "./task/tasks.component";
+import { TasksReportComponent } from "./task/TasksReport.component";
 import { TaskComponent } from "./task/task.component";
 import { MenuComponent } from "./common/menu.component";
 import { SyncComponent } from "./common/sync.component";
@@ -79,6 +80,7 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
   declarations: [
     AppComponent,
     TasksComponent,
+    TasksReportComponent,
     TaskComponent,
     TaskToolbarComponent,
     TaskLengthWarningComponent,

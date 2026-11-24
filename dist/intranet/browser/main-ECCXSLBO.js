@@ -81460,6 +81460,690 @@ var TasksComponent = class _TasksComponent {
   (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TasksComponent, { className: "TasksComponent", filePath: "src/app/task/tasks.component.ts", lineNumber: 35 });
 })();
 
+// src/crosscommon/entities/TaskTimeTracking.ts
+var TaskTimeTracking = class {
+  tsh_id;
+  tsh_num_secuential;
+  tsh_name;
+  tsh_date_start;
+  tsh_date_end;
+  tsh_time_spent;
+  tsh_id_user;
+  tsh_date_add;
+  tsh_date_mod;
+  metadata = {
+    name: "TaskTimeTracking",
+    namespace: "common",
+    removeMeans: "DELETION",
+    authNeeded: false,
+    displayOnMenu: false,
+    prefix: "tsh",
+    permissionsTemplate: "permissions_all",
+    tableName: "tasktimetracking",
+    viewName: "vitasktimetracking",
+    permissions: [
+      "access",
+      "add",
+      "edit",
+      "remove",
+      "report",
+      "export",
+      "import"
+    ],
+    specialFeatures: [
+      "AUTONUMERIC",
+      "HEADERS(Task Time Tracking,Tasks Time Tracking)",
+      "TABLE_NAME(TASKTIMETRACKING)",
+      "VIEW_NAME(VITASKTIMETRACKING)"
+    ],
+    fields: [
+      {
+        templateId: "string",
+        dbName: "tsh_id",
+        dbType: "string",
+        isTableField: true,
+        isPK: true,
+        size: 32,
+        decimal: 0,
+        minLength: 32,
+        allowNull: false,
+        default: "",
+        dbComment: "Id for the task",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "TaskId",
+        formControl: "Textbox",
+        captureRequired: true,
+        appearsByDefaultOnGrid: true,
+        specialRules: [],
+        displayName: "Task Id",
+        tooltip: "",
+        isRecordName: true,
+        gridOrder: 0,
+        orderOnNew: 0,
+        orderOnDetails: 0,
+        orderOnEdit: 0,
+        orderOnImport: 0,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "integer",
+        dbName: "tsh_num_secuential",
+        dbType: "integer",
+        isTableField: true,
+        isPK: true,
+        size: 4,
+        decimal: 0,
+        minLength: 1,
+        allowNull: false,
+        default: "",
+        dbComment: "Secuential assigned, ordering the time tracking records precedence in time for the task",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "Secuential",
+        formControl: "Textbox",
+        captureRequired: false,
+        appearsByDefaultOnGrid: true,
+        specialRules: [
+          "DUPLICITY_ADD(tsh_id)"
+        ],
+        displayName: "Secuential",
+        tooltip: "",
+        isRecordName: true,
+        gridOrder: 1,
+        orderOnNew: 1,
+        orderOnDetails: 1,
+        orderOnEdit: 1,
+        orderOnImport: 1,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "string",
+        dbName: "tsh_name",
+        dbType: "string",
+        isTableField: true,
+        isPK: false,
+        size: 500,
+        decimal: 0,
+        minLength: 1,
+        allowNull: false,
+        default: "",
+        dbComment: "Name of the task, meaning the task itself",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "Name",
+        formControl: "Textbox",
+        captureRequired: false,
+        appearsByDefaultOnGrid: true,
+        specialRules: [],
+        displayName: "Name",
+        tooltip: "",
+        isRecordName: true,
+        gridOrder: 2,
+        orderOnNew: 2,
+        orderOnDetails: 2,
+        orderOnEdit: 2,
+        orderOnImport: 2,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "datetime",
+        dbName: "tsh_date_start",
+        dbType: "datetime",
+        isTableField: true,
+        isPK: false,
+        size: 16,
+        decimal: 0,
+        minLength: 0,
+        allowNull: true,
+        default: "",
+        dbComment: "Date where the tracking started, indicating beginning of task attendance",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "StartDate",
+        formControl: "datetime",
+        captureRequired: true,
+        appearsByDefaultOnGrid: true,
+        specialRules: [],
+        displayName: "Start Date",
+        tooltip: "",
+        isRecordName: true,
+        gridOrder: 3,
+        orderOnNew: 3,
+        orderOnDetails: 3,
+        orderOnEdit: 3,
+        orderOnImport: 3,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "datetime",
+        dbName: "tsh_date_end",
+        dbType: "datetime",
+        isTableField: true,
+        isPK: false,
+        size: 16,
+        decimal: 0,
+        minLength: 0,
+        allowNull: true,
+        default: "",
+        dbComment: "Date where the tracking ended, indicating stop of task attendance",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "EndDate",
+        formControl: "datetime",
+        captureRequired: true,
+        appearsByDefaultOnGrid: true,
+        specialRules: [],
+        displayName: "End Date",
+        tooltip: "",
+        isRecordName: true,
+        gridOrder: 4,
+        orderOnNew: 4,
+        orderOnDetails: 4,
+        orderOnEdit: 4,
+        orderOnImport: 4,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "long",
+        dbName: "tsh_time_spent",
+        dbType: "long",
+        isTableField: true,
+        isPK: false,
+        size: 9,
+        decimal: 0,
+        minLength: 1,
+        allowNull: false,
+        default: "",
+        dbComment: "Time spent attending this task",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "TimeSpent",
+        formControl: "Textbox",
+        captureRequired: false,
+        appearsByDefaultOnGrid: true,
+        specialRules: [],
+        displayName: "Time Spent",
+        tooltip: "",
+        isRecordName: false,
+        gridOrder: 5,
+        orderOnNew: 5,
+        orderOnDetails: 5,
+        orderOnEdit: 5,
+        orderOnImport: 5,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "user",
+        dbName: "tsh_id_user",
+        dbType: "string",
+        isTableField: true,
+        isPK: false,
+        size: 50,
+        decimal: 0,
+        minLength: 0,
+        allowNull: false,
+        default: "",
+        dbComment: "User who attended this task time entry",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "User",
+        formControl: "Combobox",
+        captureRequired: false,
+        appearsByDefaultOnGrid: true,
+        specialRules: [],
+        displayName: "User",
+        tooltip: "",
+        isRecordName: true,
+        gridOrder: 6,
+        orderOnNew: 6,
+        orderOnDetails: 6,
+        orderOnEdit: 6,
+        orderOnImport: 6,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "creationDate",
+        dbName: "tsh_date_add",
+        dbType: "datetime",
+        isTableField: true,
+        isPK: false,
+        size: 0,
+        decimal: 0,
+        minLength: 0,
+        allowNull: false,
+        default: "",
+        dbComment: "Creation date of record in table",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "CreationDate",
+        formControl: "Datetime",
+        captureRequired: false,
+        appearsByDefaultOnGrid: true,
+        specialRules: [
+          "SAVE_DATE_AT_NEW"
+        ],
+        displayName: "Creation Date",
+        tooltip: "",
+        isRecordName: false,
+        gridOrder: 7,
+        orderOnNew: 7,
+        orderOnDetails: 7,
+        orderOnEdit: 7,
+        orderOnImport: 7,
+        globalOrder: 0,
+        value: null
+      },
+      {
+        templateId: "modificationDate",
+        dbName: "tsh_date_mod",
+        dbType: "datetime",
+        isTableField: true,
+        isPK: false,
+        size: 0,
+        decimal: 0,
+        minLength: 0,
+        allowNull: false,
+        default: "",
+        dbComment: "Last modification date of record in table",
+        catalogId: "",
+        originTable: "",
+        linkedField: "",
+        entName: "ModDate",
+        formControl: "Datetime",
+        captureRequired: false,
+        appearsByDefaultOnGrid: true,
+        specialRules: [
+          "SAVE_DATE_AT_NEW",
+          "SAVE_DATE_AT_EDIT"
+        ],
+        displayName: "Last Modification Date",
+        tooltip: "",
+        isRecordName: false,
+        gridOrder: 8,
+        orderOnNew: 8,
+        orderOnDetails: 8,
+        orderOnEdit: 8,
+        orderOnImport: 8,
+        globalOrder: 0,
+        value: null
+      }
+    ],
+    view: []
+  };
+  constructor(base) {
+    if (base !== void 0) {
+      this.tsh_id = base.tsh_id;
+      this.tsh_num_secuential = base.tsh_num_secuential;
+      this.tsh_name = base.tsh_name;
+      this.tsh_date_start = base.tsh_date_start !== null ? new Date(base.tsh_date_start) : null;
+      this.tsh_date_end = base.tsh_date_end !== null ? new Date(base.tsh_date_end) : null;
+      this.tsh_time_spent = base.tsh_time_spent;
+      this.tsh_id_user = base.tsh_id_user;
+      this.tsh_date_add = base.tsh_date_add !== null ? new Date(base.tsh_date_add) : null;
+      this.tsh_date_mod = base.tsh_date_mod !== null ? new Date(base.tsh_date_mod) : null;
+    }
+  }
+  recordName = () => {
+    return this.metadata.fields.filter((f2) => f2.isRecordName).map((f2) => {
+      return `${f2.dbName} = ${this[f2.dbName]}`;
+    }).join(", ");
+  };
+};
+
+// src/app/task/TasksReport.component.ts
+var _forTrack02 = ($index, $item) => $item.tsk_id;
+function TasksReportComponent_Conditional_6_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p");
+    \u0275\u0275text(1, "Loading finished tasks...");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksReportComponent_Conditional_7_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p", 3);
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate(ctx_r0.loadError);
+  }
+}
+function TasksReportComponent_Conditional_8_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p");
+    \u0275\u0275text(1, "No finished tasks for this date.");
+    \u0275\u0275elementEnd();
+  }
+}
+function TasksReportComponent_Conditional_9_For_3_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 5);
+    \u0275\u0275element(1, "task", 6);
+    \u0275\u0275elementEnd();
+  }
+  if (rf & 2) {
+    const task_r2 = ctx.$implicit;
+    const ctx_r0 = \u0275\u0275nextContext(2);
+    \u0275\u0275advance();
+    \u0275\u0275property("task", task_r2)("options", ctx_r0.taskOptions)("handlers", ctx_r0.taskViewHandlers);
+  }
+}
+function TasksReportComponent_Conditional_9_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "p");
+    \u0275\u0275text(1);
+    \u0275\u0275elementEnd();
+    \u0275\u0275repeaterCreate(2, TasksReportComponent_Conditional_9_For_3_Template, 2, 3, "div", 5, _forTrack02);
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance();
+    \u0275\u0275textInterpolate1("", ctx_r0.selectedTasks.length, " finished task(s)");
+    \u0275\u0275advance();
+    \u0275\u0275repeater(ctx_r0.selectedTasks);
+  }
+}
+function TasksReportComponent_Conditional_10_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "section", 4);
+    \u0275\u0275element(1, "hr");
+    \u0275\u0275elementStart(2, "strong");
+    \u0275\u0275text(3, "All Open Count");
+    \u0275\u0275elementEnd();
+    \u0275\u0275elementStart(4, "div", 7);
+    \u0275\u0275element(5, "canvas", 8);
+    \u0275\u0275elementEnd()();
+  }
+  if (rf & 2) {
+    const ctx_r0 = \u0275\u0275nextContext();
+    \u0275\u0275advance(5);
+    \u0275\u0275styleProp("min-width", ctx_r0.chartMinWidth, "px");
+    \u0275\u0275property("datasets", ctx_r0.allOpenCountChart.chartData)("labels", ctx_r0.allOpenCountChart.chartLabels)("options", ctx_r0.allOpenCountChart.chartOptions)("legend", ctx_r0.allOpenCountChart.chartLegend)("type", ctx_r0.allOpenCountChart.chartType);
+  }
+}
+var TasksReportComponent = class _TasksReportComponent {
+  sync;
+  titleService;
+  taskIndicator;
+  dateUtils;
+  changeDetector;
+  tasks = [];
+  selectedDate;
+  minDate;
+  maxDate;
+  chartMinWidth = 0;
+  isLoading = true;
+  loadError;
+  indicatorTasks = [];
+  indicatorDataLoaded = false;
+  taskOptions = {
+    optAllowToEditETA: false,
+    optViewElapsedDays: false,
+    optShowRecordNameInline: true,
+    optShowBadgeIfTaskIsInBacklog: false,
+    optShowTimeTrackingHistory: true,
+    optShowDetailsButton: false
+  };
+  taskViewHandlers = {
+    onTaskMarkAsDone: (_task, event) => event.preventDefault(),
+    onTimeTrackingQuickEdit: () => {
+    },
+    onToggleTimeMode: () => {
+    },
+    onTaskEdit: () => {
+    },
+    onTaskBlur: () => {
+    },
+    onTaskFocus: () => {
+    },
+    onTaskKeyDown: () => {
+    },
+    onTaskEditEstimatedDuration: () => {
+    },
+    onTaskEditEtaKeyDown: () => {
+    },
+    onShowTagStats: () => {
+    }
+  };
+  allOpenCountChart = {
+    chartData: [{ data: [] }],
+    chartLabels: [],
+    chartOptions: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: false,
+          title: {
+            display: true,
+            text: "Open tasks"
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: "Day"
+          },
+          ticks: {
+            autoSkip: false,
+            minRotation: 90,
+            maxRotation: 90
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true
+        },
+        tooltip: {
+          enabled: true
+        },
+        datalabels: {
+          display: true,
+          align: "top",
+          anchor: "end",
+          formatter: (value, context2) => {
+            const data = context2.chart.data.datasets[0].data;
+            const index2 = context2.dataIndex;
+            if (index2 === 0) {
+              return `${value}`;
+            }
+            const previousValue = data[index2 - 1];
+            const diff = value - previousValue;
+            const sign2 = diff >= 0 ? "+" : "";
+            return `${value} (${sign2}${diff})`;
+          },
+          color: "#333",
+          font: {
+            weight: "bold"
+          }
+        }
+      }
+    },
+    chartLegend: true,
+    chartType: "line"
+  };
+  constructor(sync, titleService, taskIndicator, dateUtils, changeDetector) {
+    this.sync = sync;
+    this.titleService = titleService;
+    this.taskIndicator = taskIndicator;
+    this.dateUtils = dateUtils;
+    this.changeDetector = changeDetector;
+    this.titleService.setTitle("Tasks Report");
+  }
+  ngOnInit() {
+    const today = this.startOfDay(/* @__PURE__ */ new Date());
+    this.minDate = this.toDateInputValue(this.addDays(today, -60));
+    this.maxDate = this.toDateInputValue(today);
+    this.selectedDate = this.toDateInputValue(this.addDays(today, -1));
+    this.sync.get("/api/tasks/finished-report").then((response) => {
+      const timeTrackingByTask = /* @__PURE__ */ new Map();
+      response.timetracking.forEach((entry) => {
+        const timeTracking = new TaskTimeTracking(entry);
+        const history = timeTrackingByTask.get(timeTracking.tsh_id) || [];
+        history.push(timeTracking);
+        timeTrackingByTask.set(timeTracking.tsh_id, history);
+      });
+      this.indicatorTasks = response.tasks.map((data) => {
+        const task = new Task(data);
+        task.tsk_time_history = (timeTrackingByTask.get(task.tsk_id) || []).sort((a2, b2) => b2.tsh_num_secuential - a2.tsh_num_secuential);
+        return task;
+      });
+      this.indicatorDataLoaded = true;
+      this.tasks = this.indicatorTasks.filter((task) => task.tsk_ctg_status === 3 && !!this.taskDateKey(task)).sort((a2, b2) => new Date(b2.tsk_date_done).getTime() - new Date(a2.tsk_date_done).getTime());
+      const latestCompletion = this.tasks.reduce((latest, task) => this.taskDateKey(task) > latest ? this.taskDateKey(task) : latest, this.maxDate);
+      this.maxDate = latestCompletion > this.maxDate ? latestCompletion : this.maxDate;
+      this.taskIndicator.tasks = this.indicatorTasks;
+      this.updateAllOpenCountChart();
+      this.isLoading = false;
+      this.changeDetector.detectChanges();
+    }).catch((error) => {
+      console.error("[TasksReportComponent] Failed to load report", error);
+      this.loadError = "Unable to load the finished tasks report.";
+      this.isLoading = false;
+      this.changeDetector.detectChanges();
+    });
+  }
+  get selectedTasks() {
+    return this.tasks.filter((task) => this.taskDateKey(task) === this.selectedDate);
+  }
+  onWindowResize() {
+    if (this.indicatorDataLoaded) {
+      this.updateAllOpenCountChart();
+    }
+  }
+  updateAllOpenCountChart() {
+    const today = this.dateUtils.dateOnly();
+    const todayKey = this.toDateInputValue(today);
+    const daysBack = typeof window !== "undefined" && window.innerWidth < 512 ? 10 : 60;
+    const lastDayKey = this.indicatorTasks.reduce((latest, task) => {
+      const completionDate = this.taskDateKey(task);
+      return completionDate > latest ? completionDate : latest;
+    }, todayKey);
+    const firstDay = new Date(today);
+    firstDay.setDate(firstDay.getDate() - daysBack);
+    const lastDay = this.dateFromInputValue(lastDayKey);
+    const days = [];
+    const labels = [];
+    for (let day = firstDay; day <= lastDay; day = this.nextDay(day)) {
+      days.push(day);
+      labels.push(this.toDateInputValue(day));
+    }
+    this.chartMinWidth = Math.max(512, days.length * 24);
+    const values = days.map((day) => this.taskIndicator.allOpenTaskCountUntil(day, this.nextDay(day)));
+    this.allOpenCountChart.chartLabels = labels;
+    this.allOpenCountChart.chartData = [
+      {
+        label: "All Open Count",
+        data: values,
+        fill: false,
+        borderColor: "#3f51b5",
+        backgroundColor: "rgba(63, 81, 181, 0.2)",
+        tension: 0.2
+      }
+    ];
+  }
+  nextDay(date) {
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    return nextDay;
+  }
+  dateFromInputValue(value) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+  taskDateKey(task) {
+    if (!task.tsk_date_done) {
+      return "";
+    }
+    const date = new Date(task.tsk_date_done);
+    return Number.isNaN(date.getTime()) ? "" : this.toDateInputValue(date);
+  }
+  startOfDay(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+  addDays(date, days) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+  toDateInputValue(date) {
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, "0");
+    const day = `${date.getDate()}`.padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  static \u0275fac = function TasksReportComponent_Factory(__ngFactoryType__) {
+    return new (__ngFactoryType__ || _TasksReportComponent)(\u0275\u0275directiveInject(SyncAPI), \u0275\u0275directiveInject(Title), \u0275\u0275directiveInject(TaskIndicator), \u0275\u0275directiveInject(DateCommon), \u0275\u0275directiveInject(ChangeDetectorRef));
+  };
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _TasksReportComponent, selectors: [["tasks-report"]], hostBindings: function TasksReportComponent_HostBindings(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275listener("resize", function TasksReportComponent_resize_HostBindingHandler() {
+        return ctx.onWindowResize();
+      }, \u0275\u0275resolveWindow);
+    }
+  }, standalone: false, features: [\u0275\u0275ProvidersFeature([TaskIndicator])], decls: 11, vars: 5, consts: [[1, "tasks-report"], ["for", "tasks-report-date"], ["id", "tasks-report-date", "type", "date", 3, "ngModelChange", "ngModel", "min", "max"], ["role", "alert", 1, "tasks-report-error"], [1, "tasks-report-chart"], [1, "tasks-report-task"], [3, "task", "options", "handlers"], [1, "tasks-report-chart-viewport"], ["baseChart", "", 3, "datasets", "labels", "options", "legend", "type"]], template: function TasksReportComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      \u0275\u0275elementStart(0, "section", 0)(1, "h1");
+      \u0275\u0275text(2, "Tasks Report");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(3, "label", 1);
+      \u0275\u0275text(4, "Completion date");
+      \u0275\u0275elementEnd();
+      \u0275\u0275elementStart(5, "input", 2);
+      \u0275\u0275twoWayListener("ngModelChange", function TasksReportComponent_Template_input_ngModelChange_5_listener($event) {
+        \u0275\u0275twoWayBindingSet(ctx.selectedDate, $event) || (ctx.selectedDate = $event);
+        return $event;
+      });
+      \u0275\u0275elementEnd();
+      \u0275\u0275controlCreate();
+      \u0275\u0275conditionalCreate(6, TasksReportComponent_Conditional_6_Template, 2, 0, "p")(7, TasksReportComponent_Conditional_7_Template, 2, 1, "p", 3)(8, TasksReportComponent_Conditional_8_Template, 2, 0, "p")(9, TasksReportComponent_Conditional_9_Template, 4, 1);
+      \u0275\u0275conditionalCreate(10, TasksReportComponent_Conditional_10_Template, 6, 7, "section", 4);
+      \u0275\u0275elementEnd();
+    }
+    if (rf & 2) {
+      \u0275\u0275advance(5);
+      \u0275\u0275twoWayProperty("ngModel", ctx.selectedDate);
+      \u0275\u0275property("min", ctx.minDate)("max", ctx.maxDate);
+      \u0275\u0275control();
+      \u0275\u0275advance();
+      \u0275\u0275conditional(ctx.isLoading ? 6 : ctx.loadError ? 7 : ctx.selectedTasks.length === 0 ? 8 : 9);
+      \u0275\u0275advance(4);
+      \u0275\u0275conditional(ctx.allOpenCountChart.chartData[0]?.data?.length ? 10 : -1);
+    }
+  }, dependencies: [DefaultValueAccessor, NgControlStatus, NgModel, BaseChartDirective, TaskComponent], styles: ["\n.tasks-report[_ngcontent-%COMP%] {\n  padding: 1rem;\n}\n.tasks-report[_ngcontent-%COMP%]    > label[_ngcontent-%COMP%] {\n  margin-right: 0.5rem;\n}\n.tasks-report-task[_ngcontent-%COMP%] {\n  margin: 0.25rem 0;\n}\n.tasks-report-chart[_ngcontent-%COMP%] {\n  margin-top: 2rem;\n}\n.tasks-report-chart-viewport[_ngcontent-%COMP%] {\n  overflow-x: auto;\n}\n.tasks-report-error[_ngcontent-%COMP%] {\n  color: #b00020;\n}\n/*# sourceMappingURL=TasksReport-Z7F2IAGX.css.map */"] });
+};
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TasksReportComponent, [{
+    type: Component,
+    args: [{ selector: "tasks-report", providers: [TaskIndicator], standalone: false, template: '<section class="tasks-report">\r\n  <h1>Tasks Report</h1>\r\n\r\n  <label for="tasks-report-date">Completion date</label>\r\n  <input\r\n    id="tasks-report-date"\r\n    type="date"\r\n    [(ngModel)]="selectedDate"\r\n    [min]="minDate"\r\n    [max]="maxDate"\r\n  />\r\n\r\n  @if (isLoading) {\r\n  <p>Loading finished tasks...</p>\r\n  } @else if (loadError) {\r\n  <p class="tasks-report-error" role="alert">{{ loadError }}</p>\r\n  } @else if (selectedTasks.length === 0) {\r\n  <p>No finished tasks for this date.</p>\r\n  } @else {\r\n  <p>{{ selectedTasks.length }} finished task(s)</p>\r\n  @for (task of selectedTasks; track task.tsk_id) {\r\n  <div class="tasks-report-task">\r\n    <task\r\n      [task]="task"\r\n      [options]="taskOptions"\r\n      [handlers]="taskViewHandlers"\r\n    ></task>\r\n  </div>\r\n  }\r\n  }\r\n\r\n  @if (allOpenCountChart.chartData[0]?.data?.length) {\r\n  <section class="tasks-report-chart">\r\n    <hr />\r\n    <strong>All Open Count</strong>\r\n    <div class="tasks-report-chart-viewport">\r\n      <canvas\r\n        baseChart\r\n        [style.min-width.px]="chartMinWidth"\r\n        [datasets]="allOpenCountChart.chartData"\r\n        [labels]="allOpenCountChart.chartLabels"\r\n        [options]="allOpenCountChart.chartOptions"\r\n        [legend]="allOpenCountChart.chartLegend"\r\n        [type]="allOpenCountChart.chartType"\r\n      >\r\n      </canvas>\r\n    </div>\r\n  </section>\r\n  }\r\n</section>\r\n', styles: ["/* src/app/task/TasksReport.css */\n.tasks-report {\n  padding: 1rem;\n}\n.tasks-report > label {\n  margin-right: 0.5rem;\n}\n.tasks-report-task {\n  margin: 0.25rem 0;\n}\n.tasks-report-chart {\n  margin-top: 2rem;\n}\n.tasks-report-chart-viewport {\n  overflow-x: auto;\n}\n.tasks-report-error {\n  color: #b00020;\n}\n/*# sourceMappingURL=TasksReport-Z7F2IAGX.css.map */\n"] }]
+  }], () => [{ type: SyncAPI }, { type: Title }, { type: TaskIndicator }, { type: DateCommon }, { type: ChangeDetectorRef }], { onWindowResize: [{
+    type: HostListener,
+    args: ["window:resize"]
+  }] });
+})();
+(() => {
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(TasksReportComponent, { className: "TasksReportComponent", filePath: "src/app/task/tasksreport.component.ts", lineNumber: 25 });
+})();
+
 // src/crosscommon/entities/Account.ts
 var Account = class {
   acc_id;
@@ -89918,7 +90602,7 @@ var _c182 = (a0, a1) => ({ "movement-income": a0, "movement-expense": a1 });
 var _c192 = (a0) => ({ data: a0, label: "Saldo final", borderColor: "#4c6ef5", backgroundColor: "rgba(76,110,245,0.15)", tension: 0.2, fill: true });
 var _c202 = () => ({ beginAtZero: false });
 var arrowFn0 = (ctx, view) => (ctx2) => ctx2.formatCurrency(ctx2.parsed.y);
-var _forTrack02 = ($index, $item) => $item.category;
+var _forTrack03 = ($index, $item) => $item.category;
 var _forTrack12 = ($index, $item) => $item.mov_id;
 var arrowFn1 = (ctx, view) => (ctx2) => {
   \u0275\u0275restoreView(view);
@@ -90106,7 +90790,7 @@ function BalanceComponent_Conditional_71_Template(rf, ctx) {
     \u0275\u0275text(8, "Movimientos");
     \u0275\u0275elementEnd()()();
     \u0275\u0275elementStart(9, "tbody");
-    \u0275\u0275repeaterCreate(10, BalanceComponent_Conditional_71_For_11_Template, 8, 8, "tr", null, _forTrack02);
+    \u0275\u0275repeaterCreate(10, BalanceComponent_Conditional_71_For_11_Template, 8, 8, "tr", null, _forTrack03);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -127806,6 +128490,11 @@ var appRoutes = [
     canActivate: [AuthGuard]
   },
   {
+    path: "tasks-report",
+    component: TasksReportComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: "account",
     component: AccountComponent,
     canActivate: [AuthGuard]
@@ -127930,7 +128619,7 @@ var appRoutes = [
 var routing = RouterModule.forRoot(appRoutes);
 
 // src/app/common/notification.component.ts
-var _forTrack03 = ($index, $item) => $item.id;
+var _forTrack04 = ($index, $item) => $item.id;
 function NotificationComponent_For_2_Conditional_1_Template(rf, ctx) {
   if (rf & 1) {
     \u0275\u0275elementStart(0, "div", 2)(1, "span");
@@ -128066,7 +128755,7 @@ var NotificationComponent = class _NotificationComponent {
   static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _NotificationComponent, selectors: [["notification"]], standalone: false, decls: 3, vars: 0, consts: [[1, "notification-area"], [1, "notification-item"], [1, "notification-head"], ["src", "/assets/icons/close.svg", 1, "close-button-img", 3, "click"], [1, "notification-body"], [1, "notification-footer"], [1, "notification-close-button"], ["format", "[HH]:[mm]", 1, "notification-date", 3, "value"], [1, "notification-close-button", 3, "click"]], template: function NotificationComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275elementStart(0, "div", 0);
-      \u0275\u0275repeaterCreate(1, NotificationComponent_For_2_Template, 9, 4, "div", 1, _forTrack03);
+      \u0275\u0275repeaterCreate(1, NotificationComponent_For_2_Template, 9, 4, "div", 1, _forTrack04);
       \u0275\u0275elementEnd();
     }
     if (rf & 2) {
@@ -128593,7 +129282,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(8, "Movements");
+    \u0275\u0275text(8, "Tasks Report");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(9, "li")(10, "a", 13);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_10_listener() {
@@ -128601,7 +129290,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(11, "Balance");
+    \u0275\u0275text(11, "Movements");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(12, "li")(13, "a", 14);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_13_listener() {
@@ -128609,7 +129298,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(14, "Last Time");
+    \u0275\u0275text(14, "Balance");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(15, "li")(16, "a", 15);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_16_listener() {
@@ -128617,7 +129306,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(17, "Multimedia");
+    \u0275\u0275text(17, "Last Time");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(18, "li")(19, "a", 16);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_19_listener() {
@@ -128625,7 +129314,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(20, "Accounts");
+    \u0275\u0275text(20, "Multimedia");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(21, "li")(22, "a", 17);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_22_listener() {
@@ -128633,7 +129322,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(23, "Categories");
+    \u0275\u0275text(23, "Accounts");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(24, "li")(25, "a", 18);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_25_listener() {
@@ -128641,7 +129330,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(26, "Places");
+    \u0275\u0275text(26, "Categories");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(27, "li")(28, "a", 19);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_28_listener() {
@@ -128649,7 +129338,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(29, "Presets");
+    \u0275\u0275text(29, "Places");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(30, "li")(31, "a", 20);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_31_listener() {
@@ -128657,7 +129346,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(32, "Links");
+    \u0275\u0275text(32, "Presets");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(33, "li")(34, "a", 21);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_34_listener() {
@@ -128665,7 +129354,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(35, "Cartera");
+    \u0275\u0275text(35, "Links");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(36, "li")(37, "a", 22);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_37_listener() {
@@ -128673,7 +129362,7 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(38, "Activities");
+    \u0275\u0275text(38, "Cartera");
     \u0275\u0275elementEnd()();
     \u0275\u0275elementStart(39, "li")(40, "a", 23);
     \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_40_listener() {
@@ -128681,26 +129370,34 @@ function MenuComponent_Conditional_0_Conditional_12_Template(rf, ctx) {
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.handleClick());
     });
-    \u0275\u0275text(41, " Libros de la Biblia ");
+    \u0275\u0275text(41, "Activities");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(42, "li")(43, "span");
-    \u0275\u0275text(44);
+    \u0275\u0275elementStart(42, "li")(43, "a", 24);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_43_listener() {
+      \u0275\u0275restoreView(_r3);
+      const ctx_r1 = \u0275\u0275nextContext(2);
+      return \u0275\u0275resetView(ctx_r1.handleClick());
+    });
+    \u0275\u0275text(44, " Libros de la Biblia ");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(45, "li")(46, "a", 3);
-    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_46_listener() {
+    \u0275\u0275elementStart(45, "li")(46, "span");
+    \u0275\u0275text(47);
+    \u0275\u0275elementEnd()();
+    \u0275\u0275elementStart(48, "li")(49, "a", 3);
+    \u0275\u0275listener("click", function MenuComponent_Conditional_0_Conditional_12_Template_a_click_49_listener() {
       \u0275\u0275restoreView(_r3);
       const ctx_r1 = \u0275\u0275nextContext(2);
       return \u0275\u0275resetView(ctx_r1.logout());
     });
-    \u0275\u0275text(47, "logout");
+    \u0275\u0275text(50, "logout");
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(48, "li")(49, "span");
-    \u0275\u0275text(50);
+    \u0275\u0275elementStart(51, "li")(52, "span");
+    \u0275\u0275text(53);
     \u0275\u0275elementEnd()()()()();
   }
   if (rf & 2) {
     const ctx_r1 = \u0275\u0275nextContext(2);
-    \u0275\u0275advance(44);
+    \u0275\u0275advance(47);
     \u0275\u0275textInterpolate(ctx_r1.viewData.username);
     \u0275\u0275advance(6);
     \u0275\u0275textInterpolate1("v", ctx_r1.metadata.appVersion);
@@ -128729,7 +129426,7 @@ function MenuComponent_Conditional_0_Template(rf, ctx) {
       return \u0275\u0275resetView(ctx_r1.onOmniboxCommand($event));
     });
     \u0275\u0275elementEnd()();
-    \u0275\u0275conditionalCreate(12, MenuComponent_Conditional_0_Conditional_12_Template, 51, 2, "div", 7);
+    \u0275\u0275conditionalCreate(12, MenuComponent_Conditional_0_Conditional_12_Template, 54, 2, "div", 7);
     \u0275\u0275elementEnd()();
   }
   if (rf & 2) {
@@ -128803,7 +129500,7 @@ var MenuComponent = class _MenuComponent {
   static \u0275fac = function MenuComponent_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _MenuComponent)(\u0275\u0275directiveInject(Router), \u0275\u0275directiveInject(AuthenticationService), \u0275\u0275directiveInject(LoginService));
   };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MenuComponent, selectors: [["menu"]], standalone: false, features: [\u0275\u0275ProvidersFeature([LoginService])], decls: 1, vars: 1, consts: [[1, "menu-container"], [1, "menu-header"], [1, "menu-icon"], [3, "click"], [1, "menu-area"], [1, "menu-clock"], [3, "commandEntered"], [1, "menu-overlay"], [1, "menu-overlay", 3, "click"], [1, "menu-section"], [1, "menu-items", 3, "keydown.esc"], ["routerLink", "tasks", "href", "/tasks", 3, "click"], ["routerLink", "movement", "href", "/movement", 3, "click"], ["routerLink", "balance", "href", "/balance", 3, "click"], ["routerLink", "lasttime", "href", "/lasttime", 3, "click"], ["routerLink", "multimedia", "href", "/multimedia", 3, "click"], ["routerLink", "account", "href", "/account", 3, "click"], ["routerLink", "categories", "href", "/categories", 3, "click"], ["routerLink", "places", "href", "/places", 3, "click"], ["routerLink", "presets", "href", "/presets", 3, "click"], ["routerLink", "links", "href", "/links", 3, "click"], ["routerLink", "cartera", "href", "/cartera", 3, "click"], ["routerLink", "activities", "href", "/activities", 3, "click"], ["routerLink", "libros", "href", "/libros", 3, "click"]], template: function MenuComponent_Template(rf, ctx) {
+  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _MenuComponent, selectors: [["menu"]], standalone: false, features: [\u0275\u0275ProvidersFeature([LoginService])], decls: 1, vars: 1, consts: [[1, "menu-container"], [1, "menu-header"], [1, "menu-icon"], [3, "click"], [1, "menu-area"], [1, "menu-clock"], [3, "commandEntered"], [1, "menu-overlay"], [1, "menu-overlay", 3, "click"], [1, "menu-section"], [1, "menu-items", 3, "keydown.esc"], ["routerLink", "tasks", "href", "/tasks", 3, "click"], ["routerLink", "tasks-report", "href", "/tasks-report", 3, "click"], ["routerLink", "movement", "href", "/movement", 3, "click"], ["routerLink", "balance", "href", "/balance", 3, "click"], ["routerLink", "lasttime", "href", "/lasttime", 3, "click"], ["routerLink", "multimedia", "href", "/multimedia", 3, "click"], ["routerLink", "account", "href", "/account", 3, "click"], ["routerLink", "categories", "href", "/categories", 3, "click"], ["routerLink", "places", "href", "/places", 3, "click"], ["routerLink", "presets", "href", "/presets", 3, "click"], ["routerLink", "links", "href", "/links", 3, "click"], ["routerLink", "cartera", "href", "/cartera", 3, "click"], ["routerLink", "activities", "href", "/activities", 3, "click"], ["routerLink", "libros", "href", "/libros", 3, "click"]], template: function MenuComponent_Template(rf, ctx) {
     if (rf & 1) {
       \u0275\u0275conditionalCreate(0, MenuComponent_Conditional_0_Template, 13, 5, "div", 0);
     }
@@ -128815,7 +129512,7 @@ var MenuComponent = class _MenuComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MenuComponent, [{
     type: Component,
-    args: [{ selector: "menu", providers: [LoginService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '@if (currentUser) {\r\n<div class="menu-container">\r\n  <div class="menu-header">\r\n    <div class="menu-icon">\r\n      <button (click)="viewData.isOpen = !viewData.isOpen">menu</button>\r\n    </div>\r\n    <div class="menu-area">\r\n      <span class="menu-clock">\r\n        {{ viewData.currentTime | date: "HH:mm:ss" }}\r\n      </span>\r\n      <drink-water></drink-water>\r\n      <sync></sync>\r\n      <app-omnibox (commandEntered)="onOmniboxCommand($event)"></app-omnibox>\r\n    </div>\r\n    @if (viewData.isOpen) {\r\n    <div class="menu-overlay" (click)="handleClick()">\r\n      <div class="menu-section">\r\n        <ul class="menu-items" (keydown.esc)="handleClick()">\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="tasks" href="/tasks"\r\n              >Tasks</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="movement" href="/movement"\r\n              >Movements</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="balance" href="/balance"\r\n              >Balance</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="lasttime" href="/lasttime"\r\n              >Last Time</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="multimedia"\r\n              href="/multimedia"\r\n              >Multimedia</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="account" href="/account"\r\n              >Accounts</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="categories"\r\n              href="/categories"\r\n              >Categories</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="places" href="/places"\r\n              >Places</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="presets" href="/presets"\r\n              >Presets</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="links" href="/links"\r\n              >Links</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="cartera" href="/cartera"\r\n              >Cartera</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="activities"\r\n              href="/activities"\r\n              >Activities</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="libros" href="/libros">\r\n              Libros de la Biblia\r\n            </a>\r\n          </li>\r\n          <li>\r\n            <span>{{ viewData.username }}</span>\r\n          </li>\r\n          <li>\r\n            <a (click)="logout()">logout</a>\r\n          </li>\r\n          <li>\r\n            <span>v{{ metadata.appVersion }}</span>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n    }\r\n  </div>\r\n</div>\r\n}\r\n', styles: ["/* src/app/common/menu.css */\n.menu-container {\n  width: 100%;\n}\n.menu-header ul {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.menu-items li {\n  border-bottom: 1px solid #888;\n  height: 2rem;\n  display: flex;\n  align-items: center;\n}\n.menu-items li:hover,\n.menu-items li:focus-within {\n  background-color: white;\n}\n.menu-items li a,\n.menu-items li span {\n  padding: 5px;\n  display: inline-block;\n  width: 97%;\n  color: black;\n}\n.menu-items {\n  color: black;\n}\n.menu-header ul li a {\n  text-decoration: none;\n}\n.menu-header {\n  display: flex;\n}\n.menu-icon {\n  cursor: pointer;\n}\n.menu-section {\n  display: block;\n  position: absolute;\n  top: 28px;\n  left: 0;\n  width: 100%;\n  background-color: #aaa;\n}\n@media (min-width: 504px) {\n  .menu-section {\n    top: 19px;\n  }\n}\n.menu-area * {\n  margin: 0 5px;\n}\n.menu-overlay {\n  background-color: rgba(0, 0, 0, 0.15);\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: -1;\n}\n@media all and (min-width: 505px) {\n  .menu-section {\n    width: 30%;\n  }\n}\n/*# sourceMappingURL=menu-ZIFX2QDS.css.map */\n"] }]
+    args: [{ selector: "menu", providers: [LoginService], changeDetection: ChangeDetectionStrategy.Eager, standalone: false, template: '@if (currentUser) {\r\n<div class="menu-container">\r\n  <div class="menu-header">\r\n    <div class="menu-icon">\r\n      <button (click)="viewData.isOpen = !viewData.isOpen">menu</button>\r\n    </div>\r\n    <div class="menu-area">\r\n      <span class="menu-clock">\r\n        {{ viewData.currentTime | date: "HH:mm:ss" }}\r\n      </span>\r\n      <drink-water></drink-water>\r\n      <sync></sync>\r\n      <app-omnibox (commandEntered)="onOmniboxCommand($event)"></app-omnibox>\r\n    </div>\r\n    @if (viewData.isOpen) {\r\n    <div class="menu-overlay" (click)="handleClick()">\r\n      <div class="menu-section">\r\n        <ul class="menu-items" (keydown.esc)="handleClick()">\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="tasks" href="/tasks"\r\n              >Tasks</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="tasks-report"\r\n              href="/tasks-report"\r\n              >Tasks Report</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="movement" href="/movement"\r\n              >Movements</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="balance" href="/balance"\r\n              >Balance</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="lasttime" href="/lasttime"\r\n              >Last Time</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="multimedia"\r\n              href="/multimedia"\r\n              >Multimedia</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="account" href="/account"\r\n              >Accounts</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="categories"\r\n              href="/categories"\r\n              >Categories</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="places" href="/places"\r\n              >Places</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="presets" href="/presets"\r\n              >Presets</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="links" href="/links"\r\n              >Links</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="cartera" href="/cartera"\r\n              >Cartera</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a\r\n              (click)="handleClick()"\r\n              routerLink="activities"\r\n              href="/activities"\r\n              >Activities</a\r\n            >\r\n          </li>\r\n          <li>\r\n            <a (click)="handleClick()" routerLink="libros" href="/libros">\r\n              Libros de la Biblia\r\n            </a>\r\n          </li>\r\n          <li>\r\n            <span>{{ viewData.username }}</span>\r\n          </li>\r\n          <li>\r\n            <a (click)="logout()">logout</a>\r\n          </li>\r\n          <li>\r\n            <span>v{{ metadata.appVersion }}</span>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n    }\r\n  </div>\r\n</div>\r\n}\r\n', styles: ["/* src/app/common/menu.css */\n.menu-container {\n  width: 100%;\n}\n.menu-header ul {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.menu-items li {\n  border-bottom: 1px solid #888;\n  height: 2rem;\n  display: flex;\n  align-items: center;\n}\n.menu-items li:hover,\n.menu-items li:focus-within {\n  background-color: white;\n}\n.menu-items li a,\n.menu-items li span {\n  padding: 5px;\n  display: inline-block;\n  width: 97%;\n  color: black;\n}\n.menu-items {\n  color: black;\n}\n.menu-header ul li a {\n  text-decoration: none;\n}\n.menu-header {\n  display: flex;\n}\n.menu-icon {\n  cursor: pointer;\n}\n.menu-section {\n  display: block;\n  position: absolute;\n  top: 28px;\n  left: 0;\n  width: 100%;\n  background-color: #aaa;\n}\n@media (min-width: 504px) {\n  .menu-section {\n    top: 19px;\n  }\n}\n.menu-area * {\n  margin: 0 5px;\n}\n.menu-overlay {\n  background-color: rgba(0, 0, 0, 0.15);\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: -1;\n}\n@media all and (min-width: 505px) {\n  .menu-section {\n    width: 30%;\n  }\n}\n/*# sourceMappingURL=menu-ZIFX2QDS.css.map */\n"] }]
   }], () => [{ type: Router }, { type: AuthenticationService }, { type: LoginService }], null);
 })();
 (() => {
@@ -129417,6 +130114,7 @@ var AppModule = class _AppModule {
       declarations: [
         AppComponent,
         TasksComponent,
+        TasksReportComponent,
         TaskComponent,
         TaskToolbarComponent,
         TaskLengthWarningComponent,
@@ -129501,5 +130199,5 @@ platformBrowser().bootstrapModule(AppModule, {
     navigator.serviceWorker.register("/ngsw-worker.js");
   }
 }).catch((err2) => console.error(err2));
-//# debugId=c140d04d-2e80-5ed9-b1d1-9b5e325e42ba
-//# sourceMappingURL=main-VE66EKBP.js.map
+//# debugId=b5d1c245-37b0-5d21-8285-eefca7ca6d9c
+//# sourceMappingURL=main-ECCXSLBO.js.map

@@ -7,6 +7,7 @@ import { AuthGuard } from "./common/auth.guard";
 import { CfgComponent } from "./common/cfg.component";
 
 import { TasksComponent } from "./task/tasks.component";
+import { TasksReportComponent } from "./task/TasksReport.component";
 
 import { AccountComponent } from "./money/account.component";
 import { MovementComponent } from "./money/movement.component";
@@ -44,6 +45,11 @@ const appRoutes: Routes = [
   {
     path: "tasks",
     component: TasksComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "tasks-report",
+    component: TasksReportComponent,
     canActivate: [AuthGuard],
   },
   {

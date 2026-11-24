@@ -1,0 +1,23 @@
+.tasks-report {
+  padding: 1rem;
+}
+
+.tasks-report > label {
+  margin-right: 0.5rem;
+}
+
+.tasks-report-task {
+  margin: 0.25rem 0;
+}
+
+.tasks-report-chart {
+  margin-top: 2rem;
+}
+
+.tasks-report-chart-viewport {
+  overflow-x: auto;
+}
+
+.tasks-report-error {
+  color: #b00020;
+}
