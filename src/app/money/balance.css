@@ -151,6 +151,120 @@
   columns: 2;
 }
 
+.budget-table-container {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.budget-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.budget-totals > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.35rem;
+}
+
+.budget-summary-table {
+  display: inline-table;
+  width: auto;
+  border-collapse: collapse;
+}
+
+.budget-summary-table th,
+.budget-summary-table td {
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.budget-summary-table th {
+  text-align: left;
+}
+
+.budget-summary-table tfoot th,
+.budget-summary-table tfoot td {
+  text-align: right;
+  font-weight: 600;
+}
+
+.budget-summary-table tfoot th:first-child {
+  text-align: right;
+}
+
+.budget-sort-button,
+.budget-category-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #333;
+  font: inherit;
+  text-align: inherit;
+}
+
+.budget-sort-button {
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.budget-summary-table td small {
+  display: block;
+  color: #666;
+}
+
+.budget-category-button {
+  cursor: pointer;
+}
+
+.budget-category-button:hover {
+  text-decoration: underline;
+}
+
+.budget-sort-button:focus-visible,
+.budget-category-button:focus-visible {
+  outline: 2px solid #0061a7;
+  outline-offset: 2px;
+}
+
+.budget-summary-selected {
+  background-color: #e8f4fc;
+}
+
+.budget-movement-details {
+  margin: 1rem 0;
+}
+
+.budget-no-activity {
+  margin-top: 1rem;
+}
+
+.budget-no-activity summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.budget-no-activity ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.budget-difference-negative {
+  color: #b42318;
+  font-weight: 600;
+}
+
+.budget-difference-positive {
+  color: #167c3b;
+  font-weight: 600;
+}
+
 @media (min-width: 504px) {
   .balance-category-list {
     columns: 4;

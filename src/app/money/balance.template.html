@@ -547,33 +547,229 @@
   </div>
 
   <div class="budget-table-container">
-    <h3>Presupuesto por Categoría</h3>
-    <table>
+    <h3>
+      Presupuesto por categoría · {{ getSelectedMonthName() }} {{ model.year }}
+    </h3>
+    <div class="budget-totals">
+      <div>
+        <strong>Ingresos presupuestados</strong>
+        {{ getBudgetTotals(2).budget | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </div>
+      <div>
+        <strong>Ingresos reales</strong>
+        {{ getBudgetTotals(2).actual | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </div>
+      <div>
+        <strong>Diferencia ingresos</strong>
+        <span
+          [ngClass]="{
+            'budget-difference-negative': getBudgetDifference(2) < 0,
+            'budget-difference-positive': getBudgetDifference(2) > 0
+          }"
+        >
+          {{ getBudgetDifference(2) | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+      <div>
+        <strong>Egresos presupuestados</strong>
+        {{ getBudgetTotals(1).budget | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </div>
+      <div>
+        <strong>Egresos reales</strong>
+        {{ getBudgetTotals(1).actual | currency: "USD":"symbol-narrow":"1.2-2" }}
+      </div>
+      <div>
+        <strong>Diferencia egresos</strong>
+        <span
+          [ngClass]="{
+            'budget-difference-negative': getBudgetDifference(1) < 0,
+            'budget-difference-positive': getBudgetDifference(1) > 0
+          }"
+        >
+          {{ getBudgetDifference(1) | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </span>
+      </div>
+    </div>
+    @for (movementType of budgetMovementTypes; track movementType) {
+    <h4>{{ movementType === 1 ? "Egresos por categoría" : "Ingresos por categoría" }}</h4>
+    <table class="budget-summary-table">
       <thead>
         <tr>
-          <th>Categoría</th>
-          <th>Presupuesto</th>
+          <th
+            [attr.aria-sort]="budgetSortColumn === 'categoryName' ? (budgetSortDirection === 'asc' ? 'ascending' : 'descending') : 'none'"
+          >
+            <button
+              type="button"
+              class="budget-sort-button"
+              (click)="sortBudgetRows('categoryName')"
+            >
+              Categoría
+              @if (budgetSortColumn === "categoryName") {
+              <span aria-hidden="true">{{
+                budgetSortDirection === "asc" ? "▲" : "▼"
+              }}</span>
+              }
+            </button>
+          </th>
+          <th
+            class="text-align-right"
+            [attr.aria-sort]="budgetSortColumn === 'budget' ? (budgetSortDirection === 'asc' ? 'ascending' : 'descending') : 'none'"
+          >
+            <button
+              type="button"
+              class="budget-sort-button"
+              (click)="sortBudgetRows('budget')"
+            >
+              Monto presupuestado
+              @if (budgetSortColumn === "budget") {
+              <span aria-hidden="true">{{
+                budgetSortDirection === "asc" ? "▲" : "▼"
+              }}</span>
+              }
+            </button>
+          </th>
+          <th
+            class="text-align-right"
+            [attr.aria-sort]="budgetSortColumn === 'actual' ? (budgetSortDirection === 'asc' ? 'ascending' : 'descending') : 'none'"
+          >
+            <button
+              type="button"
+              class="budget-sort-button"
+              (click)="sortBudgetRows('actual')"
+            >
+              Monto real
+              @if (budgetSortColumn === "actual") {
+              <span aria-hidden="true">{{
+                budgetSortDirection === "asc" ? "▲" : "▼"
+              }}</span>
+              }
+            </button>
+          </th>
+          <th
+            class="text-align-right"
+            [attr.aria-sort]="budgetSortColumn === 'difference' ? (budgetSortDirection === 'asc' ? 'ascending' : 'descending') : 'none'"
+          >
+            <button
+              type="button"
+              class="budget-sort-button"
+              (click)="sortBudgetRows('difference')"
+            >
+              Diferencia
+              @if (budgetSortColumn === "difference") {
+              <span aria-hidden="true">{{
+                budgetSortDirection === "asc" ? "▲" : "▼"
+              }}</span>
+              }
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
-        @for (cat of budgetPerCategory(); track cat) {
+        @for (row of getBudgetRows(movementType); track row.categoryId) {
+        <tr
+          [class.budget-summary-selected]="selectedBudgetCategory?.categoryId === row.categoryId"
+        >
+          <td>
+            <button
+              type="button"
+              class="budget-category-button"
+              (click)="selectBudgetCategory(row)"
+            >
+              {{ row.categoryName }}
+            </button>
+          </td>
+          <td class="text-align-right">
+            {{ row.budget | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </td>
+          <td class="text-align-right">
+            {{ row.actual | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </td>
+          <td class="text-align-right">
+            <span
+              [ngClass]="{
+                'budget-difference-negative': row.difference < 0,
+                'budget-difference-positive': row.difference > 0
+              }"
+            >
+              {{ row.difference | currency: "USD":"symbol-narrow":"1.2-2" }}
+            </span>
+          </td>
+        </tr>
+        } @empty {
         <tr>
-          <td>{{ cat.name }}</td>
-          <td>{{ cat.value | currency:'USD':'symbol-narrow':'1.2-2' }}</td>
+          <td colspan="4">
+            No hay categorías con presupuesto o movimientos registrados.
+          </td>
         </tr>
         }
       </tbody>
       <tfoot>
         <tr>
-          <th>Total</th>
+          <th>Total mostrado</th>
+          <th class="text-align-right">
+            {{ getDisplayedBudgetTotals(movementType).budget | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </th>
+          <th class="text-align-right">
+            {{ getDisplayedBudgetTotals(movementType).actual | currency: "USD":"symbol-narrow":"1.2-2" }}
+          </th>
           <th>
-            {{ totalBudgetForAllCategories() | currency:
-            'USD':'symbol-narrow':'1.2-2' }}
+            <span
+              [ngClass]="{
+                'budget-difference-negative': getDisplayedBudgetTotals(movementType).difference < 0,
+                'budget-difference-positive': getDisplayedBudgetTotals(movementType).difference > 0
+              }"
+            >
+              {{ getDisplayedBudgetTotals(movementType).difference | currency: "USD":"symbol-narrow":"1.2-2" }}
+            </span>
           </th>
         </tr>
       </tfoot>
     </table>
+    }
+    <details class="budget-no-activity">
+      <summary>Categorías sin movimientos registrados</summary>
+      @if (getBudgetRowsWithoutActivity().length) {
+      <ul>
+        @for (row of getBudgetRowsWithoutActivity(); track row.categoryId) {
+        <li>
+          <button
+            type="button"
+            class="budget-category-button"
+            (click)="selectBudgetCategory(row)"
+          >
+            {{ row.categoryName }}
+          </button>
+        </li>
+        }
+      </ul>
+      } @else {
+      <p>Todas las categorías tienen presupuesto o movimientos registrados.</p>
+      }
+    </details>
   </div>
+
+  @if (selectedBudgetCategory) {
+  <section class="budget-movement-details">
+    <h4>
+      Movimientos de {{ selectedBudgetCategory.categoryName }} ·
+      {{ getSelectedMonthName() }} {{ model.year }}
+      ({{ selectedBudgetCategory.movementType === 1 ? "Egresos" : "Ingresos" }})
+    </h4>
+    <button type="button" (click)="selectedBudgetCategory = null">
+      Cerrar detalle
+    </button>
+    @if (getSelectedBudgetMovements().length) {
+    <movement-listing
+      [movementList]="getSelectedBudgetMovements()"
+      [selectedBalance]="null"
+      selectedView="compact"
+      (onSelectMovement)="selectMovement($event)"
+    ></movement-listing>
+    } @else {
+    <p>No hay movimientos para esta categoría en el período seleccionado.</p>
+    }
+  </section>
+  }
 
   <details open>
     <summary>Monthly Expense Chart</summary>

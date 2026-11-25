@@ -1,8 +1,6 @@
 import {
   Component,
   OnInit,
-  signal,
-  computed,
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { Title } from "@angular/platform-browser";
@@ -10,11 +8,14 @@ import { Chart } from "chart.js";
 
 // types
 import { Balance } from "../../crosscommon/entities/Balance";
+import { Budget } from "../../crosscommon/entities/Budget";
 import { Movement } from "../../crosscommon/entities/Movement";
 import { Category } from "../../crosscommon/entities/Category";
 
 // services
 import { BalanceService } from "./balance.service";
+import { BudgetService } from "./budget.service";
+import { CategoryService } from "./category.service";
 import { MovementService } from "./movement.service";
 import { SyncAPI } from "../common/sync.api";
 import { DateUtils } from "../../crosscommon/DateUtility";
@@ -75,32 +76,25 @@ Chart.register(valueLabelPlugin);
   selector: "balance",
   templateUrl: "./balance.template.html",
   styleUrls: ["./balance.css"],
-  providers: [BalanceService, MovementService],
+  providers: [BalanceService, BudgetService, CategoryService, MovementService],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BalanceComponent implements OnInit {
-  public movements = signal<Movement[]>([]);
-  public budgetPerCategory = signal<
-    Array<{ name: string; value: number; total: number }>
-  >(
-    []
-    /* Object.entries(
-      (cfgJson as any).money.budget as Record<string, number>
-    ).reduce(
-      (
-        obj: Array<{ name: string; value: number; total: number }>,
-        [name, value]
-      ) => {
-        return [...obj, { name, value, total: 0 }];
-      },
-      []
-    ) */
-  );
-  public totalBudgetForAllCategories = computed(() => {
-    const budget = this.budgetPerCategory();
-    return budget.reduce((sum: number, val) => sum + val.value, 0);
-  });
+  public budgets: Budget[] = [];
+  public categories: Category[] = [];
+  public readonly budgetMovementTypes: Array<1 | 2> = [1, 2];
+  public selectedBudgetCategory: {
+    categoryId: string;
+    categoryName: string;
+    movementType: 1 | 2;
+  } = null;
+  public budgetSortColumn:
+    | "categoryName"
+    | "budget"
+    | "actual"
+    | "difference" = "actual";
+  public budgetSortDirection: "asc" | "desc" = "desc";
 
   public viewData: {
     balance: Array<Balance>;
@@ -258,6 +252,8 @@ export class BalanceComponent implements OnInit {
 
   constructor(
     private balanceService: BalanceService,
+    private budgetService: BudgetService,
+    private categoryService: CategoryService,
     private movementService: MovementService,
     private syncService: SyncAPI,
     private titleService: Title,
@@ -301,9 +297,15 @@ export class BalanceComponent implements OnInit {
       this.monthlyIncomeVsExpense();
     });
     this.movementService.getAll().then((list: Array<Movement>) => {
-      this.state.movementList = list;
+      this.state.movementList = list.map((movement) => {
+        movement.mov_date = new Date(String(movement.mov_date));
+        movement.mov_ctg_type = Number(movement.mov_ctg_type);
+        movement.mov_ctg_status = Number(movement.mov_ctg_status);
+        return movement;
+      });
       this.monthlyTotals();
     });
+    this.loadBudgetData();
     this.notificationService.notifyWithOptions("Data refreshed correctly", {
       title: "Balance",
     });
@@ -312,6 +314,261 @@ export class BalanceComponent implements OnInit {
 
   ngOnInit() {
     this.refreshData();
+  }
+
+  private async loadBudgetData(): Promise<void> {
+    try {
+      const [budgets, categories] = await Promise.all([
+        this.budgetService.getAll(),
+        this.categoryService.getAll(),
+      ]);
+      this.budgets = budgets;
+      this.categories = categories;
+    } catch (error) {
+      this.notificationService.notify(
+        `No se pudieron cargar presupuestos y categorías: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+
+  getBudgetRows(movementType: 1 | 2): Array<{
+    categoryId: string;
+    categoryName: string;
+    movementType: 1 | 2;
+    budget: number;
+    actual: number;
+    difference: number;
+  }> {
+    return this.getAllBudgetRows()
+      .filter(
+        (row) =>
+          row.movementType === movementType &&
+          (row.actual !== 0 || row.budget !== 0)
+      )
+      .sort((a, b) => this.compareBudgetRows(a, b));
+  }
+
+  getDisplayedBudgetTotals(movementType: 1 | 2): {
+    budget: number;
+    actual: number;
+    difference: number;
+  } {
+    return this.getBudgetRows(movementType).reduce(
+      (totals, row) => ({
+        budget: totals.budget + row.budget,
+        actual: totals.actual + row.actual,
+        difference: totals.difference + row.difference,
+      }),
+      { budget: 0, actual: 0, difference: 0 }
+    );
+  }
+
+  getBudgetRowsWithoutActivity(): Array<{
+    categoryId: string;
+    categoryName: string;
+    movementType: 1 | 2;
+    budget: number;
+    actual: number;
+    difference: number;
+  }> {
+    return this.getAllBudgetRows().filter(
+      (row) => row.actual === 0 && row.budget === 0
+    );
+  }
+
+  sortBudgetRows(
+    column: "categoryName" | "budget" | "actual" | "difference"
+  ): void {
+    if (this.budgetSortColumn === column) {
+      this.budgetSortDirection =
+        this.budgetSortDirection === "asc" ? "desc" : "asc";
+      return;
+    }
+
+    this.budgetSortColumn = column;
+    this.budgetSortDirection = column === "categoryName" ? "asc" : "desc";
+  }
+
+  private compareBudgetRows(
+    a: {
+      categoryName: string;
+      budget: number;
+      actual: number;
+      difference: number;
+    },
+    b: {
+      categoryName: string;
+      budget: number;
+      actual: number;
+      difference: number;
+    }
+  ): number {
+    const direction = this.budgetSortDirection === "asc" ? 1 : -1;
+    const left = a[this.budgetSortColumn];
+    const right = b[this.budgetSortColumn];
+    const comparison =
+      this.budgetSortColumn === "categoryName"
+        ? String(left).localeCompare(String(right), "es")
+        : Number(left) - Number(right);
+    return (
+      direction * comparison ||
+      a.categoryName.localeCompare(b.categoryName, "es")
+    );
+  }
+
+  private getAllBudgetRows(): Array<{
+    categoryId: string;
+    categoryName: string;
+    movementType: 1 | 2;
+    budget: number;
+    actual: number;
+    difference: number;
+  }> {
+    const categoryById = new Map(
+      this.categories.map((category) => [String(category.mct_id), category])
+    );
+    const budgetByCategory = new Map<string, Budget>();
+    this.budgets
+      .filter(
+        (budget) =>
+          Number(budget.bud_year) === this.model.year &&
+          Number(budget.bud_month) === this.model.month &&
+          Number(budget.bud_ctg_status) === 1
+      )
+      .forEach((budget) =>
+        budgetByCategory.set(String(budget.bud_id_category), budget)
+      );
+
+    const periodMovements = this.getSelectedPeriodMovements().filter(
+      (movement) => movement.mov_ctg_type === 1 || movement.mov_ctg_type === 2
+    );
+    const categoryIds = new Set<string>([
+      ...this.categories.map((category) => String(category.mct_id)),
+      ...budgetByCategory.keys(),
+      ...periodMovements.map((movement) =>
+        movement.mov_id_category ? String(movement.mov_id_category) : ""
+      ),
+    ]);
+
+    return Array.from(categoryIds).map((categoryId) => {
+      const categoryBudget = budgetByCategory.get(categoryId);
+      const categoryMovements = periodMovements.filter(
+        (movement) =>
+          (movement.mov_id_category
+            ? String(movement.mov_id_category)
+            : "") === categoryId
+      );
+      const expenseTotal = categoryMovements
+        .filter((movement) => movement.mov_ctg_type === 1)
+        .reduce(
+          (total, movement) =>
+            total + this.absoluteValue(Number(movement.mov_amount)),
+          0
+        );
+      const incomeTotal = categoryMovements
+        .filter((movement) => movement.mov_ctg_type === 2)
+        .reduce(
+          (total, movement) =>
+            total + this.absoluteValue(Number(movement.mov_amount)),
+          0
+        );
+      const movementType: 1 | 2 = categoryBudget
+        ? Number(categoryBudget.bud_ctg_type) === 1
+          ? 1
+          : 2
+        : expenseTotal > 0
+        ? 1
+        : 2;
+      const budget = categoryBudget
+        ? this.absoluteValue(Number(categoryBudget.bud_expected_amount))
+        : 0;
+      const actual = movementType === 1 ? expenseTotal : incomeTotal;
+      const difference =
+        movementType === 1 ? budget - actual : actual - budget;
+
+      return {
+        categoryId,
+        categoryName:
+          categoryById.get(categoryId)?.mct_name ||
+          categoryBudget?.bud_txt_category ||
+          categoryMovements.find((movement) => movement.mov_txt_category)
+            ?.mov_txt_category ||
+          "Sin categoría",
+        movementType,
+        budget,
+        actual,
+        difference,
+      };
+    });
+  }
+
+  getBudgetTotals(movementType: 1 | 2): { budget: number; actual: number } {
+    const budget = this.budgets
+      .filter(
+        (item) =>
+          Number(item.bud_year) === this.model.year &&
+          Number(item.bud_month) === this.model.month &&
+          Number(item.bud_ctg_status) === 1 &&
+          Number(item.bud_ctg_type) === movementType
+      )
+      .reduce(
+        (total, item) =>
+          total + this.absoluteValue(Number(item.bud_expected_amount)),
+        0
+      );
+    const actual = this.getSelectedPeriodMovements()
+      .filter((movement) => Number(movement.mov_ctg_type) === movementType)
+      .reduce(
+        (total, movement) =>
+          total + this.absoluteValue(Number(movement.mov_amount)),
+        0
+      );
+    return { budget, actual };
+  }
+
+  getBudgetDifference(movementType: 1 | 2): number {
+    const totals = this.getBudgetTotals(movementType);
+    return movementType === 1
+      ? totals.budget - totals.actual
+      : totals.actual - totals.budget;
+  }
+
+  getSelectedMonthName(): string {
+    return DateUtils.getMonthName(this.model.month);
+  }
+
+  selectBudgetCategory(row: {
+    categoryId: string;
+    categoryName: string;
+    movementType: 1 | 2;
+  }): void {
+    this.selectedBudgetCategory = row;
+  }
+
+  getSelectedBudgetMovements(): Movement[] {
+    if (!this.selectedBudgetCategory) {
+      return [];
+    }
+    return this.getSelectedPeriodMovements().filter(
+      (movement) =>
+        movement.mov_ctg_type === this.selectedBudgetCategory.movementType &&
+        (movement.mov_id_category
+          ? String(movement.mov_id_category)
+          : "") === this.selectedBudgetCategory.categoryId
+    );
+  }
+
+  private getSelectedPeriodMovements(): Movement[] {
+    return this.state.movementList.filter((movement) => {
+      const date = new Date(String(movement.mov_date));
+      return (
+        Number(movement.mov_ctg_status) === 1 &&
+        date.getFullYear() === this.model.year &&
+        date.getMonth() + 1 === this.model.month
+      );
+    });
   }
 
   fetchBalance(): Promise<any> {
