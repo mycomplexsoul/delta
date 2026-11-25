@@ -43,7 +43,8 @@ import { DateCommon } from "./common/date.common";
 import { ComboItemComponent } from "./common/comboItem.component";
 import { CheckboxOptionComponent } from "./common/checkbox-option.component";
 import { DatalistInputComponent } from "./common/datalistInput.component";
-import { DrinkWaterComponent } from "./common/drinkwater.component";
+import { RemindersComponent } from "./common/Reminders.component";
+import { AppTimersComponent } from "./AppTimers.component";
 import { SyncAPI } from "./common/sync.api";
 import { UtilsCommon } from "./common/utils.common";
 import { LoginComponent } from "./common/login.component";
@@ -94,7 +95,8 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
     ComboItemComponent,
     CheckboxOptionComponent,
     DatalistInputComponent,
-    DrinkWaterComponent,
+    RemindersComponent,
+    AppTimersComponent,
     TimeFormatComponent,
     NotificationComponent,
     TimelineComponent,

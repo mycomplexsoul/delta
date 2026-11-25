@@ -21,6 +21,7 @@ import "chartjs-adapter-date-fns";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Chart } from "chart.js";
 import { Utils } from "../../crosscommon/Utility";
+import { AppTimersService } from "../AppTimers.component";
 
 Chart.register(ChartDataLabels);
 
@@ -325,7 +326,8 @@ export class TasksComponent implements OnInit {
     private taskIndicator: TaskIndicator,
     private dateUtils: DateCommon,
     private notificationService: NotificationService,
-    private titleService: Title
+    private titleService: Title,
+    private appTimers: AppTimersService
   ) {
     titleService.setTitle("Tasks");
 
@@ -1925,6 +1927,23 @@ export class TasksComponent implements OnInit {
     this.timers[task.tsk_id].timerString = formatTimerString(timer);
     this.timers[task.tsk_id].watch = watch;
     this.timers[task.tsk_id].burnoutNotified = false;
+    const estimatedDurationSeconds = Number(task.tsk_estimated_duration) * 60;
+    const totalTimeSpentSeconds = Number(task.tsk_total_time_spent);
+    const estimatedEnd =
+      Number.isFinite(estimatedDurationSeconds) &&
+      estimatedDurationSeconds > 0 &&
+      Number.isFinite(totalTimeSpentSeconds)
+        ? new Date(
+            start.getTime() +
+              (estimatedDurationSeconds - totalTimeSpentSeconds) * 1000
+          )
+        : undefined;
+    this.appTimers.registerTimer({
+      id: `task:${task.tsk_id}`,
+      type: "Task (in progress)",
+      label: task.tsk_name,
+      scheduledFor: estimatedEnd,
+    });
   }
 
   hideTimer(task: any, dom: HTMLElement) {
@@ -1932,6 +1951,7 @@ export class TasksComponent implements OnInit {
       clearInterval(this.timers[task.tsk_id].watch);
       this.timers[task.tsk_id] = undefined;
     }
+    this.appTimers.unregisterTimer(`task:${task.tsk_id}`);
     // dom.querySelector("span[contenteditable=true]").classList.remove("task-in-process");
   }
 
@@ -2159,6 +2179,7 @@ export class TasksComponent implements OnInit {
         } catch (e) {}
         this.timers[t.tsk_id] = undefined;
       }
+      this.appTimers.unregisterTimer(`task:${t.tsk_id}`);
 
       t.tsk_time_history = [];
       t.tsk_total_time_spent = 0;
@@ -2695,47 +2716,84 @@ export class TasksComponent implements OnInit {
         );
       })
       .forEach((t) => {
-        let diff = this.services.tasksCore.elapsedTime(
-          now,
-          new Date(t.tsk_schedule_date_start)
-        );
+        const scheduledStart = new Date(t.tsk_schedule_date_start);
+        let diff = this.services.tasksCore.elapsedTime(now, scheduledStart);
         diff = diff - 5 * 60; // date minus 5 minutes
         // validate if there is no current schedule set
         let found = this.state.startingTasksSchedule.find(
-          (s: any) => s.task.tsk_id == t.tsk_id && s.timeoutHandler != -1
+          (s: any) =>
+            s.task.tsk_id == t.tsk_id &&
+            (s.timeoutHandler !== -1 || s.startTimeoutHandler !== -1)
         );
         if (found) {
           if (
-            new Date(found.task.tsk_schedule_date_start) !=
-            new Date(t.tsk_schedule_date_start)
+            new Date(
+              found.scheduledStart || found.task.tsk_schedule_date_start
+            ).getTime() !== scheduledStart.getTime()
           ) {
-            clearTimeout(found.timeoutHandler);
-            found.timeoutHandler = -1;
+            this.clearScheduledTaskNotifications(found);
           } else {
             return false; // date is the same, do nothing
           }
         }
-        let timeout = setTimeout(() => {
+        const scheduleEntry: any = {
+          task: t,
+          scheduledStart,
+          timeoutHandler: -1,
+          startTimeoutHandler: -1,
+        };
+        scheduleEntry.timeoutHandler = setTimeout(() => {
+          this.appTimers.unregisterTimer(`task:${t.tsk_id}:starting-soon`);
+          scheduleEntry.timeoutHandler = -1;
           this.notification({
             body: `Task "${t.tsk_name}" is about to start!`,
             hideIn: 5000 * 60,
             useVoice: true,
           });
           // second reminder on time
-          setTimeout(() => {
+          scheduleEntry.startTimeoutHandler = setTimeout(() => {
+            this.appTimers.unregisterTimer(`task:${t.tsk_id}:starting-now`);
+            scheduleEntry.startTimeoutHandler = -1;
             this.notification({
               body: `Task "${t.tsk_name}" is starting now!`,
               hideIn: 1000 * 60,
               useVoice: true,
             });
           }, 5000 * 60);
-        }, diff * 1000);
-        console.log("schedule in " + this.formatTime(diff), t);
-        this.state.startingTasksSchedule.push({
-          task: t,
-          timeoutHandler: timeout,
+          this.appTimers.registerTimer({
+            id: `task:${t.tsk_id}:starting-now`,
+            type: "Task (start soon)",
+            label: `${t.tsk_name} starts now`,
+            scheduledFor: scheduledStart,
+          });
+        }, Math.max(0, diff * 1000));
+        this.appTimers.registerTimer({
+          id: `task:${t.tsk_id}:starting-soon`,
+          type: "Task (start soon)",
+          label: `${t.tsk_name} starts soon`,
+          scheduledFor: new Date(scheduledStart.getTime() - 5 * 60 * 1000),
         });
+        console.log("schedule in " + this.formatTime(diff), t);
+        this.state.startingTasksSchedule.push(scheduleEntry);
       });
+  }
+
+  private clearScheduledTaskNotifications(schedule: any): void {
+    if (schedule.timeoutHandler !== -1 && schedule.timeoutHandler != null) {
+      clearTimeout(schedule.timeoutHandler);
+    }
+    if (
+      schedule.startTimeoutHandler !== -1 &&
+      schedule.startTimeoutHandler != null
+    ) {
+      clearTimeout(schedule.startTimeoutHandler);
+    }
+    this.appTimers.unregisterTimer(
+      `task:${schedule.task.tsk_id}:starting-soon`
+    );
+    this.appTimers.unregisterTimer(`task:${schedule.task.tsk_id}:starting-now`);
+    schedule.timeoutHandler = -1;
+    schedule.startTimeoutHandler = -1;
   }
 
   taskCancel(t: any) {
@@ -4102,15 +4160,17 @@ export class TasksComponent implements OnInit {
 
   removeScheduledNotification(task: Task) {
     const found = this.state.startingTasksSchedule.find(
-      (s: any) => s.task.tsk_id == task.tsk_id && s.timeoutHandler != -1
+      (s: any) =>
+        s.task.tsk_id == task.tsk_id &&
+        (s.timeoutHandler !== -1 || s.startTimeoutHandler !== -1)
     );
     if (found) {
       if (
-        new Date(found.task.tsk_schedule_date_start).getTime() ===
-        new Date(task.tsk_schedule_date_start).getTime()
+        new Date(
+          found.scheduledStart || found.task.tsk_schedule_date_start
+        ).getTime() === new Date(task.tsk_schedule_date_start).getTime()
       ) {
-        clearTimeout(found.timeoutHandler);
-        found.timeoutHandler = -1;
+        this.clearScheduledTaskNotifications(found);
       } else {
         return false; // date is different, do nothing and leave the scheduled notification
       }
