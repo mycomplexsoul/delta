@@ -96,4 +96,30 @@ export class MultimediaViewService {
       item => item.mmv_id === item.mmv_id && item.mmv_id_ep === item.mmv_id_ep
     );
   }
+
+  asUpdateSyncQueue(item: MultimediaView) {
+    const updateLocal = () => {
+      const index = this.data.findIndex(
+        entry =>
+          entry.mmv_id === item.mmv_id && entry.mmv_id_ep === item.mmv_id_ep
+      );
+      if (index !== -1) {
+        this.data[index] = item;
+      }
+    };
+
+    return this.sync.asSyncQueue(
+      "update",
+      Utils.entityToRawTableFields(item),
+      Utils.getPKFromEntity(item),
+      "MultimediaView",
+      () => {
+        item["not_sync"] = false;
+        updateLocal();
+      },
+      item.recordName,
+      entry =>
+        entry.mmv_id === item.mmv_id && entry.mmv_id_ep === item.mmv_id_ep
+    );
+  }
 }

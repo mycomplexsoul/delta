@@ -234,6 +234,7 @@
           id="fEpId"
           class="field-input multimedia-input-id"
           [(ngModel)]="epModel.epId"
+          [readonly]="epModel.isEditingView"
         />
       </span>
       <span class="field">
@@ -245,9 +246,18 @@
           class="field-input multimedia-input-eptitle"
           [(ngModel)]="epModel.fEpTitle"
           (blur)="splitEpInfo(epModel.fEpTitle)"
+          [readonly]="epModel.isEditingView"
         />
         @if (epModel.fEpTitle) {
         <span> {{ epModel.fEpTitle.length }} / 500 characters </span>
+        } @if (!epModel.isEditingView) {
+        <button
+          type="button"
+          class="multimedia-search-button"
+          (click)="openMediaSearch()"
+        >
+          Search
+        </button>
         }
       </span>
       <span class="field">
@@ -258,6 +268,7 @@
           id="fAltEpTitle"
           class="field-input multimedia-input-alteptitle"
           [(ngModel)]="epModel.fAltEpTitle"
+          [readonly]="epModel.isEditingView"
         />
         @if (epModel.fAltEpTitle) {
         <span> {{ epModel.fAltEpTitle.length }} / 500 characters </span>
@@ -272,6 +283,7 @@
           class="field-input multimedia-input-year"
           step="1"
           [(ngModel)]="epModel.fYear"
+          [readonly]="epModel.isEditingView"
         />
         @if (!epModel.fYear) {
         <span class="color-red padding-left-5">Year is required</span>
@@ -285,6 +297,7 @@
           id="fUrl"
           class="field-input multimedia-input-url"
           [(ngModel)]="epModel.fUrl"
+          [readonly]="epModel.isEditingView"
         />
       </span>
       <span class="field">
@@ -295,6 +308,7 @@
           name="fIsViewed"
           id="fIsViewed"
           [(ngModel)]="epModel.isViewed"
+          [disabled]="epModel.isEditingView"
         />
       </span>
       @if (epModel.isViewed) {
@@ -306,6 +320,7 @@
               name="fSummary"
               id="fSummary"
               class="multimedia-input-summary"
+              maxlength="4000"
               [(ngModel)]="epModel.fSummary"
             ></textarea>
           </div>
@@ -321,6 +336,7 @@
             id="fDateViewedTypeCurrent"
             [(ngModel)]="epModel._DateViewedType"
             value="current"
+            [disabled]="epModel.isEditingView"
           />
           <label for="fDateViewedTypeCurrent">Current Timestamp</label>
           <input
@@ -341,6 +357,7 @@
           <input
             type="time"
             name="fTimeViewed"
+            step="1"
             [(ngModel)]="epModel.fTimeViewed"
           />
           }
@@ -398,7 +415,8 @@
           }
           <button type="button" (click)="dictate()">Dictate</button>
         </span>
-        @if (newEpForm.value.fEpId !== epModel.fNextEpId) {
+        @if (!epModel.isEditingView && newEpForm.value.fEpId !==
+        epModel.fNextEpId) {
         <span class="field">
           <hr />
           <label for="fNextEpId" class="label-left">Next Episode Id</label>
@@ -410,7 +428,8 @@
             [(ngModel)]="epModel.fNextEpId"
           />
         </span>
-        } @if (newEpForm.value.fEpId !== epModel.fNextEpId) {
+        } @if (!epModel.isEditingView && newEpForm.value.fEpId !==
+        epModel.fNextEpId) {
         <span class="field">
           <label for="fNextEpTitle" class="label-left"
             >Next Episode Title</label
@@ -423,7 +442,8 @@
             [(ngModel)]="epModel.fNextEpTitle"
           />
         </span>
-        } @if (newEpForm.value.fEpId !== epModel.fNextEpId) {
+        } @if (!epModel.isEditingView && newEpForm.value.fEpId !==
+        epModel.fNextEpId) {
         <span class="field">
           <br />
           <label for="fNextEpUrl" class="label-left">Next Episode Url</label>
@@ -435,20 +455,117 @@
             [(ngModel)]="epModel.fNextEpUrl"
           />
         </span>
-        } @if (newEpForm.value.fEpId === epModel.fNextEpId) {
+        } @if (!epModel.isEditingView && newEpForm.value.fEpId ===
+        epModel.fNextEpId) {
         <span class="field"> This is the last episode :-D </span>
         }
       </span>
       }
-      <button type="submit" [disabled]="!epModel.fYear || !epModel.fRating">
-        Save
+      <button
+        type="submit"
+        [disabled]="!epModel.fYear || !epModel.fRating || (epModel.isEditingView && (!epModel.fDateViewed || !epModel.fTimeViewed))"
+      >
+        {{ epModel.isEditingView ? "Update" : "Save" }}
       </button>
     </div>
   </div>
   }
 </form>
 
-@if (viewData.showDetList) {
+@if (mediaSearchDialogOpen) {
+<div class="multimedia-search-backdrop">
+  <section
+    class="multimedia-search-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="multimedia-search-title"
+  >
+    <header class="multimedia-search-header">
+      <h2 id="multimedia-search-title">Buscar película o serie</h2>
+      <button type="button" aria-label="Cerrar" (click)="closeMediaSearch()">
+        &times;
+      </button>
+    </header>
+    <div class="multimedia-search-controls">
+      <label for="multimedia-search-source">Buscar en</label>
+      <select
+        id="multimedia-search-source"
+        [disabled]="mediaSearchLoading"
+        [ngModelOptions]="{ standalone: true }"
+        [(ngModel)]="mediaSearchSource"
+      >
+        <option value="imdb">IMDb</option>
+        <option value="wikipedia">Wikipedia</option>
+      </select>
+      <label for="multimedia-search-query">Título</label>
+      <input
+        id="multimedia-search-query"
+        type="text"
+        maxlength="100"
+        [ngModelOptions]="{ standalone: true }"
+        [(ngModel)]="mediaSearchQuery"
+        (keydown.enter)="searchOpenDataCatalog()"
+      />
+      <button
+        type="button"
+        (click)="searchOpenDataCatalog()"
+        [disabled]="mediaSearchLoading || !mediaSearchQuery.trim()"
+      >
+        Buscar
+      </button>
+    </div>
+    @if (mediaSearchLoading) {
+    <p role="status">
+      Buscando en {{ mediaSearchSource === "imdb" ? "IMDb" : "Wikipedia" }}...
+    </p>
+    } @if (mediaSearchError) {
+    <p class="multimedia-search-error" role="alert">{{ mediaSearchError }}</p>
+    } @if (mediaSearchCompleted && mediaSearchResults.length === 0) {
+    <p>No se encontraron resultados.</p>
+    }
+    <div class="multimedia-search-results">
+      @for (result of mediaSearchResults; track result.id) {
+      <article class="multimedia-search-result">
+        @if (result.imageUrl) {
+        <img [src]="result.imageUrl" [alt]="'Poster de ' + result.title" />
+        } @if (!result.imageUrl) {
+        <div class="multimedia-search-no-poster">Sin poster</div>
+        }
+        <div class="multimedia-search-result-info">
+          <h3>{{ result.title }}</h3>
+          <div>
+            @if (result.year) {
+            <span>{{ result.year }}</span>
+            } @if (result.mediaType) {
+            <span> · {{ result.mediaType }}</span>
+            }
+          </div>
+          @if (result.description) {
+          <p>{{ result.description }}</p>
+          @if (result.source === 'imdb') {
+          <small>Resumen complementario de Wikipedia</small>
+          } } @if (result.cast) {
+          <p>Reparto: {{ result.cast }}</p>
+          }
+          <div class="multimedia-search-result-actions">
+            <a
+              [href]="result.pageUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver página
+            </a>
+            <button type="button" (click)="selectMediaSearchResult(result)">
+              Usar este resultado
+            </button>
+          </div>
+        </div>
+      </article>
+      }
+    </div>
+  </section>
+</div>
+} @if (viewData.showDetList) {
 <button (click)="showDetListing()">Remove filter</button>
 } @if (viewData.showDetList) {
 <span>Listing for media: {{ viewData.detListTitle }}</span>
@@ -483,6 +600,7 @@
           <span> | {{ item["viewedInfo"].mmv_num_rating }}&#9733;</span>
         </span>
         }
+        <button type="button" (click)="showEditViewForm(item)">Editar</button>
       </span>
     </div>
     }
