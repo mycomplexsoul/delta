@@ -5,7 +5,7 @@ import { ViewJoinDefinition } from "../ViewJoinDefinition";
 export class Budget implements iEntity {
 	public bud_year: number;
 	public bud_month: number;
-	public bud_id_category: number;
+	public bud_id_category: string;
 	public bud_ctg_type: number;
 	public bud_expected_amount: number;
 	public bud_real_amount: number;
@@ -120,14 +120,14 @@ export class Budget implements iEntity {
 				, globalOrder: 0
 				, value: null
 			}, {
-				templateId: 'integer'
+				templateId: 'string'
 				, dbName: 'bud_id_category'
-				, dbType: 'integer'
+				, dbType: 'string'
 				, isTableField: true
 				, isPK: true
-				, size: 4
+				, size: 32
 				, decimal: 0
-				, minLength: 1
+				, minLength: 32
 				, allowNull: false
 				, default: ''
 				, dbComment: 'Category identifier for the budget record, matches with category id'

@@ -1,0 +1,160 @@
+<section class="budget-page">
+  <h2>Presupuestos</h2>
+
+  <div class="budget-period">
+    <label for="budgetPeriod">Período</label>
+    <input
+      id="budgetPeriod"
+      name="budgetPeriod"
+      type="month"
+      [(ngModel)]="period"
+      (change)="onPeriodChange()"
+      [disabled]="isSaving"
+    />
+  </div>
+
+  @if (isLoading) {
+  <p>Cargando presupuestos...</p>
+  } @else if (errorMessage) {
+  <p class="budget-error">{{ errorMessage }}</p>
+  } @else {
+  <div class="budget-sticky-header">
+    <div class="budget-totals">
+      <div>
+        <span>Presupuesto de ingresos</span>
+        <strong
+          >{{ incomeTotal | currency: "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
+      </div>
+      <div>
+        <span>Presupuesto de egresos</span>
+        <strong
+          >{{ expenseTotal | currency: "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
+      </div>
+      <div>
+        <span>Diferencia (ingresos − egresos)</span>
+        <strong
+          >{{ incomeTotal - expenseTotal | currency:
+          "USD":"symbol-narrow":"1.2-2" }}</strong
+        >
+      </div>
+    </div>
+
+    <div class="budget-actions">
+      <button
+        type="button"
+        (click)="saveChanges()"
+        [disabled]="isSaving || rows.length === 0"
+      >
+        {{ isSaving ? "Guardando..." : "Guardar cambios" }}
+      </button>
+      <button
+        type="button"
+        class="btn-danger"
+        (click)="deleteSelected()"
+        [disabled]="isSaving || selectedForDeletion.size === 0"
+      >
+        Eliminar seleccionados
+      </button>
+    </div>
+  </div>
+
+  @if (categories.length === 0) {
+  <p>No hay categorías disponibles.</p>
+  } @else {
+  <div class="budget-table-container">
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>Eliminar</th>
+          <th>Categoría</th>
+          <th>Monto (+ ingreso / − egreso)</th>
+          <th>Presupuesto anterior</th>
+          <th>Gasto anterior</th>
+          <th>Ingreso anterior</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows; track row.bud_id_category) {
+        <tr>
+          <td class="budget-select">
+            @if (isPersisted(row)) {
+            <input
+              type="checkbox"
+              [checked]="selectedForDeletion.has(keyFor(row))"
+              (change)="toggleDeletion(row, $any($event.target).checked)"
+              [disabled]="isSaving"
+              [attr.aria-label]="'Seleccionar ' + categoryName(row) + ' para eliminar'"
+            />
+            } @else {
+            <span aria-hidden="true">—</span>
+            }
+          </td>
+          <td>{{ categoryName(row) }}</td>
+          <td>
+            <input
+              [name]="'amount-' + $index"
+              type="number"
+              step="0.01"
+              [(ngModel)]="row.bud_expected_amount"
+              [ngModelOptions]="{ standalone: true }"
+              [disabled]="isSaving"
+            />
+          </td>
+          <td>
+            @for (suggestion of previousBudgets(row); track
+            suggestion.monthsAgo) {
+            <button
+              type="button"
+              class="budget-suggestion"
+              (click)="applyBudgetSuggestion(row, suggestion.monthsAgo)"
+              [disabled]="isSaving"
+            >
+              −{{ suggestion.monthsAgo }}m: {{
+              suggestion.budget.bud_expected_amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </button>
+            } @empty {
+            <span class="budget-no-suggestion">Sin presupuesto previo</span>
+            }
+          </td>
+          <td>
+            @for (suggestion of previousActuals(row, 1); track
+            suggestion.monthsAgo) {
+            <button
+              type="button"
+              class="budget-suggestion"
+              (click)="applyPreviousActual(row, 1, suggestion.monthsAgo)"
+              [disabled]="isSaving"
+            >
+              −{{ suggestion.monthsAgo }}m: {{ suggestion.amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </button>
+            } @empty {
+            <span class="budget-no-suggestion">Sin gastos previos</span>
+            }
+          </td>
+          <td>
+            @for (suggestion of previousActuals(row, 2); track
+            suggestion.monthsAgo) {
+            <button
+              type="button"
+              class="budget-suggestion"
+              (click)="applyPreviousActual(row, 2, suggestion.monthsAgo)"
+              [disabled]="isSaving"
+            >
+              −{{ suggestion.monthsAgo }}m: {{ suggestion.amount | currency:
+              "USD":"symbol-narrow":"1.2-2" }}
+            </button>
+            } @empty {
+            <span class="budget-no-suggestion">Sin ingresos previos</span>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } }
+</section>
