@@ -1,30 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Injectable,
   OnDestroy,
   OnInit,
 } from "@angular/core";
-import { BehaviorSubject, Subscription } from "rxjs";
-
-export interface ActiveTimer {
-  id: string;
-  type: "Reminder" | "Task (in progress)" | "Task (start soon)";
-  label: string;
-  scheduledFor?: Date;
-}
-
-function sortTimersByDueDate(timers: ActiveTimer[]): ActiveTimer[] {
-  return [...timers].sort((a, b) => {
-    const aDue = a.scheduledFor
-      ? a.scheduledFor.getTime()
-      : Number.POSITIVE_INFINITY;
-    const bDue = b.scheduledFor
-      ? b.scheduledFor.getTime()
-      : Number.POSITIVE_INFINITY;
-    return aDue - bDue || a.label.localeCompare(b.label);
-  });
-}
+import { Subscription } from "rxjs";
+import { ActiveTimer, AppTimersService } from "./app-timers.service";
 
 @Component({
   selector: "app-timers",
@@ -113,15 +94,14 @@ export class AppTimersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.timerRegistry.activeTimers$.subscribe((timers) => {
-      const orderedTimers = sortTimersByDueDate(timers);
-      this.activeTimers = orderedTimers;
-      this.inProgressTimers = orderedTimers.filter(
+      this.activeTimers = timers;
+      this.inProgressTimers = timers.filter(
         (timer) => timer.type === "Task (in progress)"
       );
-      this.startSoonTimers = orderedTimers.filter(
+      this.startSoonTimers = timers.filter(
         (timer) => timer.type === "Task (start soon)"
       );
-      this.reminders = orderedTimers.filter(
+      this.reminders = timers.filter(
         (timer) => timer.type === "Reminder"
       );
     });
@@ -129,31 +109,5 @@ export class AppTimersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-}
-
-@Injectable({ providedIn: "root" })
-export class AppTimersService {
-  private readonly timers = new Map<string, ActiveTimer>();
-  private readonly activeTimersSubject = new BehaviorSubject<ActiveTimer[]>([]);
-  readonly activeTimers$ = this.activeTimersSubject.asObservable();
-
-  getActiveTimers(): ActiveTimer[] {
-    return sortTimersByDueDate(Array.from(this.timers.values()));
-  }
-
-  registerTimer(timer: ActiveTimer): void {
-    this.timers.set(timer.id, timer);
-    this.publish();
-  }
-
-  unregisterTimer(id: string): void {
-    if (this.timers.delete(id)) {
-      this.publish();
-    }
-  }
-
-  private publish(): void {
-    this.activeTimersSubject.next(this.getActiveTimers());
   }
 }

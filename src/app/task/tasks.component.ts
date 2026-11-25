@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
   EventEmitter,
   ChangeDetectionStrategy,
@@ -21,7 +22,7 @@ import "chartjs-adapter-date-fns";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Chart } from "chart.js";
 import { Utils } from "../../crosscommon/Utility";
-import { AppTimersService } from "../AppTimers.component";
+import { AppTimersService } from "../app-timers.service";
 
 Chart.register(ChartDataLabels);
 
@@ -33,7 +34,7 @@ Chart.register(ChartDataLabels);
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnInit, OnDestroy {
   public item: any;
   public tasks: any[];
   public services: {
@@ -385,6 +386,15 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     // this.registerServiceWorker(); // enable to register ServiceWorker
+  }
+
+  ngOnDestroy() {
+    Object.keys(this.timers).forEach((taskId) => {
+      const timer = this.timers[taskId];
+      if (timer && timer.watch) {
+        clearInterval(timer.watch);
+      }
+    });
   }
 
   fetchTasks() {
@@ -1938,12 +1948,15 @@ export class TasksComponent implements OnInit {
               (estimatedDurationSeconds - totalTimeSpentSeconds) * 1000
           )
         : undefined;
-    this.appTimers.registerTimer({
-      id: `task:${task.tsk_id}`,
-      type: "Task (in progress)",
-      label: task.tsk_name,
-      scheduledFor: estimatedEnd,
-    });
+    const timerId = `task:${task.tsk_id}`;
+    if (!this.appTimers.hasTimer(timerId)) {
+      this.appTimers.registerTimer({
+        id: timerId,
+        type: "Task (in progress)",
+        label: task.tsk_name,
+        scheduledFor: estimatedEnd,
+      });
+    }
   }
 
   hideTimer(task: any, dom: HTMLElement) {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { DateUtils } from "src/crosscommon/DateUtility";
-import { AppTimersService } from "../AppTimers.component";
+import { AppTimersService } from "../app-timers.service";
 import { NotificationService } from "./notification.service";
 import { StorageService } from "./storage.service";
 
