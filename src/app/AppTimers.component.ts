@@ -10,7 +10,7 @@ import { ActiveTimer, AppTimersService } from "./app-timers.service";
 @Component({
   selector: "app-timers",
   template: `
-    <details class="app-timers">
+    <details *ngIf="isVisible" class="app-timers">
       <summary>Active timers ({{ activeTimers.length }})</summary>
       <section>
         <h4>Task (in progress)</h4>
@@ -88,26 +88,32 @@ export class AppTimersComponent implements OnInit, OnDestroy {
   inProgressTimers: ActiveTimer[] = [];
   startSoonTimers: ActiveTimer[] = [];
   reminders: ActiveTimer[] = [];
-  private subscription: Subscription;
+  isVisible = true;
+  private subscriptions = new Subscription();
 
   constructor(private timerRegistry: AppTimersService) {}
 
   ngOnInit(): void {
-    this.subscription = this.timerRegistry.activeTimers$.subscribe((timers) => {
-      this.activeTimers = timers;
-      this.inProgressTimers = timers.filter(
-        (timer) => timer.type === "Task (in progress)"
-      );
-      this.startSoonTimers = timers.filter(
-        (timer) => timer.type === "Task (start soon)"
-      );
-      this.reminders = timers.filter(
-        (timer) => timer.type === "Reminder"
-      );
-    });
+    this.subscriptions.add(
+      this.timerRegistry.activeTimers$.subscribe((timers) => {
+        this.activeTimers = timers;
+        this.inProgressTimers = timers.filter(
+          (timer) => timer.type === "Task (in progress)"
+        );
+        this.startSoonTimers = timers.filter(
+          (timer) => timer.type === "Task (start soon)"
+        );
+        this.reminders = timers.filter((timer) => timer.type === "Reminder");
+      })
+    );
+    this.subscriptions.add(
+      this.timerRegistry.visibility$.subscribe(
+        (visible) => (this.isVisible = visible)
+      )
+    );
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

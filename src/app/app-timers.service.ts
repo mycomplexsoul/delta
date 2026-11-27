@@ -24,7 +24,17 @@ function sortTimersByDueDate(timers: ActiveTimer[]): ActiveTimer[] {
 export class AppTimersService {
   private readonly timers = new Map<string, ActiveTimer>();
   private readonly activeTimersSubject = new BehaviorSubject<ActiveTimer[]>([]);
+  private readonly visibilitySubject = new BehaviorSubject<boolean>(true);
   readonly activeTimers$ = this.activeTimersSubject.asObservable();
+  readonly visibility$ = this.visibilitySubject.asObservable();
+
+  get isVisible(): boolean {
+    return this.visibilitySubject.value;
+  }
+
+  setVisible(visible: boolean): void {
+    this.visibilitySubject.next(visible);
+  }
 
   getActiveTimers(): ActiveTimer[] {
     return sortTimersByDueDate(Array.from(this.timers.values()));

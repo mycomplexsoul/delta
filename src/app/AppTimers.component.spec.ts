@@ -24,4 +24,12 @@ describe("AppTimersService", () => {
 
     expect(service.hasTimer(timer.id)).toBeFalse();
   });
+
+  it("allows the global timer panel visibility to be toggled", () => {
+    expect(service.isVisible).toBeTrue();
+
+    service.setVisible(false);
+
+    expect(service.isVisible).toBeFalse();
+  });
 });

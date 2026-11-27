@@ -33,8 +33,10 @@ interface ReminderDraft {
 })
 export class RemindersComponent implements OnInit {
   private readonly storageKey = "Reminders";
+  private readonly appTimersVisibilityStorageKey = "remindersShowTimers";
   private nextReminderId = 1;
   public errorMessage = "";
+  public appTimersVisible = true;
   public reminderDrafts: { [id: string]: ReminderDraft } = {};
   public newReminder = {
     title: "",
@@ -52,6 +54,18 @@ export class RemindersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const savedVisibility = this.storage.get(
+      this.appTimersVisibilityStorageKey
+    );
+    if (savedVisibility === null) {
+      this.appTimersVisible = this.appTimers.isVisible;
+    } else if (savedVisibility === "true" || savedVisibility === "false") {
+      this.appTimersVisible = savedVisibility === "true";
+    } else {
+      throw new Error("Invalid remindersShowTimers value in localStorage");
+    }
+    this.appTimers.setVisible(this.appTimersVisible);
+
     const savedReminders = this.storage.getObject(this.storageKey);
     if (Array.isArray(savedReminders)) {
       this.viewData.reminders = savedReminders.map((saved, index) => {
@@ -289,6 +303,12 @@ export class RemindersComponent implements OnInit {
   setLaunchSelection(reminder: Reminder, selected: boolean): void {
     reminder.selectedForLaunch = selected;
     this.persistReminders();
+  }
+
+  setAppTimersVisibility(visible: boolean): void {
+    this.storage.set(this.appTimersVisibilityStorageKey, String(visible));
+    this.appTimersVisible = visible;
+    this.appTimers.setVisible(visible);
   }
 
   deleteSelectedCustomReminders(): void {

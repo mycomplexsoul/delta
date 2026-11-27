@@ -6,6 +6,14 @@
 
 <dialog id="reminders-dialog">
   <strong>Reminders</strong>
+  <label>
+    <input
+      type="checkbox"
+      [ngModel]="appTimersVisible"
+      (ngModelChange)="setAppTimersVisibility($event)"
+    />
+    Show global timers
+  </label>
   <br />
 
   <table>
