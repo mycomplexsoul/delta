@@ -755,12 +755,12 @@
       {{ getSelectedMonthName() }} {{ model.year }}
       ({{ selectedBudgetCategory.movementType === 1 ? "Egresos" : "Ingresos" }})
     </h4>
-    <button type="button" (click)="selectedBudgetCategory = null">
+    <button type="button" (click)="clearSelectedBudgetCategory()">
       Cerrar detalle
     </button>
-    @if (getSelectedBudgetMovements().length) {
+    @if (selectedBudgetMovements.length) {
     <movement-listing
-      [movementList]="getSelectedBudgetMovements()"
+      [movementList]="selectedBudgetMovements"
       [selectedBalance]="null"
       selectedView="compact"
       (onSelectMovement)="selectMovement($event)"

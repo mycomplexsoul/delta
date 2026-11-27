@@ -72,6 +72,21 @@ const valueLabelPlugin = {
 
 Chart.register(valueLabelPlugin);
 
+interface BudgetSummaryRow {
+  categoryId: string;
+  categoryName: string;
+  movementType: 1 | 2;
+  budget: number;
+  actual: number;
+  difference: number;
+}
+
+interface BudgetSummaryTotals {
+  budget: number;
+  actual: number;
+  difference: number;
+}
+
 @Component({
   selector: "balance",
   templateUrl: "./balance.template.html",
@@ -95,6 +110,20 @@ export class BalanceComponent implements OnInit {
     | "actual"
     | "difference" = "actual";
   public budgetSortDirection: "asc" | "desc" = "desc";
+  public expenseBudgetRows: BudgetSummaryRow[] = [];
+  public incomeBudgetRows: BudgetSummaryRow[] = [];
+  public budgetRowsWithoutActivity: BudgetSummaryRow[] = [];
+  public selectedBudgetMovements: Movement[] = [];
+  public displayedBudgetTotals: Record<1 | 2, BudgetSummaryTotals> = {
+    1: { budget: 0, actual: 0, difference: 0 },
+    2: { budget: 0, actual: 0, difference: 0 },
+  };
+  public budgetTotals: Record<1 | 2, Omit<BudgetSummaryTotals, "difference">> = {
+    1: { budget: 0, actual: 0 },
+    2: { budget: 0, actual: 0 },
+  };
+  private allBudgetRows: BudgetSummaryRow[] = [];
+  private selectedBudgetPeriodMovements: Movement[] = [];
 
   public viewData: {
     balance: Array<Balance>;
@@ -303,6 +332,7 @@ export class BalanceComponent implements OnInit {
         movement.mov_ctg_status = Number(movement.mov_ctg_status);
         return movement;
       });
+      this.updateBudgetSummary();
       this.monthlyTotals();
     });
     this.loadBudgetData();
@@ -324,6 +354,7 @@ export class BalanceComponent implements OnInit {
       ]);
       this.budgets = budgets;
       this.categories = categories;
+      this.updateBudgetSummary();
     } catch (error) {
       this.notificationService.notify(
         `No se pudieron cargar presupuestos y categorías: ${
@@ -333,49 +364,16 @@ export class BalanceComponent implements OnInit {
     }
   }
 
-  getBudgetRows(movementType: 1 | 2): Array<{
-    categoryId: string;
-    categoryName: string;
-    movementType: 1 | 2;
-    budget: number;
-    actual: number;
-    difference: number;
-  }> {
-    return this.getAllBudgetRows()
-      .filter(
-        (row) =>
-          row.movementType === movementType &&
-          (row.actual !== 0 || row.budget !== 0)
-      )
-      .sort((a, b) => this.compareBudgetRows(a, b));
+  getBudgetRows(movementType: 1 | 2): BudgetSummaryRow[] {
+    return movementType === 1 ? this.expenseBudgetRows : this.incomeBudgetRows;
   }
 
-  getDisplayedBudgetTotals(movementType: 1 | 2): {
-    budget: number;
-    actual: number;
-    difference: number;
-  } {
-    return this.getBudgetRows(movementType).reduce(
-      (totals, row) => ({
-        budget: totals.budget + row.budget,
-        actual: totals.actual + row.actual,
-        difference: totals.difference + row.difference,
-      }),
-      { budget: 0, actual: 0, difference: 0 }
-    );
+  getDisplayedBudgetTotals(movementType: 1 | 2): BudgetSummaryTotals {
+    return this.displayedBudgetTotals[movementType];
   }
 
-  getBudgetRowsWithoutActivity(): Array<{
-    categoryId: string;
-    categoryName: string;
-    movementType: 1 | 2;
-    budget: number;
-    actual: number;
-    difference: number;
-  }> {
-    return this.getAllBudgetRows().filter(
-      (row) => row.actual === 0 && row.budget === 0
-    );
+  getBudgetRowsWithoutActivity(): BudgetSummaryRow[] {
+    return this.budgetRowsWithoutActivity;
   }
 
   sortBudgetRows(
@@ -384,27 +382,14 @@ export class BalanceComponent implements OnInit {
     if (this.budgetSortColumn === column) {
       this.budgetSortDirection =
         this.budgetSortDirection === "asc" ? "desc" : "asc";
-      return;
+    } else {
+      this.budgetSortColumn = column;
+      this.budgetSortDirection = column === "categoryName" ? "asc" : "desc";
     }
-
-    this.budgetSortColumn = column;
-    this.budgetSortDirection = column === "categoryName" ? "asc" : "desc";
+    this.updateBudgetPresentation();
   }
 
-  private compareBudgetRows(
-    a: {
-      categoryName: string;
-      budget: number;
-      actual: number;
-      difference: number;
-    },
-    b: {
-      categoryName: string;
-      budget: number;
-      actual: number;
-      difference: number;
-    }
-  ): number {
+  private compareBudgetRows(a: BudgetSummaryRow, b: BudgetSummaryRow): number {
     const direction = this.budgetSortDirection === "asc" ? 1 : -1;
     const left = a[this.budgetSortColumn];
     const right = b[this.budgetSortColumn];
@@ -418,14 +403,7 @@ export class BalanceComponent implements OnInit {
     );
   }
 
-  private getAllBudgetRows(): Array<{
-    categoryId: string;
-    categoryName: string;
-    movementType: 1 | 2;
-    budget: number;
-    actual: number;
-    difference: number;
-  }> {
+  private updateBudgetSummary(): void {
     const categoryById = new Map(
       this.categories.map((category) => [String(category.mct_id), category])
     );
@@ -441,50 +419,64 @@ export class BalanceComponent implements OnInit {
         budgetByCategory.set(String(budget.bud_id_category), budget)
       );
 
-    const periodMovements = this.getSelectedPeriodMovements().filter(
-      (movement) => movement.mov_ctg_type === 1 || movement.mov_ctg_type === 2
-    );
+    const periodMovements = this.getSelectedPeriodMovements();
+    this.selectedBudgetPeriodMovements = periodMovements;
+    const movementTotalsByCategory = new Map<
+      string,
+      { expenses: number; incomes: number }
+    >();
+    const movementCategoryNameById = new Map<string, string>();
+    const actualTotals = {
+      1: 0,
+      2: 0,
+    };
+    periodMovements.forEach((movement) => {
+      if (movement.mov_ctg_type !== 1 && movement.mov_ctg_type !== 2) {
+        return;
+      }
+      const amount = this.absoluteValue(Number(movement.mov_amount));
+      actualTotals[movement.mov_ctg_type] += amount;
+      const categoryId = movement.mov_id_category
+        ? String(movement.mov_id_category)
+        : "";
+      if (movement.mov_txt_category) {
+        movementCategoryNameById.set(categoryId, movement.mov_txt_category);
+      }
+      const totals = movementTotalsByCategory.get(categoryId) || {
+        expenses: 0,
+        incomes: 0,
+      };
+      if (movement.mov_ctg_type === 1) {
+        totals.expenses += amount;
+      } else {
+        totals.incomes += amount;
+      }
+      movementTotalsByCategory.set(categoryId, totals);
+    });
     const categoryIds = new Set<string>([
       ...this.categories.map((category) => String(category.mct_id)),
       ...budgetByCategory.keys(),
-      ...periodMovements.map((movement) =>
-        movement.mov_id_category ? String(movement.mov_id_category) : ""
-      ),
+      ...movementTotalsByCategory.keys(),
     ]);
 
-    return Array.from(categoryIds).map((categoryId) => {
+    this.allBudgetRows = Array.from(categoryIds).map((categoryId) => {
       const categoryBudget = budgetByCategory.get(categoryId);
-      const categoryMovements = periodMovements.filter(
-        (movement) =>
-          (movement.mov_id_category
-            ? String(movement.mov_id_category)
-            : "") === categoryId
-      );
-      const expenseTotal = categoryMovements
-        .filter((movement) => movement.mov_ctg_type === 1)
-        .reduce(
-          (total, movement) =>
-            total + this.absoluteValue(Number(movement.mov_amount)),
-          0
-        );
-      const incomeTotal = categoryMovements
-        .filter((movement) => movement.mov_ctg_type === 2)
-        .reduce(
-          (total, movement) =>
-            total + this.absoluteValue(Number(movement.mov_amount)),
-          0
-        );
+      const categoryTotals = movementTotalsByCategory.get(categoryId) || {
+        expenses: 0,
+        incomes: 0,
+      };
       const movementType: 1 | 2 = categoryBudget
         ? Number(categoryBudget.bud_ctg_type) === 1
           ? 1
           : 2
-        : expenseTotal > 0
+        : categoryTotals.expenses > 0
         ? 1
         : 2;
       const budget = categoryBudget
         ? this.absoluteValue(Number(categoryBudget.bud_expected_amount))
         : 0;
-      const actual = movementType === 1 ? expenseTotal : incomeTotal;
+      const actual =
+        movementType === 1 ? categoryTotals.expenses : categoryTotals.incomes;
       const difference =
         movementType === 1 ? budget - actual : actual - budget;
 
@@ -493,8 +485,7 @@ export class BalanceComponent implements OnInit {
         categoryName:
           categoryById.get(categoryId)?.mct_name ||
           categoryBudget?.bud_txt_category ||
-          categoryMovements.find((movement) => movement.mov_txt_category)
-            ?.mov_txt_category ||
+          movementCategoryNameById.get(categoryId) ||
           "Sin categoría",
         movementType,
         budget,
@@ -502,34 +493,61 @@ export class BalanceComponent implements OnInit {
         difference,
       };
     });
+    const budgetTotals = { 1: 0, 2: 0 };
+    budgetByCategory.forEach((item) => {
+      const movementType = Number(item.bud_ctg_type);
+      if (movementType === 1 || movementType === 2) {
+        budgetTotals[movementType] += this.absoluteValue(
+          Number(item.bud_expected_amount)
+        );
+      }
+    });
+    this.budgetTotals = {
+      1: { budget: budgetTotals[1], actual: actualTotals[1] },
+      2: { budget: budgetTotals[2], actual: actualTotals[2] },
+    };
+    this.updateBudgetPresentation();
+    this.updateSelectedBudgetMovements();
   }
 
-  getBudgetTotals(movementType: 1 | 2): { budget: number; actual: number } {
-    const budget = this.budgets
-      .filter(
-        (item) =>
-          Number(item.bud_year) === this.model.year &&
-          Number(item.bud_month) === this.model.month &&
-          Number(item.bud_ctg_status) === 1 &&
-          Number(item.bud_ctg_type) === movementType
-      )
-      .reduce(
-        (total, item) =>
-          total + this.absoluteValue(Number(item.bud_expected_amount)),
-        0
-      );
-    const actual = this.getSelectedPeriodMovements()
-      .filter((movement) => Number(movement.mov_ctg_type) === movementType)
-      .reduce(
-        (total, movement) =>
-          total + this.absoluteValue(Number(movement.mov_amount)),
-        0
-      );
-    return { budget, actual };
+  private updateBudgetPresentation(): void {
+    const displayedRows = this.allBudgetRows.filter(
+      (row) => row.actual !== 0 || row.budget !== 0
+    );
+    this.expenseBudgetRows = displayedRows
+      .filter((row) => row.movementType === 1)
+      .sort((a, b) => this.compareBudgetRows(a, b));
+    this.incomeBudgetRows = displayedRows
+      .filter((row) => row.movementType === 2)
+      .sort((a, b) => this.compareBudgetRows(a, b));
+    this.budgetRowsWithoutActivity = this.allBudgetRows.filter(
+      (row) => row.actual === 0 && row.budget === 0
+    );
+    this.displayedBudgetTotals = {
+      1: this.sumBudgetRows(this.expenseBudgetRows),
+      2: this.sumBudgetRows(this.incomeBudgetRows),
+    };
+  }
+
+  private sumBudgetRows(rows: BudgetSummaryRow[]): BudgetSummaryTotals {
+    return rows.reduce(
+      (totals, row) => ({
+        budget: totals.budget + row.budget,
+        actual: totals.actual + row.actual,
+        difference: totals.difference + row.difference,
+      }),
+      { budget: 0, actual: 0, difference: 0 }
+    );
+  }
+
+  getBudgetTotals(
+    movementType: 1 | 2
+  ): Omit<BudgetSummaryTotals, "difference"> {
+    return this.budgetTotals[movementType];
   }
 
   getBudgetDifference(movementType: 1 | 2): number {
-    const totals = this.getBudgetTotals(movementType);
+    const totals = this.budgetTotals[movementType];
     return movementType === 1
       ? totals.budget - totals.actual
       : totals.actual - totals.budget;
@@ -545,13 +563,20 @@ export class BalanceComponent implements OnInit {
     movementType: 1 | 2;
   }): void {
     this.selectedBudgetCategory = row;
+    this.updateSelectedBudgetMovements();
   }
 
-  getSelectedBudgetMovements(): Movement[] {
+  clearSelectedBudgetCategory(): void {
+    this.selectedBudgetCategory = null;
+    this.selectedBudgetMovements = [];
+  }
+
+  private updateSelectedBudgetMovements(): void {
     if (!this.selectedBudgetCategory) {
-      return [];
+      this.selectedBudgetMovements = [];
+      return;
     }
-    return this.getSelectedPeriodMovements().filter(
+    this.selectedBudgetMovements = this.selectedBudgetPeriodMovements.filter(
       (movement) =>
         movement.mov_ctg_type === this.selectedBudgetCategory.movementType &&
         (movement.mov_id_category
@@ -852,6 +877,7 @@ export class BalanceComponent implements OnInit {
 
   reloadBalance() {
     this.parseIterable();
+    this.updateBudgetSummary();
     this.viewData.monthBalance = this.filterMonthBalance();
     this.viewData.balanceDistribution = this.balanceDistribution(
       this.viewData.monthBalance

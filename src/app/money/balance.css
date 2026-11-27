@@ -188,6 +188,10 @@
   text-align: left;
 }
 
+.budget-summary-table tbody tr:hover {
+  background-color: #f0f4f8;
+}
+
 .budget-summary-table tfoot th,
 .budget-summary-table tfoot td {
   text-align: right;
@@ -195,7 +199,7 @@
 }
 
 .budget-summary-table tfoot th:first-child {
-  text-align: right;
+  text-align: left;
 }
 
 .budget-sort-button,
@@ -206,12 +210,16 @@
   color: #333;
   font: inherit;
   text-align: inherit;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .budget-sort-button {
   cursor: pointer;
   white-space: nowrap;
   font-weight: 600;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .budget-summary-table td small {
