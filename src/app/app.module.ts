@@ -33,6 +33,7 @@ import { MovementListingComponent } from "./money/movementListing.component";
 import { LastTimeComponent } from "./lasttime/lasttime.component";
 
 import { MultimediaComponent } from "./multimedia/multimedia.component";
+import { MultimediaSearchDialogComponent } from "./multimedia/multimedia-search-dialog.component";
 
 import { LinkComponent } from "./link/link.component";
 
@@ -108,6 +109,7 @@ import { PlanSalvacionComponent } from "./plan-salvacion/plan-salvacion.componen
     CfgComponent,
     LastTimeComponent,
     MultimediaComponent,
+    MultimediaSearchDialogComponent,
     LinkComponent,
     ActivityComponent,
     PendingProvisionReportComponent,
