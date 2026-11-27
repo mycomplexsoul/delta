@@ -1,0 +1,100 @@
+<div class="multimedia-search-backdrop">
+  <section
+    class="multimedia-search-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="multimedia-search-title"
+    (keydown)="handleKeydown($event)"
+  >
+    <header class="multimedia-search-header">
+      <h2 id="multimedia-search-title">Buscar película o serie</h2>
+      <button type="button" aria-label="Cerrar" (click)="close()">
+        &times;
+      </button>
+    </header>
+    <div class="multimedia-search-controls">
+      <label for="multimedia-search-source">Buscar en</label>
+      <select
+        id="multimedia-search-source"
+        [disabled]="loading"
+        [ngModelOptions]="{ standalone: true }"
+        [ngModel]="source"
+        (ngModelChange)="onSourceChange($event)"
+      >
+        <option value="imdb">IMDb</option>
+        <option value="wikipedia">Wikipedia</option>
+      </select>
+      <label for="multimedia-search-query">Título</label>
+      <input
+        id="multimedia-search-query"
+        type="text"
+        maxlength="100"
+        [ngModelOptions]="{ standalone: true }"
+        [(ngModel)]="query"
+      />
+      <button
+        type="button"
+        (click)="searchOpenDataCatalog()"
+        [disabled]="loading || !query.trim()"
+      >
+        Buscar
+      </button>
+    </div>
+    @if (loading) {
+    <p role="status">
+      Buscando en {{ source === "imdb" ? "IMDb" : "Wikipedia" }}...
+    </p>
+    } @if (error) {
+    <p class="multimedia-search-error" role="alert">{{ error }}</p>
+    } @if (completed && results.length === 0) {
+    <p>No se encontraron resultados.</p>
+    }
+    <div class="multimedia-search-results" role="listbox">
+      @for (result of results; track result.id; let i = $index) {
+      <article
+        class="multimedia-search-result"
+        [class.multimedia-search-result-focused]="i === focusedIndex"
+        [attr.aria-selected]="i === focusedIndex"
+        [attr.data-media-search-result-index]="i"
+        tabindex="-1"
+        role="option"
+      >
+        @if (result.imageUrl) {
+        <img [src]="result.imageUrl" [alt]="'Poster de ' + result.title" />
+        } @if (!result.imageUrl) {
+        <div class="multimedia-search-no-poster">Sin poster</div>
+        }
+        <div class="multimedia-search-result-info">
+          <h3>{{ result.title }}</h3>
+          <div>
+            @if (result.year) {
+            <span>{{ result.year }}</span>
+            } @if (result.mediaType) {
+            <span> · {{ result.mediaType }}</span>
+            }
+          </div>
+          @if (result.description) {
+          <p>{{ result.description }}</p>
+          @if (result.source === 'imdb') {
+          <small>Resumen complementario de Wikipedia</small>
+          } } @if (result.cast) {
+          <p>Reparto: {{ result.cast }}</p>
+          }
+          <div class="multimedia-search-result-actions">
+            <a
+              [href]="result.pageUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver página
+            </a>
+            <button type="button" (click)="resultSelected.emit(result)">
+              Usar este resultado
+            </button>
+          </div>
+        </div>
+      </article>
+      }
+    </div>
+  </section>
+</div>

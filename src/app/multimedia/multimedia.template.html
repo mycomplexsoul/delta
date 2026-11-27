@@ -473,98 +473,13 @@
 </form>
 
 @if (mediaSearchDialogOpen) {
-<div class="multimedia-search-backdrop">
-  <section
-    class="multimedia-search-dialog"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="multimedia-search-title"
-  >
-    <header class="multimedia-search-header">
-      <h2 id="multimedia-search-title">Buscar película o serie</h2>
-      <button type="button" aria-label="Cerrar" (click)="closeMediaSearch()">
-        &times;
-      </button>
-    </header>
-    <div class="multimedia-search-controls">
-      <label for="multimedia-search-source">Buscar en</label>
-      <select
-        id="multimedia-search-source"
-        [disabled]="mediaSearchLoading"
-        [ngModelOptions]="{ standalone: true }"
-        [(ngModel)]="mediaSearchSource"
-      >
-        <option value="imdb">IMDb</option>
-        <option value="wikipedia">Wikipedia</option>
-      </select>
-      <label for="multimedia-search-query">Título</label>
-      <input
-        id="multimedia-search-query"
-        type="text"
-        maxlength="100"
-        [ngModelOptions]="{ standalone: true }"
-        [(ngModel)]="mediaSearchQuery"
-        (keydown.enter)="searchOpenDataCatalog()"
-      />
-      <button
-        type="button"
-        (click)="searchOpenDataCatalog()"
-        [disabled]="mediaSearchLoading || !mediaSearchQuery.trim()"
-      >
-        Buscar
-      </button>
-    </div>
-    @if (mediaSearchLoading) {
-    <p role="status">
-      Buscando en {{ mediaSearchSource === "imdb" ? "IMDb" : "Wikipedia" }}...
-    </p>
-    } @if (mediaSearchError) {
-    <p class="multimedia-search-error" role="alert">{{ mediaSearchError }}</p>
-    } @if (mediaSearchCompleted && mediaSearchResults.length === 0) {
-    <p>No se encontraron resultados.</p>
-    }
-    <div class="multimedia-search-results">
-      @for (result of mediaSearchResults; track result.id) {
-      <article class="multimedia-search-result">
-        @if (result.imageUrl) {
-        <img [src]="result.imageUrl" [alt]="'Poster de ' + result.title" />
-        } @if (!result.imageUrl) {
-        <div class="multimedia-search-no-poster">Sin poster</div>
-        }
-        <div class="multimedia-search-result-info">
-          <h3>{{ result.title }}</h3>
-          <div>
-            @if (result.year) {
-            <span>{{ result.year }}</span>
-            } @if (result.mediaType) {
-            <span> · {{ result.mediaType }}</span>
-            }
-          </div>
-          @if (result.description) {
-          <p>{{ result.description }}</p>
-          @if (result.source === 'imdb') {
-          <small>Resumen complementario de Wikipedia</small>
-          } } @if (result.cast) {
-          <p>Reparto: {{ result.cast }}</p>
-          }
-          <div class="multimedia-search-result-actions">
-            <a
-              [href]="result.pageUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver página
-            </a>
-            <button type="button" (click)="selectMediaSearchResult(result)">
-              Usar este resultado
-            </button>
-          </div>
-        </div>
-      </article>
-      }
-    </div>
-  </section>
-</div>
+<multimedia-search-dialog
+  [initialQuery]="mediaSearchInitialQuery"
+  [source]="mediaSearchSource"
+  (sourceChange)="mediaSearchSource = $event"
+  (closed)="closeMediaSearch()"
+  (resultSelected)="selectMediaSearchResult($event)"
+/>
 } @if (viewData.showDetList) {
 <button (click)="showDetListing()">Remove filter</button>
 } @if (viewData.showDetList) {

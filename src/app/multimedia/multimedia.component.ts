@@ -1,8 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
 // types
@@ -23,58 +19,10 @@ import { CommonComponent } from "../common/common.component";
 import { startSpeechRecognition } from "../common/speechRecognition";
 import { autogrowSetup } from "../common/autogrow";
 import { NotificationService } from "../common/notification.service";
-
-interface WikidataSearchHit {
-  id: string;
-}
-
-interface WikidataClaimValue {
-  mainsnak?: {
-    datavalue?: {
-      value?: string | { id?: string; time?: string };
-    };
-  };
-}
-
-interface WikidataEntity {
-  labels?: { [language: string]: { value?: string } };
-  descriptions?: { [language: string]: { value?: string } };
-  aliases?: { [language: string]: Array<{ value?: string }> };
-  claims?: { [property: string]: WikidataClaimValue[] };
-  sitelinks?: { [site: string]: { title?: string } };
-}
-
-interface ImdbSuggestionHit {
-  id: string;
-  l: string;
-  q?: string;
-  y?: number;
-  yr?: string;
-  s?: string;
-  i?: { imageUrl?: string };
-}
-
-interface MediaSearchResult {
-  id: string;
-  title: string;
-  aliases: string[];
-  description: string;
-  year: number;
-  imageUrl: string;
-  pageUrl: string;
-  mediaType: string;
-  cast?: string;
-  source: "wikipedia" | "imdb";
-  wikipediaLanguage: string | null;
-  wikipediaTitle: string | null;
-}
-
-interface WikipediaPage {
-  title?: string;
-  extract?: string;
-  fullurl?: string;
-  thumbnail?: { source?: string };
-}
+import {
+  MediaSearchResult,
+  MediaSearchSource,
+} from "./multimedia-search-dialog.component";
 
 @Component({
   selector: "multimedia",
@@ -91,12 +39,8 @@ interface WikipediaPage {
 })
 export class MultimediaComponent {
   public mediaSearchDialogOpen = false;
-  public mediaSearchSource: "wikipedia" | "imdb" = "imdb";
-  public mediaSearchQuery = "";
-  public mediaSearchResults: MediaSearchResult[] = [];
-  public mediaSearchLoading = false;
-  public mediaSearchError: string = null;
-  public mediaSearchCompleted = false;
+  public mediaSearchSource: MediaSearchSource = "imdb";
+  public mediaSearchInitialQuery = "";
 
   public viewData: {
     multimediaList: Multimedia[];
@@ -196,8 +140,7 @@ export class MultimediaComponent {
     private multimediaViewService: MultimediaViewService,
     private syncService: SyncAPI,
     private titleService: Title,
-    private notificationService: NotificationService,
-    private changeDetector: ChangeDetectorRef
+    private notificationService: NotificationService
   ) {
     this.titleService.setTitle("Multimedia");
     this.common = new CommonComponent<Multimedia>();
@@ -481,128 +424,12 @@ export class MultimediaComponent {
   }
 
   openMediaSearch() {
+    this.mediaSearchInitialQuery = this.epModel.fEpTitle || "";
     this.mediaSearchDialogOpen = true;
-    this.mediaSearchQuery = this.epModel.fEpTitle || "";
-    this.mediaSearchResults = [];
-    this.mediaSearchError = null;
-    this.mediaSearchCompleted = false;
   }
 
   closeMediaSearch() {
     this.mediaSearchDialogOpen = false;
-  }
-
-  async searchOpenDataCatalog() {
-    const query = this.mediaSearchQuery.trim();
-    if (!query || this.mediaSearchLoading) {
-      return;
-    }
-
-    this.mediaSearchLoading = true;
-    this.mediaSearchError = null;
-    this.mediaSearchCompleted = false;
-    this.mediaSearchResults = [];
-
-    try {
-      if (this.mediaSearchSource === "imdb") {
-        await this.searchImdbSource(query);
-      } else {
-        await this.searchWikipediaSource(query);
-      }
-    } catch {
-      this.mediaSearchError = `No fue posible consultar ${
-        this.mediaSearchSource === "imdb" ? "IMDb" : "Wikipedia"
-      }. Intenta de nuevo.`;
-    } finally {
-      this.mediaSearchLoading = false;
-      this.mediaSearchCompleted = true;
-      this.changeDetector.markForCheck();
-    }
-  }
-
-  private async searchWikipediaSource(query: string) {
-    const searchResults = await Promise.all(
-      ["es", "en"].map(async (language) => {
-        const params = new URLSearchParams({
-          action: "wbsearchentities",
-          search: query,
-          language,
-          uselang: "es",
-          type: "item",
-          limit: "8",
-          format: "json",
-          origin: "*",
-        });
-        const response = await fetch(
-          `https://www.wikidata.org/w/api.php?${params.toString()}`
-        );
-        if (!response.ok) {
-          throw new Error("Wikidata search request failed");
-        }
-        const data: { search?: WikidataSearchHit[] } = await response.json();
-        return data.search || [];
-      })
-    );
-    const ids = Array.from(
-      new Set(
-        searchResults
-          .reduce(
-            (all: WikidataSearchHit[], results) => all.concat(results),
-            []
-          )
-          .map((result) => result.id)
-      )
-    ).slice(0, 12);
-
-    if (ids.length === 0) {
-      return;
-    }
-
-    const params = new URLSearchParams({
-      action: "wbgetentities",
-      ids: ids.join("|"),
-      props: "labels|descriptions|aliases|claims|sitelinks",
-      languages: "es|en",
-      sitefilter: "eswiki|enwiki",
-      format: "json",
-      origin: "*",
-    });
-    const response = await fetch(
-      `https://www.wikidata.org/w/api.php?${params.toString()}`
-    );
-    if (!response.ok) {
-      throw new Error("Wikidata entity request failed");
-    }
-    const data: { entities?: { [id: string]: WikidataEntity } } =
-      await response.json();
-    const entities = data.entities || {};
-    this.mediaSearchResults = ids
-      .map((id) => this.toWikidataMediaResult(id, entities[id]))
-      .filter((result): result is MediaSearchResult => result !== null);
-    this.changeDetector.markForCheck();
-    try {
-      await this.enrichMediaResultsFromWikipedia(this.mediaSearchResults);
-    } catch {
-      this.mediaSearchError =
-        "No fue posible cargar información adicional de Wikipedia.";
-    }
-  }
-
-  private async searchImdbSource(query: string) {
-    const data: { d?: ImdbSuggestionHit[] } = await this.syncService.get(
-      `/api/multimedia/imdb-search?q=${encodeURIComponent(query)}`
-    );
-    this.mediaSearchResults = (data.d || [])
-      .map((item) => this.toImdbMediaResult(item))
-      .filter((result): result is MediaSearchResult => result !== null)
-      .slice(0, 12);
-    this.changeDetector.markForCheck();
-    try {
-      await this.enrichMediaResultsFromWikipedia(this.mediaSearchResults);
-    } catch {
-      this.mediaSearchError =
-        "No fue posible cargar los resúmenes de Wikipedia.";
-    }
   }
 
   selectMediaSearchResult(result: MediaSearchResult) {
@@ -614,230 +441,14 @@ export class MultimediaComponent {
       ? result.description.substring(0, 4000)
       : null;
     this.closeMediaSearch();
-  }
-
-  private async enrichMediaResultsFromWikipedia(results: MediaSearchResult[]) {
-    await Promise.all(
-      ["es", "en"].map(async (language) => {
-        const languageResults = results.filter(
-          (result) =>
-            result.wikipediaLanguage === language && result.wikipediaTitle
-        );
-        if (languageResults.length === 0) {
-          return;
-        }
-
-        const params = new URLSearchParams({
-          action: "query",
-          titles: languageResults
-            .map((result) => result.wikipediaTitle)
-            .join("|"),
-          prop: "extracts|pageimages|info",
-          exintro: "1",
-          explaintext: "1",
-          exchars: "4000",
-          piprop: "thumbnail",
-          pithumbsize: "240",
-          inprop: "url",
-          format: "json",
-          origin: "*",
-        });
-        const response = await fetch(
-          `https://${language}.wikipedia.org/w/api.php?${params.toString()}`
-        );
-        if (!response.ok) {
-          throw new Error("Wikipedia page request failed");
-        }
-        const data: {
-          query?: { pages?: { [id: string]: WikipediaPage } };
-        } = await response.json();
-        const pagesById = (data.query && data.query.pages) || {};
-        const pages = Object.keys(pagesById).map((id) => pagesById[id]);
-
-        languageResults.forEach((result) => {
-          const page = pages.find(
-            (entry) =>
-              entry.title &&
-              entry.title.toLocaleLowerCase() ===
-                result.wikipediaTitle.toLocaleLowerCase()
-          );
-          if (!page) {
-            return;
-          }
-          if (page.extract) {
-            result.description = page.extract;
-          }
-          if (
-            page.thumbnail &&
-            page.thumbnail.source &&
-            (result.source === "wikipedia" || !result.imageUrl)
-          ) {
-            result.imageUrl = page.thumbnail.source;
-          }
-          if (page.fullurl && result.source === "wikipedia") {
-            result.pageUrl = page.fullurl;
-          }
-        });
-      })
-    );
-  }
-
-  private toImdbMediaResult(item: ImdbSuggestionHit): MediaSearchResult {
-    const mediaTypes = {
-      feature: "Película",
-      short: "Cortometraje",
-      "tv series": "Serie de televisión",
-      "tv mini series": "Miniserie",
-      "tv movie": "Película para televisión",
-      "tv short": "Cortometraje",
-      "tv special": "Especial de televisión",
-      "video movie": "Película",
-      "video series": "Serie web",
-    };
-    const mediaType = item.q && mediaTypes[item.q.toLocaleLowerCase()];
-    if (!item.id || !item.l || !mediaType) {
-      return null;
-    }
-
-    const yearMatch = item.yr && item.yr.match(/\d{4}/);
-    const imageUrl =
-      item.i && item.i.imageUrl
-        ? item.i.imageUrl.replace(/\._V1_.*\.jpg$/, "._V1_UX240_.jpg")
-        : null;
-
-    return {
-      id: item.id,
-      title: item.l,
-      aliases: [],
-      description: "",
-      year: item.y || (yearMatch ? Number(yearMatch[0]) : null),
-      imageUrl,
-      pageUrl: `https://www.imdb.com/title/${item.id}/`,
-      mediaType,
-      cast: item.s || null,
-      source: "imdb",
-      wikipediaLanguage: "en",
-      wikipediaTitle: item.l,
-    };
-  }
-
-  private toWikidataMediaResult(
-    id: string,
-    entity: WikidataEntity
-  ): MediaSearchResult {
-    if (!entity) {
-      return null;
-    }
-
-    const title =
-      (entity.labels && entity.labels.es && entity.labels.es.value) ||
-      (entity.labels && entity.labels.en && entity.labels.en.value);
-    if (!title) {
-      return null;
-    }
-
-    const description =
-      (entity.descriptions &&
-        entity.descriptions.es &&
-        entity.descriptions.es.value) ||
-      (entity.descriptions &&
-        entity.descriptions.en &&
-        entity.descriptions.en.value) ||
-      "";
-    const aliases = ((entity.aliases && entity.aliases.es) || [])
-      .concat((entity.aliases && entity.aliases.en) || [])
-      .map((alias) => alias.value)
-      .filter((alias) => !!alias && alias !== title)
-      .slice(0, 4);
-    const publicationDate =
-      this.getWikidataClaimValue(entity, "P577") ||
-      this.getWikidataClaimValue(entity, "P580") ||
-      this.getWikidataClaimValue(entity, "P571");
-    const dateValue =
-      publicationDate && typeof publicationDate === "object"
-        ? publicationDate.time
-        : null;
-    const yearMatch = dateValue && dateValue.match(/(\d{4})/);
-    const image = this.getWikidataClaimValue(entity, "P18");
-    const imageUrl =
-      typeof image === "string"
-        ? `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(
-            image
-          )}?width=240`
-        : null;
-    const mediaType = this.getWikidataMediaType(entity);
-    const spanishArticle =
-      entity.sitelinks &&
-      entity.sitelinks.eswiki &&
-      entity.sitelinks.eswiki.title;
-    const englishArticle =
-      entity.sitelinks &&
-      entity.sitelinks.enwiki &&
-      entity.sitelinks.enwiki.title;
-    const pageUrl =
-      (spanishArticle &&
-        `https://es.wikipedia.org/wiki/${encodeURIComponent(
-          spanishArticle.replace(/ /g, "_")
-        )}`) ||
-      (englishArticle &&
-        `https://en.wikipedia.org/wiki/${encodeURIComponent(
-          englishArticle.replace(/ /g, "_")
-        )}`) ||
-      `https://www.wikidata.org/wiki/${id}`;
-    const wikipediaLanguage = spanishArticle
-      ? "es"
-      : englishArticle
-      ? "en"
-      : null;
-
-    return {
-      id,
-      title,
-      aliases,
-      description,
-      year: yearMatch ? Number(yearMatch[1]) : null,
-      imageUrl,
-      pageUrl,
-      mediaType,
-      source: "wikipedia",
-      wikipediaLanguage,
-      wikipediaTitle: spanishArticle || englishArticle,
-    };
-  }
-
-  private getWikidataClaimValue(
-    entity: WikidataEntity,
-    property: string
-  ): string | { id?: string; time?: string } {
-    const value =
-      entity.claims &&
-      entity.claims[property] &&
-      entity.claims[property][0] &&
-      entity.claims[property][0].mainsnak &&
-      entity.claims[property][0].mainsnak.datavalue &&
-      entity.claims[property][0].mainsnak.datavalue.value;
-    return value || null;
-  }
-
-  private getWikidataMediaType(entity: WikidataEntity): string {
-    const typeLabels = {
-      Q11424: "Película",
-      Q24862: "Cortometraje",
-      Q24869: "Largometraje",
-      Q506240: "Película para televisión",
-      Q5398426: "Serie de televisión",
-      Q581714: "Serie animada",
-      Q21191270: "Episodio de televisión",
-      Q3464665: "Miniserie",
-      Q1259759: "Programa de televisión",
-      Q230390: "Especial de televisión",
-    };
-    const types = ((entity.claims && entity.claims.P31) || [])
-      .map((claim) => claim.mainsnak && claim.mainsnak.datavalue)
-      .map((dataValue) => dataValue && dataValue.value)
-      .map((value) => (typeof value === "object" && value ? value.id : null));
-    const knownType = types.find((type) => !!typeLabels[type]);
-    return knownType ? typeLabels[knownType] : "Wikidata";
+    setTimeout(() => {
+      const dateViewedInput = document.getElementById(
+        "fDateViewedTypeCurrent"
+      ) as HTMLInputElement;
+      if (dateViewedInput) {
+        dateViewedInput.focus();
+      }
+    }, 0);
   }
 
   newEpItem(form: NgForm) {
